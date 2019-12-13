@@ -21,6 +21,56 @@ namespace QUANGHANHCORE.Controllers.CDVT
         public ActionResult Index(string type, string month, string year)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+
+            List<string> rights = (List<string>)Session["RightIDs"];
+            List<DashEquip> listhd = new List<DashEquip>();
+            List<DashEquip> listkhd = new List<DashEquip>();
+            List<DashEquip> listcar = new List<DashEquip>();
+            listcar = (from equip in db.Equipments
+                       join c in db.Cars on equip.equipmentId equals c.equipmentId
+                       select new DashEquip
+                       {
+                           equipment_name = equip.equipment_name,
+                           equipmentId = equip.equipmentId
+                       }).ToList();
+            if (rights.Contains("10"))
+            {
+                listhd = (from equip in db.Equipments.Where(x => x.current_Status == 2) join c in db.Cars on equip.equipmentId equals c.equipmentId
+                          select new DashEquip
+                          {
+                              equipment_name = equip.equipment_name,
+                              equipmentId = equip.equipmentId
+                          }).ToList();
+                listkhd = (from equip in db.Equipments.Where(x => x.current_Status != 2)
+                           join c in db.Cars on equip.equipmentId equals c.equipmentId
+                           select new DashEquip
+                           {
+                               equipment_name = equip.equipment_name,
+                               equipmentId = equip.equipmentId
+                           }).ToList();
+                ViewBag.hd = listhd;
+                ViewBag.khd = listkhd;
+            }
+            else
+            {
+                listhd = (from e in db.Equipments
+                          where e.current_Status == 2
+                          select new DashEquip
+                          {
+                              equipmentId = e.equipmentId,
+                              equipment_name = e.equipment_name
+                          }).ToList();
+                listkhd = (from e in db.Equipments
+                           where e.current_Status != 2
+                           select new DashEquip
+                           {
+                               equipmentId = e.equipmentId,
+                               equipment_name = e.equipment_name
+                           }).ToList();
+                ViewBag.hd = listhd.Except(listcar);
+                ViewBag.khd = listkhd.Except(listcar);
+            }
+
             EquipThongKe etk = new EquipThongKe();
             var equipList = db.Equipments.ToList<Equipment>();
             etk.total = equipList.Count().ToString();
@@ -36,7 +86,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                           }).ToList();
             ViewBag.listKD = listKD;
             ViewBag.totalKD = listKD.Count();
-            
+
             etk.total_HD = db.Equipments.Where(x => x.current_Status == 2).Count();
             etk.total_KHD = int.Parse(etk.total) - etk.total_HD;
 
@@ -85,8 +135,8 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.hanbaoduong = hanBaoduong;
 
             var tongcogioi = (from equip in db.Equipments
-                              join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
-                              on equip.Equipment_category_id equals cate.Equipment_category_id
+                              join car in db.Cars
+                              on equip.equipmentId equals car.equipmentId
                               select new DashEquip
                               {
                                   equipment_name = equip.equipment_name,
@@ -95,8 +145,8 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.tongcogioi = tongcogioi.Count();
 
             var cogioihd = (from equip in db.Equipments.Where(x => x.current_Status == 2)
-                            join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
-                            on equip.Equipment_category_id equals cate.Equipment_category_id
+                            join car in db.Cars
+                              on equip.equipmentId equals car.equipmentId
                             select new DashEquip
                             {
                                 equipment_name = equip.equipment_name,
@@ -105,30 +155,30 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.cogioikhd = tongcogioi.Count() - cogioihd.Count();
             ViewBag.cogioihd = cogioihd.Count();
             var cogioiSC = (from equip in db.Equipments.Where(x => x.current_Status == 3)
-                                        join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
-                                        on equip.Equipment_category_id equals cate.Equipment_category_id
-                                        select new DashEquip
-                                        {
-                                            equipment_name = equip.equipment_name,
-                                            equipmentId = equip.equipmentId
-                                        }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
+                            join car in db.Cars
+                                on equip.equipmentId equals car.equipmentId
+                            select new DashEquip
+                            {
+                                equipment_name = equip.equipment_name,
+                                equipmentId = equip.equipmentId
+                            }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
             ViewBag.cogioiSC = cogioiSC;
             ViewBag.slSC = cogioiSC.Count();
 
             var cogioiBD = (from equip in db.Equipments.Where(x => x.current_Status == 5)
-                                        join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
-                                        on equip.Equipment_category_id equals cate.Equipment_category_id
-                                        select new DashEquip
-                                        {
-                                            equipment_name = equip.equipment_name,
-                                            equipmentId = equip.equipmentId
-                                        }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
+                            join car in db.Cars
+                              on equip.equipmentId equals car.equipmentId
+                            select new DashEquip
+                            {
+                                equipment_name = equip.equipment_name,
+                                equipmentId = equip.equipmentId
+                            }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
             ViewBag.cogioiBD = cogioiBD;
             ViewBag.slBD = cogioiBD.Count();
 
             var cogioiKD = (from equip in db.Equipments.Where(x => x.current_Status == 10)
-                            join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
-                            on equip.Equipment_category_id equals cate.Equipment_category_id
+                            join car in db.Cars
+                              on equip.equipmentId equals car.equipmentId
                             join Equipment_category in db.Equipment_category
                             on equip.Equipment_category_id equals Equipment_category.Equipment_category_id
                             select new DashEquip
@@ -140,8 +190,8 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.slKD = cogioiKD.Count();
 
             var cogioiTL = (from equip in db.Equipments.Where(x => x.current_Status == 8)
-                            join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
-                            on equip.Equipment_category_id equals cate.Equipment_category_id
+                            join car in db.Cars
+                              on equip.equipmentId equals car.equipmentId
                             select new DashEquip
                             {
                                 equipment_name = equip.equipment_name,
@@ -151,19 +201,19 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.slTL = cogioiTL.Count();
 
             var cogioiTH = (from equip in db.Equipments.Where(x => x.current_Status == 7)
-                                        join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
-                                        on equip.Equipment_category_id equals cate.Equipment_category_id
-                                        select new DashEquip
-                                        {
-                                            equipment_name = equip.equipment_name,
-                                            equipmentId = equip.equipmentId
-                                        }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
+                            join car in db.Cars
+                              on equip.equipmentId equals car.equipmentId
+                            select new DashEquip
+                            {
+                                equipment_name = equip.equipment_name,
+                                equipmentId = equip.equipmentId
+                            }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
             ViewBag.cogioiTH = cogioiTH;
             ViewBag.slTH = cogioiTH.Count();
 
             var hanDangKiemcogioi = (from equip in db.Equipments.Where(x => x.durationOfInspection <= testTime && x.durationOfInspection >= DateTime.Now)
-                                     join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
-                                        on equip.Equipment_category_id equals cate.Equipment_category_id
+                                     join car in db.Cars
+                                        on equip.equipmentId equals car.equipmentId
                                      select new SL
                                      {
                                          equipment_name = equip.equipment_name,
@@ -172,13 +222,13 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                          ngay = equip.durationOfInspection.Value.Day,
                                          thang = equip.durationOfInspection.Value.Month,
                                          nam = equip.durationOfInspection.Value.Year
-                                     }).Take(10).GroupBy(x=>x.equipment_name + x.equipmentId + x.ngay+x.thang+x.nam).Select(x=>x.FirstOrDefault()).OrderBy(x => x.day);
+                                     }).Take(10).GroupBy(x => x.equipment_name + x.equipmentId + x.ngay + x.thang + x.nam).Select(x => x.FirstOrDefault()).OrderBy(x => x.day);
             ViewBag.kiemdinhcogioitag = hanDangKiemcogioi.Count();
             ViewBag.hanDangKiemcogioi = hanDangKiemcogioi;
 
             var hanBaoduongcogioi = (from equip in db.Equipments.Where(x => x.durationOfMaintainance <= testTime && x.durationOfMaintainance >= DateTime.Now).OrderBy(x => x.durationOfMaintainance)
-                                     join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
-                                        on equip.Equipment_category_id equals cate.Equipment_category_id
+                                     join car in db.Cars
+                                        on equip.equipmentId equals car.equipmentId
                                      select new form1
                                      {
                                          equipment_name = equip.equipment_name,
@@ -258,7 +308,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                             " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join " +
                             " (select a.acceptance_date, a.equipmentId from Acceptance a left join Documentary d " +
                             " on d.documentary_id = a.documentary_id where d.documentary_type = 1) as g " +
-                            " on t.[month] = month(g.acceptance_date) and YEAR(g.acceptance_date) = "+nam+" group by t.[month] order by t.[month] asc";
+                            " on t.[month] = month(g.acceptance_date) and YEAR(g.acceptance_date) = " + nam + " group by t.[month] order by t.[month] asc";
                 queryBD = "select CAST(t.[month] as int) as [date], count(g.equipmentId) as soluong from (select number as [month] " +
                             " from(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
                             " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join " +
@@ -280,11 +330,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 queryKD = "select CAST(t.[month] as int) as [date], count(e.equipmentId) as soluong from (select number as [month] " +
                              " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
                              " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join Equipment_Inspection e " +
-                             " on t.[month] = month(e.inspect_date) and YEAR(e.inspect_date) = "+nam+" group by t.[month]";
+                             " on t.[month] = month(e.inspect_date) and YEAR(e.inspect_date) = " + nam + " group by t.[month]";
             }
             if (type == "yearss")
             {
-                querySC = "select t.[year] as [date], count(g.equipmentId) as soluong from  (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) "+
+                querySC = "select t.[year] as [date], count(g.equipmentId) as soluong from  (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) " +
                             " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
                             " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a WHERE DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join " +
                               " (select a.acceptance_date, a.equipmentId from Acceptance a left join Documentary d " +
@@ -308,7 +358,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                               " (select a.acceptance_date, a.equipmentId from Acceptance a left join Documentary d " +
                               " on d.documentary_id = a.documentary_id where d.documentary_type = 6) as g on t.[year] = year(g.acceptance_date) " +
                             " group by t.[year] order by t.[year] asc";
-                queryKD = "select t.[year] as [date], count(e.equipmentId) as soluong from "+
+                queryKD = "select t.[year] as [date], count(e.equipmentId) as soluong from " +
                              " (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) " +
                              " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
                              " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a " +
