@@ -44,6 +44,7 @@ namespace QUANGHANH2.Models
         public bool AT { get; set; }
         public bool KCM { get; set; }
         public bool ADMIN { get; set; }
+        public Nullable<bool> PXCKSC { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FileBaoCao> FileBaoCaos { get; set; }
