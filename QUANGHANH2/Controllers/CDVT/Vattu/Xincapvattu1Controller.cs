@@ -117,7 +117,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                     {
                         if (listsupplyplanid[i].Equals(""))
                         {
-                            sqlQuery += " ('" + listsupplyid[i] + "','" + e.department_id + "','" + equipmentid + "','" + DateTime.Now + "'," + Convert.ToDouble(listgeneral[i]) + "," + Int32.Parse(listxin_cap[i]) + ",0,0),";
+                            sqlQuery += " ('" + listsupplyid[i] + "','" + e.department_id + "','" + equipmentid + "','" + DateTime.Now.ToString("yyyy/MM/dd") + "'," + Convert.ToDouble(listgeneral[i]) + "," + Int32.Parse(listxin_cap[i]) + ",0,0),";
                         }
                         else
                         {

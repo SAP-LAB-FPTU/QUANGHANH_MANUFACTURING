@@ -29,7 +29,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             List<Supply> listSupply = db.Supplies.Where(x => x.unit != "L" && x.unit != "kWh").ToList();
             List<Department> listDepartment = db.Departments.ToList<Department>();
 
-            ViewBag.listDepartment = listDepartment;
+            
             ViewBag.listSupply = listSupply;
             ViewBag.listEQ = listEQ;
 
@@ -83,7 +83,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         [Auther(RightID = "188")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/insertMaintainCarPxlt")]
         [HttpPost]
-        public JsonResult InsertMaintainCar(List<Maintain_Car_DetailDB> maintain, string equipmentId, string department_name, string date, string maintain_content, int hour, int minute, int year, int month, int day)
+        public JsonResult InsertMaintainCar(List<Maintain_Car_DetailDB> maintain, string equipmentId, string date, string maintain_content, int hour, int minute, int year, int month, int day)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
@@ -93,20 +93,19 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
                 try
                 {
+                    string department_id = Session["departID"].ToString();
                     Supply_tieuhao supply_tieuhao = new Supply_tieuhao();
                     Equipment e = db.Equipments.Find(equipmentId);
                     DateTime startDate = new DateTime(year, month, day, hour, minute, 0);
                     //Department d = db.Departments.Find(department_name);
-                    Department d = db.Database.SqlQuery<Department>(" select * from Department" +
-                    " where department_name like @department_name",
-                    new SqlParameter("department_name", department_name)).First();
+               
                     DateTime dateTime = DateTime.ParseExact(date, "dd/MM/yyyy", null);
 
 
-                    db.Database.ExecuteSqlCommand("insert into Maintain_Car values(@equipmentId, @date, (select department_id from Department where department_name =@department_name),@maintain_content)",
+                    db.Database.ExecuteSqlCommand("insert into Maintain_Car values(@equipmentId, @date,@departmentid,@maintain_content)",
                      new SqlParameter("equipmentId", equipmentId),
                      new SqlParameter("date", startDate),
-                     new SqlParameter("department_name", department_name),
+                     new SqlParameter("departmentid", department_id),
                      new SqlParameter("maintain_content", maintain_content));
                     string bulk_insert = string.Empty;
                     //Loop and insert records.
@@ -129,8 +128,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                     string output = "";
                     if (db.Equipments.Where(x => x.equipmentId == equipmentId).Count() == 0)
                         output += "Mã thiết bị không tồn tại\n";
-                    if (db.Departments.Where(x => x.department_name == department_name).Count() == 0)
-                        output += "Phân xưởng không tồn tại\n";
+                   
 
                     if (output == "")
                         output += "Có lỗi xảy ra, xin vui lòng nhập lại";
@@ -164,9 +162,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
             {
                 //Truncate Table to delete all old records.
-                Maintain_CarDB maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date], m.maintainid ,e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintainid " +
+                Maintain_CarDB maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date], m.maintainid ,e.equipment_name, m.equipmentid,m.maintain_content,m.maintainid " +
                           "from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
-                          "inner join Department d on d.department_id = m.departmentid where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainId)).SingleOrDefault();
+                          " where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainId)).SingleOrDefault();
                 //Check for NULL.
 
                 maintainCar.stringDate = maintainCar.date.ToString("HH:mm dd/MM/yyyy");
@@ -269,7 +267,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         [Auther(RightID = "188")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/edit")]
         [HttpPost]
-        public ActionResult EditMaintain(string date, String equipmentId, String department_name, String maintain_content, int maintainid, int hour, int minute, int year, int month, int day)
+        public ActionResult EditMaintain(string date, String equipmentId, String maintain_content, int maintainid, int hour, int minute, int year, int month, int day)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             Maintain_Car m = new Maintain_Car();
@@ -277,13 +275,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             {
                 try
                 {
-
+                    string department_id = Session["departID"].ToString();
                     DateTime startDate = new DateTime(year, month, day, hour, minute, 0);
-                    Department d = db.Departments.Where(x => x.department_name == department_name).FirstOrDefault();
+                    
 
 
                     m.equipmentid = equipmentId;
-                    m.departmentid = d.department_id;
+                    m.departmentid =department_id;
                     m.maintain_content = maintain_content;
                     m.date = startDate;
                     m.maintainid = maintainid;

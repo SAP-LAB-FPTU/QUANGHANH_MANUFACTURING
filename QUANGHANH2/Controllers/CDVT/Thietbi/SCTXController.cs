@@ -28,11 +28,11 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             //        "from Equipment e inner join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +
             //        "where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy'").ToList();
             List<Supply> listSupply = db.Supplies.Where(x => x.unit != "L" && x.unit != "kWh").ToList();
-            List<Department> listDepartment = db.Departments.ToList<Department>();
-            List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select e.equipmentId, e.equipment_name from Equipment e where e.department_id = @departID", new SqlParameter("departID", departID)).ToList();
+          
+            List<EquipmentDB> listEQ = db.Database.SqlQuery<EquipmentDB>("select e.equipmentId, e.equipment_name from Equipment e where e.department_id = @departID", new SqlParameter("departID", departID)).ToList();
 
           
-            ViewBag.listDepartment = listDepartment;
+       
             ViewBag.listSupply = listSupply;
             ViewBag.listEQ = listEQ;
             return View("/Views/CDVT/Thietbi/SCTX.cshtml");
@@ -80,11 +80,12 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
         [Route("phong-cdvt/thiet-bi/sctx/insertMaintainCar")]
         [HttpPost]
-        public JsonResult InsertMaintainCar(List<Maintain_DetailDB> maintain, string equipmentId, string department_name, string date, string maintain_content)
+        public JsonResult InsertMaintainCar(List<Maintain_DetailDB> maintain, string equipmentId, string date, string maintain_content)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
+                string department_id = Session["departID"].ToString();
                 //Truncate Table to delete all old records.
                 //Check for NULL.
 
@@ -92,16 +93,14 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 {
                     Equipment e = db.Equipments.Find(equipmentId);
                     //Department d = db.Departments.Find(department_name);
-                    Department d = db.Database.SqlQuery<Department>(" select * from Department" +
-                    " where department_name like @department_name",
-                    new SqlParameter("department_name", department_name)).First();
+                   
                     DateTime dateTime = DateTime.ParseExact(date, "dd/MM/yyyy", null);
 
 
-                    db.Database.ExecuteSqlCommand("insert into Equipment_SCTX values(@equipmentId, @date, (select department_id from Department where department_name =@department_name),@maintain_content)",
+                    db.Database.ExecuteSqlCommand("insert into Equipment_SCTX values(@equipmentId, @date, @departmentid,@maintain_content)",
                      new SqlParameter("equipmentId", equipmentId),
                      new SqlParameter("date", DateTime.ParseExact(date, "dd/MM/yyyy", null)),
-                     new SqlParameter("department_name", department_name),
+                     new SqlParameter("departmentid", department_id),
                      new SqlParameter("maintain_content", maintain_content));
 
                     //Loop and insert records.
@@ -127,9 +126,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                     string output = "";
                     if (db.Equipments.Where(x => x.equipmentId == equipmentId).Count() == 0)
                         output += "Mã thiết bị không tồn tại\n";
-                    if (db.Departments.Where(x => x.department_name == department_name).Count() == 0)
-                        output += "Phân xưởng không tồn tại\n";
-
+                   
                     if (output == "")
                         output += "Có lỗi xảy ra, xin vui lòng nhập lại";
                     Response.Write(output);
@@ -164,9 +161,9 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
 
             {
                 //Truncate Table to delete all old records.
-                MaintainDB maintainCar = db.Database.SqlQuery<MaintainDB>("select m.[date], e.equipment_name, m.equipmentid, d.department_name, m.maintain_content, m.maintain_id  " +
+                MaintainDB maintainCar = db.Database.SqlQuery<MaintainDB>("select m.[date], e.equipment_name, m.equipmentid, m.maintain_content, m.maintain_id  " +
                                 "from Equipment_SCTX m inner join Equipment e on m.equipmentid = e.equipmentId " +
-                                "inner join Department d on d.department_id = m.department_id " +
+                               
                                 "inner join (select e.equipmentId, e.equipment_name from Equipment e  " +
                                 "EXCEPT " +
                                 "select distinct e.equipmentId,e.equipment_name " +
@@ -263,13 +260,13 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             try
             {
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                var equipment = db.Database.SqlQuery<FuelDB>("select e.equipmentId, e.equipment_name from Equipment e  where  e.equipment_name = @id " +
+                var equipment = db.Database.SqlQuery<FuelDB>("select e.equipmentId, e.equipment_name from Equipment e  where  e.equipmentId = @id " +
                                 "EXCEPT " +
                                 "select distinct e.equipmentId,e.equipment_name " +
                                 "from Equipment e inner join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +
                                 "where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy' " +
                         "", new SqlParameter("id", id)).SingleOrDefault();
-                return Json(equipment.equipmentId, JsonRequestBehavior.AllowGet);
+                return Json(equipment.equipment_name, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -282,7 +279,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
         [Route("phong-cdvt/thiet-bi/sctx/edit")]
         [HttpPost]
-        public ActionResult EditMaintain(string date, String equipmentId, String department_name, String maintain_content, int maintainid)
+        public ActionResult EditMaintain(string date, String equipmentId,String maintain_content, int maintainid)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             Equipment_SCTX m = new Equipment_SCTX();
@@ -290,14 +287,14 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             {
                 try
                 {
+                    string department_id = Session["departID"].ToString();
 
-                    Department d = db.Departments.Where(x => x.department_name == department_name).FirstOrDefault();
                     //          Maintain_CarDB maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content " +
                     //"from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
                     //  "inner join Department d on d.department_id = m.departmentid where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainid)).SingleOrDefault();
 
                     m.equipmentId = equipmentId;
-                    m.department_id = d.department_id;
+                    m.department_id = department_id;
                     m.maintain_content = maintain_content;
                     m.date = DateTime.Parse(DateTime.ParseExact(date, "dd/MM/yyyy", null).ToString("yyyy-MM-dd"));
                     m.maintain_id = maintainid;
@@ -414,6 +411,13 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
 
         public String supply_name { get; set; }
         public String unit { get; set; }
+
+    }
+    public class EquipmentDB
+    {
+
+        public String equipmentId { get; set; }
+        public String equipment_name { get; set; }
 
     }
 }

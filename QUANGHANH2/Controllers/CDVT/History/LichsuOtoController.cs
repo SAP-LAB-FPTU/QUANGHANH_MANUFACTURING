@@ -393,7 +393,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             {
                 string output = "";
                 //fix bug negative number.
-                if (quantity <= 0 || hours_per_day <= 0)
+                if (quantity < 0 || hours_per_day <= 0)
                 {
                     return new HttpStatusCodeResult(400);
                 }
