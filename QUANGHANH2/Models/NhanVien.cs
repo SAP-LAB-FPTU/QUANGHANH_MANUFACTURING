@@ -26,12 +26,12 @@ namespace QUANGHANH2.Models
             this.DieuDong_NhanVien = new HashSet<DieuDong_NhanVien>();
             this.FakeAPIs = new HashSet<FakeAPI>();
             this.GiayToes = new HashSet<GiayTo>();
+            this.Important_Documentary = new HashSet<Important_Documentary>();
             this.LichSuBoSungSYLLs = new HashSet<LichSuBoSungSYLL>();
             this.QuanHeGiaDinhs = new HashSet<QuanHeGiaDinh>();
             this.QuaTrinhCongTacs = new HashSet<QuaTrinhCongTac>();
             this.TaiNans = new HashSet<TaiNan>();
             this.TuyenDung_NhanVien = new HashSet<TuyenDung_NhanVien>();
-            this.Documentaries = new HashSet<Documentary>();
         }
     
         public string MaNV { get; set; }
@@ -121,6 +121,8 @@ namespace QUANGHANH2.Models
         public virtual ICollection<GiayTo> GiayToes { get; set; }
         public virtual HoSo HoSo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Important_Documentary> Important_Documentary { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LichSuBoSungSYLL> LichSuBoSungSYLLs { get; set; }
         public virtual NguoiUyQuyenLayHoSo_BaoHiem NguoiUyQuyenLayHoSo_BaoHiem { get; set; }
         public virtual TrangThai TrangThai { get; set; }
@@ -134,7 +136,5 @@ namespace QUANGHANH2.Models
         public virtual ICollection<TaiNan> TaiNans { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TuyenDung_NhanVien> TuyenDung_NhanVien { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary> Documentaries { get; set; }
     }
 }
