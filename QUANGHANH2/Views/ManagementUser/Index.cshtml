@@ -299,6 +299,8 @@
                                 <div class="row m-t-10" style="padding-left : 3rem">
                                     <label class="control-label col-3 align-self-center text-right">Chức vụ</label>
                                     <select class="form-control col 12" id="txtPosition">
+                                        <option value="Giám đốc">Giám đốc</option>
+                                        <option value="Phó giám đốc">Phó giám đốc</option>
                                         <option value="Trưởng phòng">Trưởng phòng</option>
                                         <option value="Phó phòng">Phó phòng</option>
                                         <option value="Chủ nhiệm công trình">Chủ nhiệm công trình</option>
@@ -597,7 +599,7 @@
                                                         <td>
                                                             <select class='form-control' id='module19'>
                                                                 <option value='0'>Không</option>
-                                                                @if (@Model.AT)
+                                                                @if (Convert.ToBoolean(@Model.PXCKSC))
                                                                 {
                                                                     <option value='1' selected>Có</option>
                                                                 }
@@ -861,7 +863,7 @@
         if (pb === 'BGD') { $("#hide18").show(); GetRightFromDBNotFill(5); }
         if (pb === 'PXCDM') { $("#hide7").show(); GetRightFromDBNotFill(13); }
         if (pb === 'PXCKSC') { $("#hide2").show(); GetRightFromDBNotFill(19); }
-        if (pb === 'KCM') { $("#hide1").show(); }
+        if (pb === 'KCM') { $("#hide1").show(); GetRightFromDBNotFill(18); }
         if (pb.substring(0, 4) === 'PXDL') { $("#hide3").show(); GetRightFromDBNotFill(8); }
         if (pb === 'PXDS') { $("#hide11").show(); GetRightFromDBNotFill(12); }
         if (pb.substring(0, 4) === 'PXKT') { $("#hide13").show(); GetRightFromDBNotFill(6); }
@@ -930,6 +932,7 @@
         var module15 = $('#module15').val();
         var module16 = $('#module16').val();
         var module17 = $('#module17').val();
+        var module18 = $('#module18').val();
         var module19 = $('#module19').val();
         if (module1 == null) {
             module1 = 0;
@@ -982,6 +985,9 @@
         if (module17 == null) {
             module17 = 0;
         }
+        if (module18 == null) {
+            module18 = 0;
+        }
         if (module19 == null) {
             module19 = 0;
         }
@@ -1028,6 +1034,7 @@
             module15: module15,
             module16: module16,
             module17: module17,
+            module18: module18,
             module19: module19,
             rights: rights.substring(0, rights.length - 1),
         }
@@ -1094,6 +1101,7 @@
         var module15 = $('#module15').val();
         var module16 = $('#module16').val();
         var module17 = $('#module17').val();
+        var module18 = $('#module18').val();
         var module19 = $('#module19').val();
         if (module1 == null) {
             module1 = 0;
@@ -1146,6 +1154,9 @@
         if (module17 == null) {
             module17 = 0;
         }
+        if (module18 == null) {
+            module18 = 0;
+        }
         if (module19 == null) {
             module19 = 0;
         }
@@ -1173,7 +1184,7 @@
         if (pb === 'BGD') { var rights = GetAcceptRights(right5); }
         if (pb === 'PXCDM') { var rights = GetAcceptRights(right13); }
         if (pb === 'PXCKSC') { var rights = GetAcceptRights(right19); }
-        if (pb === 'KCM') { $("#hide1").show(); }
+        if (pb === 'KCM') { var rights = GetAcceptRights(right18); }
         if (pb.substring(0, 4) === 'PXDL') { var rights = GetAcceptRights(right8); }
         if (pb === 'PXDS') { var rights = GetAcceptRights(right12); }
         if (pb.substring(0, 4) === 'PXKT') { var rights = GetAcceptRights(right6); }
@@ -1209,6 +1220,7 @@
             module15: module15,
             module16: module16,
             module17: module17,
+            module18: module18,
             module19: module19,
             rights: rights.substring(0, rights.length - 1),
         }

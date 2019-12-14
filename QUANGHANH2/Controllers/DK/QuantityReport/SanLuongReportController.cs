@@ -21,7 +21,7 @@ namespace QUANGHANH2.Controllers.DK
         [Route("phong-dieu-khien/bao-cao-san-xuat-than/san-luong-toan-cong-ty")]
         public ActionResult getView()
         {
-            return View("/Views/DK/SanLuongView.cshtml");
+            return View("/Views/DK/QuantityReport/SanLuongView.cshtml");
         }
         //
         // GET: SanLuongReport
@@ -30,7 +30,7 @@ namespace QUANGHANH2.Controllers.DK
         public ActionResult Index(string ngay)
         {
             ViewBag.date = ngay;
-            return View("/Views/DK/SanLuongReport.cshtml");
+            return View("/Views/DK/QuantityReport/SanLuongReport.cshtml");
         }
 
         public reportEntity addUp(reportEntity item1, reportEntity item2)

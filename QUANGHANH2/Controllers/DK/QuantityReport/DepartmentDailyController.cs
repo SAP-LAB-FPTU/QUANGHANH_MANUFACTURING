@@ -21,7 +21,7 @@ namespace QUANGHANH2.Controllers.DK
         [Route("phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-phan-xuong")]
         public ActionResult Index()
         {
-            return View("/Views/DK/DepartmentDaily.cshtml");
+            return View("/Views/DK/QuantityReport/DepartmentDaily.cshtml");
         }
         //
         dynamic getListReport(DateTime timeStart, DateTime timeEnd)

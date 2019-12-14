@@ -287,6 +287,8 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\SuaChua\ChonThietBiController.cs" />
     <Compile Include="Controllers\DK\AccidentController.cs" />
     <Compile Include="Controllers\DK\BaoCaoDemoController.cs" />
+    <Compile Include="Controllers\DK\Criteria\CriteriaController.cs" />
+    <Compile Include="Controllers\DK\Criteria\GroupCriteriaController.cs" />
     <Compile Include="Controllers\DK\QuantityReport\DepartmentDailyController.cs" />
     <Compile Include="Controllers\DK\Department_Criteria\Department_CriteriaController.cs" />
     <Compile Include="Controllers\DK\InputPlan\InputPlan_YearController.cs" />
@@ -317,7 +319,7 @@
     <Compile Include="Controllers\TCLD\Brief\BriefController.cs" />
     <Compile Include="Controllers\TCLD\Brief\BriefRegulationController.cs" />
     <Compile Include="Controllers\TCLD\Certificates\CertificateController.cs" />
-    <Compile Include="Controllers\TCLD\Department\DepartmentController.cs" />
+    <Compile Include="Controllers\DK\Department\DepartmentController.cs" />
     <Compile Include="Controllers\TCLD\Diploma\DiplomaController.cs" />
     <Compile Include="Controllers\TCLD\EatingController.cs" />
     <Compile Include="Controllers\TCLD\Employees\EmployeesController.cs" />
@@ -637,9 +639,6 @@
     </Compile>
     <Compile Include="Models\Supply_Extend.cs" />
     <Compile Include="Models\Supply_tieuhao.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaiNan.cs">
@@ -6490,6 +6489,7 @@
     <Content Include="js\Custom JS\CDVT\Home\DetailManu_Daily.js" />
     <Content Include="js\Custom JS\CDVT\Home\huydong.js" />
     <Content Include="js\Custom JS\CDVT\QuyetDinh\DanhSach.js" />
+    <Content Include="js\Custom JS\CDVT\QuyetDinh\datePicker.js" />
     <Content Include="js\Custom JS\CDVT\Report\ChangeDateType.js" />
     <Content Include="js\Custom JS\CDVT\Report\custom-pie2.js" />
     <Content Include="js\Custom JS\CDVT\Report\DetailManu.js" />
@@ -7424,7 +7424,7 @@
     <Content Include="Views\TCLD\Brief\ManageBrief\OutSideDetail.cshtml" />
     <Content Include="Views\TCLD\Recruitment\Input.cshtml" />
     <Content Include="Views\CDVT\Vattu\Danhsachvattu.cshtml" />
-    <Content Include="Views\TCLD\Department\List.cshtml" />
+    <Content Include="Views\DK\Department\List.cshtml" />
     <Content Include="Views\Department\AddDepartment.cshtml" />
     <Content Include="Views\CDVT\Nghiemthu\Vattuditheo.cshtml" />
     <Content Include="Views\PX\PXKT\BaoCaoLenPhongDK.cshtml" />
@@ -7433,17 +7433,17 @@
     <Content Include="Views\Phanxuong\ChonBaoCao\ChonBaoCao.cshtml" />
     <Content Include="Views\Shared\_Layout_NhapBaoCaoLenDK.cshtml" />
     <Content Include="Views\Phanxuong\NhapBaoCao\BaoCaoLenDK.cshtml" />
-    <Content Include="Views\DK\PhanXuongReport.cshtml" />
-    <Content Include="Views\DK\SanLuongReport.cshtml" />
+    <Content Include="Views\DK\QuantityReport\PhanXuongReport.cshtml" />
+    <Content Include="Views\DK\QuantityReport\SanLuongReport.cshtml" />
     <Content Include="Views\DK\SucoThietbi.cshtml" />
     <Content Include="Views\DK\InputPlan\InputPlan_Month_ByMrs_Duy.cshtml" />
-    <Content Include="Views\DK\MonthlyQuarterlyReport.cshtml" />
+    <Content Include="Views\DK\QuantityReport\MonthlyQuarterlyReport.cshtml" />
     <Content Include="Views\CDVT\History\LichsuOtoTieuthu.cshtml" />
     <Content Include="Views\CDVT\History\LichsuTieuthu.cshtml" />
-    <Content Include="Views\DK\DepartmentDaily.cshtml" />
+    <Content Include="Views\DK\QuantityReport\DepartmentDaily.cshtml" />
     <Content Include="Views\PX\PXKT\DangKiNhiemVu.cshtml" />
     <Content Include="Views\CDVT\Car\GPS.cshtml" />
-    <Content Include="Views\DK\SanLuongView.cshtml" />
+    <Content Include="Views\DK\QuantityReport\SanLuongView.cshtml" />
     <Content Include="Views\CDVT\Thietbi\SCTX.cshtml" />
     <Content Include="Views\Shared\_Layout_AT.cshtml" />
     <Content Include="Views\AT\ViewAccident.cshtml" />
@@ -7451,7 +7451,7 @@
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_cai_tien.cshtml" />
     <Content Include="Views\CDVT\Work\CaiTien\ChonThietBi.cshtml" />
     <Content Include="Views\CDVT\Work\CaiTien\ThemCaiTien.cshtml" />
-    <Content Include="Views\DK\Department_Criteria.cshtml" />
+    <Content Include="Views\DK\Department_Criteria\Department_Criteria.cshtml" />
     <Content Include="Views\Shared\_Layout_KCM.cshtml" />
     <Content Include="Views\Shared\_Layout_Cam.cshtml" />
     <Content Include="Views\Camera\View.cshtml" />
@@ -7482,7 +7482,9 @@
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_cai_tien.cshtml" />
     <Content Include="Views\DK\BaoCaoDemo.cshtml" />
     <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />
-    <Content Include="Views\DK\KHSXNam.cshtml" />
+    <Content Include="Views\DK\InputPlan\InputPlan_Year.cshtml" />
+    <Content Include="Views\DK\Criteria\GroupCriteria.cshtml" />
+    <Content Include="Views\DK\Criteria\Criteria.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7490,16 +7492,7 @@
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
-    <Folder Include="Views\BaoCaoDemo\" />
-    <Folder Include="Views\CapNhatQuyetDinh\" />
-    <Folder Include="Views\ChiTiet\" />
-    <Folder Include="Views\ExportWord\" />
-    <Folder Include="Views\InputPlan_Month\" />
-    <Folder Include="Views\KHSXNam\" />
-    <Folder Include="Views\TransferHistory\" />
-    <Folder Include="Views\ViewAccident\" />
-    <Folder Include="Views\WorkHistory\" />
-    <Folder Include="Views\XuLyQD\" />
+    <Folder Include="Views\GroupCriteria\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

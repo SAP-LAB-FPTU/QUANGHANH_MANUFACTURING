@@ -29,7 +29,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                               where listConvert.Contains(e.equipmentId)
                               join d in db.Departments on e.department_id equals d.department_id
                               join c in db.Status on e.current_Status equals c.statusid
-                              select new
+                              select new equipmentExtend
                               {
                                   equipmentId = e.equipmentId,
                                   equipment_name = e.equipment_name,
@@ -37,53 +37,20 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                                   department_id = e.department_id,
                                   current_Status = e.current_Status,
                                   statusname = c.statusname,
-                              }).ToList().Select(s => new equipmentExtend
-                              {
-                                  equipmentId = s.equipmentId,
-                                  equipment_name = s.equipment_name,
-                                  department_name = s.department_name,
-                                  department_id = s.department_id,
-                                  current_Status = s.current_Status,
-                                  statusname = s.statusname,
-
                               }).ToList();
                 ViewBag.DataThietBi = result;
 
                 List<Supply> supplies = db.Supplies.ToList();
                 List<Department> departments = db.Departments.ToList();
-                try
+                List<Equipment> equipAttached = db.Equipments.Where(x => x.isAttach == true).ToList().Select(x => new Equipment
                 {
-                    int validate = 1;
-                    var department_id = result[0].department_id;
-                    foreach (var item in result)
-                    {
-                        if (!item.department_id.Equals(department_id))
-                        {
-                            validate = 0;
-                            break;
-                        }
-                    }
-                    Department department = db.Departments.Find(department_id);
-
-
-                    ViewBag.validate = validate;
-                    ViewBag.department_name = department.department_name;
-                    ViewBag.department_id = department.department_id;
-                    ViewBag.Supplies = supplies;
-                    ViewBag.Departments = departments;
-                }
-                catch(Exception e)
-                {
-                    ViewBag.alert = true;
-                    TempData["shortMessage"] = true;
-                    return Redirect("trung-dai-tu");
-                    throw e;
-                }
-
-
-                
+                    equipmentId = x.equipmentId,
+                    equipment_name = x.equipment_name
+                }).ToList();
+                ViewBag.Supplies = supplies;
+                ViewBag.Departments = departments;
+                ViewBag.equipAttached = equipAttached;
             }
-
             return View("/Views/CDVT/Work/sctx_va_chon.cshtml");
         }
 
@@ -133,19 +100,29 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         drd.equipmentId = equipmentId;
                         DBContext.Documentary_big_maintain_details.Add(drd);
                         DBContext.SaveChanges();
-                        JArray vattu = (JArray)item.Value.SelectToken("vattu");
-                        foreach (JObject jObject in vattu)
+                        JArray dikem = (JArray)item.Value.SelectToken("dikem");
+                        foreach (JObject jObject in dikem)
                         {
                             string supply_id = (string)jObject["supply_id"];
                             int quantity = (int)jObject["quantity"];
-                            string supplyStatus = (string)jObject["supplyStatus"];
-                            string department_id_temp = (string)jObject["department_id"];
+                            Supply_Documentary_Equipment sde = new Supply_Documentary_Equipment();
+                            sde.documentary_id = documentary.documentary_id;
+                            sde.equipmentId = equipmentId;
+                            sde.equipmentId_dikem = supply_id;
+                            sde.quantity_plan = quantity;
+                            DBContext.Supply_Documentary_Equipment.Add(sde);
+                            DBContext.SaveChanges();
+                        }
+                        JArray duphong = (JArray)item.Value.SelectToken("duphong");
+                        foreach (JObject jObject in duphong)
+                        {
+                            string supply_id = (string)jObject["supply_id"];
+                            int quantity = (int)jObject["quantity"];
                             Supply_Documentary_Equipment sde = new Supply_Documentary_Equipment();
                             sde.documentary_id = documentary.documentary_id;
                             sde.equipmentId = equipmentId;
                             sde.supply_id = supply_id;
                             sde.quantity_plan = quantity;
-                            sde.supplyStatus = supplyStatus;
                             DBContext.Supply_Documentary_Equipment.Add(sde);
                             DBContext.SaveChanges();
                         }

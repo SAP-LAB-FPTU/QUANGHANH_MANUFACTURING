@@ -195,7 +195,7 @@ namespace QUANGHANH2.Controllers.DK
                 ngay = "0";
             }
             ViewBag.ngay = ngay;
-            return View("/Views/DK/PhanXuongReport.cshtml");
+            return View("/Views/DK/QuantityReport/PhanXuongReport.cshtml");
         }
 
         [Route("phong-dieu-khien/lock-nhap-bao-cao")]

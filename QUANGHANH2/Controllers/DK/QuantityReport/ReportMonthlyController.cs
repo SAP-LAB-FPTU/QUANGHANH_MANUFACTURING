@@ -15,7 +15,7 @@ namespace QUANGHANH2.Controllers.DK
         [Route("phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-thang-quy")]
         public ActionResult getView()
         {
-            return View("/Views/DK/MonthlyQuarterlyReport.cshtml");
+            return View("/Views/DK/QuantityReport/MonthlyQuarterlyReport.cshtml");
         }
         //
         [HttpPost]

@@ -1,0 +1,335 @@
+﻿
+@{
+    ViewBag.Title = "Criteria";
+    Layout = "~/Views/Shared/_Layout_DK.cshtml";
+}
+
+
+<link href="~/assets/Custom css/TCLD/Certificate/Certificate.css" rel="stylesheet" />
+    <link href="~/lib/mutiple select/slimselect.css" rel="stylesheet" />
+<!-----------------Load Danh Sach Tieu Chi----------------->
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <h3 class="center"><b>DANH SÁCH TIÊU CHÍ</b></h3>
+            <div>
+                <a class="btn blue darken-2 btn-small input-field modal-trigger" href="#modal_themTieuChi">Thêm tiêu chí</a>
+            </div>
+            <div class="table-responsive">
+                <table id="danhsachtieuchi" class="table table-bordered center highlight">
+                    <thead>
+                        <tr>
+                            <th>Mã tiêu chí</th>
+                            <th>Tên tiêu chí</th>
+                            <th>Đơn vị đo</th>
+                            <th>Nhóm tiêu chí</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!------------------------Modal Them Tieu Chi-------------------------->
+<div id="modal_themTieuChi" class="modal">
+    <div class="modal-content">
+        <h4 class="center"><b>Thêm Tiêu Chí</b></h4>
+        <div class="row">
+
+            <div class="col s12 m12">
+                <label>Nhóm tiêu chi</label>
+                <select class="form-control" id="nhomtieuchi">
+                    <option value="" disabled selected>Chọn nhóm tiêu chí</option>
+                    @foreach (var nhomtieuchi in ViewBag.listnhomtieuchi)
+                    {
+                        <option value="@nhomtieuchi.MaNhomTieuChi">@nhomtieuchi.TenNhomTieuChi</option>
+                    }
+                </select>
+            </div>
+            <div class="col s12 m6">
+                <label>Tên tiêu chí</label>
+                <input type="text" class="form-control" id="tentieuchi" required />
+            </div>
+            <div class="col s12 m6">
+                <label>Đơn vị đo tiêu chí</label>
+                <input type="text" class="form-control" id="donvido" required />
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="xacnhanthemtieuchi" class="btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="dongthemtieuchi" class="btn red darken-2 btn-small modal-close">Đóng</button>
+    </div>
+</div>
+<!------------------------ Modal Sua Tieu Chi-------------------------->
+<div id="modal_suaTieuChi" class="modal">
+    <div class="modal-content">
+        <h4 class="center"><b>Sửa Tiêu Chí</b></h4>
+        <div class="row">
+            <div class="col s12 m12">
+                <label>Nhóm tiêu chi</label>
+                <select class="form-control" id="nhomtieuchi-edit">
+                    <option value="" disabled selected>Chọn nhóm tiêu chí</option>
+                    @foreach (var nhomtieuchi in ViewBag.listnhomtieuchi)
+                    {
+                        <option value="@nhomtieuchi.MaNhomTieuChi">@nhomtieuchi.TenNhomTieuChi</option>
+                    }
+                </select>
+            </div>
+            <div class="col s12 m6">
+                <label>Tên tiêu chí</label>
+                <input type="text" class="form-control" id="tentieuchi-edit" required />
+            </div>
+            <div class="col s12 m6">
+                <label>Đơn vị đo tiêu chí</label>
+                <input type="text" class="form-control" id="donvido-edit" required />
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="xacnhansuatieuchi" class="btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="dongsuatieuchi" class="btn red darken-2 btn-small modal-close">Đóng</button>
+    </div>
+</div>
+
+<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<!---------------LOAD TABLE DATA-------------------->
+<script>
+    var table;
+    $(document).ready(function () {
+        table = $("#danhsachtieuchi").DataTable({
+            "ajax": {
+                "url": "/phong-dieu-khien/quan-ly-tieu-chi/danhsach",
+                "type": "GET",
+                "datatype": "json",
+                "cache": "false",
+                "dataSrc": function (json) {
+                    return json["listData"];
+                }
+            },
+            "columns": [
+                { "data": "MaTieuChi", "name": "MaTieuChi" },
+                { "data": "TenTieuChi", "name": "TenTieuChi" },
+                { "data": "DonViDo", "name": "DonViDo" },
+                { "data": "TenNhomTieuChi", "name": "TenNhomTieuChi" },
+                {
+                    "data": "", "render": function (data, type, row) {
+                        return "<a id=\"suaTieuChi\" name=\"" + row["MaTieuChi"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href =\"#modal_suaTieuChi\" ><i class='far fa-edit'></i>Sửa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false
+                },
+                {
+                    "data": "", "render": function (data, type, row) {
+                        return "<a id=\"xoaTieuChi\" name=\"" + row["MaTieuChi"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-close\">Xóa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false
+                }
+            ],
+            "serverSide": "true",
+            "order": [0, "asc"],
+            "searching": false,
+            "lengthChange": false,
+            "autoWidth": false,
+            "filter": true,
+            "info": false,
+            "language": {
+                emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                paginate:
+                {
+                    previous: "Trang trước",
+                    next: "Trang sau",
+                    first: "|<",
+                    last: ">|"
+                }
+            },
+            "initComplete": function (settings, json) {
+                $("#pre-load").hide();
+            }
+
+        });
+    });
+
+</script>
+
+<!---------------------------------------------ADD------------------------------------------------>
+<script>
+    $(document).ready(function () {
+        $("#xacnhanthemtieuchi").click(function () {
+            $("#pre-load").show(),
+                $.ajax({
+                    url: "/phong-dieu-khien/quan-ly-tieu-chi/them-tieu-chi",
+                    type: "POST",
+                    datatype: "json",
+                    data: {
+                        "nhomtieuchi": $("#nhomtieuchi").val(),
+                        "tentieuchi": $("#tentieuchi").val(),
+                        "donvido": $("#donvido").val()
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            //arlet successful adding
+                            successAlert(response.title, response.message);
+                            //clear input in modal themmucluong
+                            $("#donvido").val("");
+                            $("#tentieuchi").val("");
+                            $("#nhomtieuchi option").prop("selected", function () {
+                                return this.defaultSelected;
+                            });
+                            //close modal themmucluong
+                            $("#dongthemtieuchi").click();
+                            //reload table
+                            table.ajax.reload();
+                            //hide the pre-loader
+                            $("#pre-load").hide();
+                        } else if (response.error) {
+                            errorAlert(response.title, response.message);
+                            $("#pre-load").hide();
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.error)
+                    }
+                });
+        });
+    });
+</script>
+<!---------------------------------------------EDIT------------------------------------------------>
+<script>
+    $(document).ready(function () {
+        var ma_tieu_chi;
+        var ten_tieu_chi;
+        var don_vi_do;
+        var ma_nhom_tieu_chi;
+        //fill editpopup
+        $('#danhsachtieuchi').on('click', '#suaTieuChi', function () {
+            ma_tieu_chi = $(this).attr("name");
+            getData(ma_tieu_chi);
+        });
+        //Update
+        $("#xacnhansuatieuchi").click(function () {
+            ma_nhom_tieu_chi = $("#nhomtieuchi-edit").val();
+            ten_tieu_chi = $("#tentieuchi-edit").val();
+            don_vi_do = $("#donvido-edit").val();
+            Update(ma_tieu_chi, ma_nhom_tieu_chi, ten_tieu_chi, don_vi_do);
+        })
+    });
+</script>
+<!--Load data to popup-->
+<script>
+    function getData(ma_tieu_chi) {
+        $('#pre-load').show(),
+            $.ajax({
+                url: "/phong-dieu-khien/quan-ly-tieu-chi/lay-du-lieu-theo-matieuchi",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "matieuchi": ma_tieu_chi
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $("#nhomtieuchi-edit option[value=\"" + response.item.MaNhomTieuChi + "\"]").prop("selected", true);
+                        $("#tentieuchi-edit").val(response.item.TenTieuChi);
+                        $("#donvido-edit").val(response.item.DonViDo);
+                        $("#pre-load").hide();
+                    }
+                },
+                error: function (response) {
+
+                }
+            });
+    }
+</script>
+<!--Update-->
+<script>
+    function Update(ma_tieu_chi, ma_nhom_tieu_chi, ten_tieu_chi, don_vi_do) {
+        $("#pre-load").show(),
+            $.ajax({
+                url: "/phong-dieu-khien/quan-ly-tieu-chi/chinhsua-tieu-chi",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "matieuchi": ma_tieu_chi,
+                    "manhomtieuchi": ma_nhom_tieu_chi,
+                    "tentieuchi": ten_tieu_chi,
+                    "donvido": don_vi_do
+                },
+                success: function (response) {
+                    if (response.success) {
+                        //arlet successful adding
+                        successAlert(response.title, response.message);
+                        //clear input in modal update
+                        $("#tentieuchi-edit").val("");
+                        $("#donvido-edit").val("");
+                        $("#nhomtieuchi-edit option").prop("selected", function () {
+                            return this.defaultSelected;
+                        });
+                        //close modal update
+                        $("#dongsuatieuchi").click();
+                        //reload table
+                        table.ajax.reload();
+                        //hide the pre-loader
+                        $("#pre-load").hide();
+                    } else if (response.error) {
+                        errorAlert(response.title, response.message);
+                        $("#pre-load").hide();
+                    }
+                },
+                error: function (response) {
+                    alert(response.error)
+                }
+            });
+    }
+</script>
+<!------------------Delete---------------------------->
+<script>
+    $(document).ready(function () {
+        var matieuchi = "";
+        $("#danhsachtieuchi").on("click", "#xoaTieuChi", function () {
+            matieuchi = $(this).attr("name");
+            confirmAlert("Xác nhận xóa?", "Xóa Tiêu Chí",
+                function () {
+                    delete_tieuchi(matieuchi);
+                }
+            )
+        });
+    });
+</script>
+<script>
+    function delete_tieuchi(matieuchi) {
+        $('#pre-load').show();
+        $.ajax({
+            url: "/phong-dieu-khien/quan-ly-tieu-chi/xoa-tieu-chi",
+            type: "POST",
+            datatype: "json",
+            data: {
+                "matieuchi": matieuchi
+            },
+            success: function (response) {
+                if (response.success) {
+                    successAlert("Thành công", response.message);
+                    table.ajax.reload();
+                    $('#pre-load').hide();
+                }
+                else if (response.error) {
+                    errorAlert("Có lỗi", response.message);
+                    $("#pre-load").hide();
+                }
+            },
+            error: function (response) {
+
+            }
+
+        });
+    }
+</script>
+<!-------Disable select option of Materialzecss------->
+<script src="../../js/Custom JS/Disable_input_material.js"></script>

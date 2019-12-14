@@ -18,7 +18,7 @@ namespace QUANGHANH2.Controllers.DK
         {
             List<TieuChi> listTieuChi = dbContext.Database.SqlQuery<TieuChi>("select * from TieuChi").ToList<TieuChi>();
             ViewBag.listTC = listTieuChi;
-            return View("/Views/DK/KHSXNam.cshtml");
+            return View("/Views/DK/InputPlan/InputPlan_Year.cshtml");
         }
         [Route("phong-dieu-khien/ke-hoach-san-xuat-nam")]
         [HttpPost]
@@ -80,7 +80,7 @@ namespace QUANGHANH2.Controllers.DK
             }
 
 
-            return View("/Views/DK/KHSXNam.cshtml");
+            return View("/Views/DK/InputPlan/InputPlan_Year.cshtml");
         }
        
         private int parseYear(string year)

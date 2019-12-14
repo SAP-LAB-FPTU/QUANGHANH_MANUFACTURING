@@ -16,7 +16,7 @@ namespace QUANGHANH2.Controllers.DK
         [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi")]
         public ActionResult Index()
         {
-            return View("/Views/DK/Department_Criteria.cshtml");
+            return View("/Views/DK/Department_Criteria/Department_Criteria.cshtml");
         }
 
         /////////////////////////////////LIST/////////////////////////////////////

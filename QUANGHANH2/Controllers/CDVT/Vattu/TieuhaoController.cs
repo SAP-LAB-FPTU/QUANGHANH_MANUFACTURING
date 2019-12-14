@@ -74,22 +74,20 @@ sum(case when a.used is null then 0 else a.used end) 'SupplyUsed',
 sum(case when a.thuhoi is null then 0 else a.thuhoi end) 'SupplyEviction'
 from
 (select s.supply_id, s.supply_name, es.department_id, d.department_name, s.unit,
-sum(case when esd.supplyStatus = 1 then esd.quantity else 0 end) 'used',
-sum(case when esd.supplyStatus = 2 then esd.quantity else 0 end) 'thuhoi'
+esd.used,esd.thuhoi
 from Supply s inner join Equipment_SCTX_Detail esd
 on s.supply_id = esd.supplyid inner join Equipment_SCTX es on es.maintain_id = esd.maintain_id
 inner join Department d on es.department_id = d.department_id
 and MONTH(es.[date]) = @month AND YEAR(es.[date]) = @year
-group by s.supply_id, es.department_id, s.supply_name, d.department_name, s.unit
+group by s.supply_id, es.department_id, s.supply_name, d.department_name, s.unit,esd.used,esd.thuhoi
 union all
 select s.supply_id, s.supply_name, mc.departmentid, d.department_name, s.unit,
-sum(case when mcd.supplyStatus = 1 then mcd.quantity else 0 end) 'used',
-sum(case when mcd.supplyStatus = 2 then mcd.quantity else 0 end) 'thuhoi'
+mcd.used,mcd.thuhoi
 from Supply s inner join Maintain_Car_Detail mcd
 on s.supply_id = mcd.supplyid inner join Maintain_Car mc on mc.maintainid = mcd.maintainid
 inner join Department d on d.department_id = mc.departmentid
 and MONTH(mc.[date]) = @month AND YEAR(mc.[date]) = @year
-group by s.supply_id, mc.departmentid, s.supply_name, d.department_name, s.unit
+group by s.supply_id, mc.departmentid, s.supply_name, d.department_name, s.unit,mcd.used,mcd.thuhoi
 union all
 select s.supply_id, s.supply_name, d.department_id, d.department_name, s.unit,
 sum(fac.consumption_value) 'used',
@@ -141,22 +139,20 @@ sum(case when a.used is null then 0 else a.used end) 'SupplyUsed',
 sum(case when a.thuhoi is null then 0 else a.thuhoi end) 'SupplyEviction'
 from
 (select s.supply_id, s.supply_name, es.department_id, d.department_name, s.unit,
-sum(case when esd.supplyStatus = 1 then esd.quantity else 0 end) 'used',
-sum(case when esd.supplyStatus = 2 then esd.quantity else 0 end) 'thuhoi'
+esd.used,esd.thuhoi
 from Supply s inner join Equipment_SCTX_Detail esd
 on s.supply_id = esd.supplyid inner join Equipment_SCTX es on es.maintain_id = esd.maintain_id
 inner join Department d on es.department_id = d.department_id
 and YEAR(es.[date]) = @year
-group by s.supply_id, es.department_id, s.supply_name, d.department_name, s.unit
+group by s.supply_id, es.department_id, s.supply_name, d.department_name, s.unit,esd.used,esd.thuhoi
 union all
 select s.supply_id, s.supply_name, mc.departmentid, d.department_name, s.unit,
-sum(case when mcd.supplyStatus = 1 then mcd.quantity else 0 end) 'used',
-sum(case when mcd.supplyStatus = 2 then mcd.quantity else 0 end) 'thuhoi'
+mcd.used,mcd.thuhoi
 from Supply s inner join Maintain_Car_Detail mcd
 on s.supply_id = mcd.supplyid inner join Maintain_Car mc on mc.maintainid = mcd.maintainid
 inner join Department d on d.department_id = mc.departmentid
-and  YEAR(mc.[date]) = @year
-group by s.supply_id, mc.departmentid, s.supply_name, d.department_name, s.unit
+and YEAR(mc.[date]) = @year
+group by s.supply_id, mc.departmentid, s.supply_name, d.department_name, s.unit,mcd.used,mcd.thuhoi
 union all
 select s.supply_id, s.supply_name, d.department_id, d.department_name, s.unit,
 sum(fac.consumption_value) 'used',
@@ -171,7 +167,7 @@ select s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit,
 sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
 from Supply s inner join Supply_Documentary_Equipment sde
 on s.supply_id = sde.supply_id inner join Documentary d
-on d.documentary_id = sde.documentary_id and YEAR(d.date_created) = @year inner join Department de
+on d.documentary_id = sde.documentary_id and  YEAR(d.date_created) = @year inner join Department de
 on de.department_id = de.department_id
 group by s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit
 ) as a 
@@ -183,7 +179,7 @@ where  year(sp.[date]) = @year
 group by  sp.supplyid, s.supply_name, sp.departmentid, d.department_name, s.unit
 ) as b
 on a.department_id = b.departmentid and a.supply_id = b.supplyid 
-where (a.supply_id like @supplyid or b.supplyid like @supplyid ) and (b.departmentid like @departid  or a.department_id like @departid ) 
+where (a.supply_id like @supplyid or b.supplyid  like @supplyid ) and (b.departmentid like @departid  or a.department_id like @departid ) 
 and (a.supply_name like @supplyname  or b.supply_name like @supplyname ) and (b.department_name like @departname  or a.department_name like @departname )
 group by a.supply_id, a.department_id, b.supplyid,b.quantity, b.departmentid, a.supply_name, b.supply_name,
 a.department_name, b.department_name, a.unit, b.unit";
@@ -212,20 +208,18 @@ sum(case when a.used is null then 0 else a.used end) 'SupplyUsed',
 sum(case when a.thuhoi is null then 0 else a.thuhoi end) 'SupplyEviction'
 from
 (select s.supply_id, s.supply_name, s.unit,
-sum(case when esd.supplyStatus = 1 then esd.quantity else 0 end) 'used',
-sum(case when esd.supplyStatus = 2 then esd.quantity else 0 end) 'thuhoi'
+esd.used,esd.thuhoi
 from Supply s inner join Equipment_SCTX_Detail esd
 on s.supply_id = esd.supplyid inner join Equipment_SCTX es on es.maintain_id = esd.maintain_id
 and MONTH(es.[date]) = @month AND YEAR(es.[date]) = @year
-group by s.supply_id, s.supply_name, s.unit
+group by s.supply_id, s.supply_name, s.unit,esd.used,esd.thuhoi
 union all
-select s.supply_id, s.supply_name,  s.unit,
-sum(case when mcd.supplyStatus = 1 then mcd.quantity else 0 end) 'used',
-sum(case when mcd.supplyStatus = 2 then mcd.quantity else 0 end) 'thuhoi'
+select s.supply_id, s.supply_name,  s.unit,used,thuhoi
+
 from Supply s inner join Maintain_Car_Detail mcd
 on s.supply_id = mcd.supplyid inner join Maintain_Car mc on mc.maintainid = mcd.maintainid
 and MONTH(mc.[date]) = @month AND YEAR(mc.[date]) = @year
-group by s.supply_id, s.supply_name,  s.unit
+group by s.supply_id, s.supply_name,  s.unit,used,thuhoi
 union all
 select s.supply_id, s.supply_name, s.unit,
 sum(fac.consumption_value) 'used', 0 'thuhoi'
@@ -269,25 +263,23 @@ sum(case when a.used is null then 0 else a.used end) 'SupplyUsed',
 sum(case when a.thuhoi is null then 0 else a.thuhoi end) 'SupplyEviction'
 from
 (select s.supply_id, s.supply_name, s.unit,
-sum(case when esd.supplyStatus = 1 then esd.quantity else 0 end) 'used',
-sum(case when esd.supplyStatus = 2 then esd.quantity else 0 end) 'thuhoi'
+esd.used,esd.thuhoi
 from Supply s inner join Equipment_SCTX_Detail esd
 on s.supply_id = esd.supplyid inner join Equipment_SCTX es on es.maintain_id = esd.maintain_id
-and  YEAR(es.[date]) = @year
-group by s.supply_id, s.supply_name, s.unit
+ AND YEAR(es.[date]) = @year
+group by s.supply_id, s.supply_name, s.unit,esd.used,esd.thuhoi
 union all
-select s.supply_id, s.supply_name,  s.unit,
-sum(case when mcd.supplyStatus = 1 then mcd.quantity else 0 end) 'used',
-sum(case when mcd.supplyStatus = 2 then mcd.quantity else 0 end) 'thuhoi'
+select s.supply_id, s.supply_name,  s.unit,used,thuhoi
+
 from Supply s inner join Maintain_Car_Detail mcd
 on s.supply_id = mcd.supplyid inner join Maintain_Car mc on mc.maintainid = mcd.maintainid
 and  YEAR(mc.[date]) = @year
-group by s.supply_id, s.supply_name,  s.unit
+group by s.supply_id, s.supply_name,  s.unit,used,thuhoi
 union all
 select s.supply_id, s.supply_name, s.unit,
 sum(fac.consumption_value) 'used', 0 'thuhoi'
 from Supply s inner join Fuel_activities_consumption fac
-on s.supply_id = fac.fuel_type and YEAR(fac.[date]) = @year
+on s.supply_id = fac.fuel_type AND YEAR(fac.[date]) = @year
 inner join Equipment e on fac.equipmentId = e.equipmentId
 group by s.supply_id, s.supply_name, s.unit
 union all
@@ -295,12 +287,12 @@ select s.supply_id, s.supply_name, s.unit,
 sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
 from Supply s inner join Supply_Documentary_Equipment sde
 on s.supply_id = sde.supply_id inner join Documentary d
-on d.documentary_id = sde.documentary_id and  YEAR(d.date_created) = @year
+on d.documentary_id = sde.documentary_id  AND YEAR(d.date_created) = @year
 group by s.supply_id, s.supply_name, s.unit) as a full outer join 
 (select sp.supplyid, s.supply_name,sum(sp.quantity) 'quantity', s.unit
 from Supply s inner join SupplyPlan sp
 on s.supply_id = sp.supplyid 
-where  year(sp.[date]) = @year
+where year(sp.[date]) = @year
 group by sp.supplyid, s.supply_name, s.unit
 ) as b
 on a.supply_id = b.supplyid
@@ -507,24 +499,22 @@ group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.un
                 {
                     Department dep = db.Departments.Where(x => x.department_name == departmentname).First();
                     String sql = @"select 
-sum(case when esd.supplyStatus = 1 then esd.quantity else 0 end) 'used',
-sum(case when esd.supplyStatus = 2 then esd.quantity else 0 end) 'thuhoi', es.[date], 'Sửa chữa thường xuyên' as 'purposed'
+esd.used,esd.thuhoi, es.[date], 'Sửa chữa thường xuyên' as 'purposed'
 from Supply s inner
 join Equipment_SCTX_Detail esd
 on s.supply_id = esd.supplyid and s.supply_id = @supplyid inner join Equipment_SCTX es on es.maintain_id = esd.maintain_id
 inner join Department d on es.department_id = d.department_id where es.department_id = @departmentid
 and MONTH(es.[date]) = @month AND YEAR(es.[date]) = @year
-group by s.supply_id, es.department_id, es.[date], s.supply_name, d.department_name, s.unit
+group by s.supply_id, es.department_id, es.[date], s.supply_name, d.department_name, s.unit,esd.used,esd.thuhoi
 union all
 select
-sum(case when mcd.supplyStatus = 1 then mcd.quantity else 0 end) 'used',
-sum(case when mcd.supplyStatus = 2 then mcd.quantity else 0 end) 'thuhoi', mc.[date], N'Bảo dưỡng hàng ngày' as 'purposed'
+used,thuhoi, mc.[date], N'Bảo dưỡng hàng ngày' as 'purposed'
 from Supply s inner
 join Maintain_Car_Detail mcd
 on s.supply_id = mcd.supplyid and s.supply_id = @supplyid inner join Maintain_Car mc on mc.maintainid = mcd.maintainid
 inner join Department d on d.department_id = mc.departmentid where mc.departmentid = @departmentid
 and MONTH(mc.[date]) = @month AND YEAR(mc.[date]) = @year
-group by s.supply_id, mc.departmentid, mc.[date]
+group by s.supply_id, mc.departmentid, mc.[date],used,thuhoi
 union all
 select
 sum(fac.consumption_value) 'used',
@@ -560,24 +550,22 @@ group by s.supply_id, de.department_id, d.date_created, d.documentary_code";
                 {
                     Department dep = db.Departments.Where(x => x.department_name == departmentname).First();
                     String sql = @"select 
-sum(case when esd.supplyStatus = 1 then esd.quantity else 0 end) 'used',
-sum(case when esd.supplyStatus = 2 then esd.quantity else 0 end) 'thuhoi', es.[date], 'Sửa chữa thường xuyên' as 'purposed'
+esd.used,esd.thuhoi, es.[date], 'Sửa chữa thường xuyên' as 'purposed'
 from Supply s inner
 join Equipment_SCTX_Detail esd
 on s.supply_id = esd.supplyid and s.supply_id = @supplyid inner join Equipment_SCTX es on es.maintain_id = esd.maintain_id
 inner join Department d on es.department_id = d.department_id where es.department_id = @departmentid
-and MONTH(es.[date]) = @month AND YEAR(es.[date]) = @year
-group by s.supply_id, es.department_id, es.[date], s.supply_name, d.department_name, s.unit
+and YEAR(es.[date]) = @year
+group by s.supply_id, es.department_id, es.[date], s.supply_name, d.department_name, s.unit,esd.used,esd.thuhoi
 union all
 select
-sum(case when mcd.supplyStatus = 1 then mcd.quantity else 0 end) 'used',
-sum(case when mcd.supplyStatus = 2 then mcd.quantity else 0 end) 'thuhoi', mc.[date], N'Bảo dưỡng hàng ngày' as 'purposed'
+used,thuhoi, mc.[date], N'Bảo dưỡng hàng ngày' as 'purposed'
 from Supply s inner
 join Maintain_Car_Detail mcd
 on s.supply_id = mcd.supplyid and s.supply_id = @supplyid inner join Maintain_Car mc on mc.maintainid = mcd.maintainid
 inner join Department d on d.department_id = mc.departmentid where mc.departmentid = @departmentid
-and MONTH(mc.[date]) = @month AND YEAR(mc.[date]) = @year
-group by s.supply_id, mc.departmentid, mc.[date]
+and  YEAR(mc.[date]) = @year
+group by s.supply_id, mc.departmentid, mc.[date],used,thuhoi
 union all
 select
 sum(fac.consumption_value) 'used',
@@ -585,7 +573,7 @@ sum(fac.consumption_value) 'used',
 from Supply s inner
 join Fuel_activities_consumption fac
 on s.supply_id = fac.fuel_type and s.supply_id = @supplyid inner join Equipment e on fac.equipmentId = e.equipmentId
-and MONTH(fac.[date]) = @month AND YEAR(fac.[date]) = @year
+and  YEAR(fac.[date]) = @year
 inner join Department d on d.department_id = e.department_id where e.department_id = @departmentid
 group by s.supply_id, d.department_id, fac.[date]
 union all
@@ -594,9 +582,9 @@ sum(sde.quantity_used) 'used',
 sum(sde.quantity_out) 'thuhoi', d.[date_created], d.documentary_code as 'purposed'
 from Supply s inner
 join Supply_Documentary_Equipment sde
-on s.supply_id = sde.supply_id and s.supply_id =@supplyid inner
+on s.supply_id = sde.supply_id and s.supply_id =@supplyid  inner
 join Documentary d
-on d.documentary_id = sde.documentary_id and MONTH(d.[date_created]) = 4 AND YEAR(d.[date_created]) = 2019 inner
+on d.documentary_id = sde.documentary_id AND YEAR(d.[date_created]) = @year inner
 join Department de
 on de.department_id = de.department_id where de.department_id = @departmentid
 group by s.supply_id, de.department_id, d.date_created, d.documentary_code";
