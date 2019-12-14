@@ -20,6 +20,8 @@ namespace QUANGHANH2.Models
         public Nullable<System.DateTime> acceptance_date { get; set; }
         public int count { get; set; }
         public LinkIdCode2 linkIdCode { get; set; }
+
+        public Boolean QDQT { get; set; }
     }
     public class LinkIdCode2
     {

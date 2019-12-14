@@ -60,11 +60,6 @@
                                 <th>Tên thiết bị</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                            </tr>
-                        </tbody>
                     </table>
                     <div class="row">
                         <label><input type='checkbox' id="1234" onchange="AddQD(this)"/><span></span></label>
@@ -152,7 +147,7 @@
                 "columns": [
                       {
                         "data": {}, "render": function (data) {
-                                return "<td><label><input type='checkbox' id='"+data.documentary_id+"'/><span></span></label></td>";
+                                return "<td><label><input type='checkbox' id='"+data.documentary_id+"'  onchange='AddQD(this)'/><span></span></label></td>";
                         },
                     },
                     {
@@ -380,11 +375,11 @@
                 url: "/phong-cdvt/da-nghiem-thu/quyet-dinh-quan-trong",
                 type: "get",
                 data: {
-                    $('#pre-load').hide();
                     'documentory_id': id
                 },
                 success: function (response) {
-                    dataTable.reload();
+                    dataTable.ajax.reload();
+                    $('#pre-load').hide();
                 },
                 error: function (response) {
 

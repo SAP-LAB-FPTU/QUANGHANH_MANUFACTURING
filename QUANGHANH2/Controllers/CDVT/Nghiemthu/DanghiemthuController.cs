@@ -142,15 +142,26 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         public ActionResult AddQDQT(string docID)
         {
             QUANGHANHABCEntities dbContext = new QUANGHANHABCEntities();
-            var id = Request["documentory_id"];
+            int id = Int32.Parse(Request["documentory_id"]);
             string username = Session["Username"].ToString();
             Account account = new Account();
             account = dbContext.Accounts.Where(x => x.Username.Equals(username)).FirstOrDefault<Account>();
-            Important_Documentary important_Documentary = new Important_Documentary();
-            important_Documentary.documentary_id = id;
-            important_Documentary.MaNV = account.ID;
-            dbContext.Important_Documentary.Add(important_Documentary);
-            return View();
+            Important_Documentary checkDoc = new Important_Documentary();
+            checkDoc = dbContext.Important_Documentary.Where(x => x.documentary_id == id && x.AccountID == account.ID).FirstOrDefault<Important_Documentary>();
+            if(checkDoc == null)
+            {
+                Important_Documentary important_Documentary = new Important_Documentary();
+                important_Documentary.documentary_id = id;
+                important_Documentary.AccountID = account.ID;
+                dbContext.Important_Documentary.Add(important_Documentary);
+                dbContext.SaveChanges();
+            }
+            else
+            {
+                dbContext.Important_Documentary.Remove(checkDoc);
+                dbContext.SaveChanges();
+            }
+            return Json(new { message = "Success" }, JsonRequestBehavior.AllowGet);
         }
     }
 }
