@@ -127,7 +127,9 @@
 
                         <div class="row">
                             <div class="col s12">
-                                <a id="typeview" class='dropdown-trigger btn' href='#' data-target='dropdown1' style="width:250px;background-color:#273146;margin-bottom:20px">Xem Theo Tháng</a>
+                                <a id="export_exceldetail" class="btn blue col s2 export"> Xuất ra Excel</a>
+                                <a id="export_excel" class="btn blue col s2 export" style="display:none"> Xuất ra Excel</a>
+                                <a id="typeview" class='dropdown-trigger btn right' href='#' data-target='dropdown1' style="width:250px;background-color:#273146;margin-bottom:20px">Xem Theo Tháng</a>
                             </div>
                             <div class="col s12">
                                 <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
@@ -142,7 +144,7 @@
                 <div id="chitiet">
                     <div class="row">
                         <div class="col s12">
-                            <a id="export_exceldetail" class="btn blue col s2"> Xuất ra Excel</a>
+                            
 
                             <table class="striped centered table-bordered mytable" width="100%"
                                    style="margin-top:30px; text-align:center;" id="tbl_detail">
@@ -165,7 +167,7 @@
                 <div id="tonghop">
                     <div class="row">
                         <div class="col s12">
-                            <a id="export_excel" class="btn blue col s2"> Xuất ra Excel</a>
+                            @*<a id="export_excel" class="btn blue col s2"> Xuất ra Excel</a>*@
                             <table class="striped centered table-bordered mytable" width="100%"
                                    style="margin-top:30px; text-align:center;" id="tbl_summary">
                                 <thead>
@@ -365,53 +367,57 @@
                     currTab = 0;
                     $("#departmentId").prop('disabled', false);
                     $("#departmentName").prop('disabled', false);
+                    $("#export_exceldetail").show();
+                    $("#export_excel").hide();
                 });
                 $('#tab_tonghop').on("click", function (e) {
                     currTab = 1;
                     $("#departmentId").prop('disabled', true);
                     $("#departmentName").prop('disabled', true);
+                    $("#export_excel").show();
+                    $("#export_exceldetail").hide();
                 });
                 $('#searchBtn').click(search);
                 $("#export_excel").click(function () {
-                $("#pre-load").show();
-                $.ajax({
-                    dataType: "json",
-                    contentType: "application/json, charset=utf-8",
-                    type: 'POST',
-                    url: '/phong-cdvt/vat-tu/tieu-hao/export',
-                    data: JSON.stringify(exportPayload),
-                    success: function (res) {
-                        if (res.success) {
-                            var response = JSON.parse(JSON.stringify(res.data));
-                            window.location = '/phong-cdvt/vat-tu/tieu-hao/download?fileGuid=' + response.FileGuid
-                                + '&filename=' + response.FileName;
-                        } else {
-                            errorAlert('Lỗi', 'Không xuất ra được EXCEL');
+                    $("#pre-load").show();
+                    $.ajax({
+                        dataType: "json",
+                        contentType: "application/json, charset=utf-8",
+                        type: 'POST',
+                        url: '/phong-cdvt/vat-tu/tieu-hao/export',
+                        data: JSON.stringify(exportPayload),
+                        success: function (res) {
+                            if (res.success) {
+                                var response = JSON.parse(JSON.stringify(res.data));
+                                window.location = '/phong-cdvt/vat-tu/tieu-hao/download?fileGuid=' + response.FileGuid
+                                    + '&filename=' + response.FileName;
+                            } else {
+                                errorAlert('Lỗi', 'Không xuất ra được EXCEL');
+                            }
                         }
-                    }
-                });
-                $("#pre-load").hide();
-            })
-            $("#export_exceldetail").click(function () {
-                $("#pre-load").show();
-                $.ajax({
-                    dataType: "json",
-                    contentType: "application/json, charset=utf-8",
-                    type: 'POST',
-                    url: '/phong-cdvt/vat-tu/tieu-hao/exportdetail',
-                    data: JSON.stringify(exportSearch),
-                    success: function (res) {
-                        if (res.success) {
-                            var response = JSON.parse(JSON.stringify(res.data));
-                            window.location = '/phong-cdvt/vat-tu/tieu-hao/downloaddetail?fileGuid=' + response.FileGuid
-                                + '&filename=' + response.FileName;
-                        } else {
-                            errorAlert('Lỗi', 'Không xuất ra được EXCEL');
+                    });
+                    $("#pre-load").hide();
+                })
+                $("#export_exceldetail").click(function () {
+                    $("#pre-load").show();
+                    $.ajax({
+                        dataType: "json",
+                        contentType: "application/json, charset=utf-8",
+                        type: 'POST',
+                        url: '/phong-cdvt/vat-tu/tieu-hao/exportdetail',
+                        data: JSON.stringify(exportSearch),
+                        success: function (res) {
+                            if (res.success) {
+                                var response = JSON.parse(JSON.stringify(res.data));
+                                window.location = '/phong-cdvt/vat-tu/tieu-hao/downloaddetail?fileGuid=' + response.FileGuid
+                                    + '&filename=' + response.FileName;
+                            } else {
+                                errorAlert('Lỗi', 'Không xuất ra được EXCEL');
+                            }
                         }
-                    }
-                });
-                $("#pre-load").hide();
-            })
+                    });
+                    $("#pre-load").hide();
+                })
             });
 
             function search() {

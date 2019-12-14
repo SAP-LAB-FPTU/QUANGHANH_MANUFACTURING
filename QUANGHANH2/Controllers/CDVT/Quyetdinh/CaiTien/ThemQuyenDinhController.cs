@@ -128,7 +128,7 @@ namespace QUANGHANH2.Controllers.CDVT.Work.CaiTien
                             Supply_Documentary_Equipment sde = new Supply_Documentary_Equipment();
                             sde.documentary_id = documentary.documentary_id;
                             sde.equipmentId = equipmentId;
-                            sde.supply_id = supply_id;
+                            sde.equipmentId_dikem = supply_id;
                             sde.quantity_plan = quantity;
                             sde.supplyStatus = supplyStatus;
                             DBContext.Supply_Documentary_Equipment.Add(sde);
