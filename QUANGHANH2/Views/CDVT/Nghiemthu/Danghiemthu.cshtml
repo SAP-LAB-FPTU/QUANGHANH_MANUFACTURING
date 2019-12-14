@@ -47,6 +47,7 @@
                     <table id="docTable" class="striped table-bordered centered table-responsive mytable">
                         <thead>
                             <tr>
+                                <th rowspan="2">Quyết định quan trọng</th>
                                 <th rowspan="2">Quyết định số</th>
                                 <th rowspan="2">Loại quyết định</th>
                                 <th rowspan="2">Ngày nghiệm thu</th>
@@ -59,7 +60,15 @@
                                 <th>Tên thiết bị</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                            </tr>
+                        </tbody>
                     </table>
+                    <div class="row">
+                        <label><input type='checkbox' id="1234" onchange="AddQD(this)"/><span></span></label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -141,6 +150,11 @@
                     $("#pre-load").hide();
                 },
                 "columns": [
+                      {
+                        "data": {}, "render": function (data) {
+                                return "<td><label><input type='checkbox' id='"+data.documentary_id+"'/><span></span></label></td>";
+                        },
+                    },
                     {
                         "data": "temp", "name" : "documentary_id", "render": function (data) {
                             return "<a id='click' class='modal-trigger' data-target='thongtin' onclick=Detail('@Url.Action("Detail","nghiemthu")?id=" + data.split("^")[0] + "')> "+data.split("^")[1]+"</a>";
@@ -358,6 +372,23 @@
         }
         });
 
+        //------------------------------------------------------------------------------------//
+        function AddQD(idQD) {
+            var id = $(idQD).attr("id");
+            $.ajax({
+                url: "/phong-cdvt/da-nghiem-thu/quyet-dinh-quan-trong",
+                type: "get",
+                data: {
+                    'documentory_id': id
+                },
+                success: function (response) {
+                    dataTable.reload();
+                },
+                error: function (response) {
+
+                }
+            })
+        }
     </script>
 }
 

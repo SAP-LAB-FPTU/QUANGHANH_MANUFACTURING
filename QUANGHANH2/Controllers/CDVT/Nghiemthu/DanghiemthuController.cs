@@ -136,5 +136,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                 return Json(new { success = true, data = docList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [Route("phong-cdvt/da-nghiem-thu/quyet-dinh-quan-trong")]
+        [HttpGet]
+        public ActionResult AddQDQT(string docID)
+        {
+            var id = Request["documentory_id"];
+            string username = Session["Username"].ToString();
+            return View();
+        }
     }
 }
