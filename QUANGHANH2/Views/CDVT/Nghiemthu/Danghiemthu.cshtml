@@ -63,9 +63,6 @@
                             </tr>
                         </thead>
                     </table>
-                    <div class="row">
-                        <label><input type='checkbox' id="1234" onchange="AddQD(this)"/><span></span></label>
-                    </div>
                 </div>
             </div>
         </div>
@@ -149,7 +146,11 @@
                 "columns": [
                       {
                         "data": {}, "render": function (data) {
-                                return "<td><label><input type='checkbox' id='"+data.documentary_id+"'  onchange='AddQD(this)'/><span></span></label></td>";
+                              if (data.QDQT == false) {
+                                  return "<td><label><input type='checkbox' id='" + data.documentary_id + "'  onchange='AddQD(this)'/><span></span></label></td>";
+                              } else {
+                                  return "<td><label><input type='checkbox' id='" + data.documentary_id + "'  onchange='AddQD(this)' checked/><span></span></label></td>";
+                              }
                         },
                     },
                     { "data": "documentary_code", "name" : "documentary_code" },
