@@ -16,9 +16,9 @@ namespace QUANGHANH2.Models
     {
         public int ID { get; set; }
         public int documentary_id { get; set; }
-        public string MaNV { get; set; }
+        public int AccountID { get; set; }
     
+        public virtual Account Account { get; set; }
         public virtual Documentary Documentary { get; set; }
-        public virtual NhanVien NhanVien { get; set; }
     }
 }

@@ -661,7 +661,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="documentary_id" Type="int" Nullable="false" />
-          <Property Name="MaNV" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AccountID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Incident">
           <Key>
@@ -2077,18 +2077,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Important___MaNV__37FA4C37">
-          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
-          <End Role="Important_Documentary" Type="Self.Important_Documentary" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NhanVien">
-              <PropertyRef Name="MaNV" />
-            </Principal>
-            <Dependent Role="Important_Documentary">
-              <PropertyRef Name="MaNV" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Important__docum__38EE7070">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
           <End Role="Important_Documentary" Type="Self.Important_Documentary" Multiplicity="*" />
@@ -2787,6 +2775,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Important_Documentary_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Important_Documentary" Type="Self.Important_Documentary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Important_Documentary">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang">
           <End Role="header_KeHoachTungThang" Type="Self.header_KeHoachTungThang" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoThang" Type="Self.KeHoach_TieuChi_TheoThang" Multiplicity="*" />
@@ -3298,10 +3298,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="HoSo" EntitySet="HoSo" />
           </AssociationSet>
-          <AssociationSet Name="FK__Important___MaNV__37FA4C37" Association="Self.FK__Important___MaNV__37FA4C37">
-            <End Role="NhanVien" EntitySet="NhanVien" />
-            <End Role="Important_Documentary" EntitySet="Important_Documentary" />
-          </AssociationSet>
           <AssociationSet Name="FK__Important__docum__38EE7070" Association="Self.FK__Important__docum__38EE7070">
             <End Role="Documentary" EntitySet="Documentary" />
             <End Role="Important_Documentary" EntitySet="Important_Documentary" />
@@ -3534,6 +3530,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Department" EntitySet="Department" />
             <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
           </AssociationSet>
+          <AssociationSet Name="FK_Important_Documentary_Account" Association="Self.FK_Important_Documentary_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Important_Documentary" EntitySet="Important_Documentary" />
+          </AssociationSet>
           <AssociationSet Name="FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang" Association="Self.FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang">
             <End Role="header_KeHoachTungThang" EntitySet="header_KeHoachTungThang" />
             <End Role="KeHoach_TieuChi_TheoThang" EntitySet="KeHoach_TieuChi_TheoThang" />
@@ -3611,6 +3611,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="PXCKSC" Type="Boolean" />
           <NavigationProperty Name="FileBaoCaos" Relationship="Self.FK__FileBaoCa__nguoi__2E70E1FD" FromRole="Account" ToRole="FileBaoCao" />
           <NavigationProperty Name="NhanVien" Relationship="Self.FK_Account_NhanVien" FromRole="Account" ToRole="NhanVien" />
+          <NavigationProperty Name="Important_Documentary" Relationship="Self.FK_Important_Documentary_Account" FromRole="Account" ToRole="Important_Documentary" />
         </EntityType>
         <EntityType Name="Account_Right">
           <Key>
@@ -4398,9 +4399,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="documentary_id" Type="Int32" Nullable="false" />
-          <Property Name="MaNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AccountID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="Self.FK_Important_Documentary_Account" FromRole="Important_Documentary" ToRole="Account" />
           <NavigationProperty Name="Documentary" Relationship="Self.FK__Important__docum__38EE7070" FromRole="Important_Documentary" ToRole="Documentary" />
-          <NavigationProperty Name="NhanVien" Relationship="Self.FK__Important___MaNV__37FA4C37" FromRole="Important_Documentary" ToRole="NhanVien" />
         </EntityType>
         <EntityType Name="Incident">
           <Key>
@@ -4611,7 +4612,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <NavigationProperty Name="FakeAPIs" Relationship="Self.FK__FakeAPI__MaNV__40F9A68C" FromRole="NhanVien" ToRole="FakeAPI" />
           <NavigationProperty Name="GiayToes" Relationship="Self.FK__GiayTo__MaNV__45BE5BA9" FromRole="NhanVien" ToRole="GiayTo" />
           <NavigationProperty Name="HoSo" Relationship="Self.FK__HoSo__MaNV__46B27FE2" FromRole="NhanVien" ToRole="HoSo" />
-          <NavigationProperty Name="Important_Documentary" Relationship="Self.FK__Important___MaNV__37FA4C37" FromRole="NhanVien" ToRole="Important_Documentary" />
           <NavigationProperty Name="LichSuBoSungSYLLs" Relationship="Self.FK__LichSuBoSu__MaNV__4D5F7D71" FromRole="NhanVien" ToRole="LichSuBoSungSYLL" />
           <NavigationProperty Name="NguoiUyQuyenLayHoSo_BaoHiem" Relationship="Self.FK__NhanVien__MaUyQu__56E8E7AB" FromRole="NhanVien" ToRole="NguoiUyQuyenLayHoSo_BaoHiem" />
           <NavigationProperty Name="TrangThai" Relationship="Self.FK__NhanVien__MaTran__540C7B00" FromRole="NhanVien" ToRole="TrangThai" />
@@ -4993,6 +4993,18 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Principal>
             <Dependent Role="Account">
               <PropertyRef Name="NVID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Important_Documentary_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Important_Documentary" Type="Self.Important_Documentary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Important_Documentary">
+              <PropertyRef Name="AccountID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6426,18 +6438,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Important___MaNV__37FA4C37">
-          <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
-          <End Role="Important_Documentary" Type="Self.Important_Documentary" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NhanVien">
-              <PropertyRef Name="MaNV" />
-            </Principal>
-            <Dependent Role="Important_Documentary">
-              <PropertyRef Name="MaNV" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__KeHoach_T__MaTie__3CBF0154">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoNam" Type="Self.KeHoach_TieuChi_TheoNam" Multiplicity="*" />
@@ -6837,6 +6837,10 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <AssociationSet Name="FK_Account_NhanVien" Association="Self.FK_Account_NhanVien">
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="Account" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Important_Documentary_Account" Association="Self.FK_Important_Documentary_Account">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Important_Documentary" EntitySet="Important_Documentary" />
           </AssociationSet>
           <AssociationSet Name="FK_Account_Right_Module" Association="Self.FK_Account_Right_Module">
             <End Role="Module" EntitySet="Modules" />
@@ -7309,10 +7313,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <AssociationSet Name="FK__HoSo__MaNV__46B27FE2" Association="Self.FK__HoSo__MaNV__46B27FE2">
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="HoSo" EntitySet="HoSoes" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Important___MaNV__37FA4C37" Association="Self.FK__Important___MaNV__37FA4C37">
-            <End Role="NhanVien" EntitySet="NhanViens" />
-            <End Role="Important_Documentary" EntitySet="Important_Documentary" />
           </AssociationSet>
           <AssociationSet Name="FK__KeHoach_T__MaTie__3CBF0154" Association="Self.FK__KeHoach_T__MaTie__3CBF0154">
             <End Role="TieuChi" EntitySet="TieuChis" />
@@ -8093,7 +8093,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
               <MappingFragment StoreEntitySet="Important_Documentary">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
-                <ScalarProperty Name="MaNV" ColumnName="MaNV" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
