@@ -1,193 +1,151 @@
-﻿//using QUANGHANH2.Models;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Web;
-//using System.Web.Mvc;
-//using Newtonsoft.Json;
-//using System.Data.SqlClient;
+﻿using Newtonsoft.Json.Linq;
+using QUANGHANH2.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
-//namespace QUANGHANH2.Controllers.DK.InputPlan
-//{
-//    public class InputPlan_MonthController : Controller
-//    {
-//        // GET: InputPlan_Month
-//        [Route("phong-dieu-khien/ke-hoach-san-xuat")]
-//        public ActionResult Index()
-//        {
-//            return View("/Views/DK/InputPlan/InputPlan_Month.cshtml");
-//        }
+namespace QUANGHANH2.Controllers.DK.InputPlan
+{
+    public class InputPlan_MonthController : Controller
+    {
+        [Route("phong-dieu-khien/ke-hoach-san-xuat-thang")]
+        public ActionResult Index()
+        {
+            return View("/Views/DK/InputPlan/InputPlan_Month.cshtml");
+        }
 
-//        public dynamic GetData(int month, int year, string departmentID)
-//        {
-//            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-//            {
+        //////////////////////////////GET INFOR/////////////////////////////
+        [Route("phong-dieu-khien/ke-hoach-san-xuat-thang/lay-thong-tin")]
+        [HttpPost]
+        public ActionResult GetInformation()
+        {
+            try
+            {
+                var Thang = Request["Thang"].Split()[1];
+                var Nam = Request["Nam"].Split()[1];
+                var MaPhongBan = Request["MaPhongBan"];
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    //get data's table to paging
+                    int start = Convert.ToInt32(Request["start"]);
+                    int length = Convert.ToInt32(Request["length"]);
+                    string searchValue = Request["search[value]"];
+                    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                    string sortDirection = Request["order[0][dir]"];
 
-//                //var sqlQuery = " select table1.* from (select header_kh.HeaderID,TieuChi.TenTieuChi,kehoach.SanLuong," +
-//                //    "header_kh.SoNgayLamViec,[kehoach].MaTieuChi as MaTieuChiNull," +
-//                //    "TieuChi.DonViDo,[kehoach].GhiChu from " +
-//                //    "(select* from header_KeHoachSanXuatThang as header " +
-//                //    "where header.MaPhongBan = @departmentID and header.ThangKeHoach = @month and " +
-//                //    "header.NamKeHoach = @year) as header_kh left join(" +
-//                //    "select b.*from(SELECT[HeaderID],[MaTieuChi],Max([ThoiGianNhapCuoiCung]) as [ThoiGianNhapCuoiCung] " +
-//                //    "FROM[QUANGHANHABC].[dbo].[KeHoachSanXuatThang] " +
-//                //    "GROUP BY MaTieuChi, HeaderID) as a inner join [KeHoachSanXuatThang] as b on " +
-//                //    "a.HeaderID = b.HeaderID and a.MaTieuChi = b.MaTieuChi " +
-//                //    "and a.ThoiGianNhapCuoiCung = b.ThoiGianNhapCuoiCung) as kehoach " +
-//                //    "on header_kh.HeaderID = kehoach.HeaderID left join TieuChi " +
-//                //    "on kehoach.MaTieuChi = TieuChi.MaTieuChi) as table1 right join (select * from PhongBan_TieuChi where MaPhongBan = @departmentID and Thang = @month and Nam = @year) as table2 " +
-//                //    "on table1.MaTieuChiNull = table2.MaTieuChi";
-//                var sqlQuery = @"select pb_tc.MaPhongBan, ISNULL(kh_th.SoNgayLamViec, 0) as SoNgayLamViec, pb_tc.MaTieuChi, pb_tc.TenTieuChi, pb_tc.DonViDo, ISNULL(kh_th.SanLuong, 0) as SanLuong, kh_th.GhiChu from
-//                                ((select a.MaTieuChi, b.TenTieuChi, b.DonViDo, a.MaPhongBan from PhongBan_TieuChi a left outer join TieuChi b on a.MaTieuChi = b.MaTieuChi
-//                                where a.Thang = @month and a.Nam = @year and a.MaPhongBan = @departmentID) as pb_tc
-//                                left outer join
-//                                (select kh_a.MaPhongBan, kh_b.SoNgayLamViec, kh_a.MaTieuChi, kh_b.SanLuong, kh_a.ThoiGianNhapCuoiCung, kh_b.GhiChu  
-//                                from ((select a.MaPhongBan, b.MaTieuChi, Max(b.ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung 
-//                                from header_KeHoachSanXuatThang a join KeHoachSanXuatThang b 
-//                                on a.HeaderID = b.HeaderID 
-//                                where a.ThangKeHoach = @month and a.NamKeHoach = @year and a.MaPhongBan = @departmentID
-//                                group by a.MaPhongBan, b.MaTieuChi) as kh_a 
-//                                left outer join  
-//                                (select a.MaPhongBan, b.MaTieuChi, a.SoNgayLamViec, b.SanLuong, b.ThoiGianNhapCuoiCung, b.GhiChu 
-//                                from header_KeHoachSanXuatThang a join KeHoachSanXuatThang b 
-//                                on a.HeaderID = b.HeaderID) as kh_b
-//                                on kh_a.MaTieuChi = kh_b.MaTieuChi and kh_a.MaPhongBan = kh_b.MaPhongBan and kh_a.ThoiGianNhapCuoiCung = kh_b.ThoiGianNhapCuoiCung)) as kh_th
-//                                on pb_tc.MaTieuChi = kh_th.MaTieuChi and pb_tc.MaPhongBan = kh_th.MaPhongBan)";
-//                return db.Database.SqlQuery<ChiTietTieuChi>(sqlQuery, new SqlParameter("departmentID", departmentID), new SqlParameter("month", month), new SqlParameter("year", year)).ToList();
-//            }
-//        }
-//        //
-//        [Route("phong-dieu-khien/ke-hoach-san-xuat/lay-thong-tin")]
-//        public ActionResult getInformation()
-//        {
-//            try
-//            {
-//                var month = Int32.Parse(Request["month"]);
-//                var year = Int32.Parse(Request["year"]);
-//                var departmentID = Request["department"];
-//                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-//                {
-//                    var listAspectDepartments = (from pbtc in db.PhongBan_TieuChi
-//                                                    .Where(x => x.MaPhongBan == departmentID && x.Thang == month && x.Nam == year)
-//                                                 join tieuchi in db.TieuChis on pbtc.MaTieuChi equals tieuchi.MaTieuChi
-//                                                 select new
-//                                                 {
-//                                                     MaTieuChi = tieuchi.MaTieuChi,
-//                                                     TenTieuChi = tieuchi.TenTieuChi
-//                                                 }).ToList();
-//                    var listAspect2 = new List<ChiTietTieuChi>();
-//                    var listAspect = GetData(month, year, departmentID);
-//                    if (listAspect.Count > 0)
-//                    {
-//                        foreach (var item in listAspect)
-//                        {
-//                            if (item.MaTieuChiNull != null)
-//                            {
-//                                item.Identify = item.MaTieuChiNull + "-" + item.HeaderID;
-//                                listAspect2.Add(item);
-//                            }
-//                        }
-//                    }
-//                    else
-//                    {
-//                        header_KeHoachSanXuatThang header = new header_KeHoachSanXuatThang();
-//                        header.MaPhongBan = departmentID;
-//                        header.ThangKeHoach = month;
-//                        header.NamKeHoach = year;
-//                        header.SoNgayLamViec = 26;
-//                        db.header_KeHoachSanXuatThang.Add(header);
-//                        db.SaveChanges();
-//                        var HearderID = db.header_KeHoachSanXuatThang.Where(x => x.MaPhongBan == departmentID && x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.HeaderID).FirstOrDefault();
-//                        return Json(new { data = listAspect, aspects = listAspectDepartments, totalDays = (26), headerID = HearderID }, JsonRequestBehavior.AllowGet);
+                    var sqlGetInfor = @"select pb_tc.MaPhongBan, (case when kh_th.SoNgayLamViec is null then 0 else kh_th.SoNgayLamViec end) as SoNgayLamViec, pb_tc.MaTieuChi, pb_tc.TenTieuChi, pb_tc.DonViDo, ISNULL(kh_th.SanLuong, 0) as SanLuong, kh_th.GhiChu from
+                                        ((select a.MaTieuChi, b.TenTieuChi, b.DonViDo, a.MaPhongBan from PhongBan_TieuChi a left outer join TieuChi b on a.MaTieuChi = b.MaTieuChi
+                                        where a.Thang = @month and a.Nam = @year and a.MaPhongBan = @departmentID) as pb_tc
+                                        left outer join
+                                        (select kh_a.MaPhongBan, kh_b.SoNgayLamViec, kh_a.MaTieuChi, kh_b.SanLuong, kh_a.ThoiGianNhapCuoiCung, kh_b.GhiChu  
+                                        from ((select a.MaPhongBan, b.MaTieuChi, Max(b.ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung 
+                                        from header_KeHoachTungThang a join KeHoach_TieuChi_TheoThang b 
+                                        on a.HeaderID = b.HeaderID 
+                                        where a.ThangKeHoach = @month and a.NamKeHoach = @year and a.MaPhongBan = @departmentID
+                                        group by a.MaPhongBan, b.MaTieuChi) as kh_a 
+                                        left outer join  
+                                        (select a.MaPhongBan, b.MaTieuChi, a.SoNgayLamViec, b.SanLuong, b.ThoiGianNhapCuoiCung, b.GhiChu 
+                                        from header_KeHoachTungThang a join KeHoach_TieuChi_TheoThang b 
+                                        on a.HeaderID = b.HeaderID) as kh_b
+                                        on kh_a.MaTieuChi = kh_b.MaTieuChi and kh_a.MaPhongBan = kh_b.MaPhongBan and kh_a.ThoiGianNhapCuoiCung = kh_b.ThoiGianNhapCuoiCung)) as kh_th
+                                        on pb_tc.MaTieuChi = kh_th.MaTieuChi and pb_tc.MaPhongBan = kh_th.MaPhongBan)
+                                        order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
 
-//                    }
-//                    return Json(new { data = listAspect2, aspects = listAspectDepartments, totalDays = (listAspect.Count == 0 ? 0 : listAspect[0].SoNgayLamViec), headerID = listAspect.Count == 0 ? -1 : listAspect[0].HeaderID }, JsonRequestBehavior.AllowGet);
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
-//                return new HttpStatusCodeResult(400);
-//            }
-//        }
-//        //
-//        [Route("phong-dieu-khien/ke-hoach-san-xuat/cap-nhat-thong-tin")]
-//        public ActionResult UpdteInformation()
-//        {
-//            var month = Int32.Parse(Request["month"]);
-//            var year = Int32.Parse(Request["year"]);
-//            var departmentID = Request["department"];
-//            var headerID = Int32.Parse(Request["headerID"]);
-//            var totalDays = Int32.Parse(Request["totalDays"]);
-//            var data = Request["data"];
+                    int totalrows = db.NhomCongViecs.Count();
+                    int totalrowsafterfiltering = totalrows;
+                    List<KeHoachSanXuatTheoThang> listKH = db.Database.SqlQuery<KeHoachSanXuatTheoThang>(sqlGetInfor, new SqlParameter("month", Thang), new SqlParameter("year", Nam), new SqlParameter("departmentID", MaPhongBan)).ToList();
+                    return Json(new { SoNgayLamViec = listKH.Count == 0 ? 0 : listKH[0].SoNgayLamViec, listKH = listKH, recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
 
-//            List<KeHoachSanXuatThang> listUpdate = JsonConvert.DeserializeObject<List<KeHoachSanXuatThang>>(data);
-//            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-//            {
-//                var listAspectDepartments = (from pbtc in db.PhongBan_TieuChi
-//                            .Where(x => x.MaPhongBan == departmentID)
-//                                             join tieuchi in db.TieuChis on pbtc.MaTieuChi equals tieuchi.MaTieuChi
-//                                             select new
-//                                             {
-//                                                 MaTieuChi = tieuchi.MaTieuChi,
-//                                                 TenTieuChi = tieuchi.TenTieuChi
-//                                             }).ToList();
+        /////////////////////////////////INSERT OR UPDATE///////////////////////////////
+        [Route("phong-dieu-khien/ke-hoach-san-xuat-thang/nhap-du-lieu-hoac-cap-nhat")]
+        [HttpPost]
+        public ActionResult InsertOrUpdate()
+        {
+            try
+            {
+                var SoNgaySanXuat = Request["SoNgaySanXuat"];
+                SoNgaySanXuat = SoNgaySanXuat.Equals("") ? "0" : SoNgaySanXuat;
+                var Thang = Convert.ToInt32(Request["Thang"].Split()[1]);
+                var Nam = Convert.ToInt32(Request["Nam"].Split()[1]);
+                var MaPhongBan = Request["MaPhongBan"];
+                var listData = Request["listData"];
+                JObject listDataJObject = JObject.Parse(listData);
+                JArray listDataArray = (JArray)listDataJObject.SelectToken("list");
 
-//                DateTime currentTime = DateTime.Now;
-//                db.Configuration.ValidateOnSaveEnabled = true;
-//                foreach (var item in listUpdate)
-//                {
-//                    item.ThoiGianNhapCuoiCung = currentTime;
 
-//                    db.KeHoachSanXuatThang.Add(item);
-//                }
-//                //var header = db.header_KeHoachSanXuatThang.Where(x => x.MaPhongBan == departmentID && x.ThangKeHoach == month && x.NamKeHoach == year).FirstOrDefault();
-//                //header.SoNgayLamViec = totalDays;
-//                //db.Entry(header).State = System.Data.Entity.EntityState.Modified;
-//                db.SaveChanges();
-//                var listAspect = GetData(month, year, departmentID);
-//                if (listAspect.Count != 0)
-//                {
-//                    foreach (var item in listAspect)
-//                    {
-//                        item.Identify = item.MaTieuChiNull + "-" + item.HeaderID;
-//                    }
-//                }
-//                //
-//                return Json(new { data = listAspect, aspects = listAspectDepartments });
-//            }
-//        }
-//        [Route("phong-dieu-khien/ke-hoach-san-xuat/returnunit")]
-//        [HttpPost]
-//        public JsonResult returnUnit(int MaTieuChi)
-//        {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                    {
+                        var checkHeaderNull = @"select * from header_KeHoachTungThang 
+                                            where MaPhongBan = @maphongban and ThangKeHoach = @thang and NamKeHoach = @nam";
+                        var listHeader = db.Database.SqlQuery<header_KeHoachTungThang>(checkHeaderNull, new SqlParameter("maphongban", MaPhongBan), new SqlParameter("thang", Thang), new SqlParameter("nam", Nam)).FirstOrDefault();
+                        //header null -> insert
+                        if (listHeader == null)
+                        {
+                            //insert to header_KeHoachTungThang
+                            listHeader = new header_KeHoachTungThang();
+                            listHeader.MaPhongBan = MaPhongBan;
+                            listHeader.ThangKeHoach = Thang;
+                            listHeader.NamKeHoach = Nam;
+                            listHeader.SoNgayLamViec = Convert.ToInt32(SoNgaySanXuat);
+                            db.header_KeHoachTungThang.Add(listHeader);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            //update header_KeHoachTungThang
+                            var update = db.header_KeHoachTungThang.Find(listHeader.HeaderID);
+                            update.MaPhongBan = MaPhongBan;
+                            update.ThangKeHoach = Thang;
+                            update.NamKeHoach = Nam;
+                            update.SoNgayLamViec = Convert.ToInt32(SoNgaySanXuat);
+                            db.SaveChanges();
+                        }
+                        //insert to KeHoachTungThang
+                        foreach (JObject item in listDataArray)
+                        {
+                            KeHoach_TieuChi_TheoThang kht = new KeHoach_TieuChi_TheoThang();
+                            var headerid = listHeader.HeaderID;
+                            kht.HeaderID = headerid;
+                            kht.MaTieuChi = Convert.ToInt32(item["matieuchi"]);
+                            kht.SanLuong = Convert.ToDouble(item["sanluong"]);
+                            kht.GhiChu = (string)item["ghichu"] == null ? "" : (string)item["ghichu"];
+                            kht.ThoiGianNhapCuoiCung = DateTime.Now;
+                            db.KeHoach_TieuChi_TheoThang.Add(kht);
+                        }
+                        //insert to KeHoachTungThang
+                        db.SaveChanges();
+                        transaction.Commit();
+                        return Json(new { success = true, title = "Thành công", message = "Thêm kế hoạch tháng thành công." });
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, title = "Có lỗi", message = "Có lỗi xảy ra." });
+            }
+        }
+    }
 
-//            try
-//            {
-//                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-//                var ma = db.TieuChis.Where(x => x.MaTieuChi == MaTieuChi).SingleOrDefault();
-//                //String item = equipment.supply_name + "^" + equipment.unit;
-//                return Json(new
-//                {
-//                    DonViDo = ma.DonViDo
-//                }, JsonRequestBehavior.AllowGet); ;
-//            }
-//            catch (Exception ex)
-//            {
-//                return Json("Mã tiêu chí không tồn tại", JsonRequestBehavior.AllowGet);
-//            }
-
-//        }
-//    }
-
-//    public class ChiTietTieuChi : KeHoachSanXuatThang
-//    {
-//        public Nullable<int> MaTieuChiNull { get; set; }
-//        public string DonViDo { get; set; }
-//        public string TenTieuChi { get; set; }
-
-//        public int SoNgayLamViec { get; set; }
-
-//        public string Identify { get; set; }
-//    }
-//}
+    public class KeHoachSanXuatTheoThang
+    {
+        public int MaTieuChi { get; set; }
+        public int SoNgayLamViec { get; set; }
+        public string TenTieuChi { get; set; }
+        public string DonViDo { get; set; }
+        public double SanLuong { get; set; }
+        public string GhiChu { get; set; }
+    }
+}

@@ -230,13 +230,13 @@
                                 </div>
                             </li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="@Url.Action("Detail","LogIn")"><i class="small material-icons">account_circle</i> Hồ Sơ Của Tôi</a></li>
+                            <li><a href="@Url.Action("Detail", "LogIn")"><i class="small material-icons">account_circle</i> Hồ Sơ Của Tôi</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="@Url.Action("Index","ManagementUser")"><i class="small material-icons">vpn_key</i> Quản lí</a></li>
+                            <li><a href="@Url.Action("Index", "ManagementUser")"><i class="small material-icons">vpn_key</i> Quản lí</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="@Url.Action("Management","ManagementUser")"><i class="small material-icons">adb</i> Quản lí quyền</a></li>
+                            <li><a href="@Url.Action("Management", "ManagementUser")"><i class="small material-icons">adb</i> Quản lí quyền</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="@Url.Action("Logout","LogIn")"><i class="small material-icons">power_settings_new</i>Đăng Xuất</a></li>
+                            <li><a href="@Url.Action("Logout", "LogIn")"><i class="small material-icons">power_settings_new</i>Đăng Xuất</a></li>
                         </ul>
                     </li>
                     <li id="user-icon"><a href="" style="color:black">@Session["Name"] <span class="new badge red" data-badge-caption="@Session["Position"]"></span></a></li>
@@ -298,7 +298,12 @@
                                 </div>
                                 <div class="row m-t-10" style="padding-left : 3rem">
                                     <label class="control-label col-3 align-self-center text-right">Chức vụ</label>
-                                    <input type="text" class="form-control col 12" value="@Model.Position" id="txtPosition">
+                                    <select class="form-control col 12" id="txtPosition">
+                                        <option value="Trưởng phòng">Trưởng phòng</option>
+                                        <option value="Phó phòng">Phó phòng</option>
+                                        <option value="Chủ nhiệm công trình">Chủ nhiệm công trình</option>
+                                    </select>
+                                    @*<input type="text" class="form-control col 12" value="@Model.Position" id="txtPosition">*@
                                 </div>
                                 <div class="row m-t-10" style="padding-left : 3rem">
                                     <label class="control-label col-3 align-self-center text-right">Mã nhân viên</label>
@@ -638,6 +643,23 @@
                                                         </td>
                                                         <td></td>
                                                     </tr>
+                                                    <tr id="hide19">
+                                                        <td><label>An toàn</label></td>
+                                                        <td>
+                                                            <select class='form-control' id='module17'>
+                                                                <option value='0'>Không</option>
+                                                                @if (@Model.AT)
+                                                                {
+                                                                    <option value='1' selected>Có</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value='1'>Có</option>
+                                                                }
+                                                            </select>
+                                                        </td>
+                                                        <td><a href='#!' onclick='ShowRight(17)'>Các quyền</a></td>
+                                                    </tr>
                                                 </table>
                                             </div>
                                         </div>
@@ -745,6 +767,7 @@
                 </div>
                 <input type="hidden" value="@Model.ID" id="UserID" />
                 <input type="hidden" value="" id="MaPB" />
+                <input type="hidden" value="@Model.Position" id="positiontemp" />
             </div>
             <!-- ============================================================== -->
             <!-- Container fluid scss in scafholding.scss -->
@@ -772,7 +795,9 @@
     $('body').css('overflow', '');
 
     $(document).ready(function () {
+        document.getElementById('txtPosition').value = document.getElementById('positiontemp').value;
         $('#pre-load').show();
+
         $("#hide1").hide();
         $("#hide2").hide();
         $("#hide3").hide();
@@ -791,6 +816,7 @@
         $("#hide16").hide();
         $("#hide17").hide();
         $("#hide18").hide();
+        $("#hide19").hide();
         $("#buttonshow").hide();
         //$("#rightlabel").hide();
         $(document).ajaxStop(function () {
@@ -815,6 +841,7 @@
             success: function (result) {
                 document.getElementById('txtPB').value = result.department_name;
                 document.getElementById('MaPB').value = result.department_id;
+                //document.getElementById('txtPosition').textContent += result.department_id;
                 RightDetail();
                 $('#pre-load').hide();
             },
@@ -844,6 +871,7 @@
         if (pb === 'PXTGQLKM') { $("#hide8").show(); GetRightFromDBNotFill(14); }
         if (pb.substring(0, 4) === 'PXVT') { $("#hide4").show(); GetRightFromDBNotFill(9); }
         if (pb === 'PXXD') { $("#hide9").show(); GetRightFromDBNotFill(15); }
+        if (pb === 'AT') { $("#hide19").show(); GetRightFromDBNotFill(17); }
     }
 
     function show() {
@@ -866,6 +894,7 @@
         $("#hide16").hide();
         $("#hide17").hide();
         $("#hide18").hide();
+        $("#hide19").hide();
     }
     function showLoading() {
         //$('#pre-load').show();
@@ -900,6 +929,7 @@
         var module14 = $('#module14').val();
         var module15 = $('#module15').val();
         var module16 = $('#module16').val();
+        var module17 = $('#module17').val();
         var module19 = $('#module19').val();
         if (module1 == null) {
             module1 = 0;
@@ -949,6 +979,9 @@
         if (module16 == null) {
             module16 = 0;
         }
+        if (module17 == null) {
+            module17 = 0;
+        }
         if (module19 == null) {
             module19 = 0;
         }
@@ -970,6 +1003,7 @@
         if (pb === 'PXTGQLKM') { var rights = GetAcceptRights(right14); }
         if (pb.substring(0, 4) === 'PXVT') { var rights = GetAcceptRights(right9); }
         if (pb === 'PXXD') { var rights = GetAcceptRights(right15); }
+        if (pb === 'AT') { var rights = GetAcceptRights(right17); }
         var empObj = {
             Name: document.getElementById("txtName").value,
             Username: document.getElementById("txtUsername").value,
@@ -993,6 +1027,7 @@
             module14: module14,
             module15: module15,
             module16: module16,
+            module17: module17,
             module19: module19,
             rights: rights.substring(0, rights.length - 1),
         }
@@ -1058,6 +1093,7 @@
         var module14 = $('#module14').val();
         var module15 = $('#module15').val();
         var module16 = $('#module16').val();
+        var module17 = $('#module17').val();
         var module19 = $('#module19').val();
         if (module1 == null) {
             module1 = 0;
@@ -1107,6 +1143,9 @@
         if (module16 == null) {
             module16 = 0;
         }
+        if (module17 == null) {
+            module17 = 0;
+        }
         if (module19 == null) {
             module19 = 0;
         }
@@ -1144,6 +1183,7 @@
         if (pb === 'PXTGQLKM') { var rights = GetAcceptRights(right14); }
         if (pb.substring(0, 4) === 'PXVT') { var rights = GetAcceptRights(right9); }
         if (pb === 'PXXD') { var rights = GetAcceptRights(right15); }
+        if (pb === 'AT') { var rights = GetAcceptRights(right17); }
         var empObj = {
             ID: document.getElementById("txtID").value,
             Name: document.getElementById("txtName").value,
@@ -1168,6 +1208,7 @@
             module14: module14,
             module15: module15,
             module16: module16,
+            module17: module17,
             module19: module19,
             rights: rights.substring(0, rights.length - 1),
         }
@@ -1304,6 +1345,7 @@
     var right14 = null;
     var right15 = null;
     var right16 = null;
+    var right17 = "";
     var right18 = "";
     var right19 = null;
     function ShowRight(moduleID) {
@@ -1442,6 +1484,15 @@
                 FillData(right16, 16);
             }
         }
+        if (moduleID == 17) {
+            document.getElementById("titleRight").innerText = "Các quyền trong phòng An Toàn";
+            if (right17 == null) {
+                GetRightFromDB(17);
+            }
+            else {
+                FillData(right17, 17);
+            }
+        }
         if (moduleID == 18) {
             document.getElementById("titleRight").innerText = "Các quyền trong KCM";
             if (right18 == null) {
@@ -1535,6 +1586,10 @@
                     right16 = result;
                     FillData(right16, 16);
                 }
+                if (moduleID == 17) {
+                    right16 = result;
+                    FillData(right17, 17);
+                }
                 if (moduleID == 18) {
                     right18 = result;
                     FillData(right18, 18);
@@ -1609,6 +1664,9 @@
                 }
                 if (moduleID == 16) {
                     right16 = result;
+                }
+                if (moduleID == 17) {
+                    right17 = result;
                 }
                 if (moduleID == 18) {
                     right18 = result;
@@ -1795,6 +1853,16 @@
                     };
                     right16.Accept.push(item);
                     break;
+                case '17':
+                    var res = denyRights[id].innerText.split("-");
+                    right17.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right17.Accept.push(item);
+                    break;
                 case '18':
                     var res = denyRights[id].innerText.split("-");
                     right18.Deny.splice(denyRights[id].index, 1);
@@ -1977,6 +2045,16 @@
                         GroupID: res[0]
                     };
                     right16.Deny.push(item);
+                    break;
+                case '17':
+                    var res = acceptRights[id].innerText.split("-");
+                    right17.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right17.Deny.push(item);
                     break;
                 case '18':
                     var res = acceptRights[id].innerText.split("-");

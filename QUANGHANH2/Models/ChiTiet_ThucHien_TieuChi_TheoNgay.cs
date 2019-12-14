@@ -19,7 +19,7 @@ namespace QUANGHANH2.Models
         public Nullable<int> SanLuong { get; set; }
         public Nullable<int> KeHoach { get; set; }
     
-        public virtual header_ThucHienSanXuatNgay header_ThucHienSanXuatNgay { get; set; }
+        public virtual header_ThucHienTheoNgay header_ThucHienTheoNgay { get; set; }
         public virtual TieuChi TieuChi { get; set; }
     }
 }

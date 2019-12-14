@@ -354,15 +354,24 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             }
         }
 
+        public class Supply_DK : Supply_DiKem
+        {
+            public string equipment_name { get; set; }
+
+        }
 
         [HttpGet]
         public ActionResult Add()
         {
+            
             List<SelectListItem> listDepeartment = new List<SelectListItem>();
             List<SelectListItem> listCategory = new List<SelectListItem>();
             List<SelectListItem> listStatus = new List<SelectListItem>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                List<Supply_DK> listsupdk = db.Database.SqlQuery<Supply_DK>("select equipment_name,equipmentId from Equipment where isAttach = 1").ToList();
+                ViewBag.listsupdk = listsupdk;
+
                 var departments = db.Departments.ToList<Department>();
                 foreach (Department items in departments)
                 {
@@ -458,7 +467,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string sk, string sm, string gps)
+        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string sk, string sm, string gps, string attype)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -476,18 +485,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         date = duraInspec.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
                         emp.durationOfInspection = Convert.ToDateTime(date_fix);
-                        //durationOfInsurance
-                        date = duraInsura.Split('/');
-                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.durationOfInsurance = Convert.ToDateTime(date_fix);
                         //usedDay
                         date = used.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
                         emp.usedDay = Convert.ToDateTime(date_fix);
-                        //nearest_Maintenance_Day
-                        date = duramain.Split('/');
-                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
+                        emp.input_channel = "Đường kế toán";
+                        emp.department_id = "CDVT";
+                        emp.total_operating_hours = 0;
+                        emp.durationOfMaintainance = DateTime.Now;
                         db.Equipments.Add(emp);
                         string sql = "select * from Equipment_category_attribute where Equipment_category_id = @cateid";
                         List<Equipment_category_attribute> list = db.Database.SqlQuery<Equipment_category_attribute>(sql, new SqlParameter("cateid", emp.Equipment_category_id)).ToList();
@@ -544,36 +549,27 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         ei.equipmentId = emp.equipmentId;
                         ei.inspect_date = emp.durationOfInspection.Value;
                         db.Equipment_Inspection.Add(ei);
-                        Equipment_Insurance ins = new Equipment_Insurance();
-                        ins.equipmentId = emp.equipmentId;
-                        ins.insurance_start_date = DateTime.Now;
-                        ins.insurance_end_date = emp.durationOfInsurance.Value;
-                        db.Equipment_Insurance.Add(ins);
+                        bool isAc = true;
+                        if (attype.Equals("0"))
+                        {
+                            isAc = false;
+                        }
+                        emp.isAttach = isAc;
                         db.SaveChanges();
 
                         if (nameSup != null)
                         {
-                            List<Supply> listSup = db.Supplies.ToList();
                             for (int i = 0; i < nameSup.Count(); i++)
                             {
                                 if (!nameSup[i].Equals(""))
                                 {
-                                    Supply s = new Supply();
-                                    for (int j = 0; j < listSup.Count(); j++)
-                                    {
-                                        if (listSup.ElementAt(j).supply_name.Equals(nameSup[i]))
-                                        {
-                                            s.supply_id = listSup.ElementAt(j).supply_id;
-                                            break;
-                                        }
-                                    }
-                                    string note = "";
-                                    string sql_sup = "insert into Supply_DiKem values (@supid, @eid, @quan, @note)";
+
+                                    string sql_sup = "insert into Supply_DiKem values (@eid, @supid, @quan, @note, 0)";
                                     db.Database.ExecuteSqlCommand(sql_sup
-                                        , new SqlParameter("supid", s.supply_id)
-                                        , new SqlParameter("eid", emp.equipmentId)
-                                        , new SqlParameter("quan", quantity[i])
-                                        , new SqlParameter("note", note));
+                                        , new SqlParameter("@supid", nameSup[i])
+                                        , new SqlParameter("@eid", emp.equipmentId)
+                                        , new SqlParameter("@quan", quantity[i])
+                                        , new SqlParameter("@note", ""));
                                 }
 
                             }
@@ -614,17 +610,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         date = inspec.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
                         emp.durationOfInspection = Convert.ToDateTime(date_fix);
-                        //durationOfInsurance
-                        date = insua.Split('/');
-                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        if (emp.durationOfInsurance.Value.CompareTo(Convert.ToDateTime(date_fix)) != 0)
-                        {
-                            Equipment_Insurance ins = new Equipment_Insurance();
-                            ins.equipmentId = emp.equipmentId;
-                            ins.insurance_end_date = Convert.ToDateTime(date_fix);
-                            db.Equipment_Insurance.Add(ins);
-                        }
-                        emp.durationOfInsurance = Convert.ToDateTime(date_fix);
                         //usedDay
                         date = used.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
@@ -659,7 +644,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             }
         }
 
-        [Auther(RightID = "4")]
+        //[Auther(RightID = "4")] 
         [HttpGet]
         public ActionResult Edit(string id)
         {
@@ -727,7 +712,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 Car ca = db.Database.SqlQuery<Car>("select * from Car where equipmentId = @id", new SqlParameter("id", id + "")).FirstOrDefault();
                 if (ca == null)
                 {
-                    query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
+                    query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                         "from Equipment e, Department d, Equipment_category ec,Status s " +
                         " where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND e.equipmentId LIKE @equipmentId";
                     Equipment e = db.Database.SqlQuery<CarDB>(query, new SqlParameter("equipmentId", '%' + id + '%')).FirstOrDefault();

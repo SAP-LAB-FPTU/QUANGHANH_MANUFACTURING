@@ -174,10 +174,8 @@
                                     <th>Tên thiết bị</th>
                                     <th>Số hiệu</th>
                                     <th>Số chế tạo</th>
-                                    <th>Phân xưởng sử dụng</th>
+                                    <th>Phân xưởng hiện tại</th>
                                     <th>Tình trạng hiện tại</th>
-                                    <th>Khấu hao ước tính</th>
-                                    <th>Khấu hao hiện tại</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -537,6 +535,9 @@
         language: 'vi',
         maxDate: new Date(),
     })
+    $('.maxDateAdd').datepicker({
+        language: 'vi',
+    })
     $('.minDate').datepicker({
         language: 'vi',
         maxDate: new Date() // Now can select only dates, which goes after today
@@ -634,8 +635,6 @@
                     { "data": "mark_code", "name" : "mark_code"},
                     { "data": "department_name" , "name" : "department_name"},
                     { "data": "statusname", "name" : "statusname"},
-                    { "data": "depreciation_estimate", "name": "depreciation_estimate" },
-                    { "data": "depreciation_present", "name": "depreciation_present" },
 
 
 
@@ -769,8 +768,6 @@
                     },
                     { "data": "department_name" , "name" : "department_name"},
                     { "data": "statusname", "name" : "statusname"},
-                    { "data": "depreciation_estimate", "name": "depreciation_estimate" },
-                    { "data": "depreciation_present", "name": "depreciation_present" },
 
 
 

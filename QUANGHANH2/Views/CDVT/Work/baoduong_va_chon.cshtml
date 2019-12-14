@@ -97,7 +97,7 @@
             <input type="hidden" id="rownumber" disabled />
         </div>
         <div class="modal-footer">
-            <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
+            <a id="addrow" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
             <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-close">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
         </div>
@@ -130,6 +130,7 @@
     }
 </datalist>
 
+<script src="~/js/Custom JS/CDVT/QuyetDinh/datePicker.js"></script>
 <script>
     var output = {};
 
@@ -140,31 +141,7 @@
         })
     })
 
-    $('.minDate').datepicker({
-        language: 'vi',
-        minDate: new Date() // Now can select only dates, which goes after today
-    })
-
-    $(document).ready(function () {
-        $('.datepicker-inline').remove();
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        var today = dd + '/' + mm + '/' + yyyy;
-        $(".minDate").each(function () {
-            $(this).val(today);
-        });
-    })
-
-    $("#addcolumn").click(function () {
+    $("#addrow").click(function () {
         var $tr = $('<tr>').append(
             $('<td>').html("<input type='text' list='supplyID' class='form-control required' />"),
             $('<td>').html("<input type='number' min='1' value='1' class='form-control' />")

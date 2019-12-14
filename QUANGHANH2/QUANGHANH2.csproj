@@ -287,18 +287,22 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\SuaChua\ChonThietBiController.cs" />
     <Compile Include="Controllers\DK\AccidentController.cs" />
     <Compile Include="Controllers\DK\BaoCaoDemoController.cs" />
-    <Compile Include="Controllers\DK\DepartmentDailyController.cs" />
-    <Compile Include="Controllers\DK\Department_CriteriaController.cs" />
-    <Compile Include="Controllers\DK\QuickReport\QuickReportController.cs" />
+    <Compile Include="Controllers\DK\Criteria\CriteriaController.cs" />
+    <Compile Include="Controllers\DK\Criteria\GroupCriteriaController.cs" />
+    <Compile Include="Controllers\DK\QuantityReport\DepartmentDailyController.cs" />
+    <Compile Include="Controllers\DK\Department_Criteria\Department_CriteriaController.cs" />
+    <Compile Include="Controllers\DK\InputPlan\InputPlan_YearController.cs" />
     <Compile Include="Controllers\DK\InputPlan\InputPlan_MonthController.cs" />
-    <Compile Include="Controllers\DK\PhanXuongReportController.cs" />
+    <Compile Include="Controllers\DK\DashboardToBGD\QuickReportController.cs" />
+    <Compile Include="Controllers\DK\InputPlan\InputPlan_Month_ByMrs_DuyController.cs" />
+    <Compile Include="Controllers\DK\QuantityReport\PhanXuongReportController.cs" />
     <Compile Include="Controllers\DK\InputCharcoal\InputController.cs" />
     <Compile Include="Controllers\DK\ReportHuman\ReportHumanController.cs" />
     <Compile Include="Controllers\DK\ReportIncidentController.cs" />
     <Compile Include="Controllers\DK\ReportManuCharcoal\DetailManuReportController.cs" />
     <Compile Include="Controllers\DK\ReportManuCharcoal\ReportManuCharcoalController.cs" />
-    <Compile Include="Controllers\DK\ReportMonthlyController.cs" />
-    <Compile Include="Controllers\DK\SanLuongReportController.cs" />
+    <Compile Include="Controllers\DK\QuantityReport\ReportMonthlyController.cs" />
+    <Compile Include="Controllers\DK\QuantityReport\SanLuongReportController.cs" />
     <Compile Include="Controllers\DK\SucoThietbiDKController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KCM\InputPlanController.cs" />
@@ -315,7 +319,7 @@
     <Compile Include="Controllers\TCLD\Brief\BriefController.cs" />
     <Compile Include="Controllers\TCLD\Brief\BriefRegulationController.cs" />
     <Compile Include="Controllers\TCLD\Certificates\CertificateController.cs" />
-    <Compile Include="Controllers\TCLD\Department\DepartmentController.cs" />
+    <Compile Include="Controllers\DK\Department\DepartmentController.cs" />
     <Compile Include="Controllers\TCLD\Diploma\DiplomaController.cs" />
     <Compile Include="Controllers\TCLD\EatingController.cs" />
     <Compile Include="Controllers\TCLD\Employees\EmployeesController.cs" />
@@ -517,16 +521,16 @@
     <Compile Include="Models\Header_DiemDanh_NangSuat_LaoDong.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\header_KeHoachSanXuatNam.cs">
+    <Compile Include="Models\header_KeHoachTungThang.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\header_KeHoachSanXuatNgay.cs">
+    <Compile Include="Models\header_KeHoach_TieuChi_TheoNam.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\header_KeHoachSanXuatThang.cs">
+    <Compile Include="Models\header_KeHoach_TieuChi_TheoNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\header_ThucHienSanXuatNgay.cs">
+    <Compile Include="Models\header_ThucHienTheoNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HistoryWork.cs" />
@@ -538,13 +542,13 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InsideExcel.cs" />
-    <Compile Include="Models\KeHoachSanXuatNam.cs">
+    <Compile Include="Models\KeHoach_TieuChi_TheoNam.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\KeHoachSanXuatNgay.cs">
+    <Compile Include="Models\KeHoach_TieuChi_TheoNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\KeHoachSanXuatThang.cs">
+    <Compile Include="Models\KeHoach_TieuChi_TheoThang.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LichSuBoSungSYLL.cs">
@@ -646,19 +650,10 @@
     <Compile Include="Models\ThangLuong.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ThucHienSanXuatNgay.cs">
+    <Compile Include="Models\ThucHien_TieuChi_TheoNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TieuChi.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TieuChiCon.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TinhChat_TieuChi.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\To.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TrangThai.cs">
@@ -671,9 +666,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TuyenDung_NhanVien.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\VatLieu.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="ModelViews\PxdsModelView.cs" />
@@ -704,6 +696,7 @@
     <Compile Include="Utils\TimeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\Custom css\CDVT\dashboard.css" />
     <Content Include="assets\Custom css\CDVT\StyleSheet1.css" />
     <Content Include="assets\Custom css\TCLD\Brief\AddBrief.css" />
     <Content Include="assets\Custom css\TCLD\Brief\ManageBrief\beo_ho_so_ngoai.css" />
@@ -1223,6 +1216,7 @@
     <Content Include="assets\images\logo-icon.png" />
     <Content Include="assets\images\logo-light-icon.png" />
     <Content Include="assets\images\logo-light-text.png" />
+    <Content Include="assets\images\logo-dark-text.png" />
     <Content Include="assets\images\logo-text.png" />
     <Content Include="assets\images\office.jpg" />
     <Content Include="assets\images\parallax1.jpg" />
@@ -6498,6 +6492,7 @@
     <Content Include="js\Custom JS\CDVT\Home\DetailManu_Daily.js" />
     <Content Include="js\Custom JS\CDVT\Home\huydong.js" />
     <Content Include="js\Custom JS\CDVT\QuyetDinh\DanhSach.js" />
+    <Content Include="js\Custom JS\CDVT\QuyetDinh\datePicker.js" />
     <Content Include="js\Custom JS\CDVT\Report\ChangeDateType.js" />
     <Content Include="js\Custom JS\CDVT\Report\custom-pie2.js" />
     <Content Include="js\Custom JS\CDVT\Report\DetailManu.js" />
@@ -7152,14 +7147,6 @@
     <Content Include="excel\DK\DanhSachTaiNan.xlsx" />
     <Content Include="excel\DK\DanhSachTaiNan-download.xlsx" />
     <Content Include="excel\TCLD\Report\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo tháng.xlsx" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
-
     <Content Include="excel\TCLD\Report\Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo tháng.xlsx" />
     <Content Include="excel\CDVT\download\tong-hop-vat-tu-chi-tiet-download.xlsx" />
     <Content Include="excel\CDVT\download\tong-hop-vat-tu-chi-tiet.xlsx" />
@@ -7167,7 +7154,13 @@
     <Content Include="excel\CDVT\download\tieu-hao-vat-tu-chi-tiet-download.xlsx" />
     <Content Include="excel\CDVT\download\tieu-hao-vat-tu-tong-hop-download.xlsx" />
     <Content Include="excel\CDVT\download\tieu-hao-vat-tu-tong-hop.xlsx" />
-
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7434,7 +7427,7 @@
     <Content Include="Views\TCLD\Brief\ManageBrief\OutSideDetail.cshtml" />
     <Content Include="Views\TCLD\Recruitment\Input.cshtml" />
     <Content Include="Views\CDVT\Vattu\Danhsachvattu.cshtml" />
-    <Content Include="Views\TCLD\Department\List.cshtml" />
+    <Content Include="Views\DK\Department\List.cshtml" />
     <Content Include="Views\Department\AddDepartment.cshtml" />
     <Content Include="Views\CDVT\Nghiemthu\Vattuditheo.cshtml" />
     <Content Include="Views\PX\PXKT\BaoCaoLenPhongDK.cshtml" />
@@ -7443,17 +7436,17 @@
     <Content Include="Views\Phanxuong\ChonBaoCao\ChonBaoCao.cshtml" />
     <Content Include="Views\Shared\_Layout_NhapBaoCaoLenDK.cshtml" />
     <Content Include="Views\Phanxuong\NhapBaoCao\BaoCaoLenDK.cshtml" />
-    <Content Include="Views\DK\PhanXuongReport.cshtml" />
-    <Content Include="Views\DK\SanLuongReport.cshtml" />
+    <Content Include="Views\DK\QuantityReport\PhanXuongReport.cshtml" />
+    <Content Include="Views\DK\QuantityReport\SanLuongReport.cshtml" />
     <Content Include="Views\DK\SucoThietbi.cshtml" />
-    <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />
-    <Content Include="Views\DK\MonthlyQuarterlyReport.cshtml" />
+    <Content Include="Views\DK\InputPlan\InputPlan_Month_ByMrs_Duy.cshtml" />
+    <Content Include="Views\DK\QuantityReport\MonthlyQuarterlyReport.cshtml" />
     <Content Include="Views\CDVT\History\LichsuOtoTieuthu.cshtml" />
     <Content Include="Views\CDVT\History\LichsuTieuthu.cshtml" />
-    <Content Include="Views\DK\DepartmentDaily.cshtml" />
+    <Content Include="Views\DK\QuantityReport\DepartmentDaily.cshtml" />
     <Content Include="Views\PX\PXKT\DangKiNhiemVu.cshtml" />
     <Content Include="Views\CDVT\Car\GPS.cshtml" />
-    <Content Include="Views\DK\SanLuongView.cshtml" />
+    <Content Include="Views\DK\QuantityReport\SanLuongView.cshtml" />
     <Content Include="Views\CDVT\Thietbi\SCTX.cshtml" />
     <Content Include="Views\Shared\_Layout_AT.cshtml" />
     <Content Include="Views\AT\ViewAccident.cshtml" />
@@ -7461,7 +7454,7 @@
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_cai_tien.cshtml" />
     <Content Include="Views\CDVT\Work\CaiTien\ChonThietBi.cshtml" />
     <Content Include="Views\CDVT\Work\CaiTien\ThemCaiTien.cshtml" />
-    <Content Include="Views\DK\Department_Criteria.cshtml" />
+    <Content Include="Views\DK\Department_Criteria\Department_Criteria.cshtml" />
     <Content Include="Views\Shared\_Layout_KCM.cshtml" />
     <Content Include="Views\Shared\_Layout_Cam.cshtml" />
     <Content Include="Views\Camera\View.cshtml" />
@@ -7491,6 +7484,10 @@
     <Content Include="Views\TCLD\Occupation\Occupation_GroupOccupation.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_cai_tien.cshtml" />
     <Content Include="Views\DK\BaoCaoDemo.cshtml" />
+    <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />
+    <Content Include="Views\DK\InputPlan\InputPlan_Year.cshtml" />
+    <Content Include="Views\DK\Criteria\GroupCriteria.cshtml" />
+    <Content Include="Views\DK\Criteria\Criteria.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7498,14 +7495,7 @@
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
-    <Folder Include="Views\BaoCaoDemo\" />
-    <Folder Include="Views\CapNhatQuyetDinh\" />
-    <Folder Include="Views\ChiTiet\" />
-    <Folder Include="Views\ExportWord\" />
-    <Folder Include="Views\TransferHistory\" />
-    <Folder Include="Views\ViewAccident\" />
-    <Folder Include="Views\WorkHistory\" />
-    <Folder Include="Views\XuLyQD\" />
+    <Folder Include="Views\GroupCriteria\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

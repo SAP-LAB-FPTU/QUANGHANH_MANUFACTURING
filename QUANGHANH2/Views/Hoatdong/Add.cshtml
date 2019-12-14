@@ -61,7 +61,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Khấu hao ước tính</label>
+                        <label>Khấu hao ước tính (tháng)</label>
                         @*@Html.LabelFor(model => model.depreciation_estimate, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.depreciation_estimate, new { htmlAttributes = new { @class = "form-control" } })
@@ -70,7 +70,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Khấu hao thực tại</label>
+                        <label>Khấu hao thực tại (tháng)</label>
                         @*@Html.LabelFor(model => model.depreciation_present, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.depreciation_present, new { htmlAttributes = new { @class = "form-control" } })
@@ -79,7 +79,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Thời hạn đăng kiểm</label>
+                        <label>Thời hạn đăng kiểm tiếp theo</label>
                         @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             <input name="duraInspec" type="text" class="form-control datepicker-here maxDate" />
@@ -88,23 +88,15 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Thời hạn bảo hiểm</label>
-                        @*@Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                        <div class="col-md-10">
-                            <input name="duraInsura" type="text" class="form-control datepicker-here maxDate" />
-                            @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @style = "display: none !important" } })
-                            @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Thời hạn bảo dưỡng</label>
-                        @*@Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                        <div class="col-md-10">
-                            <input name="duramain" type="text" class="form-control datepicker-here maxDate" />
-                            @Html.EditorFor(model => model.durationOfMaintainance, new { htmlAttributes = new { @style = "display: none !important" } })
-                            @Html.ValidationMessageFor(model => model.durationOfMaintainance, "", new { @class = "text-danger" })
+                    <div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Loại thiết bị</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="attype">
+                                    <option value="0">Thiết bị thường</option>
+                                    <option value="1">Thiết bị đính kèm</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div id="plus2">
@@ -131,14 +123,6 @@
                             <input name="used" type="text" class="form-control datepicker-here maxDate" />
                             @Html.EditorFor(model => model.usedDay, new { htmlAttributes = new { @style = "display: none !important" } })
                             @Html.ValidationMessageFor(model => model.usedDay, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Tổng thời gian hoạt động</label>
-                        @*@Html.LabelFor(model => model.total_operating_hours, htmlAttributes: new { @class = "control-label col-md-2" })*@
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.total_operating_hours, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.total_operating_hours, "Tổng thời gian hoạt động phải là số", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -179,14 +163,13 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    @*<div class="form-group">
                         <label>Đường nhập</label>
-                        @*@Html.LabelFor(model => model.input_channel, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.DropDownList("input_channel", new SelectList(ViewBag.listDN, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.input_channel, "", new { @class = "text-danger" })
                         </div>
-                    </div>
+                    </div>*@
 
                     <div class="form-group">
                         <label class="control-label col-md-2">Tên nhóm thiết bị</label>
@@ -196,13 +179,6 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Phòng ban</label>
-                        <div class="col-md-10">
-                            @Html.DropDownList("department_id", new SelectList(ViewBag.listDepeartment, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.department_id, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
                     <div id="plus">
                         <div class="form-group">
                             <label class="control-label col-md-2">Số khung</label>
@@ -285,7 +261,7 @@
                     </tr>
                     <tr>
                         <td>1</td>
-                        <td><input list="Suplist" type='text' name="nameSup" class='form-control' placeholder='Tên vật ưu' /></td>
+                        <td><input list="supDK" type='text' name="nameSup" class='form-control' placeholder='Tên vật ưu' /></td>
                         <td><input type="number" name="quantity" class="form-control" placeholder="Số lượng" /></td>
                         <td><button type="button" class="btnSelect3 btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
                     </tr>
@@ -307,6 +283,14 @@
         </div>
     </div>
 }
+<datalist id="supDK">
+    @{ 
+        foreach(var item in ViewBag.listsupdk)
+        {
+        <option value="@item.equipmentId">@item.equipment_name</option>
+        }
+    }
+</datalist>
 @using (Html.BeginForm("Atri", "Hoatdong", FormMethod.Post, new
 {
     id = "myForm",
@@ -425,7 +409,7 @@
         var cell3 = row.insertCell(2);
         var cell4 = row.insertCell(3);
         cell1.innerHTML = "" + count3 + "";
-        cell2.innerHTML = "<input list='Suplist' type='text' name='nameSup' class='form-control' placeholder='Tên vật ưu' />";
+        cell2.innerHTML = "<input list='supDK' type='text' name='nameSup' class='form-control' placeholder='Tên vật ưu' />";
         cell3.innerHTML = "<input type='number' name='quantity' class='form-control' placeholder='Số lượng' />";
         cell4.innerHTML = "<button type='button' class='btnSelect3 btn blue btn-small left'><i class='large material-icons'>remove</i></button>";
         count3++;

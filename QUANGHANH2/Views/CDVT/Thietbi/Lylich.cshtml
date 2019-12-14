@@ -109,16 +109,15 @@
                                         <td>@ViewBag.equipment.depreciation_estimate</td>
                                     </tr>
                                     <tr>
-                                        <td>Thời hạn bảo hiểm(tháng)</td>
-                                        <td>@ViewBag.equipment.durationOfInsurance.ToString("dd/MM/yyyy")</td>
-                                    </tr>
-                                    <tr>
                                         <td>Ngày đưa vào sử dụng</td>
                                         <td>@ViewBag.equipment.usedDay.ToString("dd/MM/yyyy")</td>
                                     </tr>
                                     <tr>
-                                        <td>Ngày bảo dưỡng gần nhất</td>
+                                        <td>Ngày bảo dưỡng tiếp theo</td>
                                         <td>@ViewBag.equipment.durationOfMaintainance.ToString("dd/MM/yyyy")</td>
+                                    </tr>
+                                        <td>Ngày kiểm định tiếp theo</td>
+                                        <td>@ViewBag.equipment.durationOfInspection.ToString("dd/MM/yyyy")</td>
                                     </tr>
                                     <tr>
                                         <td>Tổng giờ hoạt động</td>
@@ -137,8 +136,12 @@
                                         <td>@ViewBag.equipment.quality_type</td>
                                     </tr>
                                     <tr>
-                                        <td>Đường nhập</td>
-                                        <td>@ViewBag.equipment.input_channel</td>
+                                        <td>Khấu hao ước tính</td>
+                                        <td>@ViewBag.equipment.depreciation_estimate</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Khấu hao hiện tại</td>
+                                        <td>@ViewBag.equipment.depreciation_present</td>
                                     </tr>
 
                                 </table>
