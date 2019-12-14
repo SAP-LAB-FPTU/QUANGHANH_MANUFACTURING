@@ -1,6 +1,7 @@
 ﻿using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,6 +16,7 @@ namespace QUANGHANH2.Controllers.DK.Criteria
             return View("/Views/DK/Criteria/GroupCriteria.cshtml");
         }
 
+        /////////////////////////////////////////GET DATA TO DATATABLE////////////////////////////////////////
         [Route("phong-dieu-khien/quan-ly-nhom-tieu-chi/lay-du-lieu")]
         [HttpGet]
         public ActionResult getData()
@@ -45,6 +47,7 @@ namespace QUANGHANH2.Controllers.DK.Criteria
             return null;
         }
 
+        ///////////////////////////////////////////////////ADD//////////////////////////////////////////////////////
         [Route("phong-dieu-khien/quan-ly-nhom-tieu-chi/them-nhom-tieu-chi")]
         [HttpPost]
         public ActionResult Add()
@@ -73,6 +76,80 @@ namespace QUANGHANH2.Controllers.DK.Criteria
             {
                 return Json(new { success = false, title = "Có lỗi", message = "Có lỗi xảy ra" });
             }
+        }
+
+
+        //////////////////////////////////////UPDATE//////////////////////////////////////
+        //GET DATA BY MaNhomTieuChi
+        [Route("phong-dieu-khien/quan-ly-nhom-tieu-chi/lay-nhomtieuchi-bang-manhomtieuchi")]
+        [HttpPost]
+        public ActionResult getDataByMaNhomCongViec()
+        {
+            try
+            {
+                var manhomtieuchi = Convert.ToInt32(Request["manhomtieuchi"]);
+                var sqlGet = @"select * from NhomTieuChi where MaNhomTieuChi = @manhomtieuchi";
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    var exSql = db.Database.SqlQuery<NhomTieuChi>(sqlGet, new SqlParameter("manhomtieuchi", manhomtieuchi)).FirstOrDefault();
+                    return Json(new { success = true, tennhomtieuchi = exSql.TenNhomTieuChi });
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            return null;
+        }
+
+        /////////////////UPDATE//////////////////
+        [Route("phong-dieu-khien/quan-ly-nhom-tieu-chi/cap-nhat-nhomtieuchi")]
+        [HttpPost]
+        public ActionResult update()
+        {
+            try
+            {
+                var manhomtieuchi = Convert.ToInt32(Request["manhomtieuchi"]);
+                var tennhomtieuchi = Request["tennhomtieuchi"];
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    var nhomtieuchi = db.NhomTieuChis.Find(manhomtieuchi);
+                    if (nhomtieuchi != null)
+                    {
+                        nhomtieuchi.TenNhomTieuChi = tennhomtieuchi;
+                        db.SaveChanges();
+                        return Json(new { success = true, title = "Thành công", message = "Cập nhật nhóm tiêu chí thành công" });
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            return null;
+        }
+
+        //////////////////DELETE////////////////////
+        [Route("phong-dieu-khien/quan-ly-nhom-tieu-chi/xoa-nhomtieuchi")]
+        [HttpPost]
+        public ActionResult delete()
+        {
+            try
+            {
+                var manhomtieuchi = Convert.ToInt32(Request["manhomtieuchi"]);
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    var sqlDelete = @"delete NhomTieuChi where MaNhomTieuChi = @manhomtieuchi";
+                    var exDelete = db.Database.ExecuteSqlCommand(sqlDelete, new SqlParameter("manhomtieuchi", manhomtieuchi));
+                    db.SaveChanges();
+                    return Json(new { success = true, title = "Thành công", message = "Xóa nhóm tiêu chí thành công" });
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            return null;
         }
     }
 }
