@@ -201,13 +201,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             Documentary_repair_details documentary_Repair_Details = db.Database.SqlQuery<Documentary_repair_details>("SELECT * FROM Documentary_repair_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
-                            equipment.current_Status = 2;
+                            equipment.current_Status = 1;
                             break;
                         case 2:
                             Documentary_maintain_details Documentary_maintain_details = db.Database.SqlQuery<Documentary_maintain_details>("SELECT * FROM Documentary_maintain_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
-                            equipment.current_Status = 2;
+                            equipment.current_Status = 1;
                             break;
                         case 3:
                             Documentary_moveline_details documentary_Moveline_Details = db.Database.SqlQuery<Documentary_moveline_details>("SELECT * FROM Documentary_moveline_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",

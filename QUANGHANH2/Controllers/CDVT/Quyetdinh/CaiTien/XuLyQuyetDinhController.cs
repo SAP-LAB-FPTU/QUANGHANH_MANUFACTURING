@@ -22,9 +22,15 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             {
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
                 string departid = Session["departID"].ToString();
-                Documentary documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_Improve_Detail as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id AND docu.department_id_to_to = @departid",
+                Documentary documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_Improve_Detail as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id AND docu.department_id_to = @departid",
                     new SqlParameter("documentary_id", id), new SqlParameter("departid", departid)).First();
                 List<Supply> supplies = DBContext.Supplies.ToList();
+                List<Equipment> equipAttached = DBContext.Equipments.Where(x => x.isAttach == true).ToList().Select(x => new Equipment
+                {
+                    equipmentId = x.equipmentId,
+                    equipment_name = x.equipment_name
+                }).ToList();
+                ViewBag.equipAttached = equipAttached;
                 ViewBag.Supplies = supplies;
                 if (documentary.documentary_status == 1) ViewBag.AddAble = true;
                 else ViewBag.AddAble = false;
