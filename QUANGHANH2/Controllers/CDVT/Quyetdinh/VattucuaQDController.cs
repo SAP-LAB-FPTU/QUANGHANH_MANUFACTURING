@@ -126,10 +126,12 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
                     JArray arr = (JArray)json.SelectToken("list");  //list của thiết bị con đi kèm và vật tư dự phòng
                     foreach (JObject item in arr)
                     {
+                        bool IsSupply = true;
                         string supply_id = (string)item["supply_id"];
                         Supply_Documentary_Equipment temp;
                         if (DBContext.Supplies.Find(supply_id) == null)
                         {
+                            IsSupply = false;
                             temp = DBContext.Supply_Documentary_Equipment.Where(a => a.documentary_id == documentary_id && a.equipmentId == equipmentId && a.equipmentId_dikem == supply_id).FirstOrDefault();
                         }
                         else
@@ -143,10 +145,13 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
                             temp.equipmentId = equipmentId;
                             temp.quantity_in = (int)item["quantity_in"];
                             temp.quantity_out = (int)item["quantity_out"];
-                            temp.quantity_plan = (int)item["quantity_plan"];
+                            temp.quantity_plan = item["quantity_plan"] == null ? 0 : (int)item["quantity_plan"];
                             temp.quantity_used = (int)item["quantity_used"];
                             temp.supplyStatus = (string)item["supplyStatus"];
-                            temp.supply_id = (string)item["supply_id"];
+                            if (IsSupply)
+                                temp.supply_id = supply_id;
+                            else
+                                temp.equipmentId_dikem = supply_id;
                             DBContext.Supply_Documentary_Equipment.Add(temp);
                         }
                         else
