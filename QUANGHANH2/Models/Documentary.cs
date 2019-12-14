@@ -29,6 +29,7 @@ namespace QUANGHANH2.Models
             this.Documentary_revoke_details = new HashSet<Documentary_revoke_details>();
             this.Supply_Documentary_Camera = new HashSet<Supply_Documentary_Camera>();
             this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
+            this.NhanViens = new HashSet<NhanVien>();
         }
     
         public int documentary_id { get; set; }
@@ -66,5 +67,7 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Supply_Documentary_Camera> Supply_Documentary_Camera { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<NhanVien> NhanViens { get; set; }
     }
 }

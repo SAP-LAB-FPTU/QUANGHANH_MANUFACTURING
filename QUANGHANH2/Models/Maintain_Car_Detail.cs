@@ -17,8 +17,8 @@ namespace QUANGHANH2.Models
         public int maintaindetailid { get; set; }
         public int maintainid { get; set; }
         public string supplyid { get; set; }
-        public int quantity { get; set; }
-        public int supplyStatus { get; set; }
+        public int used { get; set; }
+        public int thuhoi { get; set; }
     
         public virtual Maintain_Car Maintain_Car { get; set; }
         public virtual Supply Supply { get; set; }

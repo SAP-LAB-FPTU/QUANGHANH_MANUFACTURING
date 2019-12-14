@@ -231,7 +231,7 @@ namespace QUANGHANH2.Controllers
         public JsonResult AddNewUser(string Name, string Username, string Position, string Password, string RepeatPassword, string NVID,
                 int module1, int module2, int module3, int module4, int module5, int module6, int module7,
                 int module8, int module9, int module10, int module11, int module12, int module13, int module14,
-                int module15, int module16,int module17, int module19, string rights)
+                int module15, int module16, int module17, int module18, int module19, string rights)
         {
             if (db.Accounts.Where(x => x.Username == Username).Count() > 0)
             {
@@ -263,23 +263,27 @@ namespace QUANGHANH2.Controllers
             }
             else
             {
-                InvalidFields += "Mã nhân viên -";
+                InvalidFields += " Mã nhân viên -";
             }
             if (String.IsNullOrEmpty(Name))
             {
-                InvalidFields += "Họ Tên -";
+                InvalidFields += " Họ Tên -";
             }
             if (String.IsNullOrEmpty(Username))
             {
-                InvalidFields += "Tên đăng nhập -";
+                InvalidFields += " Tên đăng nhập -";
             }
             if (String.IsNullOrEmpty(Position))
             {
-                InvalidFields += "Chức vụ -";
+                InvalidFields += " Chức vụ -";
             }
             if (InvalidFields != "")
             {
-                InvalidFields += " không thể để trống !!!";
+                return Json(new Result()
+                {
+                    CodeError = 1,
+                    Data = InvalidFields.Substring(0,InvalidFields.Length) + " không được để trống !!!"
+                }, JsonRequestBehavior.AllowGet);
             }
             if (String.IsNullOrEmpty(Password) || String.IsNullOrEmpty(RepeatPassword))
             {
@@ -293,7 +297,11 @@ namespace QUANGHANH2.Controllers
             {
                 if (Password != RepeatPassword)
                 {
-                    InvalidFields += "<br />Mật khẩu không khớp !!!";
+                    return Json(new Result()
+                    {
+                        CodeError = 1,
+                        Data = "Mật khẩu nhập lại không khớp !!!"
+                    }, JsonRequestBehavior.AllowGet);
                 }
             }
             if (InvalidFields != "")
@@ -333,8 +341,9 @@ namespace QUANGHANH2.Controllers
                             PXTGQLM = Convert.ToBoolean(module14),
                             PXXD = Convert.ToBoolean(module15),
                             PXLT = Convert.ToBoolean(module16),
-                            AT = Convert.ToBoolean(module19),
-                            KCM = false,
+                            AT = Convert.ToBoolean(module17),
+                            PXCKSC = Convert.ToBoolean(module19),
+                            KCM = Convert.ToBoolean(module18),
                         };
                         db.Accounts.Add(a);
                         db.SaveChanges();
@@ -369,6 +378,7 @@ namespace QUANGHANH2.Controllers
                         addModule(module15, acc.ID, 15);
                         addModule(module16, acc.ID, 16);
                         addModule(module17, acc.ID, 17);
+                        addModule(module18, acc.ID, 18);
                         addModule(module19, acc.ID, 19);
                         if (module7 == 1)
                         {
@@ -396,6 +406,7 @@ namespace QUANGHANH2.Controllers
                             user.PXLT = false;
                             user.AT = false;
                             user.KCM = false;
+                            user.PXCKSC = false;
                             db.Entry(user).State = EntityState.Modified;
                             db.SaveChanges();
                         }
@@ -457,7 +468,7 @@ namespace QUANGHANH2.Controllers
         public JsonResult UpdateUser(int ID, string Name, string Username, string Position, string Password, string RepeatPassword, string NVID,
                 int module1, int module2, int module3, int module4, int module5, int module6, int module7,
                 int module8, int module9, int module10, int module11, int module12, int module13, int module14,
-                int module15, int module16,int module17, int module19, string rights)
+                int module15, int module16, int module17, int module18, int module19, string rights)
         {
             if (db.Accounts.Where(x => x.Username == Username).Where(y => y.ID != ID).Count() > 0)
             {
@@ -495,138 +506,142 @@ namespace QUANGHANH2.Controllers
             string InvalidFields = "";
             if (String.IsNullOrEmpty(Name))
             {
-                InvalidFields += "Họ Tên-";
+                InvalidFields += "Họ Tên -";
             }
             if (String.IsNullOrEmpty(Username))
             {
-                InvalidFields += "Tên đăng nhập-";
+                InvalidFields += " Tên đăng nhập -";
             }
             if (String.IsNullOrEmpty(Position))
             {
-                InvalidFields += "Chức vụ-";
-            }
-            if (Password != RepeatPassword)
-            {
-                InvalidFields += "<br />Mật khảu không khớp !!!";
+                InvalidFields += " Chức vụ -";
             }
             if (InvalidFields != "")
             {
                 return Json(new Result()
                 {
                     CodeError = 1,
-                    Data = InvalidFields
+                    Data = InvalidFields.Substring(0, InvalidFields.Length) + " không thể để trống!"
                 }, JsonRequestBehavior.AllowGet);
             }
-            else
+            if (Password != RepeatPassword)
             {
-                var user = db.Accounts.SingleOrDefault(x => x.ID == ID);
-                try
-                {
-                    var rightsSplit = rights.Split(',');
-                    var rightRemove = db.Account_Right_Detail.Where(x => x.AccountID == ID).ToList();
-                    foreach (var r in rightRemove)
-                    {
-                        db.Account_Right_Detail.Remove(r);
-                    }
-                    db.SaveChanges();
-                    foreach (var r in rightsSplit)
-                    {
-                        if (!String.IsNullOrEmpty(r))
-                        {
-                            Account_Right_Detail rd = new Account_Right_Detail()
-                            {
-                                AccountID = ID,
-                                RightID = int.Parse(r)
-                            };
-                            db.Account_Right_Detail.Add(rd);
-                        }
-                    }
-                    db.SaveChanges();
-                    updateModule(module1, ID, user.CDVT, 1);
-                    updateModule(module2, ID, user.TCLD, 2);
-                    updateModule(module3, ID, user.KCS, 3);
-                    updateModule(module4, ID, user.DK, 4);
-                    updateModule(module5, ID, user.BGD, 5);
-                    updateModule(module6, ID, user.PXKT, 6);
-                    updateModule(module8, ID, user.PXDL, 8);
-                    updateModule(module9, ID, user.PXVT, 9);
-                    updateModule(module10, ID, user.PXST, 10);
-                    updateModule(module11, ID, user.PXPV, 11);
-                    updateModule(module12, ID, user.PXDS, 12);
-                    updateModule(module13, ID, user.PXCDM, 13);
-                    updateModule(module14, ID, user.PXTGQLM, 14);
-                    updateModule(module15, ID, user.PXXD, 15);
-                    updateModule(module16, ID, user.PXLT, 16);
-                    updateModule(module19, ID, user.AT, 19);
-                    if (Convert.ToBoolean(module7).Equals(user.ADMIN))
-                    { }
-                    else
-                    {
-                        var listRight = db.Account_Right.ToList();
-                        var rightRemoveup = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + ID + "'").ToList<Account_Right_Detail>();
-                        foreach (var r in rightRemoveup)
-                        {
-                            var del = db.Account_Right_Detail.Where(a => a.ID == r.ID).SingleOrDefault();
-                            db.Account_Right_Detail.Remove(del);
-                        }
-                        if (module7 == 0)
-                        {
-                            module1 = 0; module2 = 0; module3 = 0; module4 = 0; module5 = 0; module6 = 0; module7 = 0;
-                            module8 = 0; module9 = 0; module10 = 0; module11 = 0; module12 = 0; module13 = 0; module14 = 0;
-                            module15 = 0; module16 = 0; module19 = 0;
-                        }
-                        else
-                        {
-                            module7 = 1;
-                            db.SaveChanges();
-                        }
-                    }
-                    user.Name = Name;
-                    user.Username = Username;
-                    if (String.IsNullOrEmpty(Password))
-                    { }
-                    else
-                    {
-                        string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(Password, "pl");
-                        user.Password = passXc;
-                    }
-                    user.Position = Position;
-                    user.NVID = NVID;
-                    user.CDVT = Convert.ToBoolean(module1);
-                    user.TCLD = Convert.ToBoolean(module2);
-                    user.KCS = Convert.ToBoolean(module3);
-                    user.DK = Convert.ToBoolean(module4);
-                    user.BGD = Convert.ToBoolean(module5);
-                    user.PXKT = Convert.ToBoolean(module6);
-                    user.ADMIN = Convert.ToBoolean(module7);
-                    user.PXDL = Convert.ToBoolean(module8);
-                    user.PXVT = Convert.ToBoolean(module9);
-                    user.PXST = Convert.ToBoolean(module10);
-                    user.PXPV = Convert.ToBoolean(module11);
-                    user.PXDS = Convert.ToBoolean(module12);
-                    user.PXCDM = Convert.ToBoolean(module13);
-                    user.PXTGQLM = Convert.ToBoolean(module14);
-                    user.PXXD = Convert.ToBoolean(module15);
-                    user.PXLT = Convert.ToBoolean(module16);
-                    user.AT = Convert.ToBoolean(module17);
-                    user.KCM = false;
-                    db.Entry(user).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-                catch (Exception)
-                {
-                    return Json(new Result()
-                    {
-                        CodeError = 2,
-                        Data = "Có lỗi vui lòng kiểm tra lại!"
-                    }, JsonRequestBehavior.AllowGet);
-                }
                 return Json(new Result()
                 {
-                    CodeError = 0,
-                    Data = "Tài khoản <strong style='color:black;'>" + Username + " </strong> đã được cập nhật thành công cho <strong style='color:black;'>" + Name + "</strong>"
+                    CodeError = 1,
+                    Data = "Mật khẩu không khớp!"
                 }, JsonRequestBehavior.AllowGet);
             }
+            var user = db.Accounts.SingleOrDefault(x => x.ID == ID);
+            try
+            {
+                var rightsSplit = rights.Split(',');
+                var rightRemove = db.Account_Right_Detail.Where(x => x.AccountID == ID).ToList();
+                foreach (var r in rightRemove)
+                {
+                    db.Account_Right_Detail.Remove(r);
+                }
+                db.SaveChanges();
+                foreach (var r in rightsSplit)
+                {
+                    if (!String.IsNullOrEmpty(r))
+                    {
+                        Account_Right_Detail rd = new Account_Right_Detail()
+                        {
+                            AccountID = ID,
+                            RightID = int.Parse(r)
+                        };
+                        db.Account_Right_Detail.Add(rd);
+                    }
+                }
+                db.SaveChanges();
+                updateModule(module1, ID, user.CDVT, 1);
+                updateModule(module2, ID, user.TCLD, 2);
+                updateModule(module3, ID, user.KCS, 3);
+                updateModule(module4, ID, user.DK, 4);
+                updateModule(module5, ID, user.BGD, 5);
+                updateModule(module6, ID, user.PXKT, 6);
+                updateModule(module8, ID, user.PXDL, 8);
+                updateModule(module9, ID, user.PXVT, 9);
+                updateModule(module10, ID, user.PXST, 10);
+                updateModule(module11, ID, user.PXPV, 11);
+                updateModule(module12, ID, user.PXDS, 12);
+                updateModule(module13, ID, user.PXCDM, 13);
+                updateModule(module14, ID, user.PXTGQLM, 14);
+                updateModule(module15, ID, user.PXXD, 15);
+                updateModule(module16, ID, user.PXLT, 16);
+                updateModule(module17, ID, user.AT, 17);
+                updateModule(module18, ID, user.KCM, 18);
+                updateModule(module19, ID, Convert.ToBoolean(user.PXCKSC), 19);
+                if (Convert.ToBoolean(module7).Equals(user.ADMIN))
+                { }
+                else
+                {
+                    var listRight = db.Account_Right.ToList();
+                    var rightRemoveup = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + ID + "'").ToList<Account_Right_Detail>();
+                    foreach (var r in rightRemoveup)
+                    {
+                        var del = db.Account_Right_Detail.Where(a => a.ID == r.ID).SingleOrDefault();
+                        db.Account_Right_Detail.Remove(del);
+                    }
+                    if (module7 == 0)
+                    {
+                        module1 = 0; module2 = 0; module3 = 0; module4 = 0; module5 = 0; module6 = 0; module7 = 0;
+                        module8 = 0; module9 = 0; module10 = 0; module11 = 0; module12 = 0; module13 = 0; module14 = 0;
+                        module15 = 0; module16 = 0; module17 = 0; module18 = 0; module19 = 0;
+                    }
+                    else
+                    {
+                        module7 = 1;
+                        db.SaveChanges();
+                    }
+                }
+                user.Name = Name;
+                user.Username = Username;
+                if (String.IsNullOrEmpty(Password))
+                { }
+                else
+                {
+                    string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(Password, "pl");
+                    user.Password = passXc;
+                }
+                user.Position = Position;
+                user.NVID = NVID;
+                user.CDVT = Convert.ToBoolean(module1);
+                user.TCLD = Convert.ToBoolean(module2);
+                user.KCS = Convert.ToBoolean(module3);
+                user.DK = Convert.ToBoolean(module4);
+                user.BGD = Convert.ToBoolean(module5);
+                user.PXKT = Convert.ToBoolean(module6);
+                user.ADMIN = Convert.ToBoolean(module7);
+                user.PXDL = Convert.ToBoolean(module8);
+                user.PXVT = Convert.ToBoolean(module9);
+                user.PXST = Convert.ToBoolean(module10);
+                user.PXPV = Convert.ToBoolean(module11);
+                user.PXDS = Convert.ToBoolean(module12);
+                user.PXCDM = Convert.ToBoolean(module13);
+                user.PXTGQLM = Convert.ToBoolean(module14);
+                user.PXXD = Convert.ToBoolean(module15);
+                user.PXLT = Convert.ToBoolean(module16);
+                user.AT = Convert.ToBoolean(module17);
+                user.PXCKSC = Convert.ToBoolean(module19);
+                user.KCM = Convert.ToBoolean(module18);
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return Json(new Result()
+                {
+                    CodeError = 2,
+                    Data = "Có lỗi vui lòng kiểm tra lại!"
+                }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new Result()
+            {
+                CodeError = 0,
+                Data = "Tài khoản <strong style='color:black;'>" + Username + " </strong> đã được cập nhật thành công cho <strong style='color:black;'>" + Name + "</strong>"
+            }, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public JsonResult DeleteUser(string strUIDs)
@@ -696,7 +711,7 @@ namespace QUANGHANH2.Controllers
                 {
                     List<Account_Rights> list = db.Database.SqlQuery<Account_Rights>(sql
                         , new SqlParameter("rights", '%' + rights + '%')
-                        , new SqlParameter("module",  module )
+                        , new SqlParameter("module", module)
                         ).ToList();
 
                     int totalrows = list.Count;
