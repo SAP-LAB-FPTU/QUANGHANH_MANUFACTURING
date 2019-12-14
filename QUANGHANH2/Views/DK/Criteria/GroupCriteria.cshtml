@@ -29,14 +29,14 @@
 <!------------Modal themNhomCongViec------------->
 <div class="modal" id="modal_themNhomTieuChi">
     <div class="modal-content">
-        <h4 lclass="center"><b>Thêm nhóm tiêu chí</b></h4>
+        <h4 class="center"><b>Thêm nhóm tiêu chí</b></h4>
         <div class="row">
-            <div class="col s12 m4 l4"></div>
-            <div class="col s12 m4 l4">
+            <div class="col s12 m4 l3"></div>
+            <div class="col s12 m4 l6">
                 <label>Tên nhóm tiêu chí</label>
                 <input type="text" class="form-control" id="tenNhomTieuChi_them" />
             </div>
-            <div class="col s12 m4 l4"></div>
+            <div class="col s12 m4 l3"></div>
         </div>
     </div>
     <div class="modal-footer">
@@ -44,3 +44,126 @@
         <button id="dongThemNhomNhomTieuChi" class="btn red darken-2 btn-small modal-close">Đóng</button>
     </div>
 </div>
+<!------------Modal suaNhomCongViec----------->
+<div class="modal" id="modal_suaNhomTieuChi">
+    <div class="modal-content">
+        <h4 lclass="center"><b>Sửa nhóm tiêu chí</b></h4>
+        <div class="row">
+            <div class="col s12 m4 l4"></div>
+            <div class="col s12 m4 l4">
+                <label>Tên nhóm tiêu chí</label>
+                <input type="text" class="form-control" id="tenNhomTieuChi_sua" />
+            </div>
+            <div class="col s12 m4 l4"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="xacNhanSuaNhomTieuChi" class="btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="dongSuaNhomNhomTieuChi" class="btn red darken-2 btn-small modal-close">Đóng</button>
+    </div>
+</div>
+<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<!-----------------------------GET DATA NHOMTIEUCHI---------------------------->
+<script>
+    var table;
+    $(document).ready(function () {
+        $("#pre-load").show();
+        table = $("#nhomtieuchi").DataTable({
+            "ajax": {
+                "url": "/phong-dieu-khien/quan-ly-nhom-tieu-chi/lay-du-lieu",
+                "type": "GET",
+                "datatype": "json",
+                "dataSrc": function (json) {
+                    return json["listData"]
+                }
+            },
+            "columns": [
+                { "name": "TenNhomTieuChi", "data": "TenNhomTieuChi" },
+                {
+                    "name": "", "data": "", "render": function (data, type, row) {
+                        return "<a id=\"suaNhomTieuChi\" name=\"" + row["MaNhomTieuChi"] + "\" class=\"btn btn-small blue darken-2 modal-trigger\" href=\"#modal_suaNhomTieuChi\" >Sửa</a>"
+                    },
+                    "orderable": false,
+                    "searchable": false
+                },
+                {
+                    "name": "", "data": "", "render": function (data, type, row) {
+                        return "<a id=\"suaNhomTieuChi\" name=\"" + row["MaNhomTieuChi"] + "\" class=\"btn btn-small red darken-2 modal-trigger\">Xóa</a>"
+                    },
+                    "orderable": false,
+                    "searchable": false
+                }
+            ],
+            "serverSide": "true",
+            "order": [0, "desc"],
+            "searching": false,
+            "lengthChange": false,
+            "autoWidth": false,
+            "filter": true,
+            "info": false,
+            "language": {
+                emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                paginate:
+                {
+                    previous: "Trang trước",
+                    next: "Trang sau",
+                    first: "|<",
+                    last: ">|"
+                }
+            },
+            "initComplete": function (settings, json) {
+                $("#pre-load").hide();
+            }
+        });
+
+    });
+</script>
+
+
+<!---------------------------------------------------ADD NHOMCONGIVEC----------------------------------------------------->
+<script>
+    $(document).ready(function () {
+        $("#xacNhanThemNhomTieuChi").click(function () {
+            $.ajax({
+                url: "/phong-dieu-khien/quan-ly-nhom-tieu-chi/them-nhom-tieu-chi",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "TenNhomTieuChi": function () { return $("#tenNhomTieuChi_them").val() }
+                },
+                success: function (response) {
+                    if (response.success) {
+                        //close the modal
+                        $("#dongThemNhomNhomTieuChi").click();
+                        //clear input in modal
+                        $("#tenNhomTieuChi_them").val("");
+                        //alert add successfully
+                        successAlert(response.title, response.message);
+                        //reload table
+                        table.ajax.reload();
+                        //hide the pre-load
+                        $("#pre-load").hide();
+                    } else {
+                        //alert add fail
+                        errorAlert(response.title, response.message);
+                        $("#pre-load").hide();
+                    }
+                },
+                error: function (response) {
+
+                }
+            })
+        });
+    });
+</script>
+
+<!---------------------------------------------------EDIT NHOMCONGVIEC------------------------------------------------------>
+<!-------GET DATA BY MANHOMCONGVIEC TO AUTO INPUT TO MODAL suaNhomCongViec------->
+<script>
+    $(document).ready(function () {
+        $("#suaNhomTieuChi").on("click", function () {
+
+        });
+    });
+</script>
