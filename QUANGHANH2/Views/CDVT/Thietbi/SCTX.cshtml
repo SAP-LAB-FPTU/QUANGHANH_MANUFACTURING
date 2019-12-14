@@ -110,22 +110,19 @@
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="id"> Mã thiết bị : </label>
-                            <input type="text" class="form-control" readonly id="equipmentID-add"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="id">Vị trí sửa chữa : </label>
-                            <input type="text" class="form-control" id="departmentId-add" list="departmentID" />
-                        </div>
-                    </div>
-                    <div class="col s12 m6">
-                        <div class="form-group">
-                            <label for="id">Tên thiết bị : </label>
-                            <input type="text" class="form-control" id="equipmentName" list="eqName" />
+                            <input type="text" class="form-control" list="getEqName" onchange="getEquipmentnameAdd()" id="equipmentID-add" />
                         </div>
                         <div class="form-group">
                             <label for="id">Nội dung sửa chữa : </label>
                             <input type="text" class="form-control" id="maintain_content-add" />
                         </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="id">Tên thiết bị : </label>
+                            <input type="text" class="form-control"  id="equipmentName" readonly/>
+                        </div>
+                      
                         <div class="form-group">
                             <label for="id">Ngày sửa chữa : </label>
                             <input type="text" class=" datepicker-here form-control" id="date-add" />
@@ -181,23 +178,20 @@
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="date">Mã thiết bị : </label>
-                            <input type="text" class="form-control" id="equipmentedit" readonly/>
+                            <input type="text" class="form-control" id="equipmentedit" list="getEqName" onchange="getEquipmentnameEdit()" />
                             <input type="hidden" class="form-control" id="maintainid" />
-                        </div>
-                        <div class="form-group">
-                            <label for="id">Phân xưởng : </label>
-                            <input type="text" class="form-control" id="departmentedit" list="departmentID" />
-                        </div>
-                    </div>
-                    <div class="col s12 m6">
-                        <div class="form-group">
-                            <label for="id">Tên thiết bị : </label>
-                            <input type="text" class="form-control" id="equipmentname_edit"  list="eqName"/>
                         </div>
                         <div class="form-group">
                             <label for="supplier">Nội dung sửa chữa: </label>
                             <input type="text" class="form-control" id="maintain_contend_edit" />
                         </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="id">Tên thiết bị : </label>
+                            <input type="text" class="form-control" id="equipmentname_edit"  readonly />
+                        </div>
+                      
                         <div class="form-group">
                             <label for="supplier">Date: </label>
                             <input type="text" class="datepicker-here form-control maxDate" id="date_edit" />
@@ -273,17 +267,11 @@
     </div>
 </div>
 
-<datalist id="eqID-search">
-    @foreach (var item in ViewBag.listEQ)
-    {
-        <option value="@item.equipmentId"></option>
-    }
-</datalist>
 
-<datalist id="eqName-search">
+<datalist id="getEqName">
     @foreach (var item in ViewBag.listEQ)
     {
-        <option value="@item.equipment_name"></option>
+        <option value="@item.equipmentId">@item.equipment_name</option>
     }
 </datalist>
 
@@ -294,12 +282,7 @@
     }
 </datalist>
 
-<datalist id="departmentID">
-    @foreach (var item in ViewBag.listDepartment)
-    {
-        <option value="@item.department_name"></option>
-    }
-</datalist>
+
 
 <datalist id="supplyID">
     @foreach (var item in ViewBag.listSupply)
@@ -591,7 +574,7 @@
                 maintain: maintain,
                 date: document.getElementById("date-add").value,
                 equipmentId: document.getElementById("equipmentID-add").value,
-                department_name: document.getElementById("departmentId-add").value,
+             
                 maintain_content: document.getElementById("maintain_content-add").value
 
             };
@@ -623,7 +606,7 @@
 
                     document.getElementById("date-add").value = '';
                     document.getElementById("equipmentID-add").value = '';
-                    document.getElementById("departmentId-add").value = '';
+                  
                     document.getElementById("maintain_content-add").value = '';
                     document.getElementById("equipmentName").value = '';
 
@@ -695,7 +678,7 @@
                 dataType: "json",
                 success: function (data) {
                     $("#equipmentedit").val(data.equipmentId);
-                    $('#departmentedit').val(data.department_name);
+                   
                     $('#equipmentname_edit').val(data.equipment_name);
                     $('#maintain_contend_edit').val(data.maintain_content);
                     $('#date_edit').val(data.stringDate);
@@ -727,7 +710,7 @@
                 data: {
                     date: $('#date_edit').val(),
                     equipmentId: $('#equipmentedit').val(),
-                    department_name: $('#departmentedit').val(),
+                   
                     maintain_content: $('#maintain_contend_edit').val(),
                     maintainid: Number($('#maintainid').val())
                 },
@@ -817,7 +800,7 @@
         //get equipment name to edit
         //error :
         function getEquipmentnameEdit() {
-            var id = document.getElementById("equipmentname_edit").value;
+            var id = document.getElementById("equipmentedit").value;
             var em = { id: id };
             $.ajax({
                 url: "/phong-cdvt/thiet-bi/sctx/returnEquipmentName",
@@ -826,7 +809,7 @@
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    document.getElementById("equipmentedit").value = data;
+                    document.getElementById("equipmentname_edit").value = data;
                 },
                 error: function () {
                     //alert("fail");
@@ -837,7 +820,7 @@
         //get equipment name to add
         //error :
         function getEquipmentnameAdd() {
-            var id = document.getElementById("equipmentName").value;
+            var id = document.getElementById("equipmentID-add").value;
             var em = { id: id };
             $.ajax({
                 url: "/phong-cdvt/thiet-bi/sctx/returnEquipmentName",
@@ -846,7 +829,7 @@
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    document.getElementById("equipmentID-add").value = data;
+                    document.getElementById("equipmentName").value = data;
                 },
                 error: function () {
                     //alert("fail");

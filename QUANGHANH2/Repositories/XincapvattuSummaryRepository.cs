@@ -28,7 +28,7 @@ namespace QUANGHANH2.Repositories
                 try
                 {
                     string bulk_insert = string.Empty;
-                    DateTime today = DateTime.Today;
+                   // DateTime today = DateTime.Today;
                     foreach (XincapvattuSummaryModelView vattu in vattus)
                     {
                         string sub_insert = $"  if exists (select * from Supply_DuPhong  where supply_id='{vattu.SupplyId}' and equipmentId='{vattu.Equipmentid}') " +
@@ -41,7 +41,7 @@ namespace QUANGHANH2.Repositories
                                            "begin " +
                                            $"insert into Supply_DuPhong(supply_id, equipmentId, quantity) VALUES('{vattu.SupplyId}', '{vattu.Equipmentid}', {vattu.SupplyQuantity}) " +
                                           "end ;" +
-                                          $" update Supplyplan set quantity={vattu.SupplyQuantity}, date='{today}' where id={vattu.Id} ;";
+                                          $" update Supplyplan set quantity={vattu.SupplyQuantity}, date=getdate() where id={vattu.Id} ;";
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
 
                     }
