@@ -141,8 +141,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         [HttpGet]
         public ActionResult AddQDQT(string docID)
         {
+            QUANGHANHABCEntities dbContext = new QUANGHANHABCEntities();
             var id = Request["documentory_id"];
             string username = Session["Username"].ToString();
+            Account account = new Account();
+            account = dbContext.Accounts.Where(x => x.Username.Equals(username)).FirstOrDefault<Account>();
+            Important_Documentary important_Documentary = new Important_Documentary();
+            important_Documentary.documentary_id = id;
+            important_Documentary.MaNV = account.ID;
+            dbContext.Important_Documentary.Add(important_Documentary);
             return View();
         }
     }

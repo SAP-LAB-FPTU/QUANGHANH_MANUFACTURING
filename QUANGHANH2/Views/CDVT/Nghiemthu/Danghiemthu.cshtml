@@ -374,11 +374,13 @@
 
         //------------------------------------------------------------------------------------//
         function AddQD(idQD) {
+            $('#pre-load').show();
             var id = $(idQD).attr("id");
             $.ajax({
                 url: "/phong-cdvt/da-nghiem-thu/quyet-dinh-quan-trong",
                 type: "get",
                 data: {
+                    $('#pre-load').hide();
                     'documentory_id': id
                 },
                 success: function (response) {
