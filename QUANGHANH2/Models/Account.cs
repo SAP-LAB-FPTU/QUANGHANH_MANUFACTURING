@@ -18,6 +18,7 @@ namespace QUANGHANH2.Models
         public Account()
         {
             this.FileBaoCaos = new HashSet<FileBaoCao>();
+            this.Important_Documentary = new HashSet<Important_Documentary>();
         }
     
         public int ID { get; set; }
@@ -49,5 +50,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FileBaoCao> FileBaoCaos { get; set; }
         public virtual NhanVien NhanVien { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Important_Documentary> Important_Documentary { get; set; }
     }
 }

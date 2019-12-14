@@ -81,6 +81,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<header_KeHoachTungThang> header_KeHoachTungThang { get; set; }
         public virtual DbSet<header_ThucHienTheoNgay> header_ThucHienTheoNgay { get; set; }
         public virtual DbSet<HoSo> HoSoes { get; set; }
+        public virtual DbSet<Important_Documentary> Important_Documentary { get; set; }
         public virtual DbSet<Incident> Incidents { get; set; }
         public virtual DbSet<KeHoach_TieuChi_TheoNam> KeHoach_TieuChi_TheoNam { get; set; }
         public virtual DbSet<KeHoach_TieuChi_TheoNgay> KeHoach_TieuChi_TheoNgay { get; set; }
@@ -109,6 +110,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Supply_DuPhong> Supply_DuPhong { get; set; }
         public virtual DbSet<Supply_tieuhao> Supply_tieuhao { get; set; }
         public virtual DbSet<SupplyPlan> SupplyPlans { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TaiNan> TaiNans { get; set; }
         public virtual DbSet<ThangLuong> ThangLuongs { get; set; }
         public virtual DbSet<ThucHien_TieuChi_TheoNgay> ThucHien_TieuChi_TheoNgay { get; set; }
