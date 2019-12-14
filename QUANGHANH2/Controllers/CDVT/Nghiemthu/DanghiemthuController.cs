@@ -9,6 +9,7 @@ using System.Linq.Dynamic;
 using System.Data.Entity;
 using QUANGHANH2.SupportClass;
 using System.Globalization;
+using System.Data.SqlClient;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 {
@@ -34,17 +35,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             List<Documentary_Extend> docList = new List<Documentary_Extend>();
-
-            //DateTime dstart = DateTime.ParseExact(date_start, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            //DateTime dend = DateTime.ParseExact(date_end, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            //
-            //if (date_start == "") date_start = "01/01/1900";
             DateTime dstart;
             DateTime dend;
-            //if (date_end == "") dend = DateTime.Now;
-            //else dend = DateTime.ParseExact(date_end, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            //dend = dend.AddHours(23);
-            //dend = dend.AddMinutes(59);
             try
             {
                 if (date_start == "Nhập ngày bắt đầu (từ)" || date_start == "") date_start = "01/01/1900";
@@ -63,41 +55,19 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                docList = (from a in db.Acceptances
-
-                           join b in db.Equipments on a.equipmentId equals b.equipmentId
-                           join c in db.Documentaries on a.documentary_id equals c.documentary_id
-                           where (a.equipmentStatus == 3) && (c.documentary_code.Contains(document_code)) && (a.equipmentId.Contains(equimentid) && b.equipment_name.Contains(equimentname) && (a.acceptance_date >= dstart && a.acceptance_date <= dend))
-                           join d in db.DocumentaryTypes on c.documentary_type equals d.documentary_type
-                           select new
-                           {
-                               documentary_id = a.documentary_id,
-                               equipmentId = b.equipmentId,
-                               equipment_name = b.equipment_name,
-                               acceptance_date = a.acceptance_date,
-                               documentary_code = c.documentary_code,
-                               documentary_type = c.documentary_type,
-                               documentary_name = d.documentary_name,
-                               du_phong = d.du_phong,
-                               di_kem = d.di_kem,
-                               can = d.can
-                           }).ToList().Select(p => new Documentary_Extend
-                           {
-                               documentary_id = p.documentary_id,
-                               equipmentId = p.equipmentId,
-                               equipment_name = p.equipment_name,
-                               acceptance_date = p.acceptance_date,
-                               documentary_code = p.documentary_code,
-                               documentary_type = p.documentary_type,
-                               documentary_name = p.documentary_name,
-                               du_phong = p.du_phong,
-                               di_kem = p.di_kem,
-                               can = p.can
-                           }).ToList();
-                foreach (Documentary_Extend item in docList)
-                {
-                    item.temp = item.documentary_id + "^" + item.documentary_code;
-                }
+                string basesql = @"from Documentary d inner join DocumentaryType dt
+on d.documentary_type = dt.documentary_type
+inner join Acceptance a on a.documentary_id = d.documentary_id
+inner join Equipment e on e.equipmentId = a.equipmentId
+where d.documentary_code like @documentary_code and a.equipmentId like @equipmentId
+and e.equipment_name like @equipment_name and a.acceptance_date between @dstart and @dend";
+                docList = db.Database.SqlQuery<Documentary_Extend>(@"select d.date_created, d.person_created, d.documentary_id, a.equipmentId, e.equipment_name, a.acceptance_date, d.documentary_code, d.documentary_type, dt.documentary_name, dt.du_phong, dt.di_kem, dt.can
+" + basesql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY", 
+new SqlParameter("documentary_code", "%" + document_code + "%"),
+new SqlParameter("equipmentId", "%" + equimentid + "%"),
+new SqlParameter("equipment_name", "%" + equimentname + "%"),
+new SqlParameter("dstart", dstart),
+new SqlParameter("dend", dend)).ToList();
                 foreach (Documentary_Extend items in docList)
                 {
                     items.linkIdCode = new LinkIdCode2();
@@ -127,13 +97,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                     items.linkIdCode.doc = items.documentary_id;
                 }
                 //docList = db.Documentaries.ToList<Documentary>();
-                int totalrows = docList.Count;
-                int totalrowsafterfiltering = docList.Count;
-                //sorting
-                docList = docList.OrderBy(sortColumnName + " " + sortDirection).ToList<Documentary_Extend>();
-                //paging
-                docList = docList.Skip(start).Take(length).ToList<Documentary_Extend>();
-                return Json(new { success = true, data = docList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                int totalrows = db.Database.SqlQuery<int>(@"select count(d.documentary_id) " + basesql,
+new SqlParameter("documentary_code", document_code),
+new SqlParameter("equipmentId", equimentid),
+new SqlParameter("equipment_name", equimentname),
+new SqlParameter("dstart", dstart),
+new SqlParameter("dend", dend)).FirstOrDefault();
+                return Json(new { success = true, data = docList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
         }
 
