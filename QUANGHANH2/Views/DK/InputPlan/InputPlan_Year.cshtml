@@ -8,11 +8,11 @@
 
 <div class="card">
     <div class="card-content">
-        @using (Html.BeginForm("Add", "KHSXNam", FormMethod.Post, new
+        @using (Html.BeginForm("Add", "InputPlan_Year", FormMethod.Post, new
         {
             enctype = "multipart/form-data",
             onSubmit = "return SubmitForm(this);",
-            data_restUrl = Url.Action("Add", "KHSXNam")
+            data_restUrl = Url.Action("Add", "InputPlan_Year")
         }
        ))
         {

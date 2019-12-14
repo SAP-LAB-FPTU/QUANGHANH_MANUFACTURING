@@ -35,6 +35,7 @@
                                     <th class="center-align">Loại trung đại tu tiếp theo<span></span></th>
                                     <th class="center-align">Thời gian trung đại tu tiếp theo (giờ)<span></span></th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,7 +77,7 @@
                 </form>
                 <div class="col l12 m12 s12 center">
                     <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
-                    <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận trung đại tu</a>
+                    <a id="submit" class="btn blue darken-2 modal-trigger">Tạo quyết định trung đại tu</a>
                     <a href="quyet-dinh/trung-dai-tu" class="btn blue darken-2 ">Quay lại</a>
                 </div>
             </div>
@@ -108,7 +109,6 @@
                     </table>
                 </form>
             </div>
-            <input type="hidden" id="rownumber" disabled />
         </div>
         <div class="modal-footer">
             <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
@@ -157,6 +157,7 @@
 <script>
     var output = {};
     var equipAttached = 0;
+    var equipId;
 
     $(document).ready(function () {
         $('input[required]').each(function myfunction() {
@@ -180,26 +181,23 @@
     });
     //tạo json cho thiết bị khi nhập submit vật tư
     $("#submitvattu").click(function () {
-        if ($('#mylist #test tr').length > 1) {
-            var thietbi = {};
-            var arr = [];
-            var rownumber = $('#rownumber').val();
-            thietbi.id = $('#' + rownumber + ' td:first-child').text();
-            for (var i = 1; i < $('#test tbody tr').length + 1; i++) {
-                if ($('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val() != "" &&
-                    $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val() >= 1) {
-                    var vattu = {};
-                    vattu.supply_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val();
-                    vattu.quantity = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val();
-                    vattu.supplyStatus = null;
-                    vattu.department_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(2).val();
-                    arr.push(vattu);
-                }
+        var arr = [];
+        for (var i = 1; i < $('#test tbody tr').length + 1; i++) {
+            if ($('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val() != "" &&
+                $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(2).val() != "") {
+                var dikem = {};
+                dikem.supply_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val();
+                dikem.quantity = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val();
+                arr.push(dikem);
             }
-            thietbi.vattu = arr;
-            output[rownumber] = thietbi;
-            $('#json').val(JSON.stringify(output)) //wo1
         }
+        if (equipAttached == 1) {
+            output[equipId].dikem = arr;
+        }
+        else {
+            output[equipId].duphong = arr;
+        }
+        $('#json').val(JSON.stringify(output))
     })
 
     $(document).ready(function () {
@@ -215,7 +213,7 @@
 
     function validateVattu() {
         for (var key in output) {
-            if (output[key].vattu.length == 0)
+            if (output[key].dikem.length == 0 && output[key].duphong.length == 0)
                 return false;
         }
         return true;
@@ -227,13 +225,11 @@
         $(document).on("click", ".open-Modal", function () {
             equipAttached = 1;
             $('#pre-load').show();
-            var id = $(this).data('id');
-            $('#rownumber').val(id);
+            equipId = $(this).data('id');
             $("#test").find("tr:gt(0)").remove();
-            var equipmentId = $('#' + id + ' td:first-child').text();
+            var equipmentId = $('#' + equipId + ' td:first-child').text();
             $('#listId').text("Chi tiết vật tư to của thiết bị " + equipmentId)
-            $('#type').val(1);
-            if (output[id].vattu.length == 0) {
+            if (output[equipId].dikem.length == 0) {
                 $.ajax({
                     type: "POST",
                     url: "/phong-cdvt/thiet-bi/get-attached-equipment",
@@ -258,10 +254,10 @@
                 })
             }
             else {
-                for (var i = 0; i < output[id].vattu.length; i++) {
-                    var item = output[id].vattu[i];
+                for (var i = 0; i < output[equipId].dikem.length; i++) {
+                    var item = output[equipId].dikem[i];
                     var $tr = $('<tr>').append(
-                        $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.equipmentId_dikem + "' /> "),
+                        $('<td>').html("<input type='text' list='equipAttached' class='form-control required' value='" + item.supply_id + "' /> "),
                         $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
                     );
                     $tr.appendTo('#test tbody');
@@ -273,13 +269,11 @@
         $(document).on("click", ".open-Modal-DuPhong", function () {
             equipAttached = 0;
             $('#pre-load').show();
-            var id = $(this).data('id');
-            $('#rownumber').val(id);
+            equipId = $(this).data('id');
             $("#test").find("tr:gt(0)").remove();
-            var equipmentId = $('#' + id + ' td:first-child').text();
+            var equipmentId = $('#' + equipId + ' td:first-child').text();
             $('#listId').text("Danh sách vật tư dự phòng của thiết bị " + equipmentId)
-            $('#type').val(1);
-            if (output[id].duphong.length == 0) {
+            if (output[equipId].duphong.length == 0) {
                 $.ajax({
                     type: "POST",
                     url: "/phong-cdvt/thiet-bi/get-supply2",
@@ -304,8 +298,8 @@
                 })
             }
             else {
-                for (var i = 0; i < output[id].duphong.length; i++) {
-                    var item = output[id].duphong[i];
+                for (var i = 0; i < output[equipId].duphong.length; i++) {
+                    var item = output[equipId].duphong[i];
                     var $tr = $('<tr>').append(
                         $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
                         $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")

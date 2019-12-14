@@ -117,7 +117,6 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         [HttpPost]
         public ActionResult AddSupply(string list, int documentary_id, string equipmentId)
         {
-            //string type = Request["type"];  //0 là vật tư, 1 là thiết bị con
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
