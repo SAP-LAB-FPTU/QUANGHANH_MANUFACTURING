@@ -47,6 +47,7 @@
                     <table id="docTable" class="striped table-bordered centered table-responsive mytable">
                         <thead>
                             <tr>
+                                <th rowspan="2">Quyết định quan trọng</th>
                                 <th rowspan="2">Quyết định số</th>
                                 <th rowspan="2">Loại quyết định</th>
                                 <th rowspan="2">Ngày lập</th>
@@ -143,6 +144,15 @@
                     $("#pre-load").hide();
                 },
                 "columns": [
+                      {
+                        "data": {}, "render": function (data) {
+                              if (data.QDQT == false) {
+                                  return "<td><label><input type='checkbox' id='" + data.documentary_id + "'  onchange='AddQD(this)'/><span></span></label></td>";
+                              } else {
+                                  return "<td><label><input type='checkbox' id='" + data.documentary_id + "'  onchange='AddQD(this)' checked/><span></span></label></td>";
+                              }
+                        },
+                    },
                     { "data": "documentary_code", "name" : "documentary_code" },
                     { "data": "documentary_name", "name": "documentary_name" },
                     {
@@ -360,6 +370,25 @@
         }
         });
 
+        //------------------------------------------------------------------------------------//
+        function AddQD(idQD) {
+            $('#pre-load').show();
+            var id = $(idQD).attr("id");
+            $.ajax({
+                url: "/phong-cdvt/da-nghiem-thu/quyet-dinh-quan-trong",
+                type: "get",
+                data: {
+                    'documentory_id': id
+                },
+                success: function (response) {
+                    dataTable.ajax.reload();
+                    $('#pre-load').hide();
+                },
+                error: function (response) {
+
+                }
+            })
+        }
     </script>
 }
 

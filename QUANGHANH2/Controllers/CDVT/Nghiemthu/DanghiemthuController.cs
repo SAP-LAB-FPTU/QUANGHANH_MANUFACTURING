@@ -62,7 +62,7 @@ inner join Equipment e on e.equipmentId = a.equipmentId
 where d.documentary_code like @documentary_code and a.equipmentId like @equipmentId
 and e.equipment_name like @equipment_name and a.acceptance_date between @dstart and @dend";
                 docList = db.Database.SqlQuery<Documentary_Extend>(@"select d.date_created, d.person_created, d.documentary_id, a.equipmentId, e.equipment_name, a.acceptance_date, d.documentary_code, d.documentary_type, dt.documentary_name, dt.du_phong, dt.di_kem, dt.can
-" + basesql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY", 
+" + basesql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
 new SqlParameter("documentary_code", "%" + document_code + "%"),
 new SqlParameter("equipmentId", "%" + equimentid + "%"),
 new SqlParameter("equipment_name", "%" + equimentname + "%"),
@@ -95,6 +95,7 @@ new SqlParameter("dend", dend)).ToList();
                     items.linkIdCode.code = items.equipmentId;
                     items.linkIdCode.id = items.equipmentId;
                     items.linkIdCode.doc = items.documentary_id;
+                    items.QDQT = checkQDQT(items.documentary_id);
                 }
                 //docList = db.Documentaries.ToList<Documentary>();
                 int totalrows = db.Database.SqlQuery<int>(@"select count(d.documentary_id) " + basesql,
@@ -104,6 +105,48 @@ new SqlParameter("equipment_name", equimentname),
 new SqlParameter("dstart", dstart),
 new SqlParameter("dend", dend)).FirstOrDefault();
                 return Json(new { success = true, data = docList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Route("phong-cdvt/da-nghiem-thu/quyet-dinh-quan-trong")]
+        [HttpGet]
+        public ActionResult AddQDQT(string docID)
+        {
+            QUANGHANHABCEntities dbContext = new QUANGHANHABCEntities();
+            int id = Int32.Parse(Request["documentory_id"]);
+            string username = Session["Username"].ToString();
+            Account account = new Account();
+            account = dbContext.Accounts.Where(x => x.Username.Equals(username)).FirstOrDefault<Account>();
+            Important_Documentary checkDoc = new Important_Documentary();
+            checkDoc = dbContext.Important_Documentary.Where(x => x.documentary_id == id && x.AccountID == account.ID).FirstOrDefault<Important_Documentary>();
+            if (checkDoc == null)
+            {
+                Important_Documentary important_Documentary = new Important_Documentary();
+                important_Documentary.documentary_id = id;
+                important_Documentary.AccountID = account.ID;
+                dbContext.Important_Documentary.Add(important_Documentary);
+                dbContext.SaveChanges();
+            }
+            else
+            {
+                dbContext.Important_Documentary.Remove(checkDoc);
+                dbContext.SaveChanges();
+            }
+            return Json(new { message = "Success" }, JsonRequestBehavior.AllowGet);
+        }
+
+        public Boolean checkQDQT(int QDId)
+        {
+            QUANGHANHABCEntities dbContext = new QUANGHANHABCEntities();
+            Important_Documentary important_Documentary = new Important_Documentary();
+            important_Documentary = dbContext.Important_Documentary.Where(x => x.documentary_id == QDId).FirstOrDefault<Important_Documentary>();
+            if (important_Documentary == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }
