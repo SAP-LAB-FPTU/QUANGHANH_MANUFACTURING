@@ -49,7 +49,9 @@
                             <tr>
                                 <th rowspan="2">Quyết định số</th>
                                 <th rowspan="2">Loại quyết định</th>
+                                <th rowspan="2">Ngày lập</th>
                                 <th rowspan="2">Ngày nghiệm thu</th>
+                                <th rowspan="2">Người tạo</th>
                                 <th colspan="2">Thông tin thiết bị</th>
                                 <th rowspan="2"></th>
                                 <th rowspan="2"></th>
@@ -141,35 +143,31 @@
                     $("#pre-load").hide();
                 },
                 "columns": [
-                    {
-                        "data": "temp", "name" : "documentary_id", "render": function (data) {
-                            return "<a id='click' class='modal-trigger' data-target='thongtin' onclick=Detail('@Url.Action("Detail","nghiemthu")?id=" + data.split("^")[0] + "')> "+data.split("^")[1]+"</a>";
-                        },
-                    },
+                    { "data": "documentary_code", "name" : "documentary_code" },
                     { "data": "documentary_name", "name": "documentary_name" },
+                    {
+                        "data": "date_created", "name": "date_created", "render": function (data) {
+                            return dateFormat(data);
+                        }
+                    },
                     {
                         "data": "acceptance_date", "name": "acceptance_date", "render": function (data) {
                             return dateFormat(data);
                         }
                     },
+                    { "data": "person_created", "name": "person_created" },
                     { "data": "equipmentId", "name": "equipmentId" },
                     { "data": "equipment_name", "name": "equipment_name" },
                     {
                         "data": {}, "render": function (data) {
-                            if (data.di_kem || data.can)
-                                return "<td><a class='btn blue modal-trigger open-DiKem' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>Chi tiết VT</a></td>";
-                            else
-                                return "";
+                            return "<td><a class='btn blue modal-trigger open-DiKem' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>Chi tiết VT to</a></td>";
                         },
                         "orderable": false,
                         "searchable": false
                     },
                     {
                         "data": {}, "render": function (data) {
-                            if (data.du_phong)
-                                return "<td><a class='btn blue modal-trigger open-DuPhong' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT dự phòng</a></td>";
-                            else
-                                return "";
+                            return "<td><a class='btn blue modal-trigger open-DuPhong' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>Chi tiết VT nhỏ</a></td>";
                         },
                         "orderable": false,
                         "searchable": false
@@ -208,16 +206,17 @@
             $("#maquyetdinh").val(documentary_id)
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupply",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetEquipAttached",
                 dataType: "json",
                 success: function (data) {
                     $(function () {
-                        var header = $('<tr>').html('<th>Mã vật tư</th><th>Số lượng xin cấp</th><th>Số lượng đã nhận</th><th>Số lượng sử dụng</th><th>Số lượng lấy ra</th><th>Ghi chú</th>');
+                        var header = $('<tr>').html('<th>Mã vật tư</th><th>Tên vật tư</th><th>Số lượng xin cấp</th><th>Số lượng đã nhận</th><th>Số lượng sử dụng</th><th>Số lượng lấy ra</th><th>Ghi chú</th>');
                         header.appendTo('#test thead');
                         $.each(data, function (i, item) {
                             var temp = item.supplyStatus == null ? "" : item.supplyStatus;
                             var $tr = $('<tr>').append(
-                                $('<td>').html('<input type="text" value="' + item.supply_id + '" readonly class="form-control" />'),
+                                $('<td>').html('<input type="text" value="' + item.equipmentId_dikem + '" readonly class="form-control" />'),
+                                $('<td>').html('<input type="text" value="' + item.equipment_name + '" readonly class="form-control" />'),
                                 $('<td>').html('<input type="text" value="' + item.quantity_plan + '" readonly class="form-control" />'),
                                 $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
                                 $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_used + "' max='" + item.quantity_plan + "' value='" + item.quantity_used + "' />"),
@@ -254,15 +253,18 @@
                 dataType: "json",
                 success: function (data) {
                     $(function () {
-                        var header = $('<tr>').html('<th>Mã vật tư</th><th>Số lượng xin cấp</th><th>Số lượng đã nhận</th><th>Số lượng sử dụng</th><th>Số lượng lấy ra</th>');
+                        var header = $('<tr>').html('<th>Mã vật tư</th><th>Tên vật tư</th><th>Số lượng xin cấp</th><th>Số lượng đã nhận</th><th>Số lượng sử dụng</th><th>Số lượng lấy ra</th><th>Ghi chú</th>');
                         header.appendTo('#test thead');
                         $.each(data, function (i, item) {
+                            var temp = item.supplyStatus == null ? "" : item.supplyStatus;
                             var $tr = $('<tr>').append(
                                 $('<td>').html('<input type="text" value="' + item.supply_id + '" readonly class="form-control" />'),
+                                $('<td>').html('<input type="text" value="' + item.supply_name + '" readonly class="form-control" />'),
                                 $('<td>').html('<input type="text" value="' + item.quantity_plan + '" readonly class="form-control" />'),
                                 $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
                                 $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_used + "' max='" + item.quantity_plan + "' value='" + item.quantity_used + "' />"),
-                                $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_out + "' max='" + item.quantity_plan + "' value='" + item.quantity_out + "' />")
+                                $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_out + "' max='" + item.quantity_plan + "' value='" + item.quantity_out + "' />"),
+                                $('<td>').html("<input readonly class='form-control' type='text' value='" + temp + "' />")
                             );
                             $tr.appendTo('#test tbody');
                         });
