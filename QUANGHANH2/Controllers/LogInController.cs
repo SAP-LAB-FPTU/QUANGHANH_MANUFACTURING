@@ -160,7 +160,7 @@ namespace QUANGHANHCORE.Controllers
                 }
                 if (url.MaPhongBan.Equals("KCM"))
                 {
-                    Session["url"] = "phong-kcm/nhap-ke-hoach-san-xuat";
+                    Session["url"] = "phong-kcm/ke-hoach-san-xuat-thang";
                     RightIDs.Add("008");
                 }
             }
