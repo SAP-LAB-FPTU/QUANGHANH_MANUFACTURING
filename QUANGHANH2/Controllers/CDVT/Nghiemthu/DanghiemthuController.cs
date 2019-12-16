@@ -54,6 +54,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                string username = Session["Username"].ToString();
+                Account account = new Account();
+                account = db.Accounts.Where(x => x.Username.Equals(username)).FirstOrDefault<Account>();
+
                 db.Configuration.LazyLoadingEnabled = false;
                 string basesql = @"from Documentary d inner join DocumentaryType dt
 on d.documentary_type = dt.documentary_type
@@ -95,7 +99,7 @@ new SqlParameter("dend", dend)).ToList();
                     items.linkIdCode.code = items.equipmentId;
                     items.linkIdCode.id = items.equipmentId;
                     items.linkIdCode.doc = items.documentary_id;
-                    items.QDQT = checkQDQT(items.documentary_id);
+                    items.QDQT = checkQDQT(items.documentary_id,account.ID);
                 }
                 //docList = db.Documentaries.ToList<Documentary>();
                 int totalrows = db.Database.SqlQuery<int>(@"select count(d.documentary_id) " + basesql,
@@ -135,11 +139,11 @@ new SqlParameter("dend", dend)).FirstOrDefault();
             return Json(new { message = "Success" }, JsonRequestBehavior.AllowGet);
         }
 
-        public Boolean checkQDQT(int QDId)
+        public Boolean checkQDQT(int QDId,int accountID)
         {
             QUANGHANHABCEntities dbContext = new QUANGHANHABCEntities();
             Important_Documentary important_Documentary = new Important_Documentary();
-            important_Documentary = dbContext.Important_Documentary.Where(x => x.documentary_id == QDId).FirstOrDefault<Important_Documentary>();
+            important_Documentary = dbContext.Important_Documentary.Where(x => x.documentary_id == QDId && x.AccountID == accountID).FirstOrDefault<Important_Documentary>();
             if (important_Documentary == null)
             {
                 return false;
