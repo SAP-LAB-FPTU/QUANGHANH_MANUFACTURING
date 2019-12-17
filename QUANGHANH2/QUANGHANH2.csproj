@@ -671,6 +671,9 @@
     <Compile Include="Models\TuyenDung_NhanVien.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\User_Action_Log.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="ModelViews\PxdsModelView.cs" />
     <Compile Include="ModelViews\TieuhaoModelView.cs" />
     <Compile Include="ModelViews\TonghopvattuModelView.cs" />
