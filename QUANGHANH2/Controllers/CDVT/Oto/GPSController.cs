@@ -34,6 +34,12 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             DateTime date = DateTime.ParseExact(stringDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+            int session = 0;
+            if (DateTime.Now.Hour >= 6 && DateTime.Now.Hour < 14 && DateTime.Now.Date == date) session = 1;
+            if (DateTime.Now.Hour >= 14 && DateTime.Now.Hour < 22 && DateTime.Now.Date == date) session = 2;
+            if ((DateTime.Now.Hour >= 22 && DateTime.Now.Date == date) || (DateTime.Now.Hour < 6 && DateTime.Now.Date.AddDays(-1) == date)) session = 3;
+
             string varname1 = ""
             + "select a.equipmentId, a.equipment_name,a.ca1, a.reason1, b.ca2, b.reason2, c.ca3, c.reason3 from " + "\n"
             + "(select e.equipmentId, e.equipment_name, c.[session], c.available as \"ca1\", c.reason as \"reason1\" " + "\n"
@@ -63,7 +69,7 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
             //sorting
             list = list.OrderBy(sortColumnName + " " + sortDirection).ToList<CarGPSDB>();
             //paging
-            return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering, session = session });
         }
         [Auther(RightID = "191")]
         [Route("phong-cdvt/oto/GPS/Update")]
@@ -148,17 +154,17 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
                 new SqlParameter("end", end)).FirstOrDefault();
             return Json(new { reason = reason == null ? "" : reason });
         }
-    }
 
-    public class CarGPSDB
-    {
-        public string equipmentId { get; set; }
-        public string equipment_name { get; set; }
-        public Boolean ca1 { get; set; }
-        public string reason1 { get; set; }
-        public Boolean ca2 { get; set; }
-        public string reason2 { get; set; }
-        public Boolean ca3 { get; set; }
-        public string reason3 { get; set; }
+        private class CarGPSDB
+        {
+            public string equipmentId { get; set; }
+            public string equipment_name { get; set; }
+            public Boolean ca1 { get; set; }
+            public string reason1 { get; set; }
+            public Boolean ca2 { get; set; }
+            public string reason2 { get; set; }
+            public Boolean ca3 { get; set; }
+            public string reason3 { get; set; }
+        }
     }
 }

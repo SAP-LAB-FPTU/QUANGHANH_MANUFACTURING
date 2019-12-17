@@ -99,7 +99,7 @@
 
 @section scripts{
     <script>
-        var Popup, dataTable;
+        var Popup, dataTable, session;
         $(document).ready(function () {
             dataTable = $('#complex_header').DataTable({
                 language: {
@@ -126,7 +126,11 @@
                     data: {
                         stringDate: function () { return $('#inputdate').val() }
                     },
-                    cache: false
+                    cache: false,
+                    dataSrc: function (json) {
+                        session = json.session;
+                        return json.data;
+                    }
                 },
                 columns: [
                     { data: "equipmentId", name: "equipmentId" },
@@ -134,9 +138,9 @@
                     {
                         data: {}, render: function (data) {
                             if (data.ca1)
-                                return "<label><input type='checkbox' /><span></span></label>";
+                                return "<label><input type='checkbox'" + (session == 1 ? "" : "disabled") + " /><span></span></label>";
                             else
-                                return "<label><input checked type='checkbox' /><span></span></label>";
+                                return "<label><input checked type='checkbox'" + (session == 1 ? "" : "disabled") + " /><span></span></label>";
                         },
                         orderable: false,
                         searchable: false
@@ -146,7 +150,7 @@
                             if (data.ca1)
                                 return "<input type='text' class='form-control' list='reason' disabled='disabled' />";
                             else
-                                return "<input type='text' class='form-control' list='reason' value='" + data.reason1 + "' />";
+                                return "<input type='text' class='form-control' list='reason'" + (session == 1 ? "" : "disabled") + " value='" + data.reason1 + "' />";
                         },
                         orderable: false,
                         searchable: false
@@ -154,9 +158,9 @@
                     {
                         data: {}, render: function (data) {
                             if (data.ca2)
-                                return "<label><input type='checkbox' /><span></span></label>";
+                                return "<label><input type='checkbox'" + (session == 2 ? "" : "disabled") + " /><span></span></label>";
                             else
-                                return "<label><input checked type='checkbox' /><span></span></label>";
+                                return "<label><input checked type='checkbox'" + (session == 2 ? "" : "disabled") + " /><span></span></label>";
                         },
                         orderable: false,
                         searchable: false
@@ -166,7 +170,7 @@
                             if (data.ca2)
                                 return "<input type='text' class='form-control' list='reason' disabled='disabled' />";
                             else
-                                return "<input type='text' class='form-control' list='reason' value='" + data.reason2 + "' />";
+                                return "<input type='text' class='form-control' list='reason'" + (session == 2 ? "" : "disabled") + " value='" + data.reason2 + "' />";
                         },
                         orderable: false,
                         searchable: false
@@ -174,9 +178,9 @@
                     {
                         data: {}, render: function (data) {
                             if (data.ca3)
-                                return "<label><input type='checkbox' /><span></span></label>";
+                                return "<label><input type='checkbox'" + (session == 3 ? "" : "disabled") + " /><span></span></label>";
                             else
-                                return "<label><input checked type='checkbox' /><span></span></label>";
+                                return "<label><input checked type='checkbox'" + (session == 3 ? "" : "disabled") + " /><span></span></label>";
                         },
                         orderable: false,
                         searchable: false
@@ -186,7 +190,7 @@
                             if (data.ca3)
                                 return "<input type='text' class='form-control' list='reason' disabled='disabled' />";
                             else
-                                return "<input type='text' class='form-control' list='reason' value='" + data.reason3 + "' />";
+                                return "<input type='text' class='form-control' list='reason'" + (session == 3 ? "" : "disabled") + " value='" + data.reason3 + "' />";
                         },
                         orderable: false,
                         searchable: false
