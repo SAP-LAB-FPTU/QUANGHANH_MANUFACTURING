@@ -484,17 +484,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         if (equipment != null)
                             return Json(new { success = false, message = "Mã thiết bị đã tồn tại" });
                         //import date
-                        string[] date = import.Split('/');
-                        string date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.date_import = Convert.ToDateTime(date_fix);
+                        emp.date_import = DateTime.ParseExact(import, "dd/MM/yyyy", null);
                         //durationOfInspection
-                        date = duraInspec.Split('/');
-                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.durationOfInspection = Convert.ToDateTime(date_fix);
+                        emp.durationOfInspection = DateTime.ParseExact(duraInspec, "dd/MM/yyyy", null);
                         //usedDay
-                        date = used.Split('/');
-                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.usedDay = Convert.ToDateTime(date_fix);
+                        emp.usedDay = DateTime.ParseExact(used, "dd/MM/yyyy", null);
                         emp.input_channel = "Đường kế toán";
                         emp.department_id = "CDVT";
                         emp.total_operating_hours = 0;
