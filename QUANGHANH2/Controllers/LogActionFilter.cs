@@ -22,9 +22,13 @@ namespace QUANGHANH2.Controllers
 
         private void Log(string methodName, RouteData routeData)
         {
-            if (HttpContext.Current.Session["userID"] == null)
+            if (HttpContext.Current.Session["userID"] == null || methodName.Equals("OnActionExecuting"))
                 return;
             var Request = HttpContext.Current.Request;
+            List<string> except = new List<string>() { "/Notifi/CDVT", "/" };     //  thêm path loại trừ tại đây
+            bool hasMatch = except.Any(x => x.Equals(Request.FilePath));
+            if (hasMatch)
+                return;
             string ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
 
             if (!string.IsNullOrEmpty(ip))
@@ -46,9 +50,10 @@ namespace QUANGHANH2.Controllers
                 log.AccountID = int.Parse(HttpContext.Current.Session["userID"].ToString());
                 log.Action_Time = DateTime.Now;
                 log.Browser = Request.Browser.Browser;
-                log.Method = methodName;
-                log.Url = Request.HttpMethod;
+                log.Method = Request.HttpMethod;
+                log.Url = Request.FilePath;
                 db.User_Action_Log.Add(log);
+                db.SaveChanges();
             }
         }
     }
