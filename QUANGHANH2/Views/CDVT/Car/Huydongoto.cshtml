@@ -810,7 +810,7 @@
                     success: function (data) {
                         dataTable.ajax.reload();
                         if (data.success == false) {
-                            errorAlert('Lỗi', 'Có lỗi xảy ra');
+                            errorAlert(data.message);
                         } else {
                             successAlert('Thêm thành công', '');
                         }
