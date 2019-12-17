@@ -121,7 +121,9 @@ namespace QUANGHANH2.Controllers
         }
         public JsonResult getPB(string id)
         {
-            var pb = db.Database.SqlQuery<rightBasic>("select d.department_id, d.department_name from NhanVien nv , Department d where nv.MaPhongBan = d.department_id and nv.MaNV = '" + id + "'").FirstOrDefault();
+            var pb = db.Database.SqlQuery<rightBasic>(@"select d.department_id, d.department_name,nv.Ten,c.TenCongViec
+                                                        from NhanVien nv , Department d , CongViec c
+                                                        where nv.MaPhongBan = d.department_id and nv.MaCongViec = c.MaCongViec and nv.MaNV = @manv",new SqlParameter("manv",id)).FirstOrDefault();
             return Json(pb, JsonRequestBehavior.AllowGet);
         }
 
@@ -835,6 +837,8 @@ namespace QUANGHANH2.Controllers
     {
         public string department_id { get; set; }
         public string department_name { get; set; }
+        public string Ten { get; set; }
+        public string TenCongViec { get; set; }
 
     }
     public class employ
