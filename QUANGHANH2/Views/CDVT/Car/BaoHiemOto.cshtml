@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "BaoHiemOto";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
@@ -7,7 +6,7 @@
 <div class="card">
     <div class="card-content">
         <div class="row center">
-            <h3><b>DANH SÁCH BẢO HIỂM ÔTÔ</b></h3>
+            <h3><b>THÔNG TIN BẢO HIỂM ÔTÔ</b></h3>
             <hr>
             <datalist id="listid-s"></datalist>
             <form action="" method="POST" id="mysearchform" role="form">
@@ -43,8 +42,7 @@
                             <th>Mã thiết bị</th>
                             <th>Tên thiết bị</th>
                             <th>Tình trạng hiện tại</th>
-                            <th>Ngày đăng ký bảo hiểm</th>
-                            <th>Ngày hết hạn bảo hiểm</th>
+                            <th>Thời gian hết hạn bảo hiểm</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -64,7 +62,7 @@
                 <div class="row">
                     <div class="col s12 m6">
                         <div class="form-group">
-                            <label for="date">Thời gian hết hạn bảo hiểm: </label>
+                            <label for="date">Thời gian bảo hiểm dự tính sau: </label>
                             <input required type='text' class='datepicker-here form-control minDate' data-language='vi' value="" id="date-temp-edit" />
                         </div>
                     </div>
@@ -252,11 +250,10 @@
                     { "data": "equipmentId", "name": "equipmentId" },
                     { "data": "equipment_name", "name": "equipment_name" },
                     { "data": "statusname", "name": "statusname" },
-                    { "data": "stringStartDate", "name": "insurance_start_date" },
-                    { "data": "stringEndDate", "name": "insurance_end_date" },
+                    { "data": "stringExpectedTime", "name": "inspect_date" },
                     {
                         "data": {}, "render": function (data) {
-                            return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-equipmentId=\"" + data.equipmentId + "\">Cập&nbsp;nhật</a>";
+                            return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-equipmentId=\"" + data.equipmentId + "\" data-inspect_id=\"" + data.inspect_id + "\">Cập&nbsp;nhật</a>";
                         },
                         "orderable": false,
                         "searchable": false,
@@ -304,7 +301,7 @@
                         errorAlert('Lỗi', 'Có lỗi xảy ra');
                     },
                     data: {
-                        equipmentId: $('#id-edit').val(),
+                        inspect_id: $('#id-edit').val(),
                         dateTemp: $('#date-temp-edit').val()
                     },
                     cache: false
@@ -327,7 +324,7 @@
         //get data and push to modal edit
         $(document).on("click", ".open-EditModal", function () {
             $('#myedit h3').text("Cập nhật bảo hiểm cho thiết bị " + $(this).data('equipmentid'));
-            var inspect_id = $(this).data('equipmentid');
+            var inspect_id = $(this).data('inspect_id');
             $('#id-edit').val(inspect_id);
             var today = new Date();
             var dd = today.getDate();
