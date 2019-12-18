@@ -308,6 +308,7 @@
     <Compile Include="Controllers\KCM\InputPlanController.cs" />
     <Compile Include="Controllers\KCS\KCSController.cs" />
     <Compile Include="Controllers\KCS\ReportController.cs" />
+    <Compile Include="Controllers\LogActionFilter.cs" />
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\ManagementUserController.cs" />
     <Compile Include="Controllers\NotifiController.cs" />
