@@ -89,7 +89,7 @@
                 },
                 {
                     "name": "", "data": "", "render": function (data, type, row) {
-                        return "<a id=\"suaNhomTieuChi\" name=\"" + row["MaNhomTieuChi"] + "\" class=\"btn btn-small red darken-2 modal-trigger\">Xóa</a>"
+                        return "<a id=\"xoaNhomTieuChi\" name=\"" + row["MaNhomTieuChi"] + "\" class=\"btn btn-small red darken-2 modal-trigger\">Xóa</a>"
                     },
                     "orderable": false,
                     "searchable": false
@@ -159,11 +159,118 @@
 </script>
 
 <!---------------------------------------------------EDIT NHOMCONGVIEC------------------------------------------------------>
-<!-------GET DATA BY MANHOMCONGVIEC TO AUTO INPUT TO MODAL suaNhomCongViec------->
 <script>
     $(document).ready(function () {
-        $("#suaNhomTieuChi").on("click", function () {
+        //get data to input
+        var manhomtieuchi;
+        $("#nhomtieuchi").on("click", "#suaNhomTieuChi", function () {
+            manhomtieuchi = $(this).attr("name");
+            getData_FillData(manhomtieuchi);
+        });
 
+        //update
+        $("#xacNhanSuaNhomTieuChi").click(function () {
+            update(manhomtieuchi);
         });
     });
+</script>
+
+
+<!-------GET DATA BY MANHOMCONGVIEC TO AUTO INPUT TO MODAL suaNhomCongViec------->
+<script>
+    function getData_FillData(manhomtieuchi) {
+        $("pre-load").show();
+        $.ajax({
+            url: "/phong-dieu-khien/quan-ly-nhom-tieu-chi/lay-nhomtieuchi-bang-manhomtieuchi",
+            type: "POST",
+            datatype: "json",
+            data: {
+                "manhomtieuchi": manhomtieuchi
+            },
+            success: function (response) {
+                if (response.success) {
+                    $("#tenNhomTieuChi_sua").val(response.tennhomtieuchi);
+                    $("#pre-load").hide();
+                }
+            },
+            error: function (response) {
+
+            }
+        })
+    }
+</script>
+<!--------UPDATE------->
+<script>
+    function update(manhomtieuchi) {
+        $("#pre-load").show();
+        $.ajax({
+            url: "/phong-dieu-khien/quan-ly-nhom-tieu-chi/cap-nhat-nhomtieuchi",
+            type: "POST",
+            datatype: "json",
+            data: {
+                "manhomtieuchi": manhomtieuchi,
+                "tennhomtieuchi": function () { return $("#tenNhomTieuChi_sua").val() }
+            },
+            success: function (response) {
+                if (response.success) {
+                    //close modal
+                    $("#dongSuaNhomNhomTieuChi").click();
+                    //alert update successfully
+                    successAlert(response.title, response.message);
+                    //reload table
+                    table.ajax.reload();
+                    //hide pre-load
+                    $("#pre-load").hide();
+                }
+            },
+            error: function () {
+
+            }
+        })
+    }
+</script>
+
+<!--------------------DELETE------------------------>
+<script>
+    var manhomtieuchi;
+    $(document).ready(function () {
+        $("#nhomtieuchi").on("click", "#xoaNhomTieuChi", function () {
+            manhomtieuchi = $(this).attr("name");
+            confirmAlert("Xác nhận xóa?", "Xác nhân xóa công việc", function () {
+                delete_NhomTieuChi(manhomtieuchi)
+            });
+        });
+    });
+</script>
+<script>
+    function delete_NhomTieuChi(manhomtieuchi) {
+        $("pre-load").show();
+        $.ajax({
+            url: "/phong-dieu-khien/quan-ly-nhom-tieu-chi/xoa-nhomtieuchi",
+            type: "POST",
+            datatype: "json",
+            data: {
+                "manhomtieuchi": manhomtieuchi
+            },
+            success: function (response) {
+                if (response.success) {
+                    //alert successfull deleting
+                    successAlert(response.title, response.message);
+                    //reload table
+                    table.ajax.reload();
+                    //hide the pre-loader
+                    $("#pre-load").hide();
+                } else if (response.error) {
+                    //alert fail deleting
+                    errorAlert(response.title, response.message);
+                    //hide the pre-loader
+                    $("#pre-load").hide();
+                }
+            },
+            error: function (response) {
+
+            }
+        })
+    }
+
 </script>
