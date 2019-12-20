@@ -28,7 +28,7 @@
                                 <li class="tab col s1"><a href="#suco">NK SỰ CỐ</a></li>
                                 @*<li class="tab col s1"><a href="#baohiem">NK BẢO HIỂM</a></li>*@
                                 <li class="tab col s2"><a href="#kiemdinh">NK KIỂM ĐỊNH</a></li>
-                                <li class="tab col s1"><a href="#lichsu">NK HOẠT ĐỘNG</a></li>
+                                <li class="tab col s1"><a id="tab6" href="#lichsu">NK HOẠT ĐỘNG</a></li>
                                 <li class="tab col s2"><a id="tab7" href="#tieuthu">NK TIÊU THỤ NHIÊN LIỆU</a></li>
                             </ul>
                         </div>
@@ -367,7 +367,6 @@
                                         <tr>
                                             <th rowspan="2" colspan="1">Ngày</th>
                                             <th rowspan="1" colspan="3">Hoạt động </th>
-                                            <th rowspan="2" colspan="1">Tình trạng</th>
                                             <th rowspan="2" colspan="1">Phân xưởng sử dụng</th>
                                             <th rowspan="2" colspan="1">Ghi chú </th>
                                         </tr>
@@ -379,19 +378,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var item in ViewBag.listHD)
-                                        {
-                                            <tr>
-                                                <td>@item.actdate</td>
-                                                <td>@item.activityname</td>
-                                                <td>@item.hours_per_day</td>
-                                                <td>@item.quantity</td>
-                                                <td>@item.status</td>
-                                                <td>@item.department_name</td>
-                                                <td>@item.note</td>
-                                            </tr>
-                                        }
-
                                     </tbody>
                                 </table>
                             </div>
@@ -416,18 +402,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var item in ViewBag.listF)
-                                        {
-                                            <tr>
-                                                <td>@item.actdate</td>
-                                                <td>@item.fuel_type</td>
-                                                <td>@item.consumption_value</td>
-                                                <td>@item.status</td>
-                                                <td>@item.department_name</td>
-                                                <td>@item.note</td>
-                                            </tr>
-                                        }
-
                                     </tbody>
                                 </table>
                             </div>
@@ -1399,7 +1373,7 @@
                 $('#pre-load').show()
                 $.ajax({
                     type: "POST",
-                    url: '/phong-cdvt/thiet-bi/listFuel',
+                    url: '/phong-cdvt/thiet-bi/listActivities',
                     data: {
                         id: '@ViewBag.equipment.equipmentId'
                     },
@@ -1409,14 +1383,15 @@
                             var item = response[i]
                             var $tr = $('<tr>');
                             $tr.append('<td>' + item.actdate + '</td>');
-                            $tr.append('<td>' + item.fuel_type + '</td>');
-                            $tr.append('<td>' + item.consumption_value + '</td>');
+                            $tr.append('<td>' + item.activityname + '</td>');
+                            $tr.append('<td>' + item.hours_per_day + '</td>');
+                            $tr.append('<td>' + item.quantity + '</td>');
                             $tr.append('<td>' + item.department_name + '</td>');
                             if (item.note !== null)
                                 $tr.append('<td>' + item.note + '</td>');
                             else
                                 $tr.append('<td>');
-                            $('#tieuthu').find('tbody').append($tr);
+                            $('#lichsu').find('tbody').append($tr);
                         }
                         $('#pre-load').hide()
                     },

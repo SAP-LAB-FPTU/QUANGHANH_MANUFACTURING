@@ -236,14 +236,6 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 listSC.Add(rby);
             }
             ViewBag.listSC = listSC;
-            //NK hoat dong
-            List<myAct> listHD = DBContext.Database.SqlQuery<myAct>("select a.*,d.department_name from Activity a, Equipment e, Department d where a.equipmentid = e.equipmentId and e.department_id = d.department_id and a.equipmentid = @id", new SqlParameter("id", id)).ToList();
-            foreach (var item in listHD)
-            {
-                item.status = "Ổn định";
-                item.actdate = item.date.ToString("dd/MM/yyyy");
-            }
-            ViewBag.listHD = listHD;
             return View("/Views/CDVT/Thietbi/Lylich.cshtml");
         }
 
@@ -264,6 +256,22 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
         }
 
+        //NK hoat dong
+        [Route("phong-cdvt/thiet-bi/listActivities")]
+        [HttpPost]
+        public ActionResult listActivities(string id)
+        {
+            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+            {
+                DBContext.Configuration.LazyLoadingEnabled = false;
+                List<myAct> listHD = DBContext.Database.SqlQuery<myAct>("select a.*,d.department_name from Activity a, Equipment e, Department d where a.equipmentid = e.equipmentId and e.department_id = d.department_id and a.equipmentid = @id", new SqlParameter("id", id)).ToList();
+                foreach (var item in listHD)
+                {
+                    item.actdate = item.date.ToString("dd/MM/yyyy");
+                }
+                return Json(listHD);
+            }
+        }
 
         [HttpPost]
         public ActionResult deleteDK(string id, string supid)
@@ -498,7 +506,6 @@ namespace QUANGHANHCORE.Controllers.CDVT
         {
             public string department_name { get; set; }
             public string actdate { get; set; }
-            public string status { get; set; }
             public string note { get; set; }
         }
 
