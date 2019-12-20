@@ -326,7 +326,31 @@
                                 </div>
                             </div>
                             <div id="sctx" class="col s12">
-
+                                <table class="table-bordered striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Ngày</th>
+                                            <th>Tên</th>
+                                            <th>Mã thiết bị</th>
+                                            <th>Vị trí sửa chữa</th>
+                                            <th>Nội dung sửa chữa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{ 
+                                            foreach(var item in ViewBag.listSCTX)
+                                            {
+                                                <tr>
+                                                    <td>@item.date</td>
+                                                    <td>@item.equipment_name</td>
+                                                    <td>@item.equipmentId</td>
+                                                    <td>@item.department_name</td>
+                                                    <td>@item.maintain_content</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
 
                         </div>
