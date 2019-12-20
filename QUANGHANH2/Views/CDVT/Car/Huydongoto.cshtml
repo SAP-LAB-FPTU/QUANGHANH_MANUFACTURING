@@ -133,40 +133,23 @@
                     <div class="left" style="text-align:left !important">
 
                         @{
-                            foreach (var item in right)
-                            {
-                                if (item.Equals("1"))
+                                if (right.Contains("11"))
                                 {
                                     <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')"><i class="fa fa-plus"></i> Thêm</a>
                                     <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" @*onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')*@><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
-
                                 }
-                                @*if (item.Equals("114"))
-                                    {
-                                        <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
-
-                                    }*@
-                                if (item.Equals("3"))
+                                if (right.Contains("10"))
                                 {
                                     <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
-
                                 }
-                                if (item.Equals("2"))
+                                if (right.Contains("2"))
                                 {
                                     @*<a class="waves-effect waves-light btn-small blue modal-trigger" href="#kiemdinh">Cập nhật ngày kiểm định</a>*@
 
                                 }
 
-                            }
                         }
                     </div>
-                    @*<div class="right">
-                            <a class='dropdown-trigger btn' id="filter" href='#' data-target='dropdown1'
-                               style="width:250px;background-color:#273146">
-                                Xem
-                                theo
-                            </a>
-                        </div>*@
                 </div>
 
 
@@ -827,7 +810,7 @@
                     success: function (data) {
                         dataTable.ajax.reload();
                         if (data.success == false) {
-                            errorAlert('Lỗi', 'Có lỗi xảy ra');
+                            errorAlert(data.message);
                         } else {
                             successAlert('Thêm thành công', '');
                         }

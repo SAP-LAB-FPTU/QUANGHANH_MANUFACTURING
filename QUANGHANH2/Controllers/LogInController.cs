@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.SessionState;
 using XCrypt;
+using System.Linq.Dynamic;
+using System.Data.SqlClient;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -47,23 +47,19 @@ namespace QUANGHANHCORE.Controllers
             if (password == null) return RedirectToAction("Index");
             string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(password, "pl");
             var checkuser = db.Accounts.Where(x => x.Username == username).Where(y => y.Password == passXc).SingleOrDefault();
-            if(checkuser != null)
+            if (checkuser != null)
             {
                 if (checkuser.Username.Equals(username) && checkuser.Password.Equals(passXc))
                 {
                     Session["UserID"] = checkuser.ID;
                     Session["time"] = DateTime.Now;
                     int id = checkuser.ID;
-                    var Name = db.Accounts.Where(x => x.ID == id).FirstOrDefault<Account>();
-                    if (Name.NVID != null)
-                    {
-                        var depart = db.NhanViens.Where(x => x.MaNV == Name.NVID).FirstOrDefault();
-                        var departName = db.Departments.Where(x => x.department_id == depart.MaPhongBan).FirstOrDefault();
-                        Session["departName"] = departName.department_name;
-                        Session["departID"] = departName.department_id;
-                    }
+                    var Name = db.Database.SqlQuery<InfoAccount>(@"select a.ID,nv.Ten,a.Username,a.Position,c.TenCongViec,a.ADMIN,d.department_name,d.department_id from Account a , NhanVien nv , CongViec c , Department d
+                                                        where a.NVID = nv.MaNV and c.MaCongViec = nv.MaCongViec and d.department_id = nv.MaPhongBan and a.ID = @id", new SqlParameter("id", id)).FirstOrDefault();
+                    Session["departName"] = Name.department_name;
+                    Session["departID"] = Name.department_id;
                     Session["account_id"] = Name.ID;
-                    Session["Name"] = Name.Name;
+                    Session["Name"] = Name.Ten;
                     Session["username"] = Name.Username;
                     Session["Position"] = Name.Position;
                     Session["isAdmin"] = Name.ADMIN;
@@ -160,7 +156,7 @@ namespace QUANGHANHCORE.Controllers
                 }
                 if (url.MaPhongBan.Equals("KCM"))
                 {
-                    Session["url"] = "phong-kcm/nhap-ke-hoach-san-xuat";
+                    Session["url"] = "phong-kcm/ke-hoach-san-xuat-thang";
                     RightIDs.Add("008");
                 }
             }
@@ -173,7 +169,7 @@ namespace QUANGHANHCORE.Controllers
             RightIDs.Add("000");
             Session["RightIDs"] = RightIDs;
         }
-        [Auther(RightID ="000")]
+        [Auther(RightID = "000")]
         public ActionResult Detail()
         {
             DateTime start = Convert.ToDateTime(Session["time"]).AddMinutes(20);
@@ -181,7 +177,7 @@ namespace QUANGHANHCORE.Controllers
             return View("/Views/LogIn/Account_Information.cshtml");
         }
         [Auther(RightID = "000")]
-        public JsonResult ResetPassword(string oldPass,string newPass,string rePass)
+        public JsonResult ResetPassword(string oldPass, string newPass, string rePass)
         {
             int id = Convert.ToInt32(Session["account_id"]);
             string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(oldPass, "pl");
@@ -230,5 +226,16 @@ namespace QUANGHANHCORE.Controllers
     {
         public int CodeError { get; set; }
         public string Data { get; set; }
+    }
+    public class InfoAccount
+    {
+        public int ID { get; set; }
+        public string Ten { get; set; }
+        public string Username { get; set; }
+        public string Position { get; set; }
+        public string TenCongViec { get; set; }
+        public bool ADMIN { get; set; }
+        public string department_name { get; set; }
+        public string department_id { get; set; }
     }
 }

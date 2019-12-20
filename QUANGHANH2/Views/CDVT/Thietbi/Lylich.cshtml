@@ -268,7 +268,6 @@
                                                                         <tr>
                                                                             <th style="text-align:center" colspan="3">Vật tư</th>
                                                                             <th style="text-align:center" colspan="2">Chi tiết vật tư thay thế, SC</th>
-                                                                            <th style="text-align:center" rowspan="2">KQ sau SC</th>
                                                                             <th style="text-align:center" colspan="2">Chi tiết vật tư thu hồi sau SC</th>
                                                                             <th style="text-align:center" rowspan="2">Lý do quyết định</th>
                                                                         </tr>
@@ -289,13 +288,6 @@
                                                                                 <td>@i.VTTT.unit</td>
                                                                                 <td>@i.VTTT.quantity_used</td>
                                                                                 <td>@i.VTTT.supplyStatus</td>
-                                                                                @if (i.flag == 0)
-                                                                                {
-                                                                                    <td rowspan='@x.rowCount'>@x.afterStatus</td>
-                                                                                }
-                                                                                <td>@i.VTTT.supply_id</td>
-                                                                                <td>@i.VTTT.supply_name</td>
-                                                                                <td>@i.VTTT.unit</td>
                                                                                 <td>@i.VTTT.quantity_out</td>
                                                                                 <td>@i.VTTT.supplyStatus</td>
                                                                                 @if (i.flag == 0)

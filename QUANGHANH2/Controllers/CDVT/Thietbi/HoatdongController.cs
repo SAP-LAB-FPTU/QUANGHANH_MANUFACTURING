@@ -200,7 +200,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         except
                         select e.equipmentId
                         from Equipment e join Car c on e.equipmentId = c.equipmentId";
-            } else if (ck.Equals("1"))
+            }
+            else if (ck.Equals("1"))
             {
                 sql = @"select e.equipment_name as 'equipmentId'
                         from Equipment e
@@ -208,7 +209,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         except
                         select e.equipment_name
                         from Equipment e join Car c on e.equipmentId = c.equipmentId";
-            } else if (ck.Equals("2"))
+            }
+            else if (ck.Equals("2"))
             {
                 sql = @"select ec.Equipment_category_name as 'equipmentId'
                         from Equipment e join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id
@@ -217,7 +219,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         select ec.Equipment_category_name
                         from Equipment e join Car c on e.equipmentId = c.equipmentId
 	                        join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id";
-            } else if(ck.Equals("3"))
+            }
+            else if (ck.Equals("3"))
             {
                 sql = @"select e.supplier as 'equipmentId'
                         from Equipment e
@@ -228,10 +231,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             }
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<EquipTempSearch> list = db.Database.SqlQuery<EquipTempSearch>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
-            return Json(new { success = true, id = list}, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
         }
 
-        
+
 
 
         [HttpPost]
@@ -363,7 +366,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         [HttpGet]
         public ActionResult Add()
         {
-            
+
             List<SelectListItem> listDepeartment = new List<SelectListItem>();
             List<SelectListItem> listCategory = new List<SelectListItem>();
             List<SelectListItem> listStatus = new List<SelectListItem>();
@@ -477,18 +480,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 {
                     try
                     {
+                        Equipment equipment = db.Equipments.Find(emp.equipmentId);
+                        if (equipment != null)
+                            return Json(new { success = false, message = "Mã thiết bị đã tồn tại" });
                         //import date
-                        string[] date = import.Split('/');
-                        string date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.date_import = Convert.ToDateTime(date_fix);
+                        emp.date_import = DateTime.ParseExact(import, "dd/MM/yyyy", null);
                         //durationOfInspection
-                        date = duraInspec.Split('/');
-                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.durationOfInspection = Convert.ToDateTime(date_fix);
+                        emp.durationOfInspection = DateTime.ParseExact(duraInspec, "dd/MM/yyyy", null);
                         //usedDay
-                        date = used.Split('/');
-                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.usedDay = Convert.ToDateTime(date_fix);
+                        emp.usedDay = DateTime.ParseExact(used, "dd/MM/yyyy", null);
                         emp.input_channel = "Đường kế toán";
                         emp.department_id = "CDVT";
                         emp.total_operating_hours = 0;
@@ -583,7 +583,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                     {
                         e.Message.ToString();
                         dbc.Rollback();
-                        return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+                        return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);
 
                     }
                 }
@@ -673,10 +673,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                     emp = new Equipment();
                 }
                 ViewBag.e = emp;
-                if(emp.date_import.HasValue == true)
+                if (emp.date_import.HasValue == true)
                 {
                     emp.date_import = DateTime.Parse(emp.date_import.Value.ToString("dd-MMM-yyyy"));
-                } else
+                }
+                else
                 {
                     emp.date_import = null;
                 }

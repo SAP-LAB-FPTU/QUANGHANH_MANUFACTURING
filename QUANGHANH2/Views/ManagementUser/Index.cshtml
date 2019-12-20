@@ -287,26 +287,6 @@
                         <div class="card-content">
                             <div class="row">
                                 <h5 class="center"><b>Thông tin chi tiết</b></h5>
-
-                                <div class="row m-t-10" style="padding-left : 3rem">
-                                    <label class="control-label text-right">Họ tên</label>
-                                    <input type="text" class="form-control" value="@Model.Name" id="txtName">
-                                </div>
-                                <div class="row m-t-10" style="padding-left : 3rem">
-                                    <label class="control-label col-3 align-self-center text-right">Tên đăng nhập</label>
-                                    <input type="text" class="form-control col 12" value="@Model.Username" id="txtUsername">
-                                </div>
-                                <div class="row m-t-10" style="padding-left : 3rem">
-                                    <label class="control-label col-3 align-self-center text-right">Chức vụ</label>
-                                    <select class="form-control col 12" id="txtPosition">
-                                        <option value="Giám đốc">Giám đốc</option>
-                                        <option value="Phó giám đốc">Phó giám đốc</option>
-                                        <option value="Trưởng phòng">Trưởng phòng</option>
-                                        <option value="Phó phòng">Phó phòng</option>
-                                        <option value="Chủ nhiệm công trình">Chủ nhiệm công trình</option>
-                                    </select>
-                                    @*<input type="text" class="form-control col 12" value="@Model.Position" id="txtPosition">*@
-                                </div>
                                 <div class="row m-t-10" style="padding-left : 3rem">
                                     <label class="control-label col-3 align-self-center text-right">Mã nhân viên</label>
                                     <div class="linedisplay">
@@ -314,10 +294,23 @@
                                     </div>
                                 </div>
                                 <div class="row m-t-10" style="padding-left : 3rem">
+                                    <label class="control-label text-right">Họ tên</label>
+                                    <input type="text" class="form-control" id="txtName" readonly>
+                                </div>
+
+                                <div class="row m-t-10" style="padding-left : 3rem">
+                                    <label class="control-label col-3 align-self-center text-right">Chức vụ</label>
+                                    <input type="text" class="form-control col 12" id="txtPosition" readonly>
+                                </div>
+                                <div class="row m-t-10" style="padding-left : 3rem">
                                     <label class="control-label col-3 align-self-center text-right">Phòng ban</label>
                                     <div class="linedisplay">
                                         <input type="text" class="form-control col 12" value="" id="txtPB" readonly>
                                     </div>
+                                </div>
+                                <div class="row m-t-10" style="padding-left : 3rem">
+                                    <label class="control-label col-3 align-self-center text-right">Tên đăng nhập</label>
+                                    <input type="text" class="form-control col 12" value="@Model.Username" id="txtUsername">
                                 </div>
                                 <div class="row m-t-10" style="padding-left : 3rem">
                                     <label class="control-label col-3 align-self-center text-right">Mật khẩu</label>
@@ -843,7 +836,8 @@
             success: function (result) {
                 document.getElementById('txtPB').value = result.department_name;
                 document.getElementById('MaPB').value = result.department_id;
-                //document.getElementById('txtPosition').textContent += result.department_id;
+                document.getElementById('txtPosition').value = result.TenCongViec;
+                document.getElementById('txtName').value = result.Ten;
                 RightDetail();
                 $('#pre-load').hide();
             },

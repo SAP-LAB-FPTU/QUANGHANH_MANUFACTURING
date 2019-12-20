@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
 using static QUANGHANHCORE.Controllers.CDVT.Thietbi.HoatdongController;
-
+using System.Data.SqlClient;
 namespace QUANGHANHCORE.Controllers.CDVT
 {
     public class Temp
@@ -26,6 +26,22 @@ namespace QUANGHANHCORE.Controllers.CDVT
             List<DashEquip> listhd = new List<DashEquip>();
             List<DashEquip> listkhd = new List<DashEquip>();
             List<DashEquip> listcar = new List<DashEquip>();
+
+            DateTime date = DateTime.Now.Date;
+            int sess = 0;
+            int hour = DateTime.Now.Hour;
+            if (hour >= 6 && hour < 14) sess = 1;
+            else if (hour >= 14 && hour < 22) sess = 2;
+            else if (hour >= 22 || hour < 6) sess = 3;
+            // GPS car unavailable
+            var gpsunavailble = db.Database.SqlQuery<GPSCarAvail>(@"select c.equipmentId
+                                                                    from CarGPS c
+                                                                    where c.[date] = @date and c.[session] = @sess and c.available = 0",
+                                                                    new SqlParameter("date",date),
+                                                                    new SqlParameter("sess", sess)
+                                                                    ).ToList();
+            ViewBag.gpsavail = gpsunavailble.Count; 
+
             listcar = (from equip in db.Equipments
                        join c in db.Cars on equip.equipmentId equals c.equipmentId
                        select new DashEquip
@@ -415,5 +431,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
         public int ngay { get; set; }
         public int thang { get; set; }
         public int nam { get; set; }
+    }
+    public class GPSCarAvail
+    {
+        public string equipmentId { get; set; }
     }
 }

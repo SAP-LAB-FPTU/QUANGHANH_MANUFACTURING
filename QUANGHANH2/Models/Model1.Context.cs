@@ -119,6 +119,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<TrinhDo> TrinhDoes { get; set; }
         public virtual DbSet<Truong> Truongs { get; set; }
         public virtual DbSet<TuyenDung_NhanVien> TuyenDung_NhanVien { get; set; }
+        public virtual DbSet<User_Action_Log> User_Action_Log { get; set; }
         public virtual DbSet<Disk> Disks { get; set; }
     }
 }
