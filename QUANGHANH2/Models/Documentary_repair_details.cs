@@ -21,6 +21,7 @@ namespace QUANGHANH2.Models
         public int documentary_id { get; set; }
         public string equipmentId { get; set; }
         public string department_id_from { get; set; }
+        public Nullable<bool> isVisible { get; set; }
     
         public virtual Department Department { get; set; }
         public virtual Documentary Documentary { get; set; }

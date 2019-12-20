@@ -32,13 +32,24 @@ namespace QUANGHANHCORE.Controllers.CDVT
             public string supply_name { get; set; }
         }
 
+        [HttpPost]
+        public ActionResult deleteLS(string id, string iddoc)
+        {
+            ViewBag.listID = null;
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            string sql = "update Documentary_repair_details set isVisible = 0 where documentary_id = @iddoc and equipmentId = @id";
+            db.Database.ExecuteSqlCommand(sql, new SqlParameter("id", id), new SqlParameter("iddoc", iddoc));
+
+            return Json(new { success = true}, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         [Route("phong-cdvt/thiet-bi")]
         public ActionResult Index()
         {
             return Redirect("/phong-cdvt/huy-dong");
         }
-        [Auther(RightID ="10,6")]
+        [Auther(RightID = "10,6")]
         [Route("phong-cdvt/thiet-bi")]
         [HttpPost]
         public ActionResult ABC(string id)
@@ -174,17 +185,17 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
             ViewBag.listDD = listDD;
             //NK sua chua
-            var yearSC = DBContext.Database.SqlQuery<int>("select distinct YEAR(d.date_created) as years from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id order by years desc", new SqlParameter("id", id)).ToList<int>();
+            var yearSC = DBContext.Database.SqlQuery<int>("select distinct YEAR(d.date_created) as years from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id and dr.isVisible = 1 order by years desc", new SqlParameter("id", id)).ToList<int>();
             List<repairByYear> listSC = new List<repairByYear>();
             foreach (int year in yearSC)
             {
                 repairByYear rby = new repairByYear();
                 List<myRepair> listrp = new List<myRepair>();
-                var docID = DBContext.Database.SqlQuery<int>("select distinct d.documentary_id from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id  and YEAR(d.date_created) = @year", new SqlParameter("id", id), new SqlParameter("year", year)).ToList<int>();
+                var docID = DBContext.Database.SqlQuery<int>("select distinct d.documentary_id from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id and dr.isVisible = 1  and YEAR(d.date_created) = @year", new SqlParameter("id", id), new SqlParameter("year", year)).ToList<int>();
                 foreach (int doc in docID)
                 {
-                    myRepair rp = DBContext.Database.SqlQuery<myRepair>("select dr.*,d.date_created from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id and dr.documentary_id = @doc", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).FirstOrDefault();
-                    List<mySup_Doc> listTT = DBContext.Database.SqlQuery<mySup_Doc>("select sd.*,s.unit,s.supply_name from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id and dr.documentary_id = @doc and YEAR(d.date_created) = @year", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).ToList();
+                    myRepair rp = DBContext.Database.SqlQuery<myRepair>("select dr.*,d.date_created,dr.documentary_id from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id and dr.isVisible = 1  and dr.documentary_id = @doc", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).FirstOrDefault();
+                    List<mySup_Doc> listTT = DBContext.Database.SqlQuery<mySup_Doc>("select sd.*,s.unit,s.supply_name from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id  and dr.isVisible = 1 and dr.documentary_id = @doc and YEAR(d.date_created) = @year", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).ToList();
                     rp.rowCount = listTT.Count();
                     List<mySupply> listsp = new List<mySupply>();
                     for (int i = 0; i < rp.rowCount; i++)
@@ -233,15 +244,24 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 item.actdate = item.date.ToString("dd/MM/yyyy");
             }
             ViewBag.listHD = listHD;
-            //NK tieu thu
-            List<myFuel> listFuel = DBContext.Database.SqlQuery<myFuel>("select f.*, d.department_name from Fuel_activities_consumption f, Equipment e, Department d where e.equipmentId = f.equipmentId and e.department_id =  d.department_id and e.equipmentId = @id order by f.date desc", new SqlParameter("id", id)).ToList();
-            foreach (var item in listFuel)
-            {
-                item.status = "Ổn định";
-                item.actdate = item.date.ToString("dd/MM/yyyy");
-            }
-            ViewBag.listF = listFuel;
             return View("/Views/CDVT/Thietbi/Lylich.cshtml");
+        }
+
+        //NK tieu thu
+        [Route("phong-cdvt/thiet-bi/listFuel")]
+        [HttpPost]
+        public ActionResult listFuel(string id)
+        {
+            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+            {
+                DBContext.Configuration.LazyLoadingEnabled = false;
+                List<myFuel> listFuel = DBContext.Database.SqlQuery<myFuel>("select f.*, d.department_name from Fuel_activities_consumption f, Equipment e, Department d where e.equipmentId = f.equipmentId and e.department_id =  d.department_id and e.equipmentId = @id order by f.date desc", new SqlParameter("id", id)).ToList();
+                foreach (var item in listFuel)
+                {
+                    item.actdate = item.date.ToString("dd/MM/yyyy");
+                }
+                return Json(listFuel);
+            }
         }
 
 
@@ -336,7 +356,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
 
                         Equipment s = DBContext.Equipments.Where(x => x.equipment_name == nameSup).FirstOrDefault();
-                        
+
                         string sql_sup = "insert into Supply_DiKem values (@eid, @supid, @quan, @note, 0)";
                         DBContext.Database.ExecuteSqlCommand(sql_sup
                             , new SqlParameter("@supid", s.equipmentId)

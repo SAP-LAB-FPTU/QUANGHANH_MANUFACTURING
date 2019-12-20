@@ -121,6 +121,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         drd.finish_date_plan = finish_date_plan;
                         drd.documentary_id = documentary.documentary_id;
                         drd.equipmentId = equipmentId;
+                        drd.isVisible = true;
                         DBContext.Documentary_repair_details.Add(drd);
                         DBContext.SaveChanges();
                         JArray vattu = (JArray)item.Value.SelectToken("vattu");

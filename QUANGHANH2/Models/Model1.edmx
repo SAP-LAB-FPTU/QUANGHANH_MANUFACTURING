@@ -427,6 +427,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="documentary_id" Type="int" Nullable="false" />
           <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="department_id_from" Type="nvarchar" MaxLength="150" />
+          <Property Name="isVisible" Type="bit" />
         </EntityType>
         <EntityType Name="Documentary_revoke_details">
           <Key>
@@ -4129,6 +4130,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="documentary_id" Type="Int32" Nullable="false" />
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="department_id_from" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="isVisible" Type="Boolean" />
           <NavigationProperty Name="Department" Relationship="Self.FK__Documenta__depar__1A69E950" FromRole="Documentary_repair_details" ToRole="Department" />
           <NavigationProperty Name="Documentary" Relationship="Self.FK__Documenta__docum__489AC854" FromRole="Documentary_repair_details" ToRole="Documentary" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK__Documenta__equip__498EEC82" FromRole="Documentary_repair_details" ToRole="Equipment" />
@@ -7900,6 +7902,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
                 <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
                 <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
                 <ScalarProperty Name="department_id_from" ColumnName="department_id_from" />
+                <ScalarProperty Name="isVisible" ColumnName="isVisible" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

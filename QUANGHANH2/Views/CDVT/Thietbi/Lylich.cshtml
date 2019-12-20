@@ -29,7 +29,7 @@
                                 @*<li class="tab col s1"><a href="#baohiem">NK BẢO HIỂM</a></li>*@
                                 <li class="tab col s2"><a href="#kiemdinh">NK KIỂM ĐỊNH</a></li>
                                 <li class="tab col s1"><a href="#lichsu">NK HOẠT ĐỘNG</a></li>
-                                <li class="tab col s2"><a href="#tieuthu">NK TIÊU THỤ NHIÊN LIỆU</a></li>
+                                <li class="tab col s2"><a id="tab7" href="#tieuthu">NK TIÊU THỤ NHIÊN LIỆU</a></li>
                             </ul>
                         </div>
                         <div id="dieuchuyen" class="col s12">
@@ -116,6 +116,7 @@
                                         <td>Ngày bảo dưỡng tiếp theo</td>
                                         <td>@ViewBag.equipment.durationOfMaintainance.ToString("dd/MM/yyyy")</td>
                                     </tr>
+                                    <tr>
                                         <td>Ngày kiểm định tiếp theo</td>
                                         <td>@ViewBag.equipment.durationOfInspection.ToString("dd/MM/yyyy")</td>
                                     </tr>
@@ -244,77 +245,120 @@
                         </div>
 
                         <div id="suachua" class="col s12">
-                            <div class="wrapper-timeline">
-                                @foreach (var item in ViewBag.listSC)
-                                {
-                                    <div class="container">
-                                        <div class="timeline">
-                                            <div class="timeline-month">
-                                                Năm @item.year
-                                                <span>@item.count lần sửa chữa</span>
-                                            </div>
-                                            @foreach (var x in item.list)
-                                            {
-                                                <div class="timeline-section mytimeline">
-                                                    <div class="timeline-date">
-                                                        Từ: @x.date_created
-                                                        <span style="width: 105%">Đến: @x.finish_date_plan  <span style="background-color: deepskyblue">@x.documentary_id</span></span>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <div class="timeline-box">
-                                                                <div class="box-content table_container">
-                                                                    <table id="myborder" class="table-bordered table-responsive centered" style="zoom:80%">
-                                                                        <tr>
-                                                                            <th style="text-align:center" colspan="3">Vật tư</th>
-                                                                            <th style="text-align:center" colspan="2">Chi tiết vật tư thay thế, SC</th>
-                                                                            <th style="text-align:center" colspan="2">Chi tiết vật tư thu hồi sau SC</th>
-                                                                            <th style="text-align:center" rowspan="2">Lý do quyết định</th>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <th>Mã VT</th>
-                                                                            <th>Tên vật tư</th>
-                                                                            <th>ĐVT</th>
-                                                                            <th>Số lượng</th>
-                                                                            <th>TTKT của vật tư</th>
-                                                                            <th>Số lượng</th>
-                                                                            <th>TTKT của vật tư</th>
-                                                                        </tr>
-                                                                        @foreach (var i in x.listSup)
-                                                                        {
+                            <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
+                                <li class="tab col s6"><a class="active" href="#sct">Sửa chữa</a></li>
+                                <li class="tab col s6"><a href="#sctx">SCTX</a></li>
+                            </ul>
+                            <div id="sct" class="col s12">
+                                <div class="wrapper-timeline">
+                                    @foreach (var item in ViewBag.listSC)
+                                    {
+                                        <div class="container">
+                                            <div class="timeline">
+                                                <div class="timeline-month">
+                                                    Năm @item.year
+                                                    <span>@item.count lần sửa chữa</span>
+                                                </div>
+                                                @foreach (var x in item.list)
+                                                {
+                                                    <div class="timeline-section mytimeline">
+                                                        <div class="timeline-date">
+                                                            Từ: @x.date_created
+                                                            <span style="width: 105%">Đến: @x.finish_date_plan  <span style="background-color: deepskyblue">@x.documentary_id</span></span>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="timeline-box">
+                                                                    <div class="box-content table_container">
+                                                                        <table id="myborder" class="table-bordered table-responsive centered" style="zoom:80%">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <a id="@x.documentary_id" href="#myaleart" class='waves-effect waves-light btn-small blue modal-trigger btnDeleteLS' style='margin-left:5px'><i class='fa fa-trash'></i>Xóa</a>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th style="text-align:center" colspan="3">Vật tư</th>
+                                                                                    <th style="text-align:center" colspan="2">Chi tiết vật tư thay thế, SC</th>
+                                                                                    <th style="text-align:center" colspan="2">Chi tiết vật tư thu hồi sau SC</th>
+                                                                                    <th style="text-align:center" rowspan="2">Lý do quyết định</th>
+                                                                                </tr>
+                                                                            </thead>
                                                                             <tr>
-                                                                                <td>@i.VTTT.supply_id</td>
-                                                                                <td>@i.VTTT.supply_name</td>
-                                                                                <td>@i.VTTT.unit</td>
-                                                                                <td>@i.VTTT.quantity_used</td>
-                                                                                <td>@i.VTTT.supplyStatus</td>
-                                                                                <td>@i.VTTT.quantity_out</td>
-                                                                                <td>@i.VTTT.supplyStatus</td>
-                                                                                @if (i.flag == 0)
-                                                                                {
-                                                                                    <td rowspan='@x.rowCount'>@x.repair_reason</td>
-                                                                                }
+                                                                                <th>Mã VT</th>
+                                                                                <th>Tên vật tư</th>
+                                                                                <th>ĐVT</th>
+                                                                                <th>Số lượng</th>
+                                                                                <th>TTKT của vật tư</th>
+                                                                                <th>Số lượng</th>
+                                                                                <th>TTKT của vật tư</th>
+                                                                                <th></th>
                                                                             </tr>
-                                                                        }
+                                                                            <tbody>
+                                                                                @foreach (var i in x.listSup)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td>@i.VTTT.supply_id</td>
+                                                                                        <td>@i.VTTT.supply_name</td>
+                                                                                        <td>@i.VTTT.unit</td>
+                                                                                        <td>@i.VTTT.quantity_used</td>
+                                                                                        <td>@i.VTTT.supplyStatus</td>
+                                                                                        <td>@i.VTTT.quantity_out</td>
+                                                                                        <td>@i.VTTT.supplyStatus</td>
+                                                                                        @if (i.flag == 0)
+                                                                                        {
+                                                                                            <td rowspan='@x.rowCount'>@x.repair_reason</td>
+                                                                                        }
+                                                                                    </tr>
+                                                                                }
+                                                                            </tbody>
 
-
-                                                                    </table>
+                                                                        </table>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            }
+                                                }
 
+                                            </div>
                                         </div>
-                                    </div>
-                                }
+                                    }
+
+                                </div>
+                            </div>
+                            <div id="sctx" class="col s12">
 
                             </div>
 
-
                         </div>
-
+                        @using (Html.BeginForm("deleteLS", "Lylich", FormMethod.Post, new
+                        {
+                            id = "myFormDel",
+                            enctype = "multipart/form-data",
+                            onSubmit = "return deleteLS(this);",
+                            data_restUrl = Url.Action("deleteLS", "Lylich", new { id = "" })
+                        }))
+                        {
+                            <input type="hidden" id="delete_id" name="id" />
+                            <input type="hidden" id="delete_iddoc" name="iddoc" />
+                            <div id="myaleart" class="modal">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h3 class="modal-title">Xác nhận xóa mục này</h3>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="red-text">Dữ liệu không thể phục hồi sau thao tác này</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn blue darken-2 modal-close">Xóa</button>
+                                                <button type="button" class="btn red modal-close">Hủy</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                         <div id="lichsu" class="col s12">
                             <div class="row table_container">
                                 <table class="table table-bordered striped table-responsive centered"
@@ -342,42 +386,6 @@
                                                 <td>@item.activityname</td>
                                                 <td>@item.hours_per_day</td>
                                                 <td>@item.quantity</td>
-                                                <td>@item.status</td>
-                                                <td>@item.department_name</td>
-                                                <td>@item.note</td>
-                                            </tr>
-                                        }
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div id="tieuthu" class="col s12">
-                            <div class="row table_container">
-                                <table class="table table-bordered striped table-responsive centered"
-                                       style="margin-top:30px; text-align:center;">
-                                    <thead>
-                                        <tr>
-                                            <th rowspan="2" colspan="1">Ngày</th>
-                                            <th rowspan="1" colspan="2">Tiêu thụ</th>
-                                            <th rowspan="2" colspan="1">Tình trạng</th>
-                                            <th rowspan="2" colspan="1">Phân xưởng sử dụng</th>
-                                            <th rowspan="2" colspan="1">Ghi chú </th>
-                                        </tr>
-                                        <tr>
-                                            <th>Loại nhiên liệu</th>
-                                            <th>Lượng tiêu thụ</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in ViewBag.listF)
-                                        {
-                                            <tr>
-                                                <td>@item.actdate</td>
-                                                <td>@item.fuel_type</td>
-                                                <td>@item.consumption_value</td>
                                                 <td>@item.status</td>
                                                 <td>@item.department_name</td>
                                                 <td>@item.note</td>
@@ -454,52 +462,52 @@
                         </div>
 
                         @*<div id="baohiem" class="col s12">
-                                <div class="wrapper-timeline">
-                                    <div class="container">
-                                        @foreach (var x in ViewBag.listBH)
-                                        {
-                                            <div class="timeline">
-                                                <div class="timeline-month" id="title-@x.year">
-                                                    Năm @x.year
-                                                    <span>@x.count lần đăng ký bảo hiểm</span>
-                                                </div>
+            <div class="wrapper-timeline">
+                <div class="container">
+                    @foreach (var x in ViewBag.listBH)
+                    {
+                        <div class="timeline">
+                            <div class="timeline-month" id="title-@x.year">
+                                Năm @x.year
+                                <span>@x.count lần đăng ký bảo hiểm</span>
+                            </div>
 
-                                                @foreach (var y in x.equipment_Ins)
-                                                {
-                                                    if (count == 0)
-                                                    {
-                                                        @Html.Raw("<div class=\"timeline-section " + x.year + " lastest-year\">")
-                                                    }
-                                                    else
-                                                    {
-                                                        @Html.Raw("<div class=\"timeline-section " + x.year + "\">")
-                                                    }
-                                                    <div class="timeline-date">
-                                                        @y.getDateString(y.insurance_start_date)
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <div class="timeline-box">
-                                                                <div class="box-content table_container">
-                                                                    <table id="myborder" class="table-bordered striped table-responsive center">
-                                                                        <tr class="highlight">
-                                                                            <th>Thời hạn bảo hiểm</th>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>@y.getStringtime(y.insurance_start_date)</td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @Html.Raw("</div>")
-                                                }
+                            @foreach (var y in x.equipment_Ins)
+                            {
+                                if (count == 0)
+                                {
+                                    @Html.Raw("<div class=\"timeline-section " + x.year + " lastest-year\">")
+                                }
+                                else
+                                {
+                                    @Html.Raw("<div class=\"timeline-section " + x.year + "\">")
+                                }
+                                <div class="timeline-date">
+                                    @y.getDateString(y.insurance_start_date)
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="timeline-box">
+                                            <div class="box-content table_container">
+                                                <table id="myborder" class="table-bordered striped table-responsive center">
+                                                    <tr class="highlight">
+                                                        <th>Thời hạn bảo hiểm</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@y.getStringtime(y.insurance_start_date)</td>
+                                                    </tr>
+                                                </table>
                                             </div>
-                                        }
+                                        </div>
                                     </div>
                                 </div>
-                            </div>*@
+                                @Html.Raw("</div>")
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>*@
 
                         <div id="kiemdinh" class="col s12">
                             <div class="wrapper-timeline">
@@ -549,11 +557,34 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div id="tieuthu" class="col s12">
+                            <div class="row table_container">
+                                <table class="table table-bordered striped table-responsive centered"
+                                       style="margin-top:30px; text-align:center;">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" colspan="1">Ngày</th>
+                                            <th rowspan="1" colspan="2">Tiêu thụ</th>
+                                            <th rowspan="2" colspan="1">Phân xưởng sử dụng</th>
+                                            <th rowspan="2" colspan="1">Ghi chú </th>
+                                        </tr>
+                                        <tr>
+                                            <th>Loại nhiên liệu</th>
+                                            <th>Lượng tiêu thụ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
     <div class="modal fade" id="myadd">
         <div class="modal-content">
@@ -836,11 +867,11 @@
                         <div class="row">
                             <div class="col s6">
                                 <label>Mã vật tư</label>
-                                <input readonly="true" id="supDK_id_update" name="supid" class="form-control" />
+                                <input readonly id="supDK_id_update" name="supid" class="form-control" />
                             </div>
                             <div class="col s6">
                                 <label>Mã thiết bị</label>
-                                <input readonly="true" id="id_update" name="id" class="form-control" />
+                                <input readonly id="id_update" name="id" class="form-control" />
                             </div>
                             <div class="col s6">
                                 <label>Số lượng</label>
@@ -880,11 +911,11 @@
                         <div class="row">
                             <div class="col s6">
                                 <label>Mã vật tư</label>
-                                <input readonly="true" id="supDP_id_update" name="supid" class="form-control" />
+                                <input readonly id="supDP_id_update" name="supid" class="form-control" />
                             </div>
                             <div class="col s6">
                                 <label>Mã thiết bị</label>
-                                <input readonly="true" id="idDP_update" name="id" class="form-control" />
+                                <input readonly id="idDP_update" name="id" class="form-control" />
                             </div>
                             <div class="col s6">
                                 <label>Số lượng</label>
@@ -944,7 +975,7 @@
                     </div>
                     <div class="col s6">
                         <label>Mã thiết bị</label>
-                        <input readonly="true" id="id_add" name="id" class="form-control" />
+                        <input readonly id="id_add" name="id" class="form-control" />
                     </div>
                     <div class="col s6">
                         <label>Số lượng</label>
@@ -986,7 +1017,7 @@
                     </div>
                     <div class="col s4">
                         <label>Mã thiết bị</label>
-                        <input readonly="true" id="idDP_add" name="id" class="form-control" />
+                        <input readonly id="idDP_add" name="id" class="form-control" />
                     </div>
                     <div class="col s4">
                         <label>Số lượng</label>
@@ -1021,11 +1052,11 @@
                 <div class="row">
                     <div class="col s4">
                         <label>Mã vật tư</label>
-                        <input readonly="true" id="supSCTX_id_update" name="supid" class="form-control" />
+                        <input readonly id="supSCTX_id_update" name="supid" class="form-control" />
                     </div>
                     <div class="col s4">
                         <label>Mã thiết bị</label>
-                        <input readonly="true" id="idSCTX_update" name="id" class="form-control" />
+                        <input readonly id="idSCTX_update" name="id" class="form-control" />
                     </div>
                     <div class="col s4">
                         <label>Số lượng</label>
@@ -1066,8 +1097,39 @@
     <script src="~/js/Briefs_List.js"></script>
     <script src="~/js/Custom JS/CDVT/Report/DetailManu.js"></script>
     <script>
+        function deleteLS(form) {
+            $.validator.unobtrusive.parse(form);
+
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        window.location.reload(true);
+
+                    }
+                });
+            }
+
+
+            return false;
+        }
 
         $(document).ready(function () {
+            $(".btnDeleteLS").click(function () {
+                var data = $(this).attr('id');
+                document.getElementById("delete_iddoc").value = data;
+                document.getElementById("delete_id").value = '@ViewBag.equipment.equipmentId';
+            });
+            $("#myborder").on('click', '.btnDeleteLS', function () {
+                alert("abc");
+                // get the current row
+                var currentRow = $(this).closest("tr");
+                var data = currentRow.find("td:eq(8)").text();
+                document.getElementById("delete_id").value = data;
+                alert(data);
+            });
             // code to read selected table row cell data (values).
             $("#DK_table").on('click', '.btnSelect', function () {
                 // get the current row
@@ -1253,4 +1315,74 @@
             }
         })
         $(".wrapper-timeline").css("border", "none");
+    </script>
+    <script>
+        var tab6 = false
+        var tab7 = false
+
+        $('#tab6').click(function () {
+            if (tab6 == false) {
+                $('#pre-load').show()
+                $.ajax({
+                    type: "POST",
+                    url: '/phong-cdvt/thiet-bi/listFuel',
+                    data: {
+                        id: '@ViewBag.equipment.equipmentId'
+                    },
+                    success: function (response) {
+                        tab6 = true
+                        for (var i in response) {
+                            var item = response[i]
+                            var $tr = $('<tr>');
+                            $tr.append('<td>' + item.actdate + '</td>');
+                            $tr.append('<td>' + item.fuel_type + '</td>');
+                            $tr.append('<td>' + item.consumption_value + '</td>');
+                            $tr.append('<td>' + item.department_name + '</td>');
+                            if (item.note !== null)
+                                $tr.append('<td>' + item.note + '</td>');
+                            else
+                                $tr.append('<td>');
+                            $('#tieuthu').find('tbody').append($tr);
+                        }
+                        $('#pre-load').hide()
+                    },
+                    error: function () {
+                        $('#pre-load').hide()
+                    }
+                });
+            }
+        })
+
+        $('#tab7').click(function () {
+            if (tab7 == false) {
+                $('#pre-load').show()
+                $.ajax({
+                    type: "POST",
+                    url: '/phong-cdvt/thiet-bi/listFuel',
+                    data: {
+                        id: '@ViewBag.equipment.equipmentId'
+                    },
+                    success: function (response) {
+                        tab7 = true
+                        for (var i in response) {
+                            var item = response[i]
+                            var $tr = $('<tr>');
+                            $tr.append('<td>' + item.actdate + '</td>');
+                            $tr.append('<td>' + item.fuel_type + '</td>');
+                            $tr.append('<td>' + item.consumption_value + '</td>');
+                            $tr.append('<td>' + item.department_name + '</td>');
+                            if (item.note !== null)
+                                $tr.append('<td>' + item.note + '</td>');
+                            else
+                                $tr.append('<td>');
+                            $('#tieuthu').find('tbody').append($tr);
+                        }
+                        $('#pre-load').hide()
+                    },
+                    error: function () {
+                        $('#pre-load').hide()
+                    }
+                });
+            }
+        })
     </script>
