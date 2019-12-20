@@ -67,6 +67,45 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
             }
         }
+        [Auther(RightID = "3")]
+        [Route("phong-cdvt/huy-dong/export2")]
+        public void export2()
+        {
+            string path = HostingEnvironment.MapPath("/excel/CDVT/download/");
+            string filename = "huy-dong-2.xlsx";
+            FileInfo file = new FileInfo(path + filename);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    string query = @"select e.equipment_name, COUNT(e.equipmentId) as 'num',
+                                SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
+                                SUM(case when e.current_Status != 2 then 1 else 0 end) as 'sum2'
+                                from Equipment e
+                                where e.isAttach = 0
+                                group by e.equipment_name";
+                    var equipList = db.Database.SqlQuery<ExportByGroup>(query).ToList();
+
+                    int k = 2;
+                    for (int i = 0; i < equipList.Count; i++)
+                    {
+                        excelWorksheet.Cells[k, 1].Value = equipList.ElementAt(i).equipment_name;
+                        excelWorksheet.Cells[k, 2].Value = equipList.ElementAt(i).num;
+                        excelWorksheet.Cells[k, 3].Value = equipList.ElementAt(i).sum1;
+                        excelWorksheet.Cells[k, 4].Value = equipList.ElementAt(i).sum2;
+                        k++;
+                    }
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/CDVT/download/baocaohoatdong-2.xlsx")));
+                }
+                //
+
+
+            }
+        }
+
         [Auther(RightID = "6")]
         [Route("phong-cdvt/huy-dong")]
         [HttpGet]
@@ -154,7 +193,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             public int total_HD { get; set; }
         }
 
-
+        public class ExportByGroup : Equipment
+        {
+            public int num { get; set; }
+            public int sum1 { get; set; }
+            public int sum2 { get; set; }
+        }
         public class EquipWithName : Equipment
         {
             public Nullable<System.DateTime> durationOfInspection_fix { get; set; }
