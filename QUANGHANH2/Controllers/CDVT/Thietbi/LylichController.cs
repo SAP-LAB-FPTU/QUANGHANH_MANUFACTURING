@@ -236,7 +236,16 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 listSC.Add(rby);
             }
             ViewBag.listSC = listSC;
+            string query = "select s.*,e.equipment_name, d.department_name from Equipment_SCTX s join Equipment e on s.equipmentId = e.equipmentId join Department d on s.department_id = d.department_id where s.equipmentId = @id";
+            List<SCTX> listSCTX = DBContext.Database.SqlQuery<SCTX>(query, new SqlParameter("id", id)).ToList();
+            ViewBag.listSCTX = listSCTX;
             return View("/Views/CDVT/Thietbi/Lylich.cshtml");
+        }
+
+        public class SCTX : Equipment_SCTX
+        {
+            public string equipment_name { get; set; }
+            public string department_name { get; set; }
         }
 
         //NK tieu thu
