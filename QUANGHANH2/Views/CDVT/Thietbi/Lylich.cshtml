@@ -368,13 +368,11 @@
                                             <th rowspan="2" colspan="1">Ngày</th>
                                             <th rowspan="1" colspan="3">Hoạt động </th>
                                             <th rowspan="2" colspan="1">Phân xưởng sử dụng</th>
-                                            <th rowspan="2" colspan="1">Ghi chú </th>
                                         </tr>
                                         <tr>
                                             <th>Công việc trong ngày</th>
                                             <th>Số giờ hoạt động trong ngày</th>
                                             <th>Sản lượng(Tấn, Khối ,...)</th>
-
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -553,7 +551,6 @@
                                             <th rowspan="2" colspan="1">Ngày</th>
                                             <th rowspan="1" colspan="2">Tiêu thụ</th>
                                             <th rowspan="2" colspan="1">Phân xưởng sử dụng</th>
-                                            <th rowspan="2" colspan="1">Ghi chú </th>
                                         </tr>
                                         <tr>
                                             <th>Loại nhiên liệu</th>
@@ -1325,10 +1322,6 @@
                             $tr.append('<td>' + item.hours_per_day + '</td>');
                             $tr.append('<td>' + item.quantity + '</td>');
                             $tr.append('<td>' + item.department_name + '</td>');
-                            if (item.note !== null)
-                                $tr.append('<td>' + item.note + '</td>');
-                            else
-                                $tr.append('<td>');
                             $('#lichsu').find('tbody').append($tr);
                         }
                         $('#pre-load').hide()
@@ -1358,10 +1351,6 @@
                             $tr.append('<td>' + item.fuel_type + '</td>');
                             $tr.append('<td>' + item.consumption_value + '</td>');
                             $tr.append('<td>' + item.department_name + '</td>');
-                            if (item.note !== null)
-                                $tr.append('<td>' + item.note + '</td>');
-                            else
-                                $tr.append('<td>');
                             $('#tieuthu').find('tbody').append($tr);
                         }
                         $('#pre-load').hide()

@@ -413,15 +413,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                 break;
                             }
                         }
-                        string note = "";
                         string sql_sup = "insert into Supply_DuPhong values (@supid, @eid, @quan)";
                         DBContext.Database.ExecuteSqlCommand(sql_sup
                             , new SqlParameter("@supid", s.supply_id)
                             , new SqlParameter("@eid", id)
                             , new SqlParameter("@quan", quan));
-
-
-
                     }
                     DBContext.SaveChanges();
                     dbc.Commit();
@@ -491,25 +487,19 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
         }
 
-
-
-
-        public class myFuel : Fuel_activities_consumption
+        private class myFuel : Fuel_activities_consumption
         {
             public string department_name { get; set; }
             public string actdate { get; set; }
-            public string status { get; set; }
-            public string note { get; set; }
         }
 
-        public class myAct : Activity
+        private class myAct : Activity
         {
             public string department_name { get; set; }
             public string actdate { get; set; }
-            public string note { get; set; }
         }
 
-        public string toStringDate(DateTime date)
+        private string toStringDate(DateTime date)
         {
             string data = date.ToString("dddd-dd-MM");
             string[] words = data.Split('-');
