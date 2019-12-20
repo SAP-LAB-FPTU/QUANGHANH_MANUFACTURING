@@ -383,30 +383,6 @@
                             </div>
                         </div>
 
-                        <div id="tieuthu" class="col s12">
-                            <div class="row table_container">
-                                <table class="table table-bordered striped table-responsive centered"
-                                       style="margin-top:30px; text-align:center;">
-                                    <thead>
-                                        <tr>
-                                            <th rowspan="2" colspan="1">Ngày</th>
-                                            <th rowspan="1" colspan="2">Tiêu thụ</th>
-                                            <th rowspan="2" colspan="1">Tình trạng</th>
-                                            <th rowspan="2" colspan="1">Phân xưởng sử dụng</th>
-                                            <th rowspan="2" colspan="1">Ghi chú </th>
-                                        </tr>
-                                        <tr>
-                                            <th>Loại nhiên liệu</th>
-                                            <th>Lượng tiêu thụ</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
                         <div id="suco" class="col s12">
                             <div class="wrapper-timeline">
                                 <div class="container">
@@ -565,44 +541,6 @@
                                         </div>
                                     }
                                 </div>
-                            </div>
-                        </div>
-
-                        <div id="lichsu" class="col s12">
-                            <div class="row table_container">
-                                <table class="table table-bordered striped table-responsive centered"
-                                       style="margin-top:30px; text-align:center;">
-                                    <thead>
-                                        <tr>
-                                            <th rowspan="2" colspan="1">Ngày</th>
-                                            <th rowspan="1" colspan="3">Hoạt động </th>
-                                            <th rowspan="2" colspan="1">Tình trạng</th>
-                                            <th rowspan="2" colspan="1">Phân xưởng sử dụng</th>
-                                            <th rowspan="2" colspan="1">Ghi chú </th>
-                                        </tr>
-                                        <tr>
-                                            <th>Công việc trong ngày</th>
-                                            <th>Số giờ hoạt động trong ngày</th>
-                                            <th>Sản lượng(Tấn, Khối ,...)</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in ViewBag.listHD)
-                                        {
-                                            <tr>
-                                                <td>@item.actdate</td>
-                                                <td>@item.activityname</td>
-                                                <td>@item.hours_per_day</td>
-                                                <td>@item.quantity</td>
-                                                <td>@item.status</td>
-                                                <td>@item.department_name</td>
-                                                <td>@item.note</td>
-                                            </tr>
-                                        }
-
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
 
