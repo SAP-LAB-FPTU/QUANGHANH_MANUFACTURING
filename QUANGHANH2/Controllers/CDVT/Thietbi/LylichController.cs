@@ -248,21 +248,28 @@ namespace QUANGHANHCORE.Controllers.CDVT
             using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
             {
                 DBContext.Configuration.LazyLoadingEnabled = false;
-                string query = "select s.*,e.equipment_name, d.department_name from Equipment_SCTX s join Equipment e on s.equipmentId = e.equipmentId join Department d on s.department_id = d.department_id where s.equipmentId = @id";
-                List<SCTX> listSCTX = DBContext.Database.SqlQuery<SCTX>(query, new SqlParameter("id", id)).ToList();
-                foreach (var item in listSCTX)
-                {
-                    item.actdate = item.date.ToString("dd/MM/yyyy");
-                }
-                return Json(listSCTX);
-            }
-        }
+                var temp = (from e in DBContext.Equipments
+                            where e.equipmentId.Equals(id)
+                            join s in DBContext.Equipment_SCTX on e.equipmentId equals s.equipmentId
+                            join d in DBContext.Departments on s.department_id equals d.department_id
+                            select new
+                            {
+                                s.date,
+                                s.equipmentId,
+                                e.equipment_name,
+                                d.department_name,
+                                s.maintain_content
+                            }).ToList().Select(x => new
+                            {
+                                actdate = x.date.ToString("dd/MM/yyyy"),
+                                x.equipmentId,
+                                x.equipment_name,
+                                x.department_name,
+                                x.maintain_content
 
-        private class SCTX : Equipment_SCTX
-        {
-            public string equipment_name { get; set; }
-            public string department_name { get; set; }
-            public string actdate { get; set; }
+                            }).ToList();
+                return Json(temp);
+            }
         }
 
         //NK tieu thu
