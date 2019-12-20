@@ -247,7 +247,7 @@
                         <div id="suachua" class="col s12">
                             <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
                                 <li class="tab col s6"><a class="active" href="#sct">Sửa chữa</a></li>
-                                <li class="tab col s6"><a href="#sctx">SCTX</a></li>
+                                <li class="tab col s6"><a href="#sctx" id="tab3">SCTX</a></li>
                             </ul>
                             <div id="sct" class="col s12">
                                 <div class="wrapper-timeline">
@@ -337,18 +337,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @{ 
-                                            foreach(var item in ViewBag.listSCTX)
-                                            {
-                                                <tr>
-                                                    <td>@item.date</td>
-                                                    <td>@item.equipment_name</td>
-                                                    <td>@item.equipmentId</td>
-                                                    <td>@item.department_name</td>
-                                                    <td>@item.maintain_content</td>
-                                                </tr>
-                                            }
-                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -1324,8 +1312,39 @@
         $(".wrapper-timeline").css("border", "none");
     </script>
     <script>
+        var tab3 = false
         var tab6 = false
         var tab7 = false
+
+        $('#tab3').click(function () {
+            if (tab3 == false) {
+                $('#pre-load').show()
+                $.ajax({
+                    type: "POST",
+                    url: '/phong-cdvt/thiet-bi/listDailyRepair',
+                    data: {
+                        id: '@ViewBag.equipment.equipmentId'
+                    },
+                    success: function (response) {
+                        tab3 = true
+                        for (var i in response) {
+                            var item = response[i]
+                            var $tr = $('<tr>');
+                            $tr.append('<td>' + item.actdate + '</td>');
+                            $tr.append('<td>' + item.equipment_name + '</td>');
+                            $tr.append('<td>' + item.equipmentId + '</td>');
+                            $tr.append('<td>' + item.department_name + '</td>');
+                            $tr.append('<td>' + item.maintain_content + '</td>');
+                            $('#sctx').find('tbody').append($tr);
+                        }
+                        $('#pre-load').hide()
+                    },
+                    error: function () {
+                        $('#pre-load').hide()
+                    }
+                });
+            }
+        })
 
         $('#tab6').click(function () {
             if (tab6 == false) {

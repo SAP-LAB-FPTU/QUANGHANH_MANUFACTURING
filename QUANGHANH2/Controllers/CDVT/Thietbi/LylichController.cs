@@ -1,4 +1,5 @@
-﻿using QUANGHANH2.Models;
+﻿using Newtonsoft.Json.Linq;
+using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
@@ -236,16 +237,32 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 listSC.Add(rby);
             }
             ViewBag.listSC = listSC;
-            string query = "select s.*,e.equipment_name, d.department_name from Equipment_SCTX s join Equipment e on s.equipmentId = e.equipmentId join Department d on s.department_id = d.department_id where s.equipmentId = @id";
-            List<SCTX> listSCTX = DBContext.Database.SqlQuery<SCTX>(query, new SqlParameter("id", id)).ToList();
-            ViewBag.listSCTX = listSCTX;
             return View("/Views/CDVT/Thietbi/Lylich.cshtml");
         }
 
-        public class SCTX : Equipment_SCTX
+        //NK sua chua thuong xuyen
+        [Route("phong-cdvt/thiet-bi/listDailyRepair")]
+        [HttpPost]
+        public ActionResult listDailyRepair(string id)
+        {
+            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+            {
+                DBContext.Configuration.LazyLoadingEnabled = false;
+                string query = "select s.*,e.equipment_name, d.department_name from Equipment_SCTX s join Equipment e on s.equipmentId = e.equipmentId join Department d on s.department_id = d.department_id where s.equipmentId = @id";
+                List<SCTX> listSCTX = DBContext.Database.SqlQuery<SCTX>(query, new SqlParameter("id", id)).ToList();
+                foreach (var item in listSCTX)
+                {
+                    item.actdate = item.date.ToString("dd/MM/yyyy");
+                }
+                return Json(listSCTX);
+            }
+        }
+
+        private class SCTX : Equipment_SCTX
         {
             public string equipment_name { get; set; }
             public string department_name { get; set; }
+            public string actdate { get; set; }
         }
 
         //NK tieu thu
@@ -257,12 +274,20 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 DBContext.Configuration.LazyLoadingEnabled = false;
                 List<myFuel> listFuel = DBContext.Database.SqlQuery<myFuel>("select f.*, d.department_name from Fuel_activities_consumption f, Equipment e, Department d where e.equipmentId = f.equipmentId and e.department_id =  d.department_id and e.equipmentId = @id order by f.date desc", new SqlParameter("id", id)).ToList();
+                //var temp = from e in DBContext.Equipments join f in DBContext.Fuel_activities_consumption on e.equipmentId equals f.equipmentId
+                //           join d in DBContext.Departments on f.
                 foreach (var item in listFuel)
                 {
                     item.actdate = item.date.ToString("dd/MM/yyyy");
                 }
                 return Json(listFuel);
             }
+        }
+
+        private class myFuel : Fuel_activities_consumption
+        {
+            public string department_name { get; set; }
+            public string actdate { get; set; }
         }
 
         //NK hoat dong
@@ -280,6 +305,12 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 }
                 return Json(listHD);
             }
+        }
+
+        private class myAct : Activity
+        {
+            public string department_name { get; set; }
+            public string actdate { get; set; }
         }
 
         [HttpPost]
@@ -494,18 +525,6 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
             }
 
-        }
-
-        private class myFuel : Fuel_activities_consumption
-        {
-            public string department_name { get; set; }
-            public string actdate { get; set; }
-        }
-
-        private class myAct : Activity
-        {
-            public string department_name { get; set; }
-            public string actdate { get; set; }
         }
 
         private string toStringDate(DateTime date)
