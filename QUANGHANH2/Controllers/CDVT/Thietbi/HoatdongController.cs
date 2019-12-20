@@ -11,7 +11,6 @@ using System.Threading;
 using System.IO;
 using System.Web.Hosting;
 using OfficeOpenXml;
-using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Globalization;
 using QUANGHANH2.SupportClass;

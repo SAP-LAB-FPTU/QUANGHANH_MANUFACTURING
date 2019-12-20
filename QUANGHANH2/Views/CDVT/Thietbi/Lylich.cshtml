@@ -29,7 +29,7 @@
                                 @*<li class="tab col s1"><a href="#baohiem">NK BẢO HIỂM</a></li>*@
                                 <li class="tab col s2"><a href="#kiemdinh">NK KIỂM ĐỊNH</a></li>
                                 <li class="tab col s1"><a href="#lichsu">NK HOẠT ĐỘNG</a></li>
-                                <li class="tab col s2"><a href="#tieuthu">NK TIÊU THỤ NHIÊN LIỆU</a></li>
+                                <li class="tab col s2"><a id="tab7" href="#tieuthu">NK TIÊU THỤ NHIÊN LIỆU</a></li>
                             </ul>
                         </div>
                         <div id="dieuchuyen" class="col s12">
@@ -498,52 +498,52 @@
                         </div>
 
                         @*<div id="baohiem" class="col s12">
-                                <div class="wrapper-timeline">
-                                    <div class="container">
-                                        @foreach (var x in ViewBag.listBH)
-                                        {
-                                            <div class="timeline">
-                                                <div class="timeline-month" id="title-@x.year">
-                                                    Năm @x.year
-                                                    <span>@x.count lần đăng ký bảo hiểm</span>
-                                                </div>
+            <div class="wrapper-timeline">
+                <div class="container">
+                    @foreach (var x in ViewBag.listBH)
+                    {
+                        <div class="timeline">
+                            <div class="timeline-month" id="title-@x.year">
+                                Năm @x.year
+                                <span>@x.count lần đăng ký bảo hiểm</span>
+                            </div>
 
-                                                @foreach (var y in x.equipment_Ins)
-                                                {
-                                                    if (count == 0)
-                                                    {
-                                                        @Html.Raw("<div class=\"timeline-section " + x.year + " lastest-year\">")
-                                                    }
-                                                    else
-                                                    {
-                                                        @Html.Raw("<div class=\"timeline-section " + x.year + "\">")
-                                                    }
-                                                    <div class="timeline-date">
-                                                        @y.getDateString(y.insurance_start_date)
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <div class="timeline-box">
-                                                                <div class="box-content table_container">
-                                                                    <table id="myborder" class="table-bordered striped table-responsive center">
-                                                                        <tr class="highlight">
-                                                                            <th>Thời hạn bảo hiểm</th>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>@y.getStringtime(y.insurance_start_date)</td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @Html.Raw("</div>")
-                                                }
+                            @foreach (var y in x.equipment_Ins)
+                            {
+                                if (count == 0)
+                                {
+                                    @Html.Raw("<div class=\"timeline-section " + x.year + " lastest-year\">")
+                                }
+                                else
+                                {
+                                    @Html.Raw("<div class=\"timeline-section " + x.year + "\">")
+                                }
+                                <div class="timeline-date">
+                                    @y.getDateString(y.insurance_start_date)
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="timeline-box">
+                                            <div class="box-content table_container">
+                                                <table id="myborder" class="table-bordered striped table-responsive center">
+                                                    <tr class="highlight">
+                                                        <th>Thời hạn bảo hiểm</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>@y.getStringtime(y.insurance_start_date)</td>
+                                                    </tr>
+                                                </table>
                                             </div>
-                                        }
+                                        </div>
                                     </div>
                                 </div>
-                            </div>*@
+                                @Html.Raw("</div>")
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>*@
 
                         <div id="kiemdinh" class="col s12">
                             <div class="wrapper-timeline">
@@ -593,11 +593,72 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div id="lichsu" class="col s12">
+                            <div class="row table_container">
+                                <table class="table table-bordered striped table-responsive centered"
+                                       style="margin-top:30px; text-align:center;">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" colspan="1">Ngày</th>
+                                            <th rowspan="1" colspan="3">Hoạt động </th>
+                                            <th rowspan="2" colspan="1">Tình trạng</th>
+                                            <th rowspan="2" colspan="1">Phân xưởng sử dụng</th>
+                                            <th rowspan="2" colspan="1">Ghi chú </th>
+                                        </tr>
+                                        <tr>
+                                            <th>Công việc trong ngày</th>
+                                            <th>Số giờ hoạt động trong ngày</th>
+                                            <th>Sản lượng(Tấn, Khối ,...)</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ViewBag.listHD)
+                                        {
+                                            <tr>
+                                                <td>@item.actdate</td>
+                                                <td>@item.activityname</td>
+                                                <td>@item.hours_per_day</td>
+                                                <td>@item.quantity</td>
+                                                <td>@item.status</td>
+                                                <td>@item.department_name</td>
+                                                <td>@item.note</td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div id="tieuthu" class="col s12">
+                            <div class="row table_container">
+                                <table class="table table-bordered striped table-responsive centered"
+                                       style="margin-top:30px; text-align:center;">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" colspan="1">Ngày</th>
+                                            <th rowspan="1" colspan="2">Tiêu thụ</th>
+                                            <th rowspan="2" colspan="1">Phân xưởng sử dụng</th>
+                                            <th rowspan="2" colspan="1">Ghi chú </th>
+                                        </tr>
+                                        <tr>
+                                            <th>Loại nhiên liệu</th>
+                                            <th>Lượng tiêu thụ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
     <div class="modal fade" id="myadd">
         <div class="modal-content">
@@ -880,11 +941,11 @@
                         <div class="row">
                             <div class="col s6">
                                 <label>Mã vật tư</label>
-                                <input readonly="true" id="supDK_id_update" name="supid" class="form-control" />
+                                <input readonly id="supDK_id_update" name="supid" class="form-control" />
                             </div>
                             <div class="col s6">
                                 <label>Mã thiết bị</label>
-                                <input readonly="true" id="id_update" name="id" class="form-control" />
+                                <input readonly id="id_update" name="id" class="form-control" />
                             </div>
                             <div class="col s6">
                                 <label>Số lượng</label>
@@ -924,11 +985,11 @@
                         <div class="row">
                             <div class="col s6">
                                 <label>Mã vật tư</label>
-                                <input readonly="true" id="supDP_id_update" name="supid" class="form-control" />
+                                <input readonly id="supDP_id_update" name="supid" class="form-control" />
                             </div>
                             <div class="col s6">
                                 <label>Mã thiết bị</label>
-                                <input readonly="true" id="idDP_update" name="id" class="form-control" />
+                                <input readonly id="idDP_update" name="id" class="form-control" />
                             </div>
                             <div class="col s6">
                                 <label>Số lượng</label>
@@ -988,7 +1049,7 @@
                     </div>
                     <div class="col s6">
                         <label>Mã thiết bị</label>
-                        <input readonly="true" id="id_add" name="id" class="form-control" />
+                        <input readonly id="id_add" name="id" class="form-control" />
                     </div>
                     <div class="col s6">
                         <label>Số lượng</label>
@@ -1030,7 +1091,7 @@
                     </div>
                     <div class="col s4">
                         <label>Mã thiết bị</label>
-                        <input readonly="true" id="idDP_add" name="id" class="form-control" />
+                        <input readonly id="idDP_add" name="id" class="form-control" />
                     </div>
                     <div class="col s4">
                         <label>Số lượng</label>
@@ -1065,11 +1126,11 @@
                 <div class="row">
                     <div class="col s4">
                         <label>Mã vật tư</label>
-                        <input readonly="true" id="supSCTX_id_update" name="supid" class="form-control" />
+                        <input readonly id="supSCTX_id_update" name="supid" class="form-control" />
                     </div>
                     <div class="col s4">
                         <label>Mã thiết bị</label>
-                        <input readonly="true" id="idSCTX_update" name="id" class="form-control" />
+                        <input readonly id="idSCTX_update" name="id" class="form-control" />
                     </div>
                     <div class="col s4">
                         <label>Số lượng</label>
@@ -1328,4 +1389,74 @@
             }
         })
         $(".wrapper-timeline").css("border", "none");
+    </script>
+    <script>
+        var tab6 = false
+        var tab7 = false
+
+        $('#tab6').click(function () {
+            if (tab6 == false) {
+                $('#pre-load').show()
+                $.ajax({
+                    type: "POST",
+                    url: '/phong-cdvt/thiet-bi/listFuel',
+                    data: {
+                        id: '@ViewBag.equipment.equipmentId'
+                    },
+                    success: function (response) {
+                        tab6 = true
+                        for (var i in response) {
+                            var item = response[i]
+                            var $tr = $('<tr>');
+                            $tr.append('<td>' + item.actdate + '</td>');
+                            $tr.append('<td>' + item.fuel_type + '</td>');
+                            $tr.append('<td>' + item.consumption_value + '</td>');
+                            $tr.append('<td>' + item.department_name + '</td>');
+                            if (item.note !== null)
+                                $tr.append('<td>' + item.note + '</td>');
+                            else
+                                $tr.append('<td>');
+                            $('#tieuthu').find('tbody').append($tr);
+                        }
+                        $('#pre-load').hide()
+                    },
+                    error: function () {
+                        $('#pre-load').hide()
+                    }
+                });
+            }
+        })
+
+        $('#tab7').click(function () {
+            if (tab7 == false) {
+                $('#pre-load').show()
+                $.ajax({
+                    type: "POST",
+                    url: '/phong-cdvt/thiet-bi/listFuel',
+                    data: {
+                        id: '@ViewBag.equipment.equipmentId'
+                    },
+                    success: function (response) {
+                        tab7 = true
+                        for (var i in response) {
+                            var item = response[i]
+                            var $tr = $('<tr>');
+                            $tr.append('<td>' + item.actdate + '</td>');
+                            $tr.append('<td>' + item.fuel_type + '</td>');
+                            $tr.append('<td>' + item.consumption_value + '</td>');
+                            $tr.append('<td>' + item.department_name + '</td>');
+                            if (item.note !== null)
+                                $tr.append('<td>' + item.note + '</td>');
+                            else
+                                $tr.append('<td>');
+                            $('#tieuthu').find('tbody').append($tr);
+                        }
+                        $('#pre-load').hide()
+                    },
+                    error: function () {
+                        $('#pre-load').hide()
+                    }
+                });
+            }
+        })
     </script>

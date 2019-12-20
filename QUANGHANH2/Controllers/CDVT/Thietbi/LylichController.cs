@@ -49,7 +49,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         {
             return Redirect("/phong-cdvt/huy-dong");
         }
-        [Auther(RightID ="10,6")]
+        [Auther(RightID = "10,6")]
         [Route("phong-cdvt/thiet-bi")]
         [HttpPost]
         public ActionResult ABC(string id)
@@ -244,15 +244,24 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 item.actdate = item.date.ToString("dd/MM/yyyy");
             }
             ViewBag.listHD = listHD;
-            //NK tieu thu
-            List<myFuel> listFuel = DBContext.Database.SqlQuery<myFuel>("select f.*, d.department_name from Fuel_activities_consumption f, Equipment e, Department d where e.equipmentId = f.equipmentId and e.department_id =  d.department_id and e.equipmentId = @id order by f.date desc", new SqlParameter("id", id)).ToList();
-            foreach (var item in listFuel)
-            {
-                item.status = "Ổn định";
-                item.actdate = item.date.ToString("dd/MM/yyyy");
-            }
-            ViewBag.listF = listFuel;
             return View("/Views/CDVT/Thietbi/Lylich.cshtml");
+        }
+
+        //NK tieu thu
+        [Route("phong-cdvt/thiet-bi/listFuel")]
+        [HttpPost]
+        public ActionResult listFuel(string id)
+        {
+            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+            {
+                DBContext.Configuration.LazyLoadingEnabled = false;
+                List<myFuel> listFuel = DBContext.Database.SqlQuery<myFuel>("select f.*, d.department_name from Fuel_activities_consumption f, Equipment e, Department d where e.equipmentId = f.equipmentId and e.department_id =  d.department_id and e.equipmentId = @id order by f.date desc", new SqlParameter("id", id)).ToList();
+                foreach (var item in listFuel)
+                {
+                    item.actdate = item.date.ToString("dd/MM/yyyy");
+                }
+                return Json(listFuel);
+            }
         }
 
 
@@ -347,7 +356,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
 
                         Equipment s = DBContext.Equipments.Where(x => x.equipment_name == nameSup).FirstOrDefault();
-                        
+
                         string sql_sup = "insert into Supply_DiKem values (@eid, @supid, @quan, @note, 0)";
                         DBContext.Database.ExecuteSqlCommand(sql_sup
                             , new SqlParameter("@supid", s.equipmentId)
