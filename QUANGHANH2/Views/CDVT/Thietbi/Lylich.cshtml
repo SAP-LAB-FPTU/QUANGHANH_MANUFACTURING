@@ -28,7 +28,7 @@
                                 <li class="tab col s1"><a href="#suco">NK SỰ CỐ</a></li>
                                 @*<li class="tab col s1"><a href="#baohiem">NK BẢO HIỂM</a></li>*@
                                 <li class="tab col s2"><a href="#kiemdinh">NK KIỂM ĐỊNH</a></li>
-                                <li class="tab col s1"><a href="#lichsu">NK HOẠT ĐỘNG</a></li>
+                                <li class="tab col s1"><a id="tab6" href="#lichsu">NK HOẠT ĐỘNG</a></li>
                                 <li class="tab col s2"><a id="tab7" href="#tieuthu">NK TIÊU THỤ NHIÊN LIỆU</a></li>
                             </ul>
                         </div>
@@ -247,7 +247,7 @@
                         <div id="suachua" class="col s12">
                             <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
                                 <li class="tab col s6"><a class="active" href="#sct">Sửa chữa</a></li>
-                                <li class="tab col s6"><a href="#sctx">SCTX</a></li>
+                                <li class="tab col s6"><a href="#sctx" id="tab3">SCTX</a></li>
                             </ul>
                             <div id="sct" class="col s12">
                                 <div class="wrapper-timeline">
@@ -337,18 +337,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @{ 
-                                            foreach(var item in ViewBag.listSCTX)
-                                            {
-                                                <tr>
-                                                    <td>@item.date</td>
-                                                    <td>@item.equipment_name</td>
-                                                    <td>@item.equipmentId</td>
-                                                    <td>@item.department_name</td>
-                                                    <td>@item.maintain_content</td>
-                                                </tr>
-                                            }
-                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -391,31 +379,15 @@
                                         <tr>
                                             <th rowspan="2" colspan="1">Ngày</th>
                                             <th rowspan="1" colspan="3">Hoạt động </th>
-                                            <th rowspan="2" colspan="1">Tình trạng</th>
                                             <th rowspan="2" colspan="1">Phân xưởng sử dụng</th>
-                                            <th rowspan="2" colspan="1">Ghi chú </th>
                                         </tr>
                                         <tr>
                                             <th>Công việc trong ngày</th>
                                             <th>Số giờ hoạt động trong ngày</th>
                                             <th>Sản lượng(Tấn, Khối ,...)</th>
-
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var item in ViewBag.listHD)
-                                        {
-                                            <tr>
-                                                <td>@item.actdate</td>
-                                                <td>@item.activityname</td>
-                                                <td>@item.hours_per_day</td>
-                                                <td>@item.quantity</td>
-                                                <td>@item.status</td>
-                                                <td>@item.department_name</td>
-                                                <td>@item.note</td>
-                                            </tr>
-                                        }
-
                                     </tbody>
                                 </table>
                             </div>
@@ -591,7 +563,6 @@
                                             <th rowspan="2" colspan="1">Ngày</th>
                                             <th rowspan="1" colspan="2">Tiêu thụ</th>
                                             <th rowspan="2" colspan="1">Phân xưởng sử dụng</th>
-                                            <th rowspan="2" colspan="1">Ghi chú </th>
                                         </tr>
                                         <tr>
                                             <th>Loại nhiên liệu</th>
@@ -1341,15 +1312,46 @@
         $(".wrapper-timeline").css("border", "none");
     </script>
     <script>
+        var tab3 = false
         var tab6 = false
         var tab7 = false
+
+        $('#tab3').click(function () {
+            if (tab3 == false) {
+                $('#pre-load').show()
+                $.ajax({
+                    type: "POST",
+                    url: '/phong-cdvt/thiet-bi/listDailyRepair',
+                    data: {
+                        id: '@ViewBag.equipment.equipmentId'
+                    },
+                    success: function (response) {
+                        tab3 = true
+                        for (var i in response) {
+                            var item = response[i]
+                            var $tr = $('<tr>');
+                            $tr.append('<td>' + item.actdate + '</td>');
+                            $tr.append('<td>' + item.equipment_name + '</td>');
+                            $tr.append('<td>' + item.equipmentId + '</td>');
+                            $tr.append('<td>' + item.department_name + '</td>');
+                            $tr.append('<td>' + item.maintain_content + '</td>');
+                            $('#sctx').find('tbody').append($tr);
+                        }
+                        $('#pre-load').hide()
+                    },
+                    error: function () {
+                        $('#pre-load').hide()
+                    }
+                });
+            }
+        })
 
         $('#tab6').click(function () {
             if (tab6 == false) {
                 $('#pre-load').show()
                 $.ajax({
                     type: "POST",
-                    url: '/phong-cdvt/thiet-bi/listFuel',
+                    url: '/phong-cdvt/thiet-bi/listActivities',
                     data: {
                         id: '@ViewBag.equipment.equipmentId'
                     },
@@ -1359,14 +1361,11 @@
                             var item = response[i]
                             var $tr = $('<tr>');
                             $tr.append('<td>' + item.actdate + '</td>');
-                            $tr.append('<td>' + item.fuel_type + '</td>');
-                            $tr.append('<td>' + item.consumption_value + '</td>');
+                            $tr.append('<td>' + item.activityname + '</td>');
+                            $tr.append('<td>' + item.hours_per_day + '</td>');
+                            $tr.append('<td>' + item.quantity + '</td>');
                             $tr.append('<td>' + item.department_name + '</td>');
-                            if (item.note !== null)
-                                $tr.append('<td>' + item.note + '</td>');
-                            else
-                                $tr.append('<td>');
-                            $('#tieuthu').find('tbody').append($tr);
+                            $('#lichsu').find('tbody').append($tr);
                         }
                         $('#pre-load').hide()
                     },
@@ -1395,10 +1394,6 @@
                             $tr.append('<td>' + item.fuel_type + '</td>');
                             $tr.append('<td>' + item.consumption_value + '</td>');
                             $tr.append('<td>' + item.department_name + '</td>');
-                            if (item.note !== null)
-                                $tr.append('<td>' + item.note + '</td>');
-                            else
-                                $tr.append('<td>');
                             $('#tieuthu').find('tbody').append($tr);
                         }
                         $('#pre-load').hide()
