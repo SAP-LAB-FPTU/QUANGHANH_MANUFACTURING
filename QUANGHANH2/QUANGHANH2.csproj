@@ -647,9 +647,6 @@
     <Compile Include="Models\Supply_tieuhao.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TaiNan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -7163,6 +7160,8 @@
     <Content Include="excel\CDVT\download\tieu-hao-vat-tu-chi-tiet-download.xlsx" />
     <Content Include="excel\CDVT\download\tieu-hao-vat-tu-tong-hop-download.xlsx" />
     <Content Include="excel\CDVT\download\tieu-hao-vat-tu-tong-hop.xlsx" />
+    <Content Include="excel\CDVT\download\huy-dong-2.xlsx" />
+    <Content Include="excel\CDVT\download\baocaohoatdong-2.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>

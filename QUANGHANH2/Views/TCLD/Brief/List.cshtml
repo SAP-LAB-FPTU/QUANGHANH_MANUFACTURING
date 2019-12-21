@@ -49,12 +49,12 @@
                                         {
                                             <a class="waves-effect waves-light btn btn-small blue darken-2 modal-trigger input-field" href="/phong-tcld/quan-ly-nhan-vien/tuyen-dung-nhan-vien" style="width:120px" data-target="tuyendung">Tuyển Dụng</a>
                                         }
-                                        
+
                                     }
                                 </div>
                                 @*<div class="col s2 m3 l3">
-                            <a class="waves-effect waves-light btn btn-small blue darken-2 modal-trigger input-field" style="width:120px" href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/them-nhan-vien")">Thêm</a>
-                        </div>*@
+                                        <a class="waves-effect waves-light btn btn-small blue darken-2 modal-trigger input-field" style="width:120px" href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/them-nhan-vien")">Thêm</a>
+                                    </div>*@
                                 <div class="col s3 m3 l3">
                                     <a class="waves-effect waves-light btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
                                 </div>
@@ -126,7 +126,7 @@
                 <div class="row">
                     <div class="col s6 m6 l12">
                         <label>Số quyết định</label>
-                        <input name="soQD" class=' form-control' placeholder="Số quyết định" autocomplete = "off"/>
+                        <input name="soQD" class=' form-control' placeholder="Số quyết định" autocomplete="off" />
                     </div>
                     <div class="col s6 m6 l6">
                         <label>Lí do chấm dứt</label>
@@ -145,7 +145,7 @@
                     </div>
                     <div class="col s6 m6 l6">
                         <label>Ngày chấm dứt</label>
-                        <input name="dateTLHD" id="datepicker" type='text' class='datepicker-here form-control' autocomplete = "off" data-language='vi' placeholder="Ngày chấm dứt" />
+                        <input name="dateTLHD" id="datepicker" type='text' class='datepicker-here form-control' autocomplete="off" data-language='vi' placeholder="Ngày chấm dứt" />
                     </div>
 
                 </div>
@@ -168,7 +168,7 @@
                         <br />
                         <label>
                             <input id="else2" name="group2" type="radio" />
-                            <span><input id="else" name="elseCase" class="form-control" placeholder="Trường hợp khác" required disabled autocomplete = "off"/></span>
+                            <span><input id="else" name="elseCase" class="form-control" placeholder="Trường hợp khác" required disabled autocomplete="off" /></span>
                         </label>
                     </div>
                 </div>
@@ -325,7 +325,7 @@
                         {
                             "data": "MaNV", "render": function (data) {
                                 return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a> &nbsp;&nbsp;&nbsp;" +
-                                     "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getHistoryID(" + data + "); getTransferHistory(" + data + "); ' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a> &nbsp;&nbsp;&nbsp;" +
+                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getHistoryID(" + data + "); getTransferHistory(" + data + ");' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a> &nbsp;&nbsp;&nbsp;" +
                                     "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getTlhd(" + data + ")' data-target='deleteBriefs'><span class='fas fa-times-circle'>&nbsp;TLHĐ</span></a>";
 
                             },
@@ -393,7 +393,7 @@
                     //successAlert('Thành công', 'Tìm kiếm thành công');
                 });
             });
-             $(".input-field").keydown(function (e) {
+            $(".input-field").keydown(function (e) {
                 if (e.keyCode === 13) {
                     dataTable.ajax.reload();
                 }
@@ -411,10 +411,10 @@
         function getHistoryEployee() {
             var id = document.getElementById("historyElementID").value;
             if (id != null) {
-            window.location.href ='lich-su-lam-viec?id=' + id;
+                window.location.href = 'lich-su-lam-viec?id=' + id;
+            }
         }
 
-        }
         function getTlhd(a) {
             document.getElementById("tlhdd").value = a;
         }
