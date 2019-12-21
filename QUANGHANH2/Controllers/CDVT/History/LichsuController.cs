@@ -538,6 +538,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     {
                         Fuel_activities_consumption fuel_Activities_Consumption = new Fuel_activities_consumption()
                         {
+                            department_id = department_id,
                             consumption_value = consumption_value,
                             equipmentId = equipmentId,
                             fuel_type = fuel_type,

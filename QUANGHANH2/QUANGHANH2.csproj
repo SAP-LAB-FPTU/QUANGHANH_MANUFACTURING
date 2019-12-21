@@ -168,6 +168,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Controllers\CDVT\Vattu\CDVTXinCapVatTuController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
     <Compile Include="Controllers\AT\ViewAccidentController.cs" />
     <Compile Include="Controllers\BGD\AccidentReportController.cs" />
@@ -7496,6 +7497,7 @@
     <Content Include="Views\DK\InputPlan\InputPlan_Year.cshtml" />
     <Content Include="Views\DK\Criteria\GroupCriteria.cshtml" />
     <Content Include="Views\DK\Criteria\Criteria.cshtml" />
+    <Content Include="Views\CDVT\Vattu\CdvtXincapvattu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7503,6 +7505,7 @@
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
+    <Folder Include="Views\CDVTXinCapVatTu\" />
     <Folder Include="Views\GroupCriteria\" />
   </ItemGroup>
   <ItemGroup>

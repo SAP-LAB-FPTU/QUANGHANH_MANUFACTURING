@@ -89,13 +89,13 @@ inner join Department d on d.department_id = mc.departmentid
 and MONTH(mc.[date]) = @month AND YEAR(mc.[date]) = @year
 group by s.supply_id, mc.departmentid, s.supply_name, d.department_name, s.unit,mcd.used,mcd.thuhoi
 union all
-select s.supply_id, s.supply_name, d.department_id, d.department_name, s.unit,
+select s.supply_id, s.supply_name, fac.department_id, d.department_name, s.unit,
 sum(fac.consumption_value) 'used',
 0 'thuhoi'
 from Supply s inner join Fuel_activities_consumption fac
-on s.supply_id = fac.fuel_type inner join Equipment e on fac.equipmentId = e.equipmentId
+on s.supply_id = fac.fuel_type 
 and MONTH(fac.[date]) = @month AND YEAR(fac.[date]) = @year 
-inner join Department d on d.department_id = e.department_id
+inner join Department d on d.department_id = fac.department_id
 group by s.supply_id, s.supply_name, d.department_id, d.department_name, s.unit
 union all
 select s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit,
@@ -154,13 +154,13 @@ inner join Department d on d.department_id = mc.departmentid
 and YEAR(mc.[date]) = @year
 group by s.supply_id, mc.departmentid, s.supply_name, d.department_name, s.unit,mcd.used,mcd.thuhoi
 union all
-select s.supply_id, s.supply_name, d.department_id, d.department_name, s.unit,
+select s.supply_id, s.supply_name, fac.department_id, d.department_name, s.unit,
 sum(fac.consumption_value) 'used',
 0 'thuhoi'
 from Supply s inner join Fuel_activities_consumption fac
-on s.supply_id = fac.fuel_type inner join Equipment e on fac.equipmentId = e.equipmentId
+on s.supply_id = fac.fuel_type 
 and  YEAR(fac.[date]) = @year 
-inner join Department d on d.department_id = e.department_id
+inner join Department d on d.department_id = fac.department_id
 group by s.supply_id, s.supply_name, d.department_id, d.department_name, s.unit
 union all
 select s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit,

@@ -92,7 +92,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
         public ActionResult InsertInformation(String equipmentid)
         {
 
-
+            string department_id = Session["departID"].ToString();
             var supplyid = Request["supplyid"];
             var xin_cap = Request["xin_cap"];
             var general = Request["general"];
@@ -108,34 +108,26 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             {
                 try
                 {
-                    string sqlQuery = "insert into SupplyPlan(supplyid,departmentid,equipmentid,date,dinh_muc,quantity_plan,quantity,status) values";
-                    string bulk_update = string.Empty;
-                    DateTime today = DateTime.Today;
-                    SupplyPlan s = new SupplyPlan();
+                    
+                    string bulk_insert= string.Empty;
+                   
+                    
                     Equipment e = db.Equipments.Where(x => x.equipmentId == equipmentid).First();
                     for (int i = 0; i < listsupplyid.Length; i++)
                     {
-                        if (listsupplyplanid[i].Equals(""))
-                        {
-                            sqlQuery += " ('" + listsupplyid[i] + "','" + e.department_id + "','" + equipmentid + "','" + DateTime.Now.ToString("yyyy/MM/dd") + "'," + Convert.ToDouble(listgeneral[i]) + "," + Int32.Parse(listxin_cap[i]) + ",0,0),";
-                        }
-                        else
-                        {
-
-                            string sub_update = $"UPDATE SupplyPlan SET supplyid= '{listsupplyid[i]}',dinh_muc = {Convert.ToDouble(listgeneral[i])}, quantity_plan = {Int32.Parse(listxin_cap[i])}, [date] = '{today}' WHERE id = {int.Parse(listsupplyplanid[i])}";
-                            bulk_update = string.Concat(bulk_update, sub_update);
-
-                        }
-
+                        string sub_insert = $"if exists (select * from SupplyPlan  where id='{listsupplyplanid[i]}')  " +
+                                            " begin " +
+                                           " update SupplyPlan set " +
+                                           $" supplyid = '{listsupplyid[i]}' , date = getdate(),quantity_plan = {Int32.Parse(listxin_cap[i])},dinh_muc={double.Parse(listgeneral[i])} " +
+                                          $" where id = '{listsupplyplanid[i]}'" +
+                                          " end " +
+                                          " else " +
+                                         " begin  " +
+                                         $" insert into Supplyplan(supplyid, departmentid,equipmentid, [date],dinh_muc, quantity_plan,quantity, [status]) VALUES('{listsupplyid[i]}', '{department_id}','{equipmentid}', getdate(),{double.Parse(listgeneral[i])} ,{Int32.Parse(listxin_cap[i])},0, 0) " +
+                                         " end;  ";
+                        bulk_insert = string.Concat(bulk_insert, sub_insert);
                     }
-                    sqlQuery = sqlQuery.Substring(0, sqlQuery.Length - 1);
-                    if (sqlQuery.Length > 107) { db.Database.ExecuteSqlCommand(sqlQuery); }
-
-                    if (bulk_update.Equals("")) { db.Database.ExecuteSqlCommand("update SupplyPlan set supplyid = '', departmentid = '', equipmentid = '', date = '', dinh_muc = '', quantity_plan = '' where id = ''"); }
-                    else
-                    {
-                        db.Database.ExecuteSqlCommand(bulk_update);
-                    }
+                    db.Database.ExecuteSqlCommand(bulk_insert);
                     db.SaveChanges();
                     transaction.Commit();
                     return Json(new { success = true, message = "Chỉnh sửa thành công" }, JsonRequestBehavior.AllowGet);

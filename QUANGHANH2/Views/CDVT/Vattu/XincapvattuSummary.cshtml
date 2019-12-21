@@ -96,7 +96,12 @@
                 for (var i = 0; i < lists.length; i++) {
                     lists[i].SupplyQuantity = $("#quantity-" + lists[i].Equipmentid + "-" + lists[i].SupplyId).val()
                 }
+                var data = {
+                values:lists,
+                departmentid: getCurrDepId(),
 
+
+            };
                 confirmAlert('Xác nhận', 'Duyệt đơn xin cấp mới cho đơn vị này?', function () {
                     $("#pre-load").show();
                     $.ajax({
@@ -104,7 +109,7 @@
                         contentType: "application/json, charset=utf-8",
                         type: 'POST',
                         url: '/phong-cdvt/xin-cap-vat-tu-sctx-summary/submit',
-                        data: JSON.stringify(lists),
+                        data: JSON.stringify(data),
                         success: function (res) {
                             $("#pre-load").hide();
                             if (res.success) {
@@ -271,15 +276,15 @@
                                  "<td>" + resultArray[i].SupplyId + "</td>" +
                                  "<td>" + resultArray[i].SupplyName + "</td>" +
                                  "<td>" + resultArray[i].SupplyPlan + "</td>" +
-                                 "<td><input type='text'  class='form-control'><input type='hidden' id='Id-" + resultArray[i].Id + "' value='" + resultArray[i].Id + "' class='form-control'> </td>" +
+                                 "<td><input type='text' id='quantity-" + resultArray[i].Equipmentid + "-" + resultArray[i].SupplyId + "' class='form-control'><input type='hidden' id='Id-" + resultArray[i].Id + "' value='" + resultArray[i].Id + "' class='form-control'> </td>" +
                                  "<td>" + resultArray[i].SupplyUnit + "</td>" +
                                  "</tr>";
-                             //lists.push({
-                             //    "id": resultArray[i].Id,
-                             //    "Equipmentid": resultArray[i].Equipmentid,
-                             //    "SupplyId": resultArray[i].SupplyId,
-                             //    "quantity": ""
-                             //});
+                             lists.push({
+                                 "id": resultArray[i].Id,
+                                 "Equipmentid": resultArray[i].Equipmentid,
+                                 "SupplyId": resultArray[i].SupplyId,
+                                 "quantity": ""
+                             });
                          }
                          $("#summary_tblcdvt").find("tbody").append(tbData);
                          ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
