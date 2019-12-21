@@ -19,7 +19,7 @@ namespace QUANGHANH2.Models
         public string departmentid { get; set; }
         public string equipmentid { get; set; }
         public System.DateTime date { get; set; }
-        public double dinh_muc { get; set; }
+        public Nullable<double> dinh_muc { get; set; }
         public int quantity_plan { get; set; }
         public int quantity { get; set; }
         public Nullable<int> status { get; set; }
