@@ -31,6 +31,7 @@ namespace QUANGHANH2.Models
             this.Documentary_revoke_details = new HashSet<Documentary_revoke_details>();
             this.Equipment_SCTX = new HashSet<Equipment_SCTX>();
             this.Equipments = new HashSet<Equipment>();
+            this.Fuel_activities_consumption = new HashSet<Fuel_activities_consumption>();
             this.header_KeHoach_TieuChi_TheoNam = new HashSet<header_KeHoach_TieuChi_TheoNam>();
             this.header_KeHoach_TieuChi_TheoNgay = new HashSet<header_KeHoach_TieuChi_TheoNgay>();
             this.header_KeHoachTungThang = new HashSet<header_KeHoachTungThang>();
@@ -80,6 +81,8 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Equipment_SCTX> Equipment_SCTX { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipment> Equipments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Fuel_activities_consumption> Fuel_activities_consumption { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<header_KeHoach_TieuChi_TheoNam> header_KeHoach_TieuChi_TheoNam { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

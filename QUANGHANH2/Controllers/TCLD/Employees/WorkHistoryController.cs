@@ -10,7 +10,7 @@ namespace QUANGHANH2.Controllers.TCLD
 {
     public class WorkHistoryController : Controller
     {
-        public static string id_ = "";
+        public string id_ = "";
         // GET: WorkHistory
         public ActionResult Index()
         {
@@ -21,7 +21,6 @@ namespace QUANGHANH2.Controllers.TCLD
         public ActionResult WorkHistory(string id)
         {
             id_ = id;
-            ViewBag.nameDepartment = "baohiem";
             return View("/Views/TCLD/Brief/WorkHistory.cshtml");
         }
         [HttpPost]
