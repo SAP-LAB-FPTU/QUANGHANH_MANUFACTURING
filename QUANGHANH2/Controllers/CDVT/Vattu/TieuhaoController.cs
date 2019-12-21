@@ -96,7 +96,7 @@ from Supply s inner join Fuel_activities_consumption fac
 on s.supply_id = fac.fuel_type 
 and MONTH(fac.[date]) = @month AND YEAR(fac.[date]) = @year 
 inner join Department d on d.department_id = fac.department_id
-group by s.supply_id, s.supply_name, d.department_id, d.department_name, s.unit
+group by s.supply_id, s.supply_name, fac.department_id, d.department_name, s.unit
 union all
 select s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit,
 sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
@@ -110,7 +110,7 @@ full outer join
 (select sp.supplyid, s.supply_name, sp.departmentid, d.department_name, sum(sp.quantity) 'quantity', s.unit
 from Supply s inner join SupplyPlan sp
 on s.supply_id = sp.supplyid inner join Department d on sp.departmentid = d.department_id
-where MONTH(sp.[date]) = @month and year(sp.[date]) = @year
+where MONTH(sp.[date]) = @month and year(sp.[date]) = @year and sp.departmentid!='CDVT'
 group by  sp.supplyid, s.supply_name, sp.departmentid, d.department_name, s.unit
 ) as b
 on a.department_id = b.departmentid and a.supply_id = b.supplyid 
@@ -161,7 +161,7 @@ from Supply s inner join Fuel_activities_consumption fac
 on s.supply_id = fac.fuel_type 
 and  YEAR(fac.[date]) = @year 
 inner join Department d on d.department_id = fac.department_id
-group by s.supply_id, s.supply_name, d.department_id, d.department_name, s.unit
+group by s.supply_id, s.supply_name, fac.department_id, d.department_name, s.unit
 union all
 select s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit,
 sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
@@ -175,7 +175,7 @@ full outer join
 (select sp.supplyid, s.supply_name, sp.departmentid, d.department_name, sum(sp.quantity) 'quantity', s.unit
 from Supply s inner join SupplyPlan sp
 on s.supply_id = sp.supplyid inner join Department d on sp.departmentid = d.department_id
-where  year(sp.[date]) = @year
+where  year(sp.[date]) = @year and sp.departmentid!='CDVT'
 group by  sp.supplyid, s.supply_name, sp.departmentid, d.department_name, s.unit
 ) as b
 on a.department_id = b.departmentid and a.supply_id = b.supplyid 
@@ -237,7 +237,7 @@ group by s.supply_id, s.supply_name, s.unit) as a full outer join
 (select sp.supplyid, s.supply_name,sum(sp.quantity) 'quantity', s.unit
 from Supply s inner join SupplyPlan sp
 on s.supply_id = sp.supplyid 
-where MONTH(sp.[date]) = @month and year(sp.[date]) = @year
+where MONTH(sp.[date]) = @month and year(sp.[date]) = @year and sp.departmentid!='CDVT'
 group by sp.supplyid, s.supply_name, s.unit
 ) as b
 on a.supply_id = b.supplyid
@@ -292,7 +292,7 @@ group by s.supply_id, s.supply_name, s.unit) as a full outer join
 (select sp.supplyid, s.supply_name,sum(sp.quantity) 'quantity', s.unit
 from Supply s inner join SupplyPlan sp
 on s.supply_id = sp.supplyid 
-where year(sp.[date]) = @year
+where year(sp.[date]) = @year and sp.departmentid!='CDVT'
 group by sp.supplyid, s.supply_name, s.unit
 ) as b
 on a.supply_id = b.supplyid
