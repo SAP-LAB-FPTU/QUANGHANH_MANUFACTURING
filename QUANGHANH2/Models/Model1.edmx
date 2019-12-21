@@ -570,6 +570,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="consumption_value" Type="int" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="department_id" Type="nvarchar" MaxLength="150" />
           <Property Name="fuel_type" Type="nvarchar" MaxLength="150" Nullable="false" />
         </EntityType>
         <EntityType Name="GiayTo">
@@ -1995,7 +1996,19 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Fuel_acti__equip__324172E1">
+        <Association Name="FK__Fuel_acti__depar__324172E1">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Fuel_activities_consumption" Type="Self.Fuel_activities_consumption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="department_id" />
+            </Principal>
+            <Dependent Role="Fuel_activities_consumption">
+              <PropertyRef Name="department_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Fuel_acti__equip__3335971A">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Fuel_activities_consumption" Type="Self.Fuel_activities_consumption" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2007,7 +2020,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Fuel_acti__fuel___3335971A">
+        <Association Name="FK__Fuel_acti__fuel___3429BB53">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Fuel_activities_consumption" Type="Self.Fuel_activities_consumption" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2031,7 +2044,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__header_Ke__MaPho__361203C5">
+        <Association Name="FK__header_Ke__MaPho__370627FE">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="header_KeHoach_TieuChi_TheoNam" Type="Self.header_KeHoach_TieuChi_TheoNam" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2043,7 +2056,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__header_Ke__MaPho__370627FE">
+        <Association Name="FK__header_Ke__MaPho__37FA4C37">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="header_KeHoach_TieuChi_TheoNgay" Type="Self.header_KeHoach_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2055,7 +2068,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__header_Ke__MaPho__37FA4C37">
+        <Association Name="FK__header_Ke__MaPho__38EE7070">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="header_KeHoachTungThang" Type="Self.header_KeHoachTungThang" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2103,7 +2116,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Incident__equipm__3DB3258D">
+        <Association Name="FK__Incident__equipm__3EA749C6">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Incident" Type="Self.Incident" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2115,7 +2128,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__Heade__3EA749C6">
+        <Association Name="FK__KeHoach_T__Heade__3F9B6DFF">
           <End Role="header_KeHoach_TieuChi_TheoNam" Type="Self.header_KeHoach_TieuChi_TheoNam" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoNam" Type="Self.KeHoach_TieuChi_TheoNam" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2127,7 +2140,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__Heade__408F9238">
+        <Association Name="FK__KeHoach_T__Heade__4183B671">
           <End Role="header_KeHoach_TieuChi_TheoNgay" Type="Self.header_KeHoach_TieuChi_TheoNgay" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoNgay" Type="Self.KeHoach_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2139,7 +2152,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__MaTie__3F9B6DFF">
+        <Association Name="FK__KeHoach_T__MaTie__408F9238">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoNam" Type="Self.KeHoach_TieuChi_TheoNam" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2151,7 +2164,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__MaTie__4183B671">
+        <Association Name="FK__KeHoach_T__MaTie__4277DAAA">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoNgay" Type="Self.KeHoach_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2187,7 +2200,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Maintain___equip__46486B8E">
+        <Association Name="FK__Maintain___equip__473C8FC7">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Maintain_Car" Type="Self.Maintain_Car" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2199,7 +2212,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Maintain___maint__473C8FC7">
+        <Association Name="FK__Maintain___maint__4830B400">
           <End Role="Maintain_Car" Type="Self.Maintain_Car" Multiplicity="1" />
           <End Role="Maintain_Car_Detail" Type="Self.Maintain_Car_Detail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2211,7 +2224,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Maintain___suppl__4830B400">
+        <Association Name="FK__Maintain___suppl__4924D839">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Maintain_Car_Detail" Type="Self.Maintain_Car_Detail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2235,7 +2248,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__NhanVien__MaBacL__4A18FC72">
+        <Association Name="FK__NhanVien__MaBacL__4B0D20AB">
           <End Role="BacLuong_ThangLuong_MucLuong" Type="Self.BacLuong_ThangLuong_MucLuong" Multiplicity="0..1" />
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2319,7 +2332,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__NhomCongV__MaDie__52AE4273">
+        <Association Name="FK__NhomCongV__MaDie__53A266AC">
           <End Role="DienCongViec" Type="Self.DienCongViec" Multiplicity="0..1" />
           <End Role="NhomCongViec" Type="Self.NhomCongViec" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2331,7 +2344,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PhongBan___MaPho__53A266AC">
+        <Association Name="FK__PhongBan___MaPho__54968AE5">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="PhongBan_TieuChi" Type="Self.PhongBan_TieuChi" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2343,7 +2356,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PhongBan___MaTie__54968AE5">
+        <Association Name="FK__PhongBan___MaTie__558AAF1E">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="PhongBan_TieuChi" Type="Self.PhongBan_TieuChi" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2367,7 +2380,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__QuaTrinhCo__MaNV__567ED357">
+        <Association Name="FK__QuaTrinhCo__MaNV__5772F790">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
           <End Role="QuaTrinhCongTac" Type="Self.QuaTrinhCongTac" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2379,7 +2392,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Room__department__5772F790">
+        <Association Name="FK__Room__department__58671BC9">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Room" Type="Self.Room" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2388,18 +2401,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Principal>
             <Dependent Role="Room">
               <PropertyRef Name="department_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Supply_Di__equip__58671BC9">
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
-          <End Role="Supply_DiKem" Type="Self.Supply_DiKem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Equipment">
-              <PropertyRef Name="equipmentId" />
-            </Principal>
-            <Dependent Role="Supply_DiKem">
-              <PropertyRef Name="equipmentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2415,7 +2416,19 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__camer__5A4F643B">
+        <Association Name="FK__Supply_Di__equip__5A4F643B">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="Supply_DiKem" Type="Self.Supply_DiKem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipmentId" />
+            </Principal>
+            <Dependent Role="Supply_DiKem">
+              <PropertyRef Name="equipmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Supply_Do__camer__5B438874">
           <End Role="Camera" Type="Self.Camera" Multiplicity="1" />
           <End Role="Supply_Documentary_Camera" Type="Self.Supply_Documentary_Camera" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2427,7 +2440,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__docum__5B438874">
+        <Association Name="FK__Supply_Do__docum__5C37ACAD">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
           <End Role="Supply_Documentary_Camera" Type="Self.Supply_Documentary_Camera" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2453,7 +2466,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__equip__5E1FF51F">
+        <Association Name="FK__Supply_Do__equip__5F141958">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Supply_Documentary_Equipment" Type="Self.Supply_Documentary_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2465,7 +2478,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__equip__5F141958">
+        <Association Name="FK__Supply_Do__equip__60083D91">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
           <End Role="Supply_Documentary_Equipment" Type="Self.Supply_Documentary_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2477,7 +2490,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__suppl__5C37ACAD">
+        <Association Name="FK__Supply_Do__suppl__5D2BD0E6">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Supply_Documentary_Camera" Type="Self.Supply_Documentary_Camera" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2489,7 +2502,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__suppl__60083D91">
+        <Association Name="FK__Supply_Do__suppl__60FC61CA">
           <End Role="Supply" Type="Self.Supply" Multiplicity="0..1" />
           <End Role="Supply_Documentary_Equipment" Type="Self.Supply_Documentary_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2501,7 +2514,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Du__equip__60FC61CA">
+        <Association Name="FK__Supply_Du__equip__61F08603">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Supply_DuPhong" Type="Self.Supply_DuPhong" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2513,7 +2526,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Du__suppl__61F08603">
+        <Association Name="FK__Supply_Du__suppl__62E4AA3C">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Supply_DuPhong" Type="Self.Supply_DuPhong" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2537,7 +2550,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_ti__suppl__63D8CE75">
+        <Association Name="FK__Supply_ti__suppl__64CCF2AE">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Supply_tieuhao" Type="Self.Supply_tieuhao" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2573,7 +2586,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SupplyPla__equip__66B53B20">
+        <Association Name="FK__SupplyPla__equip__67A95F59">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
           <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2585,7 +2598,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SupplyPla__suppl__67A95F59">
+        <Association Name="FK__SupplyPla__suppl__689D8392">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2597,7 +2610,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SupplyPla__suppl__689D8392">
+        <Association Name="FK__SupplyPla__suppl__6991A7CB">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2621,7 +2634,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ThucHien___MaTie__6A85CC04">
+        <Association Name="FK__ThucHien___MaTie__6B79F03D">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2645,7 +2658,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__User_Acti__Accou__6F4A8121">
+        <Association Name="FK__User_Acti__Accou__703EA55A">
           <End Role="Account" Type="Self.Account" Multiplicity="1" />
           <End Role="User_Action_Log" Type="Self.User_Action_Log" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3284,11 +3297,15 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Account" EntitySet="Account" />
             <End Role="FileBaoCao" EntitySet="FileBaoCao" />
           </AssociationSet>
-          <AssociationSet Name="FK__Fuel_acti__equip__324172E1" Association="Self.FK__Fuel_acti__equip__324172E1">
+          <AssociationSet Name="FK__Fuel_acti__depar__324172E1" Association="Self.FK__Fuel_acti__depar__324172E1">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Fuel_activities_consumption" EntitySet="Fuel_activities_consumption" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Fuel_acti__equip__3335971A" Association="Self.FK__Fuel_acti__equip__3335971A">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Fuel_activities_consumption" EntitySet="Fuel_activities_consumption" />
           </AssociationSet>
-          <AssociationSet Name="FK__Fuel_acti__fuel___3335971A" Association="Self.FK__Fuel_acti__fuel___3335971A">
+          <AssociationSet Name="FK__Fuel_acti__fuel___3429BB53" Association="Self.FK__Fuel_acti__fuel___3429BB53">
             <End Role="Supply" EntitySet="Supply" />
             <End Role="Fuel_activities_consumption" EntitySet="Fuel_activities_consumption" />
           </AssociationSet>
@@ -3296,15 +3313,15 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="GiayTo" EntitySet="GiayTo" />
           </AssociationSet>
-          <AssociationSet Name="FK__header_Ke__MaPho__361203C5" Association="Self.FK__header_Ke__MaPho__361203C5">
+          <AssociationSet Name="FK__header_Ke__MaPho__370627FE" Association="Self.FK__header_Ke__MaPho__370627FE">
             <End Role="Department" EntitySet="Department" />
             <End Role="header_KeHoach_TieuChi_TheoNam" EntitySet="header_KeHoach_TieuChi_TheoNam" />
           </AssociationSet>
-          <AssociationSet Name="FK__header_Ke__MaPho__370627FE" Association="Self.FK__header_Ke__MaPho__370627FE">
+          <AssociationSet Name="FK__header_Ke__MaPho__37FA4C37" Association="Self.FK__header_Ke__MaPho__37FA4C37">
             <End Role="Department" EntitySet="Department" />
             <End Role="header_KeHoach_TieuChi_TheoNgay" EntitySet="header_KeHoach_TieuChi_TheoNgay" />
           </AssociationSet>
-          <AssociationSet Name="FK__header_Ke__MaPho__37FA4C37" Association="Self.FK__header_Ke__MaPho__37FA4C37">
+          <AssociationSet Name="FK__header_Ke__MaPho__38EE7070" Association="Self.FK__header_Ke__MaPho__38EE7070">
             <End Role="Department" EntitySet="Department" />
             <End Role="header_KeHoachTungThang" EntitySet="header_KeHoachTungThang" />
           </AssociationSet>
@@ -3320,23 +3337,23 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Department" EntitySet="Department" />
             <End Role="Incident" EntitySet="Incident" />
           </AssociationSet>
-          <AssociationSet Name="FK__Incident__equipm__3DB3258D" Association="Self.FK__Incident__equipm__3DB3258D">
+          <AssociationSet Name="FK__Incident__equipm__3EA749C6" Association="Self.FK__Incident__equipm__3EA749C6">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Incident" EntitySet="Incident" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__Heade__3EA749C6" Association="Self.FK__KeHoach_T__Heade__3EA749C6">
+          <AssociationSet Name="FK__KeHoach_T__Heade__3F9B6DFF" Association="Self.FK__KeHoach_T__Heade__3F9B6DFF">
             <End Role="header_KeHoach_TieuChi_TheoNam" EntitySet="header_KeHoach_TieuChi_TheoNam" />
             <End Role="KeHoach_TieuChi_TheoNam" EntitySet="KeHoach_TieuChi_TheoNam" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__Heade__408F9238" Association="Self.FK__KeHoach_T__Heade__408F9238">
+          <AssociationSet Name="FK__KeHoach_T__Heade__4183B671" Association="Self.FK__KeHoach_T__Heade__4183B671">
             <End Role="header_KeHoach_TieuChi_TheoNgay" EntitySet="header_KeHoach_TieuChi_TheoNgay" />
             <End Role="KeHoach_TieuChi_TheoNgay" EntitySet="KeHoach_TieuChi_TheoNgay" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__MaTie__3F9B6DFF" Association="Self.FK__KeHoach_T__MaTie__3F9B6DFF">
+          <AssociationSet Name="FK__KeHoach_T__MaTie__408F9238" Association="Self.FK__KeHoach_T__MaTie__408F9238">
             <End Role="TieuChi" EntitySet="TieuChi" />
             <End Role="KeHoach_TieuChi_TheoNam" EntitySet="KeHoach_TieuChi_TheoNam" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__MaTie__4183B671" Association="Self.FK__KeHoach_T__MaTie__4183B671">
+          <AssociationSet Name="FK__KeHoach_T__MaTie__4277DAAA" Association="Self.FK__KeHoach_T__MaTie__4277DAAA">
             <End Role="TieuChi" EntitySet="TieuChi" />
             <End Role="KeHoach_TieuChi_TheoNgay" EntitySet="KeHoach_TieuChi_TheoNgay" />
           </AssociationSet>
@@ -3348,15 +3365,15 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Department" EntitySet="Department" />
             <End Role="Maintain_Car" EntitySet="Maintain_Car" />
           </AssociationSet>
-          <AssociationSet Name="FK__Maintain___equip__46486B8E" Association="Self.FK__Maintain___equip__46486B8E">
+          <AssociationSet Name="FK__Maintain___equip__473C8FC7" Association="Self.FK__Maintain___equip__473C8FC7">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Maintain_Car" EntitySet="Maintain_Car" />
           </AssociationSet>
-          <AssociationSet Name="FK__Maintain___maint__473C8FC7" Association="Self.FK__Maintain___maint__473C8FC7">
+          <AssociationSet Name="FK__Maintain___maint__4830B400" Association="Self.FK__Maintain___maint__4830B400">
             <End Role="Maintain_Car" EntitySet="Maintain_Car" />
             <End Role="Maintain_Car_Detail" EntitySet="Maintain_Car_Detail" />
           </AssociationSet>
-          <AssociationSet Name="FK__Maintain___suppl__4830B400" Association="Self.FK__Maintain___suppl__4830B400">
+          <AssociationSet Name="FK__Maintain___suppl__4924D839" Association="Self.FK__Maintain___suppl__4924D839">
             <End Role="Supply" EntitySet="Supply" />
             <End Role="Maintain_Car_Detail" EntitySet="Maintain_Car_Detail" />
           </AssociationSet>
@@ -3364,7 +3381,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Department" EntitySet="Department" />
             <End Role="MealRegistration" EntitySet="MealRegistration" />
           </AssociationSet>
-          <AssociationSet Name="FK__NhanVien__MaBacL__4A18FC72" Association="Self.FK__NhanVien__MaBacL__4A18FC72">
+          <AssociationSet Name="FK__NhanVien__MaBacL__4B0D20AB" Association="Self.FK__NhanVien__MaBacL__4B0D20AB">
             <End Role="BacLuong_ThangLuong_MucLuong" EntitySet="BacLuong_ThangLuong_MucLuong" />
             <End Role="NhanVien" EntitySet="NhanVien" />
           </AssociationSet>
@@ -3392,15 +3409,15 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="NguoiUyQuyenLayHoSo_BaoHiem" EntitySet="NguoiUyQuyenLayHoSo_BaoHiem" />
             <End Role="NhanVien" EntitySet="NhanVien" />
           </AssociationSet>
-          <AssociationSet Name="FK__NhomCongV__MaDie__52AE4273" Association="Self.FK__NhomCongV__MaDie__52AE4273">
+          <AssociationSet Name="FK__NhomCongV__MaDie__53A266AC" Association="Self.FK__NhomCongV__MaDie__53A266AC">
             <End Role="DienCongViec" EntitySet="DienCongViec" />
             <End Role="NhomCongViec" EntitySet="NhomCongViec" />
           </AssociationSet>
-          <AssociationSet Name="FK__PhongBan___MaPho__53A266AC" Association="Self.FK__PhongBan___MaPho__53A266AC">
+          <AssociationSet Name="FK__PhongBan___MaPho__54968AE5" Association="Self.FK__PhongBan___MaPho__54968AE5">
             <End Role="Department" EntitySet="Department" />
             <End Role="PhongBan_TieuChi" EntitySet="PhongBan_TieuChi" />
           </AssociationSet>
-          <AssociationSet Name="FK__PhongBan___MaTie__54968AE5" Association="Self.FK__PhongBan___MaTie__54968AE5">
+          <AssociationSet Name="FK__PhongBan___MaTie__558AAF1E" Association="Self.FK__PhongBan___MaTie__558AAF1E">
             <End Role="TieuChi" EntitySet="TieuChi" />
             <End Role="PhongBan_TieuChi" EntitySet="PhongBan_TieuChi" />
           </AssociationSet>
@@ -3408,27 +3425,27 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="QuanHeGiaDinh" EntitySet="QuanHeGiaDinh" />
           </AssociationSet>
-          <AssociationSet Name="FK__QuaTrinhCo__MaNV__567ED357" Association="Self.FK__QuaTrinhCo__MaNV__567ED357">
+          <AssociationSet Name="FK__QuaTrinhCo__MaNV__5772F790" Association="Self.FK__QuaTrinhCo__MaNV__5772F790">
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="QuaTrinhCongTac" EntitySet="QuaTrinhCongTac" />
           </AssociationSet>
-          <AssociationSet Name="FK__Room__department__5772F790" Association="Self.FK__Room__department__5772F790">
+          <AssociationSet Name="FK__Room__department__58671BC9" Association="Self.FK__Room__department__58671BC9">
             <End Role="Department" EntitySet="Department" />
             <End Role="Room" EntitySet="Room" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Supply_Di__equip__58671BC9" Association="Self.FK__Supply_Di__equip__58671BC9">
-            <End Role="Equipment" EntitySet="Equipment" />
-            <End Role="Supply_DiKem" EntitySet="Supply_DiKem" />
           </AssociationSet>
           <AssociationSet Name="FK__Supply_Di__equip__595B4002" Association="Self.FK__Supply_Di__equip__595B4002">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Supply_DiKem" EntitySet="Supply_DiKem" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__camer__5A4F643B" Association="Self.FK__Supply_Do__camer__5A4F643B">
+          <AssociationSet Name="FK__Supply_Di__equip__5A4F643B" Association="Self.FK__Supply_Di__equip__5A4F643B">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="Supply_DiKem" EntitySet="Supply_DiKem" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Supply_Do__camer__5B438874" Association="Self.FK__Supply_Do__camer__5B438874">
             <End Role="Camera" EntitySet="Camera" />
             <End Role="Supply_Documentary_Camera" EntitySet="Supply_Documentary_Camera" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__docum__5B438874" Association="Self.FK__Supply_Do__docum__5B438874">
+          <AssociationSet Name="FK__Supply_Do__docum__5C37ACAD" Association="Self.FK__Supply_Do__docum__5C37ACAD">
             <End Role="Documentary" EntitySet="Documentary" />
             <End Role="Supply_Documentary_Camera" EntitySet="Supply_Documentary_Camera" />
           </AssociationSet>
@@ -3436,27 +3453,27 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Documentary" EntitySet="Documentary" />
             <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__equip__5E1FF51F" Association="Self.FK__Supply_Do__equip__5E1FF51F">
-            <End Role="Equipment" EntitySet="Equipment" />
-            <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
-          </AssociationSet>
           <AssociationSet Name="FK__Supply_Do__equip__5F141958" Association="Self.FK__Supply_Do__equip__5F141958">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__suppl__5C37ACAD" Association="Self.FK__Supply_Do__suppl__5C37ACAD">
+          <AssociationSet Name="FK__Supply_Do__equip__60083D91" Association="Self.FK__Supply_Do__equip__60083D91">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Supply_Do__suppl__5D2BD0E6" Association="Self.FK__Supply_Do__suppl__5D2BD0E6">
             <End Role="Supply" EntitySet="Supply" />
             <End Role="Supply_Documentary_Camera" EntitySet="Supply_Documentary_Camera" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__suppl__60083D91" Association="Self.FK__Supply_Do__suppl__60083D91">
+          <AssociationSet Name="FK__Supply_Do__suppl__60FC61CA" Association="Self.FK__Supply_Do__suppl__60FC61CA">
             <End Role="Supply" EntitySet="Supply" />
             <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Du__equip__60FC61CA" Association="Self.FK__Supply_Du__equip__60FC61CA">
+          <AssociationSet Name="FK__Supply_Du__equip__61F08603" Association="Self.FK__Supply_Du__equip__61F08603">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Supply_DuPhong" EntitySet="Supply_DuPhong" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Du__suppl__61F08603" Association="Self.FK__Supply_Du__suppl__61F08603">
+          <AssociationSet Name="FK__Supply_Du__suppl__62E4AA3C" Association="Self.FK__Supply_Du__suppl__62E4AA3C">
             <End Role="Supply" EntitySet="Supply" />
             <End Role="Supply_DuPhong" EntitySet="Supply_DuPhong" />
           </AssociationSet>
@@ -3464,7 +3481,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Department" EntitySet="Department" />
             <End Role="Supply_tieuhao" EntitySet="Supply_tieuhao" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_ti__suppl__63D8CE75" Association="Self.FK__Supply_ti__suppl__63D8CE75">
+          <AssociationSet Name="FK__Supply_ti__suppl__64CCF2AE" Association="Self.FK__Supply_ti__suppl__64CCF2AE">
             <End Role="Supply" EntitySet="Supply" />
             <End Role="Supply_tieuhao" EntitySet="Supply_tieuhao" />
           </AssociationSet>
@@ -3476,15 +3493,15 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Department" EntitySet="Department" />
             <End Role="SupplyPlan" EntitySet="SupplyPlan" />
           </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__equip__66B53B20" Association="Self.FK__SupplyPla__equip__66B53B20">
+          <AssociationSet Name="FK__SupplyPla__equip__67A95F59" Association="Self.FK__SupplyPla__equip__67A95F59">
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="SupplyPlan" EntitySet="SupplyPlan" />
           </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__suppl__67A95F59" Association="Self.FK__SupplyPla__suppl__67A95F59">
+          <AssociationSet Name="FK__SupplyPla__suppl__689D8392" Association="Self.FK__SupplyPla__suppl__689D8392">
             <End Role="Supply" EntitySet="Supply" />
             <End Role="SupplyPlan" EntitySet="SupplyPlan" />
           </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__suppl__689D8392" Association="Self.FK__SupplyPla__suppl__689D8392">
+          <AssociationSet Name="FK__SupplyPla__suppl__6991A7CB" Association="Self.FK__SupplyPla__suppl__6991A7CB">
             <End Role="Supply" EntitySet="Supply" />
             <End Role="SupplyPlan" EntitySet="SupplyPlan" />
           </AssociationSet>
@@ -3492,7 +3509,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="NhanVien" EntitySet="NhanVien" />
             <End Role="TaiNan" EntitySet="TaiNan" />
           </AssociationSet>
-          <AssociationSet Name="FK__ThucHien___MaTie__6A85CC04" Association="Self.FK__ThucHien___MaTie__6A85CC04">
+          <AssociationSet Name="FK__ThucHien___MaTie__6B79F03D" Association="Self.FK__ThucHien___MaTie__6B79F03D">
             <End Role="TieuChi" EntitySet="TieuChi" />
             <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
           </AssociationSet>
@@ -3500,7 +3517,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="QuyetDinh" EntitySet="QuyetDinh" />
             <End Role="TuyenDung_NhanVien" EntitySet="TuyenDung_NhanVien" />
           </AssociationSet>
-          <AssociationSet Name="FK__User_Acti__Accou__6F4A8121" Association="Self.FK__User_Acti__Accou__6F4A8121">
+          <AssociationSet Name="FK__User_Acti__Accou__703EA55A" Association="Self.FK__User_Acti__Accou__703EA55A">
             <End Role="Account" EntitySet="Account" />
             <End Role="User_Action_Log" EntitySet="User_Action_Log" />
           </AssociationSet>
@@ -3628,7 +3645,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="ADMIN" Type="Boolean" Nullable="false" />
           <Property Name="PXCKSC" Type="Boolean" />
           <NavigationProperty Name="FileBaoCaos" Relationship="Self.FK__FileBaoCa__nguoi__314D4EA8" FromRole="Account" ToRole="FileBaoCao" />
-          <NavigationProperty Name="User_Action_Log" Relationship="Self.FK__User_Acti__Accou__6F4A8121" FromRole="Account" ToRole="User_Action_Log" />
+          <NavigationProperty Name="User_Action_Log" Relationship="Self.FK__User_Acti__Accou__703EA55A" FromRole="Account" ToRole="User_Action_Log" />
           <NavigationProperty Name="NhanVien" Relationship="Self.FK_Account_NhanVien" FromRole="Account" ToRole="NhanVien" />
           <NavigationProperty Name="Important_Documentary" Relationship="Self.FK_Important_Documentary_Account" FromRole="Account" ToRole="Important_Documentary" />
         </EntityType>
@@ -3684,7 +3701,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <NavigationProperty Name="ThangLuong" Relationship="Self.FK__BacLuong___MaTha__68D28DBC" FromRole="BacLuong_ThangLuong_MucLuong" ToRole="ThangLuong" />
           <NavigationProperty Name="DieuDong_NhanVien" Relationship="Self.FK__DieuDong___MaBac__047AA831" FromRole="BacLuong_ThangLuong_MucLuong" ToRole="DieuDong_NhanVien" />
           <NavigationProperty Name="DieuDong_NhanVien1" Relationship="Self.FK__DieuDong___MaBac__056ECC6A" FromRole="BacLuong_ThangLuong_MucLuong" ToRole="DieuDong_NhanVien" />
-          <NavigationProperty Name="NhanViens" Relationship="Self.FK__NhanVien__MaBacL__4A18FC72" FromRole="BacLuong_ThangLuong_MucLuong" ToRole="NhanVien" />
+          <NavigationProperty Name="NhanViens" Relationship="Self.FK__NhanVien__MaBacL__4B0D20AB" FromRole="BacLuong_ThangLuong_MucLuong" ToRole="NhanVien" />
         </EntityType>
         <EntityType Name="BangCap_GiayChungNhan">
           <Key>
@@ -3729,7 +3746,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <NavigationProperty Name="Camera_Acceptance" Relationship="Self.FK__Camera_Ac__camer__6F7F8B4B" FromRole="Camera" ToRole="Camera_Acceptance" />
           <NavigationProperty Name="Disks" Relationship="Self.FK__Disk__camera_id__0C1BC9F9" FromRole="Camera" ToRole="Disk" />
           <NavigationProperty Name="Documentary_camera_repair_details" Relationship="Self.FK__Documenta__camer__10E07F16" FromRole="Camera" ToRole="Documentary_camera_repair_details" />
-          <NavigationProperty Name="Supply_Documentary_Camera" Relationship="Self.FK__Supply_Do__camer__5A4F643B" FromRole="Camera" ToRole="Supply_Documentary_Camera" />
+          <NavigationProperty Name="Supply_Documentary_Camera" Relationship="Self.FK__Supply_Do__camer__5B438874" FromRole="Camera" ToRole="Supply_Documentary_Camera" />
         </EntityType>
         <EntityType Name="Camera_Acceptance">
           <Key>
@@ -3922,15 +3939,16 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <NavigationProperty Name="Documentary_revoke_details" Relationship="Self.FK__Documenta__depar__220B0B18" FromRole="Department" ToRole="Documentary_revoke_details" />
           <NavigationProperty Name="Equipment_SCTX" Relationship="Self.FK__Equipment__depar__2B947552" FromRole="Department" ToRole="Equipment_SCTX" />
           <NavigationProperty Name="Equipments" Relationship="Self.FK__Equipment__depar__625A9A57" FromRole="Department" ToRole="Equipment" />
-          <NavigationProperty Name="header_KeHoach_TieuChi_TheoNam" Relationship="Self.FK__header_Ke__MaPho__361203C5" FromRole="Department" ToRole="header_KeHoach_TieuChi_TheoNam" />
-          <NavigationProperty Name="header_KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__header_Ke__MaPho__370627FE" FromRole="Department" ToRole="header_KeHoach_TieuChi_TheoNgay" />
-          <NavigationProperty Name="header_KeHoachTungThang" Relationship="Self.FK__header_Ke__MaPho__37FA4C37" FromRole="Department" ToRole="header_KeHoachTungThang" />
+          <NavigationProperty Name="Fuel_activities_consumption" Relationship="Self.FK__Fuel_acti__depar__324172E1" FromRole="Department" ToRole="Fuel_activities_consumption" />
+          <NavigationProperty Name="header_KeHoach_TieuChi_TheoNam" Relationship="Self.FK__header_Ke__MaPho__370627FE" FromRole="Department" ToRole="header_KeHoach_TieuChi_TheoNam" />
+          <NavigationProperty Name="header_KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__header_Ke__MaPho__37FA4C37" FromRole="Department" ToRole="header_KeHoach_TieuChi_TheoNgay" />
+          <NavigationProperty Name="header_KeHoachTungThang" Relationship="Self.FK__header_Ke__MaPho__38EE7070" FromRole="Department" ToRole="header_KeHoachTungThang" />
           <NavigationProperty Name="Incidents" Relationship="Self.FK__Incident__depart__6FB49575" FromRole="Department" ToRole="Incident" />
           <NavigationProperty Name="Maintain_Car" Relationship="Self.FK__Maintain___depar__76619304" FromRole="Department" ToRole="Maintain_Car" />
           <NavigationProperty Name="MealRegistrations" Relationship="Self.FK__MealRegis__depar__7A3223E8" FromRole="Department" ToRole="MealRegistration" />
           <NavigationProperty Name="NhanViens" Relationship="Self.FK__NhanVien__MaPhon__793DFFAF" FromRole="Department" ToRole="NhanVien" />
-          <NavigationProperty Name="PhongBan_TieuChi" Relationship="Self.FK__PhongBan___MaPho__53A266AC" FromRole="Department" ToRole="PhongBan_TieuChi" />
-          <NavigationProperty Name="Rooms" Relationship="Self.FK__Room__department__5772F790" FromRole="Department" ToRole="Room" />
+          <NavigationProperty Name="PhongBan_TieuChi" Relationship="Self.FK__PhongBan___MaPho__54968AE5" FromRole="Department" ToRole="PhongBan_TieuChi" />
+          <NavigationProperty Name="Rooms" Relationship="Self.FK__Room__department__58671BC9" FromRole="Department" ToRole="Room" />
           <NavigationProperty Name="Supply_tieuhao" Relationship="Self.FK__Supply_ti__depar__078C1F06" FromRole="Department" ToRole="Supply_tieuhao" />
           <NavigationProperty Name="SupplyPlans" Relationship="Self.FK__SupplyPla__depar__09746778" FromRole="Department" ToRole="SupplyPlan" />
           <NavigationProperty Name="SupplyPlans1" Relationship="Self.FK__SupplyPla__depar__0A688BB1" FromRole="Department" ToRole="SupplyPlan" />
@@ -3961,7 +3979,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           </Key>
           <Property Name="MaDienCongViec" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TenDienCongViec" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="NhomCongViecs" Relationship="Self.FK__NhomCongV__MaDie__52AE4273" FromRole="DienCongViec" ToRole="NhomCongViec" />
+          <NavigationProperty Name="NhomCongViecs" Relationship="Self.FK__NhomCongV__MaDie__53A266AC" FromRole="DienCongViec" ToRole="NhomCongViec" />
         </EntityType>
         <EntityType Name="DieuDong_NhanVien">
           <Key>
@@ -4011,7 +4029,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <NavigationProperty Name="Documentary_repair_details" Relationship="Self.FK__Documenta__docum__489AC854" FromRole="Documentary" ToRole="Documentary_repair_details" />
           <NavigationProperty Name="Documentary_revoke_details" Relationship="Self.FK__Documenta__docum__4A8310C6" FromRole="Documentary" ToRole="Documentary_revoke_details" />
           <NavigationProperty Name="Important_Documentary" Relationship="Self.FK__Important__docum__38EE7070" FromRole="Documentary" ToRole="Important_Documentary" />
-          <NavigationProperty Name="Supply_Documentary_Camera" Relationship="Self.FK__Supply_Do__docum__5B438874" FromRole="Documentary" ToRole="Supply_Documentary_Camera" />
+          <NavigationProperty Name="Supply_Documentary_Camera" Relationship="Self.FK__Supply_Do__docum__5C37ACAD" FromRole="Documentary" ToRole="Supply_Documentary_Camera" />
           <NavigationProperty Name="Supply_Documentary_Equipment" Relationship="Self.FK__Supply_Do__docum__671F4F74" FromRole="Documentary" ToRole="Supply_Documentary_Equipment" />
         </EntityType>
         <EntityType Name="Documentary_big_maintain_details">
@@ -4191,15 +4209,15 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <NavigationProperty Name="Equipment_Inspection" Relationship="Self.FK__Equipment__equip__29AC2CE0" FromRole="Equipment" ToRole="Equipment_Inspection" />
           <NavigationProperty Name="Equipment_Insurance" Relationship="Self.FK__Equipment__equip__2AA05119" FromRole="Equipment" ToRole="Equipment_Insurance" />
           <NavigationProperty Name="Equipment_SCTX" Relationship="Self.FK__Equipment__equip__2C88998B" FromRole="Equipment" ToRole="Equipment_SCTX" />
-          <NavigationProperty Name="Fuel_activities_consumption" Relationship="Self.FK__Fuel_acti__equip__324172E1" FromRole="Equipment" ToRole="Fuel_activities_consumption" />
-          <NavigationProperty Name="Incidents" Relationship="Self.FK__Incident__equipm__3DB3258D" FromRole="Equipment" ToRole="Incident" />
-          <NavigationProperty Name="Maintain_Car" Relationship="Self.FK__Maintain___equip__46486B8E" FromRole="Equipment" ToRole="Maintain_Car" />
-          <NavigationProperty Name="Supply_DiKem" Relationship="Self.FK__Supply_Di__equip__58671BC9" FromRole="Equipment" ToRole="Supply_DiKem" />
-          <NavigationProperty Name="Supply_DiKem1" Relationship="Self.FK__Supply_Di__equip__595B4002" FromRole="Equipment" ToRole="Supply_DiKem" />
-          <NavigationProperty Name="Supply_Documentary_Equipment" Relationship="Self.FK__Supply_Do__equip__5E1FF51F" FromRole="Equipment" ToRole="Supply_Documentary_Equipment" />
-          <NavigationProperty Name="Supply_Documentary_Equipment1" Relationship="Self.FK__Supply_Do__equip__5F141958" FromRole="Equipment" ToRole="Supply_Documentary_Equipment" />
-          <NavigationProperty Name="Supply_DuPhong" Relationship="Self.FK__Supply_Du__equip__60FC61CA" FromRole="Equipment" ToRole="Supply_DuPhong" />
-          <NavigationProperty Name="SupplyPlans" Relationship="Self.FK__SupplyPla__equip__66B53B20" FromRole="Equipment" ToRole="SupplyPlan" />
+          <NavigationProperty Name="Fuel_activities_consumption" Relationship="Self.FK__Fuel_acti__equip__3335971A" FromRole="Equipment" ToRole="Fuel_activities_consumption" />
+          <NavigationProperty Name="Incidents" Relationship="Self.FK__Incident__equipm__3EA749C6" FromRole="Equipment" ToRole="Incident" />
+          <NavigationProperty Name="Maintain_Car" Relationship="Self.FK__Maintain___equip__473C8FC7" FromRole="Equipment" ToRole="Maintain_Car" />
+          <NavigationProperty Name="Supply_DiKem" Relationship="Self.FK__Supply_Di__equip__595B4002" FromRole="Equipment" ToRole="Supply_DiKem" />
+          <NavigationProperty Name="Supply_DiKem1" Relationship="Self.FK__Supply_Di__equip__5A4F643B" FromRole="Equipment" ToRole="Supply_DiKem" />
+          <NavigationProperty Name="Supply_Documentary_Equipment" Relationship="Self.FK__Supply_Do__equip__5F141958" FromRole="Equipment" ToRole="Supply_Documentary_Equipment" />
+          <NavigationProperty Name="Supply_Documentary_Equipment1" Relationship="Self.FK__Supply_Do__equip__60083D91" FromRole="Equipment" ToRole="Supply_Documentary_Equipment" />
+          <NavigationProperty Name="Supply_DuPhong" Relationship="Self.FK__Supply_Du__equip__61F08603" FromRole="Equipment" ToRole="Supply_DuPhong" />
+          <NavigationProperty Name="SupplyPlans" Relationship="Self.FK__SupplyPla__equip__67A95F59" FromRole="Equipment" ToRole="SupplyPlan" />
         </EntityType>
         <EntityType Name="Equipment_attribute">
           <Key>
@@ -4313,9 +4331,11 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="consumption_value" Type="Int32" Nullable="false" />
           <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="department_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="fuel_type" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__Fuel_acti__equip__324172E1" FromRole="Fuel_activities_consumption" ToRole="Equipment" />
-          <NavigationProperty Name="Supply" Relationship="Self.FK__Fuel_acti__fuel___3335971A" FromRole="Fuel_activities_consumption" ToRole="Supply" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__Fuel_acti__depar__324172E1" FromRole="Fuel_activities_consumption" ToRole="Department" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__Fuel_acti__equip__3335971A" FromRole="Fuel_activities_consumption" ToRole="Equipment" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK__Fuel_acti__fuel___3429BB53" FromRole="Fuel_activities_consumption" ToRole="Supply" />
         </EntityType>
         <EntityType Name="GiayTo">
           <Key>
@@ -4353,8 +4373,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="MaPhongBan" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Nam" Type="Int32" />
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__header_Ke__MaPho__361203C5" FromRole="header_KeHoach_TieuChi_TheoNam" ToRole="Department" />
-          <NavigationProperty Name="KeHoach_TieuChi_TheoNam" Relationship="Self.FK__KeHoach_T__Heade__3EA749C6" FromRole="header_KeHoach_TieuChi_TheoNam" ToRole="KeHoach_TieuChi_TheoNam" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__header_Ke__MaPho__370627FE" FromRole="header_KeHoach_TieuChi_TheoNam" ToRole="Department" />
+          <NavigationProperty Name="KeHoach_TieuChi_TheoNam" Relationship="Self.FK__KeHoach_T__Heade__3F9B6DFF" FromRole="header_KeHoach_TieuChi_TheoNam" ToRole="KeHoach_TieuChi_TheoNam" />
         </EntityType>
         <EntityType Name="header_KeHoach_TieuChi_TheoNgay">
           <Key>
@@ -4364,8 +4384,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="MaPhongBan" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Ca" Type="Int32" />
           <Property Name="NgayNhapKH" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__header_Ke__MaPho__370627FE" FromRole="header_KeHoach_TieuChi_TheoNgay" ToRole="Department" />
-          <NavigationProperty Name="KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__KeHoach_T__Heade__408F9238" FromRole="header_KeHoach_TieuChi_TheoNgay" ToRole="KeHoach_TieuChi_TheoNgay" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__header_Ke__MaPho__37FA4C37" FromRole="header_KeHoach_TieuChi_TheoNgay" ToRole="Department" />
+          <NavigationProperty Name="KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__KeHoach_T__Heade__4183B671" FromRole="header_KeHoach_TieuChi_TheoNgay" ToRole="KeHoach_TieuChi_TheoNgay" />
         </EntityType>
         <EntityType Name="header_KeHoachTungThang">
           <Key>
@@ -4376,7 +4396,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="ThangKeHoach" Type="Int32" />
           <Property Name="NamKeHoach" Type="Int32" />
           <Property Name="SoNgayLamViec" Type="Int32" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__header_Ke__MaPho__37FA4C37" FromRole="header_KeHoachTungThang" ToRole="Department" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__header_Ke__MaPho__38EE7070" FromRole="header_KeHoachTungThang" ToRole="Department" />
           <NavigationProperty Name="KeHoach_TieuChi_TheoThang" Relationship="Self.FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang" FromRole="header_KeHoachTungThang" ToRole="KeHoach_TieuChi_TheoThang" />
         </EntityType>
         <EntityType Name="header_ThucHienTheoNgay">
@@ -4435,7 +4455,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="department_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Department" Relationship="Self.FK__Incident__depart__6FB49575" FromRole="Incident" ToRole="Department" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__Incident__equipm__3DB3258D" FromRole="Incident" ToRole="Equipment" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__Incident__equipm__3EA749C6" FromRole="Incident" ToRole="Equipment" />
         </EntityType>
         <EntityType Name="KeHoach_TieuChi_TheoNam">
           <Key>
@@ -4448,8 +4468,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="SanLuongKeHoach" Type="Double" />
           <Property Name="ThoiGianNhapCuoiCung" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="header_KeHoach_TieuChi_TheoNam" Relationship="Self.FK__KeHoach_T__Heade__3EA749C6" FromRole="KeHoach_TieuChi_TheoNam" ToRole="header_KeHoach_TieuChi_TheoNam" />
-          <NavigationProperty Name="TieuChi" Relationship="Self.FK__KeHoach_T__MaTie__3F9B6DFF" FromRole="KeHoach_TieuChi_TheoNam" ToRole="TieuChi" />
+          <NavigationProperty Name="header_KeHoach_TieuChi_TheoNam" Relationship="Self.FK__KeHoach_T__Heade__3F9B6DFF" FromRole="KeHoach_TieuChi_TheoNam" ToRole="header_KeHoach_TieuChi_TheoNam" />
+          <NavigationProperty Name="TieuChi" Relationship="Self.FK__KeHoach_T__MaTie__408F9238" FromRole="KeHoach_TieuChi_TheoNam" ToRole="TieuChi" />
         </EntityType>
         <EntityType Name="KeHoach_TieuChi_TheoNgay">
           <Key>
@@ -4462,8 +4482,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="KeHoach" Type="Double" />
           <Property Name="ThoiGianNhapCuoiCung" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="header_KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__KeHoach_T__Heade__408F9238" FromRole="KeHoach_TieuChi_TheoNgay" ToRole="header_KeHoach_TieuChi_TheoNgay" />
-          <NavigationProperty Name="TieuChi" Relationship="Self.FK__KeHoach_T__MaTie__4183B671" FromRole="KeHoach_TieuChi_TheoNgay" ToRole="TieuChi" />
+          <NavigationProperty Name="header_KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__KeHoach_T__Heade__4183B671" FromRole="KeHoach_TieuChi_TheoNgay" ToRole="header_KeHoach_TieuChi_TheoNgay" />
+          <NavigationProperty Name="TieuChi" Relationship="Self.FK__KeHoach_T__MaTie__4277DAAA" FromRole="KeHoach_TieuChi_TheoNgay" ToRole="TieuChi" />
         </EntityType>
         <EntityType Name="KeHoach_TieuChi_TheoThang">
           <Key>
@@ -4498,8 +4518,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="departmentid" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="maintain_content" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Department" Relationship="Self.FK__Maintain___depar__76619304" FromRole="Maintain_Car" ToRole="Department" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__Maintain___equip__46486B8E" FromRole="Maintain_Car" ToRole="Equipment" />
-          <NavigationProperty Name="Maintain_Car_Detail" Relationship="Self.FK__Maintain___maint__473C8FC7" FromRole="Maintain_Car" ToRole="Maintain_Car_Detail" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__Maintain___equip__473C8FC7" FromRole="Maintain_Car" ToRole="Equipment" />
+          <NavigationProperty Name="Maintain_Car_Detail" Relationship="Self.FK__Maintain___maint__4830B400" FromRole="Maintain_Car" ToRole="Maintain_Car_Detail" />
         </EntityType>
         <EntityType Name="Maintain_Car_Detail">
           <Key>
@@ -4510,8 +4530,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="supplyid" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="used" Type="Int32" Nullable="false" />
           <Property Name="thuhoi" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Maintain_Car" Relationship="Self.FK__Maintain___maint__473C8FC7" FromRole="Maintain_Car_Detail" ToRole="Maintain_Car" />
-          <NavigationProperty Name="Supply" Relationship="Self.FK__Maintain___suppl__4830B400" FromRole="Maintain_Car_Detail" ToRole="Supply" />
+          <NavigationProperty Name="Maintain_Car" Relationship="Self.FK__Maintain___maint__4830B400" FromRole="Maintain_Car_Detail" ToRole="Maintain_Car" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK__Maintain___suppl__4924D839" FromRole="Maintain_Car_Detail" ToRole="Supply" />
         </EntityType>
         <EntityType Name="MealRegistration">
           <Key>
@@ -4619,7 +4639,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="MaPhongBan" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="MaBacLuong_ThangLuong_MucLuong" Type="Int32" />
           <NavigationProperty Name="Accounts" Relationship="Self.FK_Account_NhanVien" FromRole="NhanVien" ToRole="Account" />
-          <NavigationProperty Name="BacLuong_ThangLuong_MucLuong" Relationship="Self.FK__NhanVien__MaBacL__4A18FC72" FromRole="NhanVien" ToRole="BacLuong_ThangLuong_MucLuong" />
+          <NavigationProperty Name="BacLuong_ThangLuong_MucLuong" Relationship="Self.FK__NhanVien__MaBacL__4B0D20AB" FromRole="NhanVien" ToRole="BacLuong_ThangLuong_MucLuong" />
           <NavigationProperty Name="ChamDut_NhanVien" Relationship="Self.FK_ChamDut_NhanVien_NhanVien" FromRole="NhanVien" ToRole="ChamDut_NhanVien" />
           <NavigationProperty Name="ChiTiet_BangCap_GiayChungNhan" Relationship="Self.FK_ChiTiet_BangCap_NhanVien" FromRole="NhanVien" ToRole="ChiTiet_BangCap_GiayChungNhan" />
           <NavigationProperty Name="ChiTiet_NhiemVu_NhanVien" Relationship="Self.FK__ChiTiet_Nh__MaNV__1CBC4616" FromRole="NhanVien" ToRole="ChiTiet_NhiemVu_NhanVien" />
@@ -4638,7 +4658,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <NavigationProperty Name="TrinhDo" Relationship="Self.FK__NhanVien__MaTrin__55009F39" FromRole="NhanVien" ToRole="TrinhDo" />
           <NavigationProperty Name="Truong" Relationship="Self.FK__NhanVien__MaTruo__55F4C372" FromRole="NhanVien" ToRole="Truong" />
           <NavigationProperty Name="QuanHeGiaDinhs" Relationship="Self.FK__QuanHeGiaD__MaNV__5AB9788F" FromRole="NhanVien" ToRole="QuanHeGiaDinh" />
-          <NavigationProperty Name="QuaTrinhCongTacs" Relationship="Self.FK__QuaTrinhCo__MaNV__567ED357" FromRole="NhanVien" ToRole="QuaTrinhCongTac" />
+          <NavigationProperty Name="QuaTrinhCongTacs" Relationship="Self.FK__QuaTrinhCo__MaNV__5772F790" FromRole="NhanVien" ToRole="QuaTrinhCongTac" />
           <NavigationProperty Name="TaiNans" Relationship="Self.FK__TaiNan__MaNV__662B2B3B" FromRole="NhanVien" ToRole="TaiNan" />
           <NavigationProperty Name="TuyenDung_NhanVien" Relationship="Self.FK_TuyenDung_NhanVien_NhanVien" FromRole="NhanVien" ToRole="TuyenDung_NhanVien" />
         </EntityType>
@@ -4662,7 +4682,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="TenNhomCongViec" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="MaDienCongViec" Type="Int32" />
           <NavigationProperty Name="CongViec_NhomCongViec" Relationship="Self.FK__CongViec___MaNho__019E3B86" FromRole="NhomCongViec" ToRole="CongViec_NhomCongViec" />
-          <NavigationProperty Name="DienCongViec" Relationship="Self.FK__NhomCongV__MaDie__52AE4273" FromRole="NhomCongViec" ToRole="DienCongViec" />
+          <NavigationProperty Name="DienCongViec" Relationship="Self.FK__NhomCongV__MaDie__53A266AC" FromRole="NhomCongViec" ToRole="DienCongViec" />
         </EntityType>
         <EntityType Name="NhomTieuChi">
           <Key>
@@ -4683,8 +4703,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="MaPhongBan" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Thang" Type="Int32" Nullable="false" />
           <Property Name="Nam" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__PhongBan___MaPho__53A266AC" FromRole="PhongBan_TieuChi" ToRole="Department" />
-          <NavigationProperty Name="TieuChi" Relationship="Self.FK__PhongBan___MaTie__54968AE5" FromRole="PhongBan_TieuChi" ToRole="TieuChi" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__PhongBan___MaPho__54968AE5" FromRole="PhongBan_TieuChi" ToRole="Department" />
+          <NavigationProperty Name="TieuChi" Relationship="Self.FK__PhongBan___MaTie__558AAF1E" FromRole="PhongBan_TieuChi" ToRole="TieuChi" />
         </EntityType>
         <EntityType Name="QuanHeGiaDinh">
           <Key>
@@ -4712,7 +4732,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="NgayBatDau" Type="DateTime" Precision="0" />
           <Property Name="NgayKetThuc" Type="DateTime" Precision="0" />
           <Property Name="MaNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="NhanVien" Relationship="Self.FK__QuaTrinhCo__MaNV__567ED357" FromRole="QuaTrinhCongTac" ToRole="NhanVien" />
+          <NavigationProperty Name="NhanVien" Relationship="Self.FK__QuaTrinhCo__MaNV__5772F790" FromRole="QuaTrinhCongTac" ToRole="NhanVien" />
         </EntityType>
         <EntityType Name="QuyetDinh">
           <Key>
@@ -4733,7 +4753,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="room_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="room_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Cameras" Relationship="Self.FK__Camera__room_id__6E8B6712" FromRole="Room" ToRole="Camera" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__Room__department__5772F790" FromRole="Room" ToRole="Department" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__Room__department__58671BC9" FromRole="Room" ToRole="Department" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -4753,14 +4773,14 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="unit" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="price" Type="Double" />
           <NavigationProperty Name="Equipment_SCTX_Detail" Relationship="Self.FK__Equipment__suppl__2E70E1FD" FromRole="Supply" ToRole="Equipment_SCTX_Detail" />
-          <NavigationProperty Name="Fuel_activities_consumption" Relationship="Self.FK__Fuel_acti__fuel___3335971A" FromRole="Supply" ToRole="Fuel_activities_consumption" />
-          <NavigationProperty Name="Maintain_Car_Detail" Relationship="Self.FK__Maintain___suppl__4830B400" FromRole="Supply" ToRole="Maintain_Car_Detail" />
-          <NavigationProperty Name="Supply_Documentary_Camera" Relationship="Self.FK__Supply_Do__suppl__5C37ACAD" FromRole="Supply" ToRole="Supply_Documentary_Camera" />
-          <NavigationProperty Name="Supply_Documentary_Equipment" Relationship="Self.FK__Supply_Do__suppl__60083D91" FromRole="Supply" ToRole="Supply_Documentary_Equipment" />
-          <NavigationProperty Name="Supply_DuPhong" Relationship="Self.FK__Supply_Du__suppl__61F08603" FromRole="Supply" ToRole="Supply_DuPhong" />
-          <NavigationProperty Name="Supply_tieuhao" Relationship="Self.FK__Supply_ti__suppl__63D8CE75" FromRole="Supply" ToRole="Supply_tieuhao" />
-          <NavigationProperty Name="SupplyPlans" Relationship="Self.FK__SupplyPla__suppl__67A95F59" FromRole="Supply" ToRole="SupplyPlan" />
-          <NavigationProperty Name="SupplyPlans1" Relationship="Self.FK__SupplyPla__suppl__689D8392" FromRole="Supply" ToRole="SupplyPlan" />
+          <NavigationProperty Name="Fuel_activities_consumption" Relationship="Self.FK__Fuel_acti__fuel___3429BB53" FromRole="Supply" ToRole="Fuel_activities_consumption" />
+          <NavigationProperty Name="Maintain_Car_Detail" Relationship="Self.FK__Maintain___suppl__4924D839" FromRole="Supply" ToRole="Maintain_Car_Detail" />
+          <NavigationProperty Name="Supply_Documentary_Camera" Relationship="Self.FK__Supply_Do__suppl__5D2BD0E6" FromRole="Supply" ToRole="Supply_Documentary_Camera" />
+          <NavigationProperty Name="Supply_Documentary_Equipment" Relationship="Self.FK__Supply_Do__suppl__60FC61CA" FromRole="Supply" ToRole="Supply_Documentary_Equipment" />
+          <NavigationProperty Name="Supply_DuPhong" Relationship="Self.FK__Supply_Du__suppl__62E4AA3C" FromRole="Supply" ToRole="Supply_DuPhong" />
+          <NavigationProperty Name="Supply_tieuhao" Relationship="Self.FK__Supply_ti__suppl__64CCF2AE" FromRole="Supply" ToRole="Supply_tieuhao" />
+          <NavigationProperty Name="SupplyPlans" Relationship="Self.FK__SupplyPla__suppl__689D8392" FromRole="Supply" ToRole="SupplyPlan" />
+          <NavigationProperty Name="SupplyPlans1" Relationship="Self.FK__SupplyPla__suppl__6991A7CB" FromRole="Supply" ToRole="SupplyPlan" />
         </EntityType>
         <EntityType Name="Supply_DiKem">
           <Key>
@@ -4772,8 +4792,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="quantity" Type="Int32" Nullable="false" />
           <Property Name="note" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="quantity_duphong" Type="Int32" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Di__equip__58671BC9" FromRole="Supply_DiKem" ToRole="Equipment" />
-          <NavigationProperty Name="Equipment1" Relationship="Self.FK__Supply_Di__equip__595B4002" FromRole="Supply_DiKem" ToRole="Equipment" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Di__equip__595B4002" FromRole="Supply_DiKem" ToRole="Equipment" />
+          <NavigationProperty Name="Equipment1" Relationship="Self.FK__Supply_Di__equip__5A4F643B" FromRole="Supply_DiKem" ToRole="Equipment" />
         </EntityType>
         <EntityType Name="Supply_Documentary_Camera">
           <Key>
@@ -4789,9 +4809,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="quantity_out" Type="Int32" Nullable="false" />
           <Property Name="supplyStatus" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="supply_documentary_status" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Camera" Relationship="Self.FK__Supply_Do__camer__5A4F643B" FromRole="Supply_Documentary_Camera" ToRole="Camera" />
-          <NavigationProperty Name="Documentary" Relationship="Self.FK__Supply_Do__docum__5B438874" FromRole="Supply_Documentary_Camera" ToRole="Documentary" />
-          <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Do__suppl__5C37ACAD" FromRole="Supply_Documentary_Camera" ToRole="Supply" />
+          <NavigationProperty Name="Camera" Relationship="Self.FK__Supply_Do__camer__5B438874" FromRole="Supply_Documentary_Camera" ToRole="Camera" />
+          <NavigationProperty Name="Documentary" Relationship="Self.FK__Supply_Do__docum__5C37ACAD" FromRole="Supply_Documentary_Camera" ToRole="Documentary" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Do__suppl__5D2BD0E6" FromRole="Supply_Documentary_Camera" ToRole="Supply" />
         </EntityType>
         <EntityType Name="Supply_Documentary_Equipment">
           <Key>
@@ -4808,9 +4828,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="supplyStatus" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="equipmentId_dikem" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Documentary" Relationship="Self.FK__Supply_Do__docum__671F4F74" FromRole="Supply_Documentary_Equipment" ToRole="Documentary" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Do__equip__5E1FF51F" FromRole="Supply_Documentary_Equipment" ToRole="Equipment" />
-          <NavigationProperty Name="Equipment1" Relationship="Self.FK__Supply_Do__equip__5F141958" FromRole="Supply_Documentary_Equipment" ToRole="Equipment" />
-          <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Do__suppl__60083D91" FromRole="Supply_Documentary_Equipment" ToRole="Supply" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Do__equip__5F141958" FromRole="Supply_Documentary_Equipment" ToRole="Equipment" />
+          <NavigationProperty Name="Equipment1" Relationship="Self.FK__Supply_Do__equip__60083D91" FromRole="Supply_Documentary_Equipment" ToRole="Equipment" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Do__suppl__60FC61CA" FromRole="Supply_Documentary_Equipment" ToRole="Supply" />
         </EntityType>
         <EntityType Name="Supply_DuPhong">
           <Key>
@@ -4820,8 +4840,8 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="supply_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Du__equip__60FC61CA" FromRole="Supply_DuPhong" ToRole="Equipment" />
-          <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Du__suppl__61F08603" FromRole="Supply_DuPhong" ToRole="Supply" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Du__equip__61F08603" FromRole="Supply_DuPhong" ToRole="Equipment" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Du__suppl__62E4AA3C" FromRole="Supply_DuPhong" ToRole="Supply" />
         </EntityType>
         <EntityType Name="Supply_tieuhao">
           <Key>
@@ -4836,7 +4856,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="used" Type="Int32" Nullable="false" />
           <Property Name="thuhoi" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Department" Relationship="Self.FK__Supply_ti__depar__078C1F06" FromRole="Supply_tieuhao" ToRole="Department" />
-          <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_ti__suppl__63D8CE75" FromRole="Supply_tieuhao" ToRole="Supply" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_ti__suppl__64CCF2AE" FromRole="Supply_tieuhao" ToRole="Supply" />
         </EntityType>
         <EntityType Name="SupplyPlan">
           <Key>
@@ -4853,9 +4873,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="status" Type="Int32" />
           <NavigationProperty Name="Department" Relationship="Self.FK__SupplyPla__depar__09746778" FromRole="SupplyPlan" ToRole="Department" />
           <NavigationProperty Name="Department1" Relationship="Self.FK__SupplyPla__depar__0A688BB1" FromRole="SupplyPlan" ToRole="Department" />
-          <NavigationProperty Name="Equipment" Relationship="Self.FK__SupplyPla__equip__66B53B20" FromRole="SupplyPlan" ToRole="Equipment" />
-          <NavigationProperty Name="Supply" Relationship="Self.FK__SupplyPla__suppl__67A95F59" FromRole="SupplyPlan" ToRole="Supply" />
-          <NavigationProperty Name="Supply1" Relationship="Self.FK__SupplyPla__suppl__689D8392" FromRole="SupplyPlan" ToRole="Supply" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__SupplyPla__equip__67A95F59" FromRole="SupplyPlan" ToRole="Equipment" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK__SupplyPla__suppl__689D8392" FromRole="SupplyPlan" ToRole="Supply" />
+          <NavigationProperty Name="Supply1" Relationship="Self.FK__SupplyPla__suppl__6991A7CB" FromRole="SupplyPlan" ToRole="Supply" />
         </EntityType>
         <EntityType Name="TaiNan">
           <Key>
@@ -4889,7 +4909,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="SanLuong" Type="Double" />
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="header_ThucHienTheoNgay" Relationship="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" FromRole="ThucHien_TieuChi_TheoNgay" ToRole="header_ThucHienTheoNgay" />
-          <NavigationProperty Name="TieuChi" Relationship="Self.FK__ThucHien___MaTie__6A85CC04" FromRole="ThucHien_TieuChi_TheoNgay" ToRole="TieuChi" />
+          <NavigationProperty Name="TieuChi" Relationship="Self.FK__ThucHien___MaTie__6B79F03D" FromRole="ThucHien_TieuChi_TheoNgay" ToRole="TieuChi" />
         </EntityType>
         <EntityType Name="TieuChi">
           <Key>
@@ -4899,12 +4919,12 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="TenTieuChi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="DonViDo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="MaNhomTieuChi" Type="Int32" />
-          <NavigationProperty Name="KeHoach_TieuChi_TheoNam" Relationship="Self.FK__KeHoach_T__MaTie__3F9B6DFF" FromRole="TieuChi" ToRole="KeHoach_TieuChi_TheoNam" />
-          <NavigationProperty Name="KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__KeHoach_T__MaTie__4183B671" FromRole="TieuChi" ToRole="KeHoach_TieuChi_TheoNgay" />
+          <NavigationProperty Name="KeHoach_TieuChi_TheoNam" Relationship="Self.FK__KeHoach_T__MaTie__408F9238" FromRole="TieuChi" ToRole="KeHoach_TieuChi_TheoNam" />
+          <NavigationProperty Name="KeHoach_TieuChi_TheoNgay" Relationship="Self.FK__KeHoach_T__MaTie__4277DAAA" FromRole="TieuChi" ToRole="KeHoach_TieuChi_TheoNgay" />
           <NavigationProperty Name="KeHoach_TieuChi_TheoThang" Relationship="Self.FK_KeHoach_TieuChi_TheoThang_TieuChi" FromRole="TieuChi" ToRole="KeHoach_TieuChi_TheoThang" />
           <NavigationProperty Name="NhomTieuChi" Relationship="Self.FK_TieuChi_NhomTieuChi" FromRole="TieuChi" ToRole="NhomTieuChi" />
-          <NavigationProperty Name="PhongBan_TieuChi" Relationship="Self.FK__PhongBan___MaTie__54968AE5" FromRole="TieuChi" ToRole="PhongBan_TieuChi" />
-          <NavigationProperty Name="ThucHien_TieuChi_TheoNgay" Relationship="Self.FK__ThucHien___MaTie__6A85CC04" FromRole="TieuChi" ToRole="ThucHien_TieuChi_TheoNgay" />
+          <NavigationProperty Name="PhongBan_TieuChi" Relationship="Self.FK__PhongBan___MaTie__558AAF1E" FromRole="TieuChi" ToRole="PhongBan_TieuChi" />
+          <NavigationProperty Name="ThucHien_TieuChi_TheoNgay" Relationship="Self.FK__ThucHien___MaTie__6B79F03D" FromRole="TieuChi" ToRole="ThucHien_TieuChi_TheoNgay" />
         </EntityType>
         <EntityType Name="TrangThai">
           <Key>
@@ -4953,7 +4973,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Action_Time" Type="DateTime" Precision="3" />
           <Property Name="Browser" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Account" Relationship="Self.FK__User_Acti__Accou__6F4A8121" FromRole="User_Action_Log" ToRole="Account" />
+          <NavigationProperty Name="Account" Relationship="Self.FK__User_Acti__Accou__703EA55A" FromRole="User_Action_Log" ToRole="Account" />
         </EntityType>
         <EntityType Name="Disk">
           <Key>
@@ -5006,7 +5026,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__User_Acti__Accou__6F4A8121">
+        <Association Name="FK__User_Acti__Accou__703EA55A">
           <End Role="Account" Type="Self.Account" Multiplicity="1" />
           <End Role="User_Action_Log" Type="Self.User_Action_Log" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5114,7 +5134,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__NhanVien__MaBacL__4A18FC72">
+        <Association Name="FK__NhanVien__MaBacL__4B0D20AB">
           <End Role="BacLuong_ThangLuong_MucLuong" Type="Self.BacLuong_ThangLuong_MucLuong" Multiplicity="0..1" />
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5258,7 +5278,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__camer__5A4F643B">
+        <Association Name="FK__Supply_Do__camer__5B438874">
           <End Role="Camera" Type="Self.Camera" Multiplicity="1" />
           <End Role="Supply_Documentary_Camera" Type="Self.Supply_Documentary_Camera" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5690,7 +5710,19 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__header_Ke__MaPho__361203C5">
+        <Association Name="FK__Fuel_acti__depar__324172E1">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Fuel_activities_consumption" Type="Self.Fuel_activities_consumption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="department_id" />
+            </Principal>
+            <Dependent Role="Fuel_activities_consumption">
+              <PropertyRef Name="department_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__header_Ke__MaPho__370627FE">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="header_KeHoach_TieuChi_TheoNam" Type="Self.header_KeHoach_TieuChi_TheoNam" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5702,7 +5734,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__header_Ke__MaPho__370627FE">
+        <Association Name="FK__header_Ke__MaPho__37FA4C37">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="header_KeHoach_TieuChi_TheoNgay" Type="Self.header_KeHoach_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5714,7 +5746,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__header_Ke__MaPho__37FA4C37">
+        <Association Name="FK__header_Ke__MaPho__38EE7070">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="header_KeHoachTungThang" Type="Self.header_KeHoachTungThang" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5774,7 +5806,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PhongBan___MaPho__53A266AC">
+        <Association Name="FK__PhongBan___MaPho__54968AE5">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="PhongBan_TieuChi" Type="Self.PhongBan_TieuChi" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5786,7 +5818,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Room__department__5772F790">
+        <Association Name="FK__Room__department__58671BC9">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Room" Type="Self.Room" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5882,7 +5914,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__NhomCongV__MaDie__52AE4273">
+        <Association Name="FK__NhomCongV__MaDie__53A266AC">
           <End Role="DienCongViec" Type="Self.DienCongViec" Multiplicity="0..1" />
           <End Role="NhomCongViec" Type="Self.NhomCongViec" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6050,7 +6082,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__docum__5B438874">
+        <Association Name="FK__Supply_Do__docum__5C37ACAD">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
           <End Role="Supply_Documentary_Camera" Type="Self.Supply_Documentary_Camera" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6232,7 +6264,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Fuel_acti__equip__324172E1">
+        <Association Name="FK__Fuel_acti__equip__3335971A">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Fuel_activities_consumption" Type="Self.Fuel_activities_consumption" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6244,7 +6276,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Incident__equipm__3DB3258D">
+        <Association Name="FK__Incident__equipm__3EA749C6">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Incident" Type="Self.Incident" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6256,7 +6288,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Maintain___equip__46486B8E">
+        <Association Name="FK__Maintain___equip__473C8FC7">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Maintain_Car" Type="Self.Maintain_Car" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6265,18 +6297,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Principal>
             <Dependent Role="Maintain_Car">
               <PropertyRef Name="equipmentid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Supply_Di__equip__58671BC9">
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
-          <End Role="Supply_DiKem" Type="Self.Supply_DiKem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Equipment">
-              <PropertyRef Name="equipmentId" />
-            </Principal>
-            <Dependent Role="Supply_DiKem">
-              <PropertyRef Name="equipmentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6292,7 +6312,19 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__equip__5E1FF51F">
+        <Association Name="FK__Supply_Di__equip__5A4F643B">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="Supply_DiKem" Type="Self.Supply_DiKem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipmentId" />
+            </Principal>
+            <Dependent Role="Supply_DiKem">
+              <PropertyRef Name="equipmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Supply_Do__equip__5F141958">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Supply_Documentary_Equipment" Type="Self.Supply_Documentary_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6304,7 +6336,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__equip__5F141958">
+        <Association Name="FK__Supply_Do__equip__60083D91">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
           <End Role="Supply_Documentary_Equipment" Type="Self.Supply_Documentary_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6316,7 +6348,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Du__equip__60FC61CA">
+        <Association Name="FK__Supply_Du__equip__61F08603">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Supply_DuPhong" Type="Self.Supply_DuPhong" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6328,7 +6360,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SupplyPla__equip__66B53B20">
+        <Association Name="FK__SupplyPla__equip__67A95F59">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
           <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6388,7 +6420,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Fuel_acti__fuel___3335971A">
+        <Association Name="FK__Fuel_acti__fuel___3429BB53">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Fuel_activities_consumption" Type="Self.Fuel_activities_consumption" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6412,7 +6444,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__Heade__3EA749C6">
+        <Association Name="FK__KeHoach_T__Heade__3F9B6DFF">
           <End Role="header_KeHoach_TieuChi_TheoNam" Type="Self.header_KeHoach_TieuChi_TheoNam" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoNam" Type="Self.KeHoach_TieuChi_TheoNam" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6424,7 +6456,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__Heade__408F9238">
+        <Association Name="FK__KeHoach_T__Heade__4183B671">
           <End Role="header_KeHoach_TieuChi_TheoNgay" Type="Self.header_KeHoach_TieuChi_TheoNgay" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoNgay" Type="Self.KeHoach_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6472,7 +6504,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__MaTie__3F9B6DFF">
+        <Association Name="FK__KeHoach_T__MaTie__408F9238">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoNam" Type="Self.KeHoach_TieuChi_TheoNam" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6484,7 +6516,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__KeHoach_T__MaTie__4183B671">
+        <Association Name="FK__KeHoach_T__MaTie__4277DAAA">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="KeHoach_TieuChi_TheoNgay" Type="Self.KeHoach_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6520,7 +6552,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Maintain___maint__473C8FC7">
+        <Association Name="FK__Maintain___maint__4830B400">
           <End Role="Maintain_Car" Type="Self.Maintain_Car" Multiplicity="1" />
           <End Role="Maintain_Car_Detail" Type="Self.Maintain_Car_Detail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6532,7 +6564,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Maintain___suppl__4830B400">
+        <Association Name="FK__Maintain___suppl__4924D839">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Maintain_Car_Detail" Type="Self.Maintain_Car_Detail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6604,7 +6636,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__QuaTrinhCo__MaNV__567ED357">
+        <Association Name="FK__QuaTrinhCo__MaNV__5772F790">
           <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
           <End Role="QuaTrinhCongTac" Type="Self.QuaTrinhCongTac" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6652,7 +6684,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PhongBan___MaTie__54968AE5">
+        <Association Name="FK__PhongBan___MaTie__558AAF1E">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="PhongBan_TieuChi" Type="Self.PhongBan_TieuChi" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6676,7 +6708,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__suppl__5C37ACAD">
+        <Association Name="FK__Supply_Do__suppl__5D2BD0E6">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Supply_Documentary_Camera" Type="Self.Supply_Documentary_Camera" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6688,7 +6720,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__suppl__60083D91">
+        <Association Name="FK__Supply_Do__suppl__60FC61CA">
           <End Role="Supply" Type="Self.Supply" Multiplicity="0..1" />
           <End Role="Supply_Documentary_Equipment" Type="Self.Supply_Documentary_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6700,7 +6732,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Du__suppl__61F08603">
+        <Association Name="FK__Supply_Du__suppl__62E4AA3C">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Supply_DuPhong" Type="Self.Supply_DuPhong" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6712,7 +6744,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_ti__suppl__63D8CE75">
+        <Association Name="FK__Supply_ti__suppl__64CCF2AE">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Supply_tieuhao" Type="Self.Supply_tieuhao" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6720,18 +6752,6 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
               <PropertyRef Name="supply_id" />
             </Principal>
             <Dependent Role="Supply_tieuhao">
-              <PropertyRef Name="supplyid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__SupplyPla__suppl__67A95F59">
-          <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
-          <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Supply">
-              <PropertyRef Name="supply_id" />
-            </Principal>
-            <Dependent Role="SupplyPlan">
               <PropertyRef Name="supplyid" />
             </Dependent>
           </ReferentialConstraint>
@@ -6748,7 +6768,19 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ThucHien___MaTie__6A85CC04">
+        <Association Name="FK__SupplyPla__suppl__6991A7CB">
+          <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
+          <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supply">
+              <PropertyRef Name="supply_id" />
+            </Principal>
+            <Dependent Role="SupplyPlan">
+              <PropertyRef Name="supplyid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ThucHien___MaTie__6B79F03D">
           <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
           <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6868,7 +6900,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Account" EntitySet="Accounts" />
             <End Role="FileBaoCao" EntitySet="FileBaoCaos" />
           </AssociationSet>
-          <AssociationSet Name="FK__User_Acti__Accou__6F4A8121" Association="Self.FK__User_Acti__Accou__6F4A8121">
+          <AssociationSet Name="FK__User_Acti__Accou__703EA55A" Association="Self.FK__User_Acti__Accou__703EA55A">
             <End Role="Account" EntitySet="Accounts" />
             <End Role="User_Action_Log" EntitySet="User_Action_Log" />
           </AssociationSet>
@@ -6904,7 +6936,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="BacLuong_ThangLuong_MucLuong" EntitySet="BacLuong_ThangLuong_MucLuong" />
             <End Role="DieuDong_NhanVien" EntitySet="DieuDong_NhanVien" />
           </AssociationSet>
-          <AssociationSet Name="FK__NhanVien__MaBacL__4A18FC72" Association="Self.FK__NhanVien__MaBacL__4A18FC72">
+          <AssociationSet Name="FK__NhanVien__MaBacL__4B0D20AB" Association="Self.FK__NhanVien__MaBacL__4B0D20AB">
             <End Role="BacLuong_ThangLuong_MucLuong" EntitySet="BacLuong_ThangLuong_MucLuong" />
             <End Role="NhanVien" EntitySet="NhanViens" />
           </AssociationSet>
@@ -6952,7 +6984,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Camera" EntitySet="Cameras" />
             <End Role="Documentary_camera_repair_details" EntitySet="Documentary_camera_repair_details" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__camer__5A4F643B" Association="Self.FK__Supply_Do__camer__5A4F643B">
+          <AssociationSet Name="FK__Supply_Do__camer__5B438874" Association="Self.FK__Supply_Do__camer__5B438874">
             <End Role="Camera" EntitySet="Cameras" />
             <End Role="Supply_Documentary_Camera" EntitySet="Supply_Documentary_Camera" />
           </AssociationSet>
@@ -7096,15 +7128,19 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Department" EntitySet="Departments" />
             <End Role="Equipment" EntitySet="Equipments" />
           </AssociationSet>
-          <AssociationSet Name="FK__header_Ke__MaPho__361203C5" Association="Self.FK__header_Ke__MaPho__361203C5">
+          <AssociationSet Name="FK__Fuel_acti__depar__324172E1" Association="Self.FK__Fuel_acti__depar__324172E1">
             <End Role="Department" EntitySet="Departments" />
-            <End Role="header_KeHoach_TieuChi_TheoNam" EntitySet="header_KeHoach_TieuChi_TheoNam" />
+            <End Role="Fuel_activities_consumption" EntitySet="Fuel_activities_consumption" />
           </AssociationSet>
           <AssociationSet Name="FK__header_Ke__MaPho__370627FE" Association="Self.FK__header_Ke__MaPho__370627FE">
             <End Role="Department" EntitySet="Departments" />
-            <End Role="header_KeHoach_TieuChi_TheoNgay" EntitySet="header_KeHoach_TieuChi_TheoNgay" />
+            <End Role="header_KeHoach_TieuChi_TheoNam" EntitySet="header_KeHoach_TieuChi_TheoNam" />
           </AssociationSet>
           <AssociationSet Name="FK__header_Ke__MaPho__37FA4C37" Association="Self.FK__header_Ke__MaPho__37FA4C37">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="header_KeHoach_TieuChi_TheoNgay" EntitySet="header_KeHoach_TieuChi_TheoNgay" />
+          </AssociationSet>
+          <AssociationSet Name="FK__header_Ke__MaPho__38EE7070" Association="Self.FK__header_Ke__MaPho__38EE7070">
             <End Role="Department" EntitySet="Departments" />
             <End Role="header_KeHoachTungThang" EntitySet="header_KeHoachTungThang" />
           </AssociationSet>
@@ -7124,11 +7160,11 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Department" EntitySet="Departments" />
             <End Role="NhanVien" EntitySet="NhanViens" />
           </AssociationSet>
-          <AssociationSet Name="FK__PhongBan___MaPho__53A266AC" Association="Self.FK__PhongBan___MaPho__53A266AC">
+          <AssociationSet Name="FK__PhongBan___MaPho__54968AE5" Association="Self.FK__PhongBan___MaPho__54968AE5">
             <End Role="Department" EntitySet="Departments" />
             <End Role="PhongBan_TieuChi" EntitySet="PhongBan_TieuChi" />
           </AssociationSet>
-          <AssociationSet Name="FK__Room__department__5772F790" Association="Self.FK__Room__department__5772F790">
+          <AssociationSet Name="FK__Room__department__58671BC9" Association="Self.FK__Room__department__58671BC9">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Room" EntitySet="Rooms" />
           </AssociationSet>
@@ -7160,7 +7196,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="DiemDanh_NangSuatLaoDong" EntitySet="DiemDanh_NangSuatLaoDong" />
           </AssociationSet>
-          <AssociationSet Name="FK__NhomCongV__MaDie__52AE4273" Association="Self.FK__NhomCongV__MaDie__52AE4273">
+          <AssociationSet Name="FK__NhomCongV__MaDie__53A266AC" Association="Self.FK__NhomCongV__MaDie__53A266AC">
             <End Role="DienCongViec" EntitySet="DienCongViecs" />
             <End Role="NhomCongViec" EntitySet="NhomCongViecs" />
           </AssociationSet>
@@ -7212,7 +7248,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Documentary" EntitySet="Documentaries" />
             <End Role="Important_Documentary" EntitySet="Important_Documentary" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__docum__5B438874" Association="Self.FK__Supply_Do__docum__5B438874">
+          <AssociationSet Name="FK__Supply_Do__docum__5C37ACAD" Association="Self.FK__Supply_Do__docum__5C37ACAD">
             <End Role="Documentary" EntitySet="Documentaries" />
             <End Role="Supply_Documentary_Camera" EntitySet="Supply_Documentary_Camera" />
           </AssociationSet>
@@ -7272,39 +7308,39 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Equipment_SCTX" EntitySet="Equipment_SCTX" />
           </AssociationSet>
-          <AssociationSet Name="FK__Fuel_acti__equip__324172E1" Association="Self.FK__Fuel_acti__equip__324172E1">
+          <AssociationSet Name="FK__Fuel_acti__equip__3335971A" Association="Self.FK__Fuel_acti__equip__3335971A">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Fuel_activities_consumption" EntitySet="Fuel_activities_consumption" />
           </AssociationSet>
-          <AssociationSet Name="FK__Incident__equipm__3DB3258D" Association="Self.FK__Incident__equipm__3DB3258D">
+          <AssociationSet Name="FK__Incident__equipm__3EA749C6" Association="Self.FK__Incident__equipm__3EA749C6">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Incident" EntitySet="Incidents" />
           </AssociationSet>
-          <AssociationSet Name="FK__Maintain___equip__46486B8E" Association="Self.FK__Maintain___equip__46486B8E">
+          <AssociationSet Name="FK__Maintain___equip__473C8FC7" Association="Self.FK__Maintain___equip__473C8FC7">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Maintain_Car" EntitySet="Maintain_Car" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Supply_Di__equip__58671BC9" Association="Self.FK__Supply_Di__equip__58671BC9">
-            <End Role="Equipment" EntitySet="Equipments" />
-            <End Role="Supply_DiKem" EntitySet="Supply_DiKem" />
           </AssociationSet>
           <AssociationSet Name="FK__Supply_Di__equip__595B4002" Association="Self.FK__Supply_Di__equip__595B4002">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Supply_DiKem" EntitySet="Supply_DiKem" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__equip__5E1FF51F" Association="Self.FK__Supply_Do__equip__5E1FF51F">
+          <AssociationSet Name="FK__Supply_Di__equip__5A4F643B" Association="Self.FK__Supply_Di__equip__5A4F643B">
             <End Role="Equipment" EntitySet="Equipments" />
-            <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
+            <End Role="Supply_DiKem" EntitySet="Supply_DiKem" />
           </AssociationSet>
           <AssociationSet Name="FK__Supply_Do__equip__5F141958" Association="Self.FK__Supply_Do__equip__5F141958">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Du__equip__60FC61CA" Association="Self.FK__Supply_Du__equip__60FC61CA">
+          <AssociationSet Name="FK__Supply_Do__equip__60083D91" Association="Self.FK__Supply_Do__equip__60083D91">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Supply_Du__equip__61F08603" Association="Self.FK__Supply_Du__equip__61F08603">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Supply_DuPhong" EntitySet="Supply_DuPhong" />
           </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__equip__66B53B20" Association="Self.FK__SupplyPla__equip__66B53B20">
+          <AssociationSet Name="FK__SupplyPla__equip__67A95F59" Association="Self.FK__SupplyPla__equip__67A95F59">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="SupplyPlan" EntitySet="SupplyPlans" />
           </AssociationSet>
@@ -7324,7 +7360,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="FakeAPI" EntitySet="FakeAPIs" />
           </AssociationSet>
-          <AssociationSet Name="FK__Fuel_acti__fuel___3335971A" Association="Self.FK__Fuel_acti__fuel___3335971A">
+          <AssociationSet Name="FK__Fuel_acti__fuel___3429BB53" Association="Self.FK__Fuel_acti__fuel___3429BB53">
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="Fuel_activities_consumption" EntitySet="Fuel_activities_consumption" />
           </AssociationSet>
@@ -7332,11 +7368,11 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="GiayTo" EntitySet="GiayToes" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__Heade__3EA749C6" Association="Self.FK__KeHoach_T__Heade__3EA749C6">
+          <AssociationSet Name="FK__KeHoach_T__Heade__3F9B6DFF" Association="Self.FK__KeHoach_T__Heade__3F9B6DFF">
             <End Role="header_KeHoach_TieuChi_TheoNam" EntitySet="header_KeHoach_TieuChi_TheoNam" />
             <End Role="KeHoach_TieuChi_TheoNam" EntitySet="KeHoach_TieuChi_TheoNam" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__Heade__408F9238" Association="Self.FK__KeHoach_T__Heade__408F9238">
+          <AssociationSet Name="FK__KeHoach_T__Heade__4183B671" Association="Self.FK__KeHoach_T__Heade__4183B671">
             <End Role="header_KeHoach_TieuChi_TheoNgay" EntitySet="header_KeHoach_TieuChi_TheoNgay" />
             <End Role="KeHoach_TieuChi_TheoNgay" EntitySet="KeHoach_TieuChi_TheoNgay" />
           </AssociationSet>
@@ -7352,11 +7388,11 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="HoSo" EntitySet="HoSoes" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__MaTie__3F9B6DFF" Association="Self.FK__KeHoach_T__MaTie__3F9B6DFF">
+          <AssociationSet Name="FK__KeHoach_T__MaTie__408F9238" Association="Self.FK__KeHoach_T__MaTie__408F9238">
             <End Role="TieuChi" EntitySet="TieuChis" />
             <End Role="KeHoach_TieuChi_TheoNam" EntitySet="KeHoach_TieuChi_TheoNam" />
           </AssociationSet>
-          <AssociationSet Name="FK__KeHoach_T__MaTie__4183B671" Association="Self.FK__KeHoach_T__MaTie__4183B671">
+          <AssociationSet Name="FK__KeHoach_T__MaTie__4277DAAA" Association="Self.FK__KeHoach_T__MaTie__4277DAAA">
             <End Role="TieuChi" EntitySet="TieuChis" />
             <End Role="KeHoach_TieuChi_TheoNgay" EntitySet="KeHoach_TieuChi_TheoNgay" />
           </AssociationSet>
@@ -7368,11 +7404,11 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="LichSuBoSungSYLL" EntitySet="LichSuBoSungSYLLs" />
           </AssociationSet>
-          <AssociationSet Name="FK__Maintain___maint__473C8FC7" Association="Self.FK__Maintain___maint__473C8FC7">
+          <AssociationSet Name="FK__Maintain___maint__4830B400" Association="Self.FK__Maintain___maint__4830B400">
             <End Role="Maintain_Car" EntitySet="Maintain_Car" />
             <End Role="Maintain_Car_Detail" EntitySet="Maintain_Car_Detail" />
           </AssociationSet>
-          <AssociationSet Name="FK__Maintain___suppl__4830B400" Association="Self.FK__Maintain___suppl__4830B400">
+          <AssociationSet Name="FK__Maintain___suppl__4924D839" Association="Self.FK__Maintain___suppl__4924D839">
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="Maintain_Car_Detail" EntitySet="Maintain_Car_Detail" />
           </AssociationSet>
@@ -7396,7 +7432,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="QuanHeGiaDinh" EntitySet="QuanHeGiaDinhs" />
           </AssociationSet>
-          <AssociationSet Name="FK__QuaTrinhCo__MaNV__567ED357" Association="Self.FK__QuaTrinhCo__MaNV__567ED357">
+          <AssociationSet Name="FK__QuaTrinhCo__MaNV__5772F790" Association="Self.FK__QuaTrinhCo__MaNV__5772F790">
             <End Role="NhanVien" EntitySet="NhanViens" />
             <End Role="QuaTrinhCongTac" EntitySet="QuaTrinhCongTacs" />
           </AssociationSet>
@@ -7412,7 +7448,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="NhomTieuChi" EntitySet="NhomTieuChis" />
             <End Role="TieuChi" EntitySet="TieuChis" />
           </AssociationSet>
-          <AssociationSet Name="FK__PhongBan___MaTie__54968AE5" Association="Self.FK__PhongBan___MaTie__54968AE5">
+          <AssociationSet Name="FK__PhongBan___MaTie__558AAF1E" Association="Self.FK__PhongBan___MaTie__558AAF1E">
             <End Role="TieuChi" EntitySet="TieuChis" />
             <End Role="PhongBan_TieuChi" EntitySet="PhongBan_TieuChi" />
           </AssociationSet>
@@ -7420,31 +7456,31 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
             <End Role="QuyetDinh" EntitySet="QuyetDinhs" />
             <End Role="TuyenDung_NhanVien" EntitySet="TuyenDung_NhanVien" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__suppl__5C37ACAD" Association="Self.FK__Supply_Do__suppl__5C37ACAD">
+          <AssociationSet Name="FK__Supply_Do__suppl__5D2BD0E6" Association="Self.FK__Supply_Do__suppl__5D2BD0E6">
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="Supply_Documentary_Camera" EntitySet="Supply_Documentary_Camera" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__suppl__60083D91" Association="Self.FK__Supply_Do__suppl__60083D91">
+          <AssociationSet Name="FK__Supply_Do__suppl__60FC61CA" Association="Self.FK__Supply_Do__suppl__60FC61CA">
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Du__suppl__61F08603" Association="Self.FK__Supply_Du__suppl__61F08603">
+          <AssociationSet Name="FK__Supply_Du__suppl__62E4AA3C" Association="Self.FK__Supply_Du__suppl__62E4AA3C">
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="Supply_DuPhong" EntitySet="Supply_DuPhong" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_ti__suppl__63D8CE75" Association="Self.FK__Supply_ti__suppl__63D8CE75">
+          <AssociationSet Name="FK__Supply_ti__suppl__64CCF2AE" Association="Self.FK__Supply_ti__suppl__64CCF2AE">
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="Supply_tieuhao" EntitySet="Supply_tieuhao" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SupplyPla__suppl__67A95F59" Association="Self.FK__SupplyPla__suppl__67A95F59">
-            <End Role="Supply" EntitySet="Supplies" />
-            <End Role="SupplyPlan" EntitySet="SupplyPlans" />
           </AssociationSet>
           <AssociationSet Name="FK__SupplyPla__suppl__689D8392" Association="Self.FK__SupplyPla__suppl__689D8392">
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="SupplyPlan" EntitySet="SupplyPlans" />
           </AssociationSet>
-          <AssociationSet Name="FK__ThucHien___MaTie__6A85CC04" Association="Self.FK__ThucHien___MaTie__6A85CC04">
+          <AssociationSet Name="FK__SupplyPla__suppl__6991A7CB" Association="Self.FK__SupplyPla__suppl__6991A7CB">
+            <End Role="Supply" EntitySet="Supplies" />
+            <End Role="SupplyPlan" EntitySet="SupplyPlans" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ThucHien___MaTie__6B79F03D" Association="Self.FK__ThucHien___MaTie__6B79F03D">
             <End Role="TieuChi" EntitySet="TieuChis" />
             <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
           </AssociationSet>
@@ -8032,6 +8068,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
                 <ScalarProperty Name="consumption_value" ColumnName="consumption_value" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
                 <ScalarProperty Name="fuel_type" ColumnName="fuel_type" />
               </MappingFragment>
             </EntityTypeMapping>
