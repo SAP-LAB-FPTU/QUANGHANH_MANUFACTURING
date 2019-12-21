@@ -50,9 +50,9 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
 
         [Route("phong-cdvt/xin-cap-vat-tu-sctx-summary/submit")]
         [HttpPost]
-        public ActionResult Submit(IList<XincapvattuSummaryModelView> values)
+        public ActionResult Submit(IList<XincapvattuSummaryModelView> values,string departmentid)
         {
-            bool result = _repository.CreateSupplyConsumable(values);
+            bool result = _repository.CreateSupplyConsumable(values,departmentid);
             return Json(new
             {
                 success = result
