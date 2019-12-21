@@ -1,4 +1,5 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -139,6 +140,7 @@ where departmentid='CDVT' and status=0 and month(date)=month(getdate())";
 
                     transaction.Commit();
                     return Json("", JsonRequestBehavior.AllowGet);
+
                 }
                 catch (Exception)
                 {
