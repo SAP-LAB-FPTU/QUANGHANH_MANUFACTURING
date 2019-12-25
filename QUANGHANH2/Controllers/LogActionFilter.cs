@@ -53,7 +53,7 @@ namespace QUANGHANH2.Controllers
                 log.Browser = Request.Browser.Browser;
                 log.Method = Request.HttpMethod;
                 log.Url = Request.FilePath;
-                User_Action_Log l = db.User_Action_Log.Where(x => x.AccountID.Equals(AccountID) && x.Browser.Equals(Request.Browser.Browser) && x.Method.Equals(Request.HttpMethod) && x.Url.Equals(Request.FilePath)).OrderByDescending(x => x.Action_Time).FirstOrDefault();
+                User_Action_Log l = db.User_Action_Log.Where(x => x.AccountID.Equals(AccountID) && x.Browser.Equals(Request.Browser.Browser) && x.Url.Equals(Request.FilePath)).OrderByDescending(x => x.Action_Time).FirstOrDefault();
                 if (l == null || DateTime.Now.Subtract(l.Action_Time.Value).TotalSeconds > 10)
                 {
                     db.User_Action_Log.Add(log);
