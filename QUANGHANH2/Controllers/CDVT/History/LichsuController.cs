@@ -72,43 +72,31 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 // only taken by each department.
                 string department_id = Session["departID"].ToString();
                 List<activitiesDB> listActi;
-                if (department_id.Contains("PX"))
-                {
-                    string query = "select a.[date], a.equipmentId, e.equipment_name , a.activityname, a.hours_per_day, a.quantity , a.[activityid]"
-                                    + " from Activity a ,Equipment e "
-                                    + " where e.equipmentId = a.equipmentId AND a.equipmentId LIKE @equipmentId "
-                                    + " AND e.equipment_name LIKE @equipment_name AND a.[date] between @timeFrom AND @timeTo "
-                                    + " AND e.department_id = @department_id";
-                     listActi = DBContext.Database.SqlQuery<activitiesDB>(query,
-                        new SqlParameter("equipmentId", '%' + equipmentId + '%'),
-                        new SqlParameter("equipment_name", '%' + equipmentName + '%'),
-                        new SqlParameter("timeFrom", timeF),
-                        new SqlParameter("timeTo", timeT),
-                        new SqlParameter("department_id", department_id)
-                        ).ToList();
-                }
-                else
-                {
-                    string query = "select a.[date], a.equipmentId, e.equipment_name , a.activityname, a.hours_per_day, a.quantity , a.[activityid]"
-                                    + " from Activity a ,Equipment e "
+                string base_select = "select a.[date], a.equipmentId, e.equipment_name , a.activityname, a.hours_per_day, a.quantity , a.[activityid]";
+                string from_clause = " from Activity a ,Equipment e "
                                     + " where e.equipmentId = a.equipmentId AND a.equipmentId LIKE @equipmentId "
                                     + " AND e.equipment_name LIKE @equipment_name AND a.[date] between @timeFrom AND @timeTo ";
-                     listActi = DBContext.Database.SqlQuery<activitiesDB>(query,
-                        new SqlParameter("equipmentId", '%' + equipmentId + '%'),
-                        new SqlParameter("equipment_name", '%' + equipmentName + '%'),
-                        new SqlParameter("timeFrom", timeF),
-                        new SqlParameter("timeTo", timeT)
-                        ).ToList();
+                if (department_id.Contains("PX"))
+                {
+                    from_clause += " AND e.department_id = @department_id";
                 }
-                int totalrows = listActi.Count;
-                int totalrowsafterfiltering = listActi.Count;
-                //sorting
-                listActi = listActi.OrderBy(sortColumnName + " " + sortDirection).ToList<activitiesDB>();
-                //paging
-                listActi = listActi.Skip(start).Take(length).ToList<activitiesDB>();
-                
+                listActi = DBContext.Database.SqlQuery<activitiesDB>(base_select + from_clause + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
+                   new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                   new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                   new SqlParameter("timeFrom", timeF),
+                   new SqlParameter("timeTo", timeT),
+                   new SqlParameter("department_id", department_id)
+                   ).ToList();
+                int totalrows = DBContext.Database.SqlQuery<int>("select count(a.[date])" + from_clause,
+                   new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                   new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                   new SqlParameter("timeFrom", timeF),
+                   new SqlParameter("timeTo", timeT),
+                   new SqlParameter("department_id", department_id)
+                   ).FirstOrDefault();
+
                 ViewBag.ListEQ = listActi;
-                return Json(new { success = true, data = listActi, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, data = listActi, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
