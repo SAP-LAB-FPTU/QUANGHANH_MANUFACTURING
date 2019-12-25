@@ -64,7 +64,15 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                equipment_name = equip.equipment_name,
                                equipmentId = equip.equipmentId
                            }).ToList();
-                ViewBag.hd = listhd;
+                string query = @"select e.equipment_name, COUNT(e.equipmentId) as 'num',
+                                SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
+                                SUM(case when e.current_Status != 2 then 1 else 0 end) as 'sum2'
+                                from Equipment e join Car c on e.equipmentId = c.equipmentId
+                                where e.isAttach = 0
+                                group by e.equipment_name";
+                var tonghop = db.Database.SqlQuery<ExportByGroup>(query).ToList();
+                ViewBag.hd = tonghop;
+                //ViewBag.hd = listhd;
                 ViewBag.khd = listkhd;
             }
             else
@@ -83,7 +91,15 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                equipmentId = e.equipmentId,
                                equipment_name = e.equipment_name
                            }).ToList();
-                ViewBag.hd = listhd.Except(listcar);
+                string query = @"select e.equipment_name, COUNT(e.equipmentId) as 'num',
+                                SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
+                                SUM(case when e.current_Status != 2 then 1 else 0 end) as 'sum2'
+                                from Equipment e
+                                where e.isAttach = 0
+                                group by e.equipment_name";
+                var tonghop = db.Database.SqlQuery<ExportByGroup>(query).ToList();
+                ViewBag.hd = tonghop;
+                //ViewBag.hd = listhd.Except(listcar);
                 ViewBag.khd = listkhd.Except(listcar);
             }
 
