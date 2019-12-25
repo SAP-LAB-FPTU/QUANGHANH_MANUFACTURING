@@ -82,13 +82,11 @@
             </form>
             <div class="col s12 left">
                 @{
-                    foreach (var item in rights)
-                    {
-                        if (item.Equals("20") || item.Equals("79"))
+                        if (rights.Contains("20") || rights.Equals("79") || rights.Contains("179")|| rights.Contains("180")|| rights.Contains("181")|| rights.Contains("182")|| rights.Contains("183")|| rights.Contains("185")|| rights.Contains("186")|| rights.Contains("184")|| rights.Contains("187")|| rights.Contains("188")|| rights.Contains("189"))
                         {
                             <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
                         }
-                        if (item.Equals("21") || item.Equals("79"))
+                        if (rights.Contains("21") || rights.Contains("79") || rights.Contains("179")|| rights.Contains("180")|| rights.Contains("181")|| rights.Contains("182")|| rights.Contains("183")|| rights.Contains("185")|| rights.Contains("186")|| rights.Contains("184")|| rights.Contains("187")|| rights.Contains("188")|| rights.Contains("189"))
                         {
                             <form action="" method="POST" id="myeditform" role="form">
                                 <div class="modal" id="myedit">
@@ -216,11 +214,10 @@
                                 </div>
                             </form>
                         }
-                        if (item.Equals("170") || item.Equals("79"))
+                        if (rights.Contains("170") || rights.Contains("79"))
                         {
                             <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
                         }
-                    }
                 }
 
             </div>
