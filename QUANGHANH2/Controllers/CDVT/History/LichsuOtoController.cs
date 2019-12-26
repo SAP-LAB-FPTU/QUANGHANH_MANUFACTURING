@@ -26,13 +26,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             List<Supply> listSupply; List<FuelDB> listEQ;
             if (department_id.Contains("PX"))
             {
-                 listSupply = db.Supplies.ToList();
-                 listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
-                   " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
-                   "  on ea.Equipment_category_id = e.Equipment_category_id where " +
-                   " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t " +
-                   " where department_id = @department_id", new SqlParameter("department_id", department_id)
-                ).ToList();
+                listSupply = db.Supplies.ToList();
+                listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
+                  " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
+                  "  on ea.Equipment_category_id = e.Equipment_category_id where " +
+                  " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') as t " +
+                  " where department_id = @department_id", new SqlParameter("department_id", department_id)
+               ).ToList();
             }
             else
             {
@@ -83,53 +83,34 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 // only taken by each department.
                 string department_id = Session["departID"].ToString();
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                List<activitiesDB> listActi;
-                if (department_id.Contains("PX"))
-                {
-                    string query = "select q.[date], q.equipmentId, t.equipment_name, q.activityname, q.hours_per_day, q.quantity,q.activityid"
-                        + " from (select distinct e.equipmentId, e.equipment_name ,e.department_id "
+                string base_select = "select q.[date], q.equipmentId, t.equipment_name, q.activityname, q.hours_per_day, q.quantity,q.activityid";
+                string from_clause = " from (select distinct e.equipmentId, e.equipment_name ,e.department_id "
                         + " from Equipment e inner join Equipment_category_attribute ea  "
                         + " on ea.Equipment_category_id = e.Equipment_category_id and  "
                         + " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = 'So may') "
                         + " as t inner join Activity q on t.equipmentId = q.equipmentId "
                         + " where q.equipmentId LIKE @equipmentId"
-                        + " AND t.equipment_name LIKE @equipment_name AND q.[date] between @timeFrom AND @timeTo "
-                        + " ANd t.department_id = @department_id"
-                        + " order by q.[date] desc";
-                    listActi = DBContext.Database.SqlQuery<activitiesDB>(query,
+                        + " AND t.equipment_name LIKE @equipment_name AND q.[date] between @timeFrom AND @timeTo ";
+                if (department_id.Contains("PX"))
+                {
+                    from_clause += " ANd t.department_id = @department_id";
+                }
+                List<activitiesDB> listActi = DBContext.Database.SqlQuery<activitiesDB>(base_select + from_clause + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                         new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                         new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                         new SqlParameter("timeFrom", timeF),
                         new SqlParameter("timeTo", timeT),
                         new SqlParameter("department_id", department_id)
                         ).ToList();
-                }
-                else
-                {
-                    string query = "select q.[date], q.equipmentId, t.equipment_name, q.activityname, q.hours_per_day, q.quantity,q.activityid"
-                        + " from (select distinct e.equipmentId, e.equipment_name ,e.department_id "
-                        + " from Equipment e inner join Equipment_category_attribute ea  "
-                        + " on ea.Equipment_category_id = e.Equipment_category_id and  "
-                        + " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = 'So may') "
-                        + " as t inner join Activity q on t.equipmentId = q.equipmentId "
-                        + " where q.equipmentId LIKE @equipmentId"
-                        + " AND t.equipment_name LIKE @equipment_name AND q.[date] between @timeFrom AND @timeTo "
-                        + " order by q.[date] desc";
-                    listActi = DBContext.Database.SqlQuery<activitiesDB>(query,
+                int totalrows = DBContext.Database.SqlQuery<int>("select count(q.[date])" + from_clause,
                         new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                         new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                         new SqlParameter("timeFrom", timeF),
-                        new SqlParameter("timeTo", timeT)
-                        ).ToList();
-                }
-                int totalrows = listActi.Count;
-                int totalrowsafterfiltering = listActi.Count;
-                //sorting
-                listActi = listActi.OrderBy(sortColumnName + " " + sortDirection).ToList<activitiesDB>();
-                //paging
-                listActi = listActi.Skip(start).Take(length).ToList<activitiesDB>();
-                
-                return Json(new { success = true, data = listActi, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                        new SqlParameter("timeTo", timeT),
+                        new SqlParameter("department_id", department_id)
+                        ).FirstOrDefault();
+
+                return Json(new { success = true, data = listActi, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
@@ -143,7 +124,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         [HttpPost]
         public ActionResult SearchFuel(string equipmentId, string equipmentName, string timeFrom, string timeTo)
         {
-            try {
+            try
+            {
                 //validate timeFrom when input blank
                 if (timeFrom.Trim() == "")
                 {
@@ -171,62 +153,42 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 // only taken by each department.
                 string department_id = Session["departID"].ToString();
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                List<fuelDB> listFuelConsump;
+                string base_select = "select f.[date], f.equipmentId, t.equipment_name, f.fuel_type, f.consumption_value, s.unit,s.supply_name,fuelId";
+                string from_clause = " from(select distinct e.equipmentId, e.equipment_name ,e.department_id"
+                        + " from Equipment e inner join Equipment_category_attribute ea "
+                        + " on ea.Equipment_category_id = e.Equipment_category_id where  "
+                        + " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = 'So may') "
+                        + " as t join Fuel_activities_consumption f  "
+                        + " on t.equipmentId = f.equipmentId "
+                        + " join Supply s on s.supply_id = f.fuel_type "
+                        + " where f.equipmentId LIKE @equipmentId "
+                        + " AND t.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo ";
                 if (department_id.Contains("PX"))
                 {
-                    string query = "select f.[date], f.equipmentId, t.equipment_name, f.fuel_type, f.consumption_value, s.unit,s.supply_name,fuelId from(select distinct e.equipmentId, e.equipment_name ,e.department_id"
-                        + " from Equipment e inner join Equipment_category_attribute ea "
-                        + " on ea.Equipment_category_id = e.Equipment_category_id where  "
-                        + " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = 'So may') "
-                        + " as t join Fuel_activities_consumption f  "
-                        + " on t.equipmentId = f.equipmentId "
-                        + " join Supply s on s.supply_id = f.fuel_type "
-                        + " where f.equipmentId LIKE @equipmentId "
-                        + " AND t.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo "
-                        + " AND t.department_id = @department_id "
-                        + " order by f.[date] desc";
-                     listFuelConsump = DBContext.Database.SqlQuery<fuelDB>(query,
-                        new SqlParameter("equipmentId", '%' + equipmentId + '%'),
-                        new SqlParameter("equipment_name", '%' + equipmentName + '%'),
-                        new SqlParameter("timeFrom", timeF),
-                        new SqlParameter("timeTo", timeT),
-                        new SqlParameter("department_id", department_id)
-                        ).ToList();
+                    from_clause += " AND t.department_id = @department_id ";
                 }
-                else
-                {
-                    string query = "select f.[date], f.equipmentId, t.equipment_name, f.fuel_type, f.consumption_value, s.unit,s.supply_name,fuelId from(select distinct e.equipmentId, e.equipment_name ,e.department_id"
-                        + " from Equipment e inner join Equipment_category_attribute ea "
-                        + " on ea.Equipment_category_id = e.Equipment_category_id where  "
-                        + " ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = 'So may') "
-                        + " as t join Fuel_activities_consumption f  "
-                        + " on t.equipmentId = f.equipmentId "
-                        + " join Supply s on s.supply_id = f.fuel_type "
-                        + " where f.equipmentId LIKE @equipmentId "
-                        + " AND t.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo "
-                        + " order by f.[date] desc";
-                    listFuelConsump = DBContext.Database.SqlQuery<fuelDB>(query,
+                List<fuelDB> listFuelConsump = DBContext.Database.SqlQuery<fuelDB>(base_select + from_clause + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                        new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                        new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                        new SqlParameter("timeFrom", timeF),
-                       new SqlParameter("timeTo", timeT)
+                       new SqlParameter("timeTo", timeT),
+                       new SqlParameter("department_id", department_id)
                        ).ToList();
-                }
-                int totalrows = listFuelConsump.Count;
-                int totalrowsafterfiltering = listFuelConsump.Count;
-                //sorting
-                listFuelConsump = listFuelConsump.OrderBy(sortColumnName + " " + sortDirection).ToList<fuelDB>();
+                int totalrows = DBContext.Database.SqlQuery<int>("select count(f.[date])" + from_clause,
+                       new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                       new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                       new SqlParameter("timeFrom", timeF),
+                       new SqlParameter("timeTo", timeT),
+                       new SqlParameter("department_id", department_id)
+                       ).FirstOrDefault();
 
-                //paging
-                listFuelConsump = listFuelConsump.Skip(start).Take(length).ToList<fuelDB>();
-
-                return Json(new { success = true, data = listFuelConsump, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, data = listFuelConsump, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
                 Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
                 return new HttpStatusCodeResult(400);
-            }            
+            }
         }
 
         [Route("phong-cdvt/oto/cap-nhat-hoat-dong")]
@@ -257,11 +219,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 incidents = incidents.OrderBy(sortColumnName + " " + sortDirection).ToList<ActivityDB>();
                 //paging
                 incidents = incidents.Skip(start).Take(length).ToList<ActivityDB>();
-               
+
                 return Json(new { success = true, data = incidents, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
-       
+
         public void EditSupply_duphong(String supplyid, int quantity)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
@@ -313,7 +275,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     // only taken by each department.
                     string department_id = Session["departID"].ToString();
                     Equipment i = DBContext.Equipments.Find(equipmentId);
-                    
+
                     //check vehicle eq exist in department
                     FuelDB f = DBContext.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
                         " (select distinct e.equipmentId, e.equipment_name ,e.department_id from Equipment e inner join Equipment_category_attribute ea " +
@@ -366,20 +328,20 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 
                     transaction.Commit();
                     return new HttpStatusCodeResult(201);
-            }
+                }
                 catch (Exception ex)
-            {
-                transaction.Rollback();
-                string output = "";
-                if (DBContext.Database.SqlQuery<Equipment>("SELECT * FROM Equipment WHERE equipmentId = N'" + equipmentId + "'").Count() == 0)
-                    output += "Mã thiết bị không tồn tại\n";
+                {
+                    transaction.Rollback();
+                    string output = "";
+                    if (DBContext.Database.SqlQuery<Equipment>("SELECT * FROM Equipment WHERE equipmentId = N'" + equipmentId + "'").Count() == 0)
+                        output += "Mã thiết bị không tồn tại\n";
 
-                if (output == "")
-                    output += "Có lỗi xảy ra, xin vui lòng nhập lại";
-                Response.Write(output);
-                return new HttpStatusCodeResult(400);
+                    if (output == "")
+                        output += "Có lỗi xảy ra, xin vui lòng nhập lại";
+                    Response.Write(output);
+                    return new HttpStatusCodeResult(400);
+                }
             }
-        }
         }
 
         [Auther(RightID = "14,179,180,181,182,183,184,185,186,187,188,189")]
@@ -442,13 +404,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                         " where equipmentid = @equipmentId"
                         , new SqlParameter("equipmentId", equipmentId)).First();
                         //fix bug
-                        int totalHour = (int) hours;
+                        int totalHour = (int)hours;
 
                         DBContext.Database.ExecuteSqlCommand("update Equipment set total_operating_hours = @hour where equipmentId = @equipmentId",
                             new SqlParameter("hour", totalHour),
                             new SqlParameter("equipmentId", equipmentId));
                     }
-                        transaction.Commit();
+                    transaction.Commit();
                     return Json("", JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception)
@@ -495,7 +457,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 nhienlieu = nhienlieu.OrderBy(sortColumnName + " " + sortDirection).ToList<FuelDB>();
                 //paging
                 nhienlieu = nhienlieu.Skip(start).Take(length).ToList<FuelDB>();
-                
+
                 return Json(new { success = true, data = nhienlieu, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -596,12 +558,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     string date = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("MM-dd-yyyy");
                     DBContext.Database.ExecuteSqlCommand("UPDATE Fuel_activities_consumption  set fuel_type =@fuel_type, [date] =@date1, consumption_value = @consumption_value, equipmentId = @equipmentId where fuelId= @fuelid",
                         new SqlParameter("fuel_type", fuel_type), new SqlParameter("date1", date), new SqlParameter("consumption_value", consumption_value), new SqlParameter("equipmentId", equipmentId), new SqlParameter("fuelId", fuelid));
-                   
+
                     EditSupply_duphong(fuel_type, consumption_value);
                     //get old and new.
-                    
+
                     DBContext.SaveChanges();
-                   
+
                     transaction.Commit();
                     return new HttpStatusCodeResult(201);
                 }
@@ -650,7 +612,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     DateTime date = DateTime.ParseExact(date1, "dd/MM/yyyy", null);
                     Supply s = DBContext.Supplies.Where(x => x.supply_id == fuel_type).First();
 
-                   
+
                     EditSupply_duphong(fuel_type, consumption_value);
 
 
@@ -666,7 +628,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     {
 
                         Fuel_activities_consumption fuel_Activities_Consumption = new Fuel_activities_consumption()
-                        {   department_id = department_id,
+                        {
+                            department_id = department_id,
                             consumption_value = consumption_value,
                             equipmentId = equipmentId,
                             fuel_type = fuel_type,
@@ -678,7 +641,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 
                     //Update : 
                     //get new
-                   
+
 
                     DBContext.SaveChanges();
                     transaction.Commit();

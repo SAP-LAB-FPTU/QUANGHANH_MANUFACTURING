@@ -29,7 +29,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             List<Supply> listSupply = db.Supplies.Where(x => x.unit != "L" && x.unit != "kWh").ToList();
             List<Department> listDepartment = db.Departments.ToList<Department>();
 
-            
+
             ViewBag.listSupply = listSupply;
             ViewBag.listEQ = listEQ;
 
@@ -52,23 +52,19 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
                 List<Maintain_CarDB> maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintainid " +
                 "from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
-                "inner join Department d on d.department_id = m.departmentid").ToList();
+                "inner join Department d on d.department_id = m.departmentid" + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY").ToList();
 
-                int totalrows = maintainCar.Count;
-                int totalrowsafterfiltering = maintainCar.Count;
-                //sorting
-                maintainCar = maintainCar.OrderBy(sortColumnName + " " + sortDirection).ToList<Maintain_CarDB>();
-                //paging
-                maintainCar = maintainCar.Skip(start).Take(length).ToList<Maintain_CarDB>();
+                int totalrows = db.Database.SqlQuery<int>("select count(m.[date]) " +
+                "from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
+                "inner join Department d on d.department_id = m.departmentid").FirstOrDefault();
                 foreach (Maintain_CarDB item in maintainCar)
                 {
-
                     item.stringDate = item.date.ToString("HH:mm dd/MM/yyyy");
                 }
-                return Json(new { success = true, data = maintainCar, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, data = maintainCar, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
         }
-        
+
         public void EditSupply_duphong(String supplyid, int quantity)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
@@ -98,7 +94,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                     Equipment e = db.Equipments.Find(equipmentId);
                     DateTime startDate = new DateTime(year, month, day, hour, minute, 0);
                     //Department d = db.Departments.Find(department_name);
-               
+
                     DateTime dateTime = DateTime.ParseExact(date, "dd/MM/yyyy", null);
 
 
@@ -112,9 +108,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                     foreach (Maintain_Car_DetailDB item in maintain)
                     {
                         string sub_insert = $"insert into Maintain_Car_Detail(maintainid, supplyid, used, thuhoi) " +
-                            $"VALUES((select top 1 maintainid from Maintain_Car order by maintainid desc), '{item.supplyid}', {item.used}, {item.thuhoi});"+
-                            " update Supply_DuPhong "+
-                            $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}') - {item.used} "+
+                            $"VALUES((select top 1 maintainid from Maintain_Car order by maintainid desc), '{item.supplyid}', {item.used}, {item.thuhoi});" +
+                            " update Supply_DuPhong " +
+                            $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}') - {item.used} " +
                             $" where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}'";
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
                     }
@@ -128,7 +124,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                     string output = "";
                     if (db.Equipments.Where(x => x.equipmentId == equipmentId).Count() == 0)
                         output += "Mã thiết bị không tồn tại\n";
-                   
+
 
                     if (output == "")
                         output += "Có lỗi xảy ra, xin vui lòng nhập lại";
@@ -146,8 +142,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
             {
                 List<Maintain_Car_DetailDB> m = db.Database.SqlQuery<Maintain_Car_DetailDB>("select m.supplyid,s.supply_name,s.unit,equipmentid ,m.thuhoi, m.used,m.maintaindetailid" +
-                    " from Maintain_Car_Detail m inner join Maintain_Car ma on m.maintainid = ma.maintainid inner "+
-                 " join Supply s on m.supplyid = s.supply_id "+
+                    " from Maintain_Car_Detail m inner join Maintain_Car ma on m.maintainid = ma.maintainid inner " +
+                 " join Supply s on m.supplyid = s.supply_id " +
                 "where m.maintainid  = @maintainId ", new SqlParameter("maintainId", maintainId)).ToList();
 
                 return Json(m);
@@ -215,7 +211,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                     + " where m.equipmentId LIKE @equipmentId"
                     + " AND e.equipment_name LIKE @equipment_name AND m.[date] between @timeFrom AND @timeTo "
                     + " AND d.department_name LIKE @position AND m.maintain_content LIKE @content "
-                    + " AND e.department_id = @department_id order by m.[date] desc";
+                    + " AND e.department_id = @department_id" + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
 
                 List<Maintain_CarDB> maintainCar = DBContext.Database.SqlQuery<Maintain_CarDB>(query,
                     new SqlParameter("equipmentId", '%' + equipmentId + '%'),
@@ -227,14 +223,23 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                     new SqlParameter("department_id", Session["departID"].ToString())
                     ).ToList();
 
-                int totalrows = maintainCar.Count;
-                int totalrowsafterfiltering = maintainCar.Count;
-                //sorting
-                maintainCar = maintainCar.OrderBy(sortColumnName + " " + sortDirection).ToList<Maintain_CarDB>();
-                //paging
-                maintainCar = maintainCar.Skip(start).Take(length).ToList<Maintain_CarDB>();
-              
-                return Json(new { success = true, data = maintainCar, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                int totalrows = DBContext.Database.SqlQuery<int>("select count(m.[date])"
+                    + " from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId "
+                    + " inner join Department d on d.department_id = m.departmentid  "
+                    + " where m.equipmentId LIKE @equipmentId"
+                    + " AND e.equipment_name LIKE @equipment_name AND m.[date] between @timeFrom AND @timeTo "
+                    + " AND d.department_name LIKE @position AND m.maintain_content LIKE @content "
+                    + " AND e.department_id = @department_id",
+                    new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                    new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                    new SqlParameter("timeFrom", timeF),
+                    new SqlParameter("timeTo", timeT),
+                    new SqlParameter("position", '%' + position + '%'),
+                    new SqlParameter("content", '%' + content + '%'),
+                    new SqlParameter("department_id", Session["departID"].ToString())
+                    ).FirstOrDefault();
+
+                return Json(new { success = true, data = maintainCar, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
@@ -277,11 +282,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 {
                     string department_id = Session["departID"].ToString();
                     DateTime startDate = new DateTime(year, month, day, hour, minute, 0);
-                    
+
 
 
                     m.equipmentid = equipmentId;
-                    m.departmentid =department_id;
+                    m.departmentid = department_id;
                     m.maintain_content = maintain_content;
                     m.date = startDate;
                     m.maintainid = maintainid;
@@ -309,11 +314,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         [Auther(RightID = "188")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay/editMaintainDetail")]
         [HttpPost]
-        public ActionResult EditMaintainDetail(List<Maintain_Car_Detail> supplyDetail,string equipmentID)
+        public ActionResult EditMaintainDetail(List<Maintain_Car_Detail> supplyDetail, string equipmentID)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             Maintain_Car_Detail m = new Maintain_Car_Detail();
-            
+
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 //note:  thiếu data db cho supply id
@@ -323,16 +328,16 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                     string bulk_insert = string.Empty;
                     foreach (Maintain_Car_Detail item in supplyDetail)
                     {
-                        string sub_insert = $"if exists (select * from Maintain_Car_Detail  where maintaindetailid={item.maintaindetailid} ) "+
-                      "begin "+
-                     "update Maintain_Car_Detail set "+
-                     $"supplyid = '{item.supplyid}',used = {item.used},thuhoi = {item.thuhoi} "+
-                    $" where maintaindetailid = {item.maintaindetailid}"+
-                     " end "+
-                     "else "+
-                      "begin "+
-                     $" insert into Maintain_Car_Detail(maintainid, supplyid, used, thuhoi) VALUES({item.maintainid}, '{item.supplyid}', {item.used}, {item.thuhoi}) "+
-                  "end;  "+
+                        string sub_insert = $"if exists (select * from Maintain_Car_Detail  where maintaindetailid={item.maintaindetailid} ) " +
+                      "begin " +
+                     "update Maintain_Car_Detail set " +
+                     $"supplyid = '{item.supplyid}',used = {item.used},thuhoi = {item.thuhoi} " +
+                    $" where maintaindetailid = {item.maintaindetailid}" +
+                     " end " +
+                     "else " +
+                      "begin " +
+                     $" insert into Maintain_Car_Detail(maintainid, supplyid, used, thuhoi) VALUES({item.maintainid}, '{item.supplyid}', {item.used}, {item.thuhoi}) " +
+                  "end;  " +
                     " update Supply_DuPhong " +
                             $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}')-{item.used} " +
                             $" where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}'";
@@ -391,7 +396,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         public String equipment_name { get; set; }
 
         public String department_name { get; set; }
-       
+
 
 
     }
@@ -400,7 +405,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
         public String supply_name { get; set; }
         public String unit { get; set; }
-       public string equipmentid { get; set; }
+        public string equipmentid { get; set; }
 
     }
 
