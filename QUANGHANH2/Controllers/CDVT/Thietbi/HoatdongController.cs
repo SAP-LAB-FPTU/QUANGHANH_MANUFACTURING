@@ -195,6 +195,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
         public class ExportByGroup : Equipment
         {
+            public Int64 stt { get; set; }
             public int num { get; set; }
             public int sum1 { get; set; }
             public int sum2 { get; set; }
@@ -298,7 +299,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
             return Json(new { success = true, data = d }, JsonRequestBehavior.AllowGet);
         }
-        [Auther(RightID = "6")]
+        //[Auther(RightID = "6")]
         [Route("phong-cdvt/huy-dong/search")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string equipmentName, string department, string quality, string dateStart, string dateEnd, string category, string sup)
