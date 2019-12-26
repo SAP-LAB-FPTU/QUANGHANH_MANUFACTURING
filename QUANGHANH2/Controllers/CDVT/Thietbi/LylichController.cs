@@ -50,7 +50,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         {
             return Redirect("/phong-cdvt/huy-dong");
         }
-        [Auther(RightID = "10,6")]
+        [Auther(RightID = "10,6,179,180,181,182,183,184,185,186,187,188,189")]
         [Route("phong-cdvt/thiet-bi")]
         [HttpPost]
         public ActionResult ABC(string id)
@@ -319,7 +319,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             public string department_name { get; set; }
             public string actdate { get; set; }
         }
-
+        [Auther(RightID = "10,6")]
         [HttpPost]
         public ActionResult deleteDK(string id, string supid)
         {
@@ -397,7 +397,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
 
         }
-
+        [Auther(RightID = "10,6")]
         [HttpPost]
         public ActionResult addDK(string id, string nameSup, int quan, string dvt, string note)
         {
