@@ -74,31 +74,6 @@ new SqlParameter("dstart", dstart),
 new SqlParameter("dend", dend)).ToList();
                 foreach (Documentary_Extend items in docList)
                 {
-                    items.linkIdCode = new LinkIdCode2();
-                    switch (items.documentary_type)
-                    {
-                        case 1:
-                            items.linkIdCode.link = "vat-tu";
-                            break;
-                        case 2:
-                            items.linkIdCode.link = "vat-tu";
-                            break;
-                        case 3:
-                            items.linkIdCode.link = "vat-tu-kem-theo";
-                            break;
-                        case 4:
-                            items.linkIdCode.link = "vat-tu";
-                            break;
-                        case 5:
-                            items.linkIdCode.link = "vat-tu";
-                            break;
-                        case 6:
-                            items.linkIdCode.link = "vat-tu";
-                            break;
-                    }
-                    items.linkIdCode.code = items.equipmentId;
-                    items.linkIdCode.id = items.equipmentId;
-                    items.linkIdCode.doc = items.documentary_id;
                     items.QDQT = checkQDQT(items.documentary_id,account.ID);
                 }
                 //docList = db.Documentaries.ToList<Documentary>();
