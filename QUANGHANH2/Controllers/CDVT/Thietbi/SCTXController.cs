@@ -260,7 +260,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             try
             {
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                var equipment = db.Database.SqlQuery<FuelDB>("select e.equipmentId, e.equipment_name from Equipment e  where  e.equipmentId = @id " +
+                var equipment = db.Database.SqlQuery<fuelDB>("select e.equipmentId, e.equipment_name from Equipment e  where  e.equipmentId = @id " +
                                 "EXCEPT " +
                                 "select distinct e.equipmentId,e.equipment_name " +
                                 "from Equipment e inner join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +

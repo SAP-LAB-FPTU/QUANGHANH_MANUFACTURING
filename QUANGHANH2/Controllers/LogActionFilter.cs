@@ -44,21 +44,28 @@ namespace QUANGHANH2.Controllers
             //{
             //    ip = Request.UserHostAddress;
             //}
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            try
             {
-                User_Action_Log log = new User_Action_Log();
-                int AccountID = int.Parse(HttpContext.Current.Session["userID"].ToString());
-                log.AccountID = AccountID;
-                log.Action_Time = DateTime.Now;
-                log.Browser = Request.Browser.Browser;
-                log.Method = "GET";
-                log.Url = Request.UrlReferrer.AbsolutePath;
-                User_Action_Log l = db.User_Action_Log.Where(x => x.AccountID.Equals(AccountID) && x.Browser.Equals(Request.Browser.Browser) && x.Url.Equals(Request.FilePath)).OrderByDescending(x => x.Action_Time).FirstOrDefault();
-                if (l == null || DateTime.Now.Subtract(l.Action_Time.Value).TotalSeconds > 10)
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    db.User_Action_Log.Add(log);
-                    db.SaveChanges();
+                    User_Action_Log log = new User_Action_Log();
+                    int AccountID = int.Parse(HttpContext.Current.Session["userID"].ToString());
+                    log.AccountID = AccountID;
+                    log.Action_Time = DateTime.Now;
+                    log.Browser = Request.Browser.Browser;
+                    string Controller = routeData.Values["controller"].ToString();
+                    log.Method = Controller;
+                    log.Url = Request.Url.AbsolutePath;
+                    User_Action_Log l = db.User_Action_Log.Where(x => x.AccountID.Equals(AccountID) && x.Browser.Equals(Request.Browser.Browser) && x.Method.Equals(Controller)).OrderByDescending(x => x.Action_Time).FirstOrDefault();
+                    if (l == null || DateTime.Now.Subtract(l.Action_Time.Value).TotalMinutes > 3)
+                    {
+                        db.User_Action_Log.Add(log);
+                        db.SaveChanges();
+                    }
                 }
+            }
+            catch (Exception)
+            {
             }
         }
     }

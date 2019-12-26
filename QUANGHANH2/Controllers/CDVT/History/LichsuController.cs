@@ -25,15 +25,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             // only taken by each department.
             string department_id = Session["departID"].ToString();
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<FuelDB> listEQ; List<Supply> listSupply;
+            List<fuelDB> listEQ; List<Supply> listSupply;
             if (department_id.Contains("PX"))
             {
-                 listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from Equipment where department_id = @department_id", new SqlParameter("department_id", department_id)).ToList();
+                 listEQ = db.Database.SqlQuery<fuelDB>("select equipmentId , equipment_name from Equipment where department_id = @department_id", new SqlParameter("department_id", department_id)).ToList();
                  listSupply = db.Supplies.ToList();
             }
             else
             {
-                 listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from Equipment").ToList();
+                 listEQ = db.Database.SqlQuery<fuelDB>("select equipmentId , equipment_name from Equipment").ToList();
                  listSupply = db.Supplies.ToList();
             }
             ViewBag.listSupply = listSupply;
