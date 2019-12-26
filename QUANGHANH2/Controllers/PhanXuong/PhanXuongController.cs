@@ -4,15 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
-using System.Web.Mvc;using System.Web.Routing;
-using System.Windows;
-
+using System.Web.Mvc;
+using System.Web.Routing;
+using System.Linq.Dynamic;
 namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 {
     public class PhanXuongController : Controller
@@ -25,6 +25,95 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             var username = Session["username"];
             ViewBag.phanxuong = Session["departID"];
             return View("/Views/Phanxuong/ChonBaoCao/ChonBaoCao.cshtml");
+        }
+        [Auther(RightID = "006")]
+        [Route("phan-xuong/huy-dong-thiet-bi")]
+        [HttpGet]
+        public ActionResult HuydongPhanxuong()
+        {
+
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            List<SelectListItem> listStatus = new List<SelectListItem>();
+            var statsu = db.Status.ToList<Status>();
+            foreach (Status item in statsu)
+            {
+                listStatus.Add(new SelectListItem { Text = item.statusid.ToString(), Value = item.statusname });
+            }
+            ViewBag.listStatus = listStatus;
+            var listID = db.Equipments.Select(x => x.equipmentId).ToList();
+            ViewBag.listID = listID;
+            return View("/Views/Phanxuong/Huydongphanxuong.cshtml");
+        }
+        [Auther(RightID = "006")]
+        [Route("phan-xuong/huy-dong-thiet-bi")]
+        [HttpPost]
+        public ActionResult Search(string equipmentId, string equipmentName, string dateStart, string dateEnd)
+        {
+            //Server Side Parameter
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            DateTime dtStart = Convert.ToDateTime("01/01/2000");
+            DateTime dtEnd = DateTime.Today;
+            if (!dateStart.Equals(""))
+            {
+                string[] date = dateStart.Split('/');
+                string date_fix = date[2] + "/" + date[1] + "/" + date[0];
+                dtStart = DateTime.ParseExact(date_fix, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                dateStart = dtStart.ToString("yyyy-MM-dd");
+            }
+            if (!dateEnd.Equals(""))
+            {
+                string[] date = dateEnd.Split('/');
+                string date_fix = date[2] + "/" + date[1] + "/" + date[0];
+                dtEnd = DateTime.ParseExact(date_fix, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                dateEnd = dtEnd.ToString("yyyy-MM-dd");
+            }
+            string departID = Session["departID"].ToString();
+            string query = "SELECT e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
+                "FROM [Equipment] e, Status s, Department d, Equipment_category ec " +
+                "where d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid and e.usedDay between @start_time1 and @start_time2  and e.isAttach = 0 and d.department_id = @department_id AND ";
+            if (!equipmentId.Equals("") || !equipmentName.Equals(""))
+            {
+                if (!equipmentId.Equals("")) query += "e.equipmentId LIKE @equipmentId AND ";
+                if (!equipmentName.Equals("")) query += "e.equipment_name LIKE @equipment_name AND ";
+            }
+            query = query.Substring(0, query.Length - 5);
+            query += " except " +
+                    "select e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present], (select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
+                    "from Equipment e inner join Car c on e.equipmentId = c.equipmentId, Status s, Department d, Equipment_category ec " +
+                    "where d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid";
+            List<EquipWithName> equiplist = DBContext.Database.SqlQuery<EquipWithName>(query,
+                new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                new SqlParameter("department_id", departID),
+                new SqlParameter("start_time1", dateStart),
+                new SqlParameter("start_time2", dateEnd)
+                ).ToList();
+            int totalrows = equiplist.Count;
+            int totalrowsafterfiltering = equiplist.Count;
+            //sorting
+            equiplist = equiplist.OrderBy(sortColumnName + " " + sortDirection).ToList<EquipWithName>();
+            //paging
+            equiplist = equiplist.Skip(start).Take(length).ToList<EquipWithName>();
+            return Json(new { success = true, data = equiplist, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+        }
+        public class EquipWithName : Equipment
+        {
+            public Nullable<System.DateTime> durationOfInspection_fix { get; set; }
+            public string statusname { get; set; }
+            public string Equipment_category_name { get; set; }
+            public string department_name { get; set; }
         }
 
         /// <summary>

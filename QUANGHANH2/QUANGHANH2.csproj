@@ -7497,6 +7497,7 @@
     <Content Include="Views\DK\Criteria\GroupCriteria.cshtml" />
     <Content Include="Views\DK\Criteria\Criteria.cshtml" />
     <Content Include="Views\CDVT\Vattu\CdvtXincapvattu.cshtml" />
+    <Content Include="Views\Phanxuong\Huydongphanxuong.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

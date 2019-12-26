@@ -8,6 +8,7 @@
         cursor: pointer;
     }
 </style>
+@{ List<string> rights = (List<string>)Session["RightIDs"]; }
 <link href="~/assets/Custom css/CDVT/timeline.css" rel="stylesheet" />
 <div class="card" id="abc">
     <div class="card-content">
@@ -181,8 +182,11 @@
                                             }
                                         </tbody>
                                     </table>
-                                    <a data-target="addDK" id="add" class="btn blue btn-small center modal-trigger left" style="margin-top:10px"><i class="large material-icons">add</i></a>
-
+                                    @{ if (rights.Contains("10") || rights.Contains("6"))
+                                        {
+                                            <a data-target="addDK" id="add" class="btn blue btn-small center modal-trigger left" style="margin-top:10px"><i class="large material-icons">add</i></a>
+                                        }
+                                    }
                                 </div>
                                 <div id="VT_SCTX" class="col s12 center" style="margin-top:45px">
                                     <h3>Vật tư SCTX</h3>
@@ -211,7 +215,12 @@
                                             }
                                         </tbody>
                                     </table>
-                                    <a data-target="addSCTX" id="add2" class="btn blue btn-small center modal-trigger left" style="margin-top:10px"><i class="large material-icons">add</i></a>
+                                    @{
+                                        if (rights.Contains("10") || rights.Contains("6"))
+                                        {
+                                            <a data-target="addSCTX" id="add2" class="btn blue btn-small center modal-trigger left" style="margin-top:10px"><i class="large material-icons">add</i></a>
+                                        }
+                                    }
                                 </div>
                                 <div id="VT_DP" class="col s12 center" style="margin-top:45px">
                                     <h3>Vật tư dự phòng</h3>
@@ -458,52 +467,52 @@
                         </div>
 
                         @*<div id="baohiem" class="col s12">
-            <div class="wrapper-timeline">
-                <div class="container">
-                    @foreach (var x in ViewBag.listBH)
-                    {
-                        <div class="timeline">
-                            <div class="timeline-month" id="title-@x.year">
-                                Năm @x.year
-                                <span>@x.count lần đăng ký bảo hiểm</span>
-                            </div>
+                                <div class="wrapper-timeline">
+                                    <div class="container">
+                                        @foreach (var x in ViewBag.listBH)
+                                        {
+                                            <div class="timeline">
+                                                <div class="timeline-month" id="title-@x.year">
+                                                    Năm @x.year
+                                                    <span>@x.count lần đăng ký bảo hiểm</span>
+                                                </div>
 
-                            @foreach (var y in x.equipment_Ins)
-                            {
-                                if (count == 0)
-                                {
-                                    @Html.Raw("<div class=\"timeline-section " + x.year + " lastest-year\">")
-                                }
-                                else
-                                {
-                                    @Html.Raw("<div class=\"timeline-section " + x.year + "\">")
-                                }
-                                <div class="timeline-date">
-                                    @y.getDateString(y.insurance_start_date)
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="timeline-box">
-                                            <div class="box-content table_container">
-                                                <table id="myborder" class="table-bordered striped table-responsive center">
-                                                    <tr class="highlight">
-                                                        <th>Thời hạn bảo hiểm</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>@y.getStringtime(y.insurance_start_date)</td>
-                                                    </tr>
-                                                </table>
+                                                @foreach (var y in x.equipment_Ins)
+                                                {
+                                                    if (count == 0)
+                                                    {
+                                                        @Html.Raw("<div class=\"timeline-section " + x.year + " lastest-year\">")
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.Raw("<div class=\"timeline-section " + x.year + "\">")
+                                                    }
+                                                    <div class="timeline-date">
+                                                        @y.getDateString(y.insurance_start_date)
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="timeline-box">
+                                                                <div class="box-content table_container">
+                                                                    <table id="myborder" class="table-bordered striped table-responsive center">
+                                                                        <tr class="highlight">
+                                                                            <th>Thời hạn bảo hiểm</th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>@y.getStringtime(y.insurance_start_date)</td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @Html.Raw("</div>")
+                                                }
                                             </div>
-                                        </div>
+                                        }
                                     </div>
                                 </div>
-                                @Html.Raw("</div>")
-                            }
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>*@
+                            </div>*@
 
                         <div id="kiemdinh" class="col s12">
                             <div class="wrapper-timeline">
@@ -581,517 +590,517 @@
     </div>
 </div>
 
-    <div class="modal fade" id="myadd">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Nhập thiết bị mới</h3>
-            </div>
-            <div class="modal-body">
-                <form>
+<div class="modal fade" id="myadd">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Nhập thiết bị mới</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Mã thiết bị : </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Số hiệu : </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Ngày nhập : </label>
+                            <input type="date" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Khấu hao ước tính : </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Ghi chú: </label>
+                            <input type="number" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="id">Tên thiết bị : </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Nhà cung cấp :</label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Nguyên giá : </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="number">Tình trạng: </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myedit">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Ngày đăng kiểm : </label>
+                            <input type="text" class="form-control" value="15/7/2019" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Nơi đăng kiểm : </label>
+                            <input type="text" class="form-control" value="KT02-19" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Tên thiết bị : </label>
+                            <input type="text" class="form-control" value="Xe tải" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="supplier">Ngày hết hạn đăng kiểm </label>
+                            <input type="text" class="form-control" value="15/2/2020" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id">Mã thiết bị : </label>
+                            <input type="text" class="form-control" value="XT-01" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Biển số : </label>
+                            <input type="text" class="form-control" value="14A-00000" />
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<div id="myaleart" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Xác nhận xóa mục này</h3>
+        </div>
+        <div class="modal-body">
+            <p class="red-text">Dữ liệu không thể phục hồi sau thao tác này</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn blue darken-2 modal-close">Xóa</button>
+            <button type="button" class="btn red modal-close">Hủy</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="myeditbaoduong">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa bảo dưỡng</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Bộ phận bàn giao : </label>
+                            <input type="text" class="form-control" value="PX Vận tải" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Tình trạng trước bảo dưỡng : </label>
+                            <input type="text" class="form-control" value="Tróc sơn" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Ngày bắt đầu : </label>
+                            <input type="date" class="form-control" value="1/12/2018" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Tình trạng : </label>
+                            <input type="text" class="form-control" value="Tốt" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="supplier">Bộ phận bảo dưỡng </label>
+                            <input type="text" class="form-control" value="PX bảo dưỡng" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Tình trạng sau bảo dưỡng : </label>
+                            <input type="text" class="form-control" value="Tốt" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Ngày hoàn thành : </label>
+                            <input type="date" class="form-control" value="Phân xưởng 1" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Chi phí : </label>
+                            <input type="text" class="form-control" value="100.000" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+<div class="modal" id="myeditsuco">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa sự cố</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Vị trí : </label>
+                            <input type="text" class="form-control" value="Lò DV-110V7.3" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Thời gian bắt đầu sự cố	 : </label>
+                            <input type="text" class="form-control" value="2:15AM 15/7/2019" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Thời gian dừng hoạt động : </label>
+                            <input type="date" class="form-control" value="2:00" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="supplier">Phân xưởng </label>
+                            <input type="text" class="form-control" value="Khai thác 3" />
+                        </div>
+                        <div class="form-group">
+                            <label for="id">Thời gian kết thúc sự cố : </label>
+                            <input type="text" class="form-control" value="4:15AM 15/7/2019" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Lý do sự cố : </label>
+                            <input type="date" class="form-control" value="Rách 0.1m dây băng" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<div id="capnhat" class="modal">
+    <div class="modal-content">
+        <div class="modal-header center">
+            <h3><b>Cập nhật sự cố</b></h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Thời gian kết thúc sự cố : </label>
+                            <input type="text" class="form-control" value="15/7/2016" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="name">Lý do sự cố : </label>
+                            <input type="text" class="form-control" value="XT-01" />
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue modal-close darken-2">Lưu</a>
+            <a class="btn light-blue modal-close darken-2">Đóng</a>
+        </div>
+    </div>
+
+</div>
+
+@using (Html.BeginForm("deleteDK", "Lylich", FormMethod.Post, new
+{
+    id = "DKform",
+    enctype = "multipart/form-data",
+    onSubmit = "return Change(this);",
+    data_restUrl = Url.Action("deleteDK", "Lylich", new { id = "" })
+}))
+{
+    <input type="hidden" id="supDK_id" name="supid" />
+    <input type="hidden" id="id" name="id" />
+}
+
+@using (Html.BeginForm("updateDK", "Lylich", FormMethod.Post, new
+{
+    id = "DKform",
+    enctype = "multipart/form-data",
+    onSubmit = "return Change(this);",
+    data_restUrl = Url.Action("updateDK", "Lylich", new { id = "" })
+}))
+{
+    <div class="card">
+        <div class="card-content">
+            <div class="modal" id="updateDK">
+                <div class="modal-header">
+                    <h3 class="center">Cập nhật vật tư đi kèm</h3>
+                </div>
+                <div class="modal-body">
                     <div class="row">
-                        <div class="col s12 m6">
-                            <div class="form-group">
-                                <label for="date">Mã thiết bị : </label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label for="id">Số hiệu : </label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Ngày nhập : </label>
-                                <input type="date" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Khấu hao ước tính : </label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label for="supplier">Ghi chú: </label>
-                                <input type="number" class="form-control" />
-                            </div>
+                        <div class="col s6">
+                            <label>Mã vật tư</label>
+                            <input readonly id="supDK_id_update" name="supid" class="form-control" />
                         </div>
-                        <div class="col s12 m6">
-                            <div class="form-group">
-                                <label for="id">Tên thiết bị : </label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label for="supplier">Nhà cung cấp :</label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Nguyên giá : </label>
-                                <input type="text" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label for="number">Tình trạng: </label>
-                                <input type="text" class="form-control" />
-                            </div>
+                        <div class="col s6">
+                            <label>Mã thiết bị</label>
+                            <input readonly id="id_update" name="id" class="form-control" />
+                        </div>
+                        <div class="col s6">
+                            <label>Số lượng</label>
+                            <input type="number" id="quan_update" name="quan" class="form-control" />
+                        </div>
+                        <div class="col s6">
+                            <label>Ghi chú</label>
+                            <input type="text" id="note_update" name="note" class="form-control" />
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
-                <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="myedit">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Sửa</h3>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col s12 m6">
-                            <div class="form-group">
-                                <label for="date">Ngày đăng kiểm : </label>
-                                <input type="text" class="form-control" value="15/7/2019" />
-                            </div>
-                            <div class="form-group">
-                                <label for="id">Nơi đăng kiểm : </label>
-                                <input type="text" class="form-control" value="KT02-19" />
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Tên thiết bị : </label>
-                                <input type="text" class="form-control" value="Xe tải" />
-                            </div>
-                        </div>
-                        <div class="col s12 m6">
-                            <div class="form-group">
-                                <label for="supplier">Ngày hết hạn đăng kiểm </label>
-                                <input type="text" class="form-control" value="15/2/2020" />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="id">Mã thiết bị : </label>
-                                <input type="text" class="form-control" value="XT-01" />
-                            </div>
-                            <div class="form-group">
-                                <label for="supplier">Biển số : </label>
-                                <input type="text" class="form-control" value="14A-00000" />
-                            </div>
-
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
-                <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="myaleart" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Xác nhận xóa mục này</h3>
-            </div>
-            <div class="modal-body">
-                <p class="red-text">Dữ liệu không thể phục hồi sau thao tác này</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn blue darken-2 modal-close">Xóa</button>
-                <button type="button" class="btn red modal-close">Hủy</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" id="myeditbaoduong">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Sửa bảo dưỡng</h3>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col s12 m6">
-                            <div class="form-group">
-                                <label for="date">Bộ phận bàn giao : </label>
-                                <input type="text" class="form-control" value="PX Vận tải" />
-                            </div>
-                            <div class="form-group">
-                                <label for="id">Tình trạng trước bảo dưỡng : </label>
-                                <input type="text" class="form-control" value="Tróc sơn" />
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Ngày bắt đầu : </label>
-                                <input type="date" class="form-control" value="1/12/2018" />
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Tình trạng : </label>
-                                <input type="text" class="form-control" value="Tốt" />
-                            </div>
-                        </div>
-                        <div class="col s12 m6">
-                            <div class="form-group">
-                                <label for="supplier">Bộ phận bảo dưỡng </label>
-                                <input type="text" class="form-control" value="PX bảo dưỡng" />
-                            </div>
-                            <div class="form-group">
-                                <label for="id">Tình trạng sau bảo dưỡng : </label>
-                                <input type="text" class="form-control" value="Tốt" />
-                            </div>
-                            <div class="form-group">
-                                <label for="supplier">Ngày hoàn thành : </label>
-                                <input type="date" class="form-control" value="Phân xưởng 1" />
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Chi phí : </label>
-                                <input type="text" class="form-control" value="100.000" />
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
-                <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
-            </div>
-        </div>
-    </div>
-    <div class="modal" id="myeditsuco">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Sửa sự cố</h3>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col s12 m6">
-                            <div class="form-group">
-                                <label for="date">Vị trí : </label>
-                                <input type="text" class="form-control" value="Lò DV-110V7.3" />
-                            </div>
-                            <div class="form-group">
-                                <label for="id">Thời gian bắt đầu sự cố	 : </label>
-                                <input type="text" class="form-control" value="2:15AM 15/7/2019" />
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Thời gian dừng hoạt động : </label>
-                                <input type="date" class="form-control" value="2:00" />
-                            </div>
-                        </div>
-                        <div class="col s12 m6">
-                            <div class="form-group">
-                                <label for="supplier">Phân xưởng </label>
-                                <input type="text" class="form-control" value="Khai thác 3" />
-                            </div>
-                            <div class="form-group">
-                                <label for="id">Thời gian kết thúc sự cố : </label>
-                                <input type="text" class="form-control" value="4:15AM 15/7/2019" />
-                            </div>
-                            <div class="form-group">
-                                <label for="supplier">Lý do sự cố : </label>
-                                <input type="date" class="form-control" value="Rách 0.1m dây băng" />
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn blue darken-2 modal-close save-category">Lưu</button>
-                <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="capnhat" class="modal">
-        <div class="modal-content">
-            <div class="modal-header center">
-                <h3><b>Cập nhật sự cố</b></h3>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col s12 m6">
-                            <div class="form-group">
-                                <label for="date">Thời gian kết thúc sự cố : </label>
-                                <input type="text" class="form-control" value="15/7/2016" />
-                            </div>
-                        </div>
-                        <div class="col s12 m6">
-                            <div class="form-group">
-                                <label for="name">Lý do sự cố : </label>
-                                <input type="text" class="form-control" value="XT-01" />
-                            </div>
-
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a class="btn blue modal-close darken-2">Lưu</a>
-                <a class="btn light-blue modal-close darken-2">Đóng</a>
-            </div>
-        </div>
-
-    </div>
-
-    @using (Html.BeginForm("deleteDK", "Lylich", FormMethod.Post, new
-    {
-        id = "DKform",
-        enctype = "multipart/form-data",
-        onSubmit = "return Change(this);",
-        data_restUrl = Url.Action("deleteDK", "Lylich", new { id = "" })
-    }))
-    {
-        <input type="hidden" id="supDK_id" name="supid" />
-        <input type="hidden" id="id" name="id" />
-    }
-
-    @using (Html.BeginForm("updateDK", "Lylich", FormMethod.Post, new
-    {
-        id = "DKform",
-        enctype = "multipart/form-data",
-        onSubmit = "return Change(this);",
-        data_restUrl = Url.Action("updateDK", "Lylich", new { id = "" })
-    }))
-    {
-        <div class="card">
-            <div class="card-content">
-                <div class="modal" id="updateDK">
-                    <div class="modal-header">
-                        <h3 class="center">Cập nhật vật tư đi kèm</h3>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col s6">
-                                <label>Mã vật tư</label>
-                                <input readonly id="supDK_id_update" name="supid" class="form-control" />
-                            </div>
-                            <div class="col s6">
-                                <label>Mã thiết bị</label>
-                                <input readonly id="id_update" name="id" class="form-control" />
-                            </div>
-                            <div class="col s6">
-                                <label>Số lượng</label>
-                                <input type="number" id="quan_update" name="quan" class="form-control" />
-                            </div>
-                            <div class="col s6">
-                                <label>Ghi chú</label>
-                                <input type="text" id="note_update" name="note" class="form-control" />
-                            </div>
-                        </div>
 
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn blue modal-close">Lưu</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn blue modal-close">Lưu</button>
                 </div>
             </div>
         </div>
-    }
+    </div>
+}
 
-    @using (Html.BeginForm("updateDP", "Lylich", FormMethod.Post, new
-    {
-        id = "DKform",
-        enctype = "multipart/form-data",
-        onSubmit = "return Change(this);",
-        data_restUrl = Url.Action("updateDP", "Lylich", new { id = "" })
-    }))
-    {
-        <div class="card">
-            <div class="card-content">
-                <div class="modal" id="updateDP">
-                    <div class="modal-header">
-                        <h3 class="center">Cập nhật vật tư dự phòng</h3>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col s6">
-                                <label>Mã vật tư</label>
-                                <input readonly id="supDP_id_update" name="supid" class="form-control" />
-                            </div>
-                            <div class="col s6">
-                                <label>Mã thiết bị</label>
-                                <input readonly id="idDP_update" name="id" class="form-control" />
-                            </div>
-                            <div class="col s6">
-                                <label>Số lượng</label>
-                                <input type="number" id="quanDP_update" name="quan" class="form-control" />
-                            </div>
-                            <div class="col s6">
-                                <label>Ghi chú</label>
-                                <input type="text" id="noteDP_update" name="note" class="form-control" />
-                            </div>
+@using (Html.BeginForm("updateDP", "Lylich", FormMethod.Post, new
+{
+    id = "DKform",
+    enctype = "multipart/form-data",
+    onSubmit = "return Change(this);",
+    data_restUrl = Url.Action("updateDP", "Lylich", new { id = "" })
+}))
+{
+    <div class="card">
+        <div class="card-content">
+            <div class="modal" id="updateDP">
+                <div class="modal-header">
+                    <h3 class="center">Cập nhật vật tư dự phòng</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col s6">
+                            <label>Mã vật tư</label>
+                            <input readonly id="supDP_id_update" name="supid" class="form-control" />
                         </div>
+                        <div class="col s6">
+                            <label>Mã thiết bị</label>
+                            <input readonly id="idDP_update" name="id" class="form-control" />
+                        </div>
+                        <div class="col s6">
+                            <label>Số lượng</label>
+                            <input type="number" id="quanDP_update" name="quan" class="form-control" />
+                        </div>
+                        <div class="col s6">
+                            <label>Ghi chú</label>
+                            <input type="text" id="noteDP_update" name="note" class="form-control" />
+                        </div>
+                    </div>
 
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn blue modal-close">Lưu</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn blue modal-close">Lưu</button>
                 </div>
             </div>
         </div>
-    }
+    </div>
+}
 
-    <datalist id="Suplist">
-        @{
-            foreach (var item in ViewBag.listSup)
-            {
-                <option value="@item.supply_name"></option>
-            }
-
+<datalist id="Suplist">
+    @{
+        foreach (var item in ViewBag.listSup)
+        {
+            <option value="@item.supply_name"></option>
         }
-    </datalist>
-    <datalist id="Supdk">
-        @{
-            foreach (var item in ViewBag.listsupdk)
-            {
-                <option value="@item.equipment_name"></option>
-            }
+
+    }
+</datalist>
+<datalist id="Supdk">
+    @{
+        foreach (var item in ViewBag.listsupdk)
+        {
+            <option value="@item.equipment_name"></option>
         }
-    </datalist>
+    }
+</datalist>
 
-    @using (Html.BeginForm("addDK", "Lylich", FormMethod.Post, new
-    {
-        id = "DKform",
-        enctype = "multipart/form-data",
-        onSubmit = "return Change(this);",
-        data_restUrl = Url.Action("addDK", "Lylich", new { id = "" })
-    }))
-    {
-        <div class="modal" id="addDK">
-            <div class="modal-header">
-                <h3 class="center">Thêm vật tư đi kèm</h3>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col s6">
-                        <label>Tên vật tư</label>
-                        <input list="Supdk" name="nameSup" class="form-control" />
-                    </div>
-                    <div class="col s6">
-                        <label>Mã thiết bị</label>
-                        <input readonly id="id_add" name="id" class="form-control" />
-                    </div>
-                    <div class="col s6">
-                        <label>Số lượng</label>
-                        <input value="0" min="0" type="number" name="quan" class="form-control" />
-                    </div>
-                    <div class="col s6">
-                        <label>Ghi chú</label>
-                        <input type="text" name="note" class="form-control" />
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn blue modal-close">Lưu</button>
-            </div>
+@using (Html.BeginForm("addDK", "Lylich", FormMethod.Post, new
+{
+    id = "DKform",
+    enctype = "multipart/form-data",
+    onSubmit = "return Change(this);",
+    data_restUrl = Url.Action("addDK", "Lylich", new { id = "" })
+}))
+{
+    <div class="modal" id="addDK">
+        <div class="modal-header">
+            <h3 class="center">Thêm vật tư đi kèm</h3>
         </div>
-
-
-    }
-
-    @using (Html.BeginForm("addSCTX", "Lylich", FormMethod.Post, new
-    {
-        id = "DKform",
-        enctype = "multipart/form-data",
-        onSubmit = "return Change2(this);",
-        data_restUrl = Url.Action("addSCTX", "Lylich", new { id = "" })
-    }))
-    {
-        <div class="modal" id="addSCTX">
-            <div class="modal-header">
-                <h3 class="center">Thêm vật tư SCTX</h3>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col s4">
-                        <label>Tên vật tư</label>
-                        <input list="Suplist" name="nameSup" class="form-control" />
-                    </div>
-                    <div class="col s4">
-                        <label>Mã thiết bị</label>
-                        <input readonly id="idDP_add" name="id" class="form-control" />
-                    </div>
-                    <div class="col s4">
-                        <label>Số lượng</label>
-                        <input type="number" name="quan" class="form-control" />
-                    </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col s6">
+                    <label>Tên vật tư</label>
+                    <input list="Supdk" name="nameSup" class="form-control" />
                 </div>
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn blue modal-close">Lưu</button>
-            </div>
-        </div>
-
-
-    }
-
-    @using (Html.BeginForm("updateSCTX", "Lylich", FormMethod.Post, new
-    {
-        id = "DKform",
-        enctype = "multipart/form-data",
-        onSubmit = "return Change2(this);",
-        data_restUrl = Url.Action("updateSCTX", "Lylich", new { id = "" })
-    }))
-    {
-
-        <div class="modal" id="updateSCTX">
-            <div class="modal-header">
-                <h3 class="center">Cập nhật vật tư SCTX</h3>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col s4">
-                        <label>Mã vật tư</label>
-                        <input readonly id="supSCTX_id_update" name="supid" class="form-control" />
-                    </div>
-                    <div class="col s4">
-                        <label>Mã thiết bị</label>
-                        <input readonly id="idSCTX_update" name="id" class="form-control" />
-                    </div>
-                    <div class="col s4">
-                        <label>Số lượng</label>
-                        <input type="number" id="quanSCTX_update" name="quan" class="form-control" />
-                    </div>
+                <div class="col s6">
+                    <label>Mã thiết bị</label>
+                    <input readonly id="id_add" name="id" class="form-control" />
                 </div>
+                <div class="col s6">
+                    <label>Số lượng</label>
+                    <input value="0" min="0" type="number" name="quan" class="form-control" />
+                </div>
+                <div class="col s6">
+                    <label>Ghi chú</label>
+                    <input type="text" name="note" class="form-control" />
+                </div>
+            </div>
 
 
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn blue modal-close">Lưu</button>
-            </div>
         </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue modal-close">Lưu</button>
+        </div>
+    </div>
 
 
-    }
+}
 
-    @using (Html.BeginForm("deleteSCTX", "Lylich", FormMethod.Post, new
-    {
-        id = "DKform",
-        enctype = "multipart/form-data",
-        onSubmit = "return Change2(this);",
-        data_restUrl = Url.Action("deleteSCTX", "Lylich", new { id = "" })
-    }))
-    {
-        <input type="hidden" id="supSCTX_id" name="supid" />
-        <input type="hidden" id="idSCTX" name="id" />
-    }
+@using (Html.BeginForm("addSCTX", "Lylich", FormMethod.Post, new
+{
+    id = "DKform",
+    enctype = "multipart/form-data",
+    onSubmit = "return Change2(this);",
+    data_restUrl = Url.Action("addSCTX", "Lylich", new { id = "" })
+}))
+{
+    <div class="modal" id="addSCTX">
+        <div class="modal-header">
+            <h3 class="center">Thêm vật tư SCTX</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col s4">
+                    <label>Tên vật tư</label>
+                    <input list="Suplist" name="nameSup" class="form-control" />
+                </div>
+                <div class="col s4">
+                    <label>Mã thiết bị</label>
+                    <input readonly id="idDP_add" name="id" class="form-control" />
+                </div>
+                <div class="col s4">
+                    <label>Số lượng</label>
+                    <input type="number" name="quan" class="form-control" />
+                </div>
+            </div>
 
-    <ul id='dropdown1' class='dropdown-content'>
-        <li><a href="#!">Danh sách hết bảo hiểm</a></li>
-        <li><a href="#!">Danh sách hết khấu hao</a></li>
-        <li><a href="#!">Danh sách đang bảo dưỡng</a></li>
-        <li><a href="#!">Danh sách đang sửa chữa</a></li>
-        <li><a href="#!">Danh sách đang gặp sự cố</a></li>
-    </ul>
-    <link href="~/css/transfer_mobilize_history_timeline.css" rel="stylesheet" />
-    <script src="~/js/Briefs_List.js"></script>
-    <script src="~/js/Custom JS/CDVT/Report/DetailManu.js"></script>
-    <script>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue modal-close">Lưu</button>
+        </div>
+    </div>
+
+
+}
+
+@using (Html.BeginForm("updateSCTX", "Lylich", FormMethod.Post, new
+{
+    id = "DKform",
+    enctype = "multipart/form-data",
+    onSubmit = "return Change2(this);",
+    data_restUrl = Url.Action("updateSCTX", "Lylich", new { id = "" })
+}))
+{
+
+    <div class="modal" id="updateSCTX">
+        <div class="modal-header">
+            <h3 class="center">Cập nhật vật tư SCTX</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col s4">
+                    <label>Mã vật tư</label>
+                    <input readonly id="supSCTX_id_update" name="supid" class="form-control" />
+                </div>
+                <div class="col s4">
+                    <label>Mã thiết bị</label>
+                    <input readonly id="idSCTX_update" name="id" class="form-control" />
+                </div>
+                <div class="col s4">
+                    <label>Số lượng</label>
+                    <input type="number" id="quanSCTX_update" name="quan" class="form-control" />
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue modal-close">Lưu</button>
+        </div>
+    </div>
+
+
+}
+
+@using (Html.BeginForm("deleteSCTX", "Lylich", FormMethod.Post, new
+{
+    id = "DKform",
+    enctype = "multipart/form-data",
+    onSubmit = "return Change2(this);",
+    data_restUrl = Url.Action("deleteSCTX", "Lylich", new { id = "" })
+}))
+{
+    <input type="hidden" id="supSCTX_id" name="supid" />
+    <input type="hidden" id="idSCTX" name="id" />
+}
+
+<ul id='dropdown1' class='dropdown-content'>
+    <li><a href="#!">Danh sách hết bảo hiểm</a></li>
+    <li><a href="#!">Danh sách hết khấu hao</a></li>
+    <li><a href="#!">Danh sách đang bảo dưỡng</a></li>
+    <li><a href="#!">Danh sách đang sửa chữa</a></li>
+    <li><a href="#!">Danh sách đang gặp sự cố</a></li>
+</ul>
+<link href="~/css/transfer_mobilize_history_timeline.css" rel="stylesheet" />
+<script src="~/js/Briefs_List.js"></script>
+<script src="~/js/Custom JS/CDVT/Report/DetailManu.js"></script>
+<script>
         function deleteLS(form) {
             $.validator.unobtrusive.parse(form);
 
@@ -1310,8 +1319,8 @@
             }
         })
         $(".wrapper-timeline").css("border", "none");
-    </script>
-    <script>
+</script>
+<script>
         var tab3 = false
         var tab6 = false
         var tab7 = false
@@ -1404,4 +1413,4 @@
                 });
             }
         })
-    </script>
+</script>
