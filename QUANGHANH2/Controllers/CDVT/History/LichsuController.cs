@@ -25,15 +25,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             // only taken by each department.
             string department_id = Session["departID"].ToString();
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<FuelDB> listEQ; List<Supply> listSupply;
+            List<fuelDB> listEQ; List<Supply> listSupply;
             if (department_id.Contains("PX"))
             {
-                 listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from Equipment where department_id = @department_id", new SqlParameter("department_id", department_id)).ToList();
+                 listEQ = db.Database.SqlQuery<fuelDB>("select equipmentId , equipment_name from Equipment where department_id = @department_id", new SqlParameter("department_id", department_id)).ToList();
                  listSupply = db.Supplies.ToList();
             }
             else
             {
-                 listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from Equipment").ToList();
+                 listEQ = db.Database.SqlQuery<fuelDB>("select equipmentId , equipment_name from Equipment").ToList();
                  listSupply = db.Supplies.ToList();
             }
             ViewBag.listSupply = listSupply;
@@ -72,43 +72,31 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 // only taken by each department.
                 string department_id = Session["departID"].ToString();
                 List<activitiesDB> listActi;
-                if (department_id.Contains("PX"))
-                {
-                    string query = "select a.[date], a.equipmentId, e.equipment_name , a.activityname, a.hours_per_day, a.quantity , a.[activityid]"
-                                    + " from Activity a ,Equipment e "
-                                    + " where e.equipmentId = a.equipmentId AND a.equipmentId LIKE @equipmentId "
-                                    + " AND e.equipment_name LIKE @equipment_name AND a.[date] between @timeFrom AND @timeTo "
-                                    + " AND e.department_id = @department_id";
-                     listActi = DBContext.Database.SqlQuery<activitiesDB>(query,
-                        new SqlParameter("equipmentId", '%' + equipmentId + '%'),
-                        new SqlParameter("equipment_name", '%' + equipmentName + '%'),
-                        new SqlParameter("timeFrom", timeF),
-                        new SqlParameter("timeTo", timeT),
-                        new SqlParameter("department_id", department_id)
-                        ).ToList();
-                }
-                else
-                {
-                    string query = "select a.[date], a.equipmentId, e.equipment_name , a.activityname, a.hours_per_day, a.quantity , a.[activityid]"
-                                    + " from Activity a ,Equipment e "
+                string base_select = "select a.[date], a.equipmentId, e.equipment_name , a.activityname, a.hours_per_day, a.quantity , a.[activityid]";
+                string from_clause = " from Activity a ,Equipment e "
                                     + " where e.equipmentId = a.equipmentId AND a.equipmentId LIKE @equipmentId "
                                     + " AND e.equipment_name LIKE @equipment_name AND a.[date] between @timeFrom AND @timeTo ";
-                     listActi = DBContext.Database.SqlQuery<activitiesDB>(query,
-                        new SqlParameter("equipmentId", '%' + equipmentId + '%'),
-                        new SqlParameter("equipment_name", '%' + equipmentName + '%'),
-                        new SqlParameter("timeFrom", timeF),
-                        new SqlParameter("timeTo", timeT)
-                        ).ToList();
+                if (department_id.Contains("PX"))
+                {
+                    from_clause += " AND e.department_id = @department_id";
                 }
-                int totalrows = listActi.Count;
-                int totalrowsafterfiltering = listActi.Count;
-                //sorting
-                listActi = listActi.OrderBy(sortColumnName + " " + sortDirection).ToList<activitiesDB>();
-                //paging
-                listActi = listActi.Skip(start).Take(length).ToList<activitiesDB>();
-                
+                listActi = DBContext.Database.SqlQuery<activitiesDB>(base_select + from_clause + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
+                   new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                   new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                   new SqlParameter("timeFrom", timeF),
+                   new SqlParameter("timeTo", timeT),
+                   new SqlParameter("department_id", department_id)
+                   ).ToList();
+                int totalrows = DBContext.Database.SqlQuery<int>("select count(a.[date])" + from_clause,
+                   new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                   new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                   new SqlParameter("timeFrom", timeF),
+                   new SqlParameter("timeTo", timeT),
+                   new SqlParameter("department_id", department_id)
+                   ).FirstOrDefault();
+
                 ViewBag.ListEQ = listActi;
-                return Json(new { success = true, data = listActi, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, data = listActi, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
@@ -150,49 +138,31 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
                 // only taken by each department.
                 string department_id = Session["departID"].ToString();
-                List<fuelDB> listFuelConsump;
+                string base_select = "select f.fuelId, f.[date], f.equipmentId, e.equipment_name , s.supply_name , f.consumption_value , s.unit";
+                string from_clause = " from Fuel_activities_consumption f, Equipment e , Supply s "
+                                    + "where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type AND f.equipmentId LIKE @equipmentId "
+                                    + " AND e.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo ";
                 if (department_id.Contains("PX"))
                 {
-                    string query = "select f.fuelId, f.[date], f.equipmentId, e.equipment_name , s.supply_name , f.consumption_value , s.unit"
-                                    + " from Fuel_activities_consumption f, Equipment e , Supply s "
-                                    + "where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type AND f.equipmentId LIKE @equipmentId "
-                                    + " AND e.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo "
-                                    + " AND e.department_id = @department_id order by f.[date] desc";
-                    listFuelConsump = DBContext.Database.SqlQuery<fuelDB>(query,
+                    from_clause += " AND e.department_id = @department_id";
+                }
+                List<fuelDB> listFuelConsump = DBContext.Database.SqlQuery<fuelDB>(base_select + from_clause + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                        new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                        new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                        new SqlParameter("timeFrom", timeF),
                        new SqlParameter("timeTo", timeT),
                        new SqlParameter("department_id", department_id)
                        ).ToList();
-                }
-                else
-                {
-                    string query = "select f.fuelId, f.[date], f.equipmentId, e.equipment_name , s.supply_name , f.consumption_value , s.unit"
-                                    + " from Fuel_activities_consumption f, Equipment e , Supply s "
-                                    + "where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type AND f.equipmentId LIKE @equipmentId "
-                                    + " AND e.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo "
-                                    + "  order by f.[date] desc";
-                    listFuelConsump = DBContext.Database.SqlQuery<fuelDB>(query,
+
+                int totalrows = DBContext.Database.SqlQuery<int>("select count(f.[date])" + from_clause,
                        new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                        new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                        new SqlParameter("timeFrom", timeF),
-                       new SqlParameter("timeTo", timeT)
-                       ).ToList();
-                }
+                       new SqlParameter("timeTo", timeT),
+                       new SqlParameter("department_id", department_id)
+                       ).FirstOrDefault();
 
-
-                int totalrows = listFuelConsump.Count;
-                int totalrowsafterfiltering = listFuelConsump.Count;
-                //sorting
-                listFuelConsump = listFuelConsump.OrderBy(sortColumnName + " " + sortDirection).ToList<fuelDB>();
-
-                //paging
-                listFuelConsump = listFuelConsump.Skip(start).Take(length).ToList<fuelDB>();
-
-               
-
-                return Json(new { success = true, data = listFuelConsump, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, data = listFuelConsump, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
