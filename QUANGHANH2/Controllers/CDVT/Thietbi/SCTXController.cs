@@ -214,8 +214,8 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 string sortDirection = Request["order[0][dir]"];
 
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                string query = "select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintain_id"
-                    + " from Equipment_SCTX m inner join Equipment e on m.equipmentid = e.equipmentId "
+                string base_select = "select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintain_id";
+                string from_clause = " from Equipment_SCTX m inner join Equipment e on m.equipmentid = e.equipmentId "
                     + " inner join Department d on d.department_id = m.department_id" +
                     " inner join (select e.equipmentId, e.equipment_name from Equipment e" +
                     " EXCEPT" +
@@ -225,9 +225,9 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                     + " Where m.equipmentId LIKE @equipmentId"
                     + " AND e.equipment_name LIKE @equipment_name AND m.[date] between @timeFrom AND @timeTo "
                     + " AND d.department_name LIKE @position AND m.maintain_content LIKE @content "
-                    + " AND e.department_id = @department_id order by m.[date] desc";
+                    + " AND e.department_id = @department_id";
 
-                List<MaintainDB> maintainCar = DBContext.Database.SqlQuery<MaintainDB>(query,
+                List<MaintainDB> maintainCar = DBContext.Database.SqlQuery<MaintainDB>(base_select + from_clause + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                     new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                     new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                     new SqlParameter("timeFrom", timeF),
@@ -237,14 +237,17 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                     new SqlParameter("department_id", Session["departID"].ToString())
                     ).ToList();
 
-                int totalrows = maintainCar.Count;
-                int totalrowsafterfiltering = maintainCar.Count;
-                //sorting
-                maintainCar = maintainCar.OrderBy(sortColumnName + " " + sortDirection).ToList<MaintainDB>();
-                //paging
-                maintainCar = maintainCar.Skip(start).Take(length).ToList<MaintainDB>();
-               
-                return Json(new { success = true, data = maintainCar, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                int totalrows = DBContext.Database.SqlQuery<int>("select count(m.[date])" + from_clause,
+                    new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                    new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                    new SqlParameter("timeFrom", timeF),
+                    new SqlParameter("timeTo", timeT),
+                    new SqlParameter("position", '%' + position + '%'),
+                    new SqlParameter("content", '%' + content + '%'),
+                    new SqlParameter("department_id", Session["departID"].ToString())
+                    ).FirstOrDefault();
+
+                return Json(new { success = true, data = maintainCar, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
