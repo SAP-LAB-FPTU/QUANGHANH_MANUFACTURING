@@ -93,13 +93,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                     i.department_id = e.department_id;
                     i.detail_location = detail;
                     i.equipmentId = equipment;
-                    i.reason = reason;
+                    i.reason = reason == null ? "" : reason;
                     i.start_time = start;
                     i.end_time = end;
                     if (checkBox == "yes")
                     {
                         e.current_Status = 4;
-                        i.reason = null;
+                        i.reason = reason == null ? "" : reason;
                         i.end_time = null;
                     }
 
@@ -205,7 +205,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             string sortDirection = Request["order[0][dir]"];
 
             DateTime dtStart = dateStart.Equals("") ? DateTime.ParseExact("01/01/1900", "dd/MM/yyyy", null) : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
-            DateTime dtEnd = dateStart.Equals("") ? DateTime.Now : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
+            DateTime dtEnd = dateStart.Equals("") ? DateTime.Now : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             string base_select = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different ";
