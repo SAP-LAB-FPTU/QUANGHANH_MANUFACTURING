@@ -19,7 +19,7 @@ namespace QUANGHANH2.Controllers.DK
     public class AccidentController : Controller
     {
         //[Auther(RightID = "158")] 
-        [Route("phong-dieu-khien/bao-cao-tai-nan")]
+        //[Route("phong-dieu-khien/bao-cao-tai-nan")]
         //public ActionResult Index()
         //{
         //    QUANGHANHABCEntities db = new QUANGHANHABCEntities();
@@ -85,13 +85,26 @@ namespace QUANGHANH2.Controllers.DK
                                                      Ngay = tainan.Ngay
 
                                                  }
-                                  ).Where(x => x.MaNV.Contains(employeeID) && x.Ten.Contains(EmployeeName) && x.Ngay >= timeF && x.Ngay <= timeT).ToList();
+                                  ).Where(x => x.MaNV.Contains(employeeID) && x.Ten.Contains(EmployeeName) && x.Ngay >= timeF && x.Ngay <= timeT)
+                                  .OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
 
-                    int totalrows = listTainan.Count;
-                    int totalrowsafterfiltering = listTainan.Count;
-                    listTainan = listTainan.OrderBy(sortColumnName + " " + sortDirection).ToList<TaiNanDB>();
-                    listTainan = listTainan.Skip(start).Take(length).ToList<TaiNanDB>();
-                    return Json(new { success = true, data = listTainan, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                    int totalrows = (from tainan in db.TaiNans
+                                     join nhanvien in db.NhanViens on tainan.MaNV equals nhanvien.MaNV
+                                     join depart in db.Departments on nhanvien.MaPhongBan equals depart.department_id
+                                     select new TaiNanDB
+                                     {
+                                         MaTaiNan = tainan.MaTaiNan,
+                                         MaNV = tainan.MaNV,
+                                         Ten = nhanvien.Ten,
+                                         department_name = depart.department_name,
+                                         LyDo = tainan.LyDo,
+                                         Loai = tainan.Loai,
+                                         Ca_Name = tainan.Ca == 1 ? "CA 1" : tainan.Ca == 2 ? "CA 2" : "CA 3",
+                                         Ngay = tainan.Ngay
+
+                                     }
+                                  ).Where(x => x.MaNV.Contains(employeeID) && x.Ten.Contains(EmployeeName) && x.Ngay >= timeF && x.Ngay <= timeT).Count();
+                    return Json(new { success = true, data = listTainan, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
 
                 }
             }
@@ -107,9 +120,6 @@ namespace QUANGHANH2.Controllers.DK
         {
             try
             {
-
-
-
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
 

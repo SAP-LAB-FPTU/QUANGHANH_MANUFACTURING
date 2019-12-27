@@ -216,7 +216,7 @@ namespace QUANGHANH2.Controllers.DK
 
                 return Json(new { success = true, data = new { FileGuid = handle, FileName = downloadFilename } }, JsonRequestBehavior.AllowGet);
             }
-            return null;
+            //return null;
         }
         [HttpGet]
         [Route("phong-dieu-khien/bao-cao-san-xuat-than/download")]
