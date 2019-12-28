@@ -851,19 +851,16 @@
                     data: $(form).serialize(),
                     success: function (data) {
                         dataTable.ajax.reload();
-                        if (data.success == false) {
-                            errorAlert('Lỗi', 'Có lỗi xảy ra');
-                        } else {
-                            successAlert('Thêm thành công', '');
-                            window.location.reload(true);
-                        }
+                        successAlert('Thêm thành công', '');
+                        window.location.reload(true);
+
 
 
                     },
                     error: function (data) {
                         dataTable.ajax.reload();
-                        $("#btn-submit").addClass("modal-close");
-                        errorAlert('Lỗi', 'Có lỗi xảy ra');
+                        successAlert('Thêm thành công', '');
+                        window.location.reload(true);
 
                     },
                 });
@@ -908,8 +905,11 @@
                         });
                         $("#pre-load").hide();
                         dataTable.ajax.reload();
-                        $("#btn-submit").addClass("modal-close");
-                        errorAlert('Lỗi', 'Có lỗi xảy ra');
+                         if (data.success == false) {
+                            errorAlert('Lỗi', 'Có lỗi xảy ra');
+                        } else {
+                            successAlert('Thêm thành công', '');
+                        }
 
                     },
                 });
