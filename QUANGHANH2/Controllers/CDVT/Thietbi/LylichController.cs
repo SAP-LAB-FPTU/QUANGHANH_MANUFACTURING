@@ -15,6 +15,10 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
     public class LylichController : Controller
     {
+        public class dactinh : Equipment_category_attribute
+        {
+            public int Value { get; set; }
+        }
         public class EquipWithName : Equipment
         {
             public Nullable<System.DateTime> durationOfInspection_fix { get; set; }
@@ -93,6 +97,16 @@ namespace QUANGHANHCORE.Controllers.CDVT
             //DD thiet bi
             var equipment = DBContext.Database.SqlQuery<EquipWithName>("SELECT e.*,d.department_name,s.statusname FROM Equipment e,Status s,Department d WHERE d.department_id = e.department_id and e.current_Status = s.statusid and e.equipmentId = @id", new SqlParameter("id", id)).First();
             ViewBag.equipment = equipment;
+            string mysql = @"select ec.Equipment_category_attribute_id, ec.Equipment_category_attribute_name, c.Value, ec.unit
+                        from Equipment_category_attribute ec join Category_attribute_value c on ec.Equipment_category_attribute_id = c.Equipment_category_attribute_id
+                        where c.equipmentId = @id";
+            var dactinh = DBContext.Database.SqlQuery<dactinh>(mysql, new SqlParameter("id", id)).ToList();
+            ViewBag.dactinh = dactinh;
+            mysql = @"select e.*
+                        from Equipment_attribute e
+                        where e.equipmentId = @id";
+            var thuoctinh = DBContext.Database.SqlQuery<Equipment_attribute>(mysql, new SqlParameter("id", id)).ToList();
+            ViewBag.thuoctinh = thuoctinh;
             //Vat tu di kem
             var sup = DBContext.Database.SqlQuery<Supply_DK>("select s.*,e.equipment_name from Equipment e join Supply_DiKem s on e.equipmentId = s.equipmentId_dikem where s.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
             ViewBag.sup = sup;

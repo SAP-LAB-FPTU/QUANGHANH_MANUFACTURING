@@ -147,6 +147,46 @@
                                     </tr>
 
                                 </table>
+                                <h4 class="center-align" style="font-weight:bold">Thuộc tính thiết bị</h4>
+                                <table class="striped table-bordered" style="margin-top:30px !important">
+                                    <tr>
+                                        <th>Mã thuộc tính</th>
+                                        <th>Tên thuộc tính</th>
+                                        <th>Thông số</th>
+                                        <th>Đơn vị tính</th>
+                                    </tr>
+                                    @{ 
+                                        foreach(var item in ViewBag.thuoctinh)
+                                        {
+                                            <tr>
+                                                <td>@item.Equipment_attribute_id</td>
+                                                <td>@item.Equipment_attribute_name</td>
+                                                <td>@item.value</td>
+                                                <td>@item.unit</td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+                                <h4 class="center-align" style="font-weight:bold">Đặc tính nhóm thiết bị</h4>
+                                <table class="striped table-bordered" style="margin-top:30px !important">
+                                    <tr>
+                                        <th>Mã đặc tính</th>
+                                        <th>Tên đặc tính</th>
+                                        <th>Thông số</th>
+                                        <th>Đơn vị tính</th>
+                                    </tr>
+                                    @{
+                                        foreach (var item in ViewBag.dactinh)
+                                        {
+                                            <tr>
+                                                <td>@item.Equipment_category_attribute_id</td>
+                                                <td>@item.Equipment_category_attribute_name</td>
+                                                <td>@item.Value</td>
+                                                <td>@item.unit</td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
                                 <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
                                     <li class="tab col s4"><a class="active" href="#VT_DK">Vật tư đi kèm</a></li>
                                     <li class="tab col s4"><a href="#VT_SCTX">Vật tư SCTX</a></li>
@@ -861,7 +901,7 @@
     data_restUrl = Url.Action("updateDK", "Lylich", new { id = "" })
 }))
 {
-    <div class="card">
+    <div class="">
         <div class="card-content">
             <div class="modal" id="updateDK">
                 <div class="modal-header">
@@ -905,7 +945,7 @@
     data_restUrl = Url.Action("updateDP", "Lylich", new { id = "" })
 }))
 {
-    <div class="card">
+    <div class="">
         <div class="card-content">
             <div class="modal" id="updateDP">
                 <div class="modal-header">

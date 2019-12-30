@@ -498,7 +498,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                     }
                     db.SaveChanges();
                     dbc.Commit();
-                    return RedirectToAction("GetData");
+                    return RedirectToAction("Search");
                 }
                 catch (Exception e)
                 {
@@ -617,7 +617,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
                         db.SaveChanges();
                         dbc.Commit();
-                        return RedirectToAction("GetData");
+                        return RedirectToAction("Search");
                     }
                     catch (Exception e)
                     {
