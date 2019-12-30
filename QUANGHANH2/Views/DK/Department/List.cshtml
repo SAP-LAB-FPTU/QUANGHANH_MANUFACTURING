@@ -180,7 +180,17 @@
                     "url": "/phong-dieu-khien/quan-ly-phong-ban",
                     "type": "POST",
                     "datatype": "json",
-
+                        data: {
+                            department_id: function () {
+                                return $('#maPhongBanTxt').val();
+                            },
+                            department_name: function () {
+                                return $('#tenPhongBanTxt').val();
+                            },
+                            department_type: function () {
+                                return $('#loaiTxt').val();
+                            }
+                        }
                     },
                     "drawCallback": function (settings) {
                         $("#pre-load").hide("slow", function () {
@@ -378,37 +388,7 @@
 
         //searching bang nut search
         $("#searchEmpBtn").click(function () {
-
-            search();
+            dataTable.ajax.reload();
         });
-
-        //searching
-        function search() {
-            var maPhongBanTxt = $("#maPhongBanTxt").val();
-            var tenPhongBanTxt = $("#tenPhongBanTxt").val();
-            var loaiTxt = $("#loaiTxt").val();
-
-            var stringArrayEmpSearch = new Array();
-            stringArrayEmpSearch[0] = maPhongBanTxt.replace(/\s+/g, " ").trim();
-            stringArrayEmpSearch[1] = tenPhongBanTxt.replace(/\s+/g, " ").trim();
-            stringArrayEmpSearch[2] = loaiTxt.replace(/\s+/g, " ").trim();
-
-            dataTable.ajax.url('@Url.Action("searchDepartment", "Department")?DepartmentSearchList=' + stringArrayEmpSearch).load(() => {
-
-                $("#pre-load").hide("slow", function () { })
-                $.notify("Tìm kiếm thành công", {
-                    globalPosition: "top center",
-                    className: "success"
-                })
-            }, true)
-        }
-
-
-
-
     </script>
-
 }
-
-
-
