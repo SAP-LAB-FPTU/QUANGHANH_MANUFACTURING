@@ -114,10 +114,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             var equipList = db.Equipments.ToList<Equipment>();
             etk.total = equipList.Where(x => x.isAttach == false).Count().ToString();
             int total_repair = 0; int total_maintain = 0; int total_TL = 0; int total_TH = 0;
-            var listKD = (from equip in db.Equipments
-                                        .Where(equip => equip.current_Status == 10 && equip.isAttach == false)
-                          join cate in db.Equipment_category
-                          on equip.Equipment_category_id equals cate.Equipment_category_id
+            var listKD = (from equip in db.Equipments.Where(equip => equip.current_Status == 10)
                           select new DashEquip
                           {
                               equipmentId = equip.equipmentId,
@@ -129,16 +126,16 @@ namespace QUANGHANHCORE.Controllers.CDVT
             etk.total_HD = db.Equipments.Where(x => x.current_Status == 2 && x.isAttach == false).Count();
             etk.total_KHD = int.Parse(etk.total) - etk.total_HD;
 
-            var listRepair = db.Equipments.Where(x => x.current_Status == 3 && x.isAttach == false).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
+            var listRepair = db.Equipments.Where(x => x.current_Status == 3).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listRepair = listRepair;
 
-            var listMain = db.Equipments.Where(x => x.current_Status == 5 && x.isAttach == false).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
+            var listMain = db.Equipments.Where(x => x.current_Status == 5).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listMain = listMain;
 
-            var listTL = db.Equipments.Where(x => x.current_Status == 8 && x.isAttach == false).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
+            var listTL = db.Equipments.Where(x => x.current_Status == 8).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listTL = listTL;
 
-            var listTH = db.Equipments.Where(x => x.current_Status == 7 && x.isAttach == false).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
+            var listTH = db.Equipments.Where(x => x.current_Status == 7).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             total_repair = listRepair.Count();
             total_maintain = listMain.Count();
             total_TL = listTL.Count();
