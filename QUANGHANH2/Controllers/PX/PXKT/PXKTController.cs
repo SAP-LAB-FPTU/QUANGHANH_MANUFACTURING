@@ -320,32 +320,6 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
         }
         [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
-        [HttpGet]
-        [Route("phan-xuong-khai-thac/diem-danh/dang-ky-nhan-vien")]
-        public ActionResult registerEmployee()
-        {
-            return View("/Views/PX/PXKT/registerEmployee.cshtml");
-        }
-
-        [HttpPost]
-        [Route("phan-xuong-khai-thac/diem-danh/dang-ky-nhan-vien")]
-        public ActionResult loadEmployee()
-        {
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                var listNV = db.NhanViens.ToList();
-                listNV = listNV.Skip(start).Take(length).ToList<NhanVien>();
-                int totalrows = listNV.Count;
-                int totalrowsafterfiltering = listNV.Count;
-                return Json(new { success = true, data = listNV, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-            }
-        }
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [HttpPost]
         [Route("phan-xuong-khai-thac/diem-danh/lua-chon-diem-danh")]
         public ActionResult filterEmployee()

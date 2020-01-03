@@ -45,28 +45,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return db.NhanViens.ToList<NhanVien>();
             }
         }
-        //[HttpPost]
-        //public ActionResult GetAllDocuments()
-        //{
-        //    int start = Convert.ToInt32(Request["start"]);
-        //    int length = Convert.ToInt32(Request["length"]);
-        //    string searchValue = Request["search[value]"];
-        //    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-        //    string sortDirection = Request["order[0][dir]"];
-        //    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-        //    {
-        //        db.Configuration.LazyLoadingEnabled = false;
-        //        List<TenNV> list = db.Database.SqlQuery<TenNV>("select n.Ten,g.* from GiayTo g, NhanVien n where g.MaNV = n.MaNV").ToList<TenNV>();
-        //        ViewBag.giaytolist = list;
-        //        int totalrows = list.Count;
-        //        int totalrowsafterfiltering = list.Count;
-        //        //sorting
-        //        list = list.OrderBy(sortColumnName + " " + sortDirection).ToList<TenNV>();
-        //        //paging
-        //        list = list.Skip(start).Take(length).ToList<TenNV>();
-        //        return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
         public class TenNV : GiayTo
         {
             public string Ten { get; set; }
