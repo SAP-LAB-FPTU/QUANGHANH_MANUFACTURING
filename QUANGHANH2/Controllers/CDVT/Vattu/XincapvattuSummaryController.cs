@@ -16,7 +16,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             _repository = repo;
         }
 
-        [Auther(RightID = "35")]
+        [Auther(RightID = "28")]
         [Route("phong-cdvt/xin-cap-vat-tu-sctx-summary")]
         public ActionResult Index()
         {
@@ -35,7 +35,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "35")]
+        [Auther(RightID ="28")]
         [Route("phong-cdvt/xin-cap-vat-tu-sctx-summary/departments")]
         [HttpGet]
         public ActionResult Departments(string departmentId)
