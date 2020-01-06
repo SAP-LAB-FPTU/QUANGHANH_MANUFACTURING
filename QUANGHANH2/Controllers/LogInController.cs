@@ -113,6 +113,10 @@ namespace QUANGHANHCORE.Controllers
             {
                 RightIDs.Add(right.RightID + "");
             }
+            if(Session["Position"].ToString().Equals("Trưởng phòng") && Session["departID"].ToString().Equals("CDVT"))
+            {
+                RightIDs.Add("192");
+            }
             var user = db.Accounts.Where(x => x.ID == UserID).FirstOrDefault();
 
             if (user.NVID != null)

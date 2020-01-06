@@ -212,9 +212,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             string query = "FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId " +
                 "inner join Department d on d.department_id = i.department_id " +
                 "where i.start_time BETWEEN '" + dtStart + "' AND '" + dtEnd + "' AND i.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name " +
-                "AND d.department_name LIKE @department_name AND i.detail_location LIKE @detail_location AND i.reason LIKE @reason";
+                "AND d.department_name LIKE @department_name AND i.detail_location LIKE @detail_location";
+            if (reason == null)
+                query += " AND i.reason LIKE @reason";
             if (Session["departID"].ToString().Contains("PX")) query += " AND d.department_id = '" + Session["departID"].ToString() + "'";
-            List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(base_select + query + " order by " + sortColumnName + " " + sortDirection,
+            List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(base_select + query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                 new SqlParameter("department_name", '%' + department + '%'),

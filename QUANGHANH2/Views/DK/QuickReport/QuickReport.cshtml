@@ -1,6 +1,14 @@
 ﻿
 @{
-    Layout = "~/Views/Shared/_Layout_DK.cshtml";
+    //Layout = "~/Views/Shared/_Layout_DK.cshtml";
+    if (Session["departID"].ToString().Contains("CDVT"))
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_DK.cshtml";
+    }
 }
 
 @*<link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">

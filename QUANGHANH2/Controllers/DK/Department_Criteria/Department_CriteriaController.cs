@@ -107,7 +107,7 @@ namespace QUANGHANH2.Controllers.DK
     public class TieuChiABC : TieuChi
     {
         public string MaPhongBan { get; set; }
-        public int MaTieuChi { get; set; }
-        public string TenTieuChi { get; set; }
+        //public int MaTieuChi { get; set; }
+        //public string TenTieuChi { get; set; }
     }
 }
