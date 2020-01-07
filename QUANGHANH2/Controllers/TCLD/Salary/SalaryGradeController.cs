@@ -41,18 +41,13 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
                     var listBacLuong = db.Database.SqlQuery<BacLuong>(query).ToList();
 
                     int totalrows = db.BacLuongs.Count();
-                    int totalrowsafterfiltering = totalrows;
 
-                    //listBacLuong = listBacLuong.OrderBy(sortColumnName + " " + sortDirection).ToList<BacLuong>();
-                    //listBacLuong = listBacLuong.Skip(start).Take(length).ToList<BacLuong>();
-
-                    return Json(new { list = listBacLuong, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                    return Json(new { list = listBacLuong, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
                 {
-
+                    return null;
                 }
-                return null;
             }
         }
 
@@ -176,11 +171,11 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     BacLuong_ThangLuong_MucLuong blm = db.BacLuong_ThangLuong_MucLuong.Where(x => x.MaBacLuong == MaBacLuong).FirstOrDefault();
-                    
+
                     //var query = @"Select * From BacLuong_ThangLuong_MucLuong Where MaBacLuong = @mbl";
                     //var blm = db.Database.SqlQuery<BacLuong_ThangLuong_MucLuong>(query, new SqlParameter("mbl", MaBacLuong)).FirstOrDefault();
-                    
-                    if(blm != null)
+
+                    if (blm != null)
                     {
                         return Json(new { error = true, message = "Bậc lương này vẫn đang được sử dụng !" });
                     }

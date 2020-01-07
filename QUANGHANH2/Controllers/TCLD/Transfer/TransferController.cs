@@ -111,17 +111,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             //
             ViewBag.selectedList = cookie.Value;
             //
-            var listSelect = Request["selectList"];
             List<NhanVienModel> listNhanVien = new List<NhanVienModel>();
 
             int totalrows;
-            int totalrowsafterfiltering;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
@@ -147,20 +144,15 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     sql = sql.Substring(0, sql.Length - 4).Trim();
                 }
                 sql += sql.Contains("where") ? " AND A.MaTrangThai<>2" : " WHERE A.MaTrangThai<>2";
-                listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql,
+                listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                     new SqlParameter("tenNV", "%" + searchTen + "%"),
                     new SqlParameter("maPhongBan", phongbanSearch),
                     new SqlParameter("maCongViec", chucVuSearch)
-                    )
-                    .OrderBy(sortColumnName + " " + sortDirection).Skip(start)
-                    .Take(length).ToList<NhanVienModel>().ToList();
+                    ).ToList();
                 totalrows = db.Database.SqlQuery<Int32>(sql.Replace("A.*,B.department_name,C.TenCongViec,D.TenTrangThai", "Count(*) as count")).ToList<Int32>()[0];
-                totalrowsafterfiltering = totalrows;
 
-                //listNhanVien = listNhanVien.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVienModel>();
-                //listNhanVien = listNhanVien.Skip(start).Take(length).ToList<NhanVienModel>();
             }
-            return Json(new { success = true, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
         [Auther(RightID = "64")]
@@ -659,14 +651,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
-            //string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             //
             List<QuyetDinh> listQuyetDinh = new List<QuyetDinh>();
 
             int totalrows;
-            int totalrowsafterfiltering;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
@@ -681,19 +671,19 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 }
                 sql += searchSoQuyetDinh == "" ? ") and  SoQuyetDinh<>''" : " ) and SoQuyetDinh like @soQuyetDinh";
                 sql += searchDate == "" ? "" : " and NgayQuyetDinh = @ngayQuyetDinh";
-                listQuyetDinh = db.Database.SqlQuery<QuyetDinh>(sql,
+                listQuyetDinh = db.Database.SqlQuery<QuyetDinh>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                     new SqlParameter("soQuyetDinh", "%" + searchSoQuyetDinh + "%"),
                     new SqlParameter("maNV", "%" + searchMaNV + "%"),
                     new SqlParameter("ngayQuyetDinh", searchDate)
                     ).ToList<QuyetDinh>();
 
-                totalrows = listQuyetDinh.Count;
-                totalrowsafterfiltering = listQuyetDinh.Count;
-
-                listQuyetDinh = listQuyetDinh.OrderBy(sortColumnName + " " + sortDirection).ToList<QuyetDinh>();
-                listQuyetDinh = listQuyetDinh.Skip(start).Take(length).ToList<QuyetDinh>();
+                totalrows = db.Database.SqlQuery<int>(sql.Replace("*", "count(MaQuyetDinh)"),
+                    new SqlParameter("soQuyetDinh", "%" + searchSoQuyetDinh + "%"),
+                    new SqlParameter("maNV", "%" + searchMaNV + "%"),
+                    new SqlParameter("ngayQuyetDinh", searchDate)
+                    ).FirstOrDefault();
             }
-            return Json(new { success = true, data = listQuyetDinh, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, data = listQuyetDinh, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
         [Auther(RightID = "102")]
@@ -845,14 +835,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
-            //string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             //
             List<QuyetDinh> listQuyetDinh = new List<QuyetDinh>();
 
             int totalrows;
-            int totalrowsafterfiltering;
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
@@ -867,18 +855,17 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 }
                 sql += ") and  SoQuyetDinh is NULL";
                 sql += searchDate == "" ? "" : " and NgayQuyetDinh = @ngayQuyetDinh";
-                listQuyetDinh = db.Database.SqlQuery<QuyetDinh>(sql,
+                listQuyetDinh = db.Database.SqlQuery<QuyetDinh>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                     new SqlParameter("maNV", "%" + searchMaNV + "%"),
                     new SqlParameter("ngayQuyetDinh", searchDate)
                     ).ToList<QuyetDinh>();
 
-                totalrows = listQuyetDinh.Count;
-                totalrowsafterfiltering = listQuyetDinh.Count;
-
-                listQuyetDinh = listQuyetDinh.OrderBy(sortColumnName + " " + sortDirection).ToList<QuyetDinh>();
-                listQuyetDinh = listQuyetDinh.Skip(start).Take(length).ToList<QuyetDinh>();
+                totalrows = db.Database.SqlQuery<int>(sql.Replace("*", "count(MaQuyetDinh)"),
+                    new SqlParameter("maNV", "%" + searchMaNV + "%"),
+                    new SqlParameter("ngayQuyetDinh", searchDate)
+                    ).FirstOrDefault();
             }
-            return Json(new { success = true, data = listQuyetDinh, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, data = listQuyetDinh, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
         [Auther(RightID = "103")]
