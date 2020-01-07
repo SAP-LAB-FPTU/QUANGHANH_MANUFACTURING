@@ -100,6 +100,14 @@
                                         </select>
                                     </div>
                                     <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                                        <select class="form-control" id="equipmentAttach-search">
+                                            <option value="" disabled selected>Chọn loại thiết bị </option>
+                                            <option value="0">Thiết bị to</option>
+                                            <option value="1">Thiết bị nhỏ</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
 
                                         <input list="listid-s" type="text" placeholder="Tìm kiếm theo nhà cung cấp" name="name" class='form-control' id="supplier-search"
                                                multiple />
@@ -657,6 +665,9 @@
                             },
                             "sup": function () {
                                 return $('#supplier-search').val();
+                            },
+                            "att": function () {
+                                return $('#equipmentAttach-search').val();
                             }
                         }
                 },
