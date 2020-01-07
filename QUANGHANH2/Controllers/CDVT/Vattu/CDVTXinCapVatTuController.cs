@@ -14,7 +14,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
     public class CDVTXinCapVatTuController : Controller
     {
         // GET: CDVTXinCapVatTu
-        [Auther(RightID = "35")]
+        [Auther(RightID = "27")]
         [Route("phong-cdvt/xin-cap-vat-tu")]
         public ActionResult Index()
         {
@@ -23,7 +23,6 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             ViewBag.listSupply = listSupply;
             return View("/Views/CDVT/Vattu/CdvtXincapvattu.cshtml");
         }
-        [Auther(RightID = "35")]
         [Route("phong-cdvt/xin-cap-vat-tu/getinformationofsupply")]
         [HttpPost]
         public ActionResult GetInformation()
@@ -71,7 +70,7 @@ where departmentid='CDVT' and status=0 and month(date)=month(getdate())";
                 return new HttpStatusCodeResult(400);
             }
         }
-        [Auther(RightID = "35")]
+        [Auther(RightID = "27")]
         [Route("phong-cdvt/xin-cap-vat-tu/editoradd")]
         [HttpPost]
         public ActionResult InsertInformation()
@@ -123,7 +122,7 @@ where departmentid='CDVT' and status=0 and month(date)=month(getdate())";
             //}
         }
         }
-        [Auther(RightID = "35")]
+        [Auther(RightID = "27")]
         [Route("phong-cdvt/xin-cap-vat-tu/xincap")]
         [HttpPost]
         public ActionResult XinCap()

@@ -302,7 +302,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         //[Auther(RightID = "6")]
         [Route("phong-cdvt/huy-dong/search")]
         [HttpPost]
-        public ActionResult Search(string equipmentId, string equipmentName, string department, string quality, string dateStart, string dateEnd, string category, string sup)
+        public ActionResult Search(string equipmentId, string equipmentName, string department, string quality, string dateStart, string dateEnd, string category, string sup, string att)
         {
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
@@ -337,7 +337,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             string query = "SELECT e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                 "FROM [Equipment] e, Status s, Department d, Equipment_category ec " +
                 "where d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid " +
-                "and e.usedDay between @start_time1 and @start_time2  and e.isAttach = 0 and e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name " +
+                "and e.usedDay between @start_time1 and @start_time2  and e.isAttach like @att and e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name " +
                 "AND d.department_id LIKE @department_name AND e.quality_type LIKE @quality AND ec.Equipment_category_name LIKE @cate AND e.supplier LIKE @sup" +
                 " except " +
                 "select e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
@@ -351,7 +351,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 new SqlParameter("start_time1", dateStart),
                 new SqlParameter("start_time2", dateEnd),
                 new SqlParameter("cate", '%' + category + '%'),
-                new SqlParameter("sup", '%' + sup + '%')
+                new SqlParameter("sup", '%' + sup + '%'),
+                new SqlParameter("att", '%' + att + '%')
                 ).ToList();
             int totalrows = DBContext.Database.SqlQuery<int>(query.Replace("e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name ", "count(e.[equipmentId])"),
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
@@ -361,7 +362,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 new SqlParameter("start_time1", dateStart),
                 new SqlParameter("start_time2", dateEnd),
                 new SqlParameter("cate", '%' + category + '%'),
-                new SqlParameter("sup", '%' + sup + '%')
+                new SqlParameter("sup", '%' + sup + '%'),
+                new SqlParameter("att", '%' + att + '%')
                 ).FirstOrDefault();
             return Json(new { success = true, data = equiplist, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
