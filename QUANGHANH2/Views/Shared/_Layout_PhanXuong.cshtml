@@ -396,7 +396,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="center">
-                            <h1><b>@Session["departName"]</b></h1>
+                            <h1><b>@Session["departName"].ToString().Substring(11).ToUpper()</b></h1>
                         </div>
                         @RenderBody()
                         @RenderSection("scripts", required: false)

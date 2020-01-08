@@ -52,7 +52,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         public ActionResult GetSupply2(string documentary_id, string equipmentId)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT * FROM Supply_Documentary_Equipment WHERE equipmentId = @equipmentId AND documentary_id = @documentary_id",
+            List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT * FROM Supply_Documentary_Equipment sde inner join Supply s on sde.supply_id = s.supply_id WHERE sde.equipmentId = @equipmentId AND sde.documentary_id = @documentary_id",
                 new SqlParameter("equipmentId", equipmentId),
                 new SqlParameter("documentary_id", documentary_id)).ToList();
             return Json(supplies);
