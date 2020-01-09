@@ -7506,8 +7506,6 @@
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
-    <Folder Include="Views\CDVTXinCapVatTu\" />
-    <Folder Include="Views\GroupCriteria\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
