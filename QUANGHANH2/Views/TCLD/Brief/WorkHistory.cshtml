@@ -96,7 +96,7 @@
     var datatable_day_history;
     //$("#pre-load").show();
     $(document).ready(function () {
-
+        var id = GetURLParameter('id');
         getHistoryWork();
         datatable_day_history = $('#work_history_table').DataTable({
 
@@ -104,6 +104,7 @@
                 "url": '@Url.Action("getDataHistoryWork", "WorkHistory")',
                 "type": "POST",
                 "datatype": "json",
+                "data": {"id": id},
             },
             "columns": [
                 {
@@ -143,9 +144,12 @@
     });
 
     function getHistoryWork() {
+        $('#pre-load').show();
+        var id = GetURLParameter('id');
         $.ajax({
             type: "POST",
             url: '@Url.Action("workHistoryOfEmployee", "WorkHistory")',
+            data: { "id" : id },
             dataType: "json",
             success: function (data) {
                 console.log(data.data);
@@ -157,6 +161,11 @@
                 $('#ws_chucVu').val(data.data[0].ChucVu);
                 $('#ws_boPhan').val(data.data[0].BoPhan);
                 $('#ws_ngayDiLamGanNhat').val(dateFormat(data.data[0].NgayDiLamGanNhat));
+                var text = $('#ws_ngayDiLamGanNhat').val();
+                if (text == '1/1/1') {
+                    $('#ws_ngayDiLamGanNhat').val("Chưa đi làm");
+                }
+                $('#pre-load').hide();
             }
         });
     }
@@ -174,4 +183,17 @@
             return (d);
         }
     }
+    function GetURLParameter(sParam)
+{
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++)
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam)
+        {
+            return sParameterName[1];
+        }
+    }
+}
 </script>
