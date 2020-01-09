@@ -2,121 +2,102 @@
     ViewData["Title"] = "History";
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
-<link rel="stylesheet" href="~/css/tuan_css/css/history_css/StyleSheet.css" />
-<link rel="stylesheet" href="~/css/tuan_css/css/baocaoluong_css/style.css" />
-<link rel="stylesheet" type="text/css" href="~/assets/libs/pickadate/lib/themes/default.css">
-<link rel="stylesheet" type="text/css" href="~/assets/libs/pickadate/lib/themes/default.date.css">
-<link rel="stylesheet" type="text/css" href="~/assets/libs/pickadate/lib/themes/default.time.css">
+@if (ViewBag.error == 0)
+{
+    <div class="card">
+        <div class="card-content">
+            <div class="row">
+                <h3 class="report_title center">
+                    <B>LỊCH SỬ LÀM VIỆC</B>
+                </h3>
+                <hr />
+            </div>
+            <div class="row">
+                <div class="col l10 s12 m12">
+                    <table class="table-bordered">
+                        <tr>
+                            <th>Mã nhân viên:</th>
+                            <td>@ViewBag.MaNV</td>
+                        </tr>
+                        <tr>
+                            <th>Họ và tên: </th>
+                            <td>@ViewBag.Ten</td>
+                        </tr>
+                        <tr>
+                            <th>Giới tính: </th>
+                            <td>@ViewBag.GioiTinh</td>
+                        </tr>
+                        <tr>
+                            <th>Ngày sinh: </th>
+                            <td>@ViewBag.NgaySinh</td>
+                        </tr>
+                        <tr>
+                            <th>Địa chỉ: </th>
+                            <td>@ViewBag.NoiOHienTai</td>
+                        </tr>
+                        <tr>
+                            <th>Chức vụ: </th>
+                            <td>@ViewBag.TenCongViec</td>
+                        </tr>
+                        <tr>
+                            <th>Bộ phận: </th>
+                            <td>@ViewBag.department_name</td>
+                        </tr>
+                        <tr>
+                            <th>Ngày gần nhất đi làm: </th>
+                            <td>@ViewBag.NgayDiLamGanNhat</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col l2 s12 m12 center middle">
+                    <img class="avatar middle" src="~/images/avatar.png" style="width: 150px; height: 150px" />
+                </div>
 
-<div class="card">
-    <div class="card-content">
-        <div class="row">
-            <h3 class="report_title center">
-                <B>LỊCH SỬ LÀM VIỆC</B>
-            </h3>
-            <hr />
+            </div>
         </div>
-        <div class="row">
-            <div class="col l10 s12 m12">
-                <table class="table-bordered">
-                    <tr>
-                        <th>Mã nhân viên:</th>
-                        <td><input disabled type="text" id="ws_maNV" class="center" /></td>
-                    </tr>
-                    <tr>
-                        <th>Họ và tên: </th>
-                        <td><input disabled type="text" id="ws_ten" class="center" /></td>
-                    </tr>
-                    <tr>
-                        <th>Giới tính: </th>
-                        <td><input disabled type="text" id="ws_gioiTinh" class="center" /></td>
-                    </tr>
-                    <tr>
-                        <th>Ngày sinh: </th>
-                        <td><input disabled type="text" id="ws_ngaySinh" class="center" /></td>
-                    </tr>
-                    <tr>
-                        <th>Địa chỉ: </th>
-                        <td><input disabled type="text" id="ws_diaChi" class="center" /></td>
-                    </tr>
-                    <tr>
-                        <th>Chức vụ: </th>
-                        <td><input disabled type="text" id="ws_chucVu" class="center" /></td>
-                    </tr>
-                    <tr>
-                        <th>Bộ phận: </th>
-                        <td><input disabled type="text" id="ws_boPhan" class="center" /></td>
-                    </tr>
-                    <tr>
-                        <th>Ngày gần nhất đi làm: </th>
-                        <td><input disabled type="text" id="ws_ngayDiLamGanNhat" class="center" /></td>
-                    </tr>
+    </div>
+    <div class="card">
+        <div class="card-content">
+            <div class="center">
+                <h3><b>LỊCH SỬ ĐI LÀM</b></h3>
+            </div>
+            <div class="col l12 s12">
+                <table class="table table-bordered striped table-responsive" id="work_history_table">
+                    <thead>
+                        <tr>
+                            <th>Ngày đi làm</th>
+                            <th>Ca làm</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
                 </table>
             </div>
-            <div class="col l2 s12 m12 center middle">
-                <img class="avatar middle" src="~/images/avatar.png" style="width: 150px; height: 150px" />
-            </div>
-
+            <br />
         </div>
     </div>
-</div>
-<div class="card">
-    <div class="card-content">
-        <div class="center">
-            <h3><b>LỊCH SỬ ĐI LÀM</b></h3>
-        </div>
 
-        <div class="col l12 s12">
-            <table class="table table-bordered striped table-responsive" id="work_history_table">
-                <thead>
-                    <tr>
-                        <th>Ngày đi làm</th>
-                        <th>Ca làm</th>
-                        <th>Ghi chú</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-        <br />
-
-    </div>
-</div>
-
-<script src="~/assets/libs/pickadate/lib/compressed/picker.js"></script>
-<script src="~/assets/libs/pickadate/lib/compressed/picker.date.js"></script>
-<script src="~/assets/libs/pickadate/lib/compressed/picker.time.js"></script>
-<script src="~/assets/libs/pickadate/lib/compressed/legacy.js"></script>
-<script src="~/assets/libs/moment/moment.js"></script>
-<script src="~/assets/libs/daterangepicker/daterangepicker.js"></script>
-<script src="~/dist/js/pages/forms/datetimepicker/datetimepicker.init.js"></script>
-
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script>
+    <script>
     var datatable_day_history;
-    //$("#pre-load").show();
+    $("#pre-load").show();
     $(document).ready(function () {
-        var id = GetURLParameter('id');
-        getHistoryWork();
         datatable_day_history = $('#work_history_table').DataTable({
-
             "ajax": {
                 "url": '@Url.Action("getDataHistoryWork", "WorkHistory")',
                 "type": "POST",
                 "datatype": "json",
-                "data": {"id": id},
+                "data": {"id": @ViewBag.MaNV},
             },
             "columns": [
                 {
-                    "data": "ngayDiemDanh", "name": "ngayDiemDanh", "render": function (data) {
+                    "data": "NgayDiemDanh", "name": "NgayDiemDanh", "render": function (data) {
                         return dateFormat(data);
                     }
                 },
                 {
-                    "data": "calamViec", "name": "calamViec"
+                    "data": "Ca", "name": "Ca"
                 },
                 {
-                    "data": "ghiChu", "name": "ghiChu"
+                    "data": "GhiChu", "name": "GhiChu"
                 }
 
             ],
@@ -131,44 +112,23 @@
                 }
             },
             "serverSide": "true",
-            "order": [0, "asc"],
+            "order": [0, "desc"],
             "bLengthChange": false,
             "bFilter": false,
             "bInfo": false,
             "bAutoWidth": false,
+            "preDrawCallback": function (settings) {
+                $('#pre-load').show();
+            },
             "initComplete": function () {
                 $("#pre-load").hide();
-            }
-        });
-        datatable_inside.ajax.reload();
-    });
-
-    function getHistoryWork() {
-        $('#pre-load').show();
-        var id = GetURLParameter('id');
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("workHistoryOfEmployee", "WorkHistory")',
-            data: { "id" : id },
-            dataType: "json",
-            success: function (data) {
-                console.log(data.data);
-                $('#ws_maNV').val(data.data[0].MaNV);
-                $('#ws_ten').val(data.data[0].Ten);
-                $('#ws_gioiTinh').val(data.data[0].GioiTinh);
-                $('#ws_ngaySinh').val(dateFormat(data.data[0].NgaySinh));
-                $('#ws_diaChi').val(data.data[0].DiaChi);
-                $('#ws_chucVu').val(data.data[0].ChucVu);
-                $('#ws_boPhan').val(data.data[0].BoPhan);
-                $('#ws_ngayDiLamGanNhat').val(dateFormat(data.data[0].NgayDiLamGanNhat));
-                var text = $('#ws_ngayDiLamGanNhat').val();
-                if (text == '1/1/1') {
-                    $('#ws_ngayDiLamGanNhat').val("Chưa đi làm");
-                }
+            },
+            "drawCallback": function (settings) {
                 $('#pre-load').hide();
             }
         });
-    }
+    });
+
     function dateFormat(d) {
         if (d != null && d != "") {
             var dateString = d.substr(6);
@@ -183,17 +143,17 @@
             return (d);
         }
     }
-    function GetURLParameter(sParam)
-{
-    var sPageURL = window.location.search.substring(1);
-    var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++)
-    {
-        var sParameterName = sURLVariables[i].split('=');
-        if (sParameterName[0] == sParam)
-        {
-            return sParameterName[1];
-        }
-    }
+    </script>
 }
-</script>
+else
+{
+    <div class="card">
+        <div class="card-content">
+            <div class="row">
+                <h3 class="report_title center">
+                    <B>MÃ NHÂN VIÊN KHÔNG TỒN TẠI</B>
+                </h3>
+            </div>
+        </div>
+    </div>
+}
