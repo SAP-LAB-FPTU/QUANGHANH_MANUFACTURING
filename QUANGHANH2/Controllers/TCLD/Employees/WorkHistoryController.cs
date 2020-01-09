@@ -12,135 +12,89 @@ namespace QUANGHANH2.Controllers.TCLD
 {
     public class WorkHistoryController : Controller
     {
-        public string id_ = "";
         // GET: WorkHistory
-        public ActionResult Index()
-        {
-            return View();
-        }
-        [Route("lich-su-lam-viec")]
-        [HttpGet]
-        public ActionResult WorkHistory()
-        {
-            return View("/Views/TCLD/Brief/WorkHistory.cshtml");
-        }
-        [HttpPost]
-        public ActionResult workHistoryOfEmployee(string id)
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
+        //[Route("lich-su-lam-viec")]
+        //[HttpGet]
+        //public ActionResult WorkHistory()
+        //{
+        //    var id = Request["id"];
+        //    return View("/Views/TCLD/Brief/WorkHistory.cshtml");
+        //}
 
+        [Route("phong-tcld/quan-ly-nhan-vien/lich-su-lam-viec")]
+        //[HttpPost]
+        public ActionResult workHistoryOfEmployee(string id)
         {
             try
             {
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                NhanVien nhanVien = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault();
-                HistoryWork history = new HistoryWork();
-                List<Department> listDepartment = db.Departments.ToList();
-                string query = "select (case when MAX(a.HeaderID) is null then 0 else MAX(a.HeaderID) end) as 'MaxId' from DiemDanh_NangSuatLaoDong a where a.MaNV = @id";
-                int newHeader = db.Database.SqlQuery<int>(query, new SqlParameter("id", id)).FirstOrDefault();
-                List<CongViec> listCongViec = db.CongViecs.ToList();
-                history.MaNV = nhanVien.MaNV;
-                history.Ten = nhanVien.Ten;
-                history.NgaySinh = nhanVien.NgaySinh;
-                history.GioiTinh = nhanVien.GioiTinh == true ? "Nam" : "Nữ";
-                history.DiaChi = nhanVien.NoiOHienTai;
-                foreach (var d in listDepartment)
-                {
-                    if (d.department_id.Equals(nhanVien.MaPhongBan))
-                    {
-                        history.BoPhan = d.department_name;
-                    }
-                }
-                DateTime dateMax = new DateTime();
-                if (newHeader != 0)
-                {
-                    dateMax = db.Header_DiemDanh_NangSuat_LaoDong.Where(x => x.HeaderID == newHeader).Select(x => x.NgayDiemDanh).FirstOrDefault();
-                }
-                history.NgayDiLamGanNhat = dateMax;
-                foreach (var cv in listCongViec)
-                {
-                    if (nhanVien.MaCongViec == cv.MaCongViec)
-                    {
-                        history.ChucVu = cv.TenCongViec;
-                    }
-                }
-                List<HistoryWork> hisList = new List<HistoryWork>();
-                hisList.Add(history);
-                return Json(new
-                {
-                    success = true,
-                    data = hisList,
-                    draw = Request["draw"]
-                }, JsonRequestBehavior.AllowGet);
-
+                ProfileNhanVien nhanVien = db.Database.SqlQuery<ProfileNhanVien>(@"SELECT NhanVien.MaNV, NhanVien.Ten, NhanVien.GioiTinh, NhanVien.NgaySinh, NhanVien.NoiOHienTai, Department.department_name, CongViec.TenCongViec
+FROM     NhanVien INNER JOIN
+                  CongViec ON NhanVien.MaCongViec = CongViec.MaCongViec INNER JOIN
+                  Department ON NhanVien.MaPhongBan = Department.department_id
+WHERE NhanVien.MaNV = @id", new SqlParameter("id", id)).FirstOrDefault();
+                ViewBag.error = 0;
+                ViewBag.MaNV = nhanVien.MaNV;
+                ViewBag.Ten = nhanVien.Ten;
+                ViewBag.GioiTinh = nhanVien.GioiTinh == true ? "Nam" : "Nữ";
+                ViewBag.NgaySinh = nhanVien.NgaySinh == null ? "" : nhanVien.NgaySinh.Value.ToString("dd/MM/yyyy");
+                ViewBag.NoiOHienTai = nhanVien.NoiOHienTai;
+                ViewBag.department_name = nhanVien.department_name;
+                ViewBag.TenCongViec = nhanVien.TenCongViec;
+                Nullable<DateTime> dateMax = db.Database.SqlQuery<Nullable<DateTime>>("select max(h.NgayDiemDanh) from DiemDanh_NangSuatLaoDong as d inner join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID where MaNV = @id", new SqlParameter("id", id)).FirstOrDefault();
+                ViewBag.NgayDiLamGanNhat = dateMax == null ? "Không có dữ liệu" : dateMax.Value.ToString("dd/MM/yyyy");
             }
             catch (Exception e)
             {
-                return null;
+                ViewBag.error = 1;
             }
+            return View("/Views/TCLD/Brief/WorkHistory.cshtml");
         }
 
         [HttpPost]
         public ActionResult getDataHistoryWork(string id)
         {
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
             try
             {
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     db.Configuration.LazyLoadingEnabled = false;
+                    List<DiemDanh> listDiemDanhById = db.Database.SqlQuery<DiemDanh>("select h.NgayDiemDanh, h.Ca, d.GhiChu from Header_DiemDanh_NangSuat_LaoDong h inner join DiemDanh_NangSuatLaoDong d on h.HeaderID = d.HeaderID where d.MaNV = @MaNV order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY", new SqlParameter("MaNV", id)).ToList();
+                    int totalrows = db.Database.SqlQuery<int>("select count(h.NgayDiemDanh) from Header_DiemDanh_NangSuat_LaoDong h inner join DiemDanh_NangSuatLaoDong d on h.HeaderID = d.HeaderID where d.MaNV = @MaNV", new SqlParameter("MaNV", id)).FirstOrDefault();
 
-                    int start = Convert.ToInt32(Request["start"]);
-                    int length = Convert.ToInt32(Request["length"]);
-                    string searchValue = Request["search[value]"];
-                    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-                    string sortDirection = Request["order[0][dir]"];
-                    List<DiemDanh_NangSuatLaoDong> listDiemDanh = db.DiemDanh_NangSuatLaoDong.ToList();
-                    List<DayHistoryWork> listDiemDanhById = new List<DayHistoryWork>();
-                    foreach (var dd in listDiemDanh)
-                    {
-                        if (dd.MaNV.Equals(id))
-                        {
-                            int ca = db.Header_DiemDanh_NangSuat_LaoDong.Where(x => x.HeaderID.Equals(dd.HeaderID)).Select(x => x.Ca).FirstOrDefault();
-                            DateTime ngay_diem_danh = db.Header_DiemDanh_NangSuat_LaoDong.Where(x => x.HeaderID.Equals(dd.HeaderID)).Select(x => x.NgayDiemDanh).FirstOrDefault();
-                            if (dd.DiLam == true)
-                            {
-                                DayHistoryWork d = new DayHistoryWork();
-                                d.ngayDiemDanh = ngay_diem_danh;
-                                d.calamViec = ca.ToString();
-                                d.ghiChu = dd.GhiChu;
-                                listDiemDanhById.Add(d);
-                            }
-
-                        }
-                    }
-                    for (int i = 0; i < listDiemDanhById.Count(); i++)
-                    {
-                        for (int j = i + 1; j < listDiemDanhById.Count() - 1; j++)
-                        {
-                            if (listDiemDanhById[i].ngayDiemDanh == listDiemDanhById[j].ngayDiemDanh)
-                            {
-
-                                listDiemDanhById[i].calamViec += " " + listDiemDanhById[j].calamViec;
-                                listDiemDanhById.Remove(listDiemDanhById[j]);
-                                j = j - 1;
-                            }
-                        }
-
-                    }
-                    int totalrows = listDiemDanhById.Count;
-                    int totalrowsafterfiltering = listDiemDanhById.Count;
-                    listDiemDanhById = listDiemDanhById.OrderBy(sortColumnName + " " + sortDirection).ToList<DayHistoryWork>();
-                    //paging
-                    listDiemDanhById = listDiemDanhById.Skip(start).Take(length).ToList<DayHistoryWork>();
-                    var dataJson = Json(new { success = true, data = listDiemDanhById, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-
-                    string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
-
-                    return dataJson;
+                    return Json(new { success = true, data = listDiemDanhById, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet); ;
                 }
             }
             catch (Exception e)
             {
                 return null;
             }
+        }
+
+        private class DiemDanh
+        {
+            public DateTime NgayDiemDanh { get; set; }
+            public int Ca { get; set; }
+            public string GhiChu { get; set; }
+        }
+
+        private class ProfileNhanVien
+        {
+            public string MaNV { get; set; }
+            public string Ten { get; set; }
+            public bool GioiTinh { get; set; }
+            public Nullable<DateTime> NgaySinh { get; set; }
+            public string NoiOHienTai { get; set; }
+            public string department_name { get; set; }
+            public string TenCongViec { get; set; }
         }
     }
 }
