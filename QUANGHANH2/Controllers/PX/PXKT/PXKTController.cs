@@ -124,7 +124,9 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         JObject json = JObject.Parse(stringjson);
                         int calamviec = (int)json["ca"];
                         string Donvi = (string)json["phongban"];
-                        DateTime date = DateTime.ParseExact((string)json["ngay"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        string ngaySearch = (string)json["ngay"];
+                        ngaySearch = ngaySearch.Split('/')[1] + "/" + ngaySearch.Split('/')[0] + "/" + ngaySearch.Split('/')[2];
+                        DateTime date = DateTime.Parse(ngaySearch);
                         Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.MaPhongBan.Equals(Donvi) && a.Ca == calamviec && a.NgayDiemDanh == date).FirstOrDefault();
                         if (header != null)
                         {
