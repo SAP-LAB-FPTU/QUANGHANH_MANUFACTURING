@@ -29,31 +29,43 @@ namespace QUANGHANH2.Controllers
             bool hasMatch = except.Any(x => x.Equals(Request.FilePath));
             if (hasMatch)
                 return;
-            string ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            //string ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
 
-            if (!string.IsNullOrEmpty(ip))
+            //if (!string.IsNullOrEmpty(ip))
+            //{
+            //    if (ip.IndexOf(",") > 0)
+            //    {
+            //        string[] ipRange = ip.Split(',');
+            //        int le = ipRange.Length - 1;
+            //        ip = ipRange[le];
+            //    }
+            //}
+            //else
+            //{
+            //    ip = Request.UserHostAddress;
+            //}
+            try
             {
-                if (ip.IndexOf(",") > 0)
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    string[] ipRange = ip.Split(',');
-                    int le = ipRange.Length - 1;
-                    ip = ipRange[le];
+                    User_Action_Log log = new User_Action_Log();
+                    int AccountID = int.Parse(HttpContext.Current.Session["userID"].ToString());
+                    log.AccountID = AccountID;
+                    log.Action_Time = DateTime.Now;
+                    log.Browser = Request.Browser.Browser;
+                    string Controller = routeData.Values["controller"].ToString();
+                    log.Method = Controller;
+                    log.Url = Request.Url.AbsolutePath;
+                    User_Action_Log l = db.User_Action_Log.Where(x => x.AccountID.Equals(AccountID) && x.Browser.Equals(Request.Browser.Browser) && x.Method.Equals(Controller)).OrderByDescending(x => x.Action_Time).FirstOrDefault();
+                    if (l == null || DateTime.Now.Subtract(l.Action_Time.Value).TotalMinutes > 3)
+                    {
+                        db.User_Action_Log.Add(log);
+                        db.SaveChanges();
+                    }
                 }
             }
-            else
+            catch (Exception)
             {
-                ip = Request.UserHostAddress;
-            }
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                User_Action_Log log = new User_Action_Log();
-                log.AccountID = int.Parse(HttpContext.Current.Session["userID"].ToString());
-                log.Action_Time = DateTime.Now;
-                log.Browser = Request.Browser.Browser;
-                log.Method = Request.HttpMethod;
-                log.Url = Request.FilePath;
-                db.User_Action_Log.Add(log);
-                db.SaveChanges();
             }
         }
     }

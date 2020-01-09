@@ -115,46 +115,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             public string Equipment_category_attribute_name { get; set; }
         }
 
-        [Route("phong-cdvt/oto/huy-dong")]
-        [HttpPost]
-        public ActionResult GetData()
-        {
-            //Server Side Parameter
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
-            //
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-
-
-                var equipList = db.Database.SqlQuery<EquipWithName>("select e.*, c.sokhung, c.somay, c.GPS "+
-                                "from Equipment e inner "+
-                                "join Car c on e.equipmentId = c.equipmentId").ToList();
-
-                var value = db.Database.SqlQuery<EquipAtrr>("select distinct c.*, a.Equipment_category_attribute_name " +
-                "from Category_attribute_value c, (select distinct e.equipmentId, ea.Equipment_category_attribute_name, ea.Equipment_category_attribute_id " +
-                "from Equipment e join Equipment_category_attribute ea on e.Equipment_category_id = ea.Equipment_category_id " +
-                "where ea.Equipment_category_attribute_name = N'Số khung' or ea.Equipment_category_attribute_name = N'Số máy') a " +
-                "where c.Equipment_category_attribute_id = a.Equipment_category_attribute_id").ToList();
-
-                int totalrows = equipList.Count;
-                int totalrowsafterfiltering = equipList.Count;
-                //sorting
-                equipList = equipList.OrderBy(sortColumnName + " " + sortDirection).ToList<EquipWithName>();
-                //paging
-                equipList = equipList.Skip(start).Take(length).ToList<EquipWithName>();
-                List<Department> listDepeartment = db.Departments.ToList<Department>();
-                ViewBag.listDepeartment = listDepeartment;
-                ViewBag.bolEdit = false;
-                return Json(new { success = true, data = equipList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-
-
         [Route("phong-cdvt/oto/huy-dong/export")]
         public void export()
         {
@@ -219,7 +179,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             DateTime dtStart = Convert.ToDateTime("01/01/2000");
-            DateTime dtEnd = DateTime.Today;
+            DateTime dtEnd = DateTime.Now;
             if (!dateStart.Equals(""))
             {
                 string[] date = dateStart.Split('/');
@@ -248,7 +208,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 if (!sup.Equals("")) query += "e.supplier LIKE @sup AND ";
             }
             query = query.Substring(0, query.Length - 5);
-            List<EquipWithName> equiplist = DBContext.Database.SqlQuery<EquipWithName>(query,
+            List<EquipWithName> equiplist = DBContext.Database.SqlQuery<EquipWithName>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                 new SqlParameter("department_name", department),
@@ -263,13 +223,18 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 if (item.GPS) item.GPSstring = "Có tín hiệu";
                 else item.GPSstring = "Mất tín hiệu";
             }
-            int totalrows = equiplist.Count;
-            int totalrowsafterfiltering = equiplist.Count;
-            //sorting
-            equiplist = equiplist.OrderBy(sortColumnName + " " + sortDirection).ToList<EquipWithName>();
-            //paging
-            equiplist = equiplist.Skip(start).Take(length).ToList<EquipWithName>();
-            return Json(new { success = true, data = equiplist, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            int totalrows = DBContext.Database.SqlQuery<EquipWithName>(query.Replace("e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name,a.sokhung, a.somay, a.GPS", "count(e.[equipmentId])"),
+                new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                new SqlParameter("department_name", department),
+                new SqlParameter("quality", '%' + quality + '%'),
+                new SqlParameter("start_time1", dtStart),
+                new SqlParameter("start_time2", dtEnd),
+                new SqlParameter("cate", '%' + category + '%'),
+                new SqlParameter("sup", '%' + sup + '%')
+                ).Count();
+
+            return Json(new { success = true, data = equiplist, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

@@ -98,49 +98,33 @@
             <div class="info-card card">
                 <div class="card-content">
                     <div class="modal-header">
-                        <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
-                            <li class="tab col s2"><a class="active" href="#hd">Thiết bị hoạt động</a></li>
-                            <li class="tab col s2"><a href="#khd">Thiết bị không hoạt động</a></li>
-                        </ul>
+                        <h3>Tổng hợp huy động</h3>
                     </div>
                     <div>
-                        <div id="hd">
+                        <div>
                             <table class="table-bordered">
                                 <thead>
                                     <tr>
+                                        <th>STT</th>
                                         <th>Tên thiết bị</th>
-                                        <th>Mã thiết bị</th>
+                                        <th>Tổng</th>
+                                        <th>Đang huy động</th>
+                                        <th>Chờ điều động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @{
+                                        
                                         foreach (var item in ViewBag.hd)
                                         {
                                             <tr>
+                                                <td>@item.stt</td>
                                                 <td>@item.equipment_name</td>
-                                                <td>@item.equipmentId</td>
+                                                <td>@item.num</td>
+                                                <td>@item.sum1</td>
+                                                <td>@item.sum2</td>
                                             </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <div id="khd">
-                            <table class="table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Tên thiết bị</th>
-                                        <th>Mã thiết bị</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-                                        foreach (var item in ViewBag.khd)
-                                        {
-                                            <tr>
-                                                <td>@item.equipment_name</td>
-                                                <td>@item.equipmentId</td>
-                                            </tr>
+                                            
                                         }
                                     }
                                 </tbody>
@@ -630,7 +614,7 @@
                             <div class="info-card card">
                                 <div class="card-content">
                                     <div class="modal-header">
-                                        <h3>Thiết bị đang kiểm định</h3>
+                                        <h3>Thiết bị đang cải tiến</h3>
                                     </div>
                                     <div class="modal-body">
                                         <table class="table-bordered">
@@ -670,7 +654,7 @@
 
                                             <div class="col s12" style="padding-top: 30px">
                                                 <h3><i class="material-icons dp48">done_all</i></h3>
-                                                <h6 class="card-subtitle">Kiểm định</h6>
+                                                <h6 class="card-subtitle">Cải tiến</h6>
                                                 <h4> @ViewBag.totalKD</h4>
                                             </div>
                                         </div>

@@ -64,7 +64,15 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                equipment_name = equip.equipment_name,
                                equipmentId = equip.equipmentId
                            }).ToList();
-                ViewBag.hd = listhd;
+                string query = @"select e.equipment_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by e.equipment_name) as 'stt',
+                                SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
+                                SUM(case when e.current_Status != 2 then 1 else 0 end) as 'sum2'
+                                from Equipment e join Car c on e.equipmentId = c.equipmentId
+                                where e.isAttach = 0
+                                group by e.equipment_name";
+                var tonghop = db.Database.SqlQuery<ExportByGroup>(query).ToList();
+                ViewBag.hd = tonghop;
+                //ViewBag.hd = listhd;
                 ViewBag.khd = listkhd;
             }
             else
@@ -83,18 +91,30 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                equipmentId = e.equipmentId,
                                equipment_name = e.equipment_name
                            }).ToList();
-                ViewBag.hd = listhd.Except(listcar);
+                string query = @"select e.equipment_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by e.equipment_name)  as 'stt',
+                                SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
+                                SUM(case when e.current_Status != 2 then 1 else 0 end) as 'sum2'
+                                from Equipment e
+                                where e.isAttach = 0
+                                group by e.equipment_name
+                            except
+                            select e.equipment_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by e.equipment_name),
+                                SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
+                                SUM(case when e.current_Status != 2 then 1 else 0 end) as 'sum2'
+                                from Equipment e join Car c on e.equipmentId = c.equipmentId
+                                where e.isAttach = 0
+                                group by e.equipment_name";
+                var tonghop = db.Database.SqlQuery<ExportByGroup>(query).ToList();
+                ViewBag.hd = tonghop;
+                //ViewBag.hd = listhd.Except(listcar);
                 ViewBag.khd = listkhd.Except(listcar);
             }
 
             EquipThongKe etk = new EquipThongKe();
             var equipList = db.Equipments.ToList<Equipment>();
-            etk.total = equipList.Count().ToString();
+            etk.total = equipList.Where(x => x.isAttach == false).Count().ToString();
             int total_repair = 0; int total_maintain = 0; int total_TL = 0; int total_TH = 0;
-            var listKD = (from equip in db.Equipments
-                                        .Where(equip => equip.current_Status == 10)
-                          join cate in db.Equipment_category
-                          on equip.Equipment_category_id equals cate.Equipment_category_id
+            var listKD = (from equip in db.Equipments.Where(equip => equip.current_Status == 10)
                           select new DashEquip
                           {
                               equipmentId = equip.equipmentId,
@@ -103,7 +123,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.listKD = listKD;
             ViewBag.totalKD = listKD.Count();
 
-            etk.total_HD = db.Equipments.Where(x => x.current_Status == 2).Count();
+            etk.total_HD = db.Equipments.Where(x => x.current_Status == 2 && x.isAttach == false).Count();
             etk.total_KHD = int.Parse(etk.total) - etk.total_HD;
 
             var listRepair = db.Equipments.Where(x => x.current_Status == 3).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
@@ -127,7 +147,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             etk.total_TH = total_TH + "";
             ViewBag.Thongke = etk;
             var testTime = DateTime.Now.AddDays(10);
-            var hanDangKiem = db.Equipments.Where(x => x.durationOfInspection <= testTime && x.durationOfInspection >= DateTime.Now).OrderBy(x => x.durationOfInspection).
+            var hanDangKiem = db.Equipments.Where(x => x.durationOfInspection <= testTime && x.durationOfInspection >= DateTime.Now && x.isAttach == false).OrderBy(x => x.durationOfInspection).
                                     Select(x => new form1
                                     {
                                         equipment_name = x.equipment_name,
@@ -138,7 +158,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                     }).Take(10).ToList().Distinct();
             ViewBag.kiemdinhtag = hanDangKiem.Count();
             ViewBag.handangkiem = hanDangKiem;
-            var hanBaoduong = db.Equipments.Where(x => x.durationOfMaintainance <= testTime && x.durationOfMaintainance >= DateTime.Now).OrderBy(x => x.durationOfMaintainance).
+            var hanBaoduong = db.Equipments.Where(x => x.durationOfMaintainance <= testTime && x.durationOfMaintainance >= DateTime.Now && x.isAttach == false).OrderBy(x => x.durationOfMaintainance).
                                     Select(x => new form1
                                     {
                                         equipment_name = x.equipment_name,

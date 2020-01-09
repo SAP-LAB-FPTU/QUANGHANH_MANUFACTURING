@@ -202,7 +202,7 @@
             $('#rownumber').val(id);
             $("#test").find("tr:gt(0)").remove();
             var equipmentId = $('#' + id + ' td:first-child').text();
-            $('#listId').text("Danh sách vật tư dự phòng của thiết bị " + equipmentId)
+            $('#listId').text("Danh sách vật tư cần cấp của thiết bị " + equipmentId)
             $('#type').val(1);
             if (output[id].vattu.length == 0) {
                 $.ajax({

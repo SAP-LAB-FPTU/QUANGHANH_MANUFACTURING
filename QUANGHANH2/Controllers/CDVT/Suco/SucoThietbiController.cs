@@ -93,13 +93,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                     i.department_id = e.department_id;
                     i.detail_location = detail;
                     i.equipmentId = equipment;
-                    i.reason = reason;
+                    i.reason = reason == null ? "" : reason;
                     i.start_time = start;
                     i.end_time = end;
                     if (checkBox == "yes")
                     {
                         e.current_Status = 4;
-                        i.reason = null;
+                        i.reason = reason == null ? "" : reason;
                         i.end_time = null;
                     }
 
@@ -204,43 +204,30 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
+            DateTime dtStart = dateStart.Equals("") ? DateTime.ParseExact("01/01/1900", "dd/MM/yyyy", null) : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
+            DateTime dtEnd = dateStart.Equals("") ? DateTime.Now : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
+
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            string query = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d " +
-                "on d.department_id = i.department_id";
-            if (Session["departID"].ToString().Contains("PX")) query += " where d.department_id = '" + Session["departID"].ToString() + "' AND ";
-            else
-            {
-                query += " where";
-            }
-            if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !detail.Equals("") || !reason.Equals("") || !(dateStart.Equals("") || dateEnd.Equals("")))
-            {
-                if (!dateStart.Equals("") && !dateEnd.Equals(""))
-                {
-                    DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    dtEnd = dtEnd.AddHours(23);
-                    dtEnd = dtEnd.AddMinutes(59);
-                    query += " i.start_time BETWEEN '" + dtStart + "' AND '" + dtEnd + "' AND ";
-                }
-                if (!equipmentId.Equals("")) query += " i.equipmentId LIKE @equipmentId AND ";
-                if (!equipmentName.Equals("")) query += " e.equipment_name LIKE @equipment_name AND ";
-                if (!department.Equals("")) query += " d.department_name LIKE @department_name AND ";
-                if (!detail.Equals("")) query += " i.detail_location LIKE @detail_location AND ";
-                if (!reason.Equals("")) query += " i.reason LIKE @reason AND ";
-            }
-            query = query.Substring(0, query.Length - 5);
-            List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(query,
+            string base_select = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different ";
+            string query = "FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId " +
+                "inner join Department d on d.department_id = i.department_id " +
+                "where i.start_time BETWEEN '" + dtStart + "' AND '" + dtEnd + "' AND i.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name " +
+                "AND d.department_name LIKE @department_name AND i.detail_location LIKE @detail_location";
+            if (reason == null)
+                query += " AND i.reason LIKE @reason";
+            if (Session["departID"].ToString().Contains("PX")) query += " AND d.department_id = '" + Session["departID"].ToString() + "'";
+            List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(base_select + query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                 new SqlParameter("department_name", '%' + department + '%'),
                 new SqlParameter("detail_location", '%' + detail + '%'),
                 new SqlParameter("reason", '%' + reason + '%')).ToList();
-            int totalrows = incidents.Count;
-            int totalrowsafterfiltering = incidents.Count;
-            //sorting
-            incidents = incidents.OrderBy(sortColumnName + " " + sortDirection).ToList<IncidentDB>();
-            //paging
-            incidents = incidents.Skip(start).Take(length).ToList<IncidentDB>();
+            int totalrows = DBContext.Database.SqlQuery<int>("select count(e.equipment_name) " + query,
+                new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                new SqlParameter("department_name", '%' + department + '%'),
+                new SqlParameter("detail_location", '%' + detail + '%'),
+                new SqlParameter("reason", '%' + reason + '%')).FirstOrDefault();
             foreach (IncidentDB item in incidents)
             {
                 item.stringStartTime = item.start_time.ToString("HH:mm dd/MM/yyyy");
@@ -249,7 +236,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 if (item.time_different.ToString() == "") item.editAble = item.incident_id + "^false";
                 else item.editAble = item.incident_id + "^true";
             }
-            return Json(new { success = true, data = incidents, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, data = incidents, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
         [Auther(RightID = "170,79")]

@@ -149,38 +149,38 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             public string abc { get; set; }
         }
 
-        [Route("phong-cdvt/huy-dong")]
-        [HttpPost]
-        public ActionResult GetData()
-        {
-            //Server Side Parameter
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
-            //
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
+        //[Route("phong-cdvt/huy-dong")]
+        //[HttpPost]
+        //public ActionResult GetData()
+        //{
+        //    //Server Side Parameter
+        //    int start = Convert.ToInt32(Request["start"]);
+        //    int length = Convert.ToInt32(Request["length"]);
+        //    string searchValue = Request["search[value]"];
+        //    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+        //    string sortDirection = Request["order[0][dir]"];
+        //    //
+        //    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+        //    {
 
-                var equipList = db.Database.SqlQuery<EquipWithName>("SELECT e.[equipmentId],[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name FROM [Equipment] e, Status s, Department d, Equipment_category ec where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid  and e.isAttach = 0 " +
-                    "except " +
-                    "select e.[equipmentId],[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present], (select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
-                    "from Equipment e inner join Car c on e.equipmentId = c.equipmentId, Status s, Department d, Equipment_category ec " +
-                    "where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid").ToList();
+        //        var equipList = db.Database.SqlQuery<EquipWithName>("SELECT e.[equipmentId],[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
+        //            "FROM [Equipment] e, Status s, Department d, Equipment_category ec where d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid  and e.isAttach = 0 " +
+        //            "except " +
+        //            "select e.[equipmentId],[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present], (select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
+        //            "from Equipment e inner join Car c on e.equipmentId = c.equipmentId, Status s, Department d, Equipment_category ec " +
+        //            "where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid" +
+        //            " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY").ToList();
 
-                int totalrows = equipList.Count;
-                int totalrowsafterfiltering = equipList.Count;
-                //sorting
-                equipList = equipList.OrderBy(sortColumnName + " " + sortDirection).ToList<EquipWithName>();
-                //paging
-                equipList = equipList.Skip(start).Take(length).ToList<EquipWithName>();
-                List<Department> listDepeartment = db.Departments.ToList<Department>();
-                ViewBag.listDepeartment = listDepeartment;
-                ViewBag.bolEdit = false;
-                return Json(new { success = true, data = equipList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        int totalrows = db.Database.SqlQuery<int>("SELECT COUNT(e.[equipmentId]) FROM [Equipment] e, Status s, Department d, Equipment_category ec " +
+        //            "where d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid  and e.isAttach = 0  " +
+        //            "except select e.[equipmentId] from Equipment e inner join Car c on e.equipmentId = c.equipmentId, Status s, Department d, Equipment_category ec  " +
+        //            "where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid").FirstOrDefault();
+        //        List<Department> listDepeartment = db.Departments.ToList<Department>();
+        //        ViewBag.listDepeartment = listDepeartment;
+        //        ViewBag.bolEdit = false;
+        //        return Json(new { success = true, data = equipList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         public class EquipThongKe
         {
             public string total { get; set; }
@@ -195,6 +195,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
         public class ExportByGroup : Equipment
         {
+            public Int64 stt { get; set; }
             public int num { get; set; }
             public int sum1 { get; set; }
             public int sum2 { get; set; }
@@ -298,10 +299,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
             return Json(new { success = true, data = d }, JsonRequestBehavior.AllowGet);
         }
-        [Auther(RightID = "6")]
+        //[Auther(RightID = "6")]
         [Route("phong-cdvt/huy-dong/search")]
         [HttpPost]
-        public ActionResult Search(string equipmentId, string equipmentName, string department, string quality, string dateStart, string dateEnd, string category, string sup)
+        public ActionResult Search(string equipmentId, string equipmentName, string department, string quality, string dateStart, string dateEnd, string category, string sup, string att)
         {
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
@@ -335,38 +336,36 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             }
             string query = "SELECT e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                 "FROM [Equipment] e, Status s, Department d, Equipment_category ec " +
-                "where d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid and e.usedDay between @start_time1 and @start_time2  and e.isAttach = 0 and ";
-            if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !quality.Equals("") || !category.Equals("") || !sup.Equals(""))
-            {
-                if (!equipmentId.Equals("")) query += "e.equipmentId LIKE @equipmentId AND ";
-                if (!equipmentName.Equals("")) query += "e.equipment_name LIKE @equipment_name AND ";
-                if (!department.Equals("")) query += "d.department_id = @department_name AND ";
-                if (!quality.Equals("")) query += "e.quality_type LIKE @quality AND ";
-                if (!category.Equals("")) query += "ec.Equipment_category_name LIKE @cate AND ";
-                if (!sup.Equals("")) query += "e.supplier LIKE @sup AND ";
-            }
-            query = query.Substring(0, query.Length - 5);
-            query += " except " +
-                    "select e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present], (select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
-                    "from Equipment e inner join Car c on e.equipmentId = c.equipmentId, Status s, Department d, Equipment_category ec " +
-                    "where d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid";
-            List<EquipWithName> equiplist = DBContext.Database.SqlQuery<EquipWithName>(query,
+                "where d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid " +
+                "and e.usedDay between @start_time1 and @start_time2  and e.isAttach like @att and e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name " +
+                "AND d.department_id LIKE @department_name AND e.quality_type LIKE @quality AND ec.Equipment_category_name LIKE @cate AND e.supplier LIKE @sup" +
+                " except " +
+                "select e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
+                "from Equipment e inner join Car c on e.equipmentId = c.equipmentId, Status s, Department d, Equipment_category ec " +
+                "where d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid";
+            List<EquipWithName> equiplist = DBContext.Database.SqlQuery<EquipWithName>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
-                new SqlParameter("department_name", department),
+                new SqlParameter("department_name", '%' + department + '%'),
                 new SqlParameter("quality", '%' + quality + '%'),
                 new SqlParameter("start_time1", dateStart),
                 new SqlParameter("start_time2", dateEnd),
                 new SqlParameter("cate", '%' + category + '%'),
-                new SqlParameter("sup", '%' + sup + '%')
+                new SqlParameter("sup", '%' + sup + '%'),
+                new SqlParameter("att", '%' + att + '%')
                 ).ToList();
-            int totalrows = equiplist.Count;
-            int totalrowsafterfiltering = equiplist.Count;
-            //sorting
-            equiplist = equiplist.OrderBy(sortColumnName + " " + sortDirection).ToList<EquipWithName>();
-            //paging
-            equiplist = equiplist.Skip(start).Take(length).ToList<EquipWithName>();
-            return Json(new { success = true, data = equiplist, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            int totalrows = DBContext.Database.SqlQuery<int>(query.Replace("e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name ", "count(e.[equipmentId])"),
+                new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                new SqlParameter("department_name", '%' + department + '%'),
+                new SqlParameter("quality", '%' + quality + '%'),
+                new SqlParameter("start_time1", dateStart),
+                new SqlParameter("start_time2", dateEnd),
+                new SqlParameter("cate", '%' + category + '%'),
+                new SqlParameter("sup", '%' + sup + '%'),
+                new SqlParameter("att", '%' + att + '%')
+                ).FirstOrDefault();
+            return Json(new { success = true, data = equiplist, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult AddOrEdit(string id = "")
@@ -501,7 +500,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                     }
                     db.SaveChanges();
                     dbc.Commit();
-                    return RedirectToAction("GetData");
+                    return RedirectToAction("Search");
                 }
                 catch (Exception e)
                 {
@@ -620,7 +619,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
                         db.SaveChanges();
                         dbc.Commit();
-                        return RedirectToAction("GetData");
+                        return RedirectToAction("Search");
                     }
                     catch (Exception e)
                     {

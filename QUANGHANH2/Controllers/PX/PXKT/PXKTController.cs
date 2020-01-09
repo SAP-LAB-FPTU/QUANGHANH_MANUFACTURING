@@ -124,7 +124,9 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
                         JObject json = JObject.Parse(stringjson);
                         int calamviec = (int)json["ca"];
                         string Donvi = (string)json["phongban"];
-                        DateTime date = DateTime.ParseExact((string)json["ngay"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                        string ngaySearch = (string)json["ngay"];
+                        ngaySearch = ngaySearch.Split('/')[1] + "/" + ngaySearch.Split('/')[0] + "/" + ngaySearch.Split('/')[2];
+                        DateTime date = DateTime.Parse(ngaySearch);
                         Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.MaPhongBan.Equals(Donvi) && a.Ca == calamviec && a.NgayDiemDanh == date).FirstOrDefault();
                         if (header != null)
                         {
@@ -318,32 +320,6 @@ namespace QUANGHANHCORE.Controllers.PX.PXKT
             JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
             return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
-        }
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
-        [HttpGet]
-        [Route("phan-xuong-khai-thac/diem-danh/dang-ky-nhan-vien")]
-        public ActionResult registerEmployee()
-        {
-            return View("/Views/PX/PXKT/registerEmployee.cshtml");
-        }
-
-        [HttpPost]
-        [Route("phan-xuong-khai-thac/diem-danh/dang-ky-nhan-vien")]
-        public ActionResult loadEmployee()
-        {
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                var listNV = db.NhanViens.ToList();
-                listNV = listNV.Skip(start).Take(length).ToList<NhanVien>();
-                int totalrows = listNV.Count;
-                int totalrowsafterfiltering = listNV.Count;
-                return Json(new { success = true, data = listNV, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-            }
         }
         [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
         [HttpPost]

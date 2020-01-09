@@ -6499,6 +6499,7 @@
     <Content Include="js\Custom JS\CDVT\Home\huydong.js" />
     <Content Include="js\Custom JS\CDVT\QuyetDinh\DanhSach.js" />
     <Content Include="js\Custom JS\CDVT\QuyetDinh\datePicker.js" />
+    <Content Include="js\Custom JS\CDVT\QuyetDinh\OptionValueToText.js" />
     <Content Include="js\Custom JS\CDVT\Report\ChangeDateType.js" />
     <Content Include="js\Custom JS\CDVT\Report\custom-pie2.js" />
     <Content Include="js\Custom JS\CDVT\Report\DetailManu.js" />
@@ -7497,6 +7498,7 @@
     <Content Include="Views\DK\Criteria\GroupCriteria.cshtml" />
     <Content Include="Views\DK\Criteria\Criteria.cshtml" />
     <Content Include="Views\CDVT\Vattu\CdvtXincapvattu.cshtml" />
+    <Content Include="Views\Phanxuong\Huydongphanxuong.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

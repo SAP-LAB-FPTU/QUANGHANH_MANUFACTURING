@@ -69,7 +69,7 @@
                     <table id="test" class="striped table-responsive center table-bordered mytable">
                         <thead>
                             <tr>
-                                <th>Mã vật tư</th>
+                                <th>Tên vật tư</th>
                                 <th>Số lượng</th>
                             </tr>
                         </thead>
@@ -119,6 +119,7 @@
 </datalist>
 
 <script src="~/js/Custom JS/CDVT/QuyetDinh/datePicker.js"></script>
+<script src="~/js/Custom JS/CDVT/QuyetDinh/OptionValueToText.js"></script>
 <script>
     var output = {};
     var vatTuDiKem = @Html.Raw(Json.Encode(ViewBag.vatTuDiKem));
@@ -132,10 +133,11 @@
 
     $("#addrow").click(function () {
         var $tr = $('<tr>').append(
-            $('<td>').html("<input type='text' list='supplyID' class='form-control required' />"),
+            $('<td>').html("<input type='text' list='supplyID' class='form-control required temp' />"),
             $('<td>').html("<input type='number' min='1' value='1' class='form-control' />")
         );
         $tr.appendTo('#test tbody');
+        myfunction();
     });
     //tạo json cho thiết bị khi nhập submit vật tư
     $("#submitvattu").click(function () {
@@ -149,7 +151,7 @@
                     $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(3).val() != "" &&
                     $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val() > 0) {
                     var vattu = {};
-                    vattu.supply_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val();
+                    vattu.supply_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).attr("id");
                     vattu.quantity = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val();
                     vattu.note = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(2).val();
                     vattu.department_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(3).val();
@@ -203,11 +205,19 @@
             if (output.hasOwnProperty(id)) {
                 for (var i = 0; i < output[id].vattu.length; i++) {
                     var item = output[id].vattu[i];
-                    var $tr = $('<tr>').append(
-                        $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
-                        $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
-                    );
-                    $tr.appendTo('#test tbody');
+                    for (var i = 0; i < options.length; i++) {
+                        var option = options[i];
+
+                        if (option.value === item.supply_id) {
+                            var $tr = $('<tr>').append(
+                                $('<td>').html("<input id='" + option.value + "' type='text' list='supplyID' class='form-control required temp' value='" + option.label + "' /> "),
+                                $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
+                            );
+                            $tr.appendTo('#test tbody');
+                            myfunction();
+                            break;
+                        }
+                    }
                 }
             }
         })

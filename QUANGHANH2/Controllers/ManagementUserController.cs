@@ -254,14 +254,14 @@ namespace QUANGHANH2.Controllers
                         Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> không tồn tại!"
                     }, JsonRequestBehavior.AllowGet);
                 }
-                if (db.Accounts.Where(x => x.NVID == NVID).Count() != 0)
-                {
-                    return Json(new Result()
-                    {
-                        CodeError = 2,
-                        Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> đã được sử dụng!"
-                    }, JsonRequestBehavior.AllowGet);
-                }
+                //if (db.Accounts.Where(x => x.NVID == NVID).Count() != 0)
+                //{
+                //    return Json(new Result()
+                //    {
+                //        CodeError = 2,
+                //        Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> đã được sử dụng!"
+                //    }, JsonRequestBehavior.AllowGet);
+                //}
             }
             else
             {
@@ -491,15 +491,15 @@ namespace QUANGHANH2.Controllers
                         Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> không tồn tại!"
                     }, JsonRequestBehavior.AllowGet);
                 }
-                var ac = db.Accounts.Where(x => x.NVID == NVID && x.ID != ID).FirstOrDefault();
-                if (ac != null)
-                {
-                    return Json(new Result()
-                    {
-                        CodeError = 2,
-                        Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> đã được sử dụng!"
-                    }, JsonRequestBehavior.AllowGet);
-                }
+                //var ac = db.Accounts.Where(x => x.NVID == NVID && x.ID != ID).FirstOrDefault();
+                //if (ac != null)
+                //{
+                //    return Json(new Result()
+                //    {
+                //        CodeError = 2,
+                //        Data = "Mã nhân viên <strong style='color:black; '>" + NVID + "</strong> đã được sử dụng!"
+                //    }, JsonRequestBehavior.AllowGet);
+                //}
             }
             else
             {
