@@ -39,7 +39,6 @@ namespace QUANGHANH2.ModelViews
         public string MonthPicked { get; set; }
         public string DepartmentId { get; set; }
 
-        public string SupplyId { get; set; }
         public string SupplyName { get; set; }
     }
 }

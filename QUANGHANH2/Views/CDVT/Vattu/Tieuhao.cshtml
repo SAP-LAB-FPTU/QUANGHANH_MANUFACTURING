@@ -249,10 +249,14 @@
             var tbl_detail, tbl_summary, currTab = 0, exportPayload = [], isFirstInit = true, exportSearch = [];
             $(document).ready(function () {
                 $("#pre-load").show();
-                tbl_detail = $('#tbl_detail').DataTable({
+                tbl_detail = $('#tbl_detail').on('preXhr.dt', function (e, settings, data) {
+                $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+            }).DataTable({
                     "ajax": {
                         "url": "/phong-cdvt/vat-tu/tieu-hao/details",
-                        "type": "GET",
+                        "type": "Post",
                         "datatype": "json",
                         "cache": "false",
                         "data": {
@@ -302,7 +306,8 @@
                     "lengthChange": false,
                     "searching": false,
                     "initComplete": function (settings, json) {
-                        $("#pre-load").hide();
+                         $("#pre-load").hide("slow", function () {
+                    });
                     },
                     "language": {
                         "emptyTable": "Không tìm thấy dữ liệu",
@@ -317,7 +322,11 @@
                     }
                 });
 
-                tbl_summary = $('#tbl_summary').DataTable({
+                tbl_summary = $('#tbl_summary').on('preXhr.dt', function (e, settings, data) {
+                $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+            }).DataTable({
                     "ajax": {
                         "url": "/phong-cdvt/vat-tu/tieu-hao/summary",
                         "type": "GET",
@@ -361,7 +370,8 @@
                     "lengthChange": false,
                     "searching": false,
                     "initComplete": function (settings, json) {
-                        $("#pre-load").hide();
+                          $("#pre-load").hide("slow", function () {
+                    });
                     },
                     "language": {
                         "emptyTable": "Không tìm thấy dữ liệu",
@@ -435,13 +445,10 @@
             function search() {
                 $("#pre-load").show();
                 if (currTab == 0) {
-                    tbl_detail.ajax.reload(function () {
-                        successAlert('Tìm kiếm thành công', '');
-                    });
+                    tbl_detail.ajax.reload();
+                       
                 } else {
-                    tbl_summary.ajax.reload(function () {
-                        successAlert('Tìm kiếm thành công', '');
-                    });
+                    tbl_summary.ajax.reload();
                 }
                 $("#pre-load").hide();
             }
