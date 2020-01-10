@@ -7466,7 +7466,7 @@
     <Content Include="Views\DK\Department_Criteria\Department_Criteria.cshtml" />
     <Content Include="Views\Shared\_Layout_KCM.cshtml" />
     <Content Include="Views\Shared\_Layout_Cam.cshtml" />
-    <Content Include="Views\Camera\View.cshtml" />
+    <Content Include="Views\Camera\DanhSachCamera.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />
     <Content Include="Views\Camera\Chi_tiet_sua_chua.cshtml" />
     <Content Include="Views\Camera\Quyet_dinh_sua_chua.cshtml" />

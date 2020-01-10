@@ -69,7 +69,7 @@ namespace QUANGHANH2.Controllers.Camera
             ViewBag.room = listroom;
             List<Status> liststatus = db.Database.SqlQuery<Status>("select * from Status").ToList();
             ViewBag.status = liststatus;
-            return View("/Views/Camera/View.cshtml");
+            return View("/Views/Camera/DanhSachCamera.cshtml");
         }
 
         [Route("camera")]
@@ -79,9 +79,11 @@ namespace QUANGHANH2.Controllers.Camera
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
+            string location = Request["location"];
+            int status = int.Parse(Request["status"].ToString());
+            int reason = int.Parse(Request["reason"].ToString());
             //
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {

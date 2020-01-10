@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout_Cam.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row center">
+            <h3><b>THÔNG TIN SỰ CỐ</b></h3>
+            <hr>
+            <div class="col l4 m4 s12">
+                <div class="row">
+                    <div class="col l10 m10 s12 input-field">
+                        <input type="text" placeholder="Tên vị trí hệ thống" class='form-control' id="location-search" />
+                    </div>
+                </div>
+            </div>
+            <div class="col l4 m4 s12">
+                <div class="row">
+                    <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                        <select class="form-control" id="status-search">
+                            <option value="0">Tất cả tình trạng ổ cứng</option>
+                            <option value="1">Có dữ liệu</option>
+                            <option value="2">Không có dữ liệu</option>
+                            <option value="3">Không có ổ cứng trong đầu ghi</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col l4 m4 s12">
+                <div class="row">
+                    <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                        <select class="form-control" id="reason-search">
+                            <option value="0">Tất cả lý do mất tín hiệu</option>
+                            <option value="1">Không bật trên máy tính</option>
+                            <option value="2">Không rõ nguyên nhân</option>
+                            <option value="3">Nguyên nhân khác</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12">
+                <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton">Tìm kiếm</a>
+            </div>
+            <div class="col s12 table_container">
+                <table class="table-bordered striped table-responsive centered" id="complex_header">
+                    <thead>
+                        <tr>
+                            <th>Tên vị trí hệ thống</th>
+                            <th>Tình trạng số lượng (có tín hiệu/tổng số)</th>
+                            <th>Tình trạng ổ cứng</th>
+                            <th>Lý do mất tín hiệu</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var Popup, dataTable;
+    $("#pre-load").show();
+
+    $(document).ready(function () {
+        dataTable = $('#complex_header').DataTable({
+            "language": {
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                "paginate": {
+                    "first": "Trang đầu",
+                    "last": "Trang cuối",
+                    "next": "Trang sau",
+                    "previous": "Trang trước"
+                }
+            },
+            "ajax": {
+                "url": "/camera",
+                "type": "POST",
+                "datatype": "json",
+                "data": {
+                    "location": function () { return $('#location-search').val() },
+                    "status": function () { return $('#status-search').val() },
+                    "reason": function () { return $('#reason-search').val() },
+                },
+                "cache": false
+            },
+            "columns": [
+                { "data": "equipmentId", "name": "equipmentId" },
+                { "data": "equipment_name", "name": "equipment_name" },
+                { "data": "department_name", "name": "department_name" },
+                { "data": "detail_location", "name": "detail_location" },
+                { "data": "stringStartTime", "name": "start_time" }
+            ],
+            "serverSide": "true",
+            "order": [4, "desc"],
+            "rowId": "incident_id",
+            "lengthChange": false,
+            "searching": false,
+            "initComplete": function (settings, json) {
+                $("#pre-load").hide();
+            },
+            "preDrawCallback": function (settings) {
+                $('#pre-load').show();
+            },
+            "drawCallback": function (settings) {
+                $('#pre-load').hide();
+            }
+        });
+    });
+</script>
