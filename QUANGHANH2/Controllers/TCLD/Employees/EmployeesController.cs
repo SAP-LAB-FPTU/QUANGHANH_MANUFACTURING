@@ -679,12 +679,12 @@ namespace QUANGHANH2.Controllers.TCLD
         }
 
         
-        [Route("phong-tcld/quan-ly-nhan-vien/lich-su-lam-viec")]
-        public ActionResult WorkHistory()
-        {
-            ViewBag.nameDepartment = "baohiem";
-            return View("/Views/TCLD/Brief/WorkHistory.cshtml");
-        }
+        //[Route("phong-tcld/quan-ly-nhan-vien/lich-su-lam-viec")]
+        //public ActionResult WorkHistory()
+        //{
+        //    ViewBag.nameDepartment = "baohiem";
+        //    return View("/Views/TCLD/Brief/WorkHistory.cshtml");
+        //}
 
         [Auther(RightID = "55")]
         [Route("delete")]
