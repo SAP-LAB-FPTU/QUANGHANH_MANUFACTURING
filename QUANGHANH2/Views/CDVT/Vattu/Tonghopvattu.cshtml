@@ -57,6 +57,7 @@
                                                data-date-format="MM yyyy" />
                                     </h3>
                                 </div>
+
                             </div>
                         </div>
                         <br />
@@ -164,8 +165,10 @@
         //let today = new Date();
         //$("#monthpicker").datepicker("setDate", new Date());
         //$("#monthpicker").val(("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear());
+         $("#txtmonth").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
         var tbl_detail, tbl_summary, currTab = 0, exportPayload = [], isFirstInit = true, exportSearch = [];
         $(document).ready(function () {
+            
             let index = 1;
             $("#pre-load").show();
             setDepartments();
@@ -178,8 +181,8 @@
                     "data": {
                         "DepartmentId": function () { return $('#departments_search option:selected').val() },
                         "SupplyId": function () { return $('#supplyId').val() },
-                        "SupplyName": function () { return $('#supplyName').val() },
-                        "MonthPicked": function () { return $('#monthpicker').val() }
+                        "SupplyName": function () { return $('#supply_search').val() },
+                        "MonthPicked": function () { return $('#txtmonth').val() }
                     },
                     "dataSrc": function (json) {
                         index = 1;
@@ -231,8 +234,8 @@
                     "data": {
                         "DepartmentId": function () { return $('#departments_search option:selected').val() },
                         "SupplyId": function () { return $('#supplyId').val() },
-                        "SupplyName": function () { return $('#supplyName').val() },
-                        "MonthPicked": function () { return $('#monthpicker').val() }
+                        "SupplyName": function () { return $('#supply_search').val() },
+                        "MonthPicked": function () { return $('#txtmonth').val() }
                     },
                     "dataSrc": function (json) {
                         index = 1;

@@ -38,12 +38,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
 
         [HttpGet]
         [Route("phong-cdvt/tong-hop-vat-tu/details")]
-        public ActionResult Details(string DepartmentId, string SupplyId, string SupplyName, string MonthPicked)
+        public ActionResult Details(string DepartmentId, string SupplyName, string MonthPicked)
         {
             TonghopVattuSearchModelView search = new TonghopVattuSearchModelView
             {
                 DepartmentId = DepartmentId.Trim(),
-                SupplyId = SupplyId.Trim(),
+               
                 SupplyName = SupplyName.Trim(),
                 MonthPicked = MonthPicked.Trim()
             };
@@ -51,8 +51,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
             search.DepartmentId = string.IsNullOrWhiteSpace(search.DepartmentId) ? string.Empty : search.DepartmentId;
-            search.MonthPicked = string.IsNullOrWhiteSpace(search.MonthPicked) ? DateTime.Now.ToString("dd/MM/yyyy") : search.MonthPicked;
-            search.SupplyId = string.IsNullOrWhiteSpace(search.SupplyId) ? string.Empty : search.SupplyId;
+            search.MonthPicked = string.IsNullOrWhiteSpace(search.MonthPicked) ? "Tháng"+" " +DateTime.Now.Month +" "+ @DateTime.Now.Year : search.MonthPicked;
+          
             search.SupplyName = string.IsNullOrWhiteSpace(search.SupplyName) ? string.Empty : search.SupplyName;
             IList<TonghopvattuDetailModelView> details = _repository.GetDetails(search);
             int recordsTotal = details.Count;
@@ -81,18 +81,18 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
         [Auther(RightID = "28")]
         [HttpGet]
         [Route("phong-cdvt/tong-hop-vat-tu/summary")]
-        public ActionResult Summary(string DepartmentId, string SupplyId, string SupplyName, string MonthPicked)
+        public ActionResult Summary(string DepartmentId,  string SupplyName, string MonthPicked)
         {
             TonghopVattuSearchModelView search = new TonghopVattuSearchModelView
             {
                 DepartmentId = DepartmentId.Trim(),
-                SupplyId = SupplyId.Trim(),
+                
                 SupplyName = SupplyName.Trim(),
                 MonthPicked = MonthPicked.Trim()
             };
             search.DepartmentId = string.IsNullOrWhiteSpace(search.DepartmentId) ? string.Empty : search.DepartmentId;
-            search.MonthPicked = string.IsNullOrWhiteSpace(search.MonthPicked) ? DateTime.Now.ToString("dd/MM/yyyy") : search.MonthPicked;
-            search.SupplyId = string.IsNullOrWhiteSpace(search.SupplyId) ? string.Empty : search.SupplyId;
+            search.MonthPicked = string.IsNullOrWhiteSpace(search.MonthPicked) ? "Tháng" +" "+ DateTime.Now.Month +" "+ @DateTime.Now.Year : search.MonthPicked;
+            
             search.SupplyName = string.IsNullOrWhiteSpace(search.SupplyName) ? string.Empty : search.SupplyName;
             IList<TonghopvattuSummaryModelView> details = _repository.GetSummary(search);
             return Json(new
