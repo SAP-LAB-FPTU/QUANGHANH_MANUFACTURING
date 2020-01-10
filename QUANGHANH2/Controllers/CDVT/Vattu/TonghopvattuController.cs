@@ -236,24 +236,26 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
                 return new EmptyResult();
             }
         }
-    
-    [Route("phong-cdvt/tong-hop-vat-tu/change")]
-    [HttpPost]
-    public ActionResult Change(string supply_name)
-    {
-        ViewBag.listsupply = null;
-        QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-        string sql = "select supply_name from Supply where supply_name like @supply_name";
-        List<Supply> listsupply = db.Database.SqlQuery<Supply>(sql, new SqlParameter("supply_name", "%" + supply_name + "%")).Take(10).ToList();
-        ViewBag.listsupply = listsupply;
-        string d = "";
-        foreach (var item in listsupply)
+        [HttpPost]
+        public ActionResult ChangeID(string id, string ck)
         {
-            d += "<option value='" + item.supply_name + "'/>";
+            string sql = "";
+            if (ck.Equals("0"))
+            {
+                sql = @"select supply_name from Supply where supply_name like @id";
+            }
+            
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            List<SupplyDB> list = db.Database.SqlQuery<SupplyDB>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
+            return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
         }
-        return Json(new { success = true, data = d }, JsonRequestBehavior.AllowGet);
-
 
     }
-}
+    public class SupplyDB
+    {
+
+        public String supply_name { get; set; }
+
+        
+    }
 }

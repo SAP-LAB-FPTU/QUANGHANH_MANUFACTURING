@@ -40,7 +40,7 @@
                             </div>*@
                             <div class="col l3 m3 s10">
                                 <div class="col l10 m10 s10 input-field">
-                                    <input list="supply_name" type="text" placeholder="Tìm kiếm theo tên vật tư" class='form-control' id="supplyName"
+                                    <input list="supply_namelist" type="text" placeholder="Tìm kiếm theo tên vật tư" class='form-control' id="supply_search"
                                            multiple />
                                 </div>
                             </div>
@@ -135,19 +135,19 @@
         </div>
     </div>
 </div>
-<datalist id="supply_name">
+<datalist id="supply_namelist">
 </datalist>
-	@*@using (Html.BeginForm("Change", "Tonghopvattu", FormMethod.Post, new
+	@using (Html.BeginForm("ChangeID", "Tonghopvattu", FormMethod.Post, new
 {
     id = "ChangeNameForm",
     enctype = "multipart/form-data",
     onSubmit = "return ChangeID(this);",
-    data_restUrl = Url.Action("Change", "Tonghopvattu", new { id = "" })
+    data_restUrl = Url.Action("ChangeID", "Tonghopvattu", new { id = "" })
 }))
 {
     <input type="hidden" id="id-s" name="id" value=" " />
     <input type="hidden" id="ck" name="ck" value="0" />
-}*@
+}
 
 <script src="~/js/Briefs_List.js"></script>
 <script src="~/js/Custom JS/CDVT/Synthetic/Synthetic_Supplies.js"></script>
@@ -375,11 +375,11 @@
             $("#pre-load").show();
             if (currTab == 0) {
                 tbl_detail.ajax.reload(function () {
-                    successAlert('Tìm kiếm thành công', '');
+                    
                 });
             } else {
                 tbl_summary.ajax.reload(function () {
-                    successAlert('Tìm kiếm thành công', '');
+                  
                     for (let i = 0; i < exportPayload.length; i++) {
                         if (document.getElementById('estimate_' + exportPayload[i].SupplyId)) {
                             $('#estimate_' + exportPayload[i].SupplyId).val(exportPayload[i].EstimatePrice);
@@ -450,68 +450,68 @@
         function updateNoteInput(domId, value) {
             $('#note_' + domId).value = value;
         }
+//search name
+  var ck = true;
+  var waittime = 0;
+$(document).ready(function () {
+        setInterval(function () {
+            waittime++;
+            if (waittime > 2 && ck == true) {
+                $("#ChangeNameForm").submit();
+                waittime = 0;
+                ck = false;
+            }
+            if (waittime > 10) {
+                ck = true;
+            }
+        }, 1000); 
+    	});
+        $("#supply_search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#search").click();
+          $("#person_created-search").blur();
+        } else {
+            var text = $("#supply_search").val();
+            $("#id-s").val(text);
+            $("#ck").val("0");
+            if (waittime > 1) {
+                $("#ChangeNameForm").submit();
+                waittime = 0;
+            } else {
+                waittime = 0;
+            }
 
-//  var ck = true;
-//  var waittime = 0;
-//$(document).ready(function () {
-//        setInterval(function () {
-//            waittime++;
-//            if (waittime > 2 && ck == true) {
-//                $("#ChangeNameForm").submit();
-//                waittime = 0;
-//                ck = false;
-//            }
-//            if (waittime > 10) {
-//                ck = true;
-//            }
-//        }, 1000); 
-//    	});
-//        $("#supplyName").keyup(function (e) {
-//        if (e.which == 13) {
-//            $("#search").click();
-          
-//        } else {
-//            var text = $("#supplyName").val();
-//            $("#id-s").val(text);
-//            $("#ck").val("0");
-//            if (waittime > 1) {
-//                $("#ChangeIDForm").submit();
-//   waittime = 0;
-//            } else {
-//                waittime = 0;
-//            }
 
+        }
+ });
 
-//        }
-// });
+	function ChangeID(form) {
 
-//	function ChangeID(form) {
+        $.validator.unobtrusive.parse(form);
+        if ($(form).valid()) {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: $(form).serialize(),
+                success: function (data) {
+                    $("#supply_namelist").empty();
+                    var option = "";
+                    for (var i = 0; i < data.id.length; i++) {
+                        var s = data.id[i].supply_name;
+                        var a = "<option value='" + s + "'>" + s + "</option>";
+                        option += a;
+                    }
+                    $("#supply_namelist").append(option);
+                },
+                error: function () {
+                    alert(response.data.message);
 
-//        $.validator.unobtrusive.parse(form);
-//        if ($(form).valid()) {
-//            $.ajax({
-//                type: "POST",
-//                url: form.action,
-//                data: $(form).serialize(),
-//                success: function (data) {
-//                    $("#supply_name").empty();
-//                    var option = "";
-//                    for (var i = 0; i < data.id.length; i++) {
-//                        var s = data.id[i].supply_name;
-//                        var a = "<option value='" + s + "'>" + s + "</option>";
-//                        option += a;
-//                    }
-//                    $("#supply_name").append(option);
-//                },
-//                error: function () {
-//                    alert(response.data.message);
+                }
+            });
+        }
 
-//                }
-//            });
-//        }
-
-//        return false;
-// }
+        return false;
+ }
 
 
     </script>

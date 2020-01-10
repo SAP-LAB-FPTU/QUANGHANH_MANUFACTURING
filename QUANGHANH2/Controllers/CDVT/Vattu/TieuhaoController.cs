@@ -600,6 +600,30 @@ group by s.supply_id, de.department_id, d.date_created, d.documentary_code";
                 return Json(vattudetail);
             }
         }
+        [HttpPost]
+        public ActionResult ChangeID(string id, string ck)
+        {
+            string sql = "";
+            if (ck.Equals("0"))
+            {
+                sql = @"select supply_name as SupplyId from Supply where supply_name like @id";
+            }
+            else if (ck.Equals("1"))
+            {
+                sql = @"select supply_id as SupplyId from Supply where supply_id like @id ";
+            }
+            else if (ck.Equals("2"))
+            {
+                sql = @"select department_id as SupplyId from Department where department_id like @id";
+            }
+            else if (ck.Equals("3"))
+            {
+                sql = @"select department_name as SupplyId from Department where department_name like @id";
+            }
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            List<SupplySearch> list = db.Database.SqlQuery<SupplySearch>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
+            return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
+        }
     }
     public class Detail
     {
@@ -621,6 +645,10 @@ group by s.supply_id, de.department_id, d.date_created, d.documentary_code";
         public string stringDate { get; set; }
         public DateTime date { get; set; }
         
+    }
+    public class SupplySearch
+    {
+        public string SupplyId { get; set; }
     }
     public class Summary
     {

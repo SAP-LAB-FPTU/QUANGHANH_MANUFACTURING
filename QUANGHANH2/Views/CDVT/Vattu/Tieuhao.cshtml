@@ -58,7 +58,7 @@
                             <div class="col l3 m3 s12">
                                 <div class="row">
                                     <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo mã vật tư" class='form-control' id="supplyId"
+                                        <input type="text" list="supply_namelist" placeholder="Tìm kiếm theo mã vật tư" class='form-control' id="supplyId"
                                                multiple />
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                             <div class="col l3 m3 s12">
                                 <div class="row">
                                     <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo tên vật tư" class='form-control' id="supplyName"
+                                        <input type="text" list="supply_namelist" placeholder="Tìm kiếm theo tên vật tư" class='form-control' id="supplyName"
                                                multiple />
                                     </div>
                                 </div>
@@ -74,7 +74,7 @@
                             <div class="col l3 m3 s12">
                                 <div class="row">
                                     <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo mã phân xưởng" class='form-control' id="departmentId"
+                                        <input type="text" list="supply_namelist" placeholder="Tìm kiếm theo mã phân xưởng" class='form-control' id="departmentId"
                                                multiple />
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
                             <div class="col l3 m3 s12">
                                 <div class="row">
                                     <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo tên phân xưởng" class='form-control' id="departmentName"
+                                        <input type="text" list="supply_namelist" placeholder="Tìm kiếm theo tên phân xưởng" class='form-control' id="departmentName"
                                                multiple />
                                     </div>
                                 </div>
@@ -144,7 +144,7 @@
                 <div id="chitiet">
                     <div class="row">
                         <div class="col s12">
-                            
+
 
                             <table class="striped centered table-bordered mytable" width="100%"
                                    style="margin-top:30px; text-align:center;" id="tbl_detail">
@@ -207,17 +207,29 @@
                     </tbody>
                 </table>
             </div>
-           
+
         </div>
     </div>
-
+    <datalist id="supply_namelist">
+    </datalist>
+    @using (Html.BeginForm("ChangeID", "Tieuhao", FormMethod.Post, new
+    {
+        id = "ChangeIDForm",
+        enctype = "multipart/form-data",
+        onSubmit = "return ChangeID(this);",
+        data_restUrl = Url.Action("ChangeID", "Tieuhao", new { id = "" })
+    }))
+    {
+        <input type="hidden" id="id-s" name="id" value=" " />
+        <input type="hidden" id="ck" name="ck" value="0" />
+    }
     <script src="~/js/Custom JS/DK/DetailManu_Daily.js"></script>
     <script src="~/js/Briefs_List.js"></script>
     <script src="~/js/Custom JS/CDVT/Home/huydong.js"></script>
     <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
     @section scripts{
         <script>
-           
+
             function ViewbyMonth() {
             document.getElementById("typeview").innerText = "Xem Theo Tháng";
             document.getElementById("visibleyear").style.display = "none";
@@ -479,20 +491,20 @@
                         equipmentID = item.equipmentid;
                         i++;
                         var $tr = $('<tr>').append(
-                            
+
                             $('<td>').html(  item.used  ),
                             $('<td>').html( item.thuhoi  ),
                             $('<td>').html(item.purposed ),
                              $('<td>').html(item.stringDate),
                         );
 
-                        
+
                         $tr.appendTo('#supplyDetail TBODY ');
                     }
 
                     );
 
-                   
+
 
 
                 },
@@ -518,5 +530,115 @@
             $(document).ready(function () {
                 $('.datepicker-inline').remove();
             });
+            //Suggest
+   
+$(document).ready(function () {
+        setInterval(function () {
+            waittime++;
+            if (waittime > 2 && ck == true) {
+                $("#ChangeIDForm").submit();
+                waittime = 0;
+                ck = false;
+            }
+            if (waittime > 10) {
+                ck = true;
+            }
+        }, 1000); 
+});
+            var ck = true;
+            var waittime = 0;
+        $("#supplyId").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchBtn").click();
+          $("#person_created-search").blur();
+        } else {
+            var text = $("#supplyId").val();
+            $("#id-s").val(text);
+            $("#ck").val("1");
+            if (waittime > 1) {
+                $("#ChangeIDForm").submit();
+                waittime = 0;
+            }
+
+
+        }
+        });
+            $("#supplyName").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchBtn").click();
+          $("#person_created-search").blur();
+        } else {
+            var text = $("#supplyName").val();
+            $("#id-s").val(text);
+            $("#ck").val("0");
+            if (waittime > 1) {
+                $("#ChangeIDForm").submit();
+                waittime = 0;
+            }
+
+
+        }
+            });
+            $("#departmentId").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchBtn").click();
+          $("#person_created-search").blur();
+        } else {
+            var text = $("#departmentId").val();
+            $("#id-s").val(text);
+            $("#ck").val("2");
+            if (waittime > 1) {
+                $("#ChangeIDForm").submit();
+                waittime = 0;
+            } 
+
+
+        }
+            });
+            $("#departmentName").keyup(function (e) {
+        if (e.which == 13) {
+            $("#searchBtn").click();
+          $("#person_created-search").blur();
+        } else {
+            var text = $("#departmentName").val();
+            $("#id-s").val(text);
+            $("#ck").val("3");
+            if (waittime > 1) {
+                $("#ChangeIDForm").submit();
+                waittime = 0;
+            }
+
+
+        }
+            });
+
+
+	function ChangeID(form) {
+
+        $.validator.unobtrusive.parse(form);
+        if ($(form).valid()) {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: $(form).serialize(),
+                success: function (data) {
+                    $("#supply_namelist").empty();
+                    var option = "";
+                    for (var i = 0; i < data.id.length; i++) {
+                        var s = data.id[i].SupplyId;
+                        var a = "<option value='" + s + "'>" + s + "</option>";
+                        option += a;
+                    }
+                    $("#supply_namelist").append(option);
+                },
+                error: function () {
+                    alert(response.data.message);
+
+                }
+            });
+        }
+
+        return false;
+ }
         </script>
     }
