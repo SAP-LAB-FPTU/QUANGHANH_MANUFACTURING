@@ -13,15 +13,20 @@ namespace QUANGHANH2.Controllers.API
         [Route("api/getLog")]
         public ActionResult Index()
         {
+            string from_string = Request["from"];
+            string to_string = Request["to"];
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                DateTime from_date = DateTime.TryParse(from_string, out from_date)? DateTime.Parse(from_string) : DateTime.MinValue;
+                DateTime to_date = DateTime.TryParse(to_string, out to_date) ? DateTime.Parse(to_string) : DateTime.MaxValue;
                 db.Configuration.LazyLoadingEnabled = false;
-                List<User_log> list = db.User_Action_Log.ToList().Select(x => new User_log { 
+                List<User_log> list = db.User_Action_Log.Where(x => x.Action_Time >= from_date && x.Action_Time <= to_date).ToList().Select(x => new User_log { 
                     AccountID = x.AccountID,
                     Method = x.Method,
                     Url = x.Url,
-                    Action_Time = x.Action_Time.Value,
-                    Browser = x.Browser
+                    Action_Time = x.Action_Time,
+                    Browser = x.Browser,
+                    IP = x.Location_IP
                 }).ToList();
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
@@ -34,6 +39,7 @@ namespace QUANGHANH2.Controllers.API
             public string Url { get; set; }
             public DateTime Action_Time { get; set; }
             public string Browser { get; set; }
+            public string IP { get; set; }
         }
     }
 }

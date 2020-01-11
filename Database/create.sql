@@ -1808,7 +1808,7 @@ CREATE TABLE [dbo].[User_Action_Log](
 	[AccountID] [int] NOT NULL,
 	[Method] [nvarchar](100) NULL,
 	[Url] [nvarchar](100) NOT NULL,
-	[Action_Time] [datetime] NULL,
+	[Action_Time] [datetime] NOT NULL,
 	[Browser] [nvarchar](100) NULL,
 	[Location_IP] [nvarchar](100) NULL,
 PRIMARY KEY CLUSTERED 
