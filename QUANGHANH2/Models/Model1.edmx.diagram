@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a007e125b620422c954c5f97056cebf7" Name="Diagram1">
+      <Diagram DiagramId="70a2d140694d40a9913676ec034883e1" Name="Diagram1">
         <EntityTypeShape EntityType="QUANGHANHABCModel.Acceptance" Width="1.5" PointX="17.25" PointY="93" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Account" Width="1.5" PointX="17.25" PointY="72" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Account_Right" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
@@ -90,6 +90,7 @@
         <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_DuPhong" Width="1.5" PointX="20.25" PointY="90.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Supply_tieuhao" Width="1.5" PointX="6" PointY="88.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.SupplyPlan" Width="1.5" PointX="23.25" PointY="100.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.sysdiagram" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.TaiNan" Width="1.5" PointX="17.25" PointY="116.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.ThangLuong" Width="1.5" PointX="10.5" PointY="78.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.ThucHien_TieuChi_TheoNgay" Width="1.5" PointX="5.25" PointY="162.875" IsExpanded="true" />
@@ -98,7 +99,7 @@
         <EntityTypeShape EntityType="QUANGHANHABCModel.TrinhDo" Width="1.5" PointX="12.75" PointY="71.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Truong" Width="1.5" PointX="12.75" PointY="118" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.TuyenDung_NhanVien" Width="1.5" PointX="20.25" PointY="82.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QUANGHANHABCModel.User_Action_Log" Width="1.5" PointX="19.5" PointY="76.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QUANGHANHABCModel.User_Action_Log" Width="1.5" PointX="19.5" PointY="76.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QUANGHANHABCModel.Disk" Width="1.5" PointX="7.5" PointY="207.75" IsExpanded="true" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Acceptanc__docum__2A164134" ManuallyRouted="false" />
         <AssociationConnector Association="QUANGHANHABCModel.FK__Acceptanc__equip__640DD89F" ManuallyRouted="false" />
