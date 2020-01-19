@@ -261,7 +261,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                                                        join qd in db.QuyetDinhs
                                                                                        on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                                                        where qd.SoQuyetDinh != null
-                                                                                       && cn.NgayTuyenDung.Year == year
+                                                                                       && cn.NgayTuyenDung.Value.Year == year
                                                                                        join d in db.Departments on
                                                                                        n.MaPhongBan equals d.department_id
                                                                                        into tb1
@@ -283,7 +283,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                                                          join qd in db.QuyetDinhs
                                                                                          on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                                                          where qd.SoQuyetDinh != null
-                                                                                           && cn.NgayTuyenDung.Year == year
+                                                                                           && cn.NgayTuyenDung.Value.Year == year
                                                                                          join d in db.Departments on
                                                                                          n.MaPhongBan equals d.department_id
                                                                                          into tb1
@@ -305,7 +305,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                                                      join qd in db.QuyetDinhs
                                                                                      on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                                                      where qd.SoQuyetDinh != null
-                                                                                     && cn.NgayChamDut.Year == year
+                                                                                     && cn.NgayChamDut.Value.Year == year
                                                                                      join d in db.Departments on
                                                                                      n.MaPhongBan equals d.department_id
                                                                                      into tb1
@@ -327,7 +327,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                                                        join qd in db.QuyetDinhs
                                                                                        on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                                                        where qd.SoQuyetDinh != null
-                                                                                       && cn.NgayChamDut.Year == year
+                                                                                       && cn.NgayChamDut.Value.Year == year
                                                                                        join d in db.Departments on
                                                                                        n.MaPhongBan equals d.department_id
                                                                                        into tb1
@@ -640,7 +640,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                                                            join qd in db.QuyetDinhs
                                                                                            on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                                                            where qd.SoQuyetDinh != null
-                                                                                               && cn.NgayTuyenDung.Year == year
+                                                                                               && cn.NgayTuyenDung.Value.Year == year
                                                                                            join d in db.Departments on
                                                                                            n.MaPhongBan equals d.department_id
                                                                                            into tb1
@@ -662,7 +662,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                                                              join qd in db.QuyetDinhs
                                                                                              on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                                                              where qd.SoQuyetDinh != null
-                                                                                                   && cn.NgayTuyenDung.Year == year
+                                                                                                   && cn.NgayTuyenDung.Value.Year == year
                                                                                              join d in db.Departments on
                                                                                              n.MaPhongBan equals d.department_id
                                                                                              into tb1
@@ -684,7 +684,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                                                          join qd in db.QuyetDinhs
                                                                                          on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                                                          where qd.SoQuyetDinh != null
-                                                                                           && cn.NgayChamDut.Year == year
+                                                                                           && cn.NgayChamDut.Value.Year == year
                                                                                          join d in db.Departments on
                                                                                          n.MaPhongBan equals d.department_id
                                                                                          into tb1
@@ -706,7 +706,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                                                                            join qd in db.QuyetDinhs
                                                                                            on cn.MaQuyetDinh equals qd.MaQuyetDinh
                                                                                            where qd.SoQuyetDinh != null
-                                                                                               && cn.NgayChamDut.Year == year
+                                                                                               && cn.NgayChamDut.Value.Year == year
                                                                                            join d in db.Departments on
                                                                                            n.MaPhongBan equals d.department_id
                                                                                            into tb1
