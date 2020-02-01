@@ -31,7 +31,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             return View("/Views/CDVT/Vattu/Tieuhao.cshtml");
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("phong-cdvt/vat-tu/tieu-hao/details")]
         public ActionResult Details(string SupplyId, string SupplyName, string DepartmentId, string DeparmentName, string type, string month, string year)
         {

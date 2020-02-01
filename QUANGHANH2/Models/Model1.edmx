@@ -185,7 +185,7 @@
           <Property Name="MaQuyetDinh" Type="int" Nullable="false" />
           <Property Name="MaNV" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LoaiChamDut" Type="nvarchar" MaxLength="100" />
-          <Property Name="NgayChamDut" Type="date" Nullable="false" />
+          <Property Name="NgayChamDut" Type="date" />
         </EntityType>
         <EntityType Name="ChiTiet_BangCap_GiayChungNhan">
           <Key>
@@ -1015,6 +1015,16 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="quantity" Type="int" Nullable="false" />
           <Property Name="status" Type="int" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="TaiNan">
           <Key>
             <PropertyRef Name="MaTaiNan" />
@@ -1081,7 +1091,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           </Key>
           <Property Name="MaQuyetDinh" Type="int" Nullable="false" />
           <Property Name="MaNV" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="NgayTuyenDung" Type="date" Nullable="false" />
+          <Property Name="NgayTuyenDung" Type="date" />
         </EntityType>
         <EntityType Name="User_Action_Log">
           <Key>
@@ -1091,8 +1101,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="AccountID" Type="int" Nullable="false" />
           <Property Name="Method" Type="nvarchar" MaxLength="100" />
           <Property Name="Url" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="Action_Time" Type="datetime" />
+          <Property Name="Action_Time" Type="datetime" Nullable="false" />
           <Property Name="Browser" Type="nvarchar" MaxLength="100" />
+          <Property Name="Location_IP" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <Association Name="FK__Acceptanc__docum__2A164134">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1">
@@ -2984,6 +2995,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <EntitySet Name="Supply_DuPhong" EntityType="Self.Supply_DuPhong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supply_tieuhao" EntityType="Self.Supply_tieuhao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SupplyPlan" EntityType="Self.SupplyPlan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaiNan" EntityType="Self.TaiNan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThangLuong" EntityType="Self.ThangLuong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThucHien_TieuChi_TheoNgay" EntityType="Self.ThucHien_TieuChi_TheoNgay" Schema="dbo" store:Type="Tables" />
@@ -3816,7 +3828,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="MaQuyetDinh" Type="Int32" Nullable="false" />
           <Property Name="MaNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LoaiChamDut" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="NgayChamDut" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="NgayChamDut" Type="DateTime" Precision="0" />
           <NavigationProperty Name="QuyetDinh" Relationship="Self.FK__ChamDut_N__MaQuy__0B91BA14" FromRole="ChamDut_NhanVien" ToRole="QuyetDinh" />
           <NavigationProperty Name="NhanVien" Relationship="Self.FK_ChamDut_NhanVien_NhanVien" FromRole="ChamDut_NhanVien" ToRole="NhanVien" />
         </EntityType>
@@ -4877,6 +4889,16 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <NavigationProperty Name="Supply" Relationship="Self.FK__SupplyPla__suppl__689D8392" FromRole="SupplyPlan" ToRole="Supply" />
           <NavigationProperty Name="Supply1" Relationship="Self.FK__SupplyPla__suppl__6991A7CB" FromRole="SupplyPlan" ToRole="Supply" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="TaiNan">
           <Key>
             <PropertyRef Name="MaTaiNan" />
@@ -4959,7 +4981,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           </Key>
           <Property Name="MaQuyetDinh" Type="Int32" Nullable="false" />
           <Property Name="MaNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="NgayTuyenDung" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="NgayTuyenDung" Type="DateTime" Precision="0" />
           <NavigationProperty Name="NhanVien" Relationship="Self.FK_TuyenDung_NhanVien_NhanVien" FromRole="TuyenDung_NhanVien" ToRole="NhanVien" />
           <NavigationProperty Name="QuyetDinh" Relationship="Self.FK__TuyenDung__MaQuy__4D5F7D71" FromRole="TuyenDung_NhanVien" ToRole="QuyetDinh" />
         </EntityType>
@@ -4971,8 +4993,9 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <Property Name="AccountID" Type="Int32" Nullable="false" />
           <Property Name="Method" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Url" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Action_Time" Type="DateTime" Precision="3" />
+          <Property Name="Action_Time" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Browser" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Location_IP" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Account" Relationship="Self.FK__User_Acti__Accou__703EA55A" FromRole="User_Action_Log" ToRole="Account" />
         </EntityType>
         <EntityType Name="Disk">
@@ -6878,6 +6901,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
           <EntitySet Name="Supply_DuPhong" EntityType="Self.Supply_DuPhong" />
           <EntitySet Name="Supply_tieuhao" EntityType="Self.Supply_tieuhao" />
           <EntitySet Name="SupplyPlans" EntityType="Self.SupplyPlan" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TaiNans" EntityType="Self.TaiNan" />
           <EntitySet Name="ThangLuongs" EntityType="Self.ThangLuong" />
           <EntitySet Name="ThucHien_TieuChi_TheoNgay" EntityType="Self.ThucHien_TieuChi_TheoNgay" />
@@ -8538,6 +8562,17 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="QUANGHANHABCModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TaiNans">
             <EntityTypeMapping TypeName="QUANGHANHABCModel.TaiNan">
               <MappingFragment StoreEntitySet="TaiNan">
@@ -8621,6 +8656,7 @@ warning 6002: The table/view 'QUANGHANHABC.dbo.Disk' does not have a primary key
                 <ScalarProperty Name="Url" ColumnName="Url" />
                 <ScalarProperty Name="Action_Time" ColumnName="Action_Time" />
                 <ScalarProperty Name="Browser" ColumnName="Browser" />
+                <ScalarProperty Name="Location_IP" ColumnName="Location_IP" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
