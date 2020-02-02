@@ -187,13 +187,7 @@
     <Compile Include="Controllers\BGD\QuantityReport\MonthyQuarterController.cs" />
     <Compile Include="Controllers\BGD\SummaryReportController.cs" />
     <Compile Include="Controllers\BGD\TCLD\PeformanceAndSalaryReportController.cs" />
-    <Compile Include="Controllers\Camera\ChitietSuachuaCamController.cs" />
-    <Compile Include="Controllers\Camera\NghiemThuCamController.cs" />
-    <Compile Include="Controllers\Camera\SuachuaCameraController.cs" />
     <Compile Include="Controllers\Camera\CameraManagementController.cs" />
-    <Compile Include="Controllers\Camera\ChiTietXuLyQDController.cs" />
-    <Compile Include="Controllers\Camera\SucoCamController.cs" />
-    <Compile Include="Controllers\Camera\XuLyQDController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\ChonThietBiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\DanhSachController.cs" />
@@ -376,9 +370,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BaoCaoNgayDB.cs" />
-    <Compile Include="Models\Camera.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\CameraIncident.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -437,9 +428,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DieuDong_NhanVien.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Disk.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Documentary.cs">
@@ -645,9 +633,6 @@
     </Compile>
     <Compile Include="Models\Supply_Extend.cs" />
     <Compile Include="Models\Supply_tieuhao.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaiNan.cs">

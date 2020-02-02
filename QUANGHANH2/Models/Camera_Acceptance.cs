@@ -14,12 +14,13 @@ namespace QUANGHANH2.Models
     
     public partial class Camera_Acceptance
     {
-        public string camera_id { get; set; }
+        public int room_id { get; set; }
+        public int acceptance_camera_quantity { get; set; }
         public int documentary_id { get; set; }
         public Nullable<System.DateTime> acceptance_date { get; set; }
         public int cameraStatus { get; set; }
     
-        public virtual Camera Camera { get; set; }
         public virtual Documentary Documentary { get; set; }
+        public virtual Room Room { get; set; }
     }
 }

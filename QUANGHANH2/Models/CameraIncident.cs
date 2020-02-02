@@ -15,8 +15,8 @@ namespace QUANGHANH2.Models
     public partial class CameraIncident
     {
         public int incident_id { get; set; }
-        public string camera_id { get; set; }
         public int room_id { get; set; }
+        public int incident_camera_quantity { get; set; }
         public System.DateTime start_time { get; set; }
         public Nullable<System.DateTime> end_time { get; set; }
         public string reason { get; set; }
