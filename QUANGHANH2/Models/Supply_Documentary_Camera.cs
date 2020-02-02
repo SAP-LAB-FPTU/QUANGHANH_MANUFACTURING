@@ -16,7 +16,7 @@ namespace QUANGHANH2.Models
     {
         public int supplyDocumentaryCameraId { get; set; }
         public int documentary_id { get; set; }
-        public string camera_id { get; set; }
+        public int room_id { get; set; }
         public string supply_id { get; set; }
         public int quantity_plan { get; set; }
         public int quantity_in { get; set; }
@@ -25,8 +25,8 @@ namespace QUANGHANH2.Models
         public string supplyStatus { get; set; }
         public int supply_documentary_status { get; set; }
     
-        public virtual Camera Camera { get; set; }
         public virtual Documentary Documentary { get; set; }
+        public virtual Room Room { get; set; }
         public virtual Supply Supply { get; set; }
     }
 }

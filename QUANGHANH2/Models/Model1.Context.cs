@@ -34,7 +34,6 @@ namespace QUANGHANH2.Models
         public virtual DbSet<BacLuong_ThangLuong_MucLuong> BacLuong_ThangLuong_MucLuong { get; set; }
         public virtual DbSet<BangCap_GiayChungNhan> BangCap_GiayChungNhan { get; set; }
         public virtual DbSet<BaoCaoFile> BaoCaoFiles { get; set; }
-        public virtual DbSet<Camera> Cameras { get; set; }
         public virtual DbSet<Camera_Acceptance> Camera_Acceptance { get; set; }
         public virtual DbSet<CameraIncident> CameraIncidents { get; set; }
         public virtual DbSet<Car> Cars { get; set; }
@@ -110,7 +109,6 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Supply_DuPhong> Supply_DuPhong { get; set; }
         public virtual DbSet<Supply_tieuhao> Supply_tieuhao { get; set; }
         public virtual DbSet<SupplyPlan> SupplyPlans { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TaiNan> TaiNans { get; set; }
         public virtual DbSet<ThangLuong> ThangLuongs { get; set; }
         public virtual DbSet<ThucHien_TieuChi_TheoNgay> ThucHien_TieuChi_TheoNgay { get; set; }
@@ -120,6 +118,5 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Truong> Truongs { get; set; }
         public virtual DbSet<TuyenDung_NhanVien> TuyenDung_NhanVien { get; set; }
         public virtual DbSet<User_Action_Log> User_Action_Log { get; set; }
-        public virtual DbSet<Disk> Disks { get; set; }
     }
 }
