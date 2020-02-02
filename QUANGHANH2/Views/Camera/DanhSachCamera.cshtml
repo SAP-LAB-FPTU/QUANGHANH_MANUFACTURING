@@ -1,0 +1,261 @@
+﻿
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout_Cam.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row center">
+            <h3><b>DANH SÁCH CHI TIẾT HỆ THỐNG CAMERA</b></h3>
+            <hr>
+            <div class="col l6 m6 s12">
+                <div class="row">
+                    <div class="col l10 m10 s12 input-field">
+                        <input type="text" placeholder="Tên vị trí hệ thống" class='form-control' id="location-search" />
+                    </div>
+                    <div class="col l10 m10 s12 input-field">
+                        <input type="text" placeholder="Tình trạng ổ cứng" class='form-control' id="status-search" />
+                        @*<select class="form-control" id="status-search">
+                                <option value="0">Tất cả tình trạng ổ cứng</option>
+                                <option value="1">Có dữ liệu</option>
+                                <option value="2">Không có dữ liệu</option>
+                                <option value="3">Không có ổ cứng trong đầu ghi</option>
+                            </select>*@
+                    </div>
+                </div>
+            </div>
+            <div class="col l6 m6 s12">
+                <div class="row">
+                    <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                        <input type="text" placeholder="Lý do mất tín hiệu" class='form-control' id="reason-search" />
+                        @*<select class="form-control" id="reason-search">
+                                <option value="0">Tất cả lý do mất tín hiệu</option>
+                                <option value="1">Không bật trên máy tính</option>
+                                <option value="2">Không rõ nguyên nhân</option>
+                                <option value="3">Nguyên nhân khác</option>
+                            </select>*@
+                    </div>
+                    <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                        <select class="form-control" id="department-search">
+                            <option value="">Tất cả phòng ban</option>
+                            @foreach (QUANGHANH2.Models.Department item in ViewBag.departs)
+                            {
+                                <option value="@item.department_id">@item.department_name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12">
+                <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton">Tìm kiếm</a>
+            </div>
+            <div class="col s12">
+                <a class="waves-effect waves-light btn-small blue modal-trigger left" href="#myadd">Thêm</a>
+            </div>
+            <div class="col s12 table_container">
+                <table class="table-bordered striped table-responsive centered" id="complex_header">
+                    <thead>
+                        <tr>
+                            <th>Tên vị trí hệ thống</th>
+                            <th>Trực thuộc phòng ban</th>
+                            <th>Tình trạng số lượng (có tín hiệu/tổng số)</th>
+                            <th>Tình trạng ổ cứng</th>
+                            <th>Dung lượng ổ cứng</th>
+                            <th>Số seri ổ cứng</th>
+                            <th>Lý do mất tín hiệu</th>
+                            <th>Ghi chú</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="myadd">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Thêm hệ thống camera</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Trực thuộc phòng ban : </label>
+                            <select class="form-control" id="department-add">
+                                @foreach (QUANGHANH2.Models.Department item in ViewBag.departs)
+                                {
+                                    <option value="@item.department_id">@item.department_name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Tên vị trí hệ thống : </label>
+                            <input required type="text" class="form-control" value="" id="location-add" />
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Số lượng : </label>
+                            <input required type="number" min="1" value="1" class="form-control" id="quantity-add" />
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Ghi chú : </label>
+                            <input required type="text" class="form-control" value="" id="note-add" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Số seri ổ cứng : </label>
+                            <input required type="text" class="form-control" value="" id="resial-add" />
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Tình trạng ổ cứng : </label>
+                            <input required type="text" class="form-control" value="" id="status-add" />
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Dung lượng ổ cứng : </label>
+                            <input required type="number" class="form-control" value="" id="capacity-add" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save">Lưu</a>
+            <a class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</a>
+        </div>
+    </div>
+</div>
+
+<div id="mydelete" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Xóa hệ thống camera</h3>
+        </div>
+        <div class="modal-body">
+            <h3>Dữ liệu sẽ không thể khôi phục sau khi xóa</h3>
+        </div>
+        <div class="modal-footer">
+            <a class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save">Lưu</a>
+            <a class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    var Popup, dataTable;
+    $("#pre-load").show();
+
+    $(document).ready(function () {
+        dataTable = $('#complex_header').DataTable({
+            "language": {
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                "paginate": {
+                    "first": "Trang đầu",
+                    "last": "Trang cuối",
+                    "next": "Trang sau",
+                    "previous": "Trang trước"
+                }
+            },
+            "ajax": {
+                "url": "/camera",
+                "type": "POST",
+                "datatype": "json",
+                "data": {
+                    "location": function () { return $('#location-search').val() },
+                    "status": function () { return $('#status-search').val() },
+                    "reason": function () { return $('#reason-search').val() },
+                    "department": function () { return $('#department-search').val() }
+                },
+                "cache": false
+            },
+            "columns": [
+                { "data": "room_name", "name": "room_name" },
+                { "data": "department_name", "name": "department_name" },
+                {
+                    "data": {}, "name": "camera_quantity", render: function (data) {
+                        return data.camera_available + "/" + data.camera_quantity;
+                    }
+                },
+                { "data": "disk_status", "name": "disk_status" },
+                { "data": "capacity", "name": "capacity" },
+                { "data": "series", "name": "series" },
+                { "data": "signal_loss_reason", "name": "signal_loss_reason" },
+                { "data": "note", "name": "note" },
+                {
+                    data: "room_id", orderable: false, render: function (data) {
+                        return "<a class='waves-effect waves-light btn blue darken-2 modal-trigger' data-room='" + data + "'>Sửa</a>";
+                    }
+                },
+                {
+                    data: "room_id", orderable: false, render: function (data) {
+                        return "<a class='waves-effect waves-light btn red darken-2 modal-trigger' data-room='" + data + "'>Xóa</a>";
+                    }
+                }
+            ],
+            "serverSide": "true",
+            "order": [0, "desc"],
+            "lengthChange": false,
+            "searching": false,
+            "initComplete": function (settings, json) {
+                $("#pre-load").hide();
+            },
+            "preDrawCallback": function (settings) {
+                $('#pre-load').show();
+            },
+            "drawCallback": function (settings) {
+                $('#pre-load').hide();
+            }
+        });
+
+        $('#searchButton').click(function () {
+            dataTable.ajax.reload();
+        })
+
+        $('#save').click(function () {
+            $('#pre-load').show();
+            $.ajax({
+                url: "/camera/add",
+                type: "post",
+                data: {
+                    location: $("#location-add").val(),
+                    quantity: $('#quantity-add').val(),
+                    note: $('#note-add').val(),
+                    department: $('#department-add').val(),
+                    capacity: $('#capacity-add').val(),
+                    serial: $('#resial-add').val(),
+                    status: $('#status-add').val()
+                },
+                cache: false,
+                datatype: "json",
+                success: function (data) {
+                    if (data.success) {
+                        $('#exit-add-button').click();
+                        dataTable.ajax.reload();
+                        successAlert(data.message);
+                    }
+                    else
+                        errorAlert(data.message);
+                    $('#pre-load').hide();
+                }
+            })
+        })
+    });
+</script>
