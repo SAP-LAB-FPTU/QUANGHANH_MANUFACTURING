@@ -868,9 +868,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 var mydata = (from p in db.NhanViens
                               join p1 in db.HoSoes on p.MaNV equals p1.MaNV
-                              join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
-                              join p3 in db.Departments on p.MaPhongBan equals p3.department_id
+                              join p2 in db.ChamDut_NhanVien on p.MaNV equals p2.MaNV into cd_nv
+                              join p3 in db.Departments on p.MaPhongBan equals p3.department_id into pb
                               where p.MaTrangThai == 2
+                              from p2 in cd_nv.DefaultIfEmpty()
+                              from p3 in pb.DefaultIfEmpty()
                               select new
                               {
                                   stt = "1",
@@ -888,8 +890,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 mydata = mydata.Skip(start).Take(length).ToList();
                 return Json(new { success = true, data = mydata, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
-
-
         }
 
         [Auther(RightID = "133")]
@@ -903,8 +903,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 var count = (from p in db.NhanViens
                              join p1 in db.HoSoes on p.MaNV equals p1.MaNV
-                             join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
+                             join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV into cd_nv
                              where p.MaTrangThai == 2 & p.MaNV == mnv
+                             from p2 in cd_nv.DefaultIfEmpty()
                              select p).Count();
                 if (count != 1)
                 {
@@ -945,11 +946,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 var mydata = (from p in db.NhanViens
                               join p1 in db.HoSoes on p.MaNV equals p1.MaNV
-                              join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
-                              join p3 in db.Departments on p.MaPhongBan equals p3.department_id
-
-
+                              join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV into cd_nv
+                              join p3 in db.Departments on p.MaPhongBan equals p3.department_id into pb
                               where p.MaNV == mnv
+                              from p2 in cd_nv.DefaultIfEmpty()
+                              from p3 in pb.DefaultIfEmpty()
                               select new
                               {
                                   stt = "",
