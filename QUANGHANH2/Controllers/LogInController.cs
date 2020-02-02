@@ -54,8 +54,8 @@ namespace QUANGHANHCORE.Controllers
                     Session["UserID"] = checkuser.ID;
                     Session["time"] = DateTime.Now;
                     int id = checkuser.ID;
-                    var Name = db.Database.SqlQuery<InfoAccount>(@"select a.ID,nv.Ten,a.Username,a.Position,c.TenCongViec,a.ADMIN,d.department_name,d.department_id from Account a , NhanVien nv , CongViec c , Department d
-                                                        where a.NVID = nv.MaNV and c.MaCongViec = nv.MaCongViec and d.department_id = nv.MaPhongBan and a.ID = @id", new SqlParameter("id", id)).FirstOrDefault();
+                    var Name = db.Database.SqlQuery<InfoAccount>(@"select a.ID,nv.Ten,a.Username,a.Position,a.ADMIN,d.department_name,d.department_id from Account a , NhanVien nv , Department d
+                                                        where a.NVID = nv.MaNV and d.department_id = nv.MaPhongBan and a.ID = @id", new SqlParameter("id", id)).FirstOrDefault();
                     Session["departName"] = Name.department_name;
                     Session["departID"] = Name.department_id;
                     Session["account_id"] = Name.ID;
