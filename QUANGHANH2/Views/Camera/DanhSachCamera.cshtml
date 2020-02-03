@@ -4,10 +4,19 @@
     Layout = "~/Views/Shared/_Layout_Cam.cshtml";
 }
 
+<link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet" />
+<style>
+    #toast-container {
+        min-width: 10%;
+        top: 0;
+        right: 50%;
+        transform: translateX(50%) translateY(50%);
+    }
+</style>
 <div class="card">
     <div class="card-content">
         <div class="row center">
-            <h3><b>DANH SÁCH CHI TIẾT HỆ THỐNG CAMERA</b></h3>
+            <h3><b>DANH SÁCH  HỆ THỐNG CAMERA</b></h3>
             <hr>
             <div class="col l6 m6 s12">
                 <div class="row">
@@ -51,7 +60,7 @@
                 <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton">Tìm kiếm</a>
             </div>
             <div class="col s12">
-                <a class="waves-effect waves-light btn-small blue modal-trigger left" href="#myadd">Thêm</a>
+                <a class="waves-effect waves-light btn-small blue modal-trigger left" id="add-room" href="#myadd">Thêm</a>
             </div>
             <div class="col s12 table_container">
                 <table class="table-bordered striped table-responsive centered" id="complex_header">
@@ -97,7 +106,7 @@
                     <div class="col s12 m12">
                         <div class="form-group">
                             <label>Tên vị trí hệ thống : </label>
-                            <input required type="text" class="form-control" value="" id="location-add" />
+                            <input required type="text" class="form-control" id="location-add" />
                         </div>
                     </div>
                     <div class="col s12 m12">
@@ -109,7 +118,7 @@
                     <div class="col s12 m12">
                         <div class="form-group">
                             <label>Ghi chú : </label>
-                            <input required type="text" class="form-control" value="" id="note-add" />
+                            <input required type="text" class="form-control" id="note-add" />
                         </div>
                     </div>
                 </div>
@@ -117,27 +126,94 @@
                     <div class="col s12 m12">
                         <div class="form-group">
                             <label>Số seri ổ cứng : </label>
-                            <input required type="text" class="form-control" value="" id="resial-add" />
+                            <input required type="text" class="form-control" id="resial-add" />
                         </div>
                     </div>
                     <div class="col s12 m12">
                         <div class="form-group">
                             <label>Tình trạng ổ cứng : </label>
-                            <input required type="text" class="form-control" value="" id="status-add" />
+                            <input required type="text" class="form-control" id="status-add" />
                         </div>
                     </div>
                     <div class="col s12 m12">
                         <div class="form-group">
-                            <label>Dung lượng ổ cứng : </label>
-                            <input required type="number" class="form-control" value="" id="capacity-add" />
+                            <label>Dung lượng ổ cứng (GB) : </label>
+                            <input required type="number" min="1" class="form-control" value="1" id="capacity-add" />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <a class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save">Lưu</a>
-            <a class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</a>
+            <a class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save-add">Lưu</a>
+            <button class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<div id="myedit" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Chỉnh sửa thông tin hệ thống camera <span></span></h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Trực thuộc phòng ban : </label>
+                            <select class="form-control" id="department-edit">
+                                @foreach (QUANGHANH2.Models.Department item in ViewBag.departs)
+                                {
+                                    <option value="@item.department_id">@item.department_name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Tên vị trí hệ thống : </label>
+                            <input required type="text" class="form-control" id="location-edit" />
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Số lượng : </label>
+                            <input required type="number" min="1" value="1" class="form-control" id="quantity-edit" />
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Ghi chú : </label>
+                            <input required type="text" class="form-control" id="note-edit" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Số seri ổ cứng : </label>
+                            <input required type="text" class="form-control" id="resial-edit" />
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Tình trạng ổ cứng : </label>
+                            <input required type="text" class="form-control" id="status-edit" />
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Dung lượng ổ cứng (GB) : </label>
+                            <input required type="number" min="1" class="form-control" value="1" id="capacity-edit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save-edit">Lưu</a>
+            <button class="btn light-blue lighten-1 modal-close" id="exit-edit">Thoát</button>
         </div>
     </div>
 </div>
@@ -145,20 +221,21 @@
 <div id="mydelete" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 class="modal-title">Xóa hệ thống camera</h3>
+            <h3 class="modal-title">Xóa thông tin hệ thống camera <span></span></h3>
         </div>
         <div class="modal-body">
-            <h3>Dữ liệu sẽ không thể khôi phục sau khi xóa</h3>
+            <h4>Dữ liệu sẽ không thể khôi phục sau khi xóa</h4>
         </div>
         <div class="modal-footer">
-            <a class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save">Lưu</a>
-            <a class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</a>
+            <a class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save-delete">Lưu</a>
+            <button class="btn light-blue lighten-1 modal-close" id="exit-delete">Thoát</button>
         </div>
     </div>
 </div>
 
+<script src="~/assets/libs/toastr/build/toastr.min.js"></script>
 <script>
-    var Popup, dataTable;
+    var room_id, dataTable;
     $("#pre-load").show();
 
     $(document).ready(function () {
@@ -188,28 +265,35 @@
             },
             "columns": [
                 { "data": "room_name", "name": "room_name" },
-                { "data": "department_name", "name": "department_name" },
+                { "data": "department_name", "name": "department_name", },
                 {
                     "data": {}, "name": "camera_quantity", render: function (data) {
                         return data.camera_available + "/" + data.camera_quantity;
                     }
                 },
                 { "data": "disk_status", "name": "disk_status" },
-                { "data": "capacity", "name": "capacity" },
+                {
+                    "data": "capacity", "name": "capacity", render: function (data) {
+                        return data % 1000 ? (data + " GB") : (data / 1000 + " TB");
+                    }
+                },
                 { "data": "series", "name": "series" },
                 { "data": "signal_loss_reason", "name": "signal_loss_reason" },
                 { "data": "note", "name": "note" },
                 {
                     data: "room_id", orderable: false, render: function (data) {
-                        return "<a class='waves-effect waves-light btn blue darken-2 modal-trigger' data-room='" + data + "'>Sửa</a>";
+                        return "<a class='waves-effect waves-light btn blue darken-2 modal-trigger edit-room' href='#myedit' data-room='" + data + "'>Sửa</a>";
                     }
                 },
                 {
                     data: "room_id", orderable: false, render: function (data) {
-                        return "<a class='waves-effect waves-light btn red darken-2 modal-trigger' data-room='" + data + "'>Xóa</a>";
+                        return "<a class='waves-effect waves-light btn red darken-2 modal-trigger' href='#mydelete' data-room='" + data + "'>Xóa</a>";
                     }
                 }
             ],
+            createdRow: function (row, data, dataIndex) {
+                $(row).find('td:eq(1)').attr('data-department', data.department_id)
+            },
             "serverSide": "true",
             "order": [0, "desc"],
             "lengthChange": false,
@@ -229,7 +313,38 @@
             dataTable.ajax.reload();
         })
 
-        $('#save').click(function () {
+        $(document).on('click', '#complex_header a', function () {
+            room_id = $(this).data('room');
+            $('#mydelete h3 span').text($(this).closest('tr').children('td').eq(0).text());
+            $('#myedit h3 span').text($(this).closest('tr').children('td').eq(0).text());
+        })
+
+        $('#add-room').click(function () {
+            $('#location-add').val('');
+            $('#status-add').val('');
+            $('#capacity-add').val(1);
+            $('#quantity-add').val(1)
+            $('#resial-add').val('');
+            $('#note-add').val('');
+        })
+
+        $(document).on('click', '.edit-room', function () {
+            let $tr = $(this).closest('tr').children('td');
+            $('#location-edit').val($tr.eq(0).text());
+            $('#department-edit').val($tr.eq(1).data('department'));
+            $('#quantity-edit').val($tr.eq(2).text().split('/')[1]);
+            $('#status-edit').val($tr.eq(3).text());
+            let capacity = $tr.eq(4).text().endsWith('GB') ? $tr.eq(4).text().split(' ')[0] : ($tr.eq(4).text().split(' ')[0] * 1000)
+            $('#capacity-edit').val(capacity);
+            $('#resial-edit').val($tr.eq(5).text());
+            $('#note-edit').val($tr.eq(7).text());
+        })
+
+        $('#save-add').click(function () {
+            if ($("#location-add").val() == "" || $('#quantity-add').val() < 1 || $('#capacity-add').val() < 1 || $('#resial-add').val() == "" || $('#status-add').val() == "" || room_id == "") {
+                toastr.error("Xin điền đầy đủ thông tin");
+                return;
+            }
             $('#pre-load').show();
             $.ajax({
                 url: "/camera/add",
@@ -251,9 +366,71 @@
                         dataTable.ajax.reload();
                         successAlert(data.message);
                     }
-                    else
+                    else {
                         errorAlert(data.message);
-                    $('#pre-load').hide();
+                        $('#pre-load').hide();
+                    }
+                }
+            })
+        })
+
+        $('#save-edit').click(function () {
+            if ($("#location-edit").val() == "" || $('#quantity-edit').val() < 1 || $('#capacity-edit').val() < 1 || $('#resial-edit').val() == "" || $('#status-edit').val() == "" || room_id == "") {
+                toastr.error("Xin điền đầy đủ thông tin");
+                return;
+            }
+            $('#pre-load').show();
+            $.ajax({
+                url: "/camera/edit",
+                type: "post",
+                data: {
+                    location: $("#location-edit").val(),
+                    quantity: $('#quantity-edit').val(),
+                    note: $('#note-edit').val(),
+                    department: $('#department-edit').val(),
+                    capacity: $('#capacity-edit').val(),
+                    serial: $('#resial-edit').val(),
+                    status: $('#status-edit').val(),
+                    room_id: room_id
+                },
+                cache: false,
+                datatype: "json",
+                success: function (data) {
+                    if (data.success) {
+                        $('#exit-edit').click();
+                        dataTable.ajax.reload();
+                        successAlert(data.message);
+                    }
+                    else {
+                        errorAlert(data.message);
+                        $('#pre-load').hide();
+                    }
+                    room_id = "";
+                }
+            })
+        })
+
+        $('#save-delete').click(function () {
+            $('#pre-load').show();
+            $.ajax({
+                url: "/camera/delete",
+                type: "post",
+                data: {
+                    room_id: room_id
+                },
+                cache: false,
+                datatype: 'json',
+                success: function (data) {
+                    if (data.success) {
+                        $('#exit-delete').click();
+                        dataTable.ajax.reload();
+                        successAlert(data.message);
+                    }
+                    else {
+                        errorAlert(data.message);
+                        $('#pre-load').hide();
+                    }
+                    room_id = "";
                 }
             })
         })

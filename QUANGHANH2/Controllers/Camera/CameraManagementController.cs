@@ -137,35 +137,52 @@ namespace QUANGHANH2.Controllers.Camera
             }
         }
         [Auther(RightID = "193")]
+        [Route("camera/edit")]
         [HttpPost]
-        public ActionResult Edit(string code, string name, string room, string note, string seri, int capacty, string disk_status, string cam_status)
+        public ActionResult Edit()
         {
-            string sql = "update Camera set camera_name = @name, camera_status = @cam_status, room_id = @room, note = @note where camera_id = @code";
-            string query = "update Disk set disk_status = @disk, capacity = @cap where series = @seri and camera_id = @code";
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            using (DbContextTransaction dbc = db.Database.BeginTransaction())
+            try
             {
-                try
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    db.Database.ExecuteSqlCommand(sql, new SqlParameter("code", code)
-                                                        , new SqlParameter("name", name)
-                                                        , new SqlParameter("cam_status", cam_status)
-                                                        , new SqlParameter("note", note)
-                                                        , new SqlParameter("room", room));
-                    db.Database.ExecuteSqlCommand(query, new SqlParameter("code", code)
-                                                        , new SqlParameter("seri", seri)
-                                                        , new SqlParameter("cap", capacty)
-                                                        , new SqlParameter("disk", disk_status));
-                    dbc.Commit();
+                    Room r = db.Rooms.Find(int.Parse(Request["room_id"]));
+                    r.capacity = Request["capacity"];
+                    r.disk_status = Request["status"];
+                    r.series = Request["serial"];
+                    r.note = Request["note"];
+                    r.room_name = Request["location"];
+                    r.department_id = Request["department"];
+                    r.camera_quantity = int.Parse(Request["quantity"].ToString());
+                    r.camera_available = int.Parse(Request["quantity"].ToString());
+                    r.signal_loss_reason = "";
                     db.SaveChanges();
-                    return RedirectToAction("GetData");
+                    return Json(new { success = true, message = "Chỉnh sửa thành công" });
                 }
-                catch (Exception e)
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra" });
+            }
+        }
+
+        [Auther(RightID = "193")]
+        [Route("camera/delete")]
+        [HttpPost]
+        public ActionResult Delete()
+        {
+            try
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    e.Message.ToString();
-                    dbc.Rollback();
-                    return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+                    Room r = db.Rooms.Find(int.Parse(Request["room_id"]));
+                    db.Rooms.Remove(r);
+                    db.SaveChanges();
+                    return Json(new { success = true, message = "Xóa thành công" });
                 }
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra" });
             }
         }
 
