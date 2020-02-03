@@ -17,15 +17,28 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Room()
         {
-            this.Cameras = new HashSet<Camera>();
+            this.Camera_Acceptance = new HashSet<Camera_Acceptance>();
+            this.Documentary_camera_repair_details = new HashSet<Documentary_camera_repair_details>();
+            this.Supply_Documentary_Camera = new HashSet<Supply_Documentary_Camera>();
         }
     
         public string department_id { get; set; }
         public int room_id { get; set; }
         public string room_name { get; set; }
+        public int camera_quantity { get; set; }
+        public int camera_available { get; set; }
+        public string series { get; set; }
+        public string capacity { get; set; }
+        public string disk_status { get; set; }
+        public string signal_loss_reason { get; set; }
+        public string note { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Camera> Cameras { get; set; }
+        public virtual ICollection<Camera_Acceptance> Camera_Acceptance { get; set; }
         public virtual Department Department { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Documentary_camera_repair_details> Documentary_camera_repair_details { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Supply_Documentary_Camera> Supply_Documentary_Camera { get; set; }
     }
 }

@@ -187,13 +187,7 @@
     <Compile Include="Controllers\BGD\QuantityReport\MonthyQuarterController.cs" />
     <Compile Include="Controllers\BGD\SummaryReportController.cs" />
     <Compile Include="Controllers\BGD\TCLD\PeformanceAndSalaryReportController.cs" />
-    <Compile Include="Controllers\Camera\ChitietSuachuaCamController.cs" />
-    <Compile Include="Controllers\Camera\NghiemThuCamController.cs" />
-    <Compile Include="Controllers\Camera\SuachuaCameraController.cs" />
     <Compile Include="Controllers\Camera\CameraManagementController.cs" />
-    <Compile Include="Controllers\Camera\ChiTietXuLyQDController.cs" />
-    <Compile Include="Controllers\Camera\SucoCamController.cs" />
-    <Compile Include="Controllers\Camera\XuLyQDController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\ChonThietBiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\DanhSachController.cs" />
@@ -376,9 +370,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BaoCaoNgayDB.cs" />
-    <Compile Include="Models\Camera.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\CameraIncident.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -437,9 +428,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DieuDong_NhanVien.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Disk.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Documentary.cs">
@@ -7466,7 +7454,7 @@
     <Content Include="Views\DK\Department_Criteria\Department_Criteria.cshtml" />
     <Content Include="Views\Shared\_Layout_KCM.cshtml" />
     <Content Include="Views\Shared\_Layout_Cam.cshtml" />
-    <Content Include="Views\Camera\View.cshtml" />
+    <Content Include="Views\Camera\DanhSachCamera.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />
     <Content Include="Views\Camera\Chi_tiet_sua_chua.cshtml" />
     <Content Include="Views\Camera\Quyet_dinh_sua_chua.cshtml" />
