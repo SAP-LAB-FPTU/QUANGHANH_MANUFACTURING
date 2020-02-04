@@ -130,7 +130,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id 
                                 join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec 
                                 join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec 
-                                where a.department_type like N'%chính%' and a.department_id != 'PXST' and a.department_id != 'PXLT' 
+                                where a.department_type like N'%chính%' and a.department_id like '%PXDL%' or a.department_id like '%PXVT%' or a.department_id like '%PXKT%' 
                                 group by a.department_id) 
                                  as a left outer join Header_DiemDanh_NangSuat_LaoDong h 
                                 on a.department_id = h.MaPhongBan left outer join DiemDanh_NangSuatLaoDong d 
