@@ -843,7 +843,7 @@
           <Key>
             <PropertyRef Name="MaNhomTieuChi" />
           </Key>
-          <Property Name="MaNhomTieuChi" Type="int" Nullable="false" />
+          <Property Name="MaNhomTieuChi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TenNhomTieuChi" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="PhongBan_TieuChi">
@@ -1166,7 +1166,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Camera_Ac__docum__69C6B1F5">
+        <Association Name="FK__Camera_Ac__docum__68D28DBC">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
           <End Role="Camera_Acceptance" Type="Self.Camera_Acceptance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1178,7 +1178,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Camera_Ac__room___68D28DBC">
+        <Association Name="FK__Camera_Ac__room___69C6B1F5">
           <End Role="Room" Type="Self.Room" Multiplicity="1" />
           <End Role="Camera_Acceptance" Type="Self.Camera_Acceptance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1402,7 +1402,7 @@
               <PropertyRef Name="MaCongViec" />
             </Principal>
             <Dependent Role="DieuDong_NhanVien">
-              <PropertyRef Name="MaChucVuCu" />
+              <PropertyRef Name="MaChucVuMoi" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1414,7 +1414,7 @@
               <PropertyRef Name="MaCongViec" />
             </Principal>
             <Dependent Role="DieuDong_NhanVien">
-              <PropertyRef Name="MaChucVuMoi" />
+              <PropertyRef Name="MaChucVuCu" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1478,7 +1478,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Documenta__depar__0A338187">
+        <Association Name="FK__Documenta__depar__093F5D4E">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Documentary_camera_repair_details" Type="Self.Documentary_camera_repair_details" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1574,7 +1574,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Documenta__docum__0B27A5C0">
+        <Association Name="FK__Documenta__docum__0A338187">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
           <End Role="Documentary_camera_repair_details" Type="Self.Documentary_camera_repair_details" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1766,7 +1766,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Documenta__room___093F5D4E">
+        <Association Name="FK__Documenta__room___0B27A5C0">
           <End Role="Room" Type="Self.Room" Multiplicity="1" />
           <End Role="Documentary_camera_repair_details" Type="Self.Documentary_camera_repair_details" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2378,7 +2378,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__docum__54968AE5">
+        <Association Name="FK__Supply_Do__docum__53A266AC">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
           <End Role="Supply_Documentary_Camera" Type="Self.Supply_Documentary_Camera" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2428,7 +2428,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__room___53A266AC">
+        <Association Name="FK__Supply_Do__room___54968AE5">
           <End Role="Room" Type="Self.Room" Multiplicity="1" />
           <End Role="Supply_Documentary_Camera" Type="Self.Supply_Documentary_Camera" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2970,11 +2970,11 @@
             <End Role="Department" EntitySet="Department" />
             <End Role="BaoCaoFile" EntitySet="BaoCaoFile" />
           </AssociationSet>
-          <AssociationSet Name="FK__Camera_Ac__docum__69C6B1F5" Association="Self.FK__Camera_Ac__docum__69C6B1F5">
+          <AssociationSet Name="FK__Camera_Ac__docum__68D28DBC" Association="Self.FK__Camera_Ac__docum__68D28DBC">
             <End Role="Documentary" EntitySet="Documentary" />
             <End Role="Camera_Acceptance" EntitySet="Camera_Acceptance" />
           </AssociationSet>
-          <AssociationSet Name="FK__Camera_Ac__room___68D28DBC" Association="Self.FK__Camera_Ac__room___68D28DBC">
+          <AssociationSet Name="FK__Camera_Ac__room___69C6B1F5" Association="Self.FK__Camera_Ac__room___69C6B1F5">
             <End Role="Room" EntitySet="Room" />
             <End Role="Camera_Acceptance" EntitySet="Camera_Acceptance" />
           </AssociationSet>
@@ -3074,7 +3074,7 @@
             <End Role="Department" EntitySet="Department" />
             <End Role="Documentary_big_maintain_details" EntitySet="Documentary_big_maintain_details" />
           </AssociationSet>
-          <AssociationSet Name="FK__Documenta__depar__0A338187" Association="Self.FK__Documenta__depar__0A338187">
+          <AssociationSet Name="FK__Documenta__depar__093F5D4E" Association="Self.FK__Documenta__depar__093F5D4E">
             <End Role="Department" EntitySet="Department" />
             <End Role="Documentary_camera_repair_details" EntitySet="Documentary_camera_repair_details" />
           </AssociationSet>
@@ -3106,7 +3106,7 @@
             <End Role="DocumentaryType" EntitySet="DocumentaryType" />
             <End Role="Documentary" EntitySet="Documentary" />
           </AssociationSet>
-          <AssociationSet Name="FK__Documenta__docum__0B27A5C0" Association="Self.FK__Documenta__docum__0B27A5C0">
+          <AssociationSet Name="FK__Documenta__docum__0A338187" Association="Self.FK__Documenta__docum__0A338187">
             <End Role="Documentary" EntitySet="Documentary" />
             <End Role="Documentary_camera_repair_details" EntitySet="Documentary_camera_repair_details" />
           </AssociationSet>
@@ -3166,7 +3166,7 @@
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Documentary_revoke_details" EntitySet="Documentary_revoke_details" />
           </AssociationSet>
-          <AssociationSet Name="FK__Documenta__room___093F5D4E" Association="Self.FK__Documenta__room___093F5D4E">
+          <AssociationSet Name="FK__Documenta__room___0B27A5C0" Association="Self.FK__Documenta__room___0B27A5C0">
             <End Role="Room" EntitySet="Room" />
             <End Role="Documentary_camera_repair_details" EntitySet="Documentary_camera_repair_details" />
           </AssociationSet>
@@ -3370,7 +3370,7 @@
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Supply_DiKem" EntitySet="Supply_DiKem" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__docum__54968AE5" Association="Self.FK__Supply_Do__docum__54968AE5">
+          <AssociationSet Name="FK__Supply_Do__docum__53A266AC" Association="Self.FK__Supply_Do__docum__53A266AC">
             <End Role="Documentary" EntitySet="Documentary" />
             <End Role="Supply_Documentary_Camera" EntitySet="Supply_Documentary_Camera" />
           </AssociationSet>
@@ -3386,7 +3386,7 @@
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__room___53A266AC" Association="Self.FK__Supply_Do__room___53A266AC">
+          <AssociationSet Name="FK__Supply_Do__room___54968AE5" Association="Self.FK__Supply_Do__room___54968AE5">
             <End Role="Room" EntitySet="Room" />
             <End Role="Supply_Documentary_Camera" EntitySet="Supply_Documentary_Camera" />
           </AssociationSet>
@@ -3671,8 +3671,8 @@
           <Property Name="documentary_id" Type="Int32" Nullable="false" />
           <Property Name="acceptance_date" Type="DateTime" Precision="0" />
           <Property Name="cameraStatus" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Documentary" Relationship="Self.FK__Camera_Ac__docum__69C6B1F5" FromRole="Camera_Acceptance" ToRole="Documentary" />
-          <NavigationProperty Name="Room" Relationship="Self.FK__Camera_Ac__room___68D28DBC" FromRole="Camera_Acceptance" ToRole="Room" />
+          <NavigationProperty Name="Documentary" Relationship="Self.FK__Camera_Ac__docum__68D28DBC" FromRole="Camera_Acceptance" ToRole="Documentary" />
+          <NavigationProperty Name="Room" Relationship="Self.FK__Camera_Ac__room___69C6B1F5" FromRole="Camera_Acceptance" ToRole="Room" />
         </EntityType>
         <EntityType Name="CameraIncident">
           <Key>
@@ -3844,7 +3844,7 @@
           <NavigationProperty Name="DieuDong_NhanVien" Relationship="Self.FK__DieuDong___MaDon__019E3B86" FromRole="Department" ToRole="DieuDong_NhanVien" />
           <NavigationProperty Name="DieuDong_NhanVien1" Relationship="Self.FK__DieuDong___MaDon__02925FBF" FromRole="Department" ToRole="DieuDong_NhanVien" />
           <NavigationProperty Name="Documentary_big_maintain_details" Relationship="Self.FK__Documenta__depar__0662F0A3" FromRole="Department" ToRole="Documentary_big_maintain_details" />
-          <NavigationProperty Name="Documentary_camera_repair_details" Relationship="Self.FK__Documenta__depar__0A338187" FromRole="Department" ToRole="Documentary_camera_repair_details" />
+          <NavigationProperty Name="Documentary_camera_repair_details" Relationship="Self.FK__Documenta__depar__093F5D4E" FromRole="Department" ToRole="Documentary_camera_repair_details" />
           <NavigationProperty Name="Documentary_Improve_Detail" Relationship="Self.FK__Documenta__depar__0C1BC9F9" FromRole="Department" ToRole="Documentary_Improve_Detail" />
           <NavigationProperty Name="Documentary_liquidation_details" Relationship="Self.FK__Documenta__depar__0EF836A4" FromRole="Department" ToRole="Documentary_liquidation_details" />
           <NavigationProperty Name="Documentary_maintain_details" Relationship="Self.FK__Documenta__depar__11D4A34F" FromRole="Department" ToRole="Documentary_maintain_details" />
@@ -3932,9 +3932,9 @@
           <Property Name="out_in_come" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="documentary_status" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Acceptances" Relationship="Self.FK__Acceptanc__docum__2A164134" FromRole="Documentary" ToRole="Acceptance" />
-          <NavigationProperty Name="Camera_Acceptance" Relationship="Self.FK__Camera_Ac__docum__69C6B1F5" FromRole="Documentary" ToRole="Camera_Acceptance" />
+          <NavigationProperty Name="Camera_Acceptance" Relationship="Self.FK__Camera_Ac__docum__68D28DBC" FromRole="Documentary" ToRole="Camera_Acceptance" />
           <NavigationProperty Name="DocumentaryType" Relationship="Self.FK__Documenta__docum__056ECC6A" FromRole="Documentary" ToRole="DocumentaryType" />
-          <NavigationProperty Name="Documentary_camera_repair_details" Relationship="Self.FK__Documenta__docum__0B27A5C0" FromRole="Documentary" ToRole="Documentary_camera_repair_details" />
+          <NavigationProperty Name="Documentary_camera_repair_details" Relationship="Self.FK__Documenta__docum__0A338187" FromRole="Documentary" ToRole="Documentary_camera_repair_details" />
           <NavigationProperty Name="Documentary_Improve_Detail" Relationship="Self.FK__Documenta__docum__0D0FEE32" FromRole="Documentary" ToRole="Documentary_Improve_Detail" />
           <NavigationProperty Name="Documentary_big_maintain_details" Relationship="Self.FK__Documenta__docum__40F9A68C" FromRole="Documentary" ToRole="Documentary_big_maintain_details" />
           <NavigationProperty Name="Documentary_liquidation_details" Relationship="Self.FK__Documenta__docum__42E1EEFE" FromRole="Documentary" ToRole="Documentary_liquidation_details" />
@@ -3943,7 +3943,7 @@
           <NavigationProperty Name="Documentary_repair_details" Relationship="Self.FK__Documenta__docum__489AC854" FromRole="Documentary" ToRole="Documentary_repair_details" />
           <NavigationProperty Name="Documentary_revoke_details" Relationship="Self.FK__Documenta__docum__4A8310C6" FromRole="Documentary" ToRole="Documentary_revoke_details" />
           <NavigationProperty Name="Important_Documentary" Relationship="Self.FK__Important__docum__38EE7070" FromRole="Documentary" ToRole="Important_Documentary" />
-          <NavigationProperty Name="Supply_Documentary_Camera" Relationship="Self.FK__Supply_Do__docum__54968AE5" FromRole="Documentary" ToRole="Supply_Documentary_Camera" />
+          <NavigationProperty Name="Supply_Documentary_Camera" Relationship="Self.FK__Supply_Do__docum__53A266AC" FromRole="Documentary" ToRole="Supply_Documentary_Camera" />
           <NavigationProperty Name="Supply_Documentary_Equipment" Relationship="Self.FK__Supply_Do__docum__671F4F74" FromRole="Documentary" ToRole="Supply_Documentary_Equipment" />
         </EntityType>
         <EntityType Name="Documentary_big_maintain_details">
@@ -3976,9 +3976,9 @@
           <Property Name="note" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Documentary_camera_repair_status" Type="Int32" Nullable="false" />
           <Property Name="department_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__Documenta__depar__0A338187" FromRole="Documentary_camera_repair_details" ToRole="Department" />
-          <NavigationProperty Name="Documentary" Relationship="Self.FK__Documenta__docum__0B27A5C0" FromRole="Documentary_camera_repair_details" ToRole="Documentary" />
-          <NavigationProperty Name="Room" Relationship="Self.FK__Documenta__room___093F5D4E" FromRole="Documentary_camera_repair_details" ToRole="Room" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__Documenta__depar__093F5D4E" FromRole="Documentary_camera_repair_details" ToRole="Department" />
+          <NavigationProperty Name="Documentary" Relationship="Self.FK__Documenta__docum__0A338187" FromRole="Documentary_camera_repair_details" ToRole="Documentary" />
+          <NavigationProperty Name="Room" Relationship="Self.FK__Documenta__room___0B27A5C0" FromRole="Documentary_camera_repair_details" ToRole="Room" />
         </EntityType>
         <EntityType Name="Documentary_Improve_Detail">
           <Key>
@@ -4603,7 +4603,7 @@
           <Key>
             <PropertyRef Name="MaNhomTieuChi" />
           </Key>
-          <Property Name="MaNhomTieuChi" Type="Int32" Nullable="false" />
+          <Property Name="MaNhomTieuChi" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TenNhomTieuChi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="TieuChis" Relationship="Self.FK_TieuChi_NhomTieuChi" FromRole="NhomTieuChi" ToRole="TieuChi" />
         </EntityType>
@@ -4674,10 +4674,10 @@
           <Property Name="disk_status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="signal_loss_reason" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="note" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Camera_Acceptance" Relationship="Self.FK__Camera_Ac__room___68D28DBC" FromRole="Room" ToRole="Camera_Acceptance" />
+          <NavigationProperty Name="Camera_Acceptance" Relationship="Self.FK__Camera_Ac__room___69C6B1F5" FromRole="Room" ToRole="Camera_Acceptance" />
           <NavigationProperty Name="Department" Relationship="Self.FK__Room__department__50C5FA01" FromRole="Room" ToRole="Department" />
-          <NavigationProperty Name="Documentary_camera_repair_details" Relationship="Self.FK__Documenta__room___093F5D4E" FromRole="Room" ToRole="Documentary_camera_repair_details" />
-          <NavigationProperty Name="Supply_Documentary_Camera" Relationship="Self.FK__Supply_Do__room___53A266AC" FromRole="Room" ToRole="Supply_Documentary_Camera" />
+          <NavigationProperty Name="Documentary_camera_repair_details" Relationship="Self.FK__Documenta__room___0B27A5C0" FromRole="Room" ToRole="Documentary_camera_repair_details" />
+          <NavigationProperty Name="Supply_Documentary_Camera" Relationship="Self.FK__Supply_Do__room___54968AE5" FromRole="Room" ToRole="Supply_Documentary_Camera" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -4732,8 +4732,8 @@
           <Property Name="quantity_out" Type="Int32" Nullable="false" />
           <Property Name="supplyStatus" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="supply_documentary_status" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Documentary" Relationship="Self.FK__Supply_Do__docum__54968AE5" FromRole="Supply_Documentary_Camera" ToRole="Documentary" />
-          <NavigationProperty Name="Room" Relationship="Self.FK__Supply_Do__room___53A266AC" FromRole="Supply_Documentary_Camera" ToRole="Room" />
+          <NavigationProperty Name="Documentary" Relationship="Self.FK__Supply_Do__docum__53A266AC" FromRole="Supply_Documentary_Camera" ToRole="Documentary" />
+          <NavigationProperty Name="Room" Relationship="Self.FK__Supply_Do__room___54968AE5" FromRole="Supply_Documentary_Camera" ToRole="Room" />
           <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Do__suppl__558AAF1E" FromRole="Supply_Documentary_Camera" ToRole="Supply" />
         </EntityType>
         <EntityType Name="Supply_Documentary_Equipment">
@@ -5129,7 +5129,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Camera_Ac__docum__69C6B1F5">
+        <Association Name="FK__Camera_Ac__docum__68D28DBC">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
           <End Role="Camera_Acceptance" Type="Self.Camera_Acceptance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5141,7 +5141,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Camera_Ac__room___68D28DBC">
+        <Association Name="FK__Camera_Ac__room___69C6B1F5">
           <End Role="Room" Type="Self.Room" Multiplicity="1" />
           <End Role="Camera_Acceptance" Type="Self.Camera_Acceptance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5365,7 +5365,7 @@
               <PropertyRef Name="MaCongViec" />
             </Principal>
             <Dependent Role="DieuDong_NhanVien">
-              <PropertyRef Name="MaChucVuCu" />
+              <PropertyRef Name="MaChucVuMoi" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5377,7 +5377,7 @@
               <PropertyRef Name="MaCongViec" />
             </Principal>
             <Dependent Role="DieuDong_NhanVien">
-              <PropertyRef Name="MaChucVuMoi" />
+              <PropertyRef Name="MaChucVuCu" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5453,7 +5453,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Documenta__depar__0A338187">
+        <Association Name="FK__Documenta__depar__093F5D4E">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Documentary_camera_repair_details" Type="Self.Documentary_camera_repair_details" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5813,7 +5813,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Documenta__docum__0B27A5C0">
+        <Association Name="FK__Documenta__docum__0A338187">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
           <End Role="Documentary_camera_repair_details" Type="Self.Documentary_camera_repair_details" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5933,7 +5933,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__docum__54968AE5">
+        <Association Name="FK__Supply_Do__docum__53A266AC">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
           <End Role="Supply_Documentary_Camera" Type="Self.Supply_Documentary_Camera" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5971,7 +5971,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Documenta__room___093F5D4E">
+        <Association Name="FK__Documenta__room___0B27A5C0">
           <End Role="Room" Type="Self.Room" Multiplicity="1" />
           <End Role="Documentary_camera_repair_details" Type="Self.Documentary_camera_repair_details" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6571,7 +6571,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Supply_Do__room___53A266AC">
+        <Association Name="FK__Supply_Do__room___54968AE5">
           <End Role="Room" Type="Self.Room" Multiplicity="1" />
           <End Role="Supply_Documentary_Camera" Type="Self.Supply_Documentary_Camera" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6837,11 +6837,11 @@
             <End Role="BaoCaoFile" EntitySet="BaoCaoFiles" />
             <End Role="FileBaoCao" EntitySet="FileBaoCaos" />
           </AssociationSet>
-          <AssociationSet Name="FK__Camera_Ac__docum__69C6B1F5" Association="Self.FK__Camera_Ac__docum__69C6B1F5">
+          <AssociationSet Name="FK__Camera_Ac__docum__68D28DBC" Association="Self.FK__Camera_Ac__docum__68D28DBC">
             <End Role="Documentary" EntitySet="Documentaries" />
             <End Role="Camera_Acceptance" EntitySet="Camera_Acceptance" />
           </AssociationSet>
-          <AssociationSet Name="FK__Camera_Ac__room___68D28DBC" Association="Self.FK__Camera_Ac__room___68D28DBC">
+          <AssociationSet Name="FK__Camera_Ac__room___69C6B1F5" Association="Self.FK__Camera_Ac__room___69C6B1F5">
             <End Role="Room" EntitySet="Rooms" />
             <End Role="Camera_Acceptance" EntitySet="Camera_Acceptance" />
           </AssociationSet>
@@ -6945,7 +6945,7 @@
             <End Role="Department" EntitySet="Departments" />
             <End Role="Documentary_big_maintain_details" EntitySet="Documentary_big_maintain_details" />
           </AssociationSet>
-          <AssociationSet Name="FK__Documenta__depar__0A338187" Association="Self.FK__Documenta__depar__0A338187">
+          <AssociationSet Name="FK__Documenta__depar__093F5D4E" Association="Self.FK__Documenta__depar__093F5D4E">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Documentary_camera_repair_details" EntitySet="Documentary_camera_repair_details" />
           </AssociationSet>
@@ -7065,7 +7065,7 @@
             <End Role="DocumentaryType" EntitySet="DocumentaryTypes" />
             <End Role="Documentary" EntitySet="Documentaries" />
           </AssociationSet>
-          <AssociationSet Name="FK__Documenta__docum__0B27A5C0" Association="Self.FK__Documenta__docum__0B27A5C0">
+          <AssociationSet Name="FK__Documenta__docum__0A338187" Association="Self.FK__Documenta__docum__0A338187">
             <End Role="Documentary" EntitySet="Documentaries" />
             <End Role="Documentary_camera_repair_details" EntitySet="Documentary_camera_repair_details" />
           </AssociationSet>
@@ -7101,7 +7101,7 @@
             <End Role="Documentary" EntitySet="Documentaries" />
             <End Role="Important_Documentary" EntitySet="Important_Documentary" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__docum__54968AE5" Association="Self.FK__Supply_Do__docum__54968AE5">
+          <AssociationSet Name="FK__Supply_Do__docum__53A266AC" Association="Self.FK__Supply_Do__docum__53A266AC">
             <End Role="Documentary" EntitySet="Documentaries" />
             <End Role="Supply_Documentary_Camera" EntitySet="Supply_Documentary_Camera" />
           </AssociationSet>
@@ -7113,7 +7113,7 @@
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Documentary_big_maintain_details" EntitySet="Documentary_big_maintain_details" />
           </AssociationSet>
-          <AssociationSet Name="FK__Documenta__room___093F5D4E" Association="Self.FK__Documenta__room___093F5D4E">
+          <AssociationSet Name="FK__Documenta__room___0B27A5C0" Association="Self.FK__Documenta__room___0B27A5C0">
             <End Role="Room" EntitySet="Rooms" />
             <End Role="Documentary_camera_repair_details" EntitySet="Documentary_camera_repair_details" />
           </AssociationSet>
@@ -7313,7 +7313,7 @@
             <End Role="QuyetDinh" EntitySet="QuyetDinhs" />
             <End Role="TuyenDung_NhanVien" EntitySet="TuyenDung_NhanVien" />
           </AssociationSet>
-          <AssociationSet Name="FK__Supply_Do__room___53A266AC" Association="Self.FK__Supply_Do__room___53A266AC">
+          <AssociationSet Name="FK__Supply_Do__room___54968AE5" Association="Self.FK__Supply_Do__room___54968AE5">
             <End Role="Room" EntitySet="Rooms" />
             <End Role="Supply_Documentary_Camera" EntitySet="Supply_Documentary_Camera" />
           </AssociationSet>

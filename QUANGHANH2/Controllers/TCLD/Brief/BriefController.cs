@@ -1319,8 +1319,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
         }
 
-
-
         [HttpPost]
         public ActionResult ExportExcel()
         {
@@ -1340,11 +1338,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                     var mydata = (from p in db.NhanViens
                                   join p1 in db.HoSoes on p.MaNV equals p1.MaNV
-                                  join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
-                                  join p3 in db.Departments on p.MaPhongBan equals p3.department_id
+                                  join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV into cd_nv
+                                  join p3 in db.Departments on p.MaPhongBan equals p3.department_id into pb
                                   join p4 in db.NguoiUyQuyenLayHoSo_BaoHiem on p.MaUyQuyen equals p4.MaUyQuyen into pp
+                                  where p.MaTrangThai == 2
+                                  from p2 in cd_nv.DefaultIfEmpty()
+                                  from p3 in pb.DefaultIfEmpty()
                                   from p4 in pp.DefaultIfEmpty()
-                                  where p.MaTrangThai == 2 
                                   select new
                                   {
                                       stt = "1",
@@ -1551,268 +1551,268 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [Auther(RightID = "130")]
         [Route("phong-tcld/chung-chi/danh-sach-ho-so-trong/xuat-file-excel")]
         [HttpPost]
-        public ActionResult ExporTotExcel()
+        public ActionResult ExportToExcel()
         {
             string path = HostingEnvironment.MapPath("/excel/TCLD/Brief/Inside.xlsx");
             string saveAsPath = ("/excel/TCLD/Certificate/List/download/Hồ sơ trong.xlsx");
             FileInfo file = new FileInfo(path);
             using (ExcelPackage excelPackage = new ExcelPackage(file))
             {
-                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
-                ExcelWorksheet ws = excelWorkbook.Worksheets.First();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-                {
-                    List<InsideExcel> dic = new List<InsideExcel>();
+                //ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                //ExcelWorksheet ws = excelWorkbook.Worksheets.First();
+                //using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                //{
+                //    List<InsideExcel> dic = new List<InsideExcel>();
 
-                    List<NhanVien> listNhanVien = db.NhanViens.ToList();
-                    List<TrinhDo> listTrinhDo = db.TrinhDoes.ToList();
-                    List<HoSo> listHoSo = db.HoSoes.ToList();
+                //    List<NhanVien> listNhanVien = db.NhanViens.ToList();
+                //    List<TrinhDo> listTrinhDo = db.TrinhDoes.ToList();
+                //    List<HoSo> listHoSo = db.HoSoes.ToList();
 
-                    List<GiayTo> listGiayTo = db.GiayToes.ToList();
-                    List<ChiTiet_BangCap_GiayChungNhan> chiTiet_BangCap_GiayChungNhans = db.ChiTiet_BangCap_GiayChungNhan.ToList();
-                    List<BangCap_GiayChungNhan> bangCap_GiayChungNhans = db.BangCap_GiayChungNhan.ToList();
-                    List<ChungChi_NhanVien> listChungChiNhanVien = db.ChungChi_NhanVien.ToList();
-                    List<ChungChi> listChungChi = db.ChungChis.ToList();
-                    List<LichSuBoSungSYLL> listSYLL = new List<LichSuBoSungSYLL>();
-                    List<QuanHeGiaDinh> listQuanHeGiaDinh = db.QuanHeGiaDinhs.ToList();
-                    List<Truong> listTruong = db.Truongs.ToList();
-                    List<Nganh> listNganh = db.Nganhs.ToList();
-                    List<ChuyenNganh> listchuyenNganh = db.ChuyenNganhs.ToList();
-                    for (int i = 0; i < listNhanVien.Count(); i++)
-                    {
-                        if (listNhanVien[i].MaTrangThai != 2)
-                        {
-                            InsideExcel ie = new InsideExcel();
-                            ie.MaNV = listNhanVien[i].MaNV;
-                            ie.Ten = listNhanVien[i].Ten;
-                            ie.NgaySinh = listNhanVien[i].NgaySinh;
-                            ie.SoBHXH = listNhanVien[i].SoBHXH;
-                            ie.SoCMND = listNhanVien[i].SoCMND;
-                            ie.SoDienThoai = listNhanVien[i].SoDienThoai;
-                            ie.QueQuan = listNhanVien[i].QueQuan;
-                            ie.NoiOHienTai = listNhanVien[i].NoiOHienTai;
+                //    List<GiayTo> listGiayTo = db.GiayToes.ToList();
+                //    List<ChiTiet_BangCap_GiayChungNhan> chiTiet_BangCap_GiayChungNhans = db.ChiTiet_BangCap_GiayChungNhan.ToList();
+                //    List<BangCap_GiayChungNhan> bangCap_GiayChungNhans = db.BangCap_GiayChungNhan.ToList();
+                //    List<ChungChi_NhanVien> listChungChiNhanVien = db.ChungChi_NhanVien.ToList();
+                //    List<ChungChi> listChungChi = db.ChungChis.ToList();
+                //    List<LichSuBoSungSYLL> listSYLL = new List<LichSuBoSungSYLL>();
+                //    List<QuanHeGiaDinh> listQuanHeGiaDinh = db.QuanHeGiaDinhs.ToList();
+                //    List<Truong> listTruong = db.Truongs.ToList();
+                //    List<Nganh> listNganh = db.Nganhs.ToList();
+                //    List<ChuyenNganh> listchuyenNganh = db.ChuyenNganhs.ToList();
+                //    for (int i = 0; i < listNhanVien.Count(); i++)
+                //    {
+                //        if (listNhanVien[i].MaTrangThai == 1)
+                //        {
+                //            InsideExcel ie = new InsideExcel();
+                //            ie.MaNV = listNhanVien[i].MaNV;
+                //            ie.Ten = listNhanVien[i].Ten;
+                //            ie.NgaySinh = listNhanVien[i].NgaySinh;
+                //            ie.SoBHXH = listNhanVien[i].SoBHXH;
+                //            ie.SoCMND = listNhanVien[i].SoCMND;
+                //            ie.SoDienThoai = listNhanVien[i].SoDienThoai;
+                //            ie.QueQuan = listNhanVien[i].QueQuan;
+                //            ie.NoiOHienTai = listNhanVien[i].NoiOHienTai;
 
-                            foreach (var hs in listHoSo)
-                            {
-                                if (hs.MaNV.Equals(listNhanVien[i].MaNV))
-                                {
-                                    ie.NgayNhanHoSo = hs.NgayNhanHoSo;
-                                    ie.NguoiGiaoHoSo = hs.NguoiGiaoHoSo;
-                                    ie.NgayNhanHoSo = hs.NgayNhanHoSo;
-                                    ie.NguoiGiaoHoSo = hs.NguoiGiaoHoSo;
-                                    ie.NguoiGiuHoSo = hs.NguoiGiuHoSo;
-                                    ie.CamKetTuyenDung = hs.CamKetTuyenDung;
-                                    ie.QuyetDinhTiepNhanDVC = hs.QuyetDinhTiepNhanDVC;
-                                    ie.QDChamDutHopDongDVC = hs.QDChamDutHopDongDVC;
-                                    ie.NLDHocTheoChiTieuCTDT = hs.NLDHocTheoChiTieuCTDT;
-                                    ie.NguoiBanGiaoBangNhapKho = hs.NguoiBanGiaoBangNhapKho;
-                                    ie.KieuQuyetDinhTiepNhanDVC = hs.QuyetDinhTiepNhanDVC;
-                                    ie.NgayQuyetDinhTiepNhanDVC = hs.NgayQuyetDinhTuyenDung;
-                                    ie.NgayDiLam = hs.NgayDiLam;
-                                    ie.DonViKyQuyetDinhTiepNhanDVC = hs.DonViKyQuyetDinhTiepNhan;
-                                    ie.KieuQuyetDinhChamDutDVC = hs.QDChamDutHopDongDVC;
-                                    ie.NgayQuyetDinhChamDutDVC = hs.NgayQuyetDinhChamDut;
-                                    ie.NgayChamDutDVC = hs.NgayChamDut;
-                                    ie.DonViKyQuyetDinhChamDutDVC = hs.DonViKyQuyetDinhChamDut;
-
-
-                                }
-                            }
-
-                            foreach (var gt in listGiayTo)
-                            {
-                                if (gt.MaNV.Equals(listNhanVien[i].MaNV))
-                                {
-                                    ie.giayTo.Add(gt);
-                                }
-
-                            }
-                            foreach (var ctbcgcn in chiTiet_BangCap_GiayChungNhans)
-                            {
-                                if (ctbcgcn.MaNV.Equals(listNhanVien[i].MaNV))
-                                {
-                                    ie.ChiTietBangCapGiayChungNhan.Add(ctbcgcn);
-
-                                }
-                            }
-                            foreach (var ccnv in listChungChiNhanVien)
-                            {
-                                if (ccnv.MaNV.Equals(listNhanVien[i]))
-                                {
-                                    ie.ChungChiNhanVien.Add(ccnv);
-                                }
-                            }
-                            foreach (var qhgd in listQuanHeGiaDinh)
-                            {
-                                if (qhgd.MaNV.Equals(listNhanVien[i]))
-                                {
-                                    ie.quanHeGiaDinh.Add(qhgd);
-                                }
-                            }
-                            foreach (var syll in listSYLL)
-                            {
-                                if (syll.MaNV.Equals(listNhanVien[i]))
-                                {
-                                    ie.syll.Add(syll);
-                                }
-                            }
-                            foreach (var td in listTrinhDo)
-                            {
-                                if (td.MaTrinhDo == listNhanVien[i].MaTrinhDo)
-                                {
-                                    ie.TrinhDoHocVan = td.TenTrinhDo;
-                                }
-                                else
-                                {
-                                    ie.TrinhDoHocVan = "";
-                                }
-                            }
-                            dic.Add(ie);
-                        }
+                //            foreach (var hs in listHoSo)
+                //            {
+                //                if (hs.MaNV.Equals(listNhanVien[i].MaNV))
+                //                {
+                //                    ie.NgayNhanHoSo = hs.NgayNhanHoSo;
+                //                    ie.NguoiGiaoHoSo = hs.NguoiGiaoHoSo;
+                //                    ie.NgayNhanHoSo = hs.NgayNhanHoSo;
+                //                    ie.NguoiGiaoHoSo = hs.NguoiGiaoHoSo;
+                //                    ie.NguoiGiuHoSo = hs.NguoiGiuHoSo;
+                //                    ie.CamKetTuyenDung = hs.CamKetTuyenDung;
+                //                    ie.QuyetDinhTiepNhanDVC = hs.QuyetDinhTiepNhanDVC;
+                //                    ie.QDChamDutHopDongDVC = hs.QDChamDutHopDongDVC;
+                //                    ie.NLDHocTheoChiTieuCTDT = hs.NLDHocTheoChiTieuCTDT;
+                //                    ie.NguoiBanGiaoBangNhapKho = hs.NguoiBanGiaoBangNhapKho;
+                //                    ie.KieuQuyetDinhTiepNhanDVC = hs.QuyetDinhTiepNhanDVC;
+                //                    ie.NgayQuyetDinhTiepNhanDVC = hs.NgayQuyetDinhTuyenDung;
+                //                    ie.NgayDiLam = hs.NgayDiLam;
+                //                    ie.DonViKyQuyetDinhTiepNhanDVC = hs.DonViKyQuyetDinhTiepNhan;
+                //                    ie.KieuQuyetDinhChamDutDVC = hs.QDChamDutHopDongDVC;
+                //                    ie.NgayQuyetDinhChamDutDVC = hs.NgayQuyetDinhChamDut;
+                //                    ie.NgayChamDutDVC = hs.NgayChamDut;
+                //                    ie.DonViKyQuyetDinhChamDutDVC = hs.DonViKyQuyetDinhChamDut;
 
 
-                    }
+                //                }
+                //            }
+
+                //            foreach (var gt in listGiayTo)
+                //            {
+                //                if (gt.MaNV.Equals(listNhanVien[i].MaNV))
+                //                {
+                //                    ie.giayTo.Add(gt);
+                //                }
+
+                //            }
+                //            foreach (var ctbcgcn in chiTiet_BangCap_GiayChungNhans)
+                //            {
+                //                if (ctbcgcn.MaNV.Equals(listNhanVien[i].MaNV))
+                //                {
+                //                    ie.ChiTietBangCapGiayChungNhan.Add(ctbcgcn);
+
+                //                }
+                //            }
+                //            foreach (var ccnv in listChungChiNhanVien)
+                //            {
+                //                if (ccnv.MaNV.Equals(listNhanVien[i]))
+                //                {
+                //                    ie.ChungChiNhanVien.Add(ccnv);
+                //                }
+                //            }
+                //            foreach (var qhgd in listQuanHeGiaDinh)
+                //            {
+                //                if (qhgd.MaNV.Equals(listNhanVien[i]))
+                //                {
+                //                    ie.quanHeGiaDinh.Add(qhgd);
+                //                }
+                //            }
+                //            foreach (var syll in listSYLL)
+                //            {
+                //                if (syll.MaNV.Equals(listNhanVien[i]))
+                //                {
+                //                    ie.syll.Add(syll);
+                //                }
+                //            }
+                //            foreach (var td in listTrinhDo)
+                //            {
+                //                if (td.MaTrinhDo == listNhanVien[i].MaTrinhDo)
+                //                {
+                //                    ie.TrinhDoHocVan = td.TenTrinhDo;
+                //                }
+                //                else
+                //                {
+                //                    ie.TrinhDoHocVan = "";
+                //                }
+                //            }
+                //            dic.Add(ie);
+                //        }
 
 
-
-                    int rowStart = 3;
-                    foreach (var l in dic)
-                    {
-                        ws.Cells[string.Format("A{0}", rowStart)].Value = l.MaNV;
-                        ws.Cells[string.Format("B{0}", rowStart)].Value = l.Ten;
-
-                        ws.Cells[string.Format("C{0}", rowStart)].Value = convertDate(l.NgaySinh.ToString());
-
-
-                        ws.Cells[string.Format("D{0}", rowStart)].Value = l.SoBHXH;
-                        ws.Cells[string.Format("E{0}", rowStart)].Value = l.SoDienThoai;
-                        ws.Cells[string.Format("F{0}", rowStart)].Value = l.QueQuan;
-                        ws.Cells[string.Format("G{0}", rowStart)].Value = l.NoiOHienTai;
-                        ws.Cells[string.Format("H{0}", rowStart)].Value = l.TrinhDoHocVan;
-                        ws.Cells[string.Format("I{0}", rowStart)].Value = l.NguoiGiaoHoSo;
-                        ws.Cells[string.Format("J{0}", rowStart)].Value = convertDate(l.NgayNhanHoSo.ToString());
-                        ws.Cells[string.Format("K{0}", rowStart)].Value = l.NguoiGiuHoSo;
-                        ws.Cells[string.Format("L{0}", rowStart)].Value = l.SoCMND;
-                        ws.Cells[string.Format("M{0}", rowStart)].Value = l.CamKetTuyenDung;
-                        ws.Cells[string.Format("N{0}", rowStart)].Value = l.NguoiBanGiaoBangNhapKho;
-                        ws.Cells[string.Format("O{0}", rowStart)].Value = l.QuyetDinhTiepNhanDVC;
-                        ws.Cells[string.Format("P{0}", rowStart)].Value = convertDate(l.NgayQuyetDinhTiepNhanDVC.ToString());
-                        ws.Cells[string.Format("Q{0}", rowStart)].Value = convertDate(l.NgayDiLam.ToString());
-                        ws.Cells[string.Format("R{0}", rowStart)].Value = l.DonViKyQuyetDinhTiepNhanDVC;
-                        ws.Cells[string.Format("S{0}", rowStart)].Value = l.KieuQuyetDinhChamDutDVC;
-                        ws.Cells[string.Format("T{0}", rowStart)].Value = convertDate(l.NgayQuyetDinhChamDutDVC.ToString());
-                        ws.Cells[string.Format("U{0}", rowStart)].Value = convertDate(l.NgayChamDutDVC.ToString());
-                        ws.Cells[string.Format("V{0}", rowStart)].Value = l.DonViKyQuyetDinhChamDutDVC;
-                        int rowGT = rowStart;
-                        foreach (var gt in listGiayTo)
-                        {
-                            if (gt.MaNV.Equals(l.MaNV))
-                            {
-                                ws.Cells[string.Format("W{0}", rowGT)].Value = gt.TenGiayTo;
-                                ws.Cells[string.Format("X{0}", rowGT)].Value = gt.KieuGiayTo;
-                                rowGT++;
-                            }
-
-                        }
-                        int rowBCGCN = rowStart;
-                        foreach (var ctbc in chiTiet_BangCap_GiayChungNhans)
-                        {
-                            if (ctbc.MaNV.Equals(l.MaNV))
-                            {
-                                ws.Cells[string.Format("Y{0}", rowBCGCN)].Value = ctbc.SoHieu;
-                                foreach (var bc in bangCap_GiayChungNhans)
-                                {
-                                    if (bc.MaBangCap_GiayChungNhan == ctbc.MaBangCap_GiayChungNhan)
-                                    {
-                                        ws.Cells[string.Format("Z{0}", rowBCGCN)].Value = bc.Loai;
-                                        ws.Cells[string.Format("AA{0}", rowBCGCN)].Value = bc.TenBangCap;
-                                        ws.Cells[string.Format("AB{0}", rowBCGCN)].Value = bc.KieuBangCap;
-                                        foreach (var t in listTruong)
-                                        {
-                                            if (t.MaTruong == bc.MaTruong)
-                                            {
-                                                ws.Cells[string.Format("AC{0}", rowBCGCN)].Value = t.TenTruong;
-                                            }
-                                        }
-                                        foreach (var cn in listchuyenNganh)
-                                        {
-                                            if (cn.MaChuyenNganh == cn.MaChuyenNganh)
-                                            {
-                                                ws.Cells[string.Format("AD{0}", rowBCGCN)].Value = cn.TenChuyenNganh;
-                                                foreach (var n in listNganh)
-                                                {
-                                                    if (n.MaNganh == cn.MaNganh)
-                                                    {
-                                                        ws.Cells[string.Format("AE{0}", rowBCGCN)].Value = n.TenNganh;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        ws.Cells[string.Format("AG{0}", rowBCGCN)].Value = bc.ThoiHan;
-                                    }
-                                }
-                                ws.Cells[string.Format("AF{0}", rowBCGCN)].Value = ctbc.NgayCap;
-                                rowBCGCN++;
-                            }
-                        }
-
-                        int rowCc = rowStart++;
-                        foreach (var ccnv in listChungChiNhanVien)
-                        {
-                            if (ccnv.MaNV == l.MaNV)
-                            {
-                                ws.Cells[string.Format("AH{0}", rowCc)].Value = ccnv.SoHieu;
-                                foreach (var cc in listChungChi)
-                                {
-                                    if (cc.MaChungChi == ccnv.MaChungChi)
-                                    {
-                                        ws.Cells[string.Format("AI{0}", rowCc)].Value = cc.TenChungChi;
-                                        ws.Cells[string.Format("AJ{0}", rowCc)].Value = cc.KieuChungChi;
-                                    }
-                                }
-                                ws.Cells[string.Format("AK{0}", rowCc)].Value = ccnv.NgayCap;
+                //    }
 
 
 
-                                rowCc++;
-                            }
+                //    int rowStart = 3;
+                //    foreach (var l in dic)
+                //    {
+                //        ws.Cells[string.Format("A{0}", rowStart)].Value = l.MaNV;
+                //        ws.Cells[string.Format("B{0}", rowStart)].Value = l.Ten;
 
-                        }
-                        int rowqhgd = rowStart;
-                        foreach (var qhgd in listQuanHeGiaDinh)
-                        {
-                            if (qhgd.MaNV.Equals(qhgd.MaNV))
-                            {
-                                ws.Cells[string.Format("AL{0}", rowqhgd)].Value = qhgd.LoaiGiaDinh;
-                                ws.Cells[string.Format("AM{0}", rowqhgd)].Value = qhgd.MoiQuanHe;
-                                ws.Cells[string.Format("AN{0}", rowqhgd)].Value = qhgd.HoTen;
-                                ws.Cells[string.Format("AO{0}", rowqhgd)].Value = convertDate(qhgd.NgaySinh.ToString());
-                                ws.Cells[string.Format("AP{0}", rowqhgd)].Value = qhgd.LyLich;
-                                rowqhgd++;
-                            }
+                //        ws.Cells[string.Format("C{0}", rowStart)].Value = convertDate(l.NgaySinh.ToString());
 
 
-                        }
+                //        ws.Cells[string.Format("D{0}", rowStart)].Value = l.SoBHXH;
+                //        ws.Cells[string.Format("E{0}", rowStart)].Value = l.SoDienThoai;
+                //        ws.Cells[string.Format("F{0}", rowStart)].Value = l.QueQuan;
+                //        ws.Cells[string.Format("G{0}", rowStart)].Value = l.NoiOHienTai;
+                //        ws.Cells[string.Format("H{0}", rowStart)].Value = l.TrinhDoHocVan;
+                //        ws.Cells[string.Format("I{0}", rowStart)].Value = l.NguoiGiaoHoSo;
+                //        ws.Cells[string.Format("J{0}", rowStart)].Value = convertDate(l.NgayNhanHoSo.ToString());
+                //        ws.Cells[string.Format("K{0}", rowStart)].Value = l.NguoiGiuHoSo;
+                //        ws.Cells[string.Format("L{0}", rowStart)].Value = l.SoCMND;
+                //        ws.Cells[string.Format("M{0}", rowStart)].Value = l.CamKetTuyenDung;
+                //        ws.Cells[string.Format("N{0}", rowStart)].Value = l.NguoiBanGiaoBangNhapKho;
+                //        ws.Cells[string.Format("O{0}", rowStart)].Value = l.QuyetDinhTiepNhanDVC;
+                //        ws.Cells[string.Format("P{0}", rowStart)].Value = convertDate(l.NgayQuyetDinhTiepNhanDVC.ToString());
+                //        ws.Cells[string.Format("Q{0}", rowStart)].Value = convertDate(l.NgayDiLam.ToString());
+                //        ws.Cells[string.Format("R{0}", rowStart)].Value = l.DonViKyQuyetDinhTiepNhanDVC;
+                //        ws.Cells[string.Format("S{0}", rowStart)].Value = l.KieuQuyetDinhChamDutDVC;
+                //        ws.Cells[string.Format("T{0}", rowStart)].Value = convertDate(l.NgayQuyetDinhChamDutDVC.ToString());
+                //        ws.Cells[string.Format("U{0}", rowStart)].Value = convertDate(l.NgayChamDutDVC.ToString());
+                //        ws.Cells[string.Format("V{0}", rowStart)].Value = l.DonViKyQuyetDinhChamDutDVC;
+                //        int rowGT = rowStart;
+                //        foreach (var gt in listGiayTo)
+                //        {
+                //            if (gt.MaNV.Equals(l.MaNV))
+                //            {
+                //                ws.Cells[string.Format("W{0}", rowGT)].Value = gt.TenGiayTo;
+                //                ws.Cells[string.Format("X{0}", rowGT)].Value = gt.KieuGiayTo;
+                //                rowGT++;
+                //            }
 
-                        int rowListSYLL = rowStart++;
-                        foreach (var syll in listSYLL)
-                        {
-                            if (syll.MaNV.Equals(l.MaNV))
-                            {
-                                ws.Cells[string.Format("AQ{0}", rowListSYLL)].Value = syll.NamBoSung;
-                                rowListSYLL++;
-                            }
+                //        }
+                //        int rowBCGCN = rowStart;
+                //        foreach (var ctbc in chiTiet_BangCap_GiayChungNhans)
+                //        {
+                //            if (ctbc.MaNV.Equals(l.MaNV))
+                //            {
+                //                ws.Cells[string.Format("Y{0}", rowBCGCN)].Value = ctbc.SoHieu;
+                //                foreach (var bc in bangCap_GiayChungNhans)
+                //                {
+                //                    if (bc.MaBangCap_GiayChungNhan == ctbc.MaBangCap_GiayChungNhan)
+                //                    {
+                //                        ws.Cells[string.Format("Z{0}", rowBCGCN)].Value = bc.Loai;
+                //                        ws.Cells[string.Format("AA{0}", rowBCGCN)].Value = bc.TenBangCap;
+                //                        ws.Cells[string.Format("AB{0}", rowBCGCN)].Value = bc.KieuBangCap;
+                //                        foreach (var t in listTruong)
+                //                        {
+                //                            if (t.MaTruong == bc.MaTruong)
+                //                            {
+                //                                ws.Cells[string.Format("AC{0}", rowBCGCN)].Value = t.TenTruong;
+                //                            }
+                //                        }
+                //                        foreach (var cn in listchuyenNganh)
+                //                        {
+                //                            if (cn.MaChuyenNganh == cn.MaChuyenNganh)
+                //                            {
+                //                                ws.Cells[string.Format("AD{0}", rowBCGCN)].Value = cn.TenChuyenNganh;
+                //                                foreach (var n in listNganh)
+                //                                {
+                //                                    if (n.MaNganh == cn.MaNganh)
+                //                                    {
+                //                                        ws.Cells[string.Format("AE{0}", rowBCGCN)].Value = n.TenNganh;
+                //                                    }
+                //                                }
+                //                            }
+                //                        }
+                //                        ws.Cells[string.Format("AG{0}", rowBCGCN)].Value = bc.ThoiHan;
+                //                    }
+                //                }
+                //                ws.Cells[string.Format("AF{0}", rowBCGCN)].Value = ctbc.NgayCap;
+                //                rowBCGCN++;
+                //            }
+                //        }
 
-                        }
+                //        int rowCc = rowStart++;
+                //        foreach (var ccnv in listChungChiNhanVien)
+                //        {
+                //            if (ccnv.MaNV == l.MaNV)
+                //            {
+                //                ws.Cells[string.Format("AH{0}", rowCc)].Value = ccnv.SoHieu;
+                //                foreach (var cc in listChungChi)
+                //                {
+                //                    if (cc.MaChungChi == ccnv.MaChungChi)
+                //                    {
+                //                        ws.Cells[string.Format("AI{0}", rowCc)].Value = cc.TenChungChi;
+                //                        ws.Cells[string.Format("AJ{0}", rowCc)].Value = cc.KieuChungChi;
+                //                    }
+                //                }
+                //                ws.Cells[string.Format("AK{0}", rowCc)].Value = ccnv.NgayCap;
 
-                        int[] arr = { rowGT, rowBCGCN, rowCc, rowqhgd, rowListSYLL };
-                        rowStart = arr.Max();
-
-                    }
 
 
+                //                rowCc++;
+                //            }
 
-                }
+                //        }
+                //        int rowqhgd = rowStart;
+                //        foreach (var qhgd in listQuanHeGiaDinh)
+                //        {
+                //            if (qhgd.MaNV.Equals(qhgd.MaNV))
+                //            {
+                //                ws.Cells[string.Format("AL{0}", rowqhgd)].Value = qhgd.LoaiGiaDinh;
+                //                ws.Cells[string.Format("AM{0}", rowqhgd)].Value = qhgd.MoiQuanHe;
+                //                ws.Cells[string.Format("AN{0}", rowqhgd)].Value = qhgd.HoTen;
+                //                ws.Cells[string.Format("AO{0}", rowqhgd)].Value = convertDate(qhgd.NgaySinh.ToString());
+                //                ws.Cells[string.Format("AP{0}", rowqhgd)].Value = qhgd.LyLich;
+                //                rowqhgd++;
+                //            }
+
+
+                //        }
+
+                //        int rowListSYLL = rowStart++;
+                //        foreach (var syll in listSYLL)
+                //        {
+                //            if (syll.MaNV.Equals(l.MaNV))
+                //            {
+                //                ws.Cells[string.Format("AQ{0}", rowListSYLL)].Value = syll.NamBoSung;
+                //                rowListSYLL++;
+                //            }
+
+                //        }
+
+                //        int[] arr = { rowGT, rowBCGCN, rowCc, rowqhgd, rowListSYLL };
+                //        rowStart = arr.Max();
+
+                    //}
+
+
+
+                //}
                 excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
             }
 

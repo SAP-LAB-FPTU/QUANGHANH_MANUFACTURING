@@ -315,15 +315,38 @@ namespace QUANGHANH2.Controllers.TCLD
 
             }
         }
+
+        public class DisplayBangCap : BangCap_GiayChungNhan
+        {
+            public string TenDisplay { get; set; }
+            public string TenTrinhDo { get; set; }
+            public string TenTruong { get; set; }
+            public string TenChuyenNganh { get; set; }
+        }
         //Set dropdown for Diploma's Employee
         public void getDataSelectDiplomaEmployee()
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                List<BangCap_GiayChungNhan> listdata_bangcap = db.BangCap_GiayChungNhan.ToList<BangCap_GiayChungNhan>();
+                string query = @"select b.*, t.TenTrinhDo, tr.TenTruong, cn.TenChuyenNganh from BangCap_GiayChungNhan b
+                         join TrinhDo t on b.MaTrinhDo = t.MaTrinhDo
+                         join Truong tr on b.MaTruong = tr.MaTruong
+                         join ChuyenNganh cn on b.MaChuyenNganh = cn.MaChuyenNganh";
+                List<DisplayBangCap> listdata_bangcap = db.Database.SqlQuery<DisplayBangCap>(query).ToList();
+                foreach(var item in listdata_bangcap)
+                {
+                    item.TenDisplay = item.TenBangCap + " - " + item.TenChuyenNganh + " - " + item.TenTruong + " - " + item.TenTrinhDo + " - " + item.KieuBangCap + " - " + item.Loai;
+                    if (item.ThoiHan.Equals("-1"))
+                    {
+                        item.TenDisplay += " - Vĩnh viễn";
+                    }else
+                    {
+                        item.TenDisplay += " - " + item.ThoiHan + " tháng";
+                    }
+                }
                 List<NhanVien> listdata_nv = db.NhanViens.ToList<NhanVien>();
                 var result = listdata_nv.Where(s => s.MaTrangThai != 2);
-                SelectList listSelect_bangcap = new SelectList(listdata_bangcap, "MaBangCap_GiayChungNhan", "TenBangCap");
+                SelectList listSelect_bangcap = new SelectList(listdata_bangcap, "MaBangCap_GiayChungNhan", "TenDisplay");
                 SelectList listSelect_nhanvien = new SelectList(result, "MaNV", "MaNV");
                 ViewBag.listSelect_nhanvien = listSelect_nhanvien;
                 ViewBag.listSelect_bangcap = listSelect_bangcap;

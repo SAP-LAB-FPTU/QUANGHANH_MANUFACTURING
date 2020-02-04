@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div>
-                        <a class="btn btn-small blue darken-2 btn-mg" id="export_excel_brief">Xuất ra file excel</a>
+                        <a class="btn btn-small blue darken-2" id="export_excel_brief">Xuất ra file excel</a>
                     </div>
 
                     <br />
@@ -248,7 +248,7 @@
                         },
 
                     },
-              
+
                      "drawCallback": function (settings) {
                  ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
                                   $("#pre-load").hide("slow", function () {
@@ -304,7 +304,7 @@
       		  });
  //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
                     },
-            
+
             });
         });
 
@@ -312,7 +312,7 @@
             var dataTable = $('#equipmentTable').DataTable();
              $("#searchButton_Doc").click(function () {
                  dataTable.ajax.reload();
-               
+
             });
         });
         //gọi popup khi ấn sửa
@@ -406,9 +406,8 @@
             }
         }
     </script>
-}
-<!---------------------------------------------------------------------------------->
-<script>
+    <!---------------------------------------------------------------------------------->
+    <script>
     var datatable_inside, stt;
     $(document).ready(function () {
         datatable_inside = $('#inside_table').on('preXhr.dt', function (e, settings, data) {
@@ -520,23 +519,53 @@
             return (d);
         }
     }
-    $('#export_excel_brief').click(function () {
-        $('pre-load').show();
+
+    //$('#export_excel_brief').click(function () {
+    //    $('#pre-load').show();
+    //    $.ajax({
+    //        type: 'POST',
+    //        url: '/Brief/ExporToExcel',
+    //        dataType: 'json',
+    //        success: function (response) {
+    //            if (response.success) {
+    //                window.location.href = response.location;
+    //                $("#pre-load").hide("slow", function () { });
+
+    //            } else {
+    //                alert("Lỗi khi tải file");
+    //            }
+    //        }
+    //    });
+    //});
+
+    function exportExcel() {
         $.ajax({
             type: 'POST',
             url: '/phong-tcld/chung-chi/danh-sach-ho-so-trong/xuat-file-excel',
             dataType: 'json',
             success: function (response) {
-                if (response.success) {
-                    window.location.href = response.location;
-                    $("#pre-load").hide("slow", function () { });
+               if (response.success) {
+        //Tải file excel về theo như location được gửi về từ controller
+        window.location.href = response.location;
+        $("#pre-load").hide("slow", function () {
+            });
+            } else {
+            alert("error");
+            }
 
-                } else {
-                    alert("Lỗi khi tải file");
-                }
             }
         });
-        $('pre-load').hide();
+    }
+
+    $('#export_excel_brief').click(function (e) {
+        $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+        e.preventDefault();
+        exportExcel();
     });
-</script>
+
+
+    </script>
+}
 <!----------------------------------------------------Long----------------------------------->
