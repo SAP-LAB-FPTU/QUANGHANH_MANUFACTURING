@@ -72,13 +72,14 @@ namespace QUANGHANH2.Controllers.DK
 
                     List<TaiNanDB> listTainan = (from tainan in db.TaiNans
                                                  join nhanvien in db.NhanViens on tainan.MaNV equals nhanvien.MaNV
-                                                 join depart in db.Departments on nhanvien.MaPhongBan equals depart.department_id
+                                                 join depart in db.Departments on nhanvien.MaPhongBan equals depart.department_id into output
+                                                 from a in output.DefaultIfEmpty()
                                                  select new TaiNanDB
                                                  {
                                                      MaTaiNan = tainan.MaTaiNan,
                                                      MaNV = tainan.MaNV,
                                                      Ten = nhanvien.Ten,
-                                                     department_name = depart.department_name,
+                                                     department_name = a.department_name == null ? "" : a.department_name,
                                                      LyDo = tainan.LyDo,
                                                      Loai = tainan.Loai,
                                                      Ca_Name = tainan.Ca == 1 ? "CA 1" : tainan.Ca == 2 ? "CA 2" : "CA 3",
@@ -90,13 +91,14 @@ namespace QUANGHANH2.Controllers.DK
 
                     int totalrows = (from tainan in db.TaiNans
                                      join nhanvien in db.NhanViens on tainan.MaNV equals nhanvien.MaNV
-                                     join depart in db.Departments on nhanvien.MaPhongBan equals depart.department_id
+                                     join depart in db.Departments on nhanvien.MaPhongBan equals depart.department_id into output
+                                     from a in output.DefaultIfEmpty()
                                      select new TaiNanDB
                                      {
                                          MaTaiNan = tainan.MaTaiNan,
                                          MaNV = tainan.MaNV,
                                          Ten = nhanvien.Ten,
-                                         department_name = depart.department_name,
+                                         department_name = a.department_name == null ? "" : a.department_name,
                                          LyDo = tainan.LyDo,
                                          Loai = tainan.Loai,
                                          Ca_Name = tainan.Ca == 1 ? "CA 1" : tainan.Ca == 2 ? "CA 2" : "CA 3",
