@@ -73,23 +73,19 @@ namespace QUANGHANH2.Controllers.TCLD
             }
             query = query.Substring(0, query.Length - 5);
 
-            List<QuyetDinhLink> searchList = db.Database.SqlQuery<QuyetDinhLink>(query,
+            List<QuyetDinhLink> searchList = db.Database.SqlQuery<QuyetDinhLink>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                 new SqlParameter("NgayQD", dateQDFixed),
                 new SqlParameter("NgayCD", dateCDFixed),
                 new SqlParameter("SoQD", '%' + SoQuyetDinh + '%')
                 ).ToList();
 
-            //List<QuyetDinhLink> searchList = db.Database.SqlQuery<QuyetDinhLink>("select q.MaQuyetDinh, q.SoQuyetDinh, q.NgayQuyetDinh, cd.LoaiChamDut, cd.NgayChamDut from QuyetDinh q,ChamDut_NhanVien cd where q.MaQuyetDinh = cd.MaQuyetDinh and cd.LoaiChamDut is not null").ToList();
-            Console.WriteLine();
+            int totalrows = db.Database.SqlQuery<int>(query.Replace("q.*, cd.MaNV,cd.LoaiChamDut, cd.NgayChamDut", "count(cd.NgayChamDut)"),
+                new SqlParameter("NgayQD", dateQDFixed),
+                new SqlParameter("NgayCD", dateCDFixed),
+                new SqlParameter("SoQD", '%' + SoQuyetDinh + '%')
+                ).FirstOrDefault();
 
-            int totalrows = searchList.Count;
-            int totalrowsafterfiltering = searchList.Count;
-            //sorting
-            searchList = searchList.OrderBy(sortColumnName + " " + sortDirection).ToList<QuyetDinhLink>();
-            //paging
-            searchList = searchList.Skip(start).Take(length).ToList<QuyetDinhLink>();
-
-            return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
 
         }
 
