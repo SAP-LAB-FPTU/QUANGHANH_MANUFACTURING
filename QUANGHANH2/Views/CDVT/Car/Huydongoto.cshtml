@@ -133,20 +133,20 @@
                     <div class="left" style="text-align:left !important">
 
                         @{
-                                if (right.Contains("11"))
-                                {
-                                    <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')"><i class="fa fa-plus"></i> Thêm</a>
-                                    <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" @*onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')*@><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
-                                }
-                                if (right.Contains("10"))
-                                {
-                                    <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
-                                }
-                                if (right.Contains("2"))
-                                {
-                                    @*<a class="waves-effect waves-light btn-small blue modal-trigger" href="#kiemdinh">Cập nhật ngày kiểm định</a>*@
+                            if (right.Contains("11"))
+                            {
+                                <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd" onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')"><i class="fa fa-plus"></i> Thêm</a>
+                                <a class="waves-effect waves-light btn-small blue modal-trigger" data-target="myadd3" @*onclick="PopupForm('@Url.Action("AddOrEdit","Hoatdong")')*@><i class="fa fa-plus"></i> Thêm nhóm thiết bị</a>
+                            }
+                            if (right.Contains("10"))
+                            {
+                                <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
+                            }
+                            if (right.Contains("2"))
+                            {
+                                @*<a class="waves-effect waves-light btn-small blue modal-trigger" href="#kiemdinh">Cập nhật ngày kiểm định</a>*@
 
-                                }
+                            }
 
                         }
                     </div>
@@ -545,7 +545,6 @@
 
 @section scripts{
     <script>
-
         //export fuction
         $("#export-button").click(function () {
             $("#pre-load").show();
@@ -561,7 +560,7 @@
 
         var Popup, dataTable, bol,bol2;
         @{
-            var hihi = right.Contains("4");
+            var hihi = right.Contains("12");
             var hehe = right.Contains("5");
         }
         bol = @hihi.ToString().ToLower();
