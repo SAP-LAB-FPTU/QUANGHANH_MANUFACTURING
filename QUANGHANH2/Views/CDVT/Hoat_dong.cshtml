@@ -142,7 +142,6 @@
                                 if (item.Equals("3"))
                                 {
                                     <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
-                                    <a class="waves-effect waves-light btn-small blue modal-trigger" id="export2-button">Xuất ra Excel theo từng loại thiết bị</a>
 
                                 }
                                 if (item.Equals("2"))
@@ -598,9 +597,19 @@
             $.ajax({
                 type: "POST",
                 url: "/phong-cdvt/huy-dong/export",
-                cache: false
+                cache: false,
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.location;
+                        $("#pre-load").hide("slow", function () {
+                        });
+
+                    } else {
+                        alert("error");
+                    }
+                }
             }).done(function () {
-                window.location.href = "/excel/CDVT/download/baocaohoatdong.xlsx";
+                //window.location.href = "/excel/CDVT/download/baocaohoatdong.xlsx";
                 $("#pre-load").hide();
             })
         });
@@ -945,15 +954,15 @@
 
 
 
-            function Delete(url) {
-             $.get(url)
-                 .done(function (response) {
+        function Delete(url) {
+            $.get(url)
+                .done(function (response) {
 
                     dataTable.ajax.reload();
                     successAlert('Thành công', 'Xóa thành công ');
 
-                 });
-                return false;
+                });
+            return false;
         }
 
 
