@@ -191,7 +191,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                     "except " +
                     "select e.[equipmentId],[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present], (select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                     "from Equipment e inner join Car c on e.equipmentId = c.equipmentId, Status s, Department d, Equipment_category ec " +
-                    "where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid" +
+                    "where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid and e.isAttach = 0 " +
                     " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY").ToList();
 
                 int totalrows = db.Database.SqlQuery<int>("SELECT COUNT(e.[equipmentId]) FROM [Equipment] e, Status s, Department d, Equipment_category ec " +
@@ -365,7 +365,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 "FROM [Equipment] e, Status s, Department d, Equipment_category ec " +
                 "where d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid " +
                 "and e.usedDay between @start_time1 and @start_time2  and e.isAttach like @att and e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name " +
-                "AND d.department_id LIKE @department_name AND e.quality_type LIKE @quality AND ec.Equipment_category_name LIKE @cate AND e.supplier LIKE @sup" +
+                "AND d.department_id LIKE @department_name AND e.quality_type LIKE @quality AND ec.Equipment_category_name LIKE @cate AND e.supplier LIKE @sup and e.isAttach = 0 " +
                 " except " +
                 "select e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                 "from Equipment e inner join Car c on e.equipmentId = c.equipmentId, Status s, Department d, Equipment_category ec " +
