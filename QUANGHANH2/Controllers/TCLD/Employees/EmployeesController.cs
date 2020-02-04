@@ -2,7 +2,6 @@
 using OfficeOpenXml;
 using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
-using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -97,14 +96,8 @@ namespace QUANGHANH2.Controllers.TCLD
         public ActionResult getDataTongNhanSu()
         {
             List<RecordTotalEmployee> list = ListAllEmployees();
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
             int totalrows = list.Count;
-            int totalrowsafterfiltering = list.Count;
-            list = list.Skip(start).Take(length).ToList();
-            return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-
-
+            return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
         private List<RecordTotalEmployee> ListAllEmployees()
         {
@@ -662,20 +655,18 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 GioiTinh = false;
             }
-            List<NhanVienLink> searchList = db.Database.SqlQuery<NhanVienLink>(query,
+            List<NhanVienLink> searchList = db.Database.SqlQuery<NhanVienLink>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                 new SqlParameter("MaNV", '%' + MaNV + '%'),
                 new SqlParameter("Ten", '%' + TenNV + '%'),
                 new SqlParameter("GioiTinh", GioiTinh)
                 ).ToList();
-            int totalrows = searchList.Count;
-            int totalrowsafterfiltering = searchList.Count;
-            //sorting
-            searchList = searchList.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVienLink>();
-            //paging
-            searchList = searchList.Skip(start).Take(length).ToList<NhanVienLink>();
+            int totalrows = db.Database.SqlQuery<int>(query.Replace("n.*, t.TenTrangThai", "count(t.TenTrangThai)"),
+                new SqlParameter("MaNV", '%' + MaNV + '%'),
+                new SqlParameter("Ten", '%' + TenNV + '%'),
+                new SqlParameter("GioiTinh", GioiTinh)
+                ).FirstOrDefault();
 
-            return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-
+            return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
         

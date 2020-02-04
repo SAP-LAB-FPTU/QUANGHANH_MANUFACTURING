@@ -343,7 +343,6 @@ group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.un
                 recordsFiltered
             }, JsonRequestBehavior.AllowGet);
         }
-        [Auther(RightID = "35")]
         [HttpPost]
         [Route("phong-cdvt/vat-tu/tieu-hao/export")]
         public ActionResult Export(List<DataTieuHao> vattus)
@@ -412,7 +411,7 @@ group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.un
             }
         }
 
-        [Auther(RightID = "35")]
+        
         [HttpPost]
         [Route("phong-cdvt/vat-tu/tieu-hao/exportdetail")]
         public ActionResult ExportDetail(List<DataTieuHao> vattus)
