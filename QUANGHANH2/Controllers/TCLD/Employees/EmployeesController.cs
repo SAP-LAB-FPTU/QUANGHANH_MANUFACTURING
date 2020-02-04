@@ -847,7 +847,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    string query = "select * from NhanVien nv, CongViec cv where nv.MaCongViec = cv.MaCongViec ";
+                    string query = "select * from NhanVien nv left outer join CongViec cv on nv.MaCongViec = cv.MaCongViec where nv.MaTrangThai = 1";
                     List<NhanVienExcel> list = db.Database.SqlQuery<NhanVienExcel>(query).ToList();
                     int k = 4;
                     for (int i = 0; i < list.Count; i++)
