@@ -116,7 +116,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         }
 
         [Route("phong-cdvt/oto/huy-dong/export")]
-        public void export()
+        public ActionResult export()
         {
             string path = HostingEnvironment.MapPath("/excel/CDVT/download/");
             string filename = "huy-dong-oto.xlsx";
@@ -142,12 +142,21 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         excelWorksheet.Cells[k, 3].Value = equipList.ElementAt(i).sokhung;
                         excelWorksheet.Cells[k, 4].Value = equipList.ElementAt(i).somay;
                         excelWorksheet.Cells[k, 5].Value = equipList.ElementAt(i).supplier;
-                        excelWorksheet.Cells[k, 6].Value = equipList.ElementAt(i).date_import.Value.ToString("dd/MM/yyyy");
+                        if (equipList.ElementAt(i).durationOfInsurance == null)
+                            excelWorksheet.Cells[k, 8].Value = "";
+                        else
+                            excelWorksheet.Cells[k, 6].Value = equipList.ElementAt(i).date_import.Value.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 7].Value = equipList.ElementAt(i).depreciation_estimate;
                         excelWorksheet.Cells[k, 8].Value = equipList.ElementAt(i).depreciation_present;
                         excelWorksheet.Cells[k, 9].Value = equipList.ElementAt(i).durationOfInspection_fix;
-                        excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).durationOfInsurance.Value.ToString("dd/MM/yyyy");
-                        excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).usedDay.Value.ToString("dd/MM/yyyy");
+                        if (equipList.ElementAt(i).durationOfInsurance == null)
+                            excelWorksheet.Cells[k, 8].Value = "";
+                        else
+                            excelWorksheet.Cells[k, 10].Value = equipList.ElementAt(i).durationOfInsurance.Value.ToString("dd/MM/yyyy");
+                        if (equipList.ElementAt(i).durationOfInsurance == null)
+                            excelWorksheet.Cells[k, 8].Value = "";
+                        else
+                            excelWorksheet.Cells[k, 11].Value = equipList.ElementAt(i).usedDay.Value.ToString("dd/MM/yyyy");
                         excelWorksheet.Cells[k, 12].Value = equipList.ElementAt(i).total_operating_hours;
                         excelWorksheet.Cells[k, 13].Value = equipList.ElementAt(i).current_Status;
                         excelWorksheet.Cells[k, 14].Value = equipList.ElementAt(i).mark_code;
@@ -158,7 +167,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         excelWorksheet.Cells[k, 19].Value = equipList.ElementAt(i).department_name;
                         k++;
                     }
+                    string Flocation = "/excel/CDVT/download/baocaohoatdong.xlsx";
+                    string savePath = HostingEnvironment.MapPath(Flocation);
                     excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/CDVT/download/baocaohoatdong.xlsx")));
+                    return Json(new { success = true, location = Flocation }, JsonRequestBehavior.AllowGet);
                 }
                 //
 

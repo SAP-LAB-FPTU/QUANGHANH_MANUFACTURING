@@ -499,7 +499,7 @@ group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.un
                 {
                     Department dep = db.Departments.Where(x => x.department_name == departmentname).First();
                     String sql = @"select 
-esd.used,esd.thuhoi, es.[date], 'Sửa chữa thường xuyên' as 'purposed'
+esd.used,esd.thuhoi, es.[date], N'Sửa chữa thường xuyên' as 'purposed'
 from Supply s inner
 join Equipment_SCTX_Detail esd
 on s.supply_id = esd.supplyid and s.supply_id = @supplyid inner join Equipment_SCTX es on es.maintain_id = esd.maintain_id
@@ -518,7 +518,7 @@ group by s.supply_id, mc.departmentid, mc.[date],used,thuhoi
 union all
 select
 sum(fac.consumption_value) 'used',
-0 'thuhoi', fac.[date], 'Tiêu hao nhiên liệu' as 'purposed'
+0 'thuhoi', fac.[date], N'Tiêu hao nhiên liệu' as 'purposed'
 from Supply s inner
 join Fuel_activities_consumption fac
 on s.supply_id = fac.fuel_type and s.supply_id = @supplyid inner join Equipment e on fac.equipmentId = e.equipmentId
@@ -550,7 +550,7 @@ group by s.supply_id, de.department_id, d.date_created, d.documentary_code";
                 {
                     Department dep = db.Departments.Where(x => x.department_name == departmentname).First();
                     String sql = @"select 
-esd.used,esd.thuhoi, es.[date], 'Sửa chữa thường xuyên' as 'purposed'
+esd.used,esd.thuhoi, es.[date], N'Sửa chữa thường xuyên' as 'purposed'
 from Supply s inner
 join Equipment_SCTX_Detail esd
 on s.supply_id = esd.supplyid and s.supply_id = @supplyid inner join Equipment_SCTX es on es.maintain_id = esd.maintain_id
@@ -569,7 +569,7 @@ group by s.supply_id, mc.departmentid, mc.[date],used,thuhoi
 union all
 select
 sum(fac.consumption_value) 'used',
-0 'thuhoi', fac.[date], 'Tiêu hao nhiên liệu' as 'purposed'
+0 'thuhoi', fac.[date], N'Tiêu hao nhiên liệu' as 'purposed'
 from Supply s inner
 join Fuel_activities_consumption fac
 on s.supply_id = fac.fuel_type and s.supply_id = @supplyid inner join Equipment e on fac.equipmentId = e.equipmentId

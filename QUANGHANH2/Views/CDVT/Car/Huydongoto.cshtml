@@ -551,9 +551,19 @@
             $.ajax({
                 type: "POST",
                 url: "/phong-cdvt/oto/huy-dong/export",
-                cache: false
+                cache: false,
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.location;
+                        $("#pre-load").hide("slow", function () {
+                        });
+
+                    } else {
+                        alert("error");
+                    }
+                }
             }).done(function () {
-                window.location.href = "/excel/CDVT/download/baocaohoatdong.xlsx";
+                //window.location.href = "/excel/CDVT/download/baocaohoatdong.xlsx";
                 $("#pre-load").hide();
             })
         });
