@@ -94,7 +94,7 @@ namespace QUANGHANH2.Controllers.Camera
         {
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
+            int length = Request["length"] == "-1" ? int.MaxValue : Convert.ToInt32(Request["length"]);
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             string room_name = Request["location"];
@@ -196,7 +196,7 @@ namespace QUANGHANH2.Controllers.Camera
             }
         }
 
-        private class camDB : Models.Room
+        public class camDB : Models.Room
         {
             public string department_name { get; set; }
         }
