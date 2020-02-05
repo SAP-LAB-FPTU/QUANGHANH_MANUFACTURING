@@ -636,7 +636,7 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortDirection = Request["order[0][dir]"];
             string query = "select n.*, t.TenTrangThai from NhanVien n inner join" +
                 " [TrangThai] t on n.MaTrangThai = t.MaTrangThai " +
-                "where n.MaTrangThai = 1 AND ";
+                "where n.MaTrangThai = 1 OR n.MaTrangThai = 2 AND ";
             if (!MaNV.Equals("") || !TenNV.Equals("") || !Gender.Equals(""))
             {
                 if (!MaNV.Equals("")) query += "n.MaNV LIKE @MaNV AND ";
