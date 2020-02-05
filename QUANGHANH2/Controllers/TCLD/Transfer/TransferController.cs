@@ -149,7 +149,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     new SqlParameter("maPhongBan", phongbanSearch),
                     new SqlParameter("maCongViec", chucVuSearch)
                     ).ToList();
-                totalrows = db.Database.SqlQuery<Int32>(sql.Replace("A.*,B.department_name,C.TenCongViec,D.TenTrangThai", "Count(*) as count")).ToList<Int32>()[0];
+                totalrows = db.Database.SqlQuery<Int32>(sql.Replace("A.*,B.department_name,C.TenCongViec,D.TenTrangThai", "Count(*) as count"),
+                    new SqlParameter("tenNV", "%" + searchTen + "%"),
+                    new SqlParameter("maPhongBan", phongbanSearch),
+                    new SqlParameter("maCongViec", chucVuSearch)).ToList<Int32>()[0];
 
             }
             return Json(new { success = true, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
