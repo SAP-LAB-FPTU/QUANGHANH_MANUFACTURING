@@ -74,8 +74,16 @@ namespace QUANGHANH2.Controllers.Camera
                                        department_id = x.department_id,
                                        department_name = x.department_name
                                    }).ToList();
-                ViewBag.active = db.Rooms.Select(x => x.camera_available).Sum();
-                ViewBag.total = db.Rooms.Select(x => x.camera_quantity).Sum();
+                if (db.Rooms.Count() == 0)
+                {
+                    ViewBag.active = 0;
+                    ViewBag.total = 0;
+                }
+                else
+                {
+                    ViewBag.active = db.Rooms.Select(x => x.camera_available).Sum();
+                    ViewBag.total = db.Rooms.Select(x => x.camera_quantity).Sum();
+                }
                 return View("/Views/Camera/DanhSachCamera.cshtml");
             }
         }
