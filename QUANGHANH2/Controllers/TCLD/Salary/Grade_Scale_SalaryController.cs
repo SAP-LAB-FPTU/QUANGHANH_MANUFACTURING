@@ -70,7 +70,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
 
             }
 
-            
+
         }
 
         ////////////////////////ADD////////////////////////////////
@@ -118,7 +118,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
         [Route("phong-tcld/quan-ly-bacluong-thangluong-mucluong/lay-du-lieu-theo-mamucluong")]
         [HttpPost]
         public ActionResult GetEditSalary()
-        { 
+        {
             try
             {
                 int mamucluong = Convert.ToInt32(Request["mamucluong"]);
@@ -129,7 +129,8 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
                     return Json(new { success = true, item = item });
                 }
 
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return Json(new { error = true, message = "Có lỗi xảy ra." });
             }
@@ -141,21 +142,32 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
         {
             try
             {
-
                 string maluong = Request["maluong"];
                 int idluong = Convert.ToInt32(maluong);
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    
-                    BacLuong_ThangLuong_MucLuong delete_item = db.BacLuong_ThangLuong_MucLuong.Where(s => s.MaBacLuong_ThangLuong_MucLuong == idluong).FirstOrDefault<BacLuong_ThangLuong_MucLuong>();
-                    db.BacLuong_ThangLuong_MucLuong.Remove(delete_item);
-                    db.SaveChanges();
-                    return Json(new { success = true, message = "Xóa thành công." });
+                    var mysql = @"select * from
+                                (select btm.* from BacLuong_ThangLuong_MucLuong btm 
+                                join NhanVien nv on nv.MaBacLuong_ThangLuong_MucLuong = btm.MaBacLuong_ThangLuong_MucLuong where btm.MaBacLuong_ThangLuong_MucLuong = @idluong) as btm_nv
+                                left outer join DieuDong_NhanVien dd_nv on dd_nv.MaBacLuong_ThangLuong_MucLuongMoi = btm_nv.MaBacLuong_ThangLuong_MucLuong or dd_nv.MaBacLuong_ThangLuong_MucLuongMoi = btm_nv.MaBacLuong_ThangLuong_MucLuong";
+                    var check = db.Database.SqlQuery<BacLuong_ThangLuong_MucLuong>(mysql, new SqlParameter("idluong",idluong)).FirstOrDefault<BacLuong_ThangLuong_MucLuong>();
+                    //BacLuong_ThangLuong_MucLuong delete_item = db.BacLuong_ThangLuong_MucLuong.Where(s => s.MaBacLuong_ThangLuong_MucLuong == idluong).FirstOrDefault<BacLuong_ThangLuong_MucLuong>();
+                    if(check == null)
+                    {
+                        BacLuong_ThangLuong_MucLuong delete_item = db.BacLuong_ThangLuong_MucLuong.Where(s => s.MaBacLuong_ThangLuong_MucLuong == idluong).FirstOrDefault<BacLuong_ThangLuong_MucLuong>(); 
+                        db.BacLuong_ThangLuong_MucLuong.Remove(delete_item);
+                        db.SaveChanges();
+                        return Json(new { success = true, message = "Xóa thành công." });
+                    }
+                    else
+                    {
+                        return Json(new { error = true, message = "Giá trị Bậc - Thang - Mức lương đang được sử dụng tại các bảng khác." });
+                    }
                 }
             }
             catch (Exception e)
             {
-                return Json(new { error = true, message = "Có lỗi xảy ra." });
+                return Json(new { error = true, message = "Đã có lỗi xảy ra." });
             }
         }
 
@@ -180,18 +192,19 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
                     int mathangluong = Convert.ToInt32(Request["mathangluong"]);
                     string mucluong = Request["mucluong"].ToString();
                     //
-                    if (!(Regex.Match(mucluong, @"^[0-9]*$").Success)){
+                    if (!(Regex.Match(mucluong, @"^[0-9]*$").Success))
+                    {
                         return Json(new { error = true, title = "Có lỗi", message = "Mức lương chỉ được nhập kí tự số" });
                     }
-                    CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");
-                    mucluong = double.Parse(mucluong).ToString("#,###", cul.NumberFormat);
-                    if(mucluong.Contains("e") || mucluong.Contains("E")) return Json(new { error = true, title = "Có lỗi", message = "Mức bậc lương hoặc mức thang lương hoặc mức lương đã có không thể trùng" });
+                    //CultureInfo cul = CultureInfo.GetCultureInfo("vi-VN");
+                    //mucluong = double.Parse(mucluong).ToString("#,###", cul.NumberFormat);
+                    //if (mucluong.Contains("e") || mucluong.Contains("E")) return Json(new { error = true, title = "Có lỗi", message = "Mức bậc lương hoặc mức thang lương hoặc mức lương đã có không thể trùng" });
                     int mamucluong = Convert.ToInt32(Request["mamucluong"]);
                     var validate = db.BacLuong_ThangLuong_MucLuong.Where(m => m.MaThangLuong == mathangluong && m.MaBacLuong == mabacluong && m.MucLuong.Equals(mucluong) && m.MaBacLuong_ThangLuong_MucLuong != mamucluong).FirstOrDefault();
                     if (validate == null)
                     {
                         var bacLuong_ThangLuong_MucLuong = db.BacLuong_ThangLuong_MucLuong.Where(m => m.MaBacLuong_ThangLuong_MucLuong == mamucluong);
-                        foreach(var item in bacLuong_ThangLuong_MucLuong)
+                        foreach (var item in bacLuong_ThangLuong_MucLuong)
                         {
                             item.MaThangLuong = mathangluong;
                             item.MaBacLuong = mabacluong;
