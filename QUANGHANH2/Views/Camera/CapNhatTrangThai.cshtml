@@ -1,0 +1,186 @@
+﻿
+@{
+    ViewBag.Title = "CapNhatTrangThai";
+    Layout = "~/Views/Shared/_Layout_Cam.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row center">
+            <h3><b>CẬP NHẬT TRẠNG THÁI HỆ THỐNG CAMERA</b></h3>
+            <hr>
+            <div class="col l6 m6 s12">
+                <div class="row">
+                    <div class="col l10 m10 s12 input-field">
+                        <input type="text" placeholder="Tên vị trí hệ thống" class='form-control' id="location-search" />
+                    </div>
+                    <div class="col l10 m10 s12 input-field">
+                        <input type="text" placeholder="Tình trạng ổ cứng" class='form-control' id="status-search" />
+                        @*<select class="form-control" id="status-search">
+                        <option value="0">Tất cả tình trạng ổ cứng</option>
+                        <option value="1">Có dữ liệu</option>
+                        <option value="2">Không có dữ liệu</option>
+                        <option value="3">Không có ổ cứng trong đầu ghi</option>
+                    </select>*@
+                    </div>
+                </div>
+            </div>
+            <div class="col l6 m6 s12">
+                <div class="row">
+                    <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                        <input type="text" placeholder="Lý do mất tín hiệu" class='form-control' id="reason-search" />
+                        @*<select class="form-control" id="reason-search">
+                        <option value="0">Tất cả lý do mất tín hiệu</option>
+                        <option value="1">Không bật trên máy tính</option>
+                        <option value="2">Không rõ nguyên nhân</option>
+                        <option value="3">Nguyên nhân khác</option>
+                    </select>*@
+                    </div>
+                    <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                        <select class="form-control" id="department-search">
+                            <option value="">Tất cả phòng ban</option>
+                            @foreach (QUANGHANH2.Models.Department item in ViewBag.departs)
+                            {
+                                <option value="@item.department_id">@item.department_name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12">
+                <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton">Tìm kiếm</a>
+            </div>
+            <div class="col s12">
+                <a class="waves-effect waves-light btn-small blue modal-trigger left" id="update">Cập nhật</a>
+            </div>
+            <div class="col s12 table_container">
+                <table class="table-bordered striped table-responsive centered" id="complex_header">
+                    <thead>
+                        <tr>
+                            <th>Tên vị trí hệ thống</th>
+                            <th>Trực thuộc phòng ban</th>
+                            <th>Có tín hiệu</th>
+                            <th>Tổng số</th>
+                            <th>Tình trạng ổ cứng</th>
+                            @*<th>Dung lượng ổ cứng</th>
+                            <th>Số seri ổ cứng</th>*@
+                            <th>Lý do mất tín hiệu</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var room_id, dataTable;
+    $("#pre-load").show();
+
+    $(document).ready(function () {
+        dataTable = $('#complex_header').DataTable({
+            "language": {
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                "paginate": {
+                    "first": "Trang đầu",
+                    "last": "Trang cuối",
+                    "next": "Trang sau",
+                    "previous": "Trang trước"
+                }
+            },
+            "ajax": {
+                "url": "/camera",
+                "type": "POST",
+                "datatype": "json",
+                "data": {
+                    "location": function () { return $('#location-search').val() },
+                    "status": function () { return $('#status-search').val() },
+                    "reason": function () { return $('#reason-search').val() },
+                    "department": function () { return $('#department-search').val() }
+                },
+                "cache": false
+            },
+            "columns": [
+                { "data": "room_name", "name": "room_name" },
+                { "data": "department_name", "name": "department_name", },
+                {
+                    "data": {}, "name": "camera_available", render: function (data) {
+                        return "<input class='center' type='number' value='" + data.camera_available + "' min='0' max='" + data.camera_quantity + "' />";
+                    }
+                },
+                { "data": "camera_quantity", "name": "camera_quantity" },
+                {
+                    "data": "disk_status", "name": "disk_status", render: function (data) {
+                        return "<input class='center' type='text' value='" + data + "' />";
+                    }
+                },
+                { "data": "signal_loss_reason", "name": "signal_loss_reason", render: function (data) {
+                        return "<input class='center' type='text' value='" + data + "' />";
+                    }
+                },
+                { "data": "note", "name": "note", render: function (data) {
+                        return "<input class='center' type='text' value='" + data + "' />";
+                    }
+                },
+            ],
+            createdRow: function (row, data, dataIndex) {
+                $(row).find('td:eq(0)').attr('data-room', data.room_id)
+            },
+            "serverSide": "true",
+            "order": [0, "desc"],
+            "lengthChange": false,
+            "searching": false,
+            paging: false,
+            "initComplete": function (settings, json) {
+                $("#pre-load").hide();
+            },
+            "preDrawCallback": function (settings) {
+                $('#pre-load').show();
+            },
+            "drawCallback": function (settings) {
+                $('#pre-load').hide();
+            }
+        });
+
+        $('#searchButton').click(function () {
+            dataTable.ajax.reload();
+        })
+
+        $('#update').click(function () {
+            let output = [];
+            let i = 0
+            for (; i < $('#complex_header tbody tr').length; i++) {
+                let $tr = $('#complex_header tbody tr').eq(i).children('td');
+                let json = {};
+                json.room_id = $tr.eq(0).data("room");
+                json.available = $tr.eq(2).children().val();
+                json.disk_status = $tr.eq(4).children().val();
+                json.signal_loss_reason = $tr.eq(5).children().val();
+                json.note = $tr.eq(6).children().val();
+                output.push(json);
+            }
+            $.ajax({
+                url: "/camera/cap-nhat",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    list: JSON.stringify(output)
+                },
+                cache: false,
+                success: function (response) {
+                    if (response.success) {
+                        successAlert(response.message);
+                        dataTable.ajax.reload();
+                    }
+                    else {
+                        errorAlert(response.message);
+                        $('#pre-load').hide();
+                    }
+                }
+            })
+        })
+    })
+</script>
