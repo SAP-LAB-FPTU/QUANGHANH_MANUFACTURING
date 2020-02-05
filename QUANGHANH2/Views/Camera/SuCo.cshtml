@@ -25,13 +25,7 @@
                     <div class="col l4 m4 s12">
                         <div class="row">
                             <div class="col l10 m10 s12 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search" />
-                            </div>
-                            <div class="col l10 m10 s12 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
-                            </div>
-                            <div class="col l10 m10 s12 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo phân xưởng chịu trách nhiệm" class='form-control' id="department-search" />
+                                <input type="text" placeholder="Tìm kiếm theo tên phòng ban" class='form-control' id="depart-search" />
                             </div>
 
                         </div>
@@ -51,13 +45,7 @@
                     <div class="col l4 m4 s12">
                         <div class="row">
                             <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo vị trí chi tiết" class='form-control' id="detail-search" />
-                            </div>
-                            <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo lý do sự cố" class='form-control' id="reason-search" />
-                            </div>
-                            <div class="col l12 m12 s12 input-field center">
-                                <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton1">Tìm kiếm</a>
+                                <input type="text" placeholder="Tìm kiếm theo tên hệ thống" class='form-control' id="room-search" />
                             </div>
                         </div>
                     </div>
@@ -97,29 +85,34 @@
                                         </div>
                                         <div class="col s12 m12">
                                             <div class="form-group">
-                                                <label for="date">Mã thiết bị : </label>
-                                                <input required type="text" list="equipmentId" class="form-control" value="" id="equipment-edit" />
+                                                <label for="id">Số lượng hỏng : </label>
+                                                <input required type="number" min="0" class="form-control" value="" id="quan-edit" />
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                     <div class="col s12 m6">
                                         <div class="col s12 m6">
                                             <div class="form-group">
-                                                <input required type='hidden' class='datepicker-here form-control' data-language='vi' id="date-end-edit" />
+                                                <label for="date">Thời gian kết thúc sự cố : </label>
+                                                <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-end-edit" />
+                                                <input type='hidden' class='datepicker-here form-control' id="incident-edit" />
                                             </div>
                                         </div>
                                         <div class="col s12 m3">
                                             <div class="form-group">
-                                                <input type="hidden" name="hour" class="form-control" min="0" max="23" value="0" id="hour-end-edit" />
+                                                <label for="date">Giờ : </label>
+                                                <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-end-edit" />
                                             </div>
                                         </div>
                                         <div class="col s12 m3">
                                             <div class="form-group">
-                                                <input type="hidden" name="minute" class="form-control" min="0" max="59" value="0" id="minute-end-edit" />
-                                                <input type="hidden" id="incident-edit" class="form-control" />
+                                                <label for="date">Phút : </label>
+                                                <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-end-edit" />
                                             </div>
                                         </div>
+
+
                                         <div class="col s12 m12">
                                             <div class="form-group">
                                                 <label for="supplier">Lý do sự cố : </label>
@@ -128,7 +121,7 @@
                                         </div>
                                         <div class="col s12 m12">
                                             <div class="form-group">
-                                                <label for="id">Phân xưởng chịu trách nhiệm : </label>
+                                                <label for="id">Hệ thống : </label>
                                                 <input required type="text" list="department_name" class="form-control" value="" id="department-edit" />
                                             </div>
                                         </div>
@@ -195,16 +188,12 @@
                        style="margin-top:30px; text-align:center;" id="complex_header">
                     <thead>
                         <tr>
-                            <th colspan="2">Thiết bị gặp sự cố</th>
-                            <th rowspan="2">Phân xưởng chịu trách nhiệm</th>
-                            <th colspan="2">Nội dung sự cố</th>
-                            <th rowspan="2"></th>
-                        </tr>
-                        <tr>
-                            <th class="text-center">Mã thiết bị</th>
-                            <th class="text-center">Tên thiết bị</th>
-                            <th>Thời gian bắt đầu sự cố</th>
-                            <th>Lý do sự cố</th>
+                            <td>Phòng ban</td>
+                            <td>Hệ thống</td>
+                            <td>Số camera hoạt động</td>
+                            <td>Báo hỏng</td>
+                            <td>Lý do</td>
+                            <th></th>
                         </tr>
                     </thead>
                 </table>
@@ -242,8 +231,8 @@
                         </div>
                         <div class="col s12 m12">
                             <div class="form-group">
-                                <label for="date">Mã thiết bị : </label>
-                                <input required type="text" list="equipmentId" class="form-control" value="" id="equipment-add" />
+                                <label for="date">Hệ thống : </label>
+                                <input required type="text" list="department_name" class="form-control" value="" id="department-add" />
                             </div>
                         </div>
                         
@@ -272,8 +261,8 @@
                         </div>
                         <div class="col s12 m12">
                             <div class="form-group">
-                                <label for="id">Phân xưởng chịu trách nhiệm : </label>
-                                <input required type="text" readonly list="department_name" class="form-control" value="" id="department-add" />
+                                <label for="id">Số lượng lỗi : </label>
+                                <input required type="number" min="0" class="form-control" value="" id="quan-add" />
                             </div>
                         </div>
                         <div class="col s12 m12">
@@ -298,17 +287,23 @@
 
 
 
-<datalist id="equipmentId">
+@*<datalist id="equipmentId">
     @foreach (var item in ViewBag.equipments)
     {
         <option>@item.camera_id</option>
     }
-</datalist>
+</datalist>*@
 
 <datalist id="department_name">
     @foreach (var item in ViewBag.departments)
     {
         <option>@item.room_name</option>
+    }
+</datalist>
+<datalist id="depart_name">
+    @foreach (var item in ViewBag.depart)
+    {
+        <option>@item.department_name</option>
     }
 </datalist>
 
@@ -418,28 +413,26 @@
                     "type": "POST",
                     "datatype": "json",
                     "data": {
-                        "equipmentId": function () { return $('#equipmentId-search').val() },
-                        "equipmentName": function () { return $('#equipmentName-search').val() },
-                        "department": function () { return $('#department-search').val() },
-                        "detail": function () { return $('#detail-search').val() },
-                        "reason": function () { return $('#reason-search').val() },
+                        "depart": function () { return $('#depart-search').val() },
+                        "room": function () { return $('#room-search').val() },
                         "dateStart": function () { return $('#date-start-search').val() },
                         "dateEnd": function () { return $('#date-end-search').val() }
                     },
                     "cache": false
                 },
                 "columns": [
-                    { "data": "camera_id", "name": "camera_id" },
-                    { "data": "camera_name", "name": "camera_name" },
+                    { "data": "department_name", "name": "department_name" },
                     { "data": "room_name", "name": "room_name" },
-                    { "data": "stringStartTime", "name": "start_time" },
+                    { "data": "camera_available", "name": "camera_available" },
+                    { "data": "incident_camera_quantity", "name": "incident_camera_quantity" },
                     { "data": "reason", "name": "reason" },
                     {
-                        "data": "editAble", "render": function (data) {
-                            if (data.split("^")[1] == "false")
-                                return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.split("^")[0] + "\">Cập&nbsp;nhật</a>";
+                        "data": {}, "render": function (data) {
+                            console.log(data)
+                            if (data.end_time == null)
+                                return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.incident_id + "\">Cập&nbsp;nhật</a>";
                             else
-                                return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.split("^")[0] + "\">Chỉnh&nbsp;sửa</a>";
+                                return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.incident_id + "\">Chỉnh&nbsp;sửa</a>";
                         },
                         "orderable": false,
                         "searchable": false,
@@ -512,7 +505,6 @@
                         errorAlert('Lỗi', "Có lỗi xảy ra");
                     },
                     data: {
-                        equipment: $('#equipment-add').val(),
                         reason: $('#reason-add').val(),
                         detail: $('#detail-add').val(),
                         yearStart: $('#date-start-add').val().split("/")[2],
@@ -525,7 +517,9 @@
                         dayEnd: $('#date-end-add').val().split("/")[0],
                         hourEnd: $('#hour-end-add').val(),
                         minuteEnd: $('#minute-end-add').val(),
-                        checkBox: $('#checkbox-add').val()
+                        checkBox: $('#checkbox-add').val(),
+                        depart: $('#department-add').val(),
+                        quan: $('#quan-add').val()
                     },
                     cache: false
                 })
@@ -554,10 +548,9 @@
                     },
                     data: {
                         incident_id: Number($('#incident-edit').val()),
-                        equipment: $('#equipment-edit').val(),
                         department: $('#department-edit').val(),
                         reason: $('#reason-edit').val(),
-                        detail: $('#detail-edit').val(),
+                        quan: $('#quan-edit').val(),
                         yearStart: $('#date-start-edit').val().split("/")[2],
                         monthStart: $('#date-start-edit').val().split("/")[1],
                         dayStart: $('#date-start-edit').val().split("/")[0],
@@ -673,6 +666,8 @@
 
 
         $(document).on("click", ".open-UpdateModal", function () {
+            var currentRow = $(this).closest("tr");
+            var data = currentRow.find("td:eq(6)").text();
             var incidentId = $(this).data('incident-id');
             $("#incident-update").val(incidentId);
         });
@@ -695,6 +690,7 @@
                     $('#date-end-edit').val(data.stringEndTime.split(" ")[1]);
                     $('#hour-end-edit').val(data.stringEndTime.substr(0, 2));
                     $('#minute-end-edit').val(data.stringEndTime.substr(3, 2));
+                    $('#quan-edit').val(data.incident_camera_quantity);
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     errorAlert('Lỗi', 'Có lỗi xảy ra');
