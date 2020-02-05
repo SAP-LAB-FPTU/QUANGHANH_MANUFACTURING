@@ -7149,7 +7149,6 @@
     <Content Include="excel\CDVT\download\tieu-hao-vat-tu-tong-hop.xlsx" />
     <Content Include="excel\CDVT\download\huy-dong-2.xlsx" />
     <Content Include="excel\CDVT\download\baocaohoatdong-2.xlsx" />
-    <Content Include="excel\TCLD\Brief\Inside.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7157,6 +7156,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="excel\TCLD\Brief\Inside.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
