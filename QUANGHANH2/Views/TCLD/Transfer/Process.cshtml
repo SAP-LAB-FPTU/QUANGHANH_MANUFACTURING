@@ -743,6 +743,28 @@
                     }
                 });
             }
+            if (rs !== false) {
+                $(".donvi").each(function () {
+                    if ($(this).val() === "" || $(this).val() === null) {
+                        toastr.error('Hãy nhập thông tin đầy đủ ', '');
+                        rs = false;
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        return rs;
+                    }
+                });
+            }
+            if (rs !== false) {
+                $(".chucvu").each(function () {
+                    if ($(this).val() === "" || $(this).val() === null) {
+                        toastr.error('Hãy nhập thông tin đầy đủ ', '');
+                        rs = false;
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        return rs;
+                    }
+                });
+            }
             $("#pre-load").hide("slow", function () {
             });
             return rs;
