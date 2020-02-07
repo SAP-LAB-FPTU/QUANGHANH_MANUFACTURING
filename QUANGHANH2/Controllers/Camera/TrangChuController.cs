@@ -18,7 +18,7 @@ namespace QUANGHANH2.Controllers.Camera
 {
     public class TrangChuController : Controller
     {
-        public class DashCam
+        private class DashCam
         {
             public int sum { get; set; }
             public int done { get; set; }
@@ -26,7 +26,7 @@ namespace QUANGHANH2.Controllers.Camera
 
         }
 
-        public class DashRoom
+        private class DashRoom
         {
             public int daydu { get; set; }
             public int kodaydu { get; set; }
@@ -68,7 +68,7 @@ namespace QUANGHANH2.Controllers.Camera
             return Json(new { success = true, message = "", dc = dc }, JsonRequestBehavior.AllowGet);
         }
 
-        public class RoomThongKe
+        private class RoomThongKe
         {
             public string room_name { get; set; }
             public string department_name { get; set; }

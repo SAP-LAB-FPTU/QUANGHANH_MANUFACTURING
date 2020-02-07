@@ -58,7 +58,7 @@ namespace QUANGHANH2.Controllers.Camera
         }
 
         [Auther(RightID = "193")]
-        [Route("camera")]
+        [Route("phong-cdvt/camera/danh-sach")]
         [HttpGet]
         public ActionResult Index()
         {
@@ -74,16 +74,6 @@ namespace QUANGHANH2.Controllers.Camera
                                        department_id = x.department_id,
                                        department_name = x.department_name
                                    }).ToList();
-                if (db.Rooms.Count() == 0)
-                {
-                    ViewBag.active = 0;
-                    ViewBag.total = 0;
-                }
-                else
-                {
-                    ViewBag.active = db.Rooms.Select(x => x.camera_available).Sum();
-                    ViewBag.total = db.Rooms.Select(x => x.camera_quantity).Sum();
-                }
                 return View("/Views/Camera/DanhSachCamera.cshtml");
             }
         }
@@ -104,7 +94,7 @@ namespace QUANGHANH2.Controllers.Camera
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var sql = "select r.*, d.department_name from Room r inner join Department d on r.department_id = d.department_id where r.room_name like @room_name and r.disk_status like @disk_status and r.signal_loss_reason like @signal_loss_reason and r.department_id like @department_id";
+                var sql = "select r.*, d.department_name from Room r inner join Department d on r.department_id = d.department_id where r.room_name like @room_name and r.disk_status like @disk_status and r.signal_loss_reason like @signal_loss_reason and r.department_id like @department_id and r.camera_quantity != 0";
                 var equipList = db.Database.SqlQuery<camDB>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                     new SqlParameter("room_name", '%' + room_name + '%'),
                     new SqlParameter("disk_status", '%' + disk_status + '%'),
@@ -185,7 +175,8 @@ namespace QUANGHANH2.Controllers.Camera
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     Room r = db.Rooms.Find(int.Parse(Request["room_id"]));
-                    db.Rooms.Remove(r);
+                    r.camera_quantity = 0;
+                    r.camera_available = 0;
                     db.SaveChanges();
                     return Json(new { success = true, message = "Xóa thành công" });
                 }
