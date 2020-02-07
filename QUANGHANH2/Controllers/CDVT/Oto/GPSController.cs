@@ -36,27 +36,29 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
             DateTime date = DateTime.ParseExact(stringDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             int session = 0;
-            if (DateTime.Now.Hour >= 6 && DateTime.Now.Hour < 14 && DateTime.Now.Date == date) session = 1;
-            if (DateTime.Now.Hour >= 14 && DateTime.Now.Hour < 22 && DateTime.Now.Date == date) session = 2;
-            if ((DateTime.Now.Hour >= 22 && DateTime.Now.Date == date) || (DateTime.Now.Hour < 6 && DateTime.Now.Date.AddDays(-1) == date)) session = 3;
+            if (DateTime.Now.Hour >= 7 && DateTime.Now.Hour < 15 && DateTime.Now.Date == date) session = 1;
+            if (DateTime.Now.Hour >= 15 && DateTime.Now.Hour < 23 && DateTime.Now.Date == date) session = 2;
+            if ((DateTime.Now.Hour >= 23 && DateTime.Now.Date == date) || (DateTime.Now.Hour < 7 && DateTime.Now.Date.AddDays(-1) == date)) session = 3;
 
-            string varname1 = ""
-            + "select a.equipmentId, a.equipment_name,a.ca1, a.reason1, b.ca2, b.reason2, c.ca3, c.reason3 from " + "\n"
-            + "(select e.equipmentId, e.equipment_name, c.[session], c.available as \"ca1\", c.reason as \"reason1\" " + "\n"
-            + "from Equipment e left join CarGPS c on e.equipmentId = c.equipmentId " + "\n"
-            + "where c.[date] = @date and c.[session] = 1) as a left join " + "\n"
-            + "(select e.equipmentId, e.equipment_name, c.[session], c.available as \"ca2\", c.reason as \"reason2\" " + "\n"
-            + "from Equipment e left join CarGPS c on e.equipmentId = c.equipmentId " + "\n"
-            + "where c.[date] = @date and c.[session] = 2) as b on a.equipmentId = b.equipmentId " + "\n"
-            + "left join " + "\n"
-            + "(select e.equipmentId, e.equipment_name, c.[session], c.available as \"ca3\", c.reason as \"reason3\" " + "\n"
-            + "from Equipment e left join CarGPS c on e.equipmentId = c.equipmentId " + "\n"
-            + "where c.[date] = @date and c.[session] = 3) as c on b.equipmentId = c.equipmentId";
+            string varname1 = @"select d.equipmentId, e.Equipment_category_name, d.ca1, d.reason1, d.ca2, d.reason2, d.ca3, d.reason3 from
+	(select a.equipmentId, a.equipment_name, a.Equipment_category_id, a.ca1, a.reason1, b.ca2, b.reason2, c.ca3, c.reason3 from   
+		(select e.equipmentId, e.equipment_name, e.Equipment_category_id, c.[session], c.available as ca1, c.reason as reason1   
+		from Equipment e left join CarGPS c on e.equipmentId = c.equipmentId   
+		where c.[date] = @date and c.[session] = 1) as a left join   
+		(select e.equipmentId, e.equipment_name, e.Equipment_category_id, c.[session], c.available as ca2, c.reason as reason2   
+		from Equipment e left join CarGPS c on e.equipmentId = c.equipmentId   
+		where c.[date] = @date and c.[session] = 2) as b on a.equipmentId = b.equipmentId   
+		left join   
+		(select e.equipmentId, e.equipment_name, e.Equipment_category_id, c.[session], c.available as ca3, c.reason as reason3   
+		from Equipment e left join CarGPS c on e.equipmentId = c.equipmentId   
+		where c.[date] = @date and c.[session] = 3) as c on b.equipmentId = c.equipmentId
+	) as d
+			inner join Equipment_category as e on d.Equipment_category_id = e.Equipment_category_id";
             List<CarGPSDB> list = DBContext.Database.SqlQuery<CarGPSDB>(varname1,
                 new SqlParameter("date", date)).ToList();
             if (!list.Any())
             {
-                list = DBContext.Database.SqlQuery<CarGPSDB>("SELECT e.equipmentId, e.equipment_name FROM Equipment e inner join Car c on e.equipmentId = c.equipmentId").ToList();
+                list = DBContext.Database.SqlQuery<CarGPSDB>("SELECT e.equipmentId, ec.Equipment_category_name FROM Equipment e inner join Car c on e.equipmentId = c.equipmentId inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id").ToList();
                 foreach (CarGPSDB item in list)
                 {
                     item.ca1 = true;
@@ -158,7 +160,7 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
         private class CarGPSDB
         {
             public string equipmentId { get; set; }
-            public string equipment_name { get; set; }
+            public string Equipment_category_name { get; set; }
             public Boolean ca1 { get; set; }
             public string reason1 { get; set; }
             public Boolean ca2 { get; set; }
