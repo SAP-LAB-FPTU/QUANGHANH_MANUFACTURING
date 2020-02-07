@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using XCrypt;
 
 using System.Web.Routing;
+using System.Data.Entity.Validation;
 
 namespace QUANGHANH2.Controllers
 {
@@ -22,16 +23,33 @@ namespace QUANGHANH2.Controllers
 
         public ActionResult Index(string username)
         {
-            //if(Session["Role"].ToString().)
-            var employ = (from nv in db.NhanViens
-                          join pb in db.Departments on nv.MaPhongBan equals pb.department_id
-                          select new employ
-                          {
-                              id = nv.MaNV,
-                              name = nv.Ten,
-                              pb = pb.department_name
-                          }).ToList();
-            ViewBag.employ = employ;
+            string depart = Session["departID"].ToString();
+            if (Session["Role"].ToString().Equals("1"))
+            {
+                var employ = (from nv in db.NhanViens
+                              join pb in db.Departments on nv.MaPhongBan equals pb.department_id
+                              select new employ
+                              {
+                                  id = nv.MaNV,
+                                  name = nv.Ten,
+                                  pb = pb.department_name
+                              }).ToList();
+                ViewBag.employ = employ;
+            }
+            if (Session["Role"].ToString().Equals("2"))
+            {
+                var employ = (from nv in db.NhanViens
+                              join pb in db.Departments on nv.MaPhongBan equals pb.department_id
+                              where nv.MaPhongBan == depart
+                              select new employ
+                              {
+                                  id = nv.MaNV,
+                                  name = nv.Ten,
+                                  pb = pb.department_name
+                              }).ToList();
+                ViewBag.employ = employ;
+            }
+
             if (!String.IsNullOrEmpty(username))
             {
                 if (db.Accounts.Where(a => a.Username == username).Count() > 0)
@@ -52,12 +70,23 @@ namespace QUANGHANH2.Controllers
         [HttpPost]
         public JsonResult Index(DataTableAjaxPostModel model)
         {
-            var users = db.Database.SqlQuery<Accountdb>("select  a.ID,a.Username,a.Name,d.department_name,d.department_id from Account a inner join NhanVien nv on a.NVID = nv.MaNV inner join Department d on d.department_id = nv.MaPhongBan order by d.department_name").ToList();
+            var users = new List<Accountdb>();
+            string ts = Session["departID"].ToString();
+            if (Session["Role"].ToString().Equals("1"))
+            {
+                users = db.Database.SqlQuery<Accountdb>("select  a.ID,a.Username,a.Name,d.department_name,d.department_id from Account a inner join NhanVien nv on a.NVID = nv.MaNV inner join Department d on d.department_id = nv.MaPhongBan order by d.department_name").ToList();
+            }
+            if (Session["Role"].ToString().Equals("2"))
+            {
+                users = db.Database.SqlQuery<Accountdb>("select  a.ID,a.Username,a.Name,d.department_name,d.department_id from Account a inner join NhanVien nv on a.NVID = nv.MaNV inner join Department d on d.department_id = nv.MaPhongBan where nv.MaPhongBan = @pb order by d.department_name",new SqlParameter("pb", Session["departID"].ToString())).ToList();
+            }
+            
             var search = users.ToList();
             int CurrentUser = int.Parse(Session["UserID"].ToString());
-            if (CurrentUser != 14)
+            int role_user = int.Parse(Session["Role"].ToString());
+            if (CurrentUser != 74)
             {
-                search = search.Where(a => a.ID != 14).ToList();
+                search = search.Where(a => a.ID != 74).ToList();
             }
             if (model.search.value != null)
             {
@@ -329,6 +358,7 @@ namespace QUANGHANH2.Controllers
                             Password = passXc,
                             Position = Position,
                             NVID = NVID,
+                            Role = 3,
                             CDVT = Convert.ToBoolean(module1),
                             TCLD = Convert.ToBoolean(module2),
                             KCS = Convert.ToBoolean(module3),
@@ -390,6 +420,7 @@ namespace QUANGHANH2.Controllers
                             user.Username = Username;
                             user.Password = passXc;
                             user.Position = Position;
+                            user.Role = 2;
                             user.NVID = NVID;
                             user.CDVT = false;
                             user.TCLD = false;
@@ -420,7 +451,7 @@ namespace QUANGHANH2.Controllers
                             Data = "Tài khoản <strong style='color:black;'>" + Username + " </strong> đã được thêm mới thành công cho <strong style='color:black;'>" + Name + "</strong>"
                         }, JsonRequestBehavior.AllowGet);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                         trans.Rollback();
                         return Json(new Result()
@@ -536,110 +567,133 @@ namespace QUANGHANH2.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
             var user = db.Accounts.SingleOrDefault(x => x.ID == ID);
-            try
+            using (DbContextTransaction trans = db.Database.BeginTransaction())
             {
-                var rightsSplit = rights.Split(',');
-                var rightRemove = db.Account_Right_Detail.Where(x => x.AccountID == ID).ToList();
-                foreach (var r in rightRemove)
+                try
                 {
-                    db.Account_Right_Detail.Remove(r);
-                }
-                db.SaveChanges();
-                foreach (var r in rightsSplit)
-                {
-                    if (!String.IsNullOrEmpty(r))
+                    var rightsSplit = rights.Split(',');
+                    var rightRemove = db.Account_Right_Detail.Where(x => x.AccountID == ID).ToList();
+                    foreach (var r in rightRemove)
                     {
-                        Account_Right_Detail rd = new Account_Right_Detail()
+                        db.Account_Right_Detail.Remove(r);
+                    }
+                    db.SaveChanges();
+                    foreach (var r in rightsSplit)
+                    {
+                        if (!String.IsNullOrEmpty(r))
                         {
-                            AccountID = ID,
-                            RightID = int.Parse(r)
-                        };
-                        db.Account_Right_Detail.Add(rd);
+                            Account_Right_Detail rd = new Account_Right_Detail()
+                            {
+                                AccountID = ID,
+                                RightID = int.Parse(r)
+                            };
+                            db.Account_Right_Detail.Add(rd);
+                        }
                     }
-                }
-                db.SaveChanges();
-                updateModule(module1, ID, user.CDVT, 1);
-                updateModule(module2, ID, user.TCLD, 2);
-                updateModule(module3, ID, user.KCS, 3);
-                updateModule(module4, ID, user.DK, 4);
-                updateModule(module5, ID, user.BGD, 5);
-                updateModule(module6, ID, user.PXKT, 6);
-                updateModule(module8, ID, user.PXDL, 8);
-                updateModule(module9, ID, user.PXVT, 9);
-                updateModule(module10, ID, user.PXST, 10);
-                updateModule(module11, ID, user.PXPV, 11);
-                updateModule(module12, ID, user.PXDS, 12);
-                updateModule(module13, ID, user.PXCDM, 13);
-                updateModule(module14, ID, user.PXTGQLM, 14);
-                updateModule(module15, ID, user.PXXD, 15);
-                updateModule(module16, ID, user.PXLT, 16);
-                updateModule(module17, ID, user.AT, 17);
-                updateModule(module18, ID, user.KCM, 18);
-                updateModule(module19, ID, Convert.ToBoolean(user.PXCKSC), 19);
-                if (Convert.ToBoolean(module7).Equals(user.ADMIN))
-                { }
-                else
-                {
-                    var listRight = db.Account_Right.ToList();
-                    var rightRemoveup = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + ID + "'").ToList<Account_Right_Detail>();
-                    foreach (var r in rightRemoveup)
-                    {
-                        var del = db.Account_Right_Detail.Where(a => a.ID == r.ID).SingleOrDefault();
-                        db.Account_Right_Detail.Remove(del);
-                    }
-                    if (module7 == 0)
-                    {
-                        module1 = 0; module2 = 0; module3 = 0; module4 = 0; module5 = 0; module6 = 0; module7 = 0;
-                        module8 = 0; module9 = 0; module10 = 0; module11 = 0; module12 = 0; module13 = 0; module14 = 0;
-                        module15 = 0; module16 = 0; module17 = 0; module18 = 0; module19 = 0;
-                    }
+                    db.SaveChanges();
+                    updateModule(module1, ID, user.CDVT, 1);
+                    updateModule(module2, ID, user.TCLD, 2);
+                    updateModule(module3, ID, user.KCS, 3);
+                    updateModule(module4, ID, user.DK, 4);
+                    updateModule(module5, ID, user.BGD, 5);
+                    updateModule(module6, ID, user.PXKT, 6);
+                    updateModule(module8, ID, user.PXDL, 8);
+                    updateModule(module9, ID, user.PXVT, 9);
+                    updateModule(module10, ID, user.PXST, 10);
+                    updateModule(module11, ID, user.PXPV, 11);
+                    updateModule(module12, ID, user.PXDS, 12);
+                    updateModule(module13, ID, user.PXCDM, 13);
+                    updateModule(module14, ID, user.PXTGQLM, 14);
+                    updateModule(module15, ID, user.PXXD, 15);
+                    updateModule(module16, ID, user.PXLT, 16);
+                    updateModule(module17, ID, user.AT, 17);
+                    updateModule(module18, ID, user.KCM, 18);
+                    updateModule(module19, ID, Convert.ToBoolean(user.PXCKSC), 19);
+                    if (Convert.ToBoolean(module7).Equals(user.ADMIN))
+                    { }
                     else
                     {
-                        module7 = 1;
-                        db.SaveChanges();
+                        var listRight = db.Account_Right.ToList();
+                        var rightRemoveup = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + ID + "'").ToList<Account_Right_Detail>();
+                        foreach (var r in rightRemoveup)
+                        {
+                            var del = db.Account_Right_Detail.Where(a => a.ID == r.ID).SingleOrDefault();
+                            db.Account_Right_Detail.Remove(del);
+                        }
+                        if (module7 == 0)
+                        {
+                            module1 = 0; module2 = 0; module3 = 0; module4 = 0; module5 = 0; module6 = 0; module7 = 0;
+                            module8 = 0; module9 = 0; module10 = 0; module11 = 0; module12 = 0; module13 = 0; module14 = 0;
+                            module15 = 0; module16 = 0; module17 = 0; module18 = 0; module19 = 0;
+                            user.Role = 3;
+                        }
+                        else
+                        {
+                            module7 = 1;
+                            user.Role = 2;
+                            db.SaveChanges();
+                        }
                     }
+                    user.Name = Name;
+                    user.Username = Username;
+                    if (String.IsNullOrEmpty(Password))
+                    { }
+                    else
+                    {
+                        string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(Password, "pl");
+                        user.Password = passXc;
+                    }
+                    user.Position = Position;
+                    user.NVID = NVID;
+
+                    user.CDVT = Convert.ToBoolean(module1);
+                    user.TCLD = Convert.ToBoolean(module2);
+                    user.KCS = Convert.ToBoolean(module3);
+                    user.DK = Convert.ToBoolean(module4);
+                    user.BGD = Convert.ToBoolean(module5);
+                    user.PXKT = Convert.ToBoolean(module6);
+                    user.ADMIN = Convert.ToBoolean(module7);
+                    user.PXDL = Convert.ToBoolean(module8);
+                    user.PXVT = Convert.ToBoolean(module9);
+                    user.PXST = Convert.ToBoolean(module10);
+                    user.PXPV = Convert.ToBoolean(module11);
+                    user.PXDS = Convert.ToBoolean(module12);
+                    user.PXCDM = Convert.ToBoolean(module13);
+                    user.PXTGQLM = Convert.ToBoolean(module14);
+                    user.PXXD = Convert.ToBoolean(module15);
+                    user.PXLT = Convert.ToBoolean(module16);
+                    user.AT = Convert.ToBoolean(module17);
+                    user.PXCKSC = Convert.ToBoolean(module19);
+                    user.KCM = Convert.ToBoolean(module18);
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+                    trans.Commit();
                 }
-                user.Name = Name;
-                user.Username = Username;
-                if (String.IsNullOrEmpty(Password))
-                { }
-                else
+                //catch (DbEntityValidationException e)
+                //{
+                //    foreach (var eve in e.EntityValidationErrors)
+                //    {
+                //        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                //            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                //        foreach (var ve in eve.ValidationErrors)
+                //        {
+                //            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                //                ve.PropertyName, ve.ErrorMessage);
+                //        }
+                //    }
+                //    throw;
+                //}
+                catch (Exception e)
                 {
-                    string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(Password, "pl");
-                    user.Password = passXc;
+                    trans.Rollback();
+                    return Json(new Result()
+                    {
+                        CodeError = 2,
+                        Data = "Có lỗi vui lòng kiểm tra lại!"
+                    }, JsonRequestBehavior.AllowGet);
                 }
-                user.Position = Position;
-                user.NVID = NVID;
-                user.CDVT = Convert.ToBoolean(module1);
-                user.TCLD = Convert.ToBoolean(module2);
-                user.KCS = Convert.ToBoolean(module3);
-                user.DK = Convert.ToBoolean(module4);
-                user.BGD = Convert.ToBoolean(module5);
-                user.PXKT = Convert.ToBoolean(module6);
-                user.ADMIN = Convert.ToBoolean(module7);
-                user.PXDL = Convert.ToBoolean(module8);
-                user.PXVT = Convert.ToBoolean(module9);
-                user.PXST = Convert.ToBoolean(module10);
-                user.PXPV = Convert.ToBoolean(module11);
-                user.PXDS = Convert.ToBoolean(module12);
-                user.PXCDM = Convert.ToBoolean(module13);
-                user.PXTGQLM = Convert.ToBoolean(module14);
-                user.PXXD = Convert.ToBoolean(module15);
-                user.PXLT = Convert.ToBoolean(module16);
-                user.AT = Convert.ToBoolean(module17);
-                user.PXCKSC = Convert.ToBoolean(module19);
-                user.KCM = Convert.ToBoolean(module18);
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
             }
-            catch (Exception)
-            {
-                return Json(new Result()
-                {
-                    CodeError = 2,
-                    Data = "Có lỗi vui lòng kiểm tra lại!"
-                }, JsonRequestBehavior.AllowGet);
-            }
+
             return Json(new Result()
             {
                 CodeError = 0,
@@ -656,6 +710,7 @@ namespace QUANGHANH2.Controllers
                 {
                     db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account_Right_Detail] WHERE Account_Right_Detail.AccountID = '" + ID + "'");
                     db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account] WHERE Account.ID = '" + ID + "'");
+                    db.Database.ExecuteSqlCommand("delete from User_Action_Log where AccountID = '" + ID + "'");
                 }
                 db.SaveChanges();
                 return Json("", JsonRequestBehavior.AllowGet);
