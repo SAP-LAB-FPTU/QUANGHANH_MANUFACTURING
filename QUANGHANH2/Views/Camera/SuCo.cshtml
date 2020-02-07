@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "SuCo";
-    Layout = "~/Views/Shared/_Layout_Cam.cshtml";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 
 <!-- This page CSS -->
@@ -188,11 +188,12 @@
                        style="margin-top:30px; text-align:center;" id="complex_header">
                     <thead>
                         <tr>
-                            <td>Phòng ban</td>
-                            <td>Hệ thống</td>
-                            <td>Số camera hoạt động</td>
-                            <td>Báo hỏng</td>
-                            <td>Lý do</td>
+                            <th>Phòng ban</th>
+                            <th>Hệ thống</th>
+                            <th>Số camera hỏng</th>
+                            <th>Thời gian bắt đầu sự cố</th>
+                            <th>Thời gian kết thúc sự cố</th>
+                            <th>Lý do</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -283,27 +284,10 @@
     </div>
 </form>
 
-
-
-
-
-@*<datalist id="equipmentId">
-    @foreach (var item in ViewBag.equipments)
-    {
-        <option>@item.camera_id</option>
-    }
-</datalist>*@
-
 <datalist id="department_name">
     @foreach (var item in ViewBag.departments)
     {
         <option>@item.room_name</option>
-    }
-</datalist>
-<datalist id="depart_name">
-    @foreach (var item in ViewBag.depart)
-    {
-        <option>@item.department_name</option>
     }
 </datalist>
 
@@ -423,8 +407,9 @@
                 "columns": [
                     { "data": "department_name", "name": "department_name" },
                     { "data": "room_name", "name": "room_name" },
-                    { "data": "camera_available", "name": "camera_available" },
                     { "data": "incident_camera_quantity", "name": "incident_camera_quantity" },
+                    { "data": "stringStartTime", "name": "start_time" },
+                    { "data": "stringEndTime", "name": "end_time" },
                     { "data": "reason", "name": "reason" },
                     {
                         "data": {}, "render": function (data) {

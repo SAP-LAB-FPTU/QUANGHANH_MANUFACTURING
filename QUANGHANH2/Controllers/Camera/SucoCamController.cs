@@ -24,12 +24,8 @@ namespace QUANGHANH2.Controllers.Camera
         public ActionResult Index()
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            //List<Models.Room> equipments = DBContext.Room.ToList();
-            List<Room> departments = DBContext.Rooms.ToList();
-            List<Department> depart = DBContext.Departments.ToList();
-            //ViewBag.equipments = equipments;
+            List<Room> departments = DBContext.Rooms.Where(x => x.camera_available != 0).ToList();
             ViewBag.departments = departments;
-            ViewBag.depart = depart;
             return View("/Views/Camera/SuCo.cshtml");
         }
         [Auther(RightID = "193")]
@@ -136,12 +132,11 @@ namespace QUANGHANH2.Controllers.Camera
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            string query = @"select r.room_name, r.camera_available, r.camera_quantity, d.department_name, ci.reason, ci.incident_id, ci.end_time, ci.incident_camera_quantity
+            string query = @"select r.room_name, r.camera_available, d.department_name, ci.reason, ci.incident_id, ci.start_time, ci.end_time, ci.incident_camera_quantity
                     from Room r join Department d on r.department_id = d.department_id
                     join CameraIncident ci on r.room_id = ci.room_id where";
 
