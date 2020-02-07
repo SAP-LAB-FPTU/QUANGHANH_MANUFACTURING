@@ -169,6 +169,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\Camera\CapNhatTrangThaiController.cs" />
+    <Compile Include="Controllers\Camera\SucoCamController.cs" />
+    <Compile Include="Controllers\Camera\TrangChuController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\CDVTXinCapVatTuController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
     <Compile Include="Controllers\AT\ViewAccidentController.cs" />
@@ -691,6 +693,8 @@
     <Compile Include="Utils\TimeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\Custom css\Camera\bar.js" />
+    <Content Include="assets\Custom css\Camera\pie-doghnut.js" />
     <Content Include="assets\Custom css\CDVT\dashboard.css" />
     <Content Include="assets\Custom css\CDVT\StyleSheet1.css" />
     <Content Include="assets\Custom css\TCLD\Brief\AddBrief.css" />
@@ -7488,6 +7492,7 @@
     <Content Include="Views\CDVT\Vattu\CdvtXincapvattu.cshtml" />
     <Content Include="Views\Phanxuong\Huydongphanxuong.cshtml" />
     <Content Include="Views\Camera\CapNhatTrangThai.cshtml" />
+    <Content Include="Views\Camera\TrangChu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7496,6 +7501,7 @@
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="Library\" />
     <Folder Include="Views\CapNhatTrangThai\" />
+    <Folder Include="Views\TrangChu\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
