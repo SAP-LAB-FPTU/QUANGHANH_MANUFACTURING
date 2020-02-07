@@ -19,6 +19,7 @@ namespace QUANGHANH2.Models
         {
             this.FileBaoCaos = new HashSet<FileBaoCao>();
             this.User_Action_Log = new HashSet<User_Action_Log>();
+            this.Account_Right_Detail = new HashSet<Account_Right_Detail>();
             this.Important_Documentary = new HashSet<Important_Documentary>();
         }
     
@@ -27,6 +28,7 @@ namespace QUANGHANH2.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public string Position { get; set; }
+        public Nullable<int> Role { get; set; }
         public string NVID { get; set; }
         public bool CDVT { get; set; }
         public bool TCLD { get; set; }
@@ -53,6 +55,9 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User_Action_Log> User_Action_Log { get; set; }
         public virtual NhanVien NhanVien { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Account_Right_Detail> Account_Right_Detail { get; set; }
+        public virtual Role Role1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Important_Documentary> Important_Documentary { get; set; }
     }
