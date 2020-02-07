@@ -169,7 +169,7 @@ namespace QUANGHANHCORE.Controllers
             {
                 RightIDs.Add("0");
                 Session["url"] = "ManagementUser/Index";
-                Session["departID"] = "QL";
+                //Session["departID"] = "QL";
             }
             RightIDs.Add("000");
             Session["RightIDs"] = RightIDs;

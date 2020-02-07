@@ -621,23 +621,6 @@
                                                         </td>
                                                         <td><a href='#!' onclick='ShowRight(18)'>Các quyền</a></td>
                                                     </tr>
-                                                    <tr id="hide12">
-                                                        <td><label>Quyền quản lí</label></td>
-                                                        <td>
-                                                            <select class='form-control' id='module7'>
-                                                                <option value='0'>Không</option>
-                                                                @if (@Model.ADMIN)
-                                                                {
-                                                                    <option value='1' selected>Có</option>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <option value='1'>Có</option>
-                                                                }
-                                                            </select>
-                                                        </td>
-                                                        <td></td>
-                                                    </tr>
                                                     <tr id="hide19">
                                                         <td><label>An toàn</label></td>
                                                         <td>
@@ -655,6 +638,24 @@
                                                         </td>
                                                         <td><a href='#!' onclick='ShowRight(17)'>Các quyền</a></td>
                                                     </tr>
+                                                    <tr id="hide12">
+                                                        <td><label>Quyền quản lí</label></td>
+                                                        <td>
+                                                            <select class='form-control' id='module7'>
+                                                                <option value='0'>Không</option>
+                                                                @if (@Model.ADMIN)
+                                                                {
+                                                                    <option value='1' selected>Có</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value='1'>Có</option>
+                                                                }
+                                                            </select>
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+
                                                 </table>
                                             </div>
                                         </div>
