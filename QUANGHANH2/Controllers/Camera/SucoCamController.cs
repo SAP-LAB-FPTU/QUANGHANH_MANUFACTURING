@@ -51,13 +51,13 @@ namespace QUANGHANH2.Controllers.Camera
                     i.incident_camera_quantity = Convert.ToInt32(quan);
                     i.reason = reason;
                     i.start_time = start;
-                    //i.end_time = end;
                     if (checkBox == "yes")
                     {
                         i.reason = null;
                         i.end_time = null;
                     }
                     e.camera_available = e.camera_available - Convert.ToInt32(quan);
+                    e.signal_loss_reason = reason;
                     DBContext.CameraIncidents.Add(i);
                     DBContext.SaveChanges();
                     transaction.Commit();
@@ -122,6 +122,8 @@ namespace QUANGHANH2.Controllers.Camera
             {
                 i.reason = reason;
                 i.end_time = new DateTime(year, month, day, hour, minute, 0);
+                Room r = DBContext.Rooms.Where(x => x.room_id == i.room_id).FirstOrDefault();
+                r.camera_available = r.camera_available + i.incident_camera_quantity;
                 DBContext.SaveChanges();
                 return Json(new { success = true, message = "Cập nhật thành công" }, JsonRequestBehavior.AllowGet);
             }
