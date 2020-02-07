@@ -17,5 +17,8 @@ namespace QUANGHANH2.Models
         public int ID { get; set; }
         public int AccountID { get; set; }
         public int RightID { get; set; }
+    
+        public virtual Account Account { get; set; }
+        public virtual Account_Right Account_Right { get; set; }
     }
 }

@@ -22,6 +22,7 @@ namespace QUANGHANH2.Controllers
 
         public ActionResult Index(string username)
         {
+            //if(Session["Role"].ToString().)
             var employ = (from nv in db.NhanViens
                           join pb in db.Departments on nv.MaPhongBan equals pb.department_id
                           select new employ
