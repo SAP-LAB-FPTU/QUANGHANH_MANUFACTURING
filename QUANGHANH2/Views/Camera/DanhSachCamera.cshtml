@@ -60,7 +60,8 @@
                             <th>Tình trạng ổ cứng</th>
                             <th>Dung lượng ổ cứng</th>
                             <th>Số seri ổ cứng</th>
-                            <th>Tình trạng kỹ thuật</th>
+                            <th>Ổ cứng đang lưu dữ liệu</th>
+                            <th>Tình trạng kỹ thuật camera</th>
                             <th>Ghi chú</th>
                             <th></th>
                             <th></th>
@@ -127,6 +128,14 @@
                         <div class="form-group">
                             <label>Dung lượng ổ cứng (GB) : </label>
                             <input required type="number" min="1" class="form-control" value="1" id="capacity-add" />
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group" style="padding-top: 29px;">
+                            <label class="custom-control custom-checkbox">
+                                <input type="checkbox" value="false" class="custom-control-input" id="checkbox-add" onclick="checkbox()">
+                                <span class="custom-control-label" for="chbxTerms">Có lưu dữ liệu</span>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -266,6 +275,11 @@
                     }
                 },
                 { "data": "series", "name": "series" },
+                {
+                    "data": "disk_saveable", "name": "disk_saveable", render: function (data) {
+                        return data ? "Có" : "Không";
+                    }
+                },
                 { "data": "signal_loss_reason", "name": "signal_loss_reason" },
                 { "data": "note", "name": "note" },
                 {
@@ -344,7 +358,8 @@
                     department: $('#department-add').val(),
                     capacity: $('#capacity-add').val(),
                     serial: $('#resial-add').val(),
-                    status: $('#status-add').val()
+                    status: $('#status-add').val(),
+                    saveable: $('#checkbox-add').val()
                 },
                 cache: false,
                 datatype: "json",
@@ -423,4 +438,12 @@
             })
         })
     });
+
+    function checkbox() {
+        if ($('#checkbox-add').is(':checked')) {
+            $('#checkbox-add').val(true)
+        } else {
+            $('#checkbox-add').val(false)
+        }
+    }
 </script>

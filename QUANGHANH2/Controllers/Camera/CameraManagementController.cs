@@ -127,6 +127,7 @@ namespace QUANGHANH2.Controllers.Camera
                 r.camera_quantity = int.Parse(Request["quantity"].ToString());
                 r.camera_available = int.Parse(Request["quantity"].ToString());
                 r.signal_loss_reason = "";
+                r.disk_saveable = bool.Parse(Request["saveable"].ToString());
                 db.Rooms.Add(r);
                 db.SaveChanges();
                 return Json(new { success = true, message = "Thêm thành công" });
