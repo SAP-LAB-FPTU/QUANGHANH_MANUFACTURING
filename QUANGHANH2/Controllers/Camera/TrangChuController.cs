@@ -54,7 +54,7 @@ namespace QUANGHANH2.Controllers.Camera
             return View("/Views/Camera/TrangChu.cshtml");
         }
 
-        [Route("camera/changedate")]
+        //[Route("camera/changedate")]
         [HttpPost]
         public ActionResult ChangeDate(string date)
         {

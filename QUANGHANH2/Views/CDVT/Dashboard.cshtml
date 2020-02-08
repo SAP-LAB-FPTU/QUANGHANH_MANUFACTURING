@@ -64,251 +64,320 @@
         }
     });
 
+    $(document).ready(function() {
+        let height = $("#camera-accident").height();
+        $('.summary-container #camera-accident').each(function () {
+            $(this).height(height);
+        })
+    });
+
+    $(window).resize(function () {
+        let height = $("#camera-accident").height();
+        $('.summary-container #camera-accident').each(function () {
+            $(this).height(height);
+        })
+    });
 </script>
 @{
     List<string> rights = (List<string>)Session["RightIDs"];
 }
 
-<div class="card">
-    <div class="card-content center-align">
-        <div class="row">
-            <div class="col s12">
-                @{
-                    if (rights.Contains("193"))
-                    {
-                        <h3 class="col s12">THÔNG TIN CAMERA</h3>
-                    }
-                }
-            </div>
-            <div class="col s12 m12 l12">
-                <hr />
-            </div>
-            <div class="col s12">
-                <div class="center">
-                    <div class="month" id="visiblemonth">
-                        <h3>
-                            <i class="fas fa-calendar-alt icon"></i>
-                            <input type="text"
-                                   id="txtmonth"
-                                   class="datepicker-here center"
-                                   data-language='vi'
-                                   data-min-view="months"
-                                   data-view="months"
-                                   data-date-format="MM yyyy" />
-                        </h3>
+@{
+    if (rights.Contains("193"))
+    {
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12">
+                        <h3 class="col s12 center">THÔNG TIN HỆ THỐNG CAMERA</h3>
                     </div>
-                    @*<div class="year" id="visibleyear" style="display: none">
-                            <h3>
-                                <i class="fas fa-calendar-alt icon"></i>
-                                <input type="text"
-                                       id="txtyear"
-                                       class="datepicker-here center"
-                                       data-language='vi'
-                                       data-min-view="years"
-                                       data-view="years"
-                                       data-date-format="yyyy" />
-                            </h3>
-                        </div>*@
-                </div>
-
-            </div>
-
-            @*<ul id='dropdown1' class='dropdown-content'>
-                    <li onclick="ViewbyMonth();"><a id="month" href="#" ;>Xem Theo Tháng</a></li>
-                    <li onclick="ViewbyYear();"><a id="year" href="#" ;>Xem Theo Năm</a></li>
-                </ul>*@
-
-            <div class="summary-container col l12 m12 s12">
-                <div class="col l4 s12 m12">
-                    <div class="card warning-gradient card-hover">
-                        <a href="#kiemdinhcogioi" class="modal-trigger">
-                            <div class="card-content">
-                                <div class="d-flex no-block align-items-center">
-                                    <div>
-                                        <h6 class="white-text op-1">Số lần xảy ra sự cố</h6>
-                                        <h3 class="white-text m-b-5" id="sum">@ViewBag.dc.sum</h3>
-                                        <h6 class="white-text op-1"></h6>
-                                        <br />
-                                    </div>
-                                    <div class="ml-auto">
-                                        <span class="white-text display-6">
-                                            <i class="material-icons dp48">report_problem</i>
-                                        </span>
-                                    </div>
-                                </div>
-
+                    <div class="col s12 m12 l12">
+                        <hr />
+                    </div>
+                    <div id="pyear" class="this-is-chart col s12">
+                        <div class="">
+                            <div class="analytics-info">
+                                <div id="basic-pie" style="height:400px"></div>
                             </div>
-                        </a>
+                        </div>
                     </div>
-                </div>
-
-                <div class="col l4 s12 m12">
-                    <div class="card warning-gradient card-hover">
-                        <a href="#kiemdinhcogioi" class="modal-trigger">
-                            <div class="card-content">
-                                <div class="d-flex no-block align-items-center">
-                                    <div>
-                                        <h6 class="white-text op-1">Số lần đã giải quyết</h6>
-                                        <h3 class="white-text m-b-5" id="done">@ViewBag.dc.done</h3>
-                                        <h6 class="white-text op-1"></h6>
-                                        <br />
-                                    </div>
-                                    <div class="ml-auto">
-                                        <span class="white-text display-6">
-                                            <i class="material-icons dp48">report_problem</i>
-                                        </span>
-                                    </div>
-                                </div>
-
+                    <div class="col s12 m12 l12">
+                        <br />
+                        <hr />
+                    </div>
+                    <div class="col s12">
+                        <a id="typeview" class='dropdown-trigger btn left' href='#' data-target='dropdown1' style="width:250px;background-color:#273146">Xem Theo Ngày</a>
+                        <div class="center">
+                            <div class="month" id="visiblemonth" style="display: none">
+                                <h3>
+                                    <i class="fas fa-calendar-alt icon"></i>
+                                    <input type="text"
+                                           id="txtmonth"
+                                           class="datepicker-here center"
+                                           data-language='vi'
+                                           data-min-view="months"
+                                           data-view="months"
+                                           data-date-format="MM yyyy" />
+                                </h3>
                             </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col l4 s12 m12">
-                    <div class="card warning-gradient card-hover">
-                        <a href="#baoduongcogioi" class="modal-trigger">
-                            <div class="card-content">
-                                <div class="d-flex no-block align-items-center">
-                                    <div>
-                                        <h6 class="white-text op-1">Số lần chưa giải quyết</h6>
-                                        <h3 class="white-text m-b-5" id="notdone">@ViewBag.dc.notdone</h3>
-                                        <h6 class="white-text op-1"></h6>
-                                        <br />
-                                    </div>
-                                    <div class="ml-auto">
-                                        <span class="white-text display-6">
-                                            <i class="material-icons dp48">report_problem</i>
-                                        </span>
-                                    </div>
-                                </div>
+                            <div class="year" id="visibleyear" style="display: none">
+                                <h3>
+                                    <i class="fas fa-calendar-alt icon"></i>
+                                    <input type="text"
+                                           id="txtyear"
+                                           class="datepicker-here center"
+                                           data-language='vi'
+                                           data-min-view="years"
+                                           data-view="years"
+                                           data-date-format="yyyy" />
+                                </h3>
                             </div>
-                        </a>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div id="cyear" class="this-is-chart col l6">
-                <div class="">
-                    <div class="analytics-info">
-                        <div id="basic-bar" style="height:400px"></div>
+                    <div class="summary-container col l12 m12 s12">
+                        <div class="col l4 s12 m12">
+                            <div class="card warning-gradient card-hover">
+                                <a class="modal-trigger">
+                                    <div class="card-content" id="camera-accident">
+                                        <div class="d-flex no-block align-items-center">
+                                            <div>
+                                                <h4 class="white-text op-1">Số lần xảy ra sự cố: <span id="sum">@ViewBag.dc.sum</span></h4>
+                                                <br />
+                                                <h6 class="white-text op-1 left">Số lần bị sét đánh : <span id="lightning">@ViewBag.dc.lightning</span></h6>
+                                            </div>
+                                            <div class="ml-auto">
+                                                <span class="white-text display-6">
+                                                    <i class="material-icons dp48">report_problem</i>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col l4 s12 m12">
+                            <div class="card warning-gradient card-hover">
+                                <a class="modal-trigger">
+                                    <div class="card-content" id="camera-accident">
+                                        <div class="d-flex no-block align-items-center">
+                                            <div>
+                                                <h4 class="white-text op-1">Sự cố đã giải quyết: <span id="done">@ViewBag.dc.done</span></h4>
+                                            </div>
+                                            <div class="ml-auto">
+                                                <span class="white-text display-6">
+                                                    <i class="material-icons dp48">report_problem</i>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col l4 s12 m12">
+                            <div class="card warning-gradient card-hover">
+                                <a class="modal-trigger">
+                                    <div class="card-content" id="camera-accident">
+                                        <div class="d-flex no-block align-items-center">
+                                            <div>
+                                                <h4 class="white-text op-1">Sự cố chưa giải quyết : <span id="notdone">@ViewBag.dc.notdone</span></h4>
+                                            </div>
+                                            <div class="ml-auto">
+                                                <span class="white-text display-6">
+                                                    <i class="material-icons dp48">report_problem</i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div id="pyear" class="this-is-chart col l6">
-                <div class="">
-                    <div class="analytics-info">
-                        <div id="basic-pie" style="height:400px"></div>
+                    <div class="col l12 m12 s12" id="camerachart">
+                        <div class="chart-container">
+                            <div class="chart-content ">
+                                <h5 class="chart-title">Số camera gặp sự cố</h5>
+                                <div class="row">
+                                    <p id="notiCamera" class="chart-mess center" hidden>Không có dữ liệu</p>
+                                </div>
+                                <div id="basic-barcamera" style="height:400px;"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<button class="modal-trigger" data-target="thongke" id="Fbut" style="display: none">abc</button>
-<div class="modal" id="thongke">
-    <div class="card">
-        <div class="card-content row">
-            <div class="modal-body">
-                <table id="contentTB" class="table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Tên hệ thống</th>
-                            <th>Phòng ban</th>
-                            <th>Số lượng hoạt động/Tổng số</th>
-                        </tr>
-                    </thead>
-                    <tbody id="contentTB_body">
-                    </tbody>
-                </table>
+        <div class="modal" id="thongke">
+            <div class="card">
+                <div class="card-content row">
+                    <div class="modal-body">
+                        <table id="contentTB" class="table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Tên hệ thống</th>
+                                    <th>Phòng ban</th>
+                                    <th>Số lượng hoạt động/Tổng số</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contentTB_body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
+        <input type="hidden" id="type" />
+        <script src="~/assets/Custom css/Camera/pie-doghnut.js" charset="utf-8"></script>
+        <script src="~/assets/Custom css/Camera/bar.js" charset="utf-8"></script>
+        <script>
+            var done, notdone;
+            var kodaydu, daydu, ko;
+            $("#Fbut").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/camera/getList",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success == false) {
+                            errorAlert('Lỗi', data.message);
+                        }
+                        else {
+                            $("#contentTB_body").empty();
+                            for (i = 0; i < data.listDB.length; i++) {
+                                //$("#contentTB_body").append("<tr><td>abc</td></tr>")
+                                $("#contentTB_body").append("<tr><td>" + data.listDB[i].room_name + "</td><td>" + data.listDB[i].department_name + "</td><td>" + data.listDB[i].camera_available + "/" + data.listDB[i].camera_quantity + "</td></tr>");
 
-    </div>
-</div>
-<input type="hidden" id="type" />
-<script src="~/assets/Custom css/Camera/pie-doghnut.js" charset="utf-8"></script>
-<script src="~/assets/Custom css/Camera/bar.js" charset="utf-8"></script>
-<script>
-    var done, notdone;
-    var kodaydu, daydu, ko;
-    $("#Fbut").click(function () {
-        $.ajax({
-            type: "POST",
-            url: "/camera/getList",
-            dataType: "json",
-            success: function (data) {
-                if (data.success == false) {
-                    errorAlert('Lỗi', data.message);
+                            }
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        errorAlert('Lỗi', 'Có lỗi xảy ra');
+                    },
+                    data: {
+                        type: $("#type").val()
+                    },
+                    cache: false
+                })
+            });
+            $("#txtmonth").datepicker({
+                onSelect: function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/camera/changedate",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.success == false) {
+                                errorAlert('Lỗi', data.message);
+                            }
+                            else {
+                                $('#sum').text(data.dc.sum);
+                                $('#done').text(data.dc.done);
+                                $('#notdone').text(data.dc.notdone);
+                                $('#lightning').text(data.dc.lightning);
+
+                                var temp = data.dc.done.toString();
+                                done = temp.split(' ');
+                                temp = data.dc.notdone.toString();
+                                notdone = temp.split(' ');
+                                chartYear();
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            errorAlert('Lỗi', 'Có lỗi xảy ra');
+                        },
+                        data: {
+                            date: $('#txtmonth').val()
+                        },
+                        cache: false
+                    })
                 }
-                else {
-                    $("#contentTB_body").empty();
-                    for (i = 0; i < data.listDB.length; i++) {
-                        //$("#contentTB_body").append("<tr><td>abc</td></tr>")
-                        $("#contentTB_body").append("<tr><td>" + data.listDB[i].room_name + "</td><td>" + data.listDB[i].department_name + "</td><td>" + data.listDB[i].camera_available + "/" + data.listDB[i].camera_quantity + "</td></tr>");
+            });
 
-                    }
+            $(document).ready(function () {
+                var array = @Html.Raw(Json.Encode(ViewBag.camera));
+                if (array.length == 0) {
+                    $('#basic-barcamera').attr('hidden', true);
+                    $('#notiCamera').removeAttr('hidden');
                 }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                errorAlert('Lỗi', 'Có lỗi xảy ra');
-            },
-            data: {
-                type: $("#type").val()
-            },
-            cache: false
-        })
-    });
-    $("#txtmonth").datepicker({
-        onSelect: function () {
-            $.ajax({
-                type: "POST",
-                url: "/camera/changedate",
-                dataType: "json",
-                success: function (data) {
-                    if (data.success == false) {
-                        errorAlert('Lỗi', data.message);
-                    }
-                    else {
-                        $('#sum').text(data.dc.sum);
-                        $('#done').text(data.dc.done);
-                        $('#notdone').text(data.dc.notdone);
+                var a = JSON.stringify(array);
+                var jsonData = JSON.parse(a);
+                var soluong = [];
+                var thang = [];
+                if(@ViewBag.type == month) {
+                    for (var i = 0; i < jsonData.length; i++) {
+                        soluong[i] = jsonData[i].soluong;
+                        thang[i] = "Ngày "+jsonData[i].date;
+                        }
+                }
+                if(@ViewBag.type == year) {
+                    for (var i = 0; i < jsonData.length; i++) {
+                        soluong[i] = jsonData[i].soluong;
+                        thang[i] = "Tháng "+jsonData[i].date;
+                        }
+                }
+                if(@ViewBag.type == yearss) {
+                    for (var i = 0; i < jsonData.length; i++) {
+                        soluong[i] = jsonData[i].soluong;
+                        thang[i] = jsonData[i].date;
+                        }
+                }
+                var a = {
+                    type: 'bar',
+                    data: soluong,
+                }
+                var b = {
+                    type: 'category',
+                    data : thang,
+                }
+                $('.datepicker-inline').remove();
+                var myChartkd = echarts.init(document.getElementById('basic-barcamera'));
+                var option = {
+                    grid: {
+                        left: '1%',
+                        right: '2%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    color: ["#2962FF", "#4fc3f7"],
+                    calculable: true,
+                    xAxis: [
+                        b
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value'
+                        }
+                    ],
+                    series: [
+                        a
+                    ]
+                };
+                myChartkd.setOption(option);
 
-                        var temp = data.dc.done.toString();
-                        done = temp.split(' ');
-                        temp = data.dc.notdone.toString();
-                        notdone = temp.split(' ');
-                        chartYear();
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    errorAlert('Lỗi', 'Có lỗi xảy ra');
-                },
-                data: {
-                    date: $('#txtmonth').val()
-                },
-                cache: false
-            })
-        }
-    });
+                $('.datepicker-inline').hide();
+                var today = '@ViewBag.today';
+                $('#txtmonth').val("Tháng " + today);
+                var temp = '@ViewBag.dc.done';
+                done = temp.split(' ');
 
-    $(document).ready(function () {
-        $('.datepicker-inline').hide();
-        var today = '@ViewBag.today';
-        $('#txtmonth').val("Tháng " + today);
-        var temp = '@ViewBag.dc.done';
-        done = temp.split(' ');
+                temp = '@ViewBag.dc.notdone';
+                notdone = temp.split(' ');
+                //chartYear();
 
-        temp = '@ViewBag.dc.notdone';
-        notdone = temp.split(' ');
-        chartYear();
-
-        kodaydu = @ViewBag.dr.kodaydu;
-        daydu = @ViewBag.dr.daydu;
-        ko = @ViewBag.dr.ko;
-        piechart();
-    });
-</script>
-
+                kodaydu = @ViewBag.dr.kodaydu;
+                daydu = @ViewBag.dr.daydu;
+                ko = @ViewBag.dr.ko;
+                piechart();
+            });
+        </script>
+    }
+}
 <div class="card">
     <div class="card-content center-align">
         <div class="row">
@@ -1062,44 +1131,44 @@
 </div>
 
 <div class="card">
-    <div class="card-content">
-        <div class="col s12">
-            <div class="center">
-                <div class="month" id="visiblemonth" style="display: none">
-                    <h3>
-                        <i class="fas fa-calendar-alt icon"></i>
-                        <input type="text"
-                               id="txtmonth"
-                               class="datepicker-here center"
-                               data-language='vi'
-                               data-min-view="months"
-                               data-view="months"
-                               data-date-format="MM yyyy" />
-                    </h3>
-                </div>
-                <div class="year" id="visibleyear" style="display: none">
-                    <h3>
-                        <i class="fas fa-calendar-alt icon"></i>
-                        <input type="text"
-                               id="txtyear"
-                               class="datepicker-here center"
-                               data-language='vi'
-                               data-min-view="years"
-                               data-view="years"
-                               data-date-format="yyyy" />
-                    </h3>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="row">
+    @if (!rights.Contains("193"))
+    {
+        <div class="card-content">
             <div class="col s12">
-                <a id="typeview" class='dropdown-trigger btn' href='#' data-target='dropdown1' style="width:250px;background-color:#273146;margin-bottom:20px">Xem Theo Ngày</a>
+                <div class="center">
+                    <div class="month" id="visiblemonth" style="display: none">
+                        <h3>
+                            <i class="fas fa-calendar-alt icon"></i>
+                            <input type="text"
+                                   id="txtmonth"
+                                   class="datepicker-here center"
+                                   data-language='vi'
+                                   data-min-view="months"
+                                   data-view="months"
+                                   data-date-format="MM yyyy" />
+                        </h3>
+                    </div>
+                    <div class="year" id="visibleyear" style="display: none">
+                        <h3>
+                            <i class="fas fa-calendar-alt icon"></i>
+                            <input type="text"
+                                   id="txtyear"
+                                   class="datepicker-here center"
+                                   data-language='vi'
+                                   data-min-view="years"
+                                   data-view="years"
+                                   data-date-format="yyyy" />
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <a id="typeview" class='dropdown-trigger btn' href='#' data-target='dropdown1' style="width:250px;background-color:#273146;margin-bottom:20px">Xem Theo Ngày</a>
+                </div>
             </div>
         </div>
-
-    </div>
+    }
 
 
     <ul id='dropdown1' class='dropdown-content'>

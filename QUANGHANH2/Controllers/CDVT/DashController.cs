@@ -282,18 +282,20 @@ namespace QUANGHANHCORE.Controllers.CDVT
             if (rights.Contains("193"))
             {
                 DateTime d = DateTime.Today;
-                ViewBag.today = d.ToString("MM yyyy");
-                string query = @"select COUNT(ci.incident_id) as 'sum', SUM(case when ci.end_time is not null  then 1 else  0 end) as 'done', SUM(case when ci.reason like N'%sét%' or ci.reason like '%set%' then 1 else 0 end) as 'lightning'
-                            from CameraIncident ci
-                            where MONTH(ci.start_time) = @month and YEAR(ci.start_time) = @year";
-                DashCam dc = db.Database.SqlQuery<DashCam>(query, new SqlParameter("month", d.Month), new SqlParameter("year", d.Year)).FirstOrDefault();
+                ViewBag.today = month == null ? d.ToString("MM yyyy") : (month + " " + year);
+                string query = @"select COUNT(ci.incident_id) as 'sum', 
+                    case when SUM(case when ci.end_time is not null  then 1 else  0 end) is null then 0 else SUM(case when ci.end_time is not null  then 1 else  0 end) end as 'done', 
+                    case when SUM(case when ci.reason like N'%sét%' or ci.reason like '%set%' then 1 else 0 end) is null then 0 else SUM(case when ci.reason like N'%sét%' or ci.reason like '%set%' then 1 else 0 end) end as 'lightning'
+                    from CameraIncident ci
+                    where MONTH(ci.start_time) = @month and YEAR(ci.start_time) = @year";
+                DashCam dc = db.Database.SqlQuery<DashCam>(query, new SqlParameter("month", month == null ? d.Month.ToString() : month), new SqlParameter("year", year == null ? d.Year.ToString() : year)).FirstOrDefault();
                 dc.notdone = dc.sum - dc.done;
                 ViewBag.dc = dc;
 
-                string query2 = @"select SUM(case when r.camera_available = r.camera_quantity then 1 else 0 end) as 'daydu',
-	                            SUM(case when r.camera_available < r.camera_quantity and r.camera_available > 0 then 1 else 0 end) as 'kodaydu',
-	                            SUM(case when r.camera_available = 0 then 1 else 0 end) as 'ko'
-                            from Room r";
+                string query2 = @"select case when SUM(case when r.camera_available = r.camera_quantity then 1 else 0 end) is null then 0 else SUM(case when r.camera_available = r.camera_quantity then 1 else 0 end) end as 'daydu',
+                    case when SUM(case when r.camera_available < r.camera_quantity and r.camera_available > 0 then 1 else 0 end) is null then 0 else SUM(case when r.camera_available < r.camera_quantity and r.camera_available > 0 then 1 else 0 end) end as 'kodaydu',
+                    case when SUM(case when r.camera_available = 0 then 1 else 0 end) is null then 0 else SUM(case when r.camera_available = 0 then 1 else 0 end) end as 'ko'
+                    from Room r";
                 DashRoom dr = db.Database.SqlQuery<DashRoom>(query2).FirstOrDefault();
                 ViewBag.dr = dr;
             }
@@ -307,6 +309,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             string queryTL = "";
             string queryTDT = "";
             string queryKD = "";
+            string queryCamera = "";
             if (type == null)
             {
                 int monthnull = DateTime.Now.Date.Month;
@@ -330,6 +333,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 queryKD = "select DAY(e.inspect_date) as [date] ,COUNT(e.inspect_date) as soluong " +
                             " from Equipment_Inspection e where MONTH(e.inspect_date) = " + monthnull + " and YEAR(e.inspect_date) = " + yearnull + " " +
                             " group by DAY(e.inspect_date)";
+                queryCamera = @"select DAY(e.start_time) as [date] ,SUM(e.incident_camera_quantity) as soluong  
+                             from CameraIncident e where MONTH(e.start_time) = " + monthnull + " and YEAR(e.start_time) = " + yearnull + 
+                             " group by DAY(e.start_time)";
             }
             if (type == "month")
             {
@@ -354,6 +360,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 queryKD = "select DAY(e.inspect_date) as [date] ,COUNT(e.inspect_date) as soluong " +
                             " from Equipment_Inspection e where MONTH(e.inspect_date) = " + thang + " and YEAR(e.inspect_date) = " + nam + " " +
                             " group by DAY(e.inspect_date)";
+                queryCamera = @"select DAY(e.start_time) as [date] ,SUM(e.incident_camera_quantity) as soluong  
+                             from CameraIncident e where MONTH(e.start_time) = " + thang + " and YEAR(e.start_time) = " + nam +
+                             " group by DAY(e.start_time)";
             }
             if (type == "year")
             {
@@ -386,6 +395,10 @@ namespace QUANGHANHCORE.Controllers.CDVT
                              " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
                              " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join Equipment_Inspection e " +
                              " on t.[month] = month(e.inspect_date) and YEAR(e.inspect_date) = " + nam + " group by t.[month]";
+                queryCamera = @"select CAST(t.[month] as int) as [date], case when sum(e.incident_camera_quantity) is null then 0 else sum(e.incident_camera_quantity) end as soluong from (select number as [month]  
+                              FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n),  
+                              (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join CameraIncident e  
+                              on t.[month] = month(e.start_time) and YEAR(e.end_time) = " + nam + " group by t.[month]";
             }
             if (type == "yearss")
             {
@@ -419,6 +432,12 @@ namespace QUANGHANHCORE.Controllers.CDVT
                              " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a " +
                              " where DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join Equipment_Inspection e " +
                              " on t.[year] = year(e.inspect_date) group by t.[year] order by t.[year] asc";
+                queryCamera = @"select t.[year] as [date], case when sum(e.incident_camera_quantity) is null then 0 else sum(e.incident_camera_quantity) end as soluong from  
+                              (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date)))  
+                              FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n),  
+                              (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a  
+                              where DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join CameraIncident e  
+                              on t.[year] = year(e.start_time) group by t.[year] order by t.[year] asc";
             }
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -427,6 +446,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 ViewBag.thanhli = db.Database.SqlQuery<form>(queryTL).ToList();
                 ViewBag.trungdaitu = db.Database.SqlQuery<form>(queryTDT).ToList();
                 ViewBag.kiemdinh = db.Database.SqlQuery<form>(queryKD).ToList();
+                ViewBag.camera = db.Database.SqlQuery<form>(queryCamera).ToList();
                 if (type == "month" || type == null)
                 {
                     ViewBag.type = "month";
@@ -448,7 +468,8 @@ namespace QUANGHANHCORE.Controllers.CDVT
         public ActionResult ChangeDate(string date)
         {
             string[] d = date.Split(' ');
-            string query = @"select COUNT(ci.incident_id) as 'sum', case when SUM(case when ci.end_time is not null then 1 else 0 end) is null then 0 else SUM(case when ci.end_time is not null then 1 else 0 end) end  as 'done'
+            string query = @"select COUNT(ci.incident_id) as 'sum', case when SUM(case when ci.end_time is not null then 1 else 0 end) is null then 0 else SUM(case when ci.end_time is not null then 1 else 0 end) end  as 'done',
+                            case when SUM(case when ci.reason like N'%sét%' or ci.reason like '%set%' then 1 else 0 end) is null then 0 else SUM(case when ci.reason like N'%sét%' or ci.reason like '%set%' then 1 else 0 end) end as 'lightning'
                             from CameraIncident ci
                             where MONTH(ci.start_time) = @month and YEAR(ci.start_time) = @year";
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();

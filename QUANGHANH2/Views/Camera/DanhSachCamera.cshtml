@@ -25,12 +25,6 @@
                     </div>
                     <div class="col l10 m10 s12 input-field">
                         <input type="text" placeholder="Tình trạng ổ cứng" class='form-control' id="status-search" />
-                        @*<select class="form-control" id="status-search">
-                                <option value="0">Tất cả tình trạng ổ cứng</option>
-                                <option value="1">Có dữ liệu</option>
-                                <option value="2">Không có dữ liệu</option>
-                                <option value="3">Không có ổ cứng trong đầu ghi</option>
-                            </select>*@
                     </div>
                 </div>
             </div>
@@ -38,12 +32,6 @@
                 <div class="row">
                     <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
                         <input type="text" placeholder="Lý do mất tín hiệu" class='form-control' id="reason-search" />
-                        @*<select class="form-control" id="reason-search">
-                                <option value="0">Tất cả lý do mất tín hiệu</option>
-                                <option value="1">Không bật trên máy tính</option>
-                                <option value="2">Không rõ nguyên nhân</option>
-                                <option value="3">Nguyên nhân khác</option>
-                            </select>*@
                     </div>
                     <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
                         <select class="form-control" id="department-search">
@@ -67,12 +55,12 @@
                     <thead>
                         <tr>
                             <th>Tên vị trí hệ thống</th>
-                            <th>Trực thuộc phòng ban</th>
+                            <th>Đơn vị trực thuộc</th>
                             <th>Tình trạng số lượng (có tín hiệu/tổng số)</th>
                             <th>Tình trạng ổ cứng</th>
                             <th>Dung lượng ổ cứng</th>
                             <th>Số seri ổ cứng</th>
-                            <th>Lý do mất tín hiệu</th>
+                            <th>Tình trạng kỹ thuật</th>
                             <th>Ghi chú</th>
                             <th></th>
                             <th></th>
@@ -94,7 +82,7 @@
                 <div class="col s12 m6">
                     <div class="col s12 m12">
                         <div class="form-group">
-                            <label>Trực thuộc phòng ban : </label>
+                            <label>Đơn vị trực thuộc : </label>
                             <select class="form-control" id="department-add">
                                 @foreach (QUANGHANH2.Models.Department item in ViewBag.departs)
                                 {
