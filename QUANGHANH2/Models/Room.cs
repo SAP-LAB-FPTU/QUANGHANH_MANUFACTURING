@@ -18,6 +18,7 @@ namespace QUANGHANH2.Models
         public Room()
         {
             this.Camera_Acceptance = new HashSet<Camera_Acceptance>();
+            this.CameraIncidents = new HashSet<CameraIncident>();
             this.Documentary_camera_repair_details = new HashSet<Documentary_camera_repair_details>();
             this.Supply_Documentary_Camera = new HashSet<Supply_Documentary_Camera>();
         }
@@ -32,9 +33,13 @@ namespace QUANGHANH2.Models
         public string disk_status { get; set; }
         public string signal_loss_reason { get; set; }
         public string note { get; set; }
+        public bool disk_saveable { get; set; }
+        public string login_information { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Camera_Acceptance> Camera_Acceptance { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CameraIncident> CameraIncidents { get; set; }
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_camera_repair_details> Documentary_camera_repair_details { get; set; }
