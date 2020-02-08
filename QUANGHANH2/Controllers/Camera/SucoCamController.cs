@@ -47,12 +47,11 @@ namespace QUANGHANH2.Controllers.Camera
                     i.incident_camera_quantity = Convert.ToInt32(quan);
                     i.reason = reason;
                     i.start_time = start;
-                    if (checkBox == "yes")
-                    {
-                        i.reason = null;
-                        i.end_time = null;
-                    }
+                    i.disk_saveable = bool.Parse(Request["checkBox"].ToString());
+                    i.disk_status = Request["status"];
                     e.camera_available = e.camera_available - Convert.ToInt32(quan);
+                    e.disk_saveable = i.disk_saveable;
+                    e.disk_status = i.disk_status;
                     e.signal_loss_reason = reason;
                     DBContext.CameraIncidents.Add(i);
                     DBContext.SaveChanges();
@@ -136,7 +135,7 @@ namespace QUANGHANH2.Controllers.Camera
             string sortDirection = Request["order[0][dir]"];
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            string query = @"select r.room_name, r.camera_available, d.department_name, ci.reason, ci.incident_id, ci.start_time, ci.end_time, ci.incident_camera_quantity
+            string query = @"select r.room_name, r.camera_available, ci.disk_status, r.disk_saveable, d.department_name, ci.reason, ci.incident_id, ci.start_time, ci.end_time, ci.incident_camera_quantity
                     from Room r join Department d on r.department_id = d.department_id
                     join CameraIncident ci on r.room_id = ci.room_id where";
 
