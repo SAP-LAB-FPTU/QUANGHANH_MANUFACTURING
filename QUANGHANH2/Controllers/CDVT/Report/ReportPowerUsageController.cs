@@ -34,7 +34,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 List<contentreportPower> listdata = db.Database.SqlQuery<contentreportPower>(query).ToList();
-                int totaltieuthu = 0; double totalsanluong = 0;
+                double totaltieuthu = 0; double totalsanluong = 0;
                 if (listdata != null)
                 {
                     foreach (var item in listdata)
@@ -77,40 +77,40 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             if (type == null)
             {
                 var ngay = DateTime.Now.Date;
-                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, 
-                            equipment_name as TenThietBi,consumption_value as 
-                            LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi 
-                            from Fuel_activities_consumption a 
-                            inner join Supply b on a.fuel_type = b.supply_id 
-                            inner join Equipment c on c.equipmentId = a.equipmentId 
-                            inner join Activity ac on ac.equipmentid = c.equipmentId 
-                            where fuel_type in ('DIEN') and a.date = '"+ngay+"' and a.date = ac.date";
+                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,e.equipmentId as MaThietBi, 
+                            equipment_name as TenThietBi,[Value] * a.hours_per_day as 
+                            LuongTieuThu,a.quantity as SanLuong,N'tấn' as DonVi 
+                            from Equipment e
+							inner Join Category_attribute_value ca on e.equipmentId = ca.equipmentId
+							inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId
+							inner join Activity a on a.equipmentid = e.equipmentId
+                            where  a.date = fa.date and a.date = '" + ngay + "'";
             }
             if (type == "day")
             {
                 var ngay = DateTime.ParseExact(date,"dd/MM/yyyy",null).ToString("yyyy-MM-dd");
-                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, 
-                            equipment_name as TenThietBi,consumption_value as 
-                            LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi 
-                            from Fuel_activities_consumption a 
-                            inner join Supply b on a.fuel_type = b.supply_id 
-                            inner join Equipment c on c.equipmentId = a.equipmentId 
-                            inner join Activity ac on ac.equipmentid = c.equipmentId 
-                            where fuel_type in ('DIEN') and a.date = '" + ngay + "' and a.date = ac.date";
+                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,e.equipmentId as MaThietBi, 
+                            equipment_name as TenThietBi,[Value] * a.hours_per_day as 
+                            LuongTieuThu,a.quantity as SanLuong,N'tấn' as DonVi 
+                            from Equipment e
+							inner Join Category_attribute_value ca on e.equipmentId = ca.equipmentId
+							inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId
+							inner join Activity a on a.equipmentid = e.equipmentId
+                            where  a.date = fa.date and a.date = '" + ngay+"'";
                 ViewBag.now = date;
             }
             if (type == "month")
             {
                 int thang = Convert.ToInt32(month);
                 int nam = Convert.ToInt32(year);
-                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, 
-                            equipment_name as TenThietBi,consumption_value as 
-                            LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi 
-                            from Fuel_activities_consumption a 
-                            inner join Supply b on a.fuel_type = b.supply_id 
-                            inner join Equipment c on c.equipmentId = a.equipmentId 
-                            inner join Activity ac on ac.equipmentid = c.equipmentId 
-                            where fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = " + nam + " and MONTH(a.date) = " + thang;
+                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,e.equipmentId as MaThietBi, 
+                            equipment_name as TenThietBi,[Value] * a.hours_per_day as 
+                            LuongTieuThu,a.quantity as SanLuong,N'tấn' as DonVi 
+                            from Equipment e
+							inner Join Category_attribute_value ca on e.equipmentId = ca.equipmentId
+							inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId
+							inner join Activity a on a.equipmentid = e.equipmentId
+                            where  a.date = fa.date and YEAR(a.date) = " + nam + " and MONTH(a.date) = " + thang;
             }
             if (type == "quarter")
             {
@@ -132,26 +132,26 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 {
                     quy = " (10,11,12) ";
                 }
-                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, 
-                            equipment_name as TenThietBi,consumption_value as 
-                            LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi 
-                            from Fuel_activities_consumption a 
-                            inner join Supply b on a.fuel_type = b.supply_id 
-                            inner join Equipment c on c.equipmentId = a.equipmentId 
-                            inner join Activity ac on ac.equipmentid = c.equipmentId 
-                            where fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = " + nam + " and Month(a.date) in " + quy;
+                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,e.equipmentId as MaThietBi, 
+                            equipment_name as TenThietBi,[Value] * a.hours_per_day as 
+                            LuongTieuThu,a.quantity as SanLuong,N'tấn' as DonVi 
+                            from Equipment e
+							inner Join Category_attribute_value ca on e.equipmentId = ca.equipmentId
+							inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId
+							inner join Activity a on a.equipmentid = e.equipmentId
+                            where  a.date = fa.date and YEAR(a.date) = " + nam + " and Month(a.date) in " + quy;
             }
             if (type == "year")
             {
                 int nam = Convert.ToInt32(year);
-                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,c.equipmentId as MaThietBi, 
-                            equipment_name as TenThietBi,consumption_value as 
-                            LuongTieuThu,ac.quantity as SanLuong,N'tấn' as DonVi 
-                            from Fuel_activities_consumption a 
-                            inner join Supply b on a.fuel_type = b.supply_id 
-                            inner join Equipment c on c.equipmentId = a.equipmentId 
-                            inner join Activity ac on ac.equipmentid = c.equipmentId 
-                            where fuel_type in ('DIEN') and a.date = ac.date and YEAR(a.date) = " + nam;
+                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,e.equipmentId as MaThietBi, 
+                            equipment_name as TenThietBi,[Value] * a.hours_per_day as 
+                            LuongTieuThu,a.quantity as SanLuong,N'tấn' as DonVi 
+                            from Equipment e
+							inner Join Category_attribute_value ca on e.equipmentId = ca.equipmentId
+							inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId
+							inner join Activity a on a.equipmentid = e.equipmentId
+                            where  a.date = fa.date and YEAR(a.date) = "+nam;
             }
             return query;
         }
@@ -178,7 +178,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                         query = Wherecondition(type, date, month, quarter, year);
                     }
                     List<contentreportPower> content = db.Database.SqlQuery<contentreportPower>(query).ToList();
-                    int totaltieuthu = 0; double totalsanluong = 0;
+                    double totaltieuthu = 0; double totalsanluong = 0;
                     if (content != null)
                     {
                         foreach (var item in content)
@@ -218,7 +218,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         public int Nam { get; set; }
         public string MaThietBi { get; set; }
         public string TenThietBi { get; set; }
-        public int LuongTieuThu { get; set; }
+        public double LuongTieuThu { get; set; }
         public double SanLuong { get; set; }
         public string DonVi { get; set; }
     }
