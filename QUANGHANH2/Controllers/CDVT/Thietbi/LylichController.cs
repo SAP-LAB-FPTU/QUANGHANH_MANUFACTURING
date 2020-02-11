@@ -411,6 +411,47 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
 
         }
+
+        [HttpPost]
+        public ActionResult addTT(string idTT, string nameTT, int quan, string dvt, string eid)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (nameTT != null && quan != 0)
+                    {
+
+
+
+                        string sql_sup = "insert into Equipment_attribute values (@id, @name, @value, @unit, @eid)";
+                        DBContext.Database.ExecuteSqlCommand(sql_sup
+                            , new SqlParameter("@id", idTT)
+                            , new SqlParameter("@name", nameTT)
+                            , new SqlParameter("@value", quan)
+                            , new SqlParameter("@unit", dvt)
+                            , new SqlParameter("@eid", eid));
+
+
+
+                    }
+                    DBContext.SaveChanges();
+                    dbc.Commit();
+                    var sup = DBContext.Database.SqlQuery<Equipment_attribute>("select * from Equipment_attribute e where e.equipmentId = @id", new SqlParameter("id", eid)).ToList();
+                    return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    e.Message.ToString();
+                    dbc.Rollback();
+                    return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+
+        }
+
         [Auther(RightID = "10,6")]
         [HttpPost]
         public ActionResult addDK(string id, string nameSup, int quan, string dvt, string note)

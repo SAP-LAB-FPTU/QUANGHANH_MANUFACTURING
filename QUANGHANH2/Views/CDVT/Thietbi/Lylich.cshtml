@@ -148,25 +148,30 @@
 
                                 </table>
                                 <h4 class="center-align" style="font-weight:bold">Thuộc tính thiết bị</h4>
-                                <table class="striped table-bordered" style="margin-top:30px !important">
-                                    <tr>
-                                        <th>Mã thuộc tính</th>
-                                        <th>Tên thuộc tính</th>
-                                        <th>Thông số</th>
-                                        <th>Đơn vị tính</th>
-                                    </tr>
-                                    @{ 
-                                        foreach(var item in ViewBag.thuoctinh)
-                                        {
-                                            <tr>
-                                                <td>@item.Equipment_attribute_id</td>
-                                                <td>@item.Equipment_attribute_name</td>
-                                                <td>@item.value</td>
-                                                <td>@item.unit</td>
-                                            </tr>
+                                <table class="striped table-bordered" style="margin-top:30px !important" id="thuoctinh">
+                                    <thead>
+                                        <tr>
+                                            <th>Mã thuộc tính</th>
+                                            <th>Tên thuộc tính</th>
+                                            <th>Thông số</th>
+                                            <th>Đơn vị tính</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table_TT_body">
+                                        @{
+                                            foreach (var item in ViewBag.thuoctinh)
+                                            {
+                                                <tr>
+                                                    <td>@item.Equipment_attribute_id</td>
+                                                    <td>@item.Equipment_attribute_name</td>
+                                                    <td>@item.value</td>
+                                                    <td>@item.unit</td>
+                                                </tr>
+                                            }
                                         }
-                                    }
+                                    </tbody>
                                 </table>
+                                <a data-target="addTT" class="btn blue btn-small center modal-trigger left" style="margin-top:10px"><i class="large material-icons">add</i></a>
                                 <h4 class="center-align" style="font-weight:bold">Đặc tính nhóm thiết bị</h4>
                                 <table class="striped table-bordered" style="margin-top:30px !important">
                                     <tr>
@@ -999,6 +1004,51 @@
     }
 </datalist>
 
+
+@using (Html.BeginForm("addTT", "Lylich", FormMethod.Post, new
+{
+    id = "DKform",
+    enctype = "multipart/form-data",
+    onSubmit = "return ChangeTT(this);",
+    data_restUrl = Url.Action("addTT", "Lylich", new { id = "" })
+}))
+{
+    <div class="modal" id="addTT">
+        <div class="modal-header">
+            <h3 class="center">Thêm thuộc tính thiết bị</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <input type="hidden" value="@ViewBag.equipment.equipmentId" name="eid" />
+                <div class="col s6">
+                    <label>Tên thuộc tính</label>
+                    <input name="nameTT" class="form-control" />
+                </div>
+                <div class="col s6">
+                    <label>Mã thuộc tính</label>
+                    <input name="idTT" class="form-control" />
+                </div>
+                <div class="col s6">
+                    <label>THông số</label>
+                    <input value="0" min="0" type="number" name="quan" class="form-control" />
+                </div>
+                <div class="col s6">
+                    <label>Đơn vị tính</label>
+                    <input type="text" name="dvt" class="form-control" />
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue modal-close">Thêm</button>
+        </div>
+    </div>
+
+
+}
+
+
 @using (Html.BeginForm("addDK", "Lylich", FormMethod.Post, new
 {
     id = "DKform",
@@ -1242,6 +1292,41 @@
 
         });
 
+
+    
+        function ChangeTT(form) {
+             $("#pre-load").show("slow", function () {
+                    });
+            $("#pre-load").css("z-index", "99999");
+            $.validator.unobtrusive.parse(form);
+
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (response) {
+                        $("#table_TT_body").empty();
+                        for (i = 0; i < response.data.length; i++) {
+                            $("#table_TT_body").append("<tr>"+
+                                "<td>" + response.data[i].Equipment_attribute_id + "</td>" +
+                                "<td>" + response.data[i].Equipment_attribute_name + "</td>" +
+                                "<td>" + response.data[i].value + "</td>" +
+                                "<td>" + response.data[i].unit + "</td>" +
+                                "</tr> ");
+                        }
+                        $("#pre-load").hide("slow", function () {
+                        });
+
+                    }
+                });
+            }
+
+
+            return false;
+
+
+        }
 
         function Change(form) {
              $("#pre-load").show("slow", function () {
