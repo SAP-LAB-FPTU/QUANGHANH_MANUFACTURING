@@ -53,57 +53,9 @@
         transition: width 300ms ease-in-out;*/
     }
 
-    .wizard > .actions {
-        padding-top: 30px !important;
-    }
-
     .dz-preview.dz-processing.dz-success.dz-complete.dz-image-preview {
         margin: 0px !important;
         display: block;
-    }
-    /*.dropzone .dz-preview .dz-image {
-        width: 250px !important;
-        height: 250px !important;
-    }*/
-    #item5-error {
-        color: white;
-    }
-
-    .wizard-content .wizard > .steps > ul > li.current .step {
-        border-color: #fcaf17 !important;
-        background-color: #fff !important;
-        color: #fcaf17 !important;
-    }
-
-    .wizard-content .wizard > .steps > ul > li.done .step {
-        background-color: #fcaf17 !important;
-        border-color: #fcaf17 !important;
-    }
-
-    .wizard-content .wizard.wizard-circle > .steps > ul > li.current:after, .wizard-content .wizard.wizard-circle > .steps > ul > li.current ~ li:after, .wizard-content .wizard.wizard-circle > .steps > ul > li.current ~ li:before {
-        background-color: #F3F3F3 !important;
-    }
-
-    .wizard-content .wizard.wizard-circle > .steps > ul > li:after, .wizard-content .wizard.wizard-circle > .steps > ul > li:before {
-        background-color: #fcaf17 !important;
-    }
-
-    .wizard-content .wizard > .actions > ul > li > a {
-        background: #fcaf17 !important;
-    }
-
-        .wizard-content .wizard > .actions > ul > li > a[href="#previous"] {
-            background-color: #fff !important;
-        }
-
-    .summary-label {
-        font-weight: bold !important;
-    }
-    /*.summary-content{
-        font-style:italic !important;
-    }*/
-    .wizard > .content > .body label[hidden] {
-        display: none !important;
     }
 
     .dropzone .dz-preview:hover .dz-image img {
@@ -521,9 +473,7 @@
                 contentType: false,
                 success: function (data) {
                     if (data.success) {
-                        $('#exit-add-button').click();
-                        dataTable.ajax.reload();
-                        successAlert(data.message);
+                        window.location.reload();
                     }
                     else {
                         errorAlert(data.message);
@@ -597,6 +547,8 @@
     });
 
     $(document).on('click', '.get-photo', function () {
+        $('#pre-load').show();
+        $('#photocamera').removeAttr('src');
         $.ajax({
             url: "/phong-cdvt/camera/danh-sach/photo",
             data: {
@@ -605,7 +557,9 @@
             cache: false,
             method: 'get',
             success: function (data) {
-                $('#photocamera').attr('src', 'data:image/jpeg;base64,' + data.base64)
+                if (data.success)
+                    $('#photocamera').attr('src', 'data:image/jpeg;base64,' + data.base64)
+                $('#pre-load').hide();
             }
         })
     })
