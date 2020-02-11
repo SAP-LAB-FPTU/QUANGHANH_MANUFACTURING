@@ -56,6 +56,7 @@
                         <tr>
                             <th>Tên vị trí hệ thống</th>
                             <th>Đơn vị trực thuộc</th>
+                            <th>Thông tin đăng nhập</th>
                             <th>Tình trạng số lượng (có tín hiệu/tổng số)</th>
                             <th>Tình trạng ổ cứng</th>
                             <th>Dung lượng ổ cứng</th>
@@ -108,6 +109,12 @@
                         <div class="form-group">
                             <label>Ghi chú : </label>
                             <input required type="text" class="form-control" id="note-add" />
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Thông tin đăng nhập : </label>
+                            <input required type="text" class="form-control" id="login-add" />
                         </div>
                     </div>
                 </div>
@@ -175,14 +182,14 @@
                     </div>
                     <div class="col s12 m12">
                         <div class="form-group">
-                            <label>Số lượng : </label>
-                            <input required type="number" min="1" value="1" class="form-control" id="quantity-edit" />
+                            <label>Thông tin đăng nhập : </label>
+                            <input required type="text" class="form-control" id="login-edit" />
                         </div>
                     </div>
                     <div class="col s12 m12">
                         <div class="form-group">
-                            <label>Ghi chú : </label>
-                            <input required type="text" class="form-control" id="note-edit" />
+                            <label>Số lượng : </label>
+                            <input required type="number" min="1" value="1" class="form-control" id="quantity-edit" />
                         </div>
                     </div>
                 </div>
@@ -203,6 +210,12 @@
                         <div class="form-group">
                             <label>Dung lượng ổ cứng (GB) : </label>
                             <input required type="number" min="1" class="form-control" value="1" id="capacity-edit" />
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label>Ghi chú : </label>
+                            <input required type="text" class="form-control" id="note-edit" />
                         </div>
                     </div>
                 </div>
@@ -227,6 +240,26 @@
             <a class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save-delete">Lưu</a>
             <button class="btn light-blue lighten-1 modal-close" id="exit-delete">Thoát</button>
         </div>
+    </div>
+</div>
+
+<div id="myphoto" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Ảnh thông tin hệ thống camera <span></span></h3>
+        </div>
+        <form action="/phong-cdvt/camera/danh-sach/photo" method="post">
+            <div class="modal-body">
+                <img id="photocamera" />
+                <div class="row">
+                    <input class="col s12" type="file" name="photo" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save-photo">Lưu</button>
+                <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-delete">Thoát</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -261,8 +294,13 @@
                 "cache": false
             },
             "columns": [
-                { "data": "room_name", "name": "room_name" },
+                {
+                    "data": {}, "name": "room_name", render: function (data) {
+                        return "<a class='modal-trigger get-photo' href='#myphoto' data-room='" + data.room_id + "'>" + data.room_name + "</a>";
+                    }
+                },
                 { "data": "department_name", "name": "department_name", },
+                { "data": "login_information", "name": "login_information", },
                 {
                     "data": {}, "name": "camera_quantity", render: function (data) {
                         return data.camera_available + "/" + data.camera_quantity;
@@ -334,11 +372,12 @@
             let $tr = $(this).closest('tr').children('td');
             $('#location-edit').val($tr.eq(0).text());
             $('#department-edit').val($tr.eq(1).data('department'));
-            $('#quantity-edit').val($tr.eq(2).text().split('/')[1]);
-            $('#status-edit').val($tr.eq(3).text());
-            let capacity = $tr.eq(4).text().endsWith('GB') ? $tr.eq(4).text().split(' ')[0] : ($tr.eq(4).text().split(' ')[0] * 1000)
+            $('#login-edit').val($tr.eq(2).text());
+            $('#quantity-edit').val($tr.eq(3).text().split('/')[1]);
+            $('#status-edit').val($tr.eq(4).text());
+            let capacity = $tr.eq(5).text().endsWith('GB') ? $tr.eq(5).text().split(' ')[0] : ($tr.eq(5).text().split(' ')[0] * 1000)
             $('#capacity-edit').val(capacity);
-            $('#resial-edit').val($tr.eq(5).text());
+            $('#resial-edit').val($tr.eq(6).text());
             $('#note-edit').val($tr.eq(7).text());
         })
 
@@ -359,7 +398,8 @@
                     capacity: $('#capacity-add').val(),
                     serial: $('#resial-add').val(),
                     status: $('#status-add').val(),
-                    saveable: $('#checkbox-add').val()
+                    saveable: $('#checkbox-add').val(),
+                    login: $('#login-add').val()
                 },
                 cache: false,
                 datatype: "json",
@@ -394,7 +434,8 @@
                     capacity: $('#capacity-edit').val(),
                     serial: $('#resial-edit').val(),
                     status: $('#status-edit').val(),
-                    room_id: room_id
+                    room_id: room_id,
+                    login: $('#login-edit').val()
                 },
                 cache: false,
                 datatype: "json",
@@ -438,6 +479,20 @@
             })
         })
     });
+
+    $(document).on('click', '.get-photo', function () {
+        $.ajax({
+            url: "/phong-cdvt/camera/danh-sach/photo",
+            data: {
+                id: $(this).data('room')
+            },
+            cache: false,
+            method: 'get',
+            success: function (data) {
+                $('#photocamera').attr('src','data:image/png;base64,' + data.base64)
+            }
+        })
+    })
 
     function checkbox() {
         if ($('#checkbox-add').is(':checked')) {

@@ -78,6 +78,56 @@ namespace QUANGHANH2.Controllers.Camera
             }
         }
 
+        [Auther(RightID = "193")]
+        [Route("phong-cdvt/camera/danh-sach/photo")]
+        [HttpGet]
+        public ActionResult GetPhoto()
+        {
+            try
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    string id = Request["id"];
+                    string path = HostingEnvironment.MapPath("/images/camera/" + Request["id"] + ".jfif");
+                    using (StreamReader reader = new StreamReader(path))
+                    {
+                        byte[] bytes = System.IO.File.ReadAllBytes(path);
+                        string file = Convert.ToBase64String(bytes);
+                        return Json(new { success = true, base64 = file }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Auther(RightID = "193")]
+        [Route("phong-cdvt/camera/danh-sach/photo")]
+        [HttpPost]
+        public ActionResult SetPhoto()
+        {
+            try
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    string id = Request["id"];
+                    string path = HostingEnvironment.MapPath("/images/camera/" + Request["id"] + ".jfif");
+                    using (StreamReader reader = new StreamReader(path))
+                    {
+                        byte[] bytes = System.IO.File.ReadAllBytes(path);
+                        string file = Convert.ToBase64String(bytes);
+                        return Json(new { success = true, base64 = file }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [Route("camera")]
         [HttpPost]
         public ActionResult GetData()
@@ -128,6 +178,7 @@ namespace QUANGHANH2.Controllers.Camera
                 r.camera_available = int.Parse(Request["quantity"].ToString());
                 r.signal_loss_reason = "";
                 r.disk_saveable = bool.Parse(Request["saveable"].ToString());
+                r.login_information = Request["login"];
                 db.Rooms.Add(r);
                 db.SaveChanges();
                 return Json(new { success = true, message = "Thêm thành công" });
@@ -156,6 +207,7 @@ namespace QUANGHANH2.Controllers.Camera
                     r.camera_quantity = int.Parse(Request["quantity"].ToString());
                     r.camera_available = int.Parse(Request["quantity"].ToString());
                     r.signal_loss_reason = "";
+                    r.login_information = Request["login"];
                     db.SaveChanges();
                     return Json(new { success = true, message = "Chỉnh sửa thành công" });
                 }

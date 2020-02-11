@@ -482,23 +482,30 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult getList(string type)
         {
-            string query = @"select r.room_name, d.department_name, r.camera_available, r.camera_quantity
+            try
+            {
+                string query = @"select r.room_name, d.department_name, r.camera_available, r.camera_quantity
                                 from Room r join Department d on r.department_id = d.department_id";
-            if (type.Equals("Hoạt động không đầy đủ"))
-            {
-                query += " where r.camera_available < r.camera_quantity and r.camera_available > 0";
+                if (type.Equals("Hoạt động không đầy đủ"))
+                {
+                    query += " where r.camera_available < r.camera_quantity and r.camera_available > 0";
+                }
+                else if (type.Equals("Hoạt động đầy đủ"))
+                {
+                    query += " where r.camera_available = r.camera_quantity";
+                }
+                else if (type.Equals("Không hoạt động"))
+                {
+                    query += " where r.camera_available = 0";
+                }
+                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                List<RoomThongKe> list = db.Database.SqlQuery<RoomThongKe>(query).ToList();
+                return Json(new { success = true, listDB = list }, JsonRequestBehavior.AllowGet);
             }
-            else if (type.Equals("Hoạt động đầy đủ"))
+            catch (Exception)
             {
-                query += " where r.camera_available = r.camera_quantity";
+                return Json(new { success = false });
             }
-            else if (type.Equals("Không hoạt động"))
-            {
-                query += " where r.camera_available = 0";
-            }
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<RoomThongKe> list = db.Database.SqlQuery<RoomThongKe>(query).ToList();
-            return Json(new { success = true, message = "", listDB = list }, JsonRequestBehavior.AllowGet);
         }
         public class DashCam
         {
