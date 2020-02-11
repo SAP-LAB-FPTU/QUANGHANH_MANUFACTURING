@@ -13,6 +13,7 @@ using System.Web.Hosting;
 using OfficeOpenXml;
 using System.Data.SqlClient;
 using QUANGHANH2.SupportClass;
+using System.Drawing;
 
 namespace QUANGHANH2.Controllers.Camera
 {
@@ -181,6 +182,16 @@ namespace QUANGHANH2.Controllers.Camera
                 r.login_information = Request["login"];
                 db.Rooms.Add(r);
                 db.SaveChanges();
+                Image sourceimage = Image.FromStream(Request.Files["img"].InputStream, true, true);
+                string path = "/images/camera";
+                if (!Directory.Exists(HostingEnvironment.MapPath(path)))
+                {
+                    Directory.CreateDirectory(HostingEnvironment.MapPath(path));
+                }
+                if (sourceimage.Size != null)
+                {
+                    sourceimage.Save(HostingEnvironment.MapPath(path + r.room_id));
+                }
                 return Json(new { success = true, message = "Thêm thành công" });
             }
             catch (Exception)
