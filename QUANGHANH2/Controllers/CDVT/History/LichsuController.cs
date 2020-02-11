@@ -18,7 +18,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 {
     public class LichsuController : Controller
     {
-        [Auther(RightID = "7,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "7,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/cap-nhat-hoat-dong")]
         public ActionResult Index()
         {
@@ -235,7 +235,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         }
 
         //edit activity
-        [Auther(RightID = "9,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "9,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/cap-nhat-hoat-dong/edit-activity")]
         [HttpPost]
         public ActionResult Edit(float quantity, string activity_name, int hours_per_day, string date1, String equipmentId, int activityid)
@@ -309,7 +309,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         }
 
         //edit fuel
-        [Auther(RightID = "9,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "9,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/cap-nhat-hoat-dong/edit-fuel")]
         [HttpPost]
         public ActionResult EditFuel(int consumption_value, string fuel_type, string date1, String equipmentId, int fuelid)
@@ -378,7 +378,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         }
 
         //Add activity
-        [Auther(RightID = "8,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "8,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/cap-nhat-hoat-dong/add-acti")]
         [HttpPost]
         public ActionResult AddActivity(float quantity, string activity_name, int hours_per_day, string date1, String equipmentId)
@@ -471,7 +471,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         }
 
         //Add fuel
-        [Auther(RightID = "8,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "8,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/cap-nhat-hoat-dong/add-fuel")]
         [HttpPost]
         public ActionResult AddFuel(int consumption_value, string fuel_type, string date1, String equipmentId)

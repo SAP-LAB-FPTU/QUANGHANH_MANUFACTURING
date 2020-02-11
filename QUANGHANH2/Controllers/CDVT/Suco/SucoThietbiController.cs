@@ -56,7 +56,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "79,19,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "79,19,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/su-co")]
         [HttpGet]
         public ActionResult Index()
