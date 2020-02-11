@@ -169,7 +169,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\Camera\SucoCamController.cs" />
-    <Compile Include="Controllers\Camera\TrangChuController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\CDVTXinCapVatTuController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
     <Compile Include="Controllers\AT\ViewAccidentController.cs" />
@@ -7501,6 +7500,7 @@
     <Folder Include="excel\Notifi\download\" />
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
+    <Folder Include="images\camera\" />
     <Folder Include="Library\" />
     <Folder Include="Views\CapNhatTrangThai\" />
     <Folder Include="Views\TrangChu\" />
