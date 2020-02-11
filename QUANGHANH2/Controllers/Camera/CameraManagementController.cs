@@ -182,19 +182,22 @@ namespace QUANGHANH2.Controllers.Camera
                 r.login_information = Request["login"];
                 db.Rooms.Add(r);
                 db.SaveChanges();
-                Image sourceimage = Image.FromStream(Request.Files["img"].InputStream, true, true);
-                string path = "/images/camera";
-                if (!Directory.Exists(HostingEnvironment.MapPath(path)))
+                if (Request.Files["img"] != null)
                 {
-                    Directory.CreateDirectory(HostingEnvironment.MapPath(path));
-                }
-                if (sourceimage.Size != null)
-                {
-                    sourceimage.Save(HostingEnvironment.MapPath(path + r.room_id));
+                    Image sourceimage = Image.FromStream(Request.Files["img"].InputStream, true, true);
+                    string path = "/images/camera/";
+                    if (!Directory.Exists(HostingEnvironment.MapPath(path)))
+                    {
+                        Directory.CreateDirectory(HostingEnvironment.MapPath(path));
+                    }
+                    if (sourceimage.Size != null)
+                    {
+                        sourceimage.Save(HostingEnvironment.MapPath(path + r.room_id + ".jfif"));
+                    }
                 }
                 return Json(new { success = true, message = "Thêm thành công" });
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return Json(new { success = false, message = "Có lỗi xảy ra" });
             }

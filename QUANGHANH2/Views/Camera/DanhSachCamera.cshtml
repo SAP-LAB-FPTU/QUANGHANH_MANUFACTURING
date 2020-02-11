@@ -478,6 +478,7 @@
             $('#quantity-add').val(1)
             $('#resial-add').val('');
             $('#note-add').val('');
+            $('#login-add').val('');
         })
 
         $(document).on('click', '.edit-room', function () {
@@ -501,22 +502,23 @@
             $('#pre-load').show();
             let data = new FormData();
             data.append("img", data1.get("img"));
-            data.append("imgName", data1.get("imgName"));
             data.append("location", $("#location-add").val());
             data.append("quantity", $('#quantity-add').val());
-            data.append("note", $('#note-add').text());
-            data.append("department", $('#department-add').text());
-            data.append("capacity", $('#capacity-add').text());
-            data.append("serial", $('#resial-add').text())
-            data.append("status", $('#status-add').text());
-            data.append("saveable", $('#checkbox-add').text());
-            data.append("login", $('#login-add').text());
+            data.append("note", $('#note-add').val());
+            data.append("department", $('#department-add').val());
+            data.append("capacity", $('#capacity-add').val());
+            data.append("serial", $('#resial-add').val())
+            data.append("status", $('#status-add').val());
+            data.append("saveable", $('#checkbox-add').val());
+            data.append("login", $('#login-add').val());
             $.ajax({
                 url: "/camera/add",
                 type: "post",
                 data: data,
                 cache: false,
                 datatype: "json",
+                processData: false,
+                contentType: false,
                 success: function (data) {
                     if (data.success) {
                         $('#exit-add-button').click();
@@ -603,7 +605,7 @@
             cache: false,
             method: 'get',
             success: function (data) {
-                $('#photocamera').attr('src', 'data:image/png;base64,' + data.base64)
+                $('#photocamera').attr('src', 'data:image/jpeg;base64,' + data.base64)
             }
         })
     })
@@ -620,63 +622,88 @@
     //Create by TUANKQ, THANGDV
     var data1 = new FormData();
 
-window.Dropzone.options.myAwesomeDropzone = {
-    paramName: "file", // The name that will be used to transfer the file
-    maxFilesize: 6, // MB
-    addRemoveLinks: true,
-    autoProcessQueue: true,
-    dictRemoveFile: 'Hủy',
-    clickable: true,
-    acceptedFiles: "image/jpeg,image/png,image/gif,image/jpg,image/bmp",
-    maxFiles: 10,
-    thumbnailWidth: null,
-    thumbnailHeight: null,
-    uploadMultiple: true,
-    parallelUploads: 10,
-    maxfilesexceeded: function() {
-        var myDropzone = this;
-        myDropzone.removeAllFiles();
-    },
-    init: function () {
-        this.on("addedfile", function (file) {
-            var reader = new FileReader();
-            reader.onload = function (event) {
-                var extension = event.target.result.split(';')[0].split('/')[1];
-                if (!(extension == 'jpeg' || extension == 'png' || extension == 'gif' || extension == 'bmp' || extension == 'jpg')) {
-                    errorAlert('Ảnh chụp giấy hẹn chưa đúng định dạng')
-                    return;
+    window.Dropzone.options.myAwesomeDropzone = {
+        paramName: "file", // The name that will be used to transfer the file
+        maxFilesize: 6, // MB
+        addRemoveLinks: true,
+        autoProcessQueue: true,
+        dictRemoveFile: 'Hủy',
+        clickable: true,
+        acceptedFiles: "image/jpeg,image/png,image/gif,image/jpg,image/bmp",
+        maxFiles: 10,
+        thumbnailWidth: null,
+        thumbnailHeight: null,
+        uploadMultiple: true,
+        parallelUploads: 10,
+        maxfilesexceeded: function() {
+            var myDropzone = this;
+            myDropzone.removeAllFiles();
+        },
+        init: function () {
+            this.on("addedfile", function (file) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    var extension = event.target.result.split(';')[0].split('/')[1];
+                    if (!(extension == 'jpeg' || extension == 'png' || extension == 'gif' || extension == 'bmp' || extension == 'jpg')) {
+                        errorAlert('Ảnh chụp giấy hẹn chưa đúng định dạng')
+                        return;
+                    }
+                    else {
+                        $('#pre-load').show();
+                        var image = new Image();
+                        image.src = event.target.result;
+                        image.onload = function () {
+                            var canvas = document.createElement("canvas");
+                            var ctx = canvas.getContext("2d");
+                            canvas.width = image.width;
+                            canvas.height = image.height;
+                            ctx.drawImage(image, 0, 0);
+                            var URL = canvas.toDataURL('image/jpeg');
+                            dataURItoBlob(URL);
+                        };
+                    }
+                };
+                reader.readAsDataURL(file);
+                if (this.files.length > 1) {
+                    for (var i = 0; i < this.files.length; i++){
+                            this.removeFile(this.files[i]);
+                    }
                 }
-            };
-            reader.readAsDataURL(file);
-            if (this.files.length > 1) {
-                for (var i = 0; i < this.files.length; i++){
-                        this.removeFile(this.files[i]);
-                }
-            }
-        });
-        this.on("removedfile", function () {
-            data1.delete("img")
-            data1.delete("imgName")
-        });
-        this.on("thumbnail", function (file, dataUrl) {
-            $('.dz-image').last().find('img').attr({ width: '100%', height: '100%' });
-        }),
-        this.on("success", function (file) {
-            $('.dz-image').css({ "width": "100%", "height": "auto" });
-        })
-        var myDropzone = this;
-        $("#btnUpload3").click(function (e) {
-            e.preventDefault();
-            myDropzone.processQueue();
-        });
-        this.on('sending', function (file, xhr, formData) {
-            data1.append("img", file);
-            data1.append("imgName", file.name);
-        });
-    },
-    dictResponseError: "Lỗi (Code: {{statusCode}})",
-    dictFileTooBig: "Kích cỡ file quá lớn ({{filesize}}MB). Kích cỡ file tối đa: {{maxFilesize}}MB ",
-    dictInvalidFileType: "File không hợp lệ",
-};
+            });
+            this.on("removedfile", function () {
+                data1.delete("img");
+                //data1.delete("imgName")
+            });
+            this.on("thumbnail", function (file, dataUrl) {
+                $('.dz-image').last().find('img').attr({ width: '100%', height: '100%' });
+            }),
+            this.on("success", function (file) {
+                $('.dz-image').css({ "width": "100%", "height": "auto" });
+            })
+            var myDropzone = this;
+            $("#btnUpload3").click(function (e) {
+                e.preventDefault();
+                myDropzone.processQueue();
+            });
+            this.on('sending', function (file, xhr, formData) {
+                //data1.append("img", file);
+            });
+        },
+        dictResponseError: "Lỗi (Code: {{statusCode}})",
+        dictFileTooBig: "Kích cỡ file quá lớn ({{filesize}}MB). Kích cỡ file tối đa: {{maxFilesize}}MB ",
+        dictInvalidFileType: "File không hợp lệ",
+    };
 
+    function dataURItoBlob(dataURI) {
+        var blobBin = atob(dataURI.split(',')[1]);
+        var array = [];
+        for (var i = 0; i < blobBin.length; i++) {
+            array.push(blobBin.charCodeAt(i));
+        }
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        var file = new Blob([new Uint8Array(array)], { type: mimeString });
+        data1.append("img", file);
+
+        $('#pre-load').hide();
+    }
 </script>
