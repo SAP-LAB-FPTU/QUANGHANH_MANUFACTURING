@@ -15,7 +15,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
 {
     public class DSQDDaxulyController : Controller
     {
-        [Auther(RightID = "23,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "23,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh")]
         public ActionResult Index()
         {

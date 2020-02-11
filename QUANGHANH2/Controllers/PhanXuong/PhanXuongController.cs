@@ -120,7 +120,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             ViewBag.phanxuong = Session["departID"].ToString();
             return View("/Views/Phanxuong/ChonBaoCao/ChonBaoCao.cshtml");
         }
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [Route("phan-xuong/nhap-bao-cao-len-phong-dk")]
         public ActionResult HangNgayKT()
         {
@@ -207,7 +207,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                         return View("/Views/Phanxuong/NhapBaoCao/BaoCaoLenDK.cshtml");
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [Route("phan-xuong/upload-len-dk")]
         [HttpPost]
         public ActionResult uploadLenDK()
@@ -316,7 +316,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         /// <summary>
         /// /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /// </summary>
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189,003")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phan-xuong/delete-file-bao-cao")]
         [HttpPost]
         public ActionResult deleteFile()
@@ -372,7 +372,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             public int ca { get; set; }
         }
 
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,188,189,003,004")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003,004")]
         [HttpGet]
         [Route("phan-xuong/download-file")]
         public virtual ActionResult Download(string location, string fileName)
