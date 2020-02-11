@@ -35,6 +35,7 @@ namespace QUANGHANH2.Models
         public string note { get; set; }
         public bool disk_saveable { get; set; }
         public string login_information { get; set; }
+        public string image_link { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Camera_Acceptance> Camera_Acceptance { get; set; }
