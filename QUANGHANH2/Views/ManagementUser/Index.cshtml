@@ -468,40 +468,40 @@
                                                         </td>
                                                         <td><a href='#!' onclick='ShowRight(9)'>Các quyền</a></td>
                                                     </tr>
-                                                    <tr id="hide5">
-                                                        <td><label>Phân Xưởng Lộ Thiên</label></td>
-                                                        <td>
-                                                            <select class='form-control' id='module16'>
-                                                                <option value='0'>Không</option>
-                                                                @if (@Model.PXLT)
-                                                                {
-                                                                    <option value='1' selected>Có</option>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <option value='1'>Có</option>
-                                                                }
-                                                            </select>
-                                                        </td>
-                                                        <td><a href='#!' onclick='ShowRight(16)'>Các quyền</a></td>
-                                                    </tr>
-                                                    <tr id="hide6">
-                                                        <td><label>Phân Xưởng Sàng Tuyển</label></td>
-                                                        <td>
-                                                            <select class='form-control' id='module10'>
-                                                                <option value='0'>Không</option>
-                                                                @if (@Model.PXST)
-                                                                {
-                                                                    <option value='1' selected>Có</option>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <option value='1'>Có</option>
-                                                                }
-                                                            </select>
-                                                        </td>
-                                                        <td><a href='#!' onclick='ShowRight(10)'>Các quyền</a></td>
-                                                    </tr>
+                                                    @*<tr id="hide5">
+            <td><label>Phân Xưởng Lộ Thiên</label></td>
+            <td>
+                <select class='form-control' id='module16'>
+                    <option value='0'>Không</option>
+                    @if (@Model.PXLT)
+                    {
+                        <option value='1' selected>Có</option>
+                    }
+                    else
+                    {
+                        <option value='1'>Có</option>
+                    }
+                </select>
+            </td>
+            <td><a href='#!' onclick='ShowRight(16)'>Các quyền</a></td>
+        </tr>*@
+                                                    @*<tr id="hide6">
+            <td><label>Phân Xưởng Sàng Tuyển</label></td>
+            <td>
+                <select class='form-control' id='module10'>
+                    <option value='0'>Không</option>
+                    @if (@Model.PXST)
+                    {
+                        <option value='1' selected>Có</option>
+                    }
+                    else
+                    {
+                        <option value='1'>Có</option>
+                    }
+                </select>
+            </td>
+            <td><a href='#!' onclick='ShowRight(10)'>Các quyền</a></td>
+        </tr>*@
                                                     <tr id="hide7">
                                                         <td><label>Phân Xưởng Cơ Điện Mỏ</label></td>
                                                         <td>
@@ -637,6 +637,23 @@
                                                             </select>
                                                         </td>
                                                         <td><a href='#!' onclick='ShowRight(17)'>Các quyền</a></td>
+                                                    </tr>
+                                                    <tr id="hide20">
+                                                        <td><label>Phân Xưởng Chế Biến Than</label></td>
+                                                        <td>
+                                                            <select class='form-control' id='module20'>
+                                                                <option value='0'>Không</option>
+                                                                @if (@Model.PXCBT)
+                                                                {
+                                                                    <option value='1' selected>Có</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value='1'>Có</option>
+                                                                }
+                                                            </select>
+                                                        </td>
+                                                        <td><a href='#!' onclick='ShowRight(20)'>Các quyền</a></td>
                                                     </tr>
                                                     <tr id="hide12">
                                                         <td><label>Quyền quản lí</label></td>
@@ -798,8 +815,6 @@
         $("#hide2").hide();
         $("#hide3").hide();
         $("#hide4").hide();
-        $("#hide5").hide();
-        $("#hide6").hide();
         $("#hide7").hide();
         $("#hide8").hide();
         $("#hide9").hide();
@@ -813,6 +828,7 @@
         $("#hide17").hide();
         $("#hide18").hide();
         $("#hide19").hide();
+        $("#hide20").hide();
         $("#buttonshow").hide();
         //$("#rightlabel").hide();
         $(document).ajaxStop(function () {
@@ -862,13 +878,12 @@
         if (pb.substring(0, 4) === 'PXDL') { $("#hide3").show(); GetRightFromDBNotFill(8); }
         if (pb === 'PXDS') { $("#hide11").show(); GetRightFromDBNotFill(12); }
         if (pb.substring(0, 4) === 'PXKT') { $("#hide13").show(); GetRightFromDBNotFill(6); }
-        if (pb === 'PXLT') { $("#hide5").show(); GetRightFromDBNotFill(16); }
         if (pb === 'PXPV') { $("#hide10").show(); GetRightFromDBNotFill(11); }
-        if (pb === 'PXST') { $("#hide6").show(); GetRightFromDBNotFill(10); }
         if (pb === 'PXTGQLKM') { $("#hide8").show(); GetRightFromDBNotFill(14); }
         if (pb.substring(0, 4) === 'PXVT') { $("#hide4").show(); GetRightFromDBNotFill(9); }
         if (pb === 'PXXD') { $("#hide9").show(); GetRightFromDBNotFill(15); }
         if (pb === 'AT') { $("#hide19").show(); GetRightFromDBNotFill(17); }
+        if (pb === 'PXCBT') { $("#hide20").show(); GetRightFromDBNotFill(20); }
     }
 
     function show() {
@@ -877,8 +892,6 @@
         $("#hide2").hide();
         $("#hide3").hide();
         $("#hide4").hide();
-        $("#hide5").hide();
-        $("#hide6").hide();
         $("#hide7").hide();
         $("#hide8").hide();
         $("#hide9").hide();
@@ -892,6 +905,7 @@
         $("#hide17").hide();
         $("#hide18").hide();
         $("#hide19").hide();
+        $("#hide20").hide();
     }
     function showLoading() {
         //$('#pre-load').show();
@@ -919,16 +933,15 @@
         var module7 = $('#module7').val();
         var module8 = $('#module8').val();
         var module9 = $('#module9').val();
-        var module10 = $('#module10').val();
         var module11 = $('#module11').val();
         var module12 = $('#module12').val();
         var module13 = $('#module13').val();
         var module14 = $('#module14').val();
         var module15 = $('#module15').val();
-        var module16 = $('#module16').val();
         var module17 = $('#module17').val();
         var module18 = $('#module18').val();
         var module19 = $('#module19').val();
+        var module20 = $('#module20').val();
         if (module1 == null) {
             module1 = 0;
         }
@@ -956,9 +969,6 @@
         if (module9 == null) {
             module9 = 0;
         }
-        if (module10 == null) {
-            module10 = 0;
-        }
         if (module11 == null) {
             module11 = 0;
         }
@@ -974,9 +984,6 @@
         if (module15 == null) {
             module15 = 0;
         }
-        if (module16 == null) {
-            module16 = 0;
-        }
         if (module17 == null) {
             module17 = 0;
         }
@@ -985,6 +992,9 @@
         }
         if (module19 == null) {
             module19 = 0;
+        }
+        if (module20 == null) {
+            module20 = 0;
         }
         var pb = document.getElementById('MaPB').value;
         if (pb === 'CDVT') { var rights = GetAcceptRights(right1); }
@@ -998,13 +1008,12 @@
         if (pb.substring(0, 4) === 'PXDL') { var rights = GetAcceptRights(right8); }
         if (pb === 'PXDS') { var rights = GetAcceptRights(right12); }
         if (pb.substring(0, 4) === 'PXKT') { var rights = GetAcceptRights(right6); }
-        if (pb === 'PXLT') { var rights = GetAcceptRights(right16); }
         if (pb === 'PXPV') { var rights = GetAcceptRights(right11); }
-        if (pb === 'PXST') { var rights = GetAcceptRights(right10); }
         if (pb === 'PXTGQLKM') { var rights = GetAcceptRights(right14); }
         if (pb.substring(0, 4) === 'PXVT') { var rights = GetAcceptRights(right9); }
         if (pb === 'PXXD') { var rights = GetAcceptRights(right15); }
         if (pb === 'AT') { var rights = GetAcceptRights(right17); }
+        if (pb === 'PXCBT') { var rights = GetAcceptRights(right20); }
         var empObj = {
             Name: document.getElementById("txtName").value,
             Username: document.getElementById("txtUsername").value,
@@ -1021,16 +1030,15 @@
             module7: module7,
             module8: module8,
             module9: module9,
-            module10: module10,
             module11: module11,
             module12: module12,
             module13: module13,
             module14: module14,
             module15: module15,
-            module16: module16,
             module17: module17,
             module18: module18,
             module19: module19,
+            module20: module20,
             rights: rights.substring(0, rights.length - 1),
         }
         $.ajax({
@@ -1088,16 +1096,15 @@
         var module7 = $('#module7').val();
         var module8 = $('#module8').val();
         var module9 = $('#module9').val();
-        var module10 = $('#module10').val();
         var module11 = $('#module11').val();
         var module12 = $('#module12').val();
         var module13 = $('#module13').val();
         var module14 = $('#module14').val();
         var module15 = $('#module15').val();
-        var module16 = $('#module16').val();
         var module17 = $('#module17').val();
         var module18 = $('#module18').val();
         var module19 = $('#module19').val();
+        var module20 = $('#module20').val();
         if (module1 == null) {
             module1 = 0;
         }
@@ -1125,9 +1132,6 @@
         if (module9 == null) {
             module9 = 0;
         }
-        if (module10 == null) {
-            module10 = 0;
-        }
         if (module11 == null) {
             module11 = 0;
         }
@@ -1143,9 +1147,6 @@
         if (module15 == null) {
             module15 = 0;
         }
-        if (module16 == null) {
-            module16 = 0;
-        }
         if (module17 == null) {
             module17 = 0;
         }
@@ -1154,6 +1155,9 @@
         }
         if (module19 == null) {
             module19 = 0;
+        }
+        if (module20 == null) {
+            module20 = 0;
         }
         //var rights = GetAcceptRights(right1) +
         //    GetAcceptRights(right2) +
@@ -1183,13 +1187,12 @@
         if (pb.substring(0, 4) === 'PXDL') { var rights = GetAcceptRights(right8); }
         if (pb === 'PXDS') { var rights = GetAcceptRights(right12); }
         if (pb.substring(0, 4) === 'PXKT') { var rights = GetAcceptRights(right6); }
-        if (pb === 'PXLT') { var rights = GetAcceptRights(right16); }
         if (pb === 'PXPV') { var rights = GetAcceptRights(right11); }
-        if (pb === 'PXST') { var rights = GetAcceptRights(right10); }
         if (pb === 'PXTGQLKM') { var rights = GetAcceptRights(right14); }
         if (pb.substring(0, 4) === 'PXVT') { var rights = GetAcceptRights(right9); }
         if (pb === 'PXXD') { var rights = GetAcceptRights(right15); }
         if (pb === 'AT') { var rights = GetAcceptRights(right17); }
+        if (pb === 'PXCBT') { var rights = GetAcceptRights(right20); }
         var empObj = {
             ID: document.getElementById("txtID").value,
             Name: document.getElementById("txtName").value,
@@ -1207,16 +1210,15 @@
             module7: module7,
             module8: module8,
             module9: module9,
-            module10: module10,
             module11: module11,
             module12: module12,
             module13: module13,
             module14: module14,
             module15: module15,
-            module16: module16,
             module17: module17,
             module18: module18,
             module19: module19,
+            module20: module20,
             rights: rights.substring(0, rights.length - 1),
         }
         $.ajax({
@@ -1345,16 +1347,15 @@
     var right6 = null;
     var right8 = null;
     var right9 = null;
-    var right10 = null;
     var right11 = null;
     var right12 = null;
     var right13 = null;
     var right14 = null;
     var right15 = null;
-    var right16 = null;
     var right17 = "";
     var right18 = "";
     var right19 = null;
+    var right20 = null;
     function ShowRight(moduleID) {
         if (moduleID == 1) {
             document.getElementById("titleRight").innerText = "Các quyền trong Cơ Điện Vận Tải";
@@ -1428,15 +1429,6 @@
                 FillData(right9, 9);
             }
         }
-        if (moduleID == 10) {
-            document.getElementById("titleRight").innerText = "Các quyền trong Phân Xưởng Sàng Tuyển";
-            if (right10 == null) {
-                GetRightFromDB(10);
-            }
-            else {
-                FillData(right10, 10);
-            }
-        }
         if (moduleID == 11) {
             document.getElementById("titleRight").innerText = "Các quyền trong Phân Xưởng Phục Vụ";
             if (right11 == null) {
@@ -1482,15 +1474,6 @@
                 FillData(right15, 15);
             }
         }
-        if (moduleID == 16) {
-            document.getElementById("titleRight").innerText = "Các quyền trong Phân Xưởng Lộ Thiên";
-            if (right16 == null) {
-                GetRightFromDB(16);
-            }
-            else {
-                FillData(right16, 16);
-            }
-        }
         if (moduleID == 17) {
             document.getElementById("titleRight").innerText = "Các quyền trong phòng An Toàn";
             if (right17 == null) {
@@ -1516,6 +1499,15 @@
             }
             else {
                 FillData(right19, 19);
+            }
+        }
+        if (moduleID == 20) {
+            document.getElementById("titleRight").innerText = "Các quyền trong Phân Xưởng Chế Biến Than";
+            if (right20 == null) {
+                GetRightFromDB(20);
+            }
+            else {
+                FillData(right20, 20);
             }
         }
         $("#modalRight").modal('open');
@@ -1565,10 +1557,6 @@
                     right9 = result;
                     FillData(right9, 9);
                 }
-                if (moduleID == 10) {
-                    right10 = result;
-                    FillData(right10, 10);
-                }
                 if (moduleID == 11) {
                     right11 = result;
                     FillData(right11, 11);
@@ -1589,10 +1577,6 @@
                     right15 = result;
                     FillData(right15, 15);
                 }
-                if (moduleID == 16) {
-                    right16 = result;
-                    FillData(right16, 16);
-                }
                 if (moduleID == 17) {
                     right16 = result;
                     FillData(right17, 17);
@@ -1604,6 +1588,10 @@
                 if (moduleID == 19) {
                     right19 = result;
                     FillData(right19, 19);
+                }
+                if (moduleID == 20) {
+                    right20 = result;
+                    FillData(right20, 20);
                 }
                 $('#pre-load').hide();
             },
@@ -1651,9 +1639,6 @@
                 if (moduleID == 9) {
                     right9 = result;
                 }
-                if (moduleID == 10) {
-                    right10 = result;
-                }
                 if (moduleID == 11) {
                     right11 = result;
                 }
@@ -1669,9 +1654,6 @@
                 if (moduleID == 15) {
                     right15 = result;
                 }
-                if (moduleID == 16) {
-                    right16 = result;
-                }
                 if (moduleID == 17) {
                     right17 = result;
                 }
@@ -1680,6 +1662,9 @@
                 }
                 if (moduleID == 19) {
                     right19 = result;
+                }
+                if (moduleID == 20) {
+                    right20 = result;
                 }
             },
             error: function (errormessage) {
@@ -1790,16 +1775,6 @@
                     };
                     right9.Accept.push(item);
                     break;
-                case '10':
-                    var res = denyRights[id].innerText.split("-");
-                    right10.Deny.splice(denyRights[id].index, 1);
-                    var item = {
-                        ID: denyRightsID[id],
-                        Right: res[1],
-                        GroupID: res[0]
-                    };
-                    right10.Accept.push(item);
-                    break;
                 case '11':
                     var res = denyRights[id].innerText.split("-");
                     right11.Deny.splice(denyRights[id].index, 1);
@@ -1850,16 +1825,6 @@
                     };
                     right15.Accept.push(item);
                     break;
-                case '16':
-                    var res = denyRights[id].innerText.split("-");
-                    right16.Deny.splice(denyRights[id].index, 1);
-                    var item = {
-                        ID: denyRightsID[id],
-                        Right: res[1],
-                        GroupID: res[0]
-                    };
-                    right16.Accept.push(item);
-                    break;
                 case '17':
                     var res = denyRights[id].innerText.split("-");
                     right17.Deny.splice(denyRights[id].index, 1);
@@ -1889,6 +1854,16 @@
                         GroupID: res[0]
                     };
                     right19.Accept.push(item);
+                    break;
+                case '20':
+                    var res = denyRights[id].innerText.split("-");
+                    right20.Deny.splice(denyRights[id].index, 1);
+                    var item = {
+                        ID: denyRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right20.Accept.push(item);
                     break;
                 default:
             }
@@ -1983,16 +1958,6 @@
                     };
                     right9.Deny.push(item);
                     break;
-                case '10':
-                    var res = acceptRights[id].innerText.split("-");
-                    right10.Accept.splice(acceptRights[id].index, 1);
-                    var item = {
-                        ID: acceptRightsID[id],
-                        Right: res[1],
-                        GroupID: res[0]
-                    };
-                    right10.Deny.push(item);
-                    break;
                 case '11':
                     var res = acceptRights[id].innerText.split("-");
                     right11.Accept.splice(acceptRights[id].index, 1);
@@ -2043,16 +2008,6 @@
                     };
                     right15.Deny.push(item);
                     break;
-                case '16':
-                    var res = acceptRights[id].innerText.split("-");
-                    right16.Accept.splice(acceptRights[id].index, 1);
-                    var item = {
-                        ID: acceptRightsID[id],
-                        Right: res[1],
-                        GroupID: res[0]
-                    };
-                    right16.Deny.push(item);
-                    break;
                 case '17':
                     var res = acceptRights[id].innerText.split("-");
                     right17.Accept.splice(acceptRights[id].index, 1);
@@ -2082,6 +2037,16 @@
                         GroupID: res[0]
                     };
                     right19.Deny.push(item);
+                    break;
+                case '20':
+                    var res = acceptRights[id].innerText.split("-");
+                    right20.Accept.splice(acceptRights[id].index, 1);
+                    var item = {
+                        ID: acceptRightsID[id],
+                        Right: res[1],
+                        GroupID: res[0]
+                    };
+                    right20.Deny.push(item);
                     break;
                 default:
             }

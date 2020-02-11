@@ -12,15 +12,12 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Category_attribute_value
+    public partial class sysdiagram
     {
-        public int Value { get; set; }
-        public string equipmentId { get; set; }
-        public string Equipment_category_id { get; set; }
-        public string Equipment_category_attribute_id { get; set; }
-    
-        public virtual Equipment_category Equipment_category { get; set; }
-        public virtual Equipment_category_attribute Equipment_category_attribute { get; set; }
-        public virtual Equipment Equipment { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }
