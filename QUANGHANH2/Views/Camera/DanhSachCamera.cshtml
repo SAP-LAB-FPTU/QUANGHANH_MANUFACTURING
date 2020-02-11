@@ -5,12 +5,66 @@
 }
 
 <link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet" />
+<link href="~/assets/uploader/dropzone.min.css" rel="stylesheet" />
+<script src="~/assets/uploader/dropzone.min.js"></script>
 <style>
     #toast-container {
         min-width: 10%;
         top: 0;
         right: 50%;
         transform: translateX(50%) translateY(50%);
+    }
+
+    #photo-container {
+        padding-top: 10px;
+    }
+
+    .datepicker {
+        z-index: 9999;
+    }
+
+    #toast-container {
+        min-width: 10%;
+        top: 0;
+        right: 50%;
+        transform: translateX(50%) translateY(50%);
+    }
+
+    ul.dropdown-content {
+        position: fixed !important;
+        z-index: 9999;
+    }
+
+    .dropzone .dz-preview .dz-image {
+        margin: auto;
+    }
+
+    .dropzone .dz-preview .dz-progress .dz-upload {
+        background: #29bb22 !important;
+        background: linear-gradient(to bottom, #7ceb69, #29bb22) !important;
+        /*position: absolute;*/
+        top: 0;
+        bottom: 0;
+        width: 0;
+        /*-webkit-transition: width 300ms ease-in-out;
+        -moz-transition: width 300ms ease-in-out;
+        -ms-transition: width 300ms ease-in-out;
+        -o-transition: width 300ms ease-in-out;
+        transition: width 300ms ease-in-out;*/
+    }
+
+    .dz-preview.dz-processing.dz-success.dz-complete.dz-image-preview {
+        margin: 0px !important;
+        display: block;
+    }
+
+    .dropzone .dz-preview:hover .dz-image img {
+        -webkit-filter: blur(0px) !important;
+        filter: blur(0px) !important;
+    }
+
+    .validation {
+        color: red;
     }
 </style>
 <div class="card">
@@ -82,36 +136,31 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col s12 m6">
-                    <div class="col s12 m12">
+                    <div class="s12 m12">
                         <div class="form-group">
                             <label>Đơn vị trực thuộc : </label>
-                            <select class="form-control" id="department-add">
-                                @foreach (QUANGHANH2.Models.Department item in ViewBag.departs)
-                                {
-                                    <option value="@item.department_id">@item.department_name</option>
-                                }
-                            </select>
+                            <input class="form-control" id="department-add" list="departs" />
                         </div>
                     </div>
-                    <div class="col s12 m12">
+                    <div class="s12 m12">
                         <div class="form-group">
                             <label>Tên vị trí hệ thống : </label>
                             <input required type="text" class="form-control" id="location-add" />
                         </div>
                     </div>
-                    <div class="col s12 m12">
+                    <div class="s12 m12">
                         <div class="form-group">
                             <label>Số lượng : </label>
                             <input required type="number" min="1" value="1" class="form-control" id="quantity-add" />
                         </div>
                     </div>
-                    <div class="col s12 m12">
+                    <div class="s12 m12">
                         <div class="form-group">
                             <label>Ghi chú : </label>
                             <input required type="text" class="form-control" id="note-add" />
                         </div>
                     </div>
-                    <div class="col s12 m12">
+                    <div class="s12 m12">
                         <div class="form-group">
                             <label>Thông tin đăng nhập : </label>
                             <input required type="text" class="form-control" id="login-add" />
@@ -119,30 +168,43 @@
                     </div>
                 </div>
                 <div class="col s12 m6">
-                    <div class="col s12 m12">
+                    <div class="s12 m12">
                         <div class="form-group">
                             <label>Số seri ổ cứng : </label>
                             <input required type="text" class="form-control" id="resial-add" />
                         </div>
                     </div>
-                    <div class="col s12 m12">
+                    <div class="s12 m12">
                         <div class="form-group">
                             <label>Tình trạng ổ cứng : </label>
                             <input required type="text" class="form-control" id="status-add" />
                         </div>
                     </div>
-                    <div class="col s12 m12">
+                    <div class="s12 m12">
                         <div class="form-group">
                             <label>Dung lượng ổ cứng (GB) : </label>
                             <input required type="number" min="1" class="form-control" value="1" id="capacity-add" />
                         </div>
                     </div>
-                    <div class="col s12 m12">
+                    <div class="s12 m12">
                         <div class="form-group" style="padding-top: 29px;">
                             <label class="custom-control custom-checkbox">
                                 <input type="checkbox" value="false" class="custom-control-input" id="checkbox-add" onclick="checkbox()">
                                 <span class="custom-control-label" for="chbxTerms">Có lưu dữ liệu</span>
                             </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m12" id="photo-container">
+                    <label>Ảnh hệ thống : </label>
+                    <div action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
+                        <div class="fallback">
+                            <input type="file" id="fUpload" class="form-control" single />
+                        </div>
+                        <div class="dz-message needsclick">
+                            <i class="medium material-icons dp48">cloud_upload</i>
+                            <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                            <span class="text-muted font-13">(File hợp lệ: jpg, png)</span>
                         </div>
                     </div>
                 </div>
@@ -166,12 +228,7 @@
                     <div class="col s12 m12">
                         <div class="form-group">
                             <label>Trực thuộc phòng ban : </label>
-                            <select class="form-control" id="department-edit">
-                                @foreach (QUANGHANH2.Models.Department item in ViewBag.departs)
-                                {
-                                    <option value="@item.department_id">@item.department_name</option>
-                                }
-                            </select>
+                            <input class="form-control" id="department-edit" list="departs" />
                         </div>
                     </div>
                     <div class="col s12 m12">
@@ -262,6 +319,13 @@
         </form>
     </div>
 </div>
+
+<datalist id="departs">
+    @foreach (QUANGHANH2.Models.Department item in ViewBag.departs)
+    {
+        <option value="@item.department_id">@item.department_name</option>
+    }
+</datalist>
 
 <script src="~/assets/libs/toastr/build/toastr.min.js"></script>
 <script>
@@ -366,6 +430,7 @@
             $('#quantity-add').val(1)
             $('#resial-add').val('');
             $('#note-add').val('');
+            $('#login-add').val('');
         })
 
         $(document).on('click', '.edit-room', function () {
@@ -387,27 +452,28 @@
                 return;
             }
             $('#pre-load').show();
+            let data = new FormData();
+            data.append("img", data1.get("img"));
+            data.append("location", $("#location-add").val());
+            data.append("quantity", $('#quantity-add').val());
+            data.append("note", $('#note-add').val());
+            data.append("department", $('#department-add').val());
+            data.append("capacity", $('#capacity-add').val());
+            data.append("serial", $('#resial-add').val())
+            data.append("status", $('#status-add').val());
+            data.append("saveable", $('#checkbox-add').val());
+            data.append("login", $('#login-add').val());
             $.ajax({
                 url: "/camera/add",
                 type: "post",
-                data: {
-                    location: $("#location-add").val(),
-                    quantity: $('#quantity-add').val(),
-                    note: $('#note-add').val(),
-                    department: $('#department-add').val(),
-                    capacity: $('#capacity-add').val(),
-                    serial: $('#resial-add').val(),
-                    status: $('#status-add').val(),
-                    saveable: $('#checkbox-add').val(),
-                    login: $('#login-add').val()
-                },
+                data: data,
                 cache: false,
                 datatype: "json",
+                processData: false,
+                contentType: false,
                 success: function (data) {
                     if (data.success) {
-                        $('#exit-add-button').click();
-                        dataTable.ajax.reload();
-                        successAlert(data.message);
+                        window.location.reload();
                     }
                     else {
                         errorAlert(data.message);
@@ -481,6 +547,8 @@
     });
 
     $(document).on('click', '.get-photo', function () {
+        $('#pre-load').show();
+        $('#photocamera').removeAttr('src');
         $.ajax({
             url: "/phong-cdvt/camera/danh-sach/photo",
             data: {
@@ -489,7 +557,9 @@
             cache: false,
             method: 'get',
             success: function (data) {
-                $('#photocamera').attr('src','data:image/png;base64,' + data.base64)
+                if (data.success)
+                    $('#photocamera').attr('src', 'data:image/jpeg;base64,' + data.base64)
+                $('#pre-load').hide();
             }
         })
     })
@@ -500,5 +570,94 @@
         } else {
             $('#checkbox-add').val(false)
         }
+    }
+</script>
+<script>
+    //Create by TUANKQ, THANGDV
+    var data1 = new FormData();
+
+    window.Dropzone.options.myAwesomeDropzone = {
+        paramName: "file", // The name that will be used to transfer the file
+        maxFilesize: 6, // MB
+        addRemoveLinks: true,
+        autoProcessQueue: true,
+        dictRemoveFile: 'Hủy',
+        clickable: true,
+        acceptedFiles: "image/jpeg,image/png,image/gif,image/jpg,image/bmp",
+        maxFiles: 10,
+        thumbnailWidth: null,
+        thumbnailHeight: null,
+        uploadMultiple: true,
+        parallelUploads: 10,
+        maxfilesexceeded: function() {
+            var myDropzone = this;
+            myDropzone.removeAllFiles();
+        },
+        init: function () {
+            this.on("addedfile", function (file) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    var extension = event.target.result.split(';')[0].split('/')[1];
+                    if (!(extension == 'jpeg' || extension == 'png' || extension == 'gif' || extension == 'bmp' || extension == 'jpg')) {
+                        errorAlert('Ảnh chụp giấy hẹn chưa đúng định dạng')
+                        return;
+                    }
+                    else {
+                        $('#pre-load').show();
+                        var image = new Image();
+                        image.src = event.target.result;
+                        image.onload = function () {
+                            var canvas = document.createElement("canvas");
+                            var ctx = canvas.getContext("2d");
+                            canvas.width = image.width;
+                            canvas.height = image.height;
+                            ctx.drawImage(image, 0, 0);
+                            var URL = canvas.toDataURL('image/jpeg');
+                            dataURItoBlob(URL);
+                        };
+                    }
+                };
+                reader.readAsDataURL(file);
+                if (this.files.length > 1) {
+                    for (var i = 0; i < this.files.length; i++){
+                            this.removeFile(this.files[i]);
+                    }
+                }
+            });
+            this.on("removedfile", function () {
+                data1.delete("img");
+                //data1.delete("imgName")
+            });
+            this.on("thumbnail", function (file, dataUrl) {
+                $('.dz-image').last().find('img').attr({ width: '100%', height: '100%' });
+            }),
+            this.on("success", function (file) {
+                $('.dz-image').css({ "width": "100%", "height": "auto" });
+            })
+            var myDropzone = this;
+            $("#btnUpload3").click(function (e) {
+                e.preventDefault();
+                myDropzone.processQueue();
+            });
+            this.on('sending', function (file, xhr, formData) {
+                //data1.append("img", file);
+            });
+        },
+        dictResponseError: "Lỗi (Code: {{statusCode}})",
+        dictFileTooBig: "Kích cỡ file quá lớn ({{filesize}}MB). Kích cỡ file tối đa: {{maxFilesize}}MB ",
+        dictInvalidFileType: "File không hợp lệ",
+    };
+
+    function dataURItoBlob(dataURI) {
+        var blobBin = atob(dataURI.split(',')[1]);
+        var array = [];
+        for (var i = 0; i < blobBin.length; i++) {
+            array.push(blobBin.charCodeAt(i));
+        }
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        var file = new Blob([new Uint8Array(array)], { type: mimeString });
+        data1.append("img", file);
+
+        $('#pre-load').hide();
     }
 </script>
