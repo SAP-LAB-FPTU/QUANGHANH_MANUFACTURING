@@ -122,14 +122,17 @@ namespace QUANGHANHCORE.Controllers
 
             if (user.NVID != null)
             {
-                var url = db.NhanViens.Where(x => x.MaNV == user.NVID).FirstOrDefault();
+                //var url = db.NhanViens.Where(x => x.MaNV == user.NVID).FirstOrDefault();
 
-                if (url.MaPhongBan.Equals("CDVT"))
+                var mysql = @"select * from NhanVien nv join Department dp on nv.MaPhongBan = dp.department_id where nv.MaNV = @nvid";
+                var url = db.Database.SqlQuery<nvs>(mysql, new SqlParameter("nvid", user.NVID)).FirstOrDefault();
+
+                if (url.MaPhongBan.Equals("CV"))
                 {
                     Session["url"] = "phong-cdvt";
                     RightIDs.Add("001");
                 }
-                if (url.MaPhongBan.Equals("TCLD"))
+                if (url.MaPhongBan.Equals("TCLĐ"))
                 {
                     Session["url"] = "phong-tcld";
                     RightIDs.Add("002");
@@ -139,17 +142,17 @@ namespace QUANGHANHCORE.Controllers
                     Session["url"] = "phong-kcs";
                     RightIDs.Add("003");
                 }
-                if (url.MaPhongBan.Equals("DK"))
+                if (url.MaPhongBan.Equals("ĐK"))
                 {
                     Session["url"] = "phong-dieu-khien";
                     RightIDs.Add("004");
                 }
-                if (url.MaPhongBan.Equals("BGD"))
+                if (url.MaPhongBan.Equals("BGĐ"))
                 {
                     Session["url"] = "ban-giam-doc";
                     RightIDs.Add("005");
                 }
-                if (url.MaPhongBan.Contains("PX"))
+                if (url.department_type.Contains("Phân xưởng"))
                 {
                     Session["url"] = "phan-xuong";
                     RightIDs.Add("006");
@@ -243,5 +246,9 @@ namespace QUANGHANHCORE.Controllers
         public string department_name { get; set; }
         public string department_id { get; set; }
         public int Role { get; set; }
+    }
+    public class nvs : NhanVien
+    {
+        public string department_type { get; set; }
     }
 }
