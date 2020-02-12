@@ -153,10 +153,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     new SqlParameter("tenNV", "%" + searchTen + "%"),
                     new SqlParameter("maPhongBan", phongbanSearch),
                     new SqlParameter("maCongViec", chucVuSearch)).ToList<Int32>()[0];
-                
+
 
             }
-            return Json(new { success = true, totalrows= totalrows, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, totalrows = totalrows, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
         [Auther(RightID = "64")]
@@ -255,8 +255,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         string sql = @"select * from CongViec";
                         congviec_phongban = db.Database.SqlQuery<CongViec>(sql).ToList<CongViec>();
                     }
-                    
-                    return Json(new { success = true, congviec_phongban = congviec_phongban}, JsonRequestBehavior.AllowGet);
+
+                    return Json(new { success = true, congviec_phongban = congviec_phongban }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
                 {
@@ -359,6 +359,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     {
                         if (((DieuDongModel)result[j]).MaNV == getInfo[i].MaNV)
                         {
+                            ((DieuDongModel)result[j]).GioiTinh = getInfo[i].GioiTinh;
                             ((DieuDongModel)result[j]).HoTen = getInfo[i].Ten;
                             ((DieuDongModel)result[j]).DonViHienTai = getInfo[i].MaPhongBan;
                             ((DieuDongModel)result[j]).ChucVuHienTai = new ChucVuModel(getInfo[i].MaCongViec.ToString(), getInfo[i].TenCongViec);
@@ -372,6 +373,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 DieuDongModel d = new DieuDongModel();
                 d.SoQD = ((DieuDongModel)result[i]).SoQD;
                 d.MaNV = ((DieuDongModel)result[i]).MaNV;
+                d.GioiTinh = ((DieuDongModel)result[i]).GioiTinh;
                 d.HoTen = ((DieuDongModel)result[i]).HoTen;
                 d.DonViHienTai = ((DieuDongModel)result[i]).DonViHienTai;
                 d.ChucVuHienTai = ((DieuDongModel)result[i]).ChucVuHienTai;
@@ -386,87 +388,153 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 listNhanVien.Add(d);
             }
             string Flocation = "/doc/TCLD/dieudong/quyetdinh-dieudong.docx";
-            string fileName = HostingEnvironment.MapPath("/doc/TCLD/dieudong/nhieunguoi/dieudong-template.docx");
-            byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
-            using (var stream = new MemoryStream())
+            //Mot nguoi
+            if (listNhanVien.Count == 1)
             {
-                stream.Write(byteArray, 0, byteArray.Length);
-                using (var doc = WordprocessingDocument.Open(stream, true))
+                string fileName = HostingEnvironment.MapPath("/doc/TCLD/dieudong/motnguoi/dieudong-template.docx");
+                byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
+                using (var stream = new MemoryStream())
                 {
-                    string docText = null;
-                    using (StreamReader sr = new StreamReader(doc.MainDocumentPart.GetStream()))
+                    stream.Write(byteArray, 0, byteArray.Length);
+                    using (var doc = WordprocessingDocument.Open(stream, true))
                     {
-                        docText = sr.ReadToEnd();
+                        string docText = null;
+                        using (StreamReader sr = new StreamReader(doc.MainDocumentPart.GetStream()))
+                        {
+                            docText = sr.ReadToEnd();
+                        }
+                        Regex regexText = new Regex("%ngayquyetdinh%");
+                        string[] ngay = listNhanVien[0].NgayQD.Split('/');
+                        docText = regexText.Replace(docText, "Ngày " + ngay[0] + " tháng " + ngay[1] + " năm " + ngay[2]);
+
+                        regexText = new Regex("%soqd%");
+                        docText = regexText.Replace(docText, listNhanVien[0].SoQD);
+
+                        regexText = new Regex("%gender%");
+                        docText = regexText.Replace(docText, listNhanVien[0].GioiTinh == true ? "Ông" : "Bà");
+
+                        regexText = new Regex("%hoten%");
+                        docText = regexText.Replace(docText, listNhanVien[0].HoTen);
+
+                        regexText = new Regex("%sothe%");
+                        docText = regexText.Replace(docText, listNhanVien[0].MaNV);
+
+                        regexText = new Regex("%donvicu%");
+                        docText = regexText.Replace(docText, listNhanVien[0].DonViHienTai);
+
+                        regexText = new Regex("%donvimoi%");
+                        docText = regexText.Replace(docText, listNhanVien[0].DonViMoi);
+
+                        regexText = new Regex("%bacluong%");
+                        docText = regexText.Replace(docText, listNhanVien[0].BacLuong);
+
+                        regexText = new Regex("%nhiemvumoi%");
+                        docText = regexText.Replace(docText, listNhanVien[0].ChucVu.tenChucVu);
+
+
+                        regexText = new Regex("%mucluong%");
+                        docText = regexText.Replace(docText, listNhanVien[0].MucLuong=="Chưa cập nhật"?"    ":listNhanVien[0].MucLuong);
+
+                        regexText = new Regex("%thangluong%");
+                        docText = regexText.Replace(docText, listNhanVien[0].ThangBacLuong == "Chưa cập nhật" ? "    " : listNhanVien[0].ThangBacLuong);
+
+                        using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
+                        {
+                            sw.Write(docText);
+                        }
+
+                        doc.MainDocumentPart.Document.Save(); // won't update the original file 
                     }
-                    Regex regexText = new Regex("%ngayquyetdinh%");
-                    string[] ngay = listNhanVien[0].NgayQD.Split('/');
-                    docText = regexText.Replace(docText, "Ngày " + ngay[0] + " tháng " + ngay[1] + " năm " + ngay[2]);
-
-                    regexText = new Regex("%soquyetdinh%");
-                    docText = regexText.Replace(docText, listNhanVien[0].SoQD);
-
-
-
-                    using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
-                    {
-                        sw.Write(docText);
-                    }
-                    Table table =
-                       doc.MainDocumentPart.Document.Body.Elements<Table>().ElementAt(2);
-                    int i = 0;
-                    foreach (DieuDongModel d in listNhanVien)
-                    {
-                        TableRow tr = new TableRow();
-                        i++;
-                        TableCell tc1 = new TableCell();
-                        tc1.Append(new Paragraph(new Run(new Text((i).ToString()))));
-                        tr.Append(tc1);
-
-                        TableCell tc2 = new TableCell();
-                        tc2.Append(new Paragraph(new Run(new Text(d.HoTen))));
-                        tr.Append(tc2);
-
-                        TableCell tc3 = new TableCell();
-                        tc3.Append(new Paragraph(new Run(new Text(d.MaNV))));
-                        tr.Append(tc3);
-
-                        TableCell tc4 = new TableCell();
-                        tc4.Append(new Paragraph(new Run(new Text(d.DonViHienTai))));
-                        tr.Append(tc4);
-
-                        TableCell tc5 = new TableCell();
-                        tc5.Append(new Paragraph(new Run(new Text(d.DonViMoi))));
-                        tr.Append(tc5);
-
-                        TableCell tc6 = new TableCell();
-                        tc6.Append(new Paragraph(new Run(new Text(d.ChucVu.tenChucVu))));
-                        tr.Append(tc6);
-
-                        TableCell tc7 = new TableCell();
-                        tc7.Append(new Paragraph(new Run(new Text(d.BacLuong))));
-                        tr.Append(tc7);
-
-                        TableCell tc8 = new TableCell();
-                        tc8.Append(new Paragraph(new Run(new Text(d.MucLuong.ToString()))));
-                        tr.Append(tc8);
-
-                        TableCell tc9 = new TableCell();
-                        tc9.Append(new Paragraph(new Run(new Text(d.PhuCap.ToString()))));
-                        tr.Append(tc9);
-
-                        TableCell tc10 = new TableCell();
-                        tc10.Append(new Paragraph(new Run(new Text(d.LyDo.ToString()))));
-                        tr.Append(tc10);
-
-                        table.Append(tr);
-                    }
-                    doc.MainDocumentPart.Document.Save(); // won't update the original file 
+                    // Save the file with the new name
+                    string savePath = HostingEnvironment.MapPath(Flocation);
+                    stream.Position = 0;
+                    System.IO.File.WriteAllBytes(savePath, stream.ToArray());
                 }
-                // Save the file with the new name
-                string savePath = HostingEnvironment.MapPath(Flocation);
-                stream.Position = 0;
-                System.IO.File.WriteAllBytes(savePath, stream.ToArray());
             }
+            //nhieu nguoi
+            else
+            {
+                string fileName = HostingEnvironment.MapPath("/doc/TCLD/dieudong/nhieunguoi/dieudong-template.docx");
+                byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
+                using (var stream = new MemoryStream())
+                {
+                    stream.Write(byteArray, 0, byteArray.Length);
+                    using (var doc = WordprocessingDocument.Open(stream, true))
+                    {
+                        string docText = null;
+                        using (StreamReader sr = new StreamReader(doc.MainDocumentPart.GetStream()))
+                        {
+                            docText = sr.ReadToEnd();
+                        }
+                        Regex regexText = new Regex("%ngayquyetdinh%");
+                        string[] ngay = listNhanVien[0].NgayQD.Split('/');
+                        docText = regexText.Replace(docText, "Ngày " + ngay[0] + " tháng " + ngay[1] + " năm " + ngay[2]);
+
+                        regexText = new Regex("%soquyetdinh%");
+                        docText = regexText.Replace(docText, listNhanVien[0].SoQD);
+
+                        using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
+                        {
+                            sw.Write(docText);
+                        }
+                        Table table =
+                           doc.MainDocumentPart.Document.Body.Elements<Table>().ElementAt(2);
+                        int i = 0;
+                        foreach (DieuDongModel d in listNhanVien)
+                        {
+                            TableRow tr = new TableRow();
+                            i++;
+                            TableCell tc1 = new TableCell();
+                            tc1.Append(new Paragraph(new Run(new Text((i).ToString()))));
+                            tr.Append(tc1);
+
+                            TableCell tc2 = new TableCell();
+                            tc2.Append(new Paragraph(new Run(new Text(d.HoTen))));
+                            tr.Append(tc2);
+
+                            TableCell tc3 = new TableCell();
+                            tc3.Append(new Paragraph(new Run(new Text(d.MaNV))));
+                            tr.Append(tc3);
+
+                            TableCell tc4 = new TableCell();
+                            tc4.Append(new Paragraph(new Run(new Text(d.DonViHienTai))));
+                            tr.Append(tc4);
+
+                            TableCell tc5 = new TableCell();
+                            tc5.Append(new Paragraph(new Run(new Text(d.DonViMoi))));
+                            tr.Append(tc5);
+
+                            TableCell tc6 = new TableCell();
+                            tc6.Append(new Paragraph(new Run(new Text(d.ChucVu.tenChucVu))));
+                            tr.Append(tc6);
+
+                            TableCell tc7 = new TableCell();
+                            tc7.Append(new Paragraph(new Run(new Text(d.BacLuong))));
+                            tr.Append(tc7);
+
+                            TableCell tc8 = new TableCell();
+                            tc8.Append(new Paragraph(new Run(new Text(d.MucLuong.ToString()))));
+                            tr.Append(tc8);
+
+                            TableCell tc9 = new TableCell();
+                            tc9.Append(new Paragraph(new Run(new Text(d.PhuCap.ToString()))));
+                            tr.Append(tc9);
+
+                            TableCell tc10 = new TableCell();
+                            tc10.Append(new Paragraph(new Run(new Text(d.LyDo.ToString()))));
+                            tr.Append(tc10);
+
+                            table.Append(tr);
+                        }
+                        doc.MainDocumentPart.Document.Save(); // won't update the original file 
+                    }
+                    // Save the file with the new name
+                    string savePath = HostingEnvironment.MapPath(Flocation);
+                    stream.Position = 0;
+                    System.IO.File.WriteAllBytes(savePath, stream.ToArray());
+                }
+            }
+
             return Json(new { success = true, location = Flocation }, JsonRequestBehavior.AllowGet);
 
 
@@ -615,6 +683,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
         public class DieuDongModel
         {
+            public bool GioiTinh { get; set; }
             public string SoQD { get; set; }
             public string MaNV { get; set; }
             public string HoTen { get; set; }
