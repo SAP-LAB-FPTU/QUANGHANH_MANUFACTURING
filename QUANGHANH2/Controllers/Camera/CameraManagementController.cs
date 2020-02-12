@@ -13,6 +13,7 @@ using System.Web.Hosting;
 using OfficeOpenXml;
 using System.Data.SqlClient;
 using QUANGHANH2.SupportClass;
+using System.Drawing;
 
 namespace QUANGHANH2.Controllers.Camera
 {
@@ -108,23 +109,32 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpPost]
         public ActionResult SetPhoto()
         {
-            try
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                try
                 {
-                    string id = Request["id"];
-                    string path = HostingEnvironment.MapPath("/images/camera/" + Request["id"] + ".jfif");
-                    using (StreamReader reader = new StreamReader(path))
+                    Room r = db.Rooms.Find(int.Parse(Request["room_id"]));
+                    string path = "/images/camera/";
+                    Image sourceimage = Image.FromStream(Request.Files["img"].InputStream, true, true);
+                    r.image_link = r.room_id + ".jfif";
+                    db.SaveChanges();
+                    if (!Directory.Exists(HostingEnvironment.MapPath(path)))
                     {
-                        byte[] bytes = System.IO.File.ReadAllBytes(path);
-                        string file = Convert.ToBase64String(bytes);
-                        return Json(new { success = true, base64 = file }, JsonRequestBehavior.AllowGet);
+                        Directory.CreateDirectory(HostingEnvironment.MapPath(path));
                     }
+                    if (sourceimage.Size != null)
+                    {
+                        sourceimage.Save(HostingEnvironment.MapPath(path + r.image_link));
+                    }
+                    transaction.Commit();
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
-            }
-            catch (Exception)
-            {
-                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
             }
         }
 
@@ -181,6 +191,21 @@ namespace QUANGHANH2.Controllers.Camera
                 r.login_information = Request["login"];
                 db.Rooms.Add(r);
                 db.SaveChanges();
+                if (Request.Files["img"] != null)
+                {
+                    Image sourceimage = Image.FromStream(Request.Files["img"].InputStream, true, true);
+                    r.image_link = r.room_id + ".jfif";
+                    db.SaveChanges();
+                    string path = "/images/camera/";
+                    if (!Directory.Exists(HostingEnvironment.MapPath(path)))
+                    {
+                        Directory.CreateDirectory(HostingEnvironment.MapPath(path));
+                    }
+                    if (sourceimage.Size != null)
+                    {
+                        sourceimage.Save(HostingEnvironment.MapPath(path + r.image_link));
+                    }
+                }
                 return Json(new { success = true, message = "Thêm thành công" });
             }
             catch (Exception)
