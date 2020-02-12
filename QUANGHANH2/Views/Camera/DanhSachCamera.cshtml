@@ -305,18 +305,37 @@
         <div class="modal-header">
             <h3 class="modal-title">Ảnh thông tin hệ thống camera <span></span></h3>
         </div>
-        <form action="/phong-cdvt/camera/danh-sach/photo" method="post">
-            <div class="modal-body">
-                <img id="photocamera" />
-                <div class="row">
-                    <input class="col s12" type="file" name="photo" />
+        <div class="modal-body">
+            <img id="photocamera" />
+        </div>
+        <div class="modal-footer">
+            <a class="waves-effect waves-light btn blue darken-2 modal-trigger" href="#myphoto2">Thay ảnh</a>
+            <a class="btn light-blue lighten-1 modal-close" id="exit-delete">Thoát</a>
+        </div>
+    </div>
+</div>
+
+<div id="myphoto2" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Ảnh thông tin hệ thống camera <span></span></h3>
+        </div>
+        <div class="modal-body">
+            <div action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
+                <div class="fallback">
+                    <input type="file" id="fUpload" class="form-control" single />
+                </div>
+                <div class="dz-message needsclick">
+                    <i class="medium material-icons dp48">cloud_upload</i>
+                    <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                    <span class="text-muted font-13">(File hợp lệ: jpg, png)</span>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save-photo">Lưu</button>
-                <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-delete">Thoát</button>
-            </div>
-        </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save-photo">Lưu</button>
+            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-delete">Thoát</button>
+        </div>
     </div>
 </div>
 
@@ -360,7 +379,10 @@
             "columns": [
                 {
                     "data": {}, "name": "room_name", render: function (data) {
-                        return "<a class='modal-trigger get-photo' href='#myphoto' data-room='" + data.room_id + "'>" + data.room_name + "</a>";
+                        if (data.image_link != null)
+                            return "<a class='modal-trigger get-photo' href='#myphoto' data-room='" + data.room_id + "'>" + data.room_name + "</a>";
+                        else
+                            return "<a class='modal-trigger get-photo' href='#myphoto2' data-room='" + data.room_id + "'>" + data.room_name + "</a>";
                     }
                 },
                 { "data": "department_name", "name": "department_name", },
@@ -544,6 +566,31 @@
                 }
             })
         })
+
+        $('#save-photo').click(function () {
+            $('#pre-load').show();
+            let data = new FormData();
+            data.append("img", data1.get("img"));
+            data.append("room_id", room_id);
+            $.ajax({
+                url: "/phong-cdvt/camera/danh-sach/photo",
+                type: "post",
+                data: data,
+                cache: false,
+                datatype: 'json',
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data.success) {
+                        window.location.reload();
+                    }
+                    else {
+                        errorAlert(data.message);
+                        $('#pre-load').hide();
+                    }
+                }
+            })
+        })
     });
 
     $(document).on('click', '.get-photo', function () {
@@ -557,8 +604,14 @@
             cache: false,
             method: 'get',
             success: function (data) {
-                if (data.success)
-                    $('#photocamera').attr('src', 'data:image/jpeg;base64,' + data.base64)
+                if (data.success) {
+                    var image = new Image();
+                    image.src = 'data:image/jpeg;base64,' + data.base64;
+                    image.onload = function () {
+                        $('#myphoto').width(image.width + 24 * 2);
+                        $('#photocamera').attr('src', 'data:image/jpeg;base64,' + data.base64);
+                    };
+                }
                 $('#pre-load').hide();
             }
         })
