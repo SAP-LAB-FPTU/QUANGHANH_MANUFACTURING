@@ -1,13 +1,13 @@
 ﻿@using QUANGHANH2.Models
 @{
     ViewBag.Title = "List";
-    Layout = "~/Views/Shared/_Layout_DK.cshtml";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
     List<Department> arrDepartmentType = (List<Department>)ViewBag.arr_department_type;
 }
 
 <link href="~/assets/Custom css/TCLD/Certificate/Certificate.css" rel="stylesheet" />
 <link href="~/lib/mutiple select/slimselect.css" rel="stylesheet" />
-<div class="user-roll card" id="vld-antoan">
+<div class="user-roll card">
     <div class="card-content">
         <div class="row">
             <h3 class="black-text"><b>QUẢN LÝ PHÒNG BAN</b></h3>
@@ -116,7 +116,7 @@
             <div class="modal-body row">
                 <div class="col m6 l6 s12">
                     <strong>Mã phòng ban</strong><span hidden id="ed-in-mpb-warning" class="orange-text text-justify">     không được để trống</span>
-                    <input id="ed-in-mpb" class="form-control" />
+                    <input id="ed-in-mpb" disabled class="form-control" />
                 </div>
 
                 <div class="col m6 l6 s12">
@@ -177,7 +177,7 @@
                 })
                 .DataTable({
                 "ajax": {
-                    "url": "/phong-dieu-khien/quan-ly-phong-ban",
+                    "url": "/phong-tcld/quan-ly-phong-ban",
                     "type": "POST",
                     "datatype": "json",
                         data: {
