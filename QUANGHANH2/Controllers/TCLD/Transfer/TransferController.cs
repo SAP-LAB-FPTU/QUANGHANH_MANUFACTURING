@@ -38,7 +38,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             List<CongViec> listCongViec = new List<CongViec>();
             List<Department> listPhongBan = new List<Department>();
-            //List<DoiChieu_Luong> listBacAndLuong = new List<DoiChieu_Luong>();
+            List<BacLuong> listBacLuong = new List<BacLuong>();
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -49,13 +49,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 sql = "select * from Department";
                 listPhongBan = db.Departments.SqlQuery(sql).ToList<Department>();
 
-                sql = "select * from DoiChieu_Luong";
-                //listBacAndLuong = db.Database.SqlQuery<DoiChieu_Luong>(sql).ToList<DoiChieu_Luong>();
+                sql = "select * from BacLuong";
+                listBacLuong = db.Database.SqlQuery<BacLuong>(sql).ToList<BacLuong>();
 
             }
             ViewBag.listCongViec = listCongViec;
             ViewBag.listPhongBan = listPhongBan;
-            //ViewBag.doichieuluong = listBacAndLuong;
+            ViewBag.listBacLuong = listBacLuong;
             ViewBag.nameDepartment = "dieuchuyen";
             return View("/Views/TCLD/Transfer/Process.cshtml");
         }
@@ -153,9 +153,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     new SqlParameter("tenNV", "%" + searchTen + "%"),
                     new SqlParameter("maPhongBan", phongbanSearch),
                     new SqlParameter("maCongViec", chucVuSearch)).ToList<Int32>()[0];
+                
 
             }
-            return Json(new { success = true, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, totalrows= totalrows, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
         [Auther(RightID = "64")]
@@ -184,9 +185,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 string sql =
-                @"SELECT A.MaNV,A.Ten,B.department_name,C.TenCongViec,C.PhuCap, D.MucBacLuong as BacLuong, D.MucThangLuong as ThangLuong, D.MucLuong as Luong
+                @"SELECT A.MaNV,A.Ten,B.department_name,C.TenCongViec,C.PhuCap, D.MucBacLuong as BacLuong, D.MucThangLuong as ThangLuong, D.MucLuong as Luong, A.MaPhongBan, A.MaCongViec
                  FROM(
-                (SELECT * FROM NhanVien where MaNV in (" + selected+@" )) A
+                (SELECT * FROM NhanVien where MaNV in (" + selected + @" )) A
                  left OUTER JOIN
                  (SELECT department_id, department_name FROM Department) B on A.MaPhongBan = B.department_id
                  left OUTER JOIN
@@ -226,6 +227,41 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     return null;
                 }
 
+            }
+        }
+
+        [Auther(RightID = "64")]
+        [Route("phong-tcld/dieu-chuyen/get-chuc-vu-theo-don-vi")]
+        [HttpPost]
+        public ActionResult getChucVu()
+        {
+            var selectedDeptId = Request["selectedDeptId"];
+            List<CongViec> congviec_phongban = new List<CongViec>();
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                try
+                {
+                    if (selectedDeptId != "-1")
+                    {
+                        string sql = @"Select A.MaCongViec, CongViec.TenCongViec, CongViec.PhuCap , CongViec.MaThangLuong  from CongViec,
+                                (select  DISTINCT MaCongViec from NhanVien, Department
+                                where MaPhongBan = @MaPhongBan) A
+                                where A.MaCongViec = CongViec.MaCongViec";
+                        congviec_phongban = db.Database.SqlQuery<CongViec>(sql,
+                            new SqlParameter("@MaPhongBan", selectedDeptId)).ToList<CongViec>();
+                    }
+                    else
+                    {
+                        string sql = @"select * from CongViec";
+                        congviec_phongban = db.Database.SqlQuery<CongViec>(sql).ToList<CongViec>();
+                    }
+                    
+                    return Json(new { success = true, congviec_phongban = congviec_phongban}, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    return null;
+                }
             }
         }
 

@@ -96,12 +96,14 @@ namespace QUANGHANH2.Models
         public virtual DbSet<NhiemVu> NhiemVus { get; set; }
         public virtual DbSet<NhomCongViec> NhomCongViecs { get; set; }
         public virtual DbSet<NhomTieuChi> NhomTieuChis { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
         public virtual DbSet<PhongBan_TieuChi> PhongBan_TieuChi { get; set; }
         public virtual DbSet<QuanHeGiaDinh> QuanHeGiaDinhs { get; set; }
         public virtual DbSet<QuaTrinhCongTac> QuaTrinhCongTacs { get; set; }
         public virtual DbSet<QuyetDinh> QuyetDinhs { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
+        public virtual DbSet<Room_Status> Room_Status { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Supply> Supplies { get; set; }
         public virtual DbSet<Supply_DiKem> Supply_DiKem { get; set; }
