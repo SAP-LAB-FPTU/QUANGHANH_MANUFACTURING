@@ -303,7 +303,7 @@
                                         <ul>
                                             <li><a href="/phong-cdvt/huy-dong"><i class="material-icons">adjust</i><span class="hide-menu">Huy động thiết bị</span></a></li>
                                             @*<li><a href="/phong-cdvt/cap-nhat-hoat-dong"><i class="material-icons">adjust</i><span class="hide-menu">Hoạt động hằng ngày</span></a></li>
-                            <li><a href="/phong-cdvt/cap-nhat-tieu-thu"><i class="material-icons">adjust</i><span class="hide-menu">Tiêu thụ hằng ngày</span></a></li>*@
+                                                <li><a href="/phong-cdvt/cap-nhat-tieu-thu"><i class="material-icons">adjust</i><span class="hide-menu">Tiêu thụ hằng ngày</span></a></li>*@
                                             @*<li><a href="/phong-cdvt/thiet-bi/sctx"><i class="material-icons">adjust</i><span class="hide-menu">Sửa chữa thường xuyên</span></a></li>*@
                                         </ul>
                                     </div>
@@ -338,14 +338,14 @@
                                                 <a href="/phong-cdvt/camera/cap-nhat"><i class="material-icons">adjust</i><span class="hide-menu">Cập nhật theo ca</span></a>
                                             </li>
                                             @*<li>
-                                                <a href="/camera/cap-nhat/quyet-dinh"><i class="material-icons">adjust</i><span class="hide-menu">Xử lý quyết định</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="/camera/nghiem-thu"><i class="material-icons">adjust</i><span class="hide-menu">Nghiệm thu</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="/camera/quyet-dinh-sua-chua"><i class="material-icons">adjust</i><span class="hide-menu">Quyết định sửa chữa</span></a>
-                                            </li>*@
+                                                    <a href="/camera/cap-nhat/quyet-dinh"><i class="material-icons">adjust</i><span class="hide-menu">Xử lý quyết định</span></a>
+                                                </li>
+                                                <li>
+                                                    <a href="/camera/nghiem-thu"><i class="material-icons">adjust</i><span class="hide-menu">Nghiệm thu</span></a>
+                                                </li>
+                                                <li>
+                                                    <a href="/camera/quyet-dinh-sua-chua"><i class="material-icons">adjust</i><span class="hide-menu">Quyết định sửa chữa</span></a>
+                                                </li>*@
                                         </ul>
                                     </div>
                                 </li>
@@ -484,7 +484,22 @@
         <!-- Right Sidebar -->
         <!-- ============================================================== -->
     </div>
-
+    <div class="modal fade" id="notifi">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Thông báo</h2>
+            </div>
+            <div class="modal-body">
+                    <div class="row">
+                        <h3 id="text-noti"></h3>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn blue darken-2 modal-close save-category" onclick="updateStatus()">Xác nhận</button>
+                <button type="button" class="btn light-blue lighten-1 modal-close">Đóng</button>
+            </div>
+        </div>
+    </div>
     <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
     <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
     <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
@@ -524,7 +539,27 @@
                 error: function (errormessage) {
                 }
             });
+
+            setInterval(function () {
+                $.ajax({
+                    url: "/Notifi/CDVT",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result != '') {
+                            $("#text-noti").text(result);
+                            $("#notifi").modal('open');
+                        }
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+            }, 15000);
+
         });
+        function updateStatus() {
+
+        }
     </script>
 </body>
 
