@@ -168,6 +168,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Controllers\Camera\CapNhatTheoCaController.cs" />
     <Compile Include="Controllers\Camera\SucoCamController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\CDVTXinCapVatTuController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
@@ -7498,7 +7499,7 @@
     <Content Include="Views\DK\Criteria\Criteria.cshtml" />
     <Content Include="Views\CDVT\Vattu\CdvtXincapvattu.cshtml" />
     <Content Include="Views\Phanxuong\Huydongphanxuong.cshtml" />
-    <Content Include="Views\Camera\CapNhatTrangThai.cshtml" />
+    <Content Include="Views\Camera\CapNhatTheoCa.cshtml" />
     <Content Include="Views\Camera\TrangChu.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -7509,6 +7510,7 @@
     <Folder Include="images\camera\" />
     <Folder Include="Library\" />
     <Folder Include="Views\CapNhatTrangThai\" />
+    <Folder Include="Views\CapNhat\" />
     <Folder Include="Views\TrangChu\" />
   </ItemGroup>
   <ItemGroup>
