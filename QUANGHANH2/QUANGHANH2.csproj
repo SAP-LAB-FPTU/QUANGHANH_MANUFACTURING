@@ -595,6 +595,9 @@
     <Compile Include="Models\NhomTieuChi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Notification.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PhongBan_TieuChi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
