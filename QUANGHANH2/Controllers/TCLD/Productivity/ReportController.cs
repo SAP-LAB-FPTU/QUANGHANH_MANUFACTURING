@@ -163,13 +163,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 dateTime = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             }
             String varname1 = @"select a.department_id, a.QL, (a.KT + a.CD) as 'Tong', a.KT, a.CD, 0 as 'HSTT',
-                                (a.KT + a.CD - a.tong_nghidai - (a.vld + a.om + a.khac + a.phep)) as 'dilam', 
+                                a.dilam, 
                                 (a.vld + a.om + a.khac + a.phep) as 'vang',
                                 a.vld ,a.om ,a.phep ,a.khac,
-                                (case when (a.KT+ a.CD) = 0 then 0 else round(Convert(float,(a.KT + a.CD - a.tong_nghidai)-(a.vld + a.om + a.khac + a.phep))/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as 'tile',
-                                b.than, b.metlo, b.xen,b.diemluong,a.tong_nghidai,a.nghidai_om_tnld,a.nghidai_thhd,a.nghidai_vld
+                                (case when (a.KT+ a.CD) = 0 then 0 else round(Convert(float, a.dilam)/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as 'tile',
+                                b.than, b.metlo, b.xen,b.diemluong,
+                                (case when a.dilam = 0 then 0 else round(Convert(float,(b.diemluong / a.dilam)),1) end) as 'tlbq_diemluong',
+								(case when a.dilam = 0 then 0 else round(Convert(float,(b.than / a.dilam)),1) end) as 'nsld_thuchien',
+								(case when a.dilam = 0 then 0 else round(Convert(float,0),1) end) as 'nsld_kehoach',
+                                a.tong_nghidai,a.nghidai_om_tnld,a.nghidai_thhd,a.nghidai_vld
                                 from
-                                (select a.department_id, a.QL, a.KT, a.CD, 
+                                (select a.department_id, a.QL, a.KT, a.CD,
+                                sum(case when d.DiLam = 1 and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'dilam',  
                                 sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Vô lý do' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'vld',
                                 sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Ốm' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'om',
                                 sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Nghỉ phép' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'phep',
@@ -185,7 +190,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id
                                 join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec
                                 join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec
-                                where a.department_type like N'%chính%' and a.department_id like '%PXDL%' or a.department_id like '%PXVT%' or a.department_id like '%PXKT%'
+                                where a.department_type like N'%chính%' and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%')
                                 group by a.department_id)
                                  as a left outer join Header_DiemDanh_NangSuat_LaoDong h
                                 on a.department_id = h.MaPhongBan left outer join DiemDanh_NangSuatLaoDong d
@@ -209,7 +214,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     item.tong_ldtt_sau_tru_dai = item.Tong - item.tong_nghidai;
                     if (item.tong_ldtt_sau_tru_dai < 0) item.tong_ldtt_sau_tru_dai = 0;
-                    item.dilam = item.tong_ldtt_sau_tru_dai - item.vang;
                     item.tile = Math.Round(item.Tong != 0 ? (double)item.dilam / item.Tong * 100 : 0, 2);
 
                     tatca.tong_ldtt_theo_ds += item.Tong;
@@ -245,13 +249,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 DateTime dateTime = date == null ? DateTime.Now : DateTime.ParseExact(date, "dd/MM/yyyy", null);
                 string tatcadonvi = @"select a.department_id, a.QL, (a.KT + a.CD) as 'Tong', a.KT, a.CD, 0 as 'HSTT',
-                                        (a.KT + a.CD - a.tong_nghidai - (a.vld + a.om + a.khac + a.phep)) as 'dilam', 
+                                        a.dilam, 
                                         (a.vld + a.om + a.khac + a.phep) as 'vang',
                                         a.vld ,a.om ,a.phep ,a.khac,
-                                        (case when (a.KT+ a.CD) = 0 then 0 else round(Convert(float,(a.KT + a.CD - a.tong_nghidai)-(a.vld + a.om + a.khac + a.phep))/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as 'tile',
-                                        b.than, b.metlo, b.xen,b.diemluong,a.tong_nghidai,a.nghidai_om_tnld,a.nghidai_thhd,a.nghidai_vld
+                                        (case when (a.KT+ a.CD) = 0 then 0 else round(Convert(float, a.dilam)/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as 'tile',
+                                        b.than, b.metlo, b.xen,b.diemluong,
+                                        (case when a.dilam = 0 then 0 else round(Convert(float,(b.diemluong / a.dilam)),1) end) as 'tlbq_diemluong',
+								        (case when a.dilam = 0 then 0 else round(Convert(float,(b.than / a.dilam)),1) end) as 'nsld_thuchien',
+								        (case when a.dilam = 0 then 0 else round(Convert(float,0),1) end) as 'nsld_kehoach',
+                                        a.tong_nghidai,a.nghidai_om_tnld,a.nghidai_thhd,a.nghidai_vld
                                         from
                                         (select a.department_id, a.QL, a.KT, a.CD, 
+                                        sum(case when d.DiLam = 1 and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'dilam', 
                                         sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Vô lý do' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'vld',
                                         sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Ốm' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'om',
                                         sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Nghỉ phép' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'phep',
@@ -267,7 +276,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                         from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id
                                         join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec
                                         join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec
-                                        where a.department_type like N'%chính%' and a.department_id like '%PXDL%' or a.department_id like '%PXVT%' or a.department_id like '%PXKT%'
+                                        where a.department_type like N'%chính%' and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%')
                                         group by a.department_id)
                                          as a left outer join Header_DiemDanh_NangSuat_LaoDong h
                                         on a.department_id = h.MaPhongBan left outer join DiemDanh_NangSuatLaoDong d
@@ -322,11 +331,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                     //DiemLuong
                     double tongso_diemluong = 0;
-                    double tlbq = 0;
+                    double tlbq_diemluong = 0;
 
                     //NSLD
-                    double thuchien = 0;
-                    double kehoach = 0;
+                    double nsld_thuchien = 0;
+                    double nsld_kehoach = 0;
 
                     foreach (var item in ViewBag.TatCaDonVi)
                     {
@@ -358,6 +367,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         xen += item.xen;
 
                         tongso_diemluong += item.diemluong;
+                        tlbq_diemluong += item.tlbq_diemluong;
+
+                        nsld_thuchien += item.nsld_thuchien;
+                        nsld_kehoach += item.nsld_kehoach;
                     };
                     if (ViewBag.TatCaDonVi.Count > 0)
                     {
@@ -393,7 +406,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         metlo = metlo,
                         xen = xen,
 
-                        tongso_diemluong = tongso_diemluong
+                        tongso_diemluong = tongso_diemluong,
+                        tlbq_diemluong = tlbq_diemluong,
+
+                        nsld_thuchien = nsld_thuchien,
+                        nsld_kehoach = nsld_kehoach
                     };
 
                     //HEADER EXCEL
@@ -415,7 +432,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         excelWorksheet.Cells[k, 10].Value = ViewBag.TatCaDonVi[i].nghidai_thhd;
                         excelWorksheet.Cells[k, 11].Value = ViewBag.TatCaDonVi[i].nghidai_om_tnld;
                         excelWorksheet.Cells[k, 12].Value = (ViewBag.TatCaDonVi[i].Tong - ViewBag.TatCaDonVi[i].tong_nghidai);
-                        excelWorksheet.Cells[k, 13].Value = (ViewBag.TatCaDonVi[i].Tong - ViewBag.TatCaDonVi[i].tong_nghidai - ViewBag.TatCaDonVi[i].vang);
+                        excelWorksheet.Cells[k, 13].Value = ViewBag.TatCaDonVi[i].dilam;
                         excelWorksheet.Cells[k, 14].Value = ViewBag.TatCaDonVi[i].vang;
                         excelWorksheet.Cells[k, 15].Value = ViewBag.TatCaDonVi[i].vld;
                         excelWorksheet.Cells[k, 16].Value = ViewBag.TatCaDonVi[i].om;
@@ -426,6 +443,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         excelWorksheet.Cells[k, 21].Value = ViewBag.TatCaDonVi[i].metlo;
                         excelWorksheet.Cells[k, 22].Value = ViewBag.TatCaDonVi[i].xen;
                         excelWorksheet.Cells[k, 23].Value = ViewBag.TatCaDonVi[i].diemluong;
+                        excelWorksheet.Cells[k, 24].Value = ViewBag.TatCaDonVi[i].tlbq_diemluong;
+                        excelWorksheet.Cells[k, 25].Value = ViewBag.TatCaDonVi[i].nsld_thuchien;
+                        excelWorksheet.Cells[k, 26].Value = ViewBag.TatCaDonVi[i].nsld_kehoach;
                         k++;
                         stt++;
                     }
@@ -452,6 +472,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     excelWorksheet.Cells[k, 21].Value = ViewBag.TatCaDonViFooter.metlo;
                     excelWorksheet.Cells[k, 22].Value = ViewBag.TatCaDonViFooter.xen;
                     excelWorksheet.Cells[k, 23].Value = ViewBag.TatCaDonViFooter.tongso_diemluong;
+                    excelWorksheet.Cells[k, 24].Value = ViewBag.TatCaDonViFooter.tlbq_diemluong;
+                    excelWorksheet.Cells[k, 25].Value = ViewBag.TatCaDonViFooter.nsld_thuchien;
+                    excelWorksheet.Cells[k, 26].Value = ViewBag.TatCaDonViFooter.nsld_kehoach;
                     string location = HostingEnvironment.MapPath("/excel/TCLD/download");
                     excelPackage.SaveAs(new FileInfo(location + "/Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx"));
                 }
@@ -472,14 +495,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 a.KT, a.CD, a.HSTT,
                                 a.tong_nghidai,a.nghidai_vld,a.nghidai_thhd,a.nghidai_om_tnld,
                                 ((a.KT + a.CD + a.HSTT)-a.tong_nghidai) as 'tong_ldtt_sau_tru_dai',
-                                (a.KT + a.CD - a.tong_nghidai - (a.vld + a.om + a.khac + a.phep)) as 'dilam',
+                                a.dilam,
                                 (a.vld + a.om + a.khac + a.phep) as vang, 
                                 a.vld, a.om, a.phep, a.khac,
                                 (case when (a.KT+ a.CD + a.HSTT) = 0 then 0 
-                                else round(Convert(float,(a.KT + a.CD - a.tong_nghidai)-(a.vld + a.om + a.khac + a.phep))/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as 'tile', 
-                                b.than, b.metlo, b.xen,b.diemluong
+                                else round(Convert(float,a.dilam)/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as 'tile', 
+                                b.than, b.metlo, b.xen,b.diemluong,
+                                (case when a.dilam = 0 then 0 else round(Convert(float,(b.diemluong / a.dilam)),1) end) as 'tlbq_diemluong',
+								(case when a.dilam = 0 then 0 else round(Convert(float,(b.than / a.dilam)),1) end) as 'nsld_thuchien',
+								(case when a.dilam = 0 then 0 else round(Convert(float,0),1) end) as 'nsld_kehoach'
                                 from 
-                                (select a.department_id, a.QL, a.KT, a.CD, a.HSTT, 
+                                (select a.department_id, a.QL, a.KT, a.CD, a.HSTT,
+                                sum(case when d.DiLam = 1 and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) / day(eomonth(@year + '-' + @month + '-' + '01')) as 'dilam',
                                 sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Vô lý do' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'vld', 
                                 sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Ốm' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'om', 
                                 sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Nghỉ phép' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'phep', 
@@ -496,7 +523,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id 
                                 join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec 
                                 join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec 
-                                where a.department_type like N'%chính%' and a.department_id like '%PXDL%' or a.department_id like '%PXVT%' or a.department_id like '%PXKT%' 
+                                where a.department_type like N'%chính%' and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%') 
                                 group by a.department_id) 
                                  as a left outer join Header_DiemDanh_NangSuat_LaoDong h 
                                 on a.department_id = h.MaPhongBan left outer join DiemDanh_NangSuatLaoDong d 
@@ -540,7 +567,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     item.tong_nghidai = item.nghidai_vld + item.nghidai_thhd + item.nghidai_om_tnld;
                     item.tong_ldtt_sau_tru_dai = item.Tong - item.tong_nghidai;
-                    item.dilam = Convert.ToInt32(item.tong_ldtt_sau_tru_dai) - Convert.ToInt32(item.vang);
                     ViewBag.sumLD += item.Tong;
                     ViewBag.sumKT += item.KT;
                     ViewBag.sumCD += item.CD;
@@ -562,7 +588,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         }
 
         [Route("phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-thang/excel")]
-        public void ReturnExcel_Month(string thang, string nam)
+        public void ReturnExcel_Month(string month, string year)
         {
             try
             {
@@ -572,54 +598,60 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     ExcelWorkbook excelWorkbook_Month = excelPackage.Workbook;
                     ExcelWorksheet excelWorksheet_Month = excelWorkbook_Month.Worksheets.First();
-                    int month = thang == null ? DateTime.Now.Month : Convert.ToInt32(thang);
-                    int year = nam == null ? DateTime.Now.Year : Convert.ToInt32(nam);
+                    //int month = thang == null ? DateTime.Now.Month : Convert.ToInt32(thang);
+                    //int year = nam == null ? DateTime.Now.Year : Convert.ToInt32(nam);
                     var sqlMonth = @"select a.department_id, a.QL, (a.KT + a.CD + a.HSTT) as 'Tong', 
-                                    a.KT, a.CD, a.HSTT,
-                                    a.tong_nghidai,a.nghidai_vld,a.nghidai_thhd,a.nghidai_om_tnld,
-                                    ((a.KT + a.CD + a.HSTT)-a.tong_nghidai) as 'tong_ldtt_sau_tru_dai',
-                                    (a.KT + a.CD - a.tong_nghidai - (a.vld + a.om + a.khac + a.phep)) as 'dilam',
-                                    (a.vld + a.om + a.khac + a.phep) as vang, 
-                                    a.vld, a.om, a.phep, a.khac,
-                                    (case when (a.KT+ a.CD + a.HSTT) = 0 then 0 
-                                    else round(Convert(float,(a.KT + a.CD - a.tong_nghidai)-(a.vld + a.om + a.khac + a.phep))/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as 'tile', 
-                                    b.than, b.metlo, b.xen,b.diemluong
-                                    from 
-                                    (select a.department_id, a.QL, a.KT, a.CD, a.HSTT, 
-                                    sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Vô lý do' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'vld', 
-                                    sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Ốm' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'om', 
-                                    sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Nghỉ phép' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'phep', 
-                                    sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Khác' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'khac', 
-                                    SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Tạm hoãn lao động',N'Vô lý do dài') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'tong_nghidai', 
-                                    SUM(case when d.LyDoVangMat in (N'Vô lý do dài') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'nghidai_vld', 
-                                    SUM(case when d.LyDoVangMat in (N'Tạm hoãn lao động') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'nghidai_thhd', 
-                                    SUM(case when d.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'nghidai_om_tnld' 
-                                     from(select a.department_id, 
-                                    sum(case when ncv.LoaiNhomCongViec = N'CBQL' then  1 else 0 end) as QL, 
-                                    sum(case when ncv.LoaiNhomCongViec = N'CNKT' then  1 else 0 end) as KT, 
-                                    sum(case when ncv.LoaiNhomCongViec = N'CNCĐ' then  1 else 0 end) as CD, 
-                                    sum(case when ncv.LoaiNhomCongViec like '%HSTT%' then  1 else 0 end) as HSTT 
-                                    from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id 
-                                    join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec 
-                                    join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec 
-                                    where a.department_type like N'%chính%' and a.department_id like '%PXDL%' or a.department_id like '%PXVT%' or a.department_id like '%PXKT%' 
-                                    group by a.department_id) 
-                                     as a left outer join Header_DiemDanh_NangSuat_LaoDong h 
-                                    on a.department_id = h.MaPhongBan left outer join DiemDanh_NangSuatLaoDong d 
-                                    on h.HeaderID = d.HeaderID 
-                                    group by a.department_id, a.QL, a.KT, a.CD,a.HSTT) as a inner join 
-                                    ( select a.department_id, 
-                                    sum(case when h.ThanThucHien is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.ThanThucHien else 0 end) as 'than', 
-                                    sum(case when h.MetLoThucHien is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.MetLoThucHien else 0 end) as 'metlo', 
-                                    sum(case when h.XenThucHien is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.XenThucHien else 0 end) as 'xen', 
-                                    sum(case when h.TotalEffort is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.TotalEffort else 0 end) as 'diemluong' 
-                                    from Department a left outer join Header_DiemDanh_NangSuat_LaoDong h 
-                                    on a.department_id = h.MaPhongBan 
-                                    group by a.department_id 
-                                    ) as b on a.department_id = b.department_id";
+                                a.KT, a.CD, a.HSTT,
+                                a.tong_nghidai,a.nghidai_vld,a.nghidai_thhd,a.nghidai_om_tnld,
+                                ((a.KT + a.CD + a.HSTT)-a.tong_nghidai) as 'tong_ldtt_sau_tru_dai',
+                                a.dilam,
+                                (a.vld + a.om + a.khac + a.phep) as vang, 
+                                a.vld, a.om, a.phep, a.khac,
+                                (case when (a.KT+ a.CD + a.HSTT) = 0 then 0 
+                                else round(Convert(float,a.dilam)/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as 'tile', 
+                                b.than, b.metlo, b.xen,b.diemluong,
+                                (case when a.dilam = 0 then 0 else round(Convert(float,(b.diemluong / a.dilam)),1) end) as 'tlbq_diemluong',
+								(case when a.dilam = 0 then 0 else round(Convert(float,(b.than / a.dilam)),1) end) as 'nsld_thuchien',
+								(case when a.dilam = 0 then 0 else round(Convert(float,0),1) end) as 'nsld_kehoach'
+                                from 
+                                (select a.department_id, a.QL, a.KT, a.CD, a.HSTT,
+                                sum(case when d.DiLam = 1 and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) / day(eomonth(@year + '-' + @month + '-' + '01')) as 'dilam',
+                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Vô lý do' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'vld', 
+                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Ốm' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'om', 
+                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Nghỉ phép' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'phep', 
+                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Khác' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'khac', 
+                                SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Tạm hoãn lao động',N'Vô lý do dài') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'tong_nghidai', 
+                                SUM(case when d.LyDoVangMat in (N'Vô lý do dài') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'nghidai_vld', 
+                                SUM(case when d.LyDoVangMat in (N'Tạm hoãn lao động') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'nghidai_thhd', 
+                                SUM(case when d.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'nghidai_om_tnld' 
+                                 from(select a.department_id, 
+                                sum(case when ncv.LoaiNhomCongViec = N'CBQL' then  1 else 0 end) as QL, 
+                                sum(case when ncv.LoaiNhomCongViec = N'CNKT' then  1 else 0 end) as KT, 
+                                sum(case when ncv.LoaiNhomCongViec = N'CNCĐ' then  1 else 0 end) as CD, 
+                                sum(case when ncv.LoaiNhomCongViec like '%HSTT%' then  1 else 0 end) as HSTT 
+                                from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id 
+                                join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec 
+                                join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec 
+                                where a.department_type like N'%chính%' and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%') 
+                                group by a.department_id) 
+                                 as a left outer join Header_DiemDanh_NangSuat_LaoDong h 
+                                on a.department_id = h.MaPhongBan left outer join DiemDanh_NangSuatLaoDong d 
+                                on h.HeaderID = d.HeaderID 
+                                group by a.department_id, a.QL, a.KT, a.CD,a.HSTT) as a inner join 
+                                ( select a.department_id, 
+                                sum(case when h.ThanThucHien is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.ThanThucHien else 0 end) as 'than', 
+                                sum(case when h.MetLoThucHien is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.MetLoThucHien else 0 end) as 'metlo', 
+                                sum(case when h.XenThucHien is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.XenThucHien else 0 end) as 'xen', 
+                                sum(case when h.TotalEffort is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.TotalEffort else 0 end) as 'diemluong' 
+                                from Department a left outer join Header_DiemDanh_NangSuat_LaoDong h 
+                                on a.department_id = h.MaPhongBan 
+                                group by a.department_id 
+                                ) as b on a.department_id = b.department_id";
                     using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                     {
-                        List<BaoCaoNgayDB> listMonth = db.Database.SqlQuery<BaoCaoNgayDB>(sqlMonth, new SqlParameter("month", month), new SqlParameter("year", year)).ToList();
+                        List<BaoCaoNgayDB> listMonth = db.Database.SqlQuery<BaoCaoNgayDB>(sqlMonth,
+                                                                                            new SqlParameter("month", month),
+                                                                                            new SqlParameter("year", year)).ToList();
                         int cbql = 0;
                         int kt = 0;
                         int cd = 0;
@@ -655,11 +687,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                         //DiemLuong
                         double tongso_diemluong = 0;
-                        double tlbq = 0;
+                        double tlbq_diemluong = 0;
 
                         //NSLD
-                        double thuchien = 0;
-                        double kehoach = 0;
+                        double nsld_thuchien = 0;
+                        double nsld_kehoach = 0;
 
                         foreach (var item in listMonth)
                         {
@@ -691,6 +723,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             xen += item.xen;
 
                             tongso_diemluong += item.diemluong;
+                            tlbq_diemluong += item.tlbq_diemluong;
+
+                            nsld_thuchien += item.nsld_thuchien;
+                            nsld_kehoach += item.nsld_kehoach;
                         };
                         if (listMonth.Count > 0)
                         {
@@ -726,7 +762,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             metlo = metlo,
                             xen = xen,
 
-                            tongso_diemluong = tongso_diemluong
+                            tongso_diemluong = tongso_diemluong,
+                            tlbq_diemluong = tlbq_diemluong,
+                            nsld_thuchien = nsld_thuchien,
+                            nsld_kehoach = nsld_kehoach
                         };
 
                         excelWorksheet_Month.Cells[1, 1].Value = "BÁO CÁO THỰC HIỆN LAO ĐỘNG, TIỀN LƯƠNG CÔNG NHÂN TRỰC TIẾP THÁNG " + month + " NĂM " + year;
@@ -758,6 +797,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             excelWorksheet_Month.Cells[k, 21].Value = listMonth[i].metlo;
                             excelWorksheet_Month.Cells[k, 22].Value = listMonth[i].xen;
                             excelWorksheet_Month.Cells[k, 23].Value = listMonth[i].diemluong;
+                            excelWorksheet_Month.Cells[k, 24].Value = listMonth[i].tlbq_diemluong;
+                            excelWorksheet_Month.Cells[k, 25].Value = listMonth[i].nsld_thuchien;
+                            excelWorksheet_Month.Cells[k, 26].Value = listMonth[i].nsld_kehoach;
                             k++;
                             stt++;
                         }
@@ -784,6 +826,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         excelWorksheet_Month.Cells[k, 21].Value = listMonth_footer.metlo;
                         excelWorksheet_Month.Cells[k, 22].Value = listMonth_footer.xen;
                         excelWorksheet_Month.Cells[k, 23].Value = listMonth_footer.tongso_diemluong;
+                        excelWorksheet_Month.Cells[k, 24].Value = listMonth_footer.tlbq_diemluong;
+                        excelWorksheet_Month.Cells[k, 25].Value = listMonth_footer.nsld_thuchien;
+                        excelWorksheet_Month.Cells[k, 26].Value = listMonth_footer.nsld_kehoach;
                         string location = HostingEnvironment.MapPath("/excel/TCLD/download");
                         excelPackage.SaveAs(new FileInfo(location + "/Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo tháng.xlsx"));
                     }
@@ -875,9 +920,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public double metlo { get; set; }
         public double xen { get; set; }
         public double tongso_diemluong { get; set; }
-        public double tlbq { get; set; }
-        public double thuchien { get; set; }
-        public double kehoach { get; set; }
+        public double tlbq_diemluong { get; set; }
+        public double nsld_thuchien { get; set; }
+        public double nsld_kehoach { get; set; }
     }
 
     public class Vang

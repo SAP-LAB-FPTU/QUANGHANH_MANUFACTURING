@@ -29,6 +29,9 @@ namespace QUANGHANH2.Models
         public double metlo { get; set; }
         public double xen { get; set; }
         public double diemluong { get; set; }
+        public double tlbq_diemluong { get; set; }
+        public double nsld_thuchien { get; set; }
+        public double nsld_kehoach { get; set; }
     }
 }
 
