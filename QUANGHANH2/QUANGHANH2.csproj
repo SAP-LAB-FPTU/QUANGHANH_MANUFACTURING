@@ -7503,6 +7503,7 @@
     <Content Include="Views\Phanxuong\Huydongphanxuong.cshtml" />
     <Content Include="Views\Camera\CapNhatTrangThai.cshtml" />
     <Content Include="Views\Camera\TrangChu.cshtml" />
+    <Content Include="Views\TCLD\Shutdown\Process.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -8,9 +8,12 @@ using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
+using static QUANGHANH2.Controllers.TCLD.EmployeesController;
+using static QUANGHANHCORE.Controllers.TCLD.TransferController;
 
 namespace QUANGHANH2.Controllers.TCLD
 {
@@ -26,6 +29,160 @@ namespace QUANGHANH2.Controllers.TCLD
             public string Ten { get; set; }
             public string MaNV { get; set; }
 
+        }
+        [Auther(RightID = "127")]
+        [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-cham-dut")]
+        [HttpGet]
+        public ActionResult List()
+        {
+            List<CongViec> listCongViec = new List<CongViec>();
+            List<Department> listPhongBan = new List<Department>();
+            //List<DoiChieu_Luong> listBacAndLuong = new List<DoiChieu_Luong>();
+
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                string sql = "select * from CongViec";
+                listCongViec = db.CongViecs.SqlQuery(sql).ToList<CongViec>();
+
+                sql = "select * from Department";
+                listPhongBan = db.Departments.SqlQuery(sql).ToList<Department>();
+
+                sql = "select * from DoiChieu_Luong";
+                //listBacAndLuong = db.Database.SqlQuery<DoiChieu_Luong>(sql).ToList<DoiChieu_Luong>();
+
+            }
+            ViewBag.listCongViec = listCongViec;
+            ViewBag.listPhongBan = listPhongBan;
+            ViewBag.nameDepartment = "baohiem";
+            return View("/Views/TCLD/Shutdown/Process.cshtml");
+        }
+
+        [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-cham-dut")]
+        [HttpPost]
+        public ActionResult Search(string MaNV, string TenNV, string ChucVu, string PhongBan)
+        {
+            try
+            {
+                while (MaNV.Contains("  "))
+                {
+                    MaNV = MaNV.Replace("  ", " ");
+                }
+                MaNV = MaNV.Trim();
+                string[] searchListID = MaNV.Split(' ');
+                MaNV = "";
+                for (int i = 0; i < searchListID.Length; i++)
+                {
+                    MaNV += "'" + searchListID[i] + "',";
+                }
+                MaNV = MaNV.Contains(",") ? MaNV.Substring(0, MaNV.Length - 1) : MaNV;
+                MaNV = MaNV == "''" ? "" : MaNV;
+                HttpCookie cookie;
+                if (HttpContext.Request.Cookies["DanhSachNhanVien"] == null)
+                {
+                    cookie = new HttpCookie("DanhSachNhanVien");
+                    cookie.Expires = DateTime.Now.AddDays(1);
+                    Response.Cookies.Add(cookie);
+                    cookie.Value = "[]";
+                }
+                else
+                {
+                    cookie = HttpContext.Request.Cookies["DanhSachNhanVien"];
+                    cookie.Value = Request["selectList"];
+                };
+
+                int start = Convert.ToInt32(Request["start"]);
+                int length = Convert.ToInt32(Request["length"]);
+                string searchValue = Request["search[value]"];
+                string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                string sortDirection = Request["order[0][dir]"];
+                string query = @"select n.*, t.TenTrangThai, c.TenCongViec from NhanVien n inner join 
+                    [TrangThai] t on n.MaTrangThai = t.MaTrangThai join 
+                    CongViec c on n.MaCongViec = c.MaCongViec 
+                    where n.MaTrangThai = 1 AND ";
+                if (!MaNV.Equals("") || !TenNV.Equals("") || !ChucVu.Equals("-1") || !PhongBan.Equals("-1"))
+                {
+                    if (!MaNV.Equals("")) query += "n.MaNV in (" + MaNV + ") AND ";
+                    if (!TenNV.Equals("")) query += "n.Ten LIKE @Ten AND ";
+                    if (!ChucVu.Equals("-1")) query += "n.MaCongViec = @ChucVu AND ";
+                    if (!PhongBan.Equals("-1")) query += "n.MaPhongBan = @PhongBan AND ";
+                }
+                query = query.Substring(0, query.Length - 5);
+                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                db.Configuration.LazyLoadingEnabled = false;
+                //bool GioiTinh = true;
+                //if (Gender.Equals("true"))
+                //{
+                //    GioiTinh = true;
+                //}
+                //else if (Gender.Equals("false"))
+                //{
+                //    GioiTinh = false;
+                //}
+                List<NhanVienLink> searchList = db.Database.SqlQuery<NhanVienLink>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
+                    new SqlParameter("MaNV", MaNV),
+                    new SqlParameter("Ten", '%' + TenNV + '%'),
+                    new SqlParameter("ChucVu", ChucVu),
+                    new SqlParameter("PhongBan", PhongBan)
+                    ).ToList();
+                int totalrows = db.Database.SqlQuery<int>(query.Replace("n.*, t.TenTrangThai, c.TenCongViec", "count(t.TenTrangThai)"),
+                    new SqlParameter("MaNV", MaNV),
+                    new SqlParameter("Ten", '%' + TenNV + '%'),
+                    new SqlParameter("ChucVu", ChucVu),
+                    new SqlParameter("PhongBan", PhongBan)
+                    ).FirstOrDefault();
+                return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+
+
+
+        }
+        [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-cham-dut-step2")]
+        [HttpPost]
+        public ActionResult Step2()
+        {
+            // MessageBox.Show(Request["selectedList"]);
+            string selected;
+            HttpCookie cookie;
+            if (HttpContext.Request.Cookies["DanhSachNhanVien"] == null)
+            {
+                return null;
+            }
+            else
+            {
+                selected = Request["selectedList"];
+                selected = selected.Substring(1, selected.Length - 2);
+                selected = selected.Replace("\"", "\'");
+            }
+
+            List<NhanVienModel> listNhanVien = new List<NhanVienModel>();
+            int totalrows = listNhanVien.Count;
+            int totalrowsafterfiltering = listNhanVien.Count;
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                string sql =
+                @"SELECT A.MaNV,A.Ten,B.department_name,C.TenCongViec,C.PhuCap, D.MucBacLuong as BacLuong, D.MucThangLuong as ThangLuong, D.MucLuong as Luong
+                 FROM(
+                (SELECT * FROM NhanVien where MaNV in (" + selected + @" )) A
+                 left OUTER JOIN
+                 (SELECT department_id, department_name FROM Department) B on A.MaPhongBan = B.department_id
+                 left OUTER JOIN
+                 (SELECT MaCongViec, TenCongViec,PhuCap,MaThangLuong FROM CongViec) C on A.MaCongViec = C.MaCongViec
+				 left OUTER JOIN
+				 (SELECT tl.MaThangLuong,bl.MaBacLuong, mtm.MaBacLuong_ThangLuong_MucLuong ,tl.MucThangLuong,bl.MucBacLuong,mtm.MucLuong 
+				 FROM BacLuong_ThangLuong_MucLuong mtm , BacLuong bl, ThangLuong tl WHERE mtm.MaBacLuong=bl.MaBacLuong AND mtm.MaThangLuong=tl.MaThangLuong) D
+				 on A.MaBacLuong_ThangLuong_MucLuong=D.MaBacLuong_ThangLuong_MucLuong
+				 ) ";
+                listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql).ToList<NhanVienModel>();
+            }
+            return Json(new { success = true, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
         [Auther(RightID = "127")]
         // GET: ShutDown
