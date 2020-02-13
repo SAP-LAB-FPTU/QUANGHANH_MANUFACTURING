@@ -848,6 +848,16 @@
           <Property Name="MaNhomTieuChi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TenNhomTieuChi" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="id_noti" />
+          </Key>
+          <Property Name="id_noti" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_problem" Type="int" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="isread" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="PhongBan_TieuChi">
           <Key>
             <PropertyRef Name="MaTieuChi" />
@@ -3013,6 +3023,7 @@
           <EntitySet Name="NhiemVu" EntityType="Self.NhiemVu" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NhomCongViec" EntityType="Self.NhomCongViec" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NhomTieuChi" EntityType="Self.NhomTieuChi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhongBan_TieuChi" EntityType="Self.PhongBan_TieuChi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuanHeGiaDinh" EntityType="Self.QuanHeGiaDinh" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuaTrinhCongTac" EntityType="Self.QuaTrinhCongTac" Schema="dbo" store:Type="Tables" />
@@ -4730,6 +4741,16 @@
           <Property Name="MaNhomTieuChi" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TenNhomTieuChi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="TieuChis" Relationship="Self.FK_TieuChi_NhomTieuChi" FromRole="NhomTieuChi" ToRole="TieuChi" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="id_noti" />
+          </Key>
+          <Property Name="id_noti" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_problem" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="isread" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="PhongBan_TieuChi">
           <Key>
@@ -6958,6 +6979,7 @@
           <EntitySet Name="NhiemVus" EntityType="Self.NhiemVu" />
           <EntitySet Name="NhomCongViecs" EntityType="Self.NhomCongViec" />
           <EntitySet Name="NhomTieuChis" EntityType="Self.NhomTieuChi" />
+          <EntitySet Name="Notifications" EntityType="Self.Notification" />
           <EntitySet Name="PhongBan_TieuChi" EntityType="Self.PhongBan_TieuChi" />
           <EntitySet Name="QuanHeGiaDinhs" EntityType="Self.QuanHeGiaDinh" />
           <EntitySet Name="QuaTrinhCongTacs" EntityType="Self.QuaTrinhCongTac" />
@@ -8478,6 +8500,17 @@
               <MappingFragment StoreEntitySet="NhomTieuChi">
                 <ScalarProperty Name="MaNhomTieuChi" ColumnName="MaNhomTieuChi" />
                 <ScalarProperty Name="TenNhomTieuChi" ColumnName="TenNhomTieuChi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="QUANGHANHABCModel.Notification">
+              <MappingFragment StoreEntitySet="Notification">
+                <ScalarProperty Name="id_noti" ColumnName="id_noti" />
+                <ScalarProperty Name="id_problem" ColumnName="id_problem" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="isread" ColumnName="isread" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

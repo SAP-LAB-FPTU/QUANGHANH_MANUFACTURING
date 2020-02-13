@@ -105,6 +105,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
 
                     DBContext.Incidents.Add(i);
                     DBContext.SaveChanges();
+
+                    Notification nt = new Notification();
+                    nt.id_problem = i.incident_id;
+                    nt.description = "su co";
+                    nt.date = DateTime.Now.Date;
+                    nt.isread = false;
+                    DBContext.Notifications.Add(nt);
+                    DBContext.SaveChanges();
+
                     transaction.Commit();
                     return Json(new { success = true, message = "Thêm thành công" }, JsonRequestBehavior.AllowGet);
                 }
