@@ -481,22 +481,29 @@
         <!-- Right Sidebar -->
         <!-- ============================================================== -->
     </div>
-    <div class="modal fade" id="notifi">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Thông báo</h2>
-            </div>
-            <div class="modal-body">
-                    <div class="row">
-                        <h3 id="text-noti"></h3>
+    @{
+        if (rights.Contains("19"))
+        {
+            <div class="modal fade" id="notifi">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="title-noti"></h2>
                     </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <h4 id="text-noti"></h4>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn blue darken-2 modal-close save-category" onclick="updateStatus()">Xác nhận</button>
+                        <button type="button" class="btn light-blue lighten-1 modal-close">Đóng</button>
+                    </div>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn blue darken-2 modal-close save-category" onclick="updateStatus()">Xác nhận</button>
-                <button type="button" class="btn light-blue lighten-1 modal-close">Đóng</button>
-            </div>
-        </div>
-    </div>
+        }
+    }
+
+    <input type="hidden" id="ids" />
     <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
     <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
     <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
@@ -539,12 +546,14 @@
 
             setInterval(function () {
                 $.ajax({
-                    url: "/Notifi/CDVT",
+                    url: "/Notifi/notifiSC",
                     type: "POST",
                     contentType: "application/json;charset=utf-8",
                     success: function (result) {
-                        if (result != '') {
-                            $("#text-noti").text(result);
+                        if (result.text != '') {
+                            document.getElementById('ids').value = result.id;
+                            $("#title-noti").text(result.title);
+                            $("#text-noti").text(result.text);
                             $("#notifi").modal('open');
                         }
                     },
@@ -555,7 +564,20 @@
 
         });
         function updateStatus() {
+            var empObj = {
+                id: document.getElementById("ids").value
+            };
+            $.ajax({
+                url: "/Notifi/updateStatus",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
 
+                },
+                error: function (errormessage) {
+                }
+            });
         }
     </script>
 </body>
