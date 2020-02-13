@@ -19,7 +19,7 @@ namespace QUANGHANH2.Controllers.Camera
     public class SucoCamController : Controller
     {
         [Auther(RightID = "193")]
-        [Route("camera/su-co")]
+        [Route("phong-cdvt/camera/su-co")]
         [HttpGet]
         public ActionResult Index()
         {
