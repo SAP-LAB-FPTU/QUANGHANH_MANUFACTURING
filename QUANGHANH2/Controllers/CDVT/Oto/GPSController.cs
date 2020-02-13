@@ -88,15 +88,15 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
                 {
                     foreach (JObject item in jArray)
                     {
-                        //Ca 1: 6h-14h
-                        //Ca 2: 14h-22h
-                        //Ca 3: 22h-6h
+                        //Ca 1: 7h-15h
+                        //Ca 2: 15h-23h
+                        //Ca 3: 23h-7h
                         string equipmentId = (string)item["equipmentId"];
                         int ca = (int)item["ca"];
                         int thisCa = 0;
-                        if (DateTime.Now.Hour >= 6 && DateTime.Now.Hour < 14 && DateTime.Now.Date == date) thisCa = 1;
-                        if (DateTime.Now.Hour >= 14 && DateTime.Now.Hour < 22 && DateTime.Now.Date == date) thisCa = 2;
-                        if ((DateTime.Now.Hour >= 22 && DateTime.Now.Date == date) || (DateTime.Now.Hour < 6 && DateTime.Now.Date.AddDays(-1) == date)) thisCa = 3;
+                        if (DateTime.Now.Hour >= 7 && DateTime.Now.Hour < 15 && DateTime.Now.Date == date) thisCa = 1;
+                        if (DateTime.Now.Hour >= 15 && DateTime.Now.Hour < 23 && DateTime.Now.Date == date) thisCa = 2;
+                        if ((DateTime.Now.Hour >= 23 && DateTime.Now.Date == date) || (DateTime.Now.Hour < 7 && DateTime.Now.Date.AddDays(-1) == date)) thisCa = 3;
                         bool available = (bool)item["available"];
                         CarGP car = DBContext.CarGPS.Find(equipmentId, date, ca);
                         if (car == null)
