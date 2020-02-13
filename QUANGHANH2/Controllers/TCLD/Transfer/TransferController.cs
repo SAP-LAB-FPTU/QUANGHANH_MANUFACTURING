@@ -419,18 +419,29 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         regexText = new Regex("%sothe%");
                         docText = regexText.Replace(docText, listNhanVien[0].MaNV);
 
-                        regexText = new Regex("%donvicu%");
-                        docText = regexText.Replace(docText, listNhanVien[0].DonViHienTai);
+                        if(listNhanVien[0].DonViMoi == listNhanVien[0].DonViHienTai)
+                        {
+                            regexText = new Regex("%dept1%");
+                            docText = regexText.Replace(docText, "Thuộc phân xưởng "+ listNhanVien[0].DonViHienTai);
 
-                        regexText = new Regex("%donvimoi%");
-                        docText = regexText.Replace(docText, listNhanVien[0].DonViMoi);
+                            regexText = new Regex("%cmn%");
+                            docText = regexText.Replace(docText, listNhanVien[0].DonViHienTai);
+                        }
+                        else
+                        {
+                            regexText = new Regex("%dept1%");
+                            docText = regexText.Replace(docText, "Thuộc "+listNhanVien[0].DonViHienTai +" đến "+ listNhanVien[0].DonViMoi);
+
+                            regexText = new Regex("%cmn%");
+                            docText = regexText.Replace(docText, listNhanVien[0].DonViHienTai + ", " + listNhanVien[0].DonViMoi);
+
+                        }
 
                         regexText = new Regex("%bacluong%");
                         docText = regexText.Replace(docText, listNhanVien[0].BacLuong);
 
                         regexText = new Regex("%nhiemvumoi%");
                         docText = regexText.Replace(docText, listNhanVien[0].ChucVu.tenChucVu);
-
 
                         regexText = new Regex("%mucluong%");
                         docText = regexText.Replace(docText, listNhanVien[0].MucLuong=="Chưa cập nhật"?"    ":listNhanVien[0].MucLuong);
