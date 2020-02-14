@@ -45,12 +45,10 @@ namespace QUANGHANH2.Controllers.Camera
             return View("/Views/Camera/Sua_chua_camera.cshtml");
         }
 
-        public class CamList : Models.Camera
+        public class CamList : Room
         {
-            public string department_id { get; set; }
             public string department_name { get; set; }
             public string department_type { get; set; }
-            public string room_name { get; set; }
             public string statusname { get; set; }
         }
  
@@ -193,11 +191,6 @@ namespace QUANGHANH2.Controllers.Camera
                         try
                         {
                             List<Documentary_camera_repair_details> details = DBContext.Documentary_camera_repair_details.Where(x => x.documentary_id == documentary_id).ToList();
-                            foreach (Documentary_camera_repair_details item in details)
-                            {
-                                Models.Camera e = DBContext.Cameras.Find(item.camera_id);
-                                e.camera_status = 3;
-                            }
                             documentary_code = documentary_code.Replace(" ", String.Empty);
                             i.documentary_code = documentary_code;
                             i.date_created = DateTime.Parse(date_created);
@@ -313,8 +306,7 @@ namespace QUANGHANH2.Controllers.Camera
                                    date_created = document.date_created,
                                    person_created = document.person_created,
                                    reason = document.reason,
-                                   out_in_come = document.out_in_come,
-                                   count = temporary.Select(x => new { x.camera_id }).Count()
+                                   out_in_come = document.out_in_come
                                }).ToList().Select(p => new CamDocument
                                {
                                    documentary_id = p.documentary_id,
@@ -323,7 +315,6 @@ namespace QUANGHANH2.Controllers.Camera
                                    person_created = p.person_created,
                                    reason = p.reason,
                                    out_in_come = p.out_in_come,
-                                   count = p.count
                                }).ToList();
 
             foreach (var el in documentaryList)
@@ -411,28 +402,22 @@ namespace QUANGHANH2.Controllers.Camera
             {
                 db.Configuration.LazyLoadingEnabled = false;
 
-                var result = (from a in db.Cameras
-                              where listConvert.Contains(a.camera_id)
+                var result = (from a in db.Rooms
+                              where listConvert.Contains(a.room_id.ToString())
                               join r in db.Rooms on a.room_id equals r.room_id
                               join d in db.Departments on r.department_id equals d.department_id
-                              join c in db.Status on a.camera_status equals c.statusid
                               select new
                               {
-                                  camera_id = a.camera_id,
-                                  camera_name = a.camera_name,
+                                  room_id = a.room_id,
+                                  room_name = a.room_name,
                                   department_name = d.department_name,
                                   department_id = r.department_id,
-                                  current_Status = a.camera_status,
-                                  statusname = c.statusname,
                               }).ToList().Select(s => new CamList
                               {
-                                  camera_id = s.camera_id,
-                                  camera_name = s.camera_name,
+                                  room_id = s.room_id,
+                                  room_name = s.room_name,
                                   department_name = s.department_name,
                                   department_id = s.department_id,
-                                  camera_status = s.current_Status,
-                                  statusname = s.statusname,
-
                               }).ToList();
                 ViewBag.DataThietBi = result;
 
@@ -493,7 +478,7 @@ namespace QUANGHANH2.Controllers.Camera
                     JObject json = JObject.Parse(data);
                     foreach (var item in json)
                     {
-                        string cameraId = (string)item.Value["id"];
+                        int cameraId = (int)item.Value["id"];
                         string department_id_to = (string)item.Value["department_id"];
                         string repair_reason = (string)item.Value["repair_reason"];
                         string datestring = (string)item.Value["finish_date_plan"];
@@ -507,7 +492,7 @@ namespace QUANGHANH2.Controllers.Camera
                         drd.repair_requirement = repair_reason;
                         drd.department_id = department_id_to;//
                         drd.documentary_id = documentary.documentary_id;
-                        drd.camera_id = cameraId;
+                        drd.broken_camera_quantity = cameraId;
                         DBContext.Documentary_camera_repair_details.Add(drd);
                         DBContext.SaveChanges();
                         JArray vattu = (JArray)item.Value.SelectToken("vattu");
@@ -519,7 +504,7 @@ namespace QUANGHANH2.Controllers.Camera
                             string department_id_temp = (string)jObject["department_id"];
                             Supply_Documentary_Camera sde = new Supply_Documentary_Camera();
                             sde.documentary_id = documentary.documentary_id;
-                            sde.camera_id = cameraId;
+                            sde.room_id = cameraId;
                             sde.supply_id = supply_id;
                             sde.quantity_plan = quantity;
                             sde.supplyStatus = supplyStatus;
