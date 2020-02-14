@@ -175,11 +175,11 @@
                                                 </th>
                                                 <th style="width: 200px">
                                                     Thang bậc lương
-                                                    <input type="text" id="thang-selectAll" hidden/>
+                                                    <input type="hidden" id="thang-selectAll" />
                                                 </th>
                                                 <th style="width: 200px" >
                                                     Phụ cấp
-                                                    <input type="text" id="phucap-selectAll" hidden/>
+                                                    <input type="hidden" id="phucap-selectAll" />
                                                 </th>
                                                 <th style="width: 250px">
                                                     Bậc
@@ -189,16 +189,16 @@
                                                             <span>Chọn cho tất cả</span>
                                                         </label>
                                                         <select id="bac-selectAll" class="form-control" disabled>
-                                                            @foreach (var pb in ViewBag.listBacLuong)
+                                                            @*@foreach (var pb in ViewBag.listBacLuong)
                                                             {
                                                                 <option value="@pb.MaBacLuong">@pb.MucBacLuong</option>
-                                                            }
+                                                            }*@
                                                         </select>
                                                     </div>
                                                 </th>
-                                                <th style="width: 200px" id="mucluong-selectAll">
+                                                <th style="width: 200px">
                                                     Mức lương
-                                                    <input type="text" id="mucluong-selectAll" hidden/>
+                                                    <input type="hidden" id="luong-selectAll" />
                                                 </th>
                                                 <th style="width: 300px">Lý do điều động</th>
                                             </tr>
@@ -694,6 +694,8 @@
                             $("#luong-" + thisId).val(AddComma($(this).find(":selected").data("mucluong")));
                         });
 
+
+
                         $("#pre-load").hide("slow", function () { });
                     } else {
 
@@ -701,6 +703,9 @@
                 }
             });
         }
+
+        
+        
     </script>
     <script>
         //check selected index:
@@ -806,7 +811,15 @@
             $(".chucvu").each(function () {
                 let mcv = $(this).find(":selected").val();
                 getThangLuongAndPhuCap($(this).attr("id").split('-')[1], mcv);
-            })
+            });
+            getThangLuongAndPhuCap("selectAll", $("#chucvu-selectAll").find(":selected").val());
+            if ($("#check-select-all-job").prop("checked") == true) {
+                $("#check-select-all-job").click();
+            }
+            if ($("#check-select-all-dept").prop("checked") == true) {
+                $("#check-select-all-dept").click();
+            }
+
         }
         //get list:
     </script>
@@ -832,12 +845,19 @@
                     $(this).prop("disabled", false)
                     $("#chucvu-selectAll").prop("disabled", true);
                 });
+                $("#check-select-all-bac").prop("checked", false);
+                $(".bac").prop("disabled", false);
+                $("#bac-selectAll").prop("disabled", true);
             } else {
                 $(".chucvu").each(function () {
                     $(this).prop("disabled", true);
                     $(this).val($("#chucvu-selectAll").val());
                     $("#chucvu-selectAll").prop("disabled", false);
                 });
+                $(".thang").val($("#thang-selectAll").val());
+                $(".phucap").val($("#phucap-selectAll").val());
+                $(".luong").val($("#luong-selectAll").val());
+
                 if ($("#check-select-all-bac").prop("checked") == false) {
                     $("#check-select-all-bac").click();
                     $(".bac").empty();
@@ -847,7 +867,11 @@
                 }
             }
         });
-
+        $("#check-select-all-bac").click(function (e) {
+            if ($("#check-select-all-job").prop("checked") == false) {
+                e.preventDefault();
+            } 
+        })
         $("#check-select-all-bac").change(function () {
             if ($(this).prop("checked") == false) {
                 $(".bac").prop("disabled", false)
@@ -878,6 +902,10 @@
             var html = $("#bac-selectAll").html();
             $(".bac").append(html);
             $(".bac").val($("#bac-selectAll").val());
+            $("#luong-selectAll").val(AddComma($(this).find(":selected").data("mucluong")));
+            $(".luong").val(AddComma($("#luong-selectAll").val()));
+            $(".thang").val(AddComma($("#thang-selectAll").val()));
+            $(".phucap").val(AddComma($("#phucap-selectAll").val()));
         });
     </script>
     <!------------------------------ VALIDATE STEP 2 ------------------------------>
@@ -1230,6 +1258,7 @@
             }
 
         });
+       
     </script>
 
     <script>
