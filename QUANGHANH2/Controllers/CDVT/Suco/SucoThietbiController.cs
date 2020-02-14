@@ -109,6 +109,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                     Notification nt = new Notification();
                     nt.id_problem = i.incident_id;
                     nt.description = "su co";
+                    nt.department_id = i.department_id;
                     nt.date = DateTime.Now.Date;
                     nt.isread = false;
                     DBContext.Notifications.Add(nt);

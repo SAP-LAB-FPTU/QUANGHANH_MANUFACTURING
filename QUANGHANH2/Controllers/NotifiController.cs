@@ -81,7 +81,7 @@ namespace QUANGHANH2.Controllers
         public JsonResult notifiQD()
         {
             string depart = Session["departID"].ToString();
-            var qd = db.Notifications.Where(x => x.isread == false).Where(x => x.description == "dieu dong" || x.description == "bao duong" || x.description == "cai tien" || x.description == "sua chua" || x.description == "thanh ly" || x.description == "thu hoi" || x.description == "trung dai tu").ToList();
+            var qd = db.Notifications.Where(x => x.isread == false).Where(x => x.description == "dieu dong" || x.description == "bao duong" || x.description == "cai tien" || x.description == "sua chua" || x.description == "thanh ly" || x.description == "thu hoi" || x.description == "trung dai tu").Where(x=>x.department_id == depart).ToList();
             noti ins = new noti();
             ins.text = "";
             ins.title = "Thông báo quyết định";
