@@ -16,7 +16,13 @@ namespace QUANGHANH2.Controllers.DK
         [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi")]
         public ActionResult Index()
         {
-            return View("/Views/DK/Department_Criteria/Department_Criteria.cshtml");
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                var query = " select * from Department WHERE department_type =@departmentType order by department_name";
+                List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
+                ViewBag.listDepartments = listDepartments;
+                return View("/Views/DK/Department_Criteria/Department_Criteria.cshtml");
+            }
         }
 
         /////////////////////////////////LIST/////////////////////////////////////
@@ -32,6 +38,10 @@ namespace QUANGHANH2.Controllers.DK
                 List<TieuChi> listTieuChi = new List<TieuChi>();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
+                    var query = " select * from Department WHERE department_type =@departmentType order by department_name";
+                    List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
+                    ViewBag.listDepartments = listDepartments;
+                    //
                     string sqlPhongBanTieuChi = "select a.MaPhongBan,a.MaTieuChi,b.TenTieuChi from PhongBan_TieuChi a left join TieuChi b on a.MaTieuChi = b.MaTieuChi\n" +
                         "where MaPhongBan = @maphongban and Thang = @thang and Nam = @nam ";
                     string sqlTieuChi = "select * from TieuChi";

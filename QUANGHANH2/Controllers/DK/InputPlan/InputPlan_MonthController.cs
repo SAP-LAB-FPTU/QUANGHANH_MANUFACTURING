@@ -15,7 +15,13 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
         [Route("phong-dieu-khien/ke-hoach-san-xuat-thang")]
         public ActionResult Index()
         {
-            return View("/Views/DK/InputPlan/InputPlan_Month.cshtml");
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                var query = " select * from Department WHERE department_type =@departmentType order by department_name";
+                List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
+                ViewBag.listDepartments = listDepartments;
+                return View("/Views/DK/InputPlan/InputPlan_Month.cshtml");
+            }
         }
 
         //////////////////////////////GET INFOR/////////////////////////////
@@ -30,6 +36,10 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                 var MaPhongBan = Request["MaPhongBan"];
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
+                    //
+                    var query = " select * from Department WHERE department_type =@departmentType order by department_name";
+                    List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
+                    ViewBag.listDepartments = listDepartments;
                     //get data's table to paging
                     int start = Convert.ToInt32(Request["start"]);
                     int length = Convert.ToInt32(Request["length"]);
