@@ -81,7 +81,7 @@ namespace QUANGHANH2.Controllers
         public JsonResult notifiQD()
         {
             string depart = Session["departID"].ToString();
-            var qd = db.Notifications.Where(x => x.isread == false).Where(x => x.description == "dieu dong" || x.description == "bao duong" || x.description == "cai tien" || x.description == "sua chua" || x.description == "thanh ly" || x.description == "thu hoi" || x.description == "trung dai tu").ToList();
+            var qd = db.Notifications.Where(x => x.isread == false).Where(x => x.description == "dieu dong" || x.description == "bao duong" || x.description == "cai tien" || x.description == "sua chua" || x.description == "thanh ly" || x.description == "thu hoi" || x.description == "trung dai tu").Where(x=>x.department_id == depart).ToList();
             noti ins = new noti();
             ins.text = "";
             ins.title = "Thông báo quyết định";
@@ -94,6 +94,36 @@ namespace QUANGHANH2.Controllers
                 }
                 ins.text = "Có " + qd.Count + " quyết định mới được chuyển xuống.";
                 ins.id = ints;
+            }
+            return Json(ins, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult notifiQD2()
+        {
+            var qd = db.Notifications.Where(x => x.isread == false).Where(x => x.description == "dieu dong 2" || x.description == "bao duong 2" || x.description == "cai tien 2" || x.description == "sua chua 2" || x.description == "thanh ly 2" || x.description == "thu hoi 2" || x.description == "trung dai tu 2").FirstOrDefault();
+            noti ins = new noti();
+            ins.text = "";
+            ins.title = "Thông báo quyết định";
+            if (qd != null)
+            {
+                var depart = db.Departments.Where(x => x.department_id == qd.department_id).FirstOrDefault();
+                List<int> ints = new List<int>();
+                ints.Add(qd.id_noti);
+                ins.text = depart.department_name + " đã xử lí xong quyết định.";
+                ins.id = ints;
+                if (qd.description.Equals("dieu dong 2"))
+                    ins.title += " điều động";
+                else if(qd.description.Equals("bao duong 2"))
+                    ins.title += " bảo dưỡng";
+                else if (qd.description.Equals("cai tien 2"))
+                    ins.title += " cải tiến";
+                else if (qd.description.Equals("sua chua 2"))
+                    ins.title += " sửa chữa";
+                else if (qd.description.Equals("thanh ly 2"))
+                    ins.title += " thanh lý";
+                else if (qd.description.Equals("thu hoi 2"))
+                    ins.title += " thu hồi";
+                else if (qd.description.Equals("trung dai tu 2"))
+                    ins.title += " trung đại tu";
             }
             return Json(ins, JsonRequestBehavior.AllowGet);
         }

@@ -144,6 +144,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     noti.description = "dieu dong";
                     noti.date = DateTime.Now.Date;
                     noti.id_problem = documentary.documentary_id;
+                    noti.department_id = documentary.department_id_to;
                     noti.isread = false;
                     DBContext.Notifications.Add(noti);
                     DBContext.SaveChanges();
