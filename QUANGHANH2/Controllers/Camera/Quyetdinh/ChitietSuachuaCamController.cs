@@ -40,9 +40,8 @@ namespace QUANGHANH2.Controllers.Camera
             return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
 
-        public class CameraDetail: Models.Camera
+        public class CameraDetail: Room
         {
-            public string room_name { get; set; }
             public string reason { get; set; }
             public int documentary_id { get; set; }
             public string idAndEquip { get; set; }
@@ -68,10 +67,6 @@ namespace QUANGHANH2.Controllers.Camera
                         "Documentary doc on doc.documentary_id = docCam.documentary_id join Camera c on c.camera_id = docCam.camera_id join " +
                         "Room r on r.room_id = c.room_id join Department d on d.department_id = r.department_id where docCam.documentary_id = @requestID";
                     List<CameraDetail> documentariesList = db.Database.SqlQuery<CameraDetail>(query, new SqlParameter("requestID", requestID)).ToList();
-                    foreach (var el in documentariesList)
-                    {
-                        el.idAndEquip = el.documentary_id + "^" + el.camera_id;
-                    }
                     int totalrows = documentariesList.Count;
                     int totalrowsafterfiltering = documentariesList.Count;
 

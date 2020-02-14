@@ -130,12 +130,15 @@
                         <div class="form-group">
                             <label for="name">Tên thiết bị  : </label>
                             <input type="text" class="form-control" id="equipmentnamefuel-edit" readonly />
-
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Số lượng còn :</label>
+                            <input type="text" class="form-control" id="remaining-edit" readonly />
                         </div>
                     </div>
                     <div class="col s12 m6">
                         <div class="form-group">
-                            <label for="date">Mã nhiên liệu  : </label>
+                            <label for="date">Mã nhiên liệu : </label>
                             <input type="text" class="form-control" id="fuel-edit" list="supplyID" onchange="getsupplynameinedit()" />
                         </div>
                         <div class="form-group">
@@ -196,10 +199,14 @@
                         <div class="form-group">
                             <label for="supplier">Lượng nhiên liệu tiêu thụ: </label>
                             <input type="number" min="1" class="form-control" id="consumption_value-add" />
-                        </div>
+                        </div> 
                         <div class="form-group">
                             <label for="supplier">Đơn vị: </label>
                             <input type="Text" class="form-control" id="unit-add" readonly />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Số lượng còn :</label>
+                            <input type="text" class="form-control" id="remaining-add" readonly />
                         </div>
                     </div>
                 </div>

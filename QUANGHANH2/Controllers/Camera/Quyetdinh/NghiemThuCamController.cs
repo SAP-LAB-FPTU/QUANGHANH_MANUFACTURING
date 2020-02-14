@@ -27,8 +27,8 @@ namespace QUANGHANH2.Controllers.Camera
         public class Documentary_Extend_Cam : Documentary
         {
             public string tempId { get; set; }
-            public string camera_id { get; set; }
-            public string camera_name { get; set; }
+            public int room_id { get; set; }
+            public string room_name { get; set; }
             public string idAndid { get; set; }
             public bool du_phong { get; set; }
             public bool di_kem { get; set; }
@@ -52,7 +52,7 @@ namespace QUANGHANH2.Controllers.Camera
 
         [Route("camera/nghiem-thu/search")]
         [HttpPost]
-        public ActionResult Search(string document_code, string equiment_id, string equiment_name)
+        public ActionResult Search(string document_code, string equiment_name)
         {
             //Server Side Parameter
             //string requestID = Request["sessionId"];
@@ -72,16 +72,16 @@ namespace QUANGHANH2.Controllers.Camera
                 if (departID.Contains("PX"))
                 {
                     docList = (from a in db.Camera_Acceptance
-                               join b in db.Cameras on a.camera_id equals b.camera_id
+                               join b in db.Rooms on a.room_id equals b.room_id
                                join e in db.Rooms.Where(x => x.department_id.Equals(departID)) on b.room_id equals e.room_id
                                join c in db.Documentaries on a.documentary_id equals c.documentary_id
-                               where (a.cameraStatus == 2 || a.cameraStatus == 3) && (c.documentary_code.Contains(document_code)) && (a.camera_id.Contains(equiment_id)) && (b.camera_name.Contains(equiment_name))
+                               where (a.cameraStatus == 2 || a.cameraStatus == 3) && (c.documentary_code.Contains(document_code)) && (b.room_name.Contains(equiment_name))
                                join d in db.DocumentaryTypes on c.documentary_type equals d.documentary_type
                                select new
                                {
                                    documentary_id = a.documentary_id,
-                                   camera_id = b.camera_id,
-                                   camera_name = b.camera_name,
+                                   room_id = b.room_id,
+                                   room_name = b.room_name,
                                    documentary_code = c.documentary_code,
                                    documentary_type = c.documentary_type,
                                    documentary_name = d.documentary_name,
@@ -92,8 +92,8 @@ namespace QUANGHANH2.Controllers.Camera
                                }).ToList().Select(p => new Documentary_Extend_Cam
                                {
                                    documentary_id = p.documentary_id,
-                                   camera_id = p.camera_id,
-                                   camera_name = p.camera_name,
+                                   room_id = p.room_id,
+                                   room_name = p.room_name,
                                    documentary_code = p.documentary_code,
                                    documentary_type = p.documentary_type,
                                    documentary_name = p.documentary_name,
@@ -105,16 +105,16 @@ namespace QUANGHANH2.Controllers.Camera
                 else
                 {
                     docList = (from a in db.Camera_Acceptance
-                               join b in db.Cameras on a.camera_id equals b.camera_id
+                               join b in db.Rooms on a.room_id equals b.room_id
                                join e in db.Rooms on b.room_id equals e.room_id
                                join c in db.Documentaries on a.documentary_id equals c.documentary_id
-                               where (a.cameraStatus == 3 || a.cameraStatus == 2) && (c.documentary_code.Contains(document_code)) && (a.camera_id.Contains(equiment_id)) && (b.camera_name.Contains(equiment_name))
+                               where (a.cameraStatus == 3 || a.cameraStatus == 2) && (c.documentary_code.Contains(document_code)) && (b.room_name.Contains(equiment_name))
                                join d in db.DocumentaryTypes on c.documentary_type equals d.documentary_type
                                select new
                                {
                                    documentary_id = a.documentary_id,
-                                   camera_id = b.camera_id,
-                                   camera_name = b.camera_name,
+                                   room_id = b.room_id,
+                                   room_name = b.room_name,
                                    documentary_code = c.documentary_code,
                                    documentary_type = c.documentary_type,
                                    documentary_name = d.documentary_name,
@@ -122,12 +122,11 @@ namespace QUANGHANH2.Controllers.Camera
                                    di_kem = d.di_kem,
                                    can = d.can,
                                    cameraStatus = a.cameraStatus
-
                                }).ToList().Select(p => new Documentary_Extend_Cam
                                {
                                    documentary_id = p.documentary_id,
-                                   camera_id = p.camera_id,
-                                   camera_name = p.camera_name,
+                                   room_id = p.room_id,
+                                   room_name = p.room_name,
                                    documentary_code = p.documentary_code,
                                    documentary_type = p.documentary_type,
                                    documentary_name = p.documentary_name,
@@ -146,7 +145,7 @@ namespace QUANGHANH2.Controllers.Camera
 
                 foreach (Documentary_Extend_Cam items in docList)
                 {
-                    items.idAndid = items.camera_id + "^" + items.documentary_id + "^" + items.cameraStatus;
+                    items.idAndid = items.room_id + "^" + items.documentary_id + "^" + items.cameraStatus;
                     items.linkIdCode = new LinkIdCode2();
                     switch (items.documentary_type)
                     {
@@ -169,8 +168,8 @@ namespace QUANGHANH2.Controllers.Camera
                             items.linkIdCode.link = "vat-tu";
                             break;
                     }
-                    items.linkIdCode.code = items.camera_id;
-                    items.linkIdCode.id = items.camera_id;
+                    items.linkIdCode.code = items.room_id.ToString();
+                    items.linkIdCode.id = items.room_id.ToString();
                     items.linkIdCode.doc = items.documentary_id;
                 }
 
@@ -211,11 +210,10 @@ namespace QUANGHANH2.Controllers.Camera
                     {
                         documentary.documentary_status = 3;
                     }
-                    Models.Camera equipment = db.Cameras.Find(id);
+                    Room equipment = db.Rooms.Find(id);
                     Documentary_camera_repair_details documentary_Repair_Details = db.Database.SqlQuery<Documentary_camera_repair_details>("SELECT * FROM Documentary_camera_repair_details WHERE documentary_id = @documentary_id AND camera_id = @equipmentId",
                         new SqlParameter("equipmentId", id),
                         new SqlParameter("documentary_id", documentary.documentary_id)).First();
-                    equipment.camera_status = 2;
 
                     db.SaveChanges();
                     transaction.Commit();

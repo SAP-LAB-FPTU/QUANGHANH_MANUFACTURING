@@ -169,7 +169,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\Camera\CapNhatTheoCaController.cs" />
-    <Compile Include="Controllers\Camera\SucoCamController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\ChitietSuachuaCamController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\ChiTietXuLyQDController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\NghiemThuCamController.cs" />
+    <Compile Include="Controllers\Camera\SuachuaCameraController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\DanhSachController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\XuLyQDController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\CDVTXinCapVatTuController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
     <Compile Include="Controllers\AT\ViewAccidentController.cs" />
@@ -7468,7 +7473,6 @@
     <Content Include="Views\CDVT\Work\CaiTien\ThemCaiTien.cshtml" />
     <Content Include="Views\DK\Department_Criteria\Department_Criteria.cshtml" />
     <Content Include="Views\Shared\_Layout_KCM.cshtml" />
-    <Content Include="Views\Shared\_Layout_Cam.cshtml" />
     <Content Include="Views\Camera\DanhSachCamera.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />
     <Content Include="Views\Camera\Chi_tiet_sua_chua.cshtml" />
