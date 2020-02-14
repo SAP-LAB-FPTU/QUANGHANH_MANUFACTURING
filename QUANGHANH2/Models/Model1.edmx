@@ -854,6 +854,7 @@
           </Key>
           <Property Name="id_noti" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_problem" Type="int" Nullable="false" />
+          <Property Name="department_id" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="description" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="isread" Type="bit" Nullable="false" />
@@ -4748,6 +4749,7 @@
           </Key>
           <Property Name="id_noti" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_problem" Type="Int32" Nullable="false" />
+          <Property Name="department_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="isread" Type="Boolean" Nullable="false" />
@@ -8508,6 +8510,7 @@
               <MappingFragment StoreEntitySet="Notification">
                 <ScalarProperty Name="id_noti" ColumnName="id_noti" />
                 <ScalarProperty Name="id_problem" ColumnName="id_problem" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="isread" ColumnName="isread" />
