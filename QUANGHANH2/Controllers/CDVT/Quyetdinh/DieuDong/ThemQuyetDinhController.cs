@@ -139,6 +139,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         }
                     }
                     DBContext.SaveChanges();
+
+                    Notification noti = new Notification();
+                    noti.description = "dieu dong";
+                    noti.date = DateTime.Now.Date;
+                    noti.id_problem = documentary.documentary_id;
+                    noti.isread = false;
+                    DBContext.Notifications.Add(noti);
+                    DBContext.SaveChanges();
+
                     transaction.Commit();
 
                         return Redirect("quyet-dinh/dieu-dong");

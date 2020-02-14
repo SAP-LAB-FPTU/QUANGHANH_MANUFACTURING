@@ -16,6 +16,7 @@ namespace QUANGHANH2.Models
     {
         public int id_noti { get; set; }
         public int id_problem { get; set; }
+        public string department_id { get; set; }
         public string description { get; set; }
         public System.DateTime date { get; set; }
         public bool isread { get; set; }

@@ -75,7 +75,26 @@ namespace QUANGHANH2.Controllers
                 ins.text = "Có " + sc.Count + " sự cố mới được nhập.";
                 ins.id = ints;
             }
+            return Json(ins, JsonRequestBehavior.AllowGet);
+        }
 
+        public JsonResult notifiQD()
+        {
+            string depart = Session["departID"].ToString();
+            var qd = db.Notifications.Where(x => x.isread == false).Where(x => x.description == "dieu dong" || x.description == "bao duong" || x.description == "cai tien" || x.description == "sua chua" || x.description == "thanh ly" || x.description == "thu hoi" || x.description == "trung dai tu").ToList();
+            noti ins = new noti();
+            ins.text = "";
+            ins.title = "Thông báo quyết định";
+            if (qd.Count != 0)
+            {
+                List<int> ints = new List<int>();
+                foreach (Notification i in qd)
+                {
+                    ints.Add(i.id_noti);
+                }
+                ins.text = "Có " + qd.Count + " quyết định mới được chuyển xuống.";
+                ins.id = ints;
+            }
             return Json(ins, JsonRequestBehavior.AllowGet);
         }
 
