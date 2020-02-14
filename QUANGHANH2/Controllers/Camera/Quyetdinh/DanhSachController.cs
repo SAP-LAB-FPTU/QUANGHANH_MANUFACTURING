@@ -16,7 +16,7 @@ using QUANGHANH2.SupportClass;
 
 namespace QUANGHANH2.Controllers.Camera
 {
-    public class SucoCamController : Controller
+    public class DanhSachController : Controller
     {
         [Auther(RightID = "193")]
         [Route("phong-cdvt/camera/su-co")]

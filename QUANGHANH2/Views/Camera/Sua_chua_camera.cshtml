@@ -43,10 +43,9 @@
                 <table id="equipmentTable" class="table-bordered striped table-responsive centered">
                     <thead>
                         <tr>
-                            <th>Mã thiết bị</th>
-                            <th>Tên thiết bị</th>
-                            <th>Vị trí phòng</th>
-                            <th>Tình trạng thiết bị</th>
+                            <th>Tên hệ thống</th>
+                            <th>Đơn vị trực thuộc</th>
+                            <th>Tình trạng số lượng (có tín hiệu/tổng số)</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -78,10 +77,6 @@
         </text>
     }
 </script>
-
-
-
-
 
 @section scripts{
     <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
@@ -138,7 +133,6 @@
                         "cache": false
                     },
                     "columns": [
-                        { "data": "camera_id", "name": "camera_id", "searchable": true },
                         { "data": "camera_name", "name": "camera_name" },
                         { "data": "room_name", "name": "room_name" },
                         { "data": "statusname", "name": "statusname" },

@@ -169,8 +169,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\Camera\CapNhatTheoCaController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\ChitietSuachuaCamController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\ChiTietXuLyQDController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\NghiemThuCamController.cs" />
     <Compile Include="Controllers\Camera\SuachuaCameraController.cs" />
-    <Compile Include="Controllers\Camera\SucoCamController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\DanhSachController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\XuLyQDController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\CDVTXinCapVatTuController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
     <Compile Include="Controllers\AT\ViewAccidentController.cs" />
