@@ -137,31 +137,6 @@ namespace QUANGHANH2.Controllers.Camera
             return Json(new { success = true, message = "Cập nhật thành công", redirect = redirect });
         }
 
-        [Route("phong-cdvt/oto/GPS/GetReason")]
-        [HttpPost]
-        public ActionResult GetReason(string equipmentId, int ca, string stringdate)
-        {
-            DateTime dateTime = DateTime.ParseExact(stringdate, "dd/MM/yyyy", null);
-            DateTime start = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 6, 0, 0);
-            DateTime end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 14, 0, 0);
-            if (ca == 2)
-            {
-                start = end;
-                end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 22, 0, 0);
-            }
-            if (ca == 3)
-            {
-                start = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 22, 0, 0);
-                end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day + 1, 6, 0, 0);
-            }
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            string reason = DBContext.Database.SqlQuery<string>("select maintain_content from Maintain_Car where equipmentId = @equipmentId and [date] between @start and @end",
-                new SqlParameter("equipmentid", equipmentId),
-                new SqlParameter("start", start),
-                new SqlParameter("end", end)).FirstOrDefault();
-            return Json(new { reason = reason == null ? "" : reason });
-        }
-
         private class RoomDB
         {
             public int room_id { get; set; }

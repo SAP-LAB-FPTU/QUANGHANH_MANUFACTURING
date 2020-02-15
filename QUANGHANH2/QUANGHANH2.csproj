@@ -169,11 +169,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\Camera\CapNhatTheoCaController.cs" />
-    <Compile Include="Controllers\Camera\Quyetdinh\ChitietSuachuaCamController.cs" />
-    <Compile Include="Controllers\Camera\Quyetdinh\ChiTietXuLyQDController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ChiTietController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ThemController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\XuLyController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ChonThietBiController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\NghiemThuCamController.cs" />
-    <Compile Include="Controllers\Camera\SuachuaCameraController.cs" />
-    <Compile Include="Controllers\Camera\Quyetdinh\DanhSachController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\DanhSachController.cs" />
+    <Compile Include="Controllers\Camera\SuCoController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\XuLyQDController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\CDVTXinCapVatTuController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
@@ -7519,6 +7521,8 @@
     <Folder Include="Library\" />
     <Folder Include="Views\CapNhatTrangThai\" />
     <Folder Include="Views\CapNhat\" />
+    <Folder Include="Views\ChiTiet\" />
+    <Folder Include="Views\ChonThietBi\" />
     <Folder Include="Views\TrangChu\" />
   </ItemGroup>
   <ItemGroup>
