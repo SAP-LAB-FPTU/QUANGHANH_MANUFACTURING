@@ -5,40 +5,29 @@
 <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
 
 <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
-<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
-<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
 
 <div class="card">
     <div class="card-content">
         <div class="row">
-            <h3 class="center"><b>SỬA CHỮA THIẾT BỊ</b></h3>
+            <h3 class="center"><b>CHỌN HỆ THỐNG CAMERA</b></h3>
             <hr>
-            <form action="" method="POST" id="mysearchform" role="form">
-                <div class="col l6 m6 s12">
-                    <div class="row">
-                        <div class="col l10 m10 offset-l2 offset-m2 s12 input-field">
-                            <input type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search" />
-                        </div>
-                        <div class="col l10 m10 offset-l2 offset-m2 s12 input-field">
-                            <input type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
-                        </div>
+            <div class="col l6 m6 s12">
+                <div class="row">
+                    <div class="col l10 m10 offset-l2 offset-m2 s12 input-field">
+                        <input type="text" placeholder="Tìm kiếm theo tên hệ thống" class='form-control' id="room_name" />
                     </div>
                 </div>
-                <div class="col l6 m6 s12">
-                    <div class="row">
-                        <div class="col l10 m10 s12 input-field">
-                            <input type="text" placeholder="Tìm kiếm theo phân xưởng chịu trách nhiệm" class='form-control' id="department-search" />
-                        </div>
+            </div>
+            <div class="col l6 m6 s12">
+                <div class="row">
+                    <div class="col l10 m10 s12 input-field">
+                        <input type="text" placeholder="Tìm kiếm theo đơn vị trực thuộc" class='form-control' id="department_id" />
                     </div>
                 </div>
-                <div class="col l12 m12 s12 input-field center">
-                    <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton1">Tìm kiếm</a>
-                </div>
-            </form>
+            </div>
+            <div class="col l12 m12 s12 input-field center">
+                <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton">Tìm kiếm</a>
+            </div>
             <div class="col s12 table_container">
                 <table id="equipmentTable" class="table-bordered striped table-responsive centered">
                     <thead>
@@ -52,20 +41,15 @@
                 </table>
             </div>
             <div class="col">
-                <a href="#" id="tienhanh" onclick="SaveStatus()" class="btn blue darken-2">Tiến hành điều động sửa chữa</a>
-                <a class="btn blue darken-2" id="drop">Bỏ Chọn</a>
+                <form id="myform" method="post" action="/camera/sua-chua-chon">
+                    <input readonly hidden name="abc" value=@Html.Raw((ViewBag.ListSelected == null) ? "" : ('"' + ViewBag.ListSelected + '"')) />
+                    <button type="submit" class="btn blue darken-2">Tiếp theo</button>
+                    <a class="btn blue darken-2" id="drop">Bỏ Chọn</a>
+                </form>
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="~/js/Custom JS/CDVT/Work/suachua.js"></script>
-
-@*<datalist id="equipmentId-search">
-        @foreach (var item in ViewBag.EquipmentID)
-        {
-        <option value="@item.equipment_id">@item.equipment_id</option>
-        }
-    </datalist>*@
 
 <script>
     @if (ViewBag.alert == true)
@@ -84,168 +68,86 @@
     <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
     <script>
         //$("#pre-load").show();
-        var Popup, dataTable;
-        @{
-            var listFromServer = "[]";
-            if (ViewBag.selectedList != null)
-            {
-                listFromServer = ViewBag.selectedList;
-            }
-         }
-        var arrCarSelected = JSON.parse("@listFromServer".replace(/(&quot\;)/g, "\""));
-        window.onbeforeunload = function (e) {
-            document.cookie = 'SuaChuaThietBi=; expires=' + d.toGMTString() + ';';
-        }
-        $("#drop").click(function () {
-            $(".my_checkbox").each(function () {
-                if ($(this).is(":checked")) $(this).click();
-            })
-            //here
-            arrCarSelected = null;
-        })
+        var dataTable;
+        var arr = $('input[name*="abc"]').val().split(",");
+
         $(document).ready(function () {
-            dataTable = $('#equipmentTable')
-                .on('preXhr.dt', function ( e, settings, data )  {
-                data.sessionId = "@ViewBag.id";
-                data.selectList = JSON.stringify(arrCarSelected);
-            })
-                .DataTable({
-                    "language": {
-                        "emptyTable": "Không tìm thấy dữ liệu",
-                        "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                        "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
-                        "paginate": {
-                            "first": "Trang đầu",
-                            "last": "Trang cuối",
-                            "next": "Trang sau",
-                            "previous": "Trang trước"
-                        }
-                    },
-                    "ajax": {
-                        "url": "/camera/sua-chua/search",
-                        "type": "POST",
-                        "datatype": "json",
-                        "data": {
-                            "cameraID": function () { return $('#equipmentId-search').val() },
-                            "department_name": function () { return $('#department-search').val() },
-                            "cameraName": function () { return $('#equipmentName-search').val() }
-                        },
-                        "cache": false
-                    },
-                    "columns": [
-                        { "data": "camera_name", "name": "camera_name" },
-                        { "data": "room_name", "name": "room_name" },
-                        { "data": "statusname", "name": "statusname" },
-                        {
-                            "data": "camera_id", "render": function (data) {
-                                if (arrCarSelected != null) {
-                                    for (let i = 0; i < arrCarSelected.length; i++)
-                                        if (arrCarSelected[i] == data) {
-                                            return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "') checked><span></span></label>";
-                                        }
-                                }
-                                return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "')><span></span></label>";
-                            },
-                            "orderable": false,
-                            "searchable": false,
-                            "width": "150px"
-                        }
-                    ],
-                    "bLengthChange": false,
-                    "searching": false,
-                    "serverSide": "true",
-                    "order": [0, "asc"],
-                    "initComplete": function (settings, json) {
-                        $("#pre-load").hide();
-                    },
-                    "preDrawCallback": function (settings) {
-                        $('#pre-load').show();
-                    },
-                    "drawCallback": function (settings) {
-                        $('#pre-load').hide();
+            dataTable = $('#equipmentTable').DataTable({
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                    "paginate": {
+                        "first": "Trang đầu",
+                        "last": "Trang cuối",
+                        "next": "Trang sau",
+                        "previous": "Trang trước"
                     }
-            });
-
-            $("#equipmentId-search").keyup(function (event) {
-                if (event.keyCode === 13) {
-                    $("#searchButton1").click();
-                    $("#equipmentId-search").blur();
-                }
-            });
-
-            $("#equipmentName-search").keyup(function (event) {
-                if (event.keyCode === 13) {
-                    $("#searchButton1").click();
-                    $("#equipmentName-search").blur();
-                }
-            });
-
-            $("#department-search").keyup(function (event) {
-                if (event.keyCode === 13) {
-                    $("#searchButton1").click();
-                    $("#department-search").blur();
-                }
-            });
-
-
-            $("#searchButton1").click(function () {
-                $("#pre-load").show();
-                dataTable.ajax.reload(function () {
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    });
+                },
+                "ajax": {
+                    "url": "/camera/sua-chua/search",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": {
+                        "room_name": function () { return $('#room_name').val() },
+                        "department_name": function () { return $('#department_name').val() },
+                        "room_id": function () { return arr }
+                    },
+                    "cache": false
+                },
+                "columns": [
+                    { "data": "room_name", "name": "room_name" },
+                    { "data": "department_name", "name": "department_name" },
+                    {
+                        "data": {}, "name": "camera_available", render: function myfunction(data) {
+                            return data.camera_available + "/" + data.camera_quantity;
+                        }
+                    },
+                    {
+                        "data": {}, "render": function (data) {
+                            if (data.selected)
+                                return "<label><input class='my_checkbox' value='" + data.room_id + "' type ='checkbox' checked><span></span></label>";
+                            else
+                                return "<label><input class='my_checkbox' value='" + data.room_id + "' type ='checkbox'><span></span></label>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                "bLengthChange": false,
+                "searching": false,
+                "serverSide": "true",
+                "order": [0, "asc"],
+                "initComplete": function (settings, json) {
                     $("#pre-load").hide();
-                })
-            })
+                },
+                "preDrawCallback": function (settings) {
+                    $('#pre-load').show();
+                },
+                "drawCallback": function (settings) {
+                    $('#pre-load').hide();
+                }
+            });
         });
 
-        var table = new $.fn.dataTable.Api('#myTable');
+        $('#searchButton').click(function () {
+            dataTable.ajax.reload();
+        })
 
-        // Get data from the first row
-        var data = table.rows().data()[0]; // same as row(0).data()
+        $(document).on("click", ".my_checkbox", function () {
+            let val = $(this).val();
+            if ($(this).prop("checked"))
+                arr.push(val);
+            else
+                arr.splice(arr.indexOf(val), 1);
+            $('input[name*="abc"]').val(arr)
+        })
 
-        function updateList(id) {
-            isExist = false;
-            if (arrCarSelected != null) {
-                for (let i = 0; i < arrCarSelected.length; i++) {
-                    if (arrCarSelected[i] == id) {
-                        isExist = true;
-                        arrCarSelected.splice(i, 1);
-                        break;
-                    }
-                }
-            }
-
-            if (!isExist && id != "" && id != null) {
-                if (arrCarSelected != null) {
-                    arrCarSelected.push(id);
-                    console.log(arrCarSelected)
-                } else {
-                    arrCarSelected = [id];
-
-                }
-            }
-        }
-
-        function SaveStatus() {
-            $.ajax({
-                url: "/camera/sua-chua",
-                method: "POST",
-                data: {
-                    "selectList": JSON.stringify(arrCarSelected)
-                }
-            })
-            document.getElementById("selectListJson").value = arrCarSelected;
-            document.getElementById("formSaveStatus").submit();
-        }
-
-        function sendData() {
-            $.each($("input[name='abc']:checked"), function () {
-            });
-        }
+        $('#drop').click(function () {
+            arr = [];
+            dataTable.ajax.reload();
+            $('input[name*="abc"]').val(arr)
+        })
     </script>
 }
-<form action="/camera/sua-chua-chon" id="formSaveStatus">
-    <input type="hidden" name="selectListJson" id="selectListJson" value="" />
-</form>
