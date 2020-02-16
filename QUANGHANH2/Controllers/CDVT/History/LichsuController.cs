@@ -26,7 +26,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             string department_id = Session["departID"].ToString();
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<fuelDB> listEQ; List<Supply> listSupply;
-            if (department_id.Contains("PX"))
+            if (Session["departName"].ToString().Contains("Phân xưởng"))
             {
                  listEQ = db.Database.SqlQuery<fuelDB>("select equipmentId , equipment_name from Equipment where department_id = @department_id", new SqlParameter("department_id", department_id)).ToList();
                  listSupply = db.Supplies.ToList();
@@ -76,7 +76,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 string from_clause = " from Activity a ,Equipment e "
                                     + " where e.equipmentId = a.equipmentId AND a.equipmentId LIKE @equipmentId "
                                     + " AND e.equipment_name LIKE @equipment_name AND a.[date] between @timeFrom AND @timeTo ";
-                if (department_id.Contains("PX"))
+                if (Session["departName"].ToString().Contains("Phân xưởng"))
                 {
                     from_clause += " AND e.department_id = @department_id";
                 }
@@ -142,7 +142,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 string from_clause = " from Fuel_activities_consumption f, Equipment e , Supply s "
                                     + "where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type AND f.equipmentId LIKE @equipmentId "
                                     + " AND e.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo ";
-                if (department_id.Contains("PX"))
+                if (Session["departName"].ToString().Contains("Phân xưởng"))
                 {
                     from_clause += " AND e.department_id = @department_id";
                 }
