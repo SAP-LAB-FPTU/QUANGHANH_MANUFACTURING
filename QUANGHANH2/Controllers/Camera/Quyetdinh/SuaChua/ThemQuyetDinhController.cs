@@ -103,7 +103,6 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                             sde.room_id = room_id;
                             sde.supply_id = supply_id;
                             sde.quantity_plan = quantity;
-                            sde.supply_documentary_status = 0;
                             DBContext.Supply_Documentary_Camera.Add(sde);
                             DBContext.SaveChanges();
                         }
