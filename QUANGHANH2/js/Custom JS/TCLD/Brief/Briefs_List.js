@@ -12,7 +12,7 @@
         });
     });
 
-    $("#tlhd").change( () => function () {
+    $("#tlhd").change(() => function () {
         // $(".abc").show();
         alert("hehe")
     });
@@ -29,5 +29,47 @@ function onSelectTypeOfEndContract() {
     } else {
         $("#containerOption1").hide();
         $("#containerOption2").hide();
+    }
+}
+
+function onSelectTypeOfEndContract1(str) {
+    if (document.getElementById("tlhd-" + str).value == "dvn") {
+        $("#lydo-" + str).append("<div id='div1-" + str + "'><label> " +
+            "  <input name='group1-" + str + "' type='radio' value='Đi các đơn vị trong TKV' checked /> " +
+            "   <span>Đi các đơn vị trong TKV</span> " +
+            "</label> " +
+            "<label> " +
+            "   <input name='group1-" + str + "' value='Đi các đơn vị ngoài TKV' type='radio' /> " +
+            "    <span>Đi các đơn vị ngoài TKV</span> " +
+            "</label></div>");
+        $("#div2-" + str).hide();
+    } else if (document.getElementById("tlhd-" + str).value == "khac") {
+        $("#lydo-" + str).append("<div id='div2-" + str + "'><label> " +
+            "  <input name='group2-" + str + "' id='else1-" + str + "' type='radio' value='Hết hạn HĐLĐ' checked /> " +
+            "   <span>TLHĐ</span> " +
+            "</label> " +
+            "<label> " +
+            "   <input name='group2-" + str + "' id='else2-" + str + "' value type='radio' /> " +
+            "   <span><input id='else" + str + "' name='elseCase' class='form-control' placeholder='Trường hợp khác' required disabled autocomplete='off' /></span>" +
+            "</label></div>");
+        $("#div1-" + str).hide();
+        if ($("#else1-" + str).is(":checked")) {
+            $("tlhd-" + str).val($("#else1-" + str).val());
+        }
+        if ($("#else2-" + str).is(":checked")) {
+            $("tlhd-" + str).val($("#else2-" + str).val());
+        }
+        $("#else2-" + str).click(function (event) {
+            $("#else" + str).prop("disabled", false);
+        });
+        $("#else1-" + str).click(function (event) {
+            $("#else" + str).prop("disabled", true);
+        });
+        $("#else" + str).change(function () {
+            $("#else2-" + str).val($("#else" + str).val);
+        });
+    } else {
+        $("#div1-" + str).hide();
+        $("#div2-" + str).hide();
     }
 }

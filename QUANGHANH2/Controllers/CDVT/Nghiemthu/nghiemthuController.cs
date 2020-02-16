@@ -40,7 +40,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                if (departID.Contains("PX"))
+                if (Session["departName"].ToString().Contains("Phân xưởng"))
                 {
                     docList = (from a in db.Acceptances
                                join b in db.Equipments.Where(x => x.department_id.Equals(departID)) on a.equipmentId equals b.equipmentId

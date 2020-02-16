@@ -426,6 +426,23 @@
         <!-- Right Sidebar -->
         <!-- ============================================================== -->
     </div>
+    <div class="modal fade" id="notifi">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="title-noti"></h2>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <h4 id="text-noti"></h4>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn blue darken-2 modal-close save-category" onclick="updateStatus()">Xác nhận</button>
+                <button type="button" class="btn light-blue lighten-1 modal-close">Đóng</button>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="ids" />
     <script>
         $("#nhap-hoat-dong-hang-ngay").click(function () {
             window.location.href = "#";
@@ -449,6 +466,45 @@
         $(".datepicker-here").keydown(function (e) {
             e.preventDefault();
         });
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            setInterval(function () {
+                $.ajax({
+                    url: "/Notifi/notifiQD",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.text != '') {
+                            document.getElementById('ids').value = result.id;
+                            $("#title-noti").text(result.title);
+                            $("#text-noti").text(result.text);
+                            $("#notifi").modal('open');
+                        }
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+            }, 15000);
+
+        });
+        function updateStatus() {
+            var empObj = {
+                id: document.getElementById("ids").value
+            };
+            $.ajax({
+                url: "/Notifi/updateStatus",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
+
+                },
+                error: function (errormessage) {
+                }
+            });
+        }
     </script>
 </body>
 

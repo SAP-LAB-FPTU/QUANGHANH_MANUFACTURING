@@ -13,7 +13,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
 {
     public class DieudongController : Controller
     {
-        [Auther(RightID = "88,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "88,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/dieu-dong")]
         [HttpGet]
         public ActionResult Index(string id)
@@ -67,7 +67,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             return Json(new { success = true, data = equips, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "88,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "88,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/dieu-dong/edit")]
         [HttpPost]
         public ActionResult editpost(string edit, string id)
@@ -100,13 +100,23 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                         {
                             Documentary docu = DBContext.Documentaries.Find(idnumber);
                             docu.documentary_status = 2;
+
+                            Notification noti = new Notification();
+                            noti.date = DateTime.Now.Date;
+                            noti.department_id = docu.department_id_to;
+                            noti.description = "dieu dong 2";
+                            noti.id_problem = docu.documentary_id;
+                            noti.isread = false;
+                            DBContext.Notifications.Add(noti);
+                            DBContext.SaveChanges();
+
                         }
 
                         DBContext.SaveChanges();
                         transaction.Commit();
                         return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                         transaction.Rollback();
                         return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);

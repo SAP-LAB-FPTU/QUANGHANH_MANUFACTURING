@@ -16,10 +16,10 @@ using QUANGHANH2.SupportClass;
 
 namespace QUANGHANH2.Controllers.Camera
 {
-    public class SucoCamController : Controller
+    public class SuCoController : Controller
     {
         [Auther(RightID = "193")]
-        [Route("camera/su-co")]
+        [Route("phong-cdvt/camera/su-co")]
         [HttpGet]
         public ActionResult Index()
         {
@@ -117,8 +117,6 @@ namespace QUANGHANH2.Controllers.Camera
             {
                 i.reason = reason;
                 i.end_time = new DateTime(year, month, day, hour, minute, 0);
-                Room r = DBContext.Rooms.Where(x => x.room_id == i.room_id).FirstOrDefault();
-                r.camera_available = r.camera_available + i.incident_camera_quantity;
                 DBContext.SaveChanges();
                 return Json(new { success = true, message = "Cập nhật thành công" }, JsonRequestBehavior.AllowGet);
             }

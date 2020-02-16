@@ -19,40 +19,6 @@
     .current-data {
         color: #a7a7a7;
     }
-
-    .totals {
-        font-weight: bold;
-        color: white;
-        border-radius: 5px;
-        padding: 2px 5px 2px 5px;
-    }
-
-    #totalrows {
-        border: 1px solid red;
-        background: red;
-    }
-
-    #total_selected {
-        border: 1px solid green;
-        background: green;
-        cursor: pointer;
-    }
-
-        #total_selected:active {
-            border: 1px solid #78c17e;
-            background-color: #78c17e
-        }
-
-        #total_selected:hover {
-            border: 1px solid #78c17e;
-            background-color: #78c17e
-        }
-
-    .remove_select {
-        color: red;
-        font-size: 25px;
-        cursor: pointer;
-    }
 </style>
 <div class="row" id="chondieuchuyen">
 
@@ -60,7 +26,7 @@
         <div class="card">
             <div class="card-content wizard-content">
                 <div>
-                    <h3 class="center"><b>ĐIỀU ĐỘNG NHÂN VIÊN</b></h3>
+                    <h3 class="center"><b>CHẤM DỨT HỢP ĐỒNG</b></h3>
                 </div>
                 <form action="#" class="validation-wizard wizard-circle m-t-40">
                     <!-- Step 1 -->
@@ -69,10 +35,10 @@
                         <div class="row" style="overflow-x:scroll  ;margin-bottom: 20px">
                             <div class="row center">
                                 <div class="col l12 m12 s12 input-field">
-                                    <input type="text" placeholder="Tìm kiếm theo mã nhân viên" class='form-control' id="searchMa" do-not-use-data-role="tagsinput" multiple />
+                                    <input type="text" placeholder="Tìm kiếm theo mã nhân viên" class='form-control' id="searchMaNV" do-not-use-data-role="tagsinput" multiple />
                                 </div>
                                 <div class="col l12 m12 s12 input-field">
-                                    <input type="text" placeholder="Tìm kiếm theo tên nhân viên" class='form-control' id="searchTen" multiple />
+                                    <input type="text" placeholder="Tìm kiếm theo tên nhân viên" class='form-control' id="searchTenNV" multiple />
                                 </div>
                                 <div class="col l5 m12 s12 input-field">
                                     <select class="form-control" id="phongbanSearch">
@@ -96,24 +62,21 @@
                                     <button class="btn blue darken-2 btn-small waves-effect waves-light" id="searchButton">Tìm kiếm</button>
                                 </div>
                             </div>
-                            <div class="col l12 m12 s12 input-field">
-                                <b> Đã chọn:</b> <span class="totals modal-trigger" onclick="show_selected()" href="#show_select" id="total_selected">0</span>   <b> Tổng số:</b>    <span class="totals" id="totalrows">@ViewBag.totalrows</span>
-                            </div>
                             <br />
                             <table id="nhanVienTable" class="table striped table-responsive table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Số thẻ</th>
                                         <th>Họ và tên</th>
-                                        <th>Giới tính</th>
                                         <th>Ngày sinh</th>
+                                        <th>Giới tính</th>
                                         <th>Phân xưởng hiện tại</th>
                                         <th>Chức vụ</th>
                                         <th>
-                                            <label>
-                                                <input type="checkbox" id="check-all" class="filled-in" />
-                                                <span></span>
-                                            </label>
+                                            @*<label>
+                                                    <input type="checkbox" id="check-all" class="filled-in" />
+                                                    <span></span>
+                                                </label>*@
                                         </th>
                                     </tr>
                                 </thead>
@@ -121,7 +84,7 @@
                         </div>
                     </section>
                     <!-- Step 2 -->
-                    <h6>Nhập thông tin điều động</h6>
+                    <h6>Nhập thông tin chấm dứt</h6>
                     <section>
                         <div class="row">
                             <div class="center col s12 m12 l12">
@@ -135,7 +98,7 @@
                             </div>
                             <div class="input-field col x12 s12 m12 l12">
                                 <div class="table_container">
-                                    <table class="striped table table-responsive table-bordered" style="width:150%">
+                                    <table class="striped table table-responsive table-bordered">
                                         <thead>
                                             <tr>
                                                 <th>STT</th>
@@ -143,67 +106,15 @@
                                                 <th>Họ và tên</th>
                                                 <th>Đơn vị hiện tại</th>
                                                 <th>Chức vụ hiện tại</th>
-                                                <th style="width: 250px">
-                                                    Đơn vị điều động
-                                                    <div class="select-all">
-                                                        <label>
-                                                            <input class="my_checkbox" id="check-select-all-dept" type="checkbox" onclick="">
-                                                            <span>Chọn cho tất cả</span>
-                                                        </label>
-                                                        <select id="select-dept-for-all" class="form-control" disabled>
-                                                            @foreach (var pb in ViewBag.listPhongBan)
-                                                            {
-                                                                <option value="@pb.department_id">@pb.department_name</option>
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                </th>
-                                                <th width="300px">
-                                                    Chức vụ điều động
-                                                    <div class="select-all">
-                                                        <label>
-                                                            <input class="my_checkbox" name="" id="check-select-all-job" value="" type="checkbox" onclick="">
-                                                            <span>Chọn cho tất cả</span>
-                                                        </label>
-                                                        <select id="chucvu-selectAll" class="chucvuAll form-control" disabled>
-                                                            @foreach (var pb in ViewBag.listCongViec)
-                                                            {
-                                                                <option value="@pb.MaCongViec">@pb.TenCongViec</option>
-                                                            }
-                                                        </select>
-                                                    </div>
-                                                </th>
-                                                <th style="width: 200px">
-                                                    Thang bậc lương
-                                                    <input type="hidden" id="thang-selectAll" />
-                                                </th>
-                                                <th style="width: 200px" >
-                                                    Phụ cấp
-                                                    <input type="hidden" id="phucap-selectAll" />
-                                                </th>
-                                                <th style="width: 250px">
-                                                    Bậc
-                                                    <div class="select-all">
-                                                        <label>
-                                                            <input class="my_checkbox" name="" id="check-select-all-bac" value="" type="checkbox" onclick="">
-                                                            <span>Chọn cho tất cả</span>
-                                                        </label>
-                                                        <select id="bac-selectAll" class="form-control" disabled>
-                                                            @*@foreach (var pb in ViewBag.listBacLuong)
-                                                            {
-                                                                <option value="@pb.MaBacLuong">@pb.MucBacLuong</option>
-                                                            }*@
-                                                        </select>
-                                                    </div>
-                                                </th>
-                                                <th style="width: 200px">
-                                                    Mức lương
-                                                    <input type="hidden" id="luong-selectAll" />
-                                                </th>
-                                                <th style="width: 300px">Lý do điều động</th>
+                                                @*<th style="width: 150px">Đơn vị điều động</th>
+                                                    <th width="200px">Chức vụ điều động</th>
+                                                    <th style="width: 200px">Thang bậc lương</th>
+                                                    <th style="width: 200px">Phụ cấp</th>
+                                                    <th style="width: 100px">Bậc</th>
+                                                    <th style="width: 200px">Mức lương</th>*@
+                                                <th>Lý do chấm dứt</th>
                                             </tr>
                                         </thead>
-
                                         <tbody id="selected-container">
                                         </tbody>
                                     </table>
@@ -215,7 +126,7 @@
                         </div>
                     </section>
                     <!-- Step 3 -->
-                    <h6>Xác nhận điều động</h6>
+                    <h6>Xác nhận chấm dứt</h6>
                     <section>
                         <div class="row" style="overflow-x:scroll; margin-bottom:10px;">
                             <h5>Số quyết định: <b id="maqd-preview"></b></h5>
@@ -237,12 +148,12 @@
                                         <th style="width: 200px">Họ và tên</th>
                                         <th style="width: 200px">Đơn vị hiện tại</th>
                                         <th style="width: 500px">Chức vụ hiện tại</th>
-                                        <th style="width: 200px">Đơn vị điều động</th>
+                                        @*<th style="width: 200px">Đơn vị điều động</th>
                                         <th style="width: 200px">Chức vụ điều động</th>
                                         <th style="width: 200px">Thang bậc lương</th>
                                         <th style="width: 200px">Phụ cấp</th>
                                         <th style="width: 200px">Bậc</th>
-                                        <th style="width: 200px">Mức lương</th>
+                                        <th style="width: 200px">Mức lương</th>*@
                                         <th style="width: 300px">Lý do điều động</th>
                                     </tr>
                                 </thead>
@@ -266,29 +177,7 @@
     </div>
 
 </div>
-<div id="show_select" class="modal">
-    <div class="modal-content">
-        <h4>Danh sách đã chọn</h4>
-        <table class="striped responsive-table table-bordered">
-            <thead>
-                <tr>
-                    <th>Số thứ tự</th>
-                    <th>Số thẻ</th>
-                    <th style="width: 200px">Họ và tên</th>
-                    <th style="width: 200px">Giới tính</th>
-                    <th style="width: 500px">Ngày sinh</th>
-                    <th style="width: 200px">Phân xưởng hiện tại</th>
-                    <th style="width: 200px">Chức vụ</th>
-                    <th style="width: 200px">Bỏ chọn</th>
-                </tr>
-            </thead>
-            <tbody id="show_select_table"></tbody>
-        </table>
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Đóng</a>
-    </div>
-</div>
+
 
 
 
@@ -298,7 +187,14 @@
 <link href="~/dist/css/TABLE_BORDERED.css" rel="stylesheet" />
 @section scripts{
 
-
+    <script>
+        $("#check-all").click(function () {
+            alert("ahihi");
+        })
+        //$('input[type="checkbox"]').change(function() {
+        //     alert ("The element with id " + this.id + " changed.");
+        //});
+    </script>
     @*<script>
             var colors = ["red", "blue", "green", "yellow", "brown", "black"];
             $('#searchMa').tagsinput({
@@ -321,7 +217,6 @@
                 listFromServer = ViewBag.selectedList;
             }
          }
-        var arrCarSelectedShow = [];
         var arrCarSelected = JSON.parse("@listFromServer");
         $(document).ready(function () {
             dataTable = $('#nhanVienTable')
@@ -329,68 +224,46 @@
                     $("#pre-load").show("slow", function () {
                     });
                     $("#pre-load").css("z-index", "99999");
-                    data.sessionId = "@ViewBag.id";
-                    data.selectList = JSON.stringify(arrCarSelected);
-                    data.searchMa = $("#searchMa").val();
-                    data.searchTen = $("#searchTen").val();
-                    data.phongbanSearch = $("#phongbanSearch").val();
-                    data.chucVuSearch = $("#chucVuSearch").val();
+
 
                 })
                 .DataTable({
                     "ajax": {
-                        "url": "/phong-tcld/dieu-chuyen/tien-hanh-dieu-chuyen",
+                        "url": "/phong-tcld/quan-ly-nhan-vien/danh-sach-cham-dut",
                         "type": "POST",
                         "datatype": "json",
-                        "dataSrc": function ( json ) {
-                            $("#totalrows").text(json.totalrows);
-                            return json.data;
+                        "data": {
+                            "MaNV": function () { return $('#searchMaNV').val() },
+                            "TenNV": function () { return $('#searchTenNV').val() },
+                            "ChucVu": function () { return $('#chucVuSearch').val() },
+                            "PhongBan": function () { return $('#phongbanSearch').val() },
                         }
-                        //"data": {
-                        //    "selectListJson": JSON.stringify(arrCarSelected),
-                        //    "searchMa": function () { return $("#searchMa").val()},
-                        //    "searchTen": function () { return $("#searchTen").val()},
-                        //    "phongbanSearch": function () { return $("#phongbanSearch").val(),},
-                        //    "chucVuSearch": function () { return $("#chucVuSearch").val()},
-                        //}
                     },
                     "drawCallback": function (settings) {
                         $("#pre-load").hide("slow", function () {
                         });
 
                     },
-                    "columns": [
-                        { "data": "MaNV", "name": "MaNV", "searchable": true },
+                     "columns": [
+                        {
+                            "data": "MaNV", "name": "MaNV", "render": function (data) {
+                                return "<a href='/phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien?id=" + data + "' >" + data + "</a>"
+                            },
+                        },
                         { "data": "Ten", "name": "Ten" },
                         {
-                            "data": "GioiTinh", "name": "GioiTinh",
-                            "render": function (data) {
-                                if (data === null) {
-                                    return "";
-                                } else {
-                                     return data ? "Nam" : "Nữ";
-                                }
+                            "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
+                                return dateFormat(data);
                             }
                         },
                         {
-                            "data": "NgaySinh", "name": "NgaySinh",
-                            "render": function (data) {
-                                 if(data===null){
-                                        return "";
-                                 }else{
-                                var dateString = data.substr(6);
-                                var currentTime = new Date(parseInt(dateString ));
-                                var month = currentTime.getMonth() + 1;
-                                var day = currentTime.getDate();
-                                var year = currentTime.getFullYear();
-                                var date = day + "/" + month + "/" + year;
-                                return date;
-                                 }
+                            "data": "GioiTinh", "name": "GioiTinh", "render": function (data) {
+                                return genderFormat(data);
                             }
                         },
-                        { "data": "department_name", "name": "department_name" },
+                        { "data": "MaPhongBan", "name": "MaPhongBan" },
                         { "data": "TenCongViec", "name": "TenCongViec" },
-                        {
+                       {
                             "data": "MaNV", "render": function (data, type, full) {
                                 if (full.MaTrangThai === null) {
                                     return "";
@@ -401,10 +274,10 @@
                                 if (arrCarSelected != null) {
                                     for (let i = 0; i < arrCarSelected.length; i++)
                                         if (arrCarSelected[i] == data) {
-                                            return "<label><input class='my_checkbox step1_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "') checked><span></span></label>";
+                                            return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "') checked><span></span></label>";
                                         }
                                 }
-                                return "<label><input class='my_checkbox step1_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "')><span></span></label>";
+                                return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "')><span></span></label>";
                                 }
                             },
                             "orderable": false,
@@ -413,7 +286,7 @@
                         }
                     ],
                     "serverSide": "true",
-                    "order": [0, "asc"],
+                    "order": [4, "desc"],
                     "searching": false,
                     "bLengthChange": false,
                     "autoWidth": false,
@@ -429,8 +302,8 @@
                             last: ">|"
                         }
                     },
-                    "pageLength": 20,
                     "initComplete": function (settings, json) {
+
                         $("#pre-load").hide("slow", function () {
                         });
                     }
@@ -439,9 +312,29 @@
 
             $("#searchButton").click(function () {
                 dataTable.ajax.reload();
-                $('#check-all').prop('checked', false);
             });
 
+
+        function dateFormat(d) {
+            if (d == null) {
+                return "";
+            }
+            var dateString = d.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            return (date);
+            }
+
+        function genderFormat(d) {
+            if (d) {
+                return "Nam";
+            } else {
+                return "Nữ";
+            }
+        }
             function changeState(value, state) {
                 $.ajax({
                 type: "POST",
@@ -463,32 +356,12 @@
                     if (arrCarSelected[i] == id) {
                         isExist = true;
                         arrCarSelected.splice(i, 1);
-                        for (let j = 0; j < arrCarSelectedShow.length; j++) {
-                            if (arrCarSelectedShow[j].id == id) {
-                                arrCarSelectedShow.splice(j,1);
-                                break;
-                            }
-                        }
                         break;
                     }
                 }
                 if (!isExist && id != "" && id != null) {
                     arrCarSelected.push(id)
-                    this_select = [];
-                    $("#" + id).parent().parent().parent().find("td").each(function () {
-                    this_select.push($(this).text());
-                     });
-            arrCarSelectedShow.push({
-                "id": this_select[0],
-                "name": this_select[1],
-                "gender": this_select[2],
-                "dob": this_select[3],
-                "dept": this_select[4],
-                "job": this_select[5],
-            });
             }
-            $("#total_selected").text(arrCarSelected.length);
-
             }
         function sendData() {
             $.each($("input[name='abc']:checked"), function () {
@@ -586,36 +459,12 @@
             }
         })
     </script>
-    <!--Event for search select tag-->
-    <script>
-        $("#phongbanSearch").change(function () {
-            var selectedDeptId = $(this).val();
-            $("#chucVuSearch").attr("disabled", "disabled");
-            $.ajax({
-                type: 'post',
-                url: '/phong-tcld/dieu-chuyen/get-chuc-vu-theo-don-vi',
-                dataType: 'json',
-                data: {
-                    selectedDeptId: selectedDeptId
-                },
-                success: function (response) {
-                    let list = response.congviec_phongban;
-                    $("#chucVuSearch").empty()
-                    $("#chucVuSearch").append("<option value=\"-1\" selected=\"\">Chức vụ - Tất cả</option>");
-                    for (x in list) {
-                        $("#chucVuSearch").append("<option value=\"" + list[x].MaCongViec + "\">" + list[x].TenCongViec + "</option>");
-                    }
-                }
-            });
-            $("#chucVuSearch").removeAttr("disabled");
-        });
-    </script>
     <!------------------------------ WIZARD ------------------------------>
     <!------------------------------ STEP2 ------------------------------>
     <script>
         var cviecs = @Html.Raw(Json.Encode(ViewBag.listCongViec));
         var phongbans=@Html.Raw(Json.Encode(ViewBag.listPhongBan));
-        var listBacLuong=@Html.Raw(Json.Encode(ViewBag.listBacLuong));
+        //var doichieuluong=Html.Raw(Json.Encode(ViewBag.doichieuluong));
         var tagCV = "";
                         tagCV += "<option value='-1' disabled>Chọn chức vụ</option>\n";
                         for (var k = 0; k < cviecs.length; k++) {
@@ -658,63 +507,16 @@
                 }
             });
         }
-
-        function getThangLuongAndPhuCapForAll(code, mcv) {
-            var c = code;
-            var m = mcv;
-            $("#pre-load").show("slow", function () { });
-            $.ajax({
-                type: 'post',
-                url: '/phong-tcld/dieu-chuyen/get-phu-cap-thang-luong',
-                dataType: 'json',
-                data: {
-                    macv: m
-                },
-                success: function (r) {
-                    if (r.success === true) {
-                        //await $(".chucvu").val($("#chucvu-selectAll").val());
-                        //await $(".bac").empty();
-                        //await await $(".bac").append($("#bac-selectAll").html());
-                        //await (".bac").val($("#bac-selectAll").val());
-                        $(".thang").val(r.data.MucThangLuong);
-                        $(".thang").data('mathangluong', r.data.MaThangLuong);
-                        $(".phucap").val(AddComma(r.data.PhuCap) == "null" ? "0" : AddComma(r.data.PhuCap));
-                        var bacs = "";
-                        $(".bac").empty();
-                        $("#bac-selectAll").empty();
-                        for (var i = 0; i < r.bacs.length; i++) {
-                            bacs += "<option data-mucluong=\"" + r.bacs[i].MucLuong + "\" value=\"" + r.bacs[i].MaBacLuong_ThangLuong_MucLuong + "\">" + r.bacs[i].MucBacLuong + "</option>";
-                        }
-                        $(".bac").append(bacs);
-                        $("#bac-selectAll").append(bacs);
-                        $(".luong").val(AddComma(r.bacs[0].MucLuong));
-
-                        $(".bac").change(function () {
-                            let thisId = $(this).attr("id").split("-")[1];
-                            $("#luong-" + thisId).val(AddComma($(this).find(":selected").data("mucluong")));
-                        });
-
-
-
-                        $("#pre-load").hide("slow", function () { });
-                    } else {
-
-                    }
-                }
-            });
-        }
-
-        
-        
     </script>
     <script>
+        
         //check selected index:
         function step2() {
             $("#pre-load").show("slow", function () {
             });
             $.ajax({
                 type: 'POST',
-                url: '/phong-tcld/dieu-chuyen/tien-hanh-dieu-chuyen-step-2',
+                url: '/phong-tcld/quan-ly-nhan-vien/danh-sach-cham-dut-step2',
                 data: { 'selectedList': JSON.stringify(arrCarSelected) },
                 dataType: 'json',
                 success: function (response) {
@@ -725,35 +527,40 @@
                         $("#ngay-quyet-dinh").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
 
                         for (var i = 0; i < response.data.length; i++) {
-                            var bac = response.data[i].BacLuong === null ? "Chưa cập nhật" : response.data[i].BacLuong;
                             var selectPhongBan = "";
                             selectPhongBan += "<option value='-1' disabled>Chọn phòng ban</option>\n";
-                            for (let j = 0; j < phongbans.length; j++) {
-                                selectPhongBan += "<option value=\"" + phongbans[j].department_id + "\">" + phongbans[j].department_name + "</option>\n";
-                            }
-                            var selectBacLuong = "";
-                            selectBacLuong += "<option value='-1' disabled>Chọn bậc lương</option>\n";
-                            for (let j = 0; j < listBacLuong.length; j++) {
-                                selectBacLuong += "<option value=\"" + listBacLuong[j].MaBacLuong + "\" " + (listBacLuong[j].MucBacLuong == bac ? "selected" : "") + ">" + listBacLuong[j].MucBacLuong + "</option>\n";
-                            }
+                            //for (var j = 0; j < phongbans.length; j++) {
+                            //    selectPhongBan += "<option value=\"" + phongbans[j].department_id + "\">" + phongbans[j].department_name + "</option>\n";
+                            //}
                             $("#selected-container").append("<tr>\n");
                             $("#selected-container").append("<td>" + (i + 1) + "</td>\n");
                             $("#selected-container").append("<td>" + response.data[i].MaNV + "</td>\n");
                             $("#selected-container").append("<td id=\"hoten-" + response.data[i].MaNV + "\">" + response.data[i].Ten + "</td>\n");
                             $("#selected-container").append("<td id=\"dvht-" + response.data[i].MaNV + "\">" + response.data[i].department_name + "</td>\n");
                             $("#selected-container").append("<td id=\"cvht-" + response.data[i].MaNV + "\">" + response.data[i].TenCongViec + "</td>\n");
-                            $("#selected-container").append("<td><select id=\"" + "donvi" + "-" + response.data[i].MaNV + "\" class=\"donvi form-control\">" + selectPhongBan + "</select></td>\n");
-                            $("#selected-container").append(" <td><select id=\"" + "chucvu" + "-" + response.data[i].MaNV + "\" class=\"chucvu form-control\">" + tagCV + "</select></td>\n");
-                            var thang = response.data[i].ThangLuong === null ? "Chưa cập nhật" : response.data[i].ThangLuong;
-                            $("#selected-container").append("<td><input data-mathangluong=\"\" id=\"" + "thang" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"thang  form-control\" placeholder=\"Thang\" value=\"" + thang + "\" readonly /></td>\n");
-                            var phucap = response.data[i].PhuCap === null ? "0" : response.data[i].PhuCap;
-                            $("#selected-container").append("<td><input id=\"" + "phucap" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"phucap numberInput form-control\" placeholder=\"Phụ cấp\" value=\"" + AddComma(phucap) + "\" readonly /></td>\n");
-
-                            $("#selected-container").append("<td><select id=\"" + "bac" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"bac form-control\" placeholder=\"Bậc\">" + selectBacLuong + "</select></td>\n");
-                            var luong = response.data[i].Luong === null ? "Chưa cập nhật" : response.data[i].Luong;
-                            $("#selected-container").append("<td><input id=\"" + "luong" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"luong numberInput form-control\" placeholder=\"Lương\" value=\"" + AddComma(luong) + "\" readonly /></td>\n");
-
-                            $("#selected-container").append("<td><input id=\"" + "lydo" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"lydo form-control\" placeholder=\"Lý do điều động\" /></td>\n");
+                            //$("#selected-container").append("<td><select id=\"" + "donvi" + "-" + response.data[i].MaNV + "\" class=\"donvi form-control\">" + selectPhongBan + "</select></td>\n");
+                            //$("#selected-container").append(" <td><select id=\"" + "chucvu" + "-" + response.data[i].MaNV + "\" class=\"chucvu form-control\">" + tagCV + "</select></td>\n");
+                            //var thang = response.data[i].ThangLuong === null ? "Chưa cập nhật" : response.data[i].ThangLuong;
+                            //$("#selected-container").append("<td><input data-mathangluong=\"\" id=\"" + "thang" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"thang  form-control\" placeholder=\"Thang\" readonly /><div><i class=\"current-data\"> (Hiện tại:" + thang + ")</i></div></td>\n");
+                            //var phucap = response.data[i].PhuCap === null ? "0" : response.data[i].PhuCap;
+                            //$("#selected-container").append("<td><input id=\"" + "phucap" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"phucap numberInput form-control\" placeholder=\"Phụ cấp\" readonly /><div><i class=\"current-data\"> (Hiện tại:" + AddComma(phucap) + ")</i></div></td>\n");
+                            //var bac = response.data[i].BacLuong === null ? "Chưa cập nhật" : response.data[i].BacLuong;
+                            //$("#selected-container").append("<td><select id=\"" + "bac" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"bac form-control\" placeholder=\"Bậc\" /></select><div><i class=\"current-data\"> (Hiện tại:" + bac + ")</i></div></td>\n");
+                            //var luong = response.data[i].Luong === null ? "Chưa cập nhật" : response.data[i].Luong;
+                            //$("#selected-container").append("<td><input id=\"" + "luong" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"luong numberInput form-control\" placeholder=\"Lương\" readonly /><div><i class=\"current-data\"> (Hiện tại:" + AddComma(luong) + ")</i></div></td>\n");
+                            $("#selected-container").append("<td id=\"lydo-" + response.data[i].MaNV + "\">" +
+                                "<select name='lydo' class='form-control' id='tlhd-" + response.data[i].MaNV + "' onchange='onSelectTypeOfEndContract1(" + response.data[i].MaNV + ")'> " +
+                                "<option value='Đi học'>Đi học</option> " +
+                                "<option value='Hưu trí'>Hưu trí</option> " +
+                                "<option value='Xin chấm dứt HĐLĐ, thôi việc'>Xin chấm dứt HĐLĐ, thôi việc</option> " +
+                                "<option value='Sa thải'>Sa thải</option> " +
+                                "<option value='Đơn phương chấm dứt HĐLĐ, bỏ việc'>Đơn phương chấm dứt HĐLĐ, bỏ việc</option> " +
+                                "<option value='Đi nghĩa vụ quân sự'>Đi nghĩa vụ quân sự</option> " +
+                                "<option value='dvn' id='dvn'>Đi đơn vị ngoài</option> " +
+                                "<option value='Ốm chết rủi ro'>Ốm chết rủi ro</option> " +
+                                "<option value='Chết do tai nạn lao động'>Chết do tai nạn lao động</option> " +
+                                "<option value='khac' id='khac'>Các trường hợp khác</option> " +
+                                "</select></td>\n ");
                             $("#selected-container").append(" </tr>\n");
                             /////////////////////////set combobox cong viec value/////////////////////////////
                             if (response.data[i].MaCongViec == null) {
@@ -797,117 +604,98 @@
                             //$("#thang-" + $(this).attr("id").split('-')[1]).val("ahihi");
                         });
 
+                        //////////////////////////////////--VALIDATE--/////////////////////////////////////
+                        //$(".numberInput").keydown(function (e) {
+                        //    var text = $(this).val().toLowerCase();
+                        //    var doubleReg = /[+-]?([0-9]*[,])?[0-9]+$/;
+                        //    if (!doubleReg.test(text)) {
+                        //        $(this).val("");
+                        //    }
+                        //    var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];// , 65, 86, 67, 90
+                        //    for (var i = 48; i <= 57; i++) {
+                        //        acceptList.push(i);
+                        //    }
+                        //    for (var i = 96; i <= 105; i++) {
+                        //        acceptList.push(i);
+                        //    }
+                        //    if (e.ctrlKey) {
+                        //        if (e.keyCode !== 65 && e.keyCode !== 86 && e.keyCode !== 67 && e.keyCode !== 90 && e.keyCode !== 88) {
+                        //            e.preventDefault();
+                        //        } else {
+                        //            acceptList.push(e.keyCode);
+                        //        }
+                        //    }
+                        //    if (acceptList.indexOf(e.keyCode) === -1) {
+                        //        e.preventDefault();
+                        //    }
+                        //});
+                        //$(".numberInput").keyup(function () {
+                        //    var text = $(this).val().toLowerCase();
+                        //    var doubleReg = /[+-]?([0-9]*[,])?[0-9]+$/;
+                        //    if (!doubleReg.test(text)) {
+                        //        $(this).val("");
+                        //    } else {
+                        //        $(this).val(AddComma(text));
+                        //    }
+                        //    text = $(this).val().toLowerCase();
+                        //});
+                        //$(".bac").keydown(function (e) {
+                        //    var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];
+                        //    for (var i = 48; i <= 57; i++) {
+                        //        acceptList.push(i);
+                        //    }
+                        //    for (var i = 96; i <= 105; i++) {
+                        //        acceptList.push(i);
+                        //    }
+                        //    if (acceptList.indexOf(e.keyCode) === -1) {
+                        //        e.preventDefault();
+                        //    }
+                        //    if ($(this).val().length === 3) {
+                        //        $(this).val("");
+                        //    }
+                        //});
+                        //$(".bac").keyup(function (e) {
+                        //    var text = $(this).val();
+                        //    if (text.length === 1) {
+                        //        $(this).val(text + "/");
+                        //    }
+                        //});
+                        //////////////////////CHUC VU//////////////////////
+                        //$(".chucvu").keydown(function (e) {
+                        //});
+                        /////////////////////NGAY//////////////////////
                         $(".thoigian").keydown(function (e) {
                             e.preventDefault();
                         });
                         $("#pre-load").hide("slow", function () {
                         });
-
+                        /////////////////////////////////////////////////////////////////////LUONG_DOI CHIEU/////////////////////////////////////////////////////////////
+                        //$(".bac").keyup(function () {
+                        //    ///////////////////////////
+                        //    var thisId = $(this).attr('id').split('-')[1];
+                        //    //////////////////////////
+                        //    var BacLuongValue = $("#bac-" + thisId).val();
+                        //    var ThangLuongValue = $("#thang-" + thisId).val();
+                        //    for (var i = 0; i < doichieuluong.length; i++) {
+                        //        if (BacLuongValue === doichieuluong[i].BacLuong
+                        //            && ThangLuongValue === doichieuluong[i].ThangLuong) {
+                        //            var thisLuong = AddComma(doichieuluong[i].MucLuong);
+                        //            $("#luong-" + thisId).val(thisLuong);
+                        //            break;
+                        //        } else {
+                        //            $("#luong-" + thisId).val("");
+                        //        }
+                        //    }
+                        //});
                     } else {
 
                     }
                 },
             })
-            $(".chucvu").each(function () {
-                let mcv = $(this).find(":selected").val();
-                getThangLuongAndPhuCap($(this).attr("id").split('-')[1], mcv);
-            });
-            getThangLuongAndPhuCap("selectAll", $("#chucvu-selectAll").find(":selected").val());
-            if ($("#check-select-all-job").prop("checked") == true) {
-                $("#check-select-all-job").click();
-            }
-            if ($("#check-select-all-dept").prop("checked") == true) {
-                $("#check-select-all-dept").click();
-            }
-
         }
         //get list:
     </script>
-    <script>
-        $("#check-select-all-dept").change(function () {
-            if ($(this).prop("checked") == false) {
-                $(".donvi").each(function () {
-                    $(this).prop("disabled", false)
-                    $("#select-dept-for-all").prop("disabled", true);
-                });
-            } else {
-                $(".donvi").each(function () {
-                    $(this).prop("disabled", true);
-                    $(this).val($("#select-dept-for-all").val());
-                    $("#select-dept-for-all").prop("disabled", false);
-                });
-            }
-        });
 
-        $("#check-select-all-job").change(function () {
-            if ($(this).prop("checked") == false) {
-                $(".chucvu").each(function () {
-                    $(this).prop("disabled", false)
-                    $("#chucvu-selectAll").prop("disabled", true);
-                });
-                $("#check-select-all-bac").prop("checked", false);
-                $(".bac").prop("disabled", false);
-                $("#bac-selectAll").prop("disabled", true);
-            } else {
-                $(".chucvu").each(function () {
-                    $(this).prop("disabled", true);
-                    $(this).val($("#chucvu-selectAll").val());
-                    $("#chucvu-selectAll").prop("disabled", false);
-                });
-                $(".thang").val($("#thang-selectAll").val());
-                $(".phucap").val($("#phucap-selectAll").val());
-                $(".luong").val($("#luong-selectAll").val());
-
-                if ($("#check-select-all-bac").prop("checked") == false) {
-                    $("#check-select-all-bac").click();
-                    $(".bac").empty();
-                    var html = $("#bac-selectAll").html();
-                    $(".bac").append(html);
-                    $(".bac").val($("#bac-selectAll").val());
-                }
-            }
-        });
-        $("#check-select-all-bac").click(function (e) {
-            if ($("#check-select-all-job").prop("checked") == false) {
-                e.preventDefault();
-            } 
-        })
-        $("#check-select-all-bac").change(function () {
-            if ($(this).prop("checked") == false) {
-                $(".bac").prop("disabled", false)
-                $("#bac-selectAll").prop("disabled", true);
-            } else {
-                $(".bac").prop("disabled", true);
-                $(".bac").empty();
-                $(".bac").append($("#bac-selectAll").html());
-                $(".bac").val($("#bac-selectAll").val());
-                $("#bac-selectAll").prop("disabled", false);
-            }
-        });
-
-        $("#select-dept-for-all").change(function () {
-            $(".donvi").each(function () {
-                $(this).val($("#select-dept-for-all").val());
-            });
-        });
-        $("#chucvu-selectAll").change(async () => {
-            await getThangLuongAndPhuCapForAll("selectAll", $("#chucvu-selectAll").find(":selected").val());
-            //await $(".chucvu").val($("#chucvu-selectAll").val());
-            //await $(".bac").empty();
-            //await await $(".bac").append($("#bac-selectAll").html());
-            //await (".bac").val($("#bac-selectAll").val());
-        });
-        $("#bac-selectAll").change(function () {
-            $(".bac").empty();
-            var html = $("#bac-selectAll").html();
-            $(".bac").append(html);
-            $(".bac").val($("#bac-selectAll").val());
-            $("#luong-selectAll").val(AddComma($(this).find(":selected").data("mucluong")));
-            $(".luong").val(AddComma($("#luong-selectAll").val()));
-            $(".thang").val(AddComma($("#thang-selectAll").val()));
-            $(".phucap").val(AddComma($("#phucap-selectAll").val()));
-        });
-    </script>
     <!------------------------------ VALIDATE STEP 2 ------------------------------>
     <script>
         //validate function:
@@ -1014,17 +802,8 @@
                     'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
                     'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
                     'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
-                    'BacLuong': $("#bac-" + arrCarSelected[i]).find(":selected").text(),
-                    'MucLuong': joinArr($("#luong-" + arrCarSelected[i]).val().split(',')),
-                    'ThangBacLuong': joinArr($("#thang-" + arrCarSelected[i]).val().split(',')),
-                    'PhuCap': joinArr($("#phucap-" + arrCarSelected[i]).val().split(',')),
-                    'DonViMoi': $("#donvi-" + arrCarSelected[i] + " :selected").text(),
-                    'ChucVu': {
-                        'maChucVu': $("#chucvu-" + arrCarSelected[i]).val(),
-                        'tenChucVu': $("#chucvu-" + arrCarSelected[i] + " :selected").text(),
-                    },
                     'NgayQD': $("#ngay-quyet-dinh").val(),
-                    'LyDo': $("#lydo-" + arrCarSelected[i]).val().trim()
+                    'LyDo': $("#tlhd-" + arrCarSelected[i]).val().trim()
                 }
                 selectedList.push(obj);
             }
@@ -1036,12 +815,6 @@
                 $("#preview-table").append("<td width=\"500px\">" + selectedList[i].HoTen + "</td>\n");
                 $("#preview-table").append("<td>" + selectedList[i].DonViHienTai + "</td>\n");
                 $("#preview-table").append("<td>" + selectedList[i].ChucVuHienTai + "</td>\n");
-                $("#preview-table").append("<td>" + selectedList[i].DonViMoi + "</td>\n");
-                $("#preview-table").append("<td>" + selectedList[i].ChucVu.tenChucVu + "</td>\n");
-                $("#preview-table").append("<td>" + selectedList[i].ThangBacLuong + "</td>\n");
-                $("#preview-table").append("<td>" + AddComma(selectedList[i].PhuCap) + "</td>\n");
-                $("#preview-table").append("<td>" + AddComma(selectedList[i].BacLuong) + "</td>\n");
-                $("#preview-table").append("<td>" + AddComma(selectedList[i].MucLuong) + "</td>\n");
                 $("#preview-table").append("<td>" + selectedList[i].LyDo.trim() + "</td>\n");
                 $("#preview-table").append(" </tr>\n");
             }
@@ -1208,60 +981,6 @@
         });
     </script>
     <script>
-        function show_selected() {
-            $("#show_select_table").empty();
-            for (let i = 0; i < arrCarSelectedShow.length; i++) {
-                $("#show_select_table").append("<tr>");
-                $("#show_select_table").append("<td>" + (i + 1) + "</td>");
-                $("#show_select_table").append("<td>" + arrCarSelectedShow[i].id + "</td>");
-                $("#show_select_table").append("<td>" + arrCarSelectedShow[i].name + "</td>");
-                $("#show_select_table").append("<td>" + arrCarSelectedShow[i].gender + "</td>");
-                $("#show_select_table").append("<td>" + arrCarSelectedShow[i].dob + "</td>");
-                $("#show_select_table").append("<td>" + arrCarSelectedShow[i].dept + "</td>");
-                $("#show_select_table").append("<td>" + arrCarSelectedShow[i].job + "</td>");
-                $("#show_select_table").append("<td><i onclick=\"remove_from_selected(" + arrCarSelectedShow[i].id + ")\" class=\"remove_select material-icons dp48\">cancel</i></td>");
-                $("#show_select_table").append("</tr>");
-            }
-        }
-        function remove_from_selected(id) {
-            for (i in arrCarSelected) {
-                if (arrCarSelected[i] == id) {
-                    arrCarSelected.splice(i, 1);
-                    break;
-                }
-            }
-            for (j in arrCarSelectedShow) {
-                if (arrCarSelectedShow[j].id == id) {
-                    arrCarSelectedShow.splice(j, 1);
-                    break;
-                }
-            }
-            $("#" + id).prop("checked", false);
-            $("#total_selected").text(arrCarSelected.length);
-            show_selected()
-        }
-    </script>
-    <script>
-        $("#check-all").change(function () {
-            if ($(this).prop("checked") == false) {
-                $(".step1_checkbox").each(function () {
-                    if ($(this).prop("checked") == true) {
-                        $(this).click();
-                    }
-                });
-            } else {
-                $(".step1_checkbox").each(function () {
-                    if ($(this).prop("checked") == false) {
-                        $(this).click();
-                    }
-                });
-            }
-
-        });
-       
-    </script>
-
-    <script>
         $("#ngay-quyet-dinh").datepicker({
             toggleSelected: false,
             language: 'vi'
@@ -1274,6 +993,6 @@
     </script>
     <script src="~/assets/libs/toastr/build/toastr.min.js"></script>
     <script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
-
+    <script src="~/js/Custom JS/TCLD/Brief/Briefs_List.js"></script>
 }  <!-- This page plugin js -->
 <!-- ============================================================== -->

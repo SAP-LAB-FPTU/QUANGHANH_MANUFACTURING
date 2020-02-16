@@ -41,13 +41,13 @@
 
                 </div>
                 <div class="col s12 table_container">
-                    <table class="striped centered responsive-table mytable table-bordered" id="DocumnetaryTable">
+                    <table class="striped centered table-responsive mytable table-bordered" id="DocumnetaryTable">
                         <thead>
                             <tr>
                                 <th class="center">Ngày</th>
                                 <th class="center">Số quyết định</th>
                                 <th class="center">Người lập quyết định</th>
-                                <th class="center">Số lượng thiết bị</th>
+                                <th class="center">Số lượng camera</th>
                                 <th class="center">Lý do quyết định</th>
                                 <th class="center">Nguồn vốn</th>
                                 <th></th>
@@ -67,41 +67,21 @@
             <h3>Cập nhật mã quyết định</h3>
         </div>
         <div class="modal-body">
-
             <div class="row">
-                <div class="row">
-                    <div class="form-group" hidden>
-                        <input type="text" class="form-control" value="" id="documentary_id_update" />
+                <div class="col s12 m6">
+                    <div class="form-group">
+                        <label for="date">Số quyết định: </label>
+                        <input type="text" class="form-control" value="" id="documentary_code_edit" />
                     </div>
-                    <div class="col s12 m6">
-                        <div class="form-group">
-                            <label for="date">Ngày : </label>
-                            <input type="text" class="form-control datepicker-here" style="width: 100% !important;" id="date_created_edit" />
-                        </div>
-                        <div class="form-group" hidden>
-                            <label for="date">Mã quyết định: </label>
-                            <input type="text" class="form-control" disabled="disabled" value="" id="documentary_id_edit" />
-                        </div>
-                        <div class="form-group">
-                            <label for="date">Mã quyết định: </label>
-                            <input type="text" class="form-control" value="" id="documentary_code_edit" />
-                        </div>
-                        <div class="form-group">
-                            <label for="date">Người lập quyết định : </label>
-                            <input type="text" class="form-control" value="" id="person_created_edit" />
-                        </div>
-
+                    <div class="form-group">
+                        <label for="id">Lý do quyết định : </label>
+                        <input type="text" class="form-control" value="" id="reason_edit" />
                     </div>
-                    <div class="col s12 m6">
-                        <div class="form-group">
-                            <label for="id">Lý do quyết định : </label>
-                            <input type="text" class="form-control" value="" id="reason_edit" />
-                        </div>
-                        <div class="form-group">
-                            <label for="date">Nguồn vốn : </label>
-                            <input type="text" class="form-control" value="" id="out_in_come_edit" />
-                        </div>
-
+                </div>
+                <div class="col s12 m6">
+                    <div class="form-group">
+                        <label for="date">Nguồn vốn : </label>
+                        <input type="text" class="form-control" value="" id="out_in_come_edit" />
                     </div>
                 </div>
             </div>
@@ -109,7 +89,7 @@
         <div class="modal-footer">
             <button type="submit" id="btnSave" class="btn blue darken-2 modal-close save-category">Lưu</button>
             <button type="button" id="exit-update-button" class="btn light-blue lighten-1 modal-close">Thoát</button>
-            <td style="text-align: center"><a href="#myaleart" class="waves-effect waves-light btn red modal-trigger">Xoá bản nháp này</a></td>
+            <a href="#myaleart" class="waves-effect waves-light btn red modal-trigger">Xoá bản nháp này</a>
         </div>
     </div>
 </form>
@@ -128,9 +108,6 @@
         </div>
     </div>
 </div>
-
-
-
 
 <script>
     $("#documentary_code-search").keyup(function (e) {
@@ -218,13 +195,8 @@
                         },
                     },
                     {
-                        "data": "tempId", "name": "tempId", "render": function (data) {
-                            if (data.split("^")[1] == "true") {
-                                return "<a  onclick=GetData('@Url.Action("LoadPage","ChitietSuachuaCam")?id=" + data + "')> " + data.split("^")[2] + "</a>";
-                            }
-                            else {
-                                return "<a></a>";
-                            }
+                       "data": "documentary_id", "name": "documentary_id", "render": function (data) {
+                                return "";
 
                      },
                         "orderable": true,
@@ -234,25 +206,26 @@
                     { "data": "count", "name": "count" },
                     { "data": "reason" , "name" : "reason"},
                     { "data": "out_in_come" , "name" :"out_in_come" },
-                 {
-                        "data": "tempId", "render": function (data) {
-                            return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.split("^")[0] + "\">Cập&nbsp;nhật</a>";
+                    {
+                        "data": "documentary_id", "render": function (data) {
+                            return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-documentary-id=\"" + data + "\">Cập&nbsp;nhật</a>";
                                     },
                         "orderable": false,
                         "searchable":false,
 
                     },
                     {
-                        "data": "tempId", "render": function (data) {
-                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" onclick=GetData('@Url.Action("LoadPage","ChitietSuachuaCam")?id=" + data.split("^")[0] + "')>Chi&nbsp;tiết</a>";
+                        "data": "documentary_id", "render": function (data) {
+                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" onclick=GetData('@Url.Action("LoadPage","ChitietBaoduong")?id=" + data + "')>Chi&nbsp;tiết</a>";
                      },
                         "orderable": false,
                         "searchable":false,
 
                     }
+
                 ],
-                //"serverSide": "true",
-                //"order": [1, "desc"],
+                "serverSide": "true",
+                "order": [1, "desc"],
                 "lengthChange": false,
                 "searching": false,
                 "initComplete": function () {
@@ -282,36 +255,6 @@
             $("#pre-load").show();
             dataTable.ajax.reload();
         });
-
- //--------------Get Data--------------------
-
-         $(document).on("click", ".open-UpdateModal", function () {
-             var id = $(this).data('incident-id').toString();
-             var ListId = [id];
-            $.ajax({
-                type: "POST",
-                url: "/suaChuaQD/GetById",
-                contentType: "application/json",
-                dataType: "json",
-                data: '{docID: ' + JSON.stringify(ListId) + '}',
-                success: function (data) {
-                    $("#documentary_id_update").val(data.documentary_id);
-                    $("#documentary_id_edit").val(data.documentary_id);
-                    $("#date_created_edit").val(dateFormat2(data.date_created));
-                    $('#documentary_code_edit').val(data.documentary_code);
-                    $('#person_created_edit').val(data.person_created);
-                    $('#reason_edit').val(data.reason);
-                    $('#out_in_come_edit').val(data.out_in_come);
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
-                },
-                cache: false
-            })
-     });
 //------------------------Export Excel------------------------
 
             $("#ExportExcel").click(function () {
@@ -326,77 +269,6 @@
                  $("#pre-load").hide();
             })
         });
-
-
-////------------Update---------------------
-
-         $("#myupdateform").submit(function (e) {
-           $("#pre-load").show();
-                $.ajax({
-                    type: "POST",
-                    url: "/camera/quyet-dinh-sua-chua/update",
-                    dataType: "json",
-                        success: function (data) {
-                        if (data.success == true) {
-                            dataTable.ajax.reload();
-                            successAlert('Cập nhật quyết định thành công','');
-                        }
-                        else {
-                            errorAlert('Lỗi',data.message);
-                        }
-
-
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $('#pre-load').hide();
-                        $.notify(XMLHttpRequest.responseText, {
-                            globalPosition: "top center",
-                            className: "error"
-                        });
-                    },
-                    data: {
-
-                        documentary_id: $('#documentary_id_update').val(),
-                        documentary_code: $('#documentary_code_edit').val(),
-                        date_created: $('#date_created_edit').val().split(/\//).reverse().join('/'),
-                        person_created: $('#person_created_edit').val(),
-                        reason: $('#reason_edit').val(),
-                        out_in_come: $('#out_in_come_edit').val()
-
-
-                    },
-                    cache: false
-                }).done(function () {
-                    $('#pre-load').hide();
-                    $('#exit-update-button').click();
-                })
-                return false;
-            });
-
-
- //--------------Delete--------------------
-
-            $("#Delete").click(function () {
-                   $("#pre-load").show();
-                    $("#pre-load").css("z-index", "9999");
-                    var docID = $('#documentary_id_update').val();
-
-                    $.ajax({
-                        type: "POST",
-                        url: '@Url.Action("DeleteDoc","suachuaQD")',
-                        data: '{docID: ' + docID + '}',
-                        contentType: "application/json",
-                        dataType: "script",
-                        success: function () {
-                             dataTable.ajax.reload();
-                             successAlert('Xóa quyết định thành công','');
-
-                             $("#pre-load").hide();
-                         $('#exit-update-button').click();
-                        }
-                    });
-
-        });
-
     </script>
+    <script src="~/js/Custom JS/CDVT/QuyetDinh/DanhSach.js"></script>
 }

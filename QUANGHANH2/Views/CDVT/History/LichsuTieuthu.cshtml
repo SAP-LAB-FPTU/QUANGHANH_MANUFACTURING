@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Lichsu";
-    if (Session["departID"].ToString().Contains("PX"))
+    if (Session["departName"].ToString().Contains("Phân xưởng"))
     {
         Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
     }
@@ -116,6 +116,10 @@
                             <label for="name"> Tên thiết bị  : </label>
                             <input type="text" class="form-control" id="equipmentnamefuel-edit" readonly />
                         </div>
+                        <div class="form-group">
+                            <label for="supplier">Số lượng còn :</label>
+                            <input type="text" class="form-control" id="remaining-edit" readonly />
+                        </div>
                     </div>
                     <div class="col s12 m6">
                         <div class="form-group">
@@ -190,7 +194,7 @@
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="date">Biểm kiểm soát : </label>
-                            <input type="text" class="form-control" id="equipmentidfuel-add" list="eqID" onchange="getEquipmentnameOnAddFuel()"/>
+                            <input type="text" class="form-control" id="equipmentidfuel-add" list="eqID" onchange="getEquipmentnameOnAddFuel()" />
                         </div>
                         <div class="form-group">
                             <label for="supplier">Lượng nhiên liệu tiêu thụ: </label>
@@ -200,7 +204,10 @@
                             <label for="supplier">Đơn vị: </label>
                             <input type="Text" class="form-control" id="unit-add" readonly />
                         </div>
-
+                        <div class="form-group">
+                            <label for="supplier">Số lượng còn :</label>
+                            <input type="text" class="form-control" id="remaining-add" readonly />
+                        </div>
                     </div>
                 </div>
             </form>
@@ -361,6 +368,16 @@
             searchFuel();
         });
 
+        $(document).ready(function () {
+            var eqIdVal = $("#equipmentidfuel-add").val();
+            if (eqIdVal.trim() == "") {
+                $("#fuelId-add").attr("readonly", true);
+            }
+            else {
+                $("#fuelId-add").attr("readonly", false);
+            }
+        });
+
         function searchFuel() {
             dataFuelTable = $('#fuel-table').on('preXhr.dt', function (e, settings, data) {
                 $("#pre-load").show("slow", function () {
@@ -490,6 +507,7 @@
                     $('#unitfuel-edit').val(data.unit);
                     $('#fuelID-edit').val(data.fuelid);
                     $('#fuel-edit').val(data.fuel_type);
+                    $('#remaining-edit').val(data.quantity);
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng thử lại');
@@ -548,8 +566,10 @@
         //get supply name and unit in add fuel
         function getsupplyname() {
             var id = document.getElementById("fuelId-add").value;
+            var eqID = document.getElementById("equipmentidfuel-add").value;
             var tmp = {
-                fuel_type: id
+                fuel_type: id,
+                equipment_id: eqID
             };
             $.ajax({
                 url: "/phong-cdvt/cap-nhat-hoat-dong/returnsupplyName",
@@ -560,6 +580,7 @@
                 success: function (data) {
                     document.getElementById("fuelname-add").value = data.split("^")[0];
                     document.getElementById("unit-add").value = data.split("^")[1];
+                    document.getElementById("remaining-add").value = data.split("^")[2];
                 },
                 error: function () {
                     //alert("fail");
@@ -570,8 +591,10 @@
         //get supply name and unit in edit fuel
         function getsupplynameinedit() {
             var id = document.getElementById("fuel-edit").value;
+            var eqID = document.getElementById("equipmentIdfuel-edit").value;
             var tmp = {
-                fuel_type: id
+                fuel_type: id,
+                equipment_id: eqID
             };
             $.ajax({
                 url: "/phong-cdvt/cap-nhat-hoat-dong/returnsupplyName",
@@ -582,6 +605,7 @@
                 success: function (data) {
                     document.getElementById("supply_name-edit").value = data.split("^")[0];
                     document.getElementById("unitfuel-edit").value = data.split("^")[1];
+                    document.getElementById("remaining-edit").value = data.split("^")[2];
                 },
                 error: function () {
                     //alert("fail");
@@ -601,9 +625,11 @@
                 dataType: "json",
                 success: function (data) {
                     document.getElementById("equipmentnamefuel-add").value = data;
+                    $("#fuelId-add").attr("readonly", false);
                 },
                 error: function () {
-                    //alert("fail");
+                    $("#fuelId-add").attr("readonly", true);
+                    document.getElementById("equipmentnamefuel-add").value = "Mã thiết bị không tồn tại";
                 }
             });
         }

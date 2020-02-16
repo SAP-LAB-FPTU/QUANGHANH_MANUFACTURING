@@ -168,7 +168,15 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
-    <Compile Include="Controllers\Camera\SucoCamController.cs" />
+    <Compile Include="Controllers\Camera\CapNhatTheoCaController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ChiTietController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ThemQuyetDinhController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\XuLyQuyetDinhController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ChonThietBiController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\NghiemThuCamController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\DanhSachController.cs" />
+    <Compile Include="Controllers\Camera\SuCoController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\XuLyQDController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\CDVTXinCapVatTuController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
     <Compile Include="Controllers\AT\ViewAccidentController.cs" />
@@ -590,6 +598,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\NhomTieuChi.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Notification.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PhongBan_TieuChi.cs">
@@ -7461,13 +7472,12 @@
     <Content Include="Views\CDVT\Work\CaiTien\ThemCaiTien.cshtml" />
     <Content Include="Views\DK\Department_Criteria\Department_Criteria.cshtml" />
     <Content Include="Views\Shared\_Layout_KCM.cshtml" />
-    <Content Include="Views\Shared\_Layout_Cam.cshtml" />
     <Content Include="Views\Camera\DanhSachCamera.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />
     <Content Include="Views\Camera\Chi_tiet_sua_chua.cshtml" />
-    <Content Include="Views\Camera\Quyet_dinh_sua_chua.cshtml" />
+    <Content Include="Views\Camera\Quyetdinh\SuaChua\DanhSach.cshtml" />
     <Content Include="Views\Camera\Sua_chua_camera.cshtml" />
-    <Content Include="Views\Camera\Sua_chua_camera_chon.cshtml" />
+    <Content Include="Views\Camera\Quyetdinh\SuaChua\ThemQuyetDinh.cshtml" />
     <Content Include="Views\Camera\SuCo.cshtml" />
     <Content Include="Views\TCLD\Occupation\Occupation.cshtml" />
     <Content Include="Views\TCLD\Occupation\GroupOccupation.cshtml" />
@@ -7495,9 +7505,10 @@
     <Content Include="Views\DK\Criteria\Criteria.cshtml" />
     <Content Include="Views\CDVT\Vattu\CdvtXincapvattu.cshtml" />
     <Content Include="Views\Phanxuong\Huydongphanxuong.cshtml" />
-    <Content Include="Views\Camera\CapNhatTrangThai.cshtml" />
+    <Content Include="Views\Camera\CapNhatTheoCa.cshtml" />
     <Content Include="Views\Camera\TrangChu.cshtml" />
     <Content Include="Views\PX\PXKT\InputNSLD.cshtml" />
+    <Content Include="Views\TCLD\Shutdown\Process.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7507,6 +7518,9 @@
     <Folder Include="images\camera\" />
     <Folder Include="Library\" />
     <Folder Include="Views\CapNhatTrangThai\" />
+    <Folder Include="Views\CapNhat\" />
+    <Folder Include="Views\ChiTiet\" />
+    <Folder Include="Views\ChonThietBi\" />
     <Folder Include="Views\TrangChu\" />
   </ItemGroup>
   <ItemGroup>
