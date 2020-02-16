@@ -318,9 +318,6 @@
     <Compile Include="Controllers\ManagementUserController.cs" />
     <Compile Include="Controllers\NotifiController.cs" />
     <Compile Include="Controllers\PhanXuong\PhanXuongController.cs" />
-    <Compile Include="Controllers\PX\PXDS\PxdsController.cs" />
-    <Compile Include="Controllers\PX\BaoCaoLenPhongDKController.cs" />
-    <Compile Include="Controllers\PX\PXKT\PXKTController.cs" />
     <Compile Include="Controllers\TCLD\BonusAnDesciplineController.cs" />
     <Compile Include="Controllers\TCLD\Brief\BriefController.cs" />
     <Compile Include="Controllers\TCLD\Brief\BriefRegulationController.cs" />
@@ -7444,7 +7441,7 @@
     <Content Include="Views\BriefRegulation\ThemTrinhDo.cshtml" />
     <Content Include="Views\BriefRegulation\ThemTruong.cshtml" />
     <Content Include="Views\TCLD\Brief\ManageBrief\OutSideDetail.cshtml" />
-    <Content Include="Views\TCLD\Occupation\Recruitment\Input.cshtml" />
+    <Content Include="Views\TCLD\Recruitment\Input.cshtml" />
     <Content Include="Views\CDVT\Vattu\Danhsachvattu.cshtml" />
     <Content Include="Views\TCLD\Department\List.cshtml" />
     <Content Include="Views\Department\AddDepartment.cshtml" />
@@ -7510,6 +7507,7 @@
     <Content Include="Views\Phanxuong\Huydongphanxuong.cshtml" />
     <Content Include="Views\Camera\CapNhatTheoCa.cshtml" />
     <Content Include="Views\Camera\TrangChu.cshtml" />
+    <Content Include="Views\PX\PXKT\InputNSLD.cshtml" />
     <Content Include="Views\TCLD\Shutdown\Process.cshtml" />
   </ItemGroup>
   <ItemGroup>
