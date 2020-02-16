@@ -54,7 +54,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                 ViewBag.Supplies = supplies;
                 ViewBag.Departments = departments;
             }
-            return View("/Views/Camera/Quyetdinh/ThemQuyetDinh.cshtml");
+            return View("/Views/Camera/Quyetdinh/SuaChua/ThemQuyetDinh.cshtml");
         }
 
         [Route("camera/sua-chua-chon/add")]
