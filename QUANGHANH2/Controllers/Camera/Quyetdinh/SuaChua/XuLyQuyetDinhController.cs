@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 
 namespace QUANGHANH2.Controllers.Camera
 {
-    public class ChiTietXuLyQDController : Controller
+    public class XuLyQuyetDinhController : Controller
     {
         [Auther(RightID = "193")]
         [Route("cap-nhat/camera/quyet-dinh/sua-chua")]
