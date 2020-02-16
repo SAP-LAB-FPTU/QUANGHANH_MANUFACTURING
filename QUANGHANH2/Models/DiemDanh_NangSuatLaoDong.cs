@@ -17,13 +17,12 @@ namespace QUANGHANH2.Models
         public string MaNV { get; set; }
         public int HeaderID { get; set; }
         public Nullable<System.DateTime> ThoiGianThucTeDiemDanh { get; set; }
-        public Nullable<double> HeSoChiaLuong { get; set; }
         public Nullable<double> DiemLuong { get; set; }
-        public string DuBaoNguyCo { get; set; }
         public Nullable<bool> DiLam { get; set; }
         public string GhiChu { get; set; }
         public string LyDoVangMat { get; set; }
-        public string GiaiPhapNguyCo { get; set; }
+        public Nullable<System.DateTime> ThoiGianXuongLo { get; set; }
+        public Nullable<System.DateTime> ThoiGianLenLo { get; set; }
     
         public virtual Header_DiemDanh_NangSuat_LaoDong Header_DiemDanh_NangSuat_LaoDong { get; set; }
         public virtual NhanVien NhanVien { get; set; }

@@ -1,14 +1,6 @@
 ﻿@{
     ViewData["Title"] = "NSLD";
-    if (Session["departID"].ToString().Contains("PX"))
-    {
-        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
-    }
-    else
-    {
-        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
-    }
-
+    Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
 }
 
 <link href="~/assets/Custom css/PX/PXKT/ReportProduct.css" rel="stylesheet" />
@@ -156,7 +148,7 @@
                 $.ajax({
                     type: "post",
                     dataType: "json",
-                    url: "/phan-xuong-khai-thac/nang-suat-lao-dong-getData",
+                    url: "/phan-xuong/nang-suat-lao-dong-getData",
                     data: {
                         phongbanSearch: JSON.stringify(phongbanSearch),
                         caSearch: JSON.stringify(caSearch),
@@ -226,14 +218,14 @@
             $.ajax({
                 type: "post",
                 dataType: "json",
-                url: "/phan-xuong-khai-thac/nang-suat-lao-dong-getData",
+                url: "/phan-xuong/nang-suat-lao-dong-getData",
                 data: {
                     phongbanSearch: JSON.stringify(phongbanSearch),
                     caSearch: JSON.stringify(caSearch),
                     ngaySearch: JSON.stringify(ngaySearch)
                 },
                 dataType: "json",
-                url: "/phan-xuong-khai-thac/nang-suat-lao-dong-getData",
+                url: "/phan-xuong/nang-suat-lao-dong-getData",
                 data: {
                     phongbanSearch: JSON.stringify(phongbanSearch),
                     caSearch: JSON.stringify(caSearch),
@@ -323,7 +315,7 @@
                 $('#pre-load').show("slow");
 
                 $.ajax({
-                    url: "/phan-xuong-khai-thac/nang-suat-lao-dong-update",
+                    url: "/phan-xuong/nang-suat-lao-dong-update",
                     data: {
                         stringjson: function () { return JSON.stringify(getJson()); }
                     },
