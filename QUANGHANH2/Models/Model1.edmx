@@ -275,13 +275,12 @@
           <Property Name="MaNV" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="HeaderID" Type="int" Nullable="false" />
           <Property Name="ThoiGianThucTeDiemDanh" Type="datetime" />
-          <Property Name="HeSoChiaLuong" Type="float" />
           <Property Name="DiemLuong" Type="float" />
-          <Property Name="DuBaoNguyCo" Type="nvarchar" MaxLength="1000" />
           <Property Name="DiLam" Type="bit" />
           <Property Name="GhiChu" Type="nvarchar" MaxLength="1000" />
           <Property Name="LyDoVangMat" Type="nvarchar" MaxLength="1000" />
-          <Property Name="GiaiPhapNguyCo" Type="nvarchar" MaxLength="1000" />
+          <Property Name="ThoiGianXuongLo" Type="datetime" />
+          <Property Name="ThoiGianLenLo" Type="datetime" />
         </EntityType>
         <EntityType Name="DienCongViec">
           <Key>
@@ -981,7 +980,6 @@
           <Property Name="quantity_used" Type="int" Nullable="false" />
           <Property Name="quantity_out" Type="int" Nullable="false" />
           <Property Name="supplyStatus" Type="nvarchar" MaxLength="150" />
-          <Property Name="supply_documentary_status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Supply_Documentary_Equipment">
           <Key>
@@ -4013,13 +4011,12 @@
           <Property Name="MaNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="HeaderID" Type="Int32" Nullable="false" />
           <Property Name="ThoiGianThucTeDiemDanh" Type="DateTime" Precision="3" />
-          <Property Name="HeSoChiaLuong" Type="Double" />
           <Property Name="DiemLuong" Type="Double" />
-          <Property Name="DuBaoNguyCo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="DiLam" Type="Boolean" />
           <Property Name="GhiChu" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="LyDoVangMat" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="GiaiPhapNguyCo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="ThoiGianXuongLo" Type="DateTime" Precision="3" />
+          <Property Name="ThoiGianLenLo" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Header_DiemDanh_NangSuat_LaoDong" Relationship="Self.FK__DiemDanh___Heade__019E3B86" FromRole="DiemDanh_NangSuatLaoDong" ToRole="Header_DiemDanh_NangSuat_LaoDong" />
           <NavigationProperty Name="NhanVien" Relationship="Self.FK_DiemDanh_NangSuatLaoDong_NhanVien" FromRole="DiemDanh_NangSuatLaoDong" ToRole="NhanVien" />
         </EntityType>
@@ -4903,7 +4900,6 @@
           <Property Name="quantity_used" Type="Int32" Nullable="false" />
           <Property Name="quantity_out" Type="Int32" Nullable="false" />
           <Property Name="supplyStatus" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="supply_documentary_status" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Documentary" Relationship="Self.FK__Supply_Do__docum__595B4002" FromRole="Supply_Documentary_Camera" ToRole="Documentary" />
           <NavigationProperty Name="Room" Relationship="Self.FK__Supply_Do__room___5A4F643B" FromRole="Supply_Documentary_Camera" ToRole="Room" />
           <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Do__suppl__5B438874" FromRole="Supply_Documentary_Camera" ToRole="Supply" />
@@ -7902,13 +7898,12 @@
                 <ScalarProperty Name="MaNV" ColumnName="MaNV" />
                 <ScalarProperty Name="HeaderID" ColumnName="HeaderID" />
                 <ScalarProperty Name="ThoiGianThucTeDiemDanh" ColumnName="ThoiGianThucTeDiemDanh" />
-                <ScalarProperty Name="HeSoChiaLuong" ColumnName="HeSoChiaLuong" />
                 <ScalarProperty Name="DiemLuong" ColumnName="DiemLuong" />
-                <ScalarProperty Name="DuBaoNguyCo" ColumnName="DuBaoNguyCo" />
                 <ScalarProperty Name="DiLam" ColumnName="DiLam" />
                 <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
                 <ScalarProperty Name="LyDoVangMat" ColumnName="LyDoVangMat" />
-                <ScalarProperty Name="GiaiPhapNguyCo" ColumnName="GiaiPhapNguyCo" />
+                <ScalarProperty Name="ThoiGianXuongLo" ColumnName="ThoiGianXuongLo" />
+                <ScalarProperty Name="ThoiGianLenLo" ColumnName="ThoiGianLenLo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8642,7 +8637,6 @@
                 <ScalarProperty Name="quantity_used" ColumnName="quantity_used" />
                 <ScalarProperty Name="quantity_out" ColumnName="quantity_out" />
                 <ScalarProperty Name="supplyStatus" ColumnName="supplyStatus" />
-                <ScalarProperty Name="supply_documentary_status" ColumnName="supply_documentary_status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
