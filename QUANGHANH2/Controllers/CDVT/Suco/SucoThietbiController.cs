@@ -225,7 +225,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 "AND d.department_name LIKE @department_name AND i.detail_location LIKE @detail_location";
             if (reason == null)
                 query += " AND i.reason LIKE @reason";
-            if (Session["departID"].ToString().Contains("PX")) query += " AND d.department_id = '" + Session["departID"].ToString() + "'";
+            string department_id = Session["departID"].ToString();
+            if (Session["departName"].ToString().Contains("Phân xưởng")) query += " AND d.department_id = '" + department_id + "'";
             List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(base_select + query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),

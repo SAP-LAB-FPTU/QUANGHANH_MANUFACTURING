@@ -23,11 +23,11 @@ namespace QUANGHANH2.Controllers.Camera
     {
 
         [Auther(RightID = "193")]
-        [Route("camera/quyet-dinh-sua-chua")]
+        [Route("camera/quyet-dinh/sua-chua")]
         public ActionResult Index()
         {
             ViewBag.count = 1;
-            return View("/Views/Camera/Quyet_dinh_sua_chua.cshtml");
+            return View("/Views/Camera/Quyetdinh/SuaChua/DanhSach.cshtml");
         }
 
         [Route("camera/quyet-dinh-sua-chua/update")]

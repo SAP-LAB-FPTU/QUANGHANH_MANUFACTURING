@@ -11,7 +11,7 @@ using static QUANGHANH2.Controllers.Camera.Quyetdinh.ChonThietBiController;
 
 namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
 {
-    public class ThemController : Controller
+    public class ThemQuyetDinhController : Controller
     {
         [Auther(RightID = "193")]
         [Route("camera/sua-chua-chon")]
@@ -54,7 +54,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                 ViewBag.Supplies = supplies;
                 ViewBag.Departments = departments;
             }
-            return View("/Views/Camera/Sua_chua_camera_chon.cshtml");
+            return View("/Views/Camera/Quyetdinh/SuaChua/ThemQuyetDinh.cshtml");
         }
 
         [Route("camera/sua-chua-chon/add")]
@@ -79,17 +79,18 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                     JObject json = JObject.Parse(data);
                     foreach (var item in json)
                     {
-                        int cameraId = (int)item.Value["id"];
-                        string department_id_to = (string)item.Value["department_id"];
-                        string repair_reason = (string)item.Value["repair_reason"];
+                        int room_id = (int)item.Value["id"];
+                        string repair_requirement = (string)item.Value["repair_requirement"];
                         string datestring = (string)item.Value["finish_date_plan"];
 
                         Documentary_camera_repair_details drd = new Documentary_camera_repair_details();
                         drd.Documentary_camera_repair_status = 0;
-                        drd.repair_requirement = repair_reason;
-                        drd.department_id = department_id_to;//
                         drd.documentary_id = documentary.documentary_id;
-                        drd.broken_camera_quantity = cameraId;
+                        drd.room_id = room_id;
+                        drd.broken_camera_quantity = (int)item.Value["broken_camera_quantity"];
+                        drd.repair_requirement = repair_requirement;
+                        drd.note = (string)item.Value["note"];
+                        drd.department_id = (string)item.Value["department_id"];
                         DBContext.Documentary_camera_repair_details.Add(drd);
                         DBContext.SaveChanges();
                         JArray vattu = (JArray)item.Value.SelectToken("vattu");
@@ -97,15 +98,11 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                         {
                             string supply_id = (string)jObject["supply_id"];
                             int quantity = (int)jObject["quantity"];
-                            string supplyStatus = (string)jObject["supplyStatus"];
-                            string department_id_temp = (string)jObject["department_id"];
                             Supply_Documentary_Camera sde = new Supply_Documentary_Camera();
                             sde.documentary_id = documentary.documentary_id;
-                            sde.room_id = cameraId;
+                            sde.room_id = room_id;
                             sde.supply_id = supply_id;
                             sde.quantity_plan = quantity;
-                            sde.supplyStatus = supplyStatus;
-                            sde.supply_documentary_status = 0;
                             DBContext.Supply_Documentary_Camera.Add(sde);
                             DBContext.SaveChanges();
                         }

@@ -170,8 +170,8 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\Camera\CapNhatTheoCaController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ChiTietController.cs" />
-    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ThemController.cs" />
-    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\XuLyController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ThemQuyetDinhController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\XuLyQuyetDinhController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ChonThietBiController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\NghiemThuCamController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\DanhSachController.cs" />
@@ -7478,9 +7478,9 @@
     <Content Include="Views\Camera\DanhSachCamera.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />
     <Content Include="Views\Camera\Chi_tiet_sua_chua.cshtml" />
-    <Content Include="Views\Camera\Quyet_dinh_sua_chua.cshtml" />
+    <Content Include="Views\Camera\Quyetdinh\SuaChua\DanhSach.cshtml" />
     <Content Include="Views\Camera\Sua_chua_camera.cshtml" />
-    <Content Include="Views\Camera\Sua_chua_camera_chon.cshtml" />
+    <Content Include="Views\Camera\Quyetdinh\SuaChua\ThemQuyetDinh.cshtml" />
     <Content Include="Views\Camera\SuCo.cshtml" />
     <Content Include="Views\TCLD\Occupation\Occupation.cshtml" />
     <Content Include="Views\TCLD\Occupation\GroupOccupation.cshtml" />
