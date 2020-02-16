@@ -262,6 +262,7 @@
         })
 
         $('#create').click(function () {
+            $('#pre-load').show();
             $.ajax({
                 url: "/camera/sua-chua-chon/add",
                 method: "post",
@@ -274,7 +275,12 @@
                     reason: $('#reason').val()
                 },
                 success: function (data) {
-
+                    if (data.success)
+                        window.location.href = "/camera/quyet-dinh/sua-chua";
+                    else {
+                        errorAlert("Có lỗi xảy ra");
+                        $('#pre-load').hide();
+                    }
                 }
             })
         })
