@@ -17,7 +17,10 @@ namespace QUANGHANH2.Controllers.DK
         public ActionResult Index()
         {
             List<TieuChi> listTieuChi = dbContext.Database.SqlQuery<TieuChi>("select * from TieuChi").ToList<TieuChi>();
+            var query = " select * from Department WHERE department_type =@departmentType order by department_name";
+            List<Department> listDepartments = dbContext.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
             ViewBag.listTC = listTieuChi;
+            ViewBag.listDepartments = listDepartments;
             return View("/Views/DK/InputPlan/InputPlan_Year.cshtml");
         }
         [Route("phong-dieu-khien/ke-hoach-san-xuat-nam")]
@@ -35,6 +38,10 @@ namespace QUANGHANH2.Controllers.DK
 
             JObject input = JObject.Parse(jsonname);
             JArray kehoach = (JArray)input["data"];
+
+            var query = " select * from Department WHERE department_type =@departmentType order by department_name";
+            List<Department> listDepartments = dbContext.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
+            ViewBag.listDepartments = listDepartments;
 
             using (DbContextTransaction transaction = dbContext.Database.BeginTransaction())
             {
