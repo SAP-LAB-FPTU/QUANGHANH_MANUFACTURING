@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 
 namespace QUANGHANH2.Controllers.Camera
 {
-    public class ChiTietXuLyQDController : Controller
+    public class XuLyQuyetDinhController : Controller
     {
         [Auther(RightID = "193")]
         [Route("cap-nhat/camera/quyet-dinh/sua-chua")]
@@ -150,15 +150,7 @@ namespace QUANGHANH2.Controllers.Camera
                         string supply_id = (string)item["supply_id"];
                         if (DBContext.Supplies.Find(supply_id) == null)
                             return Json(new { success = false, message = "Mã vật tư không tồn tại" });
-                        Supply_Documentary_Camera temp;
-                        if (type == "2")
-                        {
-                            temp = DBContext.Supply_Documentary_Camera.Where(a => a.documentary_id == documentary_id && a.room_id.Equals(equipmentId) && a.supply_id == supply_id && a.supply_documentary_status == 1).FirstOrDefault();
-                        }
-                        else
-                        {
-                            temp = DBContext.Supply_Documentary_Camera.Where(a => a.documentary_id == documentary_id && a.room_id.Equals(equipmentId) && a.supply_id == supply_id && a.supply_documentary_status == 0).FirstOrDefault();
-                        }
+                        Supply_Documentary_Camera temp = DBContext.Supply_Documentary_Camera.Where(a => a.documentary_id == documentary_id && a.room_id.Equals(equipmentId) && a.supply_id == supply_id).FirstOrDefault();
                         if (temp == null)
                         {
                             temp = new Supply_Documentary_Camera();
