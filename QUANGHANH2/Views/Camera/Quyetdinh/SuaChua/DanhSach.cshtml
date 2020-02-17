@@ -199,7 +199,7 @@
                                 return "";
 
                      },
-                        "orderable": true,
+                        "orderable": false,
                         "searchable":false,
                     },
                     { "data": "person_created", "name": "person_created" },
@@ -216,7 +216,7 @@
                     },
                     {
                         "data": "documentary_id", "render": function (data) {
-                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" onclick=GetData('@Url.Action("LoadPage","ChitietBaoduong")?id=" + data + "')>Chi&nbsp;tiết</a>";
+                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" href='/camera/quyet-dinh/sua-chua/chi-tiet?id=" + data + '>Chi&nbsp;tiết</a>";
                      },
                         "orderable": false,
                         "searchable":false,
@@ -225,7 +225,7 @@
 
                 ],
                 "serverSide": "true",
-                "order": [1, "desc"],
+                "order": [0, "desc"],
                 "lengthChange": false,
                 "searching": false,
                 "initComplete": function () {
