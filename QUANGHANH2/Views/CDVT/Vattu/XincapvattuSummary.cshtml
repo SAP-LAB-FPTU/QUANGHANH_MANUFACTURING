@@ -50,6 +50,7 @@
                                             <th>Tên vật tư</th>
                                             <th>Định mức</th>
                                             <th>Kế hoạch phân xưởng</th>
+                                            <th>Số lượng còn</th>
                                             <th>CĐVT duyệt</th>
                                             <th>Đơn vị tính</th>
                                         </tr>
@@ -166,6 +167,7 @@
                                             '<th>Tên vật tư</th>' +
                                             '<th>Định mức chung</th>'+
                                             '<th>Kế hoạch phân xưởng</th>'+
+                                            '<th>Số lượng còn</th>'+
                                             '<th>CĐVT duyệt</th>'+
                                             '<th>Đơn vị tính</th>'+
                                        '</tr>'+
@@ -188,7 +190,7 @@
                     resultArray = response.data;
                     var tbData = "";
                     if (resultArray.length == 0) {
-                        $("#summary_tbl").find("tbody").append("<tr><td colspan=\"9\"><i>Không có dữ liệu</i></td></tr>")
+                        $("#summary_tbl").find("tbody").append("<tr><td colspan=\"10\"><i>Không có dữ liệu</i></td></tr>")
                     } else {
                         for (var i = 0; i < resultArray.length; i++) {
                             tbData += "<tr>" +
@@ -199,6 +201,7 @@
                                 "<td>" + resultArray[i].SupplyName + "</td>" +
                                 "<td>" + resultArray[i].SupplyAverage + "</td>" +
                                 "<td>" + resultArray[i].SupplyPlan + "</td>" +
+                                "<td>" + resultArray[i].SupplyRemaining + "</td>" +
                                 "<td><input type='text' id='quantity-" + resultArray[i].Equipmentid + "-" + resultArray[i].SupplyId + "'class='form-control'><input type='hidden' id='Id-" + resultArray[i].Id + "' value='" + resultArray[i].Id + "' class='form-control'> </td>" +
                                 "<td>" + resultArray[i].SupplyUnit + "</td>" +
                                 "</tr>";
