@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "InputNSLD";
+    Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-content">
+        <div class="row center">
+            <h3>
+                <b>NHẬP NĂNG SUẤT LAO ĐỘNG VÀ ĐIỂM LƯƠNG</b>
+            </h3>
+            <br />
+
+            <div class="col s12 l12 m12 input-field">
+                <div class="col s12 m3 l3"></div>
+                <!--Ngay-->
+                <div class="col s12 m2 l2">
+                    <input placeholder="Chọn ngày" class="form-control" id="date" />
+                </div>
+                <!--Ca-->
+                <div class="col s12 m2 l2">
+                    <select class="form-control" id="shift">
+                        <option value="-1">Chọn ca</option>
+                        <option value="1">Ca 1</option>
+                        <option value="2">Ca 2</option>
+                        <option value="3">Ca 3</option>
+                    </select>
+                </div>
+                <div class="col s12 m2 l2">
+                    <a class="btn btn-small waves-effect waves-light blue" id="viewButton">Xem</a>
+                </div>
+                <div class="col s12 m3 l3"></div>
+            </div>
+
+            <!--Input Than, Met lo, Xen-->
+            <div class="col s12 m12 l12">
+                <div class="col s12 m3 l3"></div>
+                <!--Than-->
+                <div class="col s12 m2 l2">
+                    <label>Tổng than (tấn)</label>
+                    <input type="number" class="form-control" id="than" />
+                </div>
+                <div class="col s12 m2 l2">
+                    <label>Tổng mét lò (mét)</label>
+                    <input type="number" class="form-control" id="metlo" />
+                </div>
+                <div class="col s12 m2 l2">
+                    <label>Tổng xén (mét)</label>
+                    <input type="number" class="form-control" id="xen" />
+                </div>
+                <div class="col s12 m3 l3"></div>
+            </div>
+
+            
+            <!--Table NhanVien, DiemLuong-->
+            <div class="col s12 m12 l12">
+                <!--Import Excel Button-->
+                <div class="left input-field">
+                    <a class="btn btn-small waves-effect waves-light green" id="importExcel"><i class="fas fa-file-excel"></i>&nbsp Import Excel</a>
+                </div>
+                <table class="table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Mã thẻ</th>
+                            <th>Tên</th>
+                            <th>Điểm lương</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Active datepicker-->
+<script>
+    $(document).ready(function () {
+        $("#date").datepicker();
+    });
+</script>
+

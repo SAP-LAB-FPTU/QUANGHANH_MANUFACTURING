@@ -49,9 +49,30 @@
     basicpieChart.setOption(option);
     // use configuration item and data specified to show chart
     basicpieChart.on('click', function (params) {
-        $("#type").val(params.name);
-        $("#Fbut").click();
-        
+        $('#pre-load').show();
+        $.ajax({
+            url: "/camera/getList",
+            method: 'post',
+            data: {
+                type: params.name
+            },
+            success: function (data) {
+                $('#thongke h3').text(params.name);
+                $('#thongke tbody').empty();
+                if (data.success) {
+                    for (var j in data.listDB) {
+                        let i = data.listDB[j];
+                        let $tr = $('<tr><td>' + i.room_name + '</td><td>' + i.department_name + '</td><td>' + i.camera_available + '/' + i.camera_quantity + '</td></tr>');
+                        $('#thongke tbody').append($tr);
+                    }
+                } else {
+                    errorAlert("Có lỗi xảy ra");
+                }
+                $('#thongke').modal('open');
+                $('#pre-load').hide();
+            },
+            cache: false
+        })
     });
     //------------------------------------------------------
     // Resize chart on menu width change and window resize

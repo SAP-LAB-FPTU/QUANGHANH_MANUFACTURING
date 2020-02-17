@@ -21,32 +21,28 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         [Route("phong-cdvt/bao-cao/nhien-lieu")]
         public ActionResult Index(string type, string date, string month, string quarter, string year)
         {
+            string query;
             if (type == null)
             {
-                var ngay = DateTime.Now.Date;
-                getContentbyDay(ngay);
+                var ngay = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                query = Wherecondition("day", ngay, null, null, null);
             }
-            if (type == "day")
+            else
             {
-                var ngay = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                getContentbyDay(ngay);
+                query = Wherecondition(type, date, month, quarter, year);
             }
-            if (type == "month")
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                int thang = Convert.ToInt32(month);
-                int nam = Convert.ToInt32(year);
-                getContentbyMonth(thang, nam);
-            }
-            if (type == "quarter")
-            {
-                int quy = Convert.ToInt32(quarter);
-                int nam = Convert.ToInt32(year);
-                getContentbyQuater(quy, nam);
-            }
-            if (type == "year")
-            {
-                int nam = Convert.ToInt32(year);
-                getContentbyYear(nam);
+                List<contentreport> listdata = db.Database.SqlQuery<contentreport>(query).ToList();
+                double totaltieuthu = 0;
+                if (listdata != null)
+                {
+                    foreach (var item in listdata)
+                    {
+                        totaltieuthu += item.LuongTieuThu;
+                    }
+                }
+                ViewBag.all = totaltieuthu;
             }
             return View("/Views/CDVT/Report/FuelConsumption.cshtml");
         }
@@ -257,31 +253,55 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             string query = "";
             if (type == null)
             {
-                var ngay = DateTime.Now.Date;
-                query = "select MONTH(date) as Thang, YEAR(date) as Nam,c.equipmentId as MaThietBi, " +
+                var ngay = DateTime.Now.Date.Day;
+                query = "select MONTH(fa.date) as Thang, YEAR(fa.date) as Nam,e.equipmentId as MaThietBi, " +
                 "equipment_name as TenThietBi, supply_name as LoaiNhienLieu,consumption_value as " +
-                 "LuongTieuThu, unit as DonVi from Fuel_activities_consumption a , Supply b, Equipment c " +
-                "where a.fuel_type=b.supply_id and a.equipmentId =c.equipmentId " +
-                "and fuel_type in ('XANG', 'DAU', 'DAUMO') and date = '" + ngay+"'";
+                "LuongTieuThu, unit as DonVi " +
+
+                "from Fuel_activities_consumption fa " +
+
+                "inner " +
+                "join Equipment e on e.equipmentId = fa.equipmentId " +
+
+          "inner " +
+                "join Supply s on s.supply_id = fa.fuel_type " +
+                "where s.supply_name like N'%Xăng%' and s.unit like 'L' and fa.date = '" + ngay+"'";
             }
             if (type == "day")
             {
                 var ngay = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                query = "select MONTH(date) as Thang, YEAR(date) as Nam,c.equipmentId as MaThietBi, " +
+                query = "select MONTH(fa.date) as Thang, YEAR(fa.date) as Nam,e.equipmentId as MaThietBi, " +
                 "equipment_name as TenThietBi, supply_name as LoaiNhienLieu,consumption_value as " +
-                 "LuongTieuThu, unit as DonVi from Fuel_activities_consumption a , Supply b, Equipment c " +
-                "where a.fuel_type=b.supply_id and a.equipmentId =c.equipmentId " +
-                "and fuel_type in ('XANG', 'DAU', 'DAUMO') and date = '" + ngay + "'";
+                "LuongTieuThu, unit as DonVi " +
+
+                "from Fuel_activities_consumption fa " +
+
+                "inner " +
+                "join Equipment e on e.equipmentId = fa.equipmentId " +
+
+          "inner " +
+                "join Supply s on s.supply_id = fa.fuel_type " +
+                "where s.supply_name like N'%Xăng%' and s.unit like 'L' and fa.date = '" + ngay+"'";
             }
             if (type == "month")
             {
                 int thang = Convert.ToInt32(month);
                 int nam = Convert.ToInt32(year);
-                query = "select MONTH(date) as Thang, YEAR(date) as Nam,c.equipmentId as MaThietBi, " +
-                "equipment_name as TenThietBi, supply_name as LoaiNhienLieu,consumption_value as " +
-                "LuongTieuThu, unit as DonVi from Fuel_activities_consumption a , Supply b, Equipment c " +
-                "where a.fuel_type=b.supply_id and a.equipmentId =c.equipmentId " +
-                "and fuel_type in ('XANG', 'DAU', 'DAUMO') and YEAR(date) = " + nam + " and MONTH(date) = " + thang;
+                query = "select MONTH(fa.date) as Thang, YEAR(fa.date) as Nam,e.equipmentId as MaThietBi, "+
+                "equipment_name as TenThietBi, supply_name as LoaiNhienLieu,sum(consumption_value) as "+
+                "LuongTieuThu, unit as DonVi "+
+
+                "from Fuel_activities_consumption fa "+
+
+                "inner "+
+                "join Equipment e on e.equipmentId = fa.equipmentId "+
+
+          "inner "+
+                "join Supply s on s.supply_id = fa.fuel_type "+
+                "where s.supply_name like N'%Xăng%' and s.unit like 'L' and Month(fa.date) = "+thang+" and Year(fa.date) = "+nam+""+
+
+                "group by MONTH(fa.date) , YEAR(fa.date) ,e.equipmentId ,"+
+                "equipment_name, supply_name,consumption_value, unit";
             }
             if (type == "quarter")
             {
@@ -303,20 +323,34 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 {
                     quy = " (10,11,12) ";
                 }
-                query = "select MONTH(date) as Thang, YEAR(date) as Nam,c.equipmentId as MaThietBi, " +
-                "equipment_name as TenThietBi, supply_name as LoaiNhienLieu,consumption_value as " +
-                "LuongTieuThu, unit as DonVi from Fuel_activities_consumption a , Supply b, Equipment c " +
-                "where a.fuel_type=b.supply_id and a.equipmentId =c.equipmentId " +
-                "and fuel_type in ('XANG', 'DAU', 'DAUMO') and YEAR(date) = " + nam + " and Month(date) in "+quy;
+                query = "select MONTH(fa.date) as Thang, YEAR(fa.date) as Nam,e.equipmentId as MaThietBi, " +
+                "equipment_name as TenThietBi, supply_name as LoaiNhienLieu,sum(consumption_value) as " +
+                "LuongTieuThu, unit as DonVi " +
+
+                "from Fuel_activities_consumption fa " +
+
+                "inner " +
+                "join Equipment e on e.equipmentId = fa.equipmentId " +
+
+          "inner " +
+                "join Supply s on s.supply_id = fa.fuel_type " +
+                "where s.supply_name like N'%Xăng%' and s.unit like 'L' and Month(fa.date) in " + quy + " and Year(fa.date) = " + nam + "" +
+
+                "group by MONTH(fa.date) , YEAR(fa.date) ,e.equipmentId ," +
+                "equipment_name, supply_name,consumption_value, unit";
             }
             if (type == "year")
             {
                 int nam = Convert.ToInt32(year);
-                query = "select MONTH(date) as Thang, YEAR(date) as Nam,c.equipmentId as MaThietBi, " +
-                "equipment_name as TenThietBi, supply_name as LoaiNhienLieu,consumption_value as " +
-                "LuongTieuThu, unit as DonVi from Fuel_activities_consumption a , Supply b, Equipment c " +
-                "where a.fuel_type=b.supply_id and a.equipmentId =c.equipmentId " +
-                "and fuel_type in ('XANG', 'DAU', 'DAUMO') and YEAR(date) = " + nam;
+                query = "select MONTH(date) as Thang, YEAR(date) as Nam,e.equipmentId as MaThietBi, "+
+                            "equipment_name as TenThietBi, supply_name as LoaiNhienLieu,sum(consumption_value) as "+
+                            "LuongTieuThu, unit as DonVi "+
+				            "from Fuel_activities_consumption fa "+
+                            "inner join Equipment e on e.equipmentId = fa.equipmentId "+
+                            "inner join Supply s on s.supply_id = fa.fuel_type "+
+                            "where s.supply_name like N'%Xăng%' and  s.unit like 'L' and YEAR(date) = "+nam+""+
+				            "group by MONTH(date) , YEAR(date) ,e.equipmentId ,"+
+                            "equipment_name, supply_name,consumption_value, unit";
             }
 
             return query;

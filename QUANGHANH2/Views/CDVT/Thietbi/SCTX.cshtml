@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "SCTX";
-    if (Session["departID"].ToString().Contains("PX"))
+    if (Session["departName"].ToString().Contains("Phân xưởng"))
     {
         Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
     }
@@ -88,13 +88,9 @@
                                 <th></th>
                             </tr>
                         </thead>
-
                     </table>
-
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>
@@ -136,6 +132,7 @@
                         <th>TT</th>
                         <th>Mã thiết bị vật tư </th>
                         <th>Tên thiết bị vật tư (Mã hiệu - quy cách)</th>
+                        <th>Số lượng còn</th>
                         <th>ĐVT</th>
                         <th>Số lượng sử dụng</th>
 
@@ -147,6 +144,7 @@
                         <td id="dem1">1</td>
                         <td><input list="supplyID" type="text" class="form-control" placeholder="Mã thiết bị vật tư" id="supplyid_add1" onchange="searchMaThietBiVatTuAdd(this)" /></td>
                         <td><input type="text" class="form-control" placeholder="Tên thiết bị vật tư" id="supplyname_add1" readonly /></td>
+                        <td><input type="text" class="form-control" placeholder="Số lượng còn" id="remaining_add1" readonly /></td>
                         <td><input type="text" class="form-control" placeholder="ĐVT" id="unit_add1" readonly /></td>
                         <td><input type="number" class="form-control" placeholder="Số lượng sử dụng" id="used1" /></td>
 
@@ -304,11 +302,11 @@
             dem1 = $("#dem1").text()
             $("#them").click(function () {
                 dem++;
-                $("#supplyMaintain_edit").append("<tr><td>" + dem + "</td><td><input list='supplyID' type='text' class='form-control' id='supplyid_edit" + dem + "' placeholder='Mã thiết bị vật tư' onchange='searchMaThietBiVatTu(this)'/><input type='hidden' class='form-control' id='maintaindetailid_edit" + dem + "' placeholder='' /></td><td><input type='text' class='form-control' id='supplyname_edit" + dem + "' placeholder='Tên thiết bị vật tư' readonly/><input type='hidden' class='form-control' id='maintainid_edit' placeholder='Mã thiết bị vật tư' /></td><td><input type='text' class='form-control'id='unit_edit" + dem + "' placeholder='ĐVT' readonly /></td><td><input type='number' class='form-control' id='used_edit" + dem + "' placeholder='Số lượng sử dụng' /></td><td><input type='number' class='form-control' id='thuhoi_edit" + dem + "' placeholder='Số lượng thu hồi' /></td></tr>");
+                $("#supplyMaintain_edit").append("<tr><td>" + dem + "</td><td><input list='supplyID' type='text' class='form-control' id='supplyid_edit" + dem + "' placeholder='Mã thiết bị vật tưxD' onchange='searchMaThietBiVatTu(this)'/><input type='hidden' class='form-control' id='maintaindetailid_edit" + dem + "' placeholder='' /></td><td><input type='text' class='form-control' id='supplyname_edit" + dem + "' placeholder='Tên thiết bị vật tư' readonly/><input type='hidden' class='form-control' id='maintainid_edit' placeholder='Mã thiết bị vật tư' /></td><td><input type='text' class='form-control'id='unit_edit" + dem + "' placeholder='ĐVT' readonly /></td><td><input type='number' class='form-control' id='used_edit" + dem + "' placeholder='Số lượng sử dụng' /></td><td><input type='number' class='form-control' id='thuhoi_edit" + dem + "' placeholder='Số lượng thu hồi' /></td></tr>");
             });
             $("#them1").click(function () {
                 dem1++;
-                $("#addMaintain").append("<tr><td>" + dem1 + "</td><td><input  list='supplyID' type='text' class='form-control' id='supplyid_add" + dem1 + "' placeholder='Mã thiết bị vật tư' onchange='searchMaThietBiVatTuAdd(this)' /></td><td><input type='text' class='form-control' id='supplyname_add" + dem1 + "' placeholder='Tên thiết bị vật tư' readonly/></td><td><input type='text' class='form-control' id='unit_add" + dem1 + "' placeholder='ĐVT' readonly/></td><td><input type='number' class='form-control' id='used" + dem1 + "' placeholder='Số lượng sử dụng' /></td><td><input type='number' class='form-control' id='thuhoi" + dem1 + "' placeholder='Số lượng thu hồi' /></td></tr>");
+                $("#addMaintain").append("<tr><td>" + dem1 + "</td><td><input  list='supplyID' type='text' class='form-control' id='supplyid_add" + dem1 + "' placeholder='Mã thiết bị vật tư' onchange='searchMaThietBiVatTuAdd(this)' /></td><td><input type='text' class='form-control' id='supplyname_add" + dem1 + "' placeholder='Tên thiết bị vật tư' readonly/></td><td><input type='text' class='form-control' placeholder='Số lượng còn' id='remaining_add" + dem1 + "'readonly /></td><td><input type='text' class='form-control' id='unit_add" + dem1 + "' placeholder='ĐVT' readonly/></td><td><input type='number' class='form-control' id='used" + dem1 + "' placeholder='Số lượng sử dụng' /></td><td><input type='number' class='form-control' id='thuhoi" + dem1 + "' placeholder='Số lượng thu hồi' /></td></tr>");
             });
 
             $("#exit").click(function () {
@@ -492,15 +490,16 @@
                 }
             });
         }
-         function dateFormat2(d) {
-        var dateString = d.substr(6);
-        var currentTime = new Date(parseInt(dateString));
-        var month = currentTime.getMonth() + 1;
-        var day = currentTime.getDate();
-        var year = currentTime.getFullYear();
-        var date = day + "/" + month + "/" + year;
-        return (date);
-    }
+
+        function dateFormat2(d) {
+            var dateString = d.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            return (date);
+        }
 
         function setMaintainID(maintainid) {
             document.getElementById("maintainid").value = maintainid;
@@ -511,29 +510,28 @@
             var tmp = {
                 supplyid: txtMaThietBiVatTu.value
             };
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/thiet-bi/sctx/returnsupplymaintainName",
+                data: JSON.stringify(tmp),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    document.getElementById("supplyname_edit" + txtMaThietBiVatTu.id.slice(-1)).value = r.supply_name;
+                    document.getElementById("unit_edit" + txtMaThietBiVatTu.id.slice(-1)).value = r.unit;
 
-                $.ajax({
-                    type: "POST",
-                    url: "/phong-cdvt/thiet-bi/sctx/returnsupplymaintainName",
-                    data: JSON.stringify(tmp),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (r) {
-                        document.getElementById("supplyname_edit" + txtMaThietBiVatTu.id.slice(-1)).value = r.supply_name;
-                        document.getElementById("unit_edit" + txtMaThietBiVatTu.id.slice(-1)).value = r.unit;
-
-                    }, error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $('#pre-load').hide();
-                        //alert("fail");
-
-                    }
-                });
-
+                }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    //alert("fail");
+                }
+            });
         }
+
         //get supply name and unit in add maintaindeatail
         function searchMaThietBiVatTuAdd(txtMaThietBiVatTuAdd) {
             var tmp = {
-                supplyid: txtMaThietBiVatTuAdd.value
+                supplyid: txtMaThietBiVatTuAdd.value,
+                equipmentId: $("#equipmentID-add").val()
             };
             $.ajax({
                 type: "POST",
@@ -544,7 +542,7 @@
                 success: function (r) {
                     document.getElementById("supplyname_add" + txtMaThietBiVatTuAdd.id.slice(-1)).value = r.supply_name;
                     document.getElementById("unit_add" + txtMaThietBiVatTuAdd.id.slice(-1)).value = r.unit;
-
+                    document.getElementById("remaining_add" + txtMaThietBiVatTuAdd.id.slice(-1)).value = r.remain_quantity;
                 }, error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $('#pre-load').hide();
                     //alert("co");
@@ -594,10 +592,9 @@
                     var i = 0;
                     $("#addMaintain TBODY TR").each(function () {
                         i++;
-
                         document.getElementById("supplyid_add" + i).value = '';
                         document.getElementById("thuhoi" + i).value = '';
-
+                        document.getElementById("remaining_add" + i).value = '';
                         document.getElementById("used" + i).value = '';
                         document.getElementById("supplyname_add" + i).value = '';
                         document.getElementById("unit_add" + i).value = '';
@@ -620,6 +617,44 @@
 
             });
         }
+
+        //update remaining quantity if changing.
+        $(document).ready(function () {
+            $('#equipmentID-add').focusout(function () {
+                var maintain = new Array();
+                var emptySupplyInput = true;
+                var i = 0;
+                $("#addMaintain TBODY TR").each(function () {
+                    i++;
+                    var maintainCar = {};
+                    maintainCar.supplyid = document.getElementById("supplyid_add" + i).value;
+                    if (maintainCar.supplyid != null && maintainCar.supplyid != "") {
+                        emptySupplyInput = false;
+                    }
+                    maintain.push(maintainCar);
+                });
+                var data = {
+                    maintain: maintain,
+                    equipmentId: document.getElementById("equipmentID-add").value,
+                };
+                //Send the JSON array to Controller using AJAX.
+                if (!emptySupplyInput) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/phong-cdvt/thiet-bi/sctx/UpdateRemaining",
+                        data: JSON.stringify(data),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            for (var i = 0; i < response.length; i++) {
+                                document.getElementById("remaining_add" + (i + 1)).value = response[i];
+                            }
+                        }
+                    });
+                }
+            })
+        });
+
         var equipmentID;
         //danh sach vat tu
         $(document).on("click", ".open-EditModal", function () {
@@ -643,11 +678,10 @@
 
                             $('<td>').html('<input type="text" class="form-control" placeholder="Tên thiết bị vật tư" id="supplyname_edit' + i + '" value="' + item.supply_name + '" readonly/>'),
                             $('<td>').html('<input type="text" class="form-control" placeholder="Đơn vị" id="unit_edit' + i + '" value="' + item.unit + '" readonly/>'),
+                            //$('<td>').html('<input type="text" class="form-control" placeholder="Số lượng còn" id="remaining_edit' + i + '" value="' + item.unit + '" readonly/>'),
                             $('<td>').html('<input type="text" class="form-control" placeholder="Số lượng sử dụng" id="used_edit' + i + '" value="' + item.used + '"/>'),
-                             $('<td>').html('<input type="text" class="form-control" placeholder="Số lượng thu hồi" id="thuhoi_edit' + i + '" value="' + item.thuhoi + '"/>'),
+                            $('<td>').html('<input type="text" class="form-control" placeholder="Số lượng thu hồi" id="thuhoi_edit' + i + '" value="' + item.thuhoi + '"/>'),
                         );
-
-                       
                         $tr.appendTo('#supplyMaintain_edit TBODY ');
                     }
 
@@ -731,8 +765,7 @@
                 var row = $(this);
                 var maintainCar = {};
                 maintainCar.supplyid = document.getElementById("supplyid_edit" + i).value;
-             
-               maintainCar.used =$('#used_edit' + i).val();
+                maintainCar.used =$('#used_edit' + i).val();
                 maintainCar.thuhoi = document.getElementById("thuhoi_edit" + i).value;
                 maintainCar.maintain_detail_id = document.getElementById("maintaindetailid_edit" + i).value;
                 maintainCar.maintain_id = document.getElementById("maintainid").value;

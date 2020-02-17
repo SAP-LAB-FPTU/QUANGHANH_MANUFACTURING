@@ -1,6 +1,6 @@
 ﻿using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
-using QUANGHANHCORE.Controllers.PX.PXKT;
+using QUANGHANHCORE.Controllers.Phanxuong.phanxuong;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -110,7 +110,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     sql = @"select a.department_id, a.QL, (a.KT + a.CD) as Tong, a.KT, a.CD, 0 as 'HSTT', 
                                 a.dilam, (a.vld + a.om + a.khac + a.phep) as vang, 
                                 a.vld,a.om,a.phep,a.khac, 
-                                (case when (a.KT+ a.CD) = 0 then 0 else round(Convert(float,(a.KT + a.CD - a.tong_nghidai)-(a.vld + a.om + a.khac + a.phep))/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as tile, 
+                                (case when (a.KT+ a.CD) = 0 then 0 else round(Convert(float,a.dilam)/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as tile, 
                                 b.than, b.metlo, b.xen,b.diemluong,a.tong_nghidai,a.nghidai_om,a.nghidai_thld,a.nghidai_vld 
                                 from 
                                 (select a.department_id, a.QL, a.KT, a.CD, 
@@ -130,7 +130,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id 
                                 join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec 
                                 join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec 
-                                where a.department_type like N'%chính%' and a.department_id like '%PXDL%' or a.department_id like '%PXVT%' or a.department_id like '%PXKT%' 
+                                where a.department_type like N'%chính%' and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%') 
                                 group by a.department_id) 
                                  as a left outer join Header_DiemDanh_NangSuat_LaoDong h 
                                 on a.department_id = h.MaPhongBan left outer join DiemDanh_NangSuatLaoDong d 
@@ -186,8 +186,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         "(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
                         "from\n" +
                         "(select * from Department where department_id in\n" +
-                        "('PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11',\n" +
-                        "'PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXVT1', 'PXVT2')) tb1\n" +
+                        "('KT1', 'KT2', 'KT3', 'KT4', 'KT5', 'KT6', 'KT7', 'KT8', 'KT9', 'KT10', 'KT11',\n" +
+                        "'ĐL3', 'ĐL5', 'ĐL7', 'ĐL8', 'VTL1', 'VTL2')) tb1\n" +
                         "left join\n" +
                         "(select hd.MaPhongBan, count(d.MaNV) as soluong from Header_DiemDanh_NangSuat_LaoDong hd inner\n" +
                          "                                               join DiemDanh_NangSuatLaoDong d\n" +
@@ -332,11 +332,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         sql = @"select a.department_id, a.QL, (a.KT + a.CD) as Tong, a.KT, a.CD, 0 as 'HSTT', 
                                 a.dilam, (a.vld + a.om + a.khac + a.phep) as vang, 
                                 a.vld,a.om,a.phep,a.khac, 
-                                (case when (a.KT+ a.CD) = 0 then 0 else round(Convert(float,(a.KT + a.CD - a.tong_nghidai)-(a.vld + a.om + a.khac + a.phep))/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as tile, 
+                                (case when (a.KT+ a.CD) = 0 then 0 else round(Convert(float,a.dilam)/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as tile, 
                                 b.than, b.metlo, b.xen,b.diemluong,a.tong_nghidai,a.nghidai_om,a.nghidai_thld,a.nghidai_vld 
                                 from 
                                 (select a.department_id, a.QL, a.KT, a.CD, 
-                                sum(case when d.DiLam = 1 and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as dilam, 
+                                sum(case when d.DiLam = 1 and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'dilam', 
                                 sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Vô lý do' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'vld', 
                                 sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Ốm' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'om', 
                                 sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Nghỉ phép' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'phep', 
@@ -352,7 +352,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id 
                                 join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec 
                                 join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec 
-                                where a.department_type like N'%chính%' and a.department_id != 'PXST' and a.department_id != 'PXLT' 
+                                where a.department_type like N'%chính%' and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%') 
                                 group by a.department_id) 
                                  as a left outer join Header_DiemDanh_NangSuat_LaoDong h 
                                 on a.department_id = h.MaPhongBan left outer join DiemDanh_NangSuatLaoDong d 
@@ -408,8 +408,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             "(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +
                             "from\n" +
                             "(select * from Department where department_id in\n" +
-                            "('PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11',\n" +
-                            "'PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXVT1', 'PXVT2')) tb1\n" +
+                            "('KT1', 'KT2', 'KT3', 'KT4', 'KT5', 'KT6', 'KT7', 'KT8', 'KT9', 'KT10', 'KT11',\n" +
+                            "'ĐL3', 'ĐL5', 'ĐL7', 'ĐL8', 'VTL1', 'VTL2')) tb1\n" +
                             "left join\n" +
                             "(select hd.MaPhongBan, count(d.MaNV) as soluong from Header_DiemDanh_NangSuat_LaoDong hd inner\n" +
                              "                                               join DiemDanh_NangSuatLaoDong d\n" +
@@ -541,13 +541,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
                         BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
                         ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
-                        DuBaoNguyCo = i.DuBaoNguyCo,
-                        HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
+                        //DuBaoNguyCo = i.DuBaoNguyCo,
+                        //HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
                         LuongSauDuyet = i.DiemLuong.ToString(),
                         LuongTruocDuyet = i.DiemLuong.ToString(),
                         NoiDungCongViec = db.Departments.First().department_name,
-                        SoThe = i.MaNV,
-                        YeuCauBPKTAT = i.GiaiPhapNguyCo
+                        SoThe = i.MaNV
+                        //YeuCauBPKTAT = i.GiaiPhapNguyCo
                     };
                     customNSLDs.Add(cus);
                     stt++;

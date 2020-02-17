@@ -18,7 +18,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 {
     public class LichsuController : Controller
     {
-        [Auther(RightID = "7,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "7,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/cap-nhat-hoat-dong")]
         public ActionResult Index()
         {
@@ -26,7 +26,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             string department_id = Session["departID"].ToString();
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<fuelDB> listEQ; List<Supply> listSupply;
-            if (department_id.Contains("PX"))
+            if (Session["departName"].ToString().Contains("Phân xưởng"))
             {
                  listEQ = db.Database.SqlQuery<fuelDB>("select equipmentId , equipment_name from Equipment where department_id = @department_id", new SqlParameter("department_id", department_id)).ToList();
                  listSupply = db.Supplies.ToList();
@@ -76,7 +76,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 string from_clause = " from Activity a ,Equipment e "
                                     + " where e.equipmentId = a.equipmentId AND a.equipmentId LIKE @equipmentId "
                                     + " AND e.equipment_name LIKE @equipment_name AND a.[date] between @timeFrom AND @timeTo ";
-                if (department_id.Contains("PX"))
+                if (Session["departName"].ToString().Contains("Phân xưởng"))
                 {
                     from_clause += " AND e.department_id = @department_id";
                 }
@@ -142,7 +142,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 string from_clause = " from Fuel_activities_consumption f, Equipment e , Supply s "
                                     + "where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type AND f.equipmentId LIKE @equipmentId "
                                     + " AND e.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo ";
-                if (department_id.Contains("PX"))
+                if (Session["departName"].ToString().Contains("Phân xưởng"))
                 {
                     from_clause += " AND e.department_id = @department_id";
                 }
@@ -170,18 +170,93 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 return new HttpStatusCodeResult(400);
             }
         }
-      
-        public void EditSupply_duphong(String supplyid, int quantity)
+
+        private void EditSupply_duphong(string oldEquipmentId, string oldSupplyid , int oldQuantity ,string newEquipmentId, string newSupplyid, int newQuantity)
         {
+            //find old supplies by device.
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            Supply_DuPhong duphong = db.Supply_DuPhong.Where(x => x.supply_id == supplyid).FirstOrDefault();
-            if (duphong != null)
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
-                duphong.quantity -= quantity;
-                db.Entry(duphong).State = EntityState.Modified;
+                try
+                {
+                    //if equipmentId and supplyId doesn't change after editing.
+                    if (oldEquipmentId == newEquipmentId && oldSupplyid == newSupplyid)
+                    {
+                        Supply_DuPhong duphong = db.Supply_DuPhong.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
+                        if (duphong != null)
+                        {
+                            duphong.quantity += oldQuantity;
+                            duphong.quantity -= newQuantity;
+                            db.Entry(duphong).State = EntityState.Modified;
+                        }
+                    } else
+                    {
+                        //update quantity of old and new supplies remaining by each eqID.
+                        Supply_DuPhong oldRecord = db.Supply_DuPhong.Where(x => (x.supply_id == oldSupplyid && x.equipmentId == oldEquipmentId)).FirstOrDefault();
+                        Supply_DuPhong newRecord = db.Supply_DuPhong.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
+                        oldRecord.quantity += oldQuantity;
+
+                        // if new doesn't exist => create new with quantity = -newQuantity
+                        if (newRecord == null)
+                        {
+                            Supply_DuPhong sp = new Supply_DuPhong()
+                            {
+                                supply_id = newSupplyid,
+                                equipmentId = newEquipmentId,
+                                quantity = -newQuantity
+                            };
+                            db.Supply_DuPhong.Add(sp);
+                        } else
+                        {
+                            newRecord.quantity -= newQuantity;
+                        }                        
+                    }
+                    db.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                }
             }
-            db.SaveChanges();
         }
+
+        private void AddSupply_duphong(string newEquipmentId, string newSupplyid, int newQuantity)
+        {
+            //find old supplies by device.
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    Supply_DuPhong duphong = db.Supply_DuPhong.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
+                    //if existed
+                    if (duphong != null)
+                    {
+                        duphong.quantity -= newQuantity;
+                        db.Entry(duphong).State = EntityState.Modified;
+                    }
+                    //if doesn't exist before
+                    else
+                    {
+                        Supply_DuPhong sp = new Supply_DuPhong()
+                        {
+                            supply_id = newSupplyid,
+                            equipmentId = newEquipmentId,
+                            quantity = -newQuantity
+                        };
+                        db.Supply_DuPhong.Add(sp);
+                    }
+                    db.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                }
+            }
+        }
+
         //get key of activity to edit
         [Route("phong-cdvt/cap-nhat-hoat-dong/getkeydata-acti")]
         [HttpPost]
@@ -219,12 +294,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             {
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
                 fuelDB activity = DBContext.Database.SqlQuery<fuelDB>(
-                    "select f.fuelId, f.[date], f.equipmentId, f.fuel_type, e.equipment_name , s.supply_name , f.consumption_value , s.unit " +
-                    " from Fuel_activities_consumption f, Equipment e , Supply s" +
-                    " where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type and f.fuelId = @fuelid " +
+                    "select f.fuelId, f.[date], f.equipmentId, f.fuel_type, e.equipment_name , s.supply_name , f.consumption_value , s.unit ,sd.quantity " +
+                    " from Fuel_activities_consumption f, Equipment e , Supply s , Supply_DuPhong sd" +
+                    " where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type and sd.supply_id = s.supply_id and sd.equipmentId = e.equipmentId and f.fuelId = @fuelid " +
                     " order by f.[date] desc  ", new SqlParameter("fuelid", fuelid)).First();
                 activity.stringDate = activity.date.ToString("dd/MM/yyyy");
-
                 return Json(activity);
             }
             catch (Exception)
@@ -235,7 +309,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         }
 
         //edit activity
-        [Auther(RightID = "9,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "9,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/cap-nhat-hoat-dong/edit-activity")]
         [HttpPost]
         public ActionResult Edit(float quantity, string activity_name, int hours_per_day, string date1, String equipmentId, int activityid)
@@ -249,7 +323,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     //need to check equipment of each department.
                     string department_id = Session["departID"].ToString();
                     //Equipment i = DBContext.Equipments.Find(equipmentId);
-                    Equipment i = DBContext.Equipments.Where(x => (x.department_id == department_id &&  x.equipmentId == equipmentId)).First();
+                    Equipment i = DBContext.Equipments.Where(x => (x.department_id == department_id &&    x.equipmentId == equipmentId)).First();
 
                     //Activity q = DBContext.Activities.Where(x => x.activityid == activityid).SingleOrDefault();
                     Activity q = DBContext.Activities.Find(activityid);
@@ -309,7 +383,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         }
 
         //edit fuel
-        [Auther(RightID = "9,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "97,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/cap-nhat-hoat-dong/edit-fuel")]
         [HttpPost]
         public ActionResult EditFuel(int consumption_value, string fuel_type, string date1, String equipmentId, int fuelid)
@@ -322,22 +396,22 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     // only taken by each department.
                     string department_id = Session["departID"].ToString();
 
-                    //Equipment i = DBContext.Equipments.Find(equipmentId);
                     Equipment i = DBContext.Equipments.Where(x => (x.department_id == department_id && x.equipmentId == equipmentId)).First();
 
                     Supply s = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id=@supply_id", new SqlParameter("supply_id", fuel_type)).First();
                     fuelDB f = DBContext.Database.SqlQuery<fuelDB>("select * from Fuel_activities_consumption where fuelid=@fuelid", new SqlParameter("fuelid", fuelid)).First();
                     string date = DateTime.ParseExact(date1, "dd/MM/yyyy", null).ToString("MM-dd-yyyy");
-                    //AddSupply_tieuhao(DateTime.ParseExact(date1, "dd/MM/yyyy", null), fuel_type, department_id, consumption_value);
-                    EditSupply_duphong(fuel_type, consumption_value);
+
+                    
                     DBContext.Database.ExecuteSqlCommand("UPDATE Fuel_activities_consumption  set fuel_type =@fuel_type, [date] =@date1, consumption_value = @consumption_value, equipmentId = @equipmentId where fuelId= @fuelid",
                         new SqlParameter("fuel_type", fuel_type), new SqlParameter("date1", DateTime.ParseExact(date1, "dd/MM/yyyy", null)), new SqlParameter("consumption_value", consumption_value), new SqlParameter("equipmentId", equipmentId), new SqlParameter("fuelId", fuelid));
 
-                    //get old and new.
-                    
 
-                    //get update amount of old.
-                  
+                    //edit supply du phong.
+                    int oldQuantity = f.consumption_value;
+                    string oldEquipmentId = f.equipmentId;
+                    string oldSupplyId = f.fuel_type;
+                    EditSupply_duphong(oldEquipmentId ,oldSupplyId, oldQuantity  ,equipmentId, fuel_type, consumption_value);
 
                     DBContext.SaveChanges();
                     transaction.Commit();
@@ -362,7 +436,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         //auto get EquipmentName after entering EquipmentID.
         [Route("phong-cdvt/cap-nhat-hoat-dong/getEQname")]
         [HttpPost]
-        public JsonResult returnname(string id)
+        public ActionResult returnname(string id)
         {
             try
             {
@@ -373,12 +447,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             }
             catch (Exception)
             {
-                return Json("Mã thiết bị không tồn tại", JsonRequestBehavior.AllowGet);
+                return new HttpStatusCodeResult(400);
             }
         }
 
         //Add activity
-        [Auther(RightID = "8,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "8,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/cap-nhat-hoat-dong/add-acti")]
         [HttpPost]
         public ActionResult AddActivity(float quantity, string activity_name, int hours_per_day, string date1, String equipmentId)
@@ -455,26 +529,47 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 
         [Route("phong-cdvt/cap-nhat-hoat-dong/returnsupplyName")]
         [HttpPost]
-        public JsonResult returnsupplyname(String fuel_type)
+        public JsonResult returnsupplyname(string fuel_type, string equipment_id)
         {
-            try
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                var equipment = db.Supplies.Where(x => (x.supply_id == fuel_type)).SingleOrDefault();
-                String item = equipment.supply_name + "^" + equipment.unit;
-                return Json(item, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json("Mã nhien lieu không tồn tại", JsonRequestBehavior.AllowGet);
+                try
+                {
+                    //if equipment doesn't exist  => catch exception to show error.
+                    var equipment = db.Supplies.Where(x => (x.supply_id == fuel_type)).First();
+
+                    //Last update : 11/2/2020 
+                    //check Supply existed in Backup Supplies.
+
+                    var remaining = db.Supply_DuPhong.Where(x => (x.supply_id == fuel_type && x.equipmentId == equipment_id)).SingleOrDefault();
+                    string item;
+                    //add new if it doesn't exist before.
+                    if (remaining == null)
+                    {
+                        item = equipment.supply_name + "^" + equipment.unit + "^" + 0;
+                    }
+                    else
+                    {
+                        item = equipment.supply_name + "^" + equipment.unit + "^" + remaining.quantity;
+                    }
+                    db.SaveChanges();
+                    transaction.Commit();
+                    return Json(item, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    return Json("Mã nhiên liệu không tồn tại", JsonRequestBehavior.AllowGet);
+                }
             }
         }
 
         //Add fuel
-        [Auther(RightID = "8,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "8,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/cap-nhat-hoat-dong/add-fuel")]
         [HttpPost]
-        public ActionResult AddFuel(int consumption_value, string fuel_type, string date1, String equipmentId)
+        public ActionResult AddFuel(int consumption_value, string fuel_type, string date1, string equipmentId)
         {
             string output = "";
 
@@ -488,21 +583,20 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 try
                 {
                     //check eq in department.
-                  
-                    EditSupply_duphong(fuel_type, consumption_value);
+                    //Only add equipment in deparment of user.
                     Equipment e = DBContext.Equipments.Where(x => (x.department_id == department_id && x.equipmentId == equipmentId)).First();
-                    //Equipment e = DBContext.Equipments.Find(equipmentId);
                     Supply s = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id=@fueltype",new SqlParameter("fueltype",fuel_type)).First();
                     
                     DateTime date = DateTime.ParseExact(date1, "dd/MM/yyyy", null);
                    
                     Fuel_activities_consumption f = DBContext.Database.SqlQuery<Fuel_activities_consumption>("select * from Fuel_activities_consumption " +
                         "where fuel_type=@fueltype and equipmentId=@equipmentid and date=@date", new SqlParameter("fueltype", fuel_type),new SqlParameter("equipmentid",equipmentId),new SqlParameter("date",date)).FirstOrDefault();
+                    
+                    //Handling old equipment and supplies
                     if (f!=null)
                     {
                         f.consumption_value = f.consumption_value + consumption_value;
                         DBContext.Entry(f).State = EntityState.Modified;
-
                     }
                     else
                     {
@@ -515,13 +609,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                             date = DateTime.ParseExact(date1, "dd/MM/yyyy", null)
                         };
                         DBContext.Fuel_activities_consumption.Add(fuel_Activities_Consumption);
-                        DBContext.SaveChanges();
                     }
 
-                    //Update : 
-                    //get new
-                    //get update amount of new.
-                    
+                    AddSupply_duphong(equipmentId, fuel_type, consumption_value);
 
                     DBContext.SaveChanges();
                     transaction.Commit();
@@ -556,5 +646,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         public String equipment_name { get; set; }
         public String unit { get; set; }
         public String supply_name { get; set; }
+        public int quantity { get; set; }
     }
 }

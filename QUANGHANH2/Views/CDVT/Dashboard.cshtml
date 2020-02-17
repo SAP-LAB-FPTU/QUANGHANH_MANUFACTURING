@@ -214,6 +214,7 @@
             <div class="card">
                 <div class="card-content row">
                     <div class="modal-body">
+                        <h3></h3>
                         <table id="contentTB" class="table-bordered">
                             <thead>
                                 <tr>
@@ -229,39 +230,11 @@
                 </div>
             </div>
         </div>
-        <input type="hidden" id="type" />
         <script src="~/assets/Custom css/Camera/pie-doghnut.js" charset="utf-8"></script>
         <script src="~/assets/Custom css/Camera/bar.js" charset="utf-8"></script>
         <script>
             var done, notdone;
             var kodaydu, daydu, ko;
-            $("#Fbut").click(function () {
-                $.ajax({
-                    type: "POST",
-                    url: "/camera/getList",
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.success == false) {
-                            errorAlert('Lỗi', data.message);
-                        }
-                        else {
-                            $("#contentTB_body").empty();
-                            for (i = 0; i < data.listDB.length; i++) {
-                                //$("#contentTB_body").append("<tr><td>abc</td></tr>")
-                                $("#contentTB_body").append("<tr><td>" + data.listDB[i].room_name + "</td><td>" + data.listDB[i].department_name + "</td><td>" + data.listDB[i].camera_available + "/" + data.listDB[i].camera_quantity + "</td></tr>");
-
-                            }
-                        }
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        errorAlert('Lỗi', 'Có lỗi xảy ra');
-                    },
-                    data: {
-                        type: $("#type").val()
-                    },
-                    cache: false
-                })
-            });
             $("#txtmonth").datepicker({
                 onSelect: function () {
                     $.ajax({

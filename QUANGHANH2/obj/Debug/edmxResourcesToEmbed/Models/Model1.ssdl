@@ -9,8 +9,6 @@
     <Property Name="acceptance_date" Type="date" />
     <Property Name="documentary_id" Type="int" Nullable="false" />
     <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
-    <Property Name="acceptance_result" Type="nvarchar" MaxLength="150" />
-    <Property Name="documentary_process_result" Type="nvarchar" MaxLength="150" />
   </EntityType>
   <EntityType Name="Account">
     <Key>
@@ -20,8 +18,9 @@
     <Property Name="Name" Type="nvarchar" MaxLength="50" />
     <Property Name="Username" Type="nvarchar" MaxLength="50" />
     <Property Name="Password" Type="nvarchar" MaxLength="50" />
-    <Property Name="Position" Type="nvarchar" MaxLength="50" />
-    <Property Name="NVID" Type="nvarchar" MaxLength="50" />
+    <Property Name="Position" Type="nvarchar" MaxLength="100" />
+    <Property Name="Role" Type="int" />
+    <Property Name="NVID" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="CDVT" Type="bit" Nullable="false" />
     <Property Name="TCLD" Type="bit" Nullable="false" />
     <Property Name="BGD" Type="bit" Nullable="false" />
@@ -40,6 +39,7 @@
     <Property Name="AT" Type="bit" Nullable="false" />
     <Property Name="KCM" Type="bit" Nullable="false" />
     <Property Name="ADMIN" Type="bit" Nullable="false" />
+    <Property Name="PXCKSC" Type="bit" />
   </EntityType>
   <EntityType Name="Account_Right">
     <Key>
@@ -71,6 +71,22 @@
     <Property Name="hours_per_day" Type="float" Nullable="false" />
     <Property Name="quantity" Type="float" Nullable="false" />
   </EntityType>
+  <EntityType Name="BacLuong">
+    <Key>
+      <PropertyRef Name="MaBacLuong" />
+    </Key>
+    <Property Name="MaBacLuong" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MucBacLuong" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="BacLuong_ThangLuong_MucLuong">
+    <Key>
+      <PropertyRef Name="MaBacLuong_ThangLuong_MucLuong" />
+    </Key>
+    <Property Name="MaBacLuong_ThangLuong_MucLuong" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MaBacLuong" Type="int" />
+    <Property Name="MaThangLuong" Type="int" />
+    <Property Name="MucLuong" Type="nvarchar" MaxLength="100" />
+  </EntityType>
   <EntityType Name="BangCap_GiayChungNhan">
     <Key>
       <PropertyRef Name="MaBangCap_GiayChungNhan" />
@@ -94,6 +110,51 @@
     <Property Name="phanxuong_id" Type="nvarchar" MaxLength="150" />
     <Property Name="lock" Type="bit" />
   </EntityType>
+  <EntityType Name="Camera_Acceptance">
+    <Key>
+      <PropertyRef Name="room_id" />
+      <PropertyRef Name="documentary_id" />
+    </Key>
+    <Property Name="room_id" Type="int" Nullable="false" />
+    <Property Name="acceptance_camera_quantity" Type="int" Nullable="false" />
+    <Property Name="documentary_id" Type="int" Nullable="false" />
+    <Property Name="acceptance_date" Type="date" />
+    <Property Name="cameraStatus" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CameraIncident">
+    <Key>
+      <PropertyRef Name="incident_id" />
+    </Key>
+    <Property Name="incident_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="room_id" Type="int" Nullable="false" />
+    <Property Name="incident_camera_quantity" Type="int" Nullable="false" />
+    <Property Name="start_time" Type="datetime" Nullable="false" />
+    <Property Name="end_time" Type="datetime" />
+    <Property Name="reason" Type="nvarchar" MaxLength="150" />
+    <Property Name="disk_saveable" Type="bit" Nullable="false" />
+    <Property Name="disk_status" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Car">
+    <Key>
+      <PropertyRef Name="equipmentId" />
+    </Key>
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="sokhung" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="somay" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="GPS" Type="bit" />
+  </EntityType>
+  <EntityType Name="CarGPS">
+    <Key>
+      <PropertyRef Name="equipmentId" />
+      <PropertyRef Name="date" />
+      <PropertyRef Name="session" />
+    </Key>
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="date" Type="date" Nullable="false" />
+    <Property Name="session" Type="int" Nullable="false" />
+    <Property Name="available" Type="bit" Nullable="false" />
+    <Property Name="reason" Type="nvarchar" MaxLength="150" />
+  </EntityType>
   <EntityType Name="Category_attribute_value">
     <Key>
       <PropertyRef Name="equipmentId" />
@@ -113,7 +174,7 @@
     <Property Name="MaQuyetDinh" Type="int" Nullable="false" />
     <Property Name="MaNV" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="LoaiChamDut" Type="nvarchar" MaxLength="100" />
-    <Property Name="NgayChamDut" Type="date" Nullable="false" />
+    <Property Name="NgayChamDut" Type="date" />
   </EntityType>
   <EntityType Name="ChiTiet_BangCap_GiayChungNhan">
     <Key>
@@ -134,6 +195,8 @@
     <Property Name="MaNhiemVu" Type="int" Nullable="false" />
     <Property Name="MaChiTiet_NhiemVu_NhanVien" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IsInProcess" Type="bit" Nullable="false" />
+    <Property Name="LanCuoiCapNhat" Type="datetime" />
+    <Property Name="IsUpdated" Type="bit" />
   </EntityType>
   <EntityType Name="ChungChi">
     <Key>
@@ -164,14 +227,32 @@
     <Property Name="ChiTiet" Type="nvarchar" MaxLength="100" />
     <Property Name="MaNganh" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
+  <EntityType Name="CongTacAnToan">
+    <Key>
+      <PropertyRef Name="MaCongTacAnToan" />
+    </Key>
+    <Property Name="MaCongTacAnToan" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ngay" Type="date" />
+    <Property Name="MaPhongBan" Type="nvarchar" MaxLength="150" />
+    <Property Name="GhiChu" Type="nvarchar(max)" />
+    <Property Name="LoaiGhiChu" Type="int" />
+  </EntityType>
   <EntityType Name="CongViec">
     <Key>
       <PropertyRef Name="MaCongViec" />
     </Key>
     <Property Name="MaCongViec" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="TenCongViec" Type="nvarchar" MaxLength="500" />
-    <Property Name="ThangLuong" Type="nvarchar" MaxLength="100" />
     <Property Name="PhuCap" Type="float" />
+    <Property Name="MaThangLuong" Type="int" />
+  </EntityType>
+  <EntityType Name="CongViec_NhomCongViec">
+    <Key>
+      <PropertyRef Name="MaCongViec_NhomCongViec" />
+    </Key>
+    <Property Name="MaCongViec_NhomCongViec" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MaCongViec" Type="int" />
+    <Property Name="MaNhomCongViec" Type="int" />
   </EntityType>
   <EntityType Name="Department">
     <Key>
@@ -198,6 +279,13 @@
     <Property Name="LyDoVangMat" Type="nvarchar" MaxLength="1000" />
     <Property Name="GiaiPhapNguyCo" Type="nvarchar" MaxLength="1000" />
   </EntityType>
+  <EntityType Name="DienCongViec">
+    <Key>
+      <PropertyRef Name="MaDienCongViec" />
+    </Key>
+    <Property Name="MaDienCongViec" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TenDienCongViec" Type="nvarchar" MaxLength="100" />
+  </EntityType>
   <EntityType Name="DieuDong_NhanVien">
     <Key>
       <PropertyRef Name="MaQuyetDinh" />
@@ -206,14 +294,12 @@
     <Property Name="MaQuyetDinh" Type="int" Nullable="false" />
     <Property Name="MaNV" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="LyDoDieuDong" Type="nvarchar" MaxLength="1000" />
-    <Property Name="DonViMoi" Type="nvarchar" MaxLength="100" />
-    <Property Name="ChucVuMoi" Type="nvarchar" MaxLength="100" />
-    <Property Name="BacLuongMoi" Type="nvarchar" MaxLength="100" />
-    <Property Name="MucLuongMoi" Type="float" />
-    <Property Name="DonViCu" Type="nvarchar" MaxLength="100" />
-    <Property Name="ChucVuCu" Type="nvarchar" MaxLength="100" />
-    <Property Name="BacLuongCu" Type="nvarchar" MaxLength="100" />
-    <Property Name="MucLuongCu" Type="float" />
+    <Property Name="MaDonViMoi" Type="nvarchar" MaxLength="150" />
+    <Property Name="MaChucVuMoi" Type="int" />
+    <Property Name="MaDonViCu" Type="nvarchar" MaxLength="150" />
+    <Property Name="MaChucVuCu" Type="int" />
+    <Property Name="MaBacLuong_ThangLuong_MucLuongCu" Type="int" />
+    <Property Name="MaBacLuong_ThangLuong_MucLuongMoi" Type="int" />
   </EntityType>
   <EntityType Name="Documentary">
     <Key>
@@ -221,8 +307,8 @@
     </Key>
     <Property Name="documentary_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="documentary_code" Type="nvarchar" MaxLength="150" />
-    <Property Name="documentary_type" Type="nvarchar" MaxLength="150" Nullable="false" />
-    <Property Name="department_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="documentary_type" Type="int" Nullable="false" />
+    <Property Name="department_id_to" Type="nvarchar" MaxLength="150" />
     <Property Name="date_created" Type="date" Nullable="false" />
     <Property Name="person_created" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="reason" Type="nvarchar" MaxLength="150" Nullable="false" />
@@ -239,10 +325,33 @@
     <Property Name="end_date" Type="date" Nullable="false" />
     <Property Name="next_remodel_type" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="next_end_time" Type="float" Nullable="false" />
-    <Property Name="department_id" Type="nvarchar" MaxLength="150" />
     <Property Name="documentary_id" Type="int" Nullable="false" />
     <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="equipment_big_maintain_reason" Type="nvarchar" MaxLength="150" />
+    <Property Name="department_id_from" Type="nvarchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="Documentary_camera_repair_details">
+    <Key>
+      <PropertyRef Name="documentary_id" />
+      <PropertyRef Name="room_id" />
+    </Key>
+    <Property Name="documentary_id" Type="int" Nullable="false" />
+    <Property Name="room_id" Type="int" Nullable="false" />
+    <Property Name="broken_camera_quantity" Type="int" Nullable="false" />
+    <Property Name="repair_requirement" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="150" />
+    <Property Name="Documentary_camera_repair_status" Type="int" Nullable="false" />
+    <Property Name="department_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Documentary_Improve_Detail">
+    <Key>
+      <PropertyRef Name="equipmentId" />
+      <PropertyRef Name="documentary_id" />
+    </Key>
+    <Property Name="equipment_Improve_status" Type="int" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="documentary_id" Type="int" Nullable="false" />
+    <Property Name="department_id_from" Type="nvarchar" MaxLength="150" />
   </EntityType>
   <EntityType Name="Documentary_liquidation_details">
     <Key>
@@ -254,6 +363,7 @@
     <Property Name="documentary_id" Type="int" Nullable="false" />
     <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="equipment_liquidation_reason" Type="nvarchar" MaxLength="150" />
+    <Property Name="department_id_from" Type="nvarchar" MaxLength="150" />
   </EntityType>
   <EntityType Name="Documentary_maintain_details">
     <Key>
@@ -263,10 +373,10 @@
     <Property Name="equipment_maintain_status" Type="int" Nullable="false" />
     <Property Name="maintain_type" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="finish_date_plan" Type="date" Nullable="false" />
-    <Property Name="department_id" Type="nvarchar" MaxLength="150" />
     <Property Name="documentary_id" Type="int" Nullable="false" />
     <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="equipment_maintain_reason" Type="nvarchar" MaxLength="150" />
+    <Property Name="department_id_from" Type="nvarchar" MaxLength="150" />
   </EntityType>
   <EntityType Name="Documentary_moveline_details">
     <Key>
@@ -276,10 +386,10 @@
     <Property Name="equipment_moveline_status" Type="int" Nullable="false" />
     <Property Name="department_detail" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="date_to" Type="date" Nullable="false" />
-    <Property Name="department_id" Type="nvarchar" MaxLength="150" />
     <Property Name="documentary_id" Type="int" Nullable="false" />
     <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="equipment_moveline_reason" Type="nvarchar" MaxLength="150" />
+    <Property Name="department_id_from" Type="nvarchar" MaxLength="150" />
   </EntityType>
   <EntityType Name="Documentary_repair_details">
     <Key>
@@ -290,9 +400,10 @@
     <Property Name="repair_type" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="repair_reason" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="finish_date_plan" Type="date" Nullable="false" />
-    <Property Name="department_id" Type="nvarchar" MaxLength="150" />
     <Property Name="documentary_id" Type="int" Nullable="false" />
     <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="department_id_from" Type="nvarchar" MaxLength="150" />
+    <Property Name="isVisible" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Documentary_revoke_details">
     <Key>
@@ -303,6 +414,17 @@
     <Property Name="documentary_id" Type="int" Nullable="false" />
     <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="equipment_revoke_reason" Type="nvarchar" MaxLength="150" />
+    <Property Name="department_id_from" Type="nvarchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="DocumentaryType">
+    <Key>
+      <PropertyRef Name="documentary_type" />
+    </Key>
+    <Property Name="documentary_type" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="documentary_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="du_phong" Type="bit" Nullable="false" />
+    <Property Name="di_kem" Type="bit" Nullable="false" />
+    <Property Name="can" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Equipment">
     <Key>
@@ -310,22 +432,23 @@
     </Key>
     <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="equipment_name" Type="nvarchar" MaxLength="150" Nullable="false" />
-    <Property Name="supplier" Type="nvarchar" MaxLength="150" Nullable="false" />
-    <Property Name="date_import" Type="date" Nullable="false" />
-    <Property Name="depreciation_estimate" Type="float" Nullable="false" />
-    <Property Name="depreciation_present" Type="float" Nullable="false" />
-    <Property Name="durationOfInspection" Type="date" Nullable="false" />
-    <Property Name="durationOfInsurance" Type="date" Nullable="false" />
-    <Property Name="usedDay" Type="date" Nullable="false" />
-    <Property Name="durationOfMaintainance" Type="date" Nullable="false" />
-    <Property Name="total_operating_hours" Type="int" Nullable="false" />
-    <Property Name="current_Status" Type="int" Nullable="false" />
+    <Property Name="supplier" Type="nvarchar" MaxLength="150" />
+    <Property Name="date_import" Type="date" />
+    <Property Name="depreciation_estimate" Type="float" />
+    <Property Name="depreciation_present" Type="float" />
+    <Property Name="durationOfInspection" Type="date" />
+    <Property Name="durationOfInsurance" Type="date" />
+    <Property Name="usedDay" Type="date" />
+    <Property Name="durationOfMaintainance" Type="date" />
+    <Property Name="total_operating_hours" Type="int" />
+    <Property Name="current_Status" Type="int" />
     <Property Name="fabrication_number" Type="float" />
     <Property Name="mark_code" Type="nvarchar" MaxLength="150" />
-    <Property Name="quality_type" Type="nvarchar" MaxLength="150" Nullable="false" />
-    <Property Name="input_channel" Type="nvarchar" MaxLength="150" Nullable="false" />
-    <Property Name="Equipment_category_id" Type="nvarchar" MaxLength="150" Nullable="false" />
-    <Property Name="department_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="quality_type" Type="nvarchar" MaxLength="150" />
+    <Property Name="input_channel" Type="nvarchar" MaxLength="150" />
+    <Property Name="Equipment_category_id" Type="nvarchar" MaxLength="150" />
+    <Property Name="department_id" Type="nvarchar" MaxLength="150" />
+    <Property Name="isAttach" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Equipment_attribute">
     <Key>
@@ -355,23 +478,42 @@
     <Property Name="unit" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="Equipment_category_id" Type="nvarchar" MaxLength="150" Nullable="false" />
   </EntityType>
-  <EntityType Name="Equipment_Category_Supply">
-    <Key>
-      <PropertyRef Name="ecsId" />
-    </Key>
-    <Property Name="ecsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Equipment_category_id" Type="nvarchar" MaxLength="150" Nullable="false" />
-    <Property Name="supply_id" Type="nvarchar" MaxLength="150" Nullable="false" />
-  </EntityType>
   <EntityType Name="Equipment_Inspection">
     <Key>
       <PropertyRef Name="inspect_id" />
     </Key>
     <Property Name="inspect_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
-    <Property Name="inspect_expected_date" Type="datetime" Nullable="false" />
-    <Property Name="inspect_start_date" Type="datetime" />
-    <Property Name="inspect_end_date" Type="datetime" />
+    <Property Name="inspect_date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Equipment_Insurance">
+    <Key>
+      <PropertyRef Name="insurance_id" />
+    </Key>
+    <Property Name="insurance_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="insurance_start_date" Type="datetime" Nullable="false" />
+    <Property Name="insurance_end_date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Equipment_SCTX">
+    <Key>
+      <PropertyRef Name="maintain_id" />
+    </Key>
+    <Property Name="maintain_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
+    <Property Name="department_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="maintain_content" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Equipment_SCTX_Detail">
+    <Key>
+      <PropertyRef Name="maintain_detail_id" />
+    </Key>
+    <Property Name="maintain_detail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="maintain_id" Type="int" Nullable="false" />
+    <Property Name="supplyid" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="used" Type="int" Nullable="false" />
+    <Property Name="thuhoi" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="FakeAPI">
     <Key>
@@ -404,6 +546,7 @@
     <Property Name="consumption_value" Type="int" Nullable="false" />
     <Property Name="date" Type="date" Nullable="false" />
     <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="department_id" Type="nvarchar" MaxLength="150" />
     <Property Name="fuel_type" Type="nvarchar" MaxLength="150" Nullable="false" />
   </EntityType>
   <EntityType Name="GiayTo">
@@ -422,7 +565,6 @@
     </Key>
     <Property Name="HeaderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Ca" Type="int" Nullable="false" />
-    <Property Name="MaPhongBan" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="NgayDiemDanh" Type="date" Nullable="false" />
     <Property Name="TotalEffort" Type="float" Nullable="false" />
     <Property Name="ThanThucHien" Type="float" Nullable="false" />
@@ -430,6 +572,16 @@
     <Property Name="XenThucHien" Type="float" Nullable="false" />
     <Property Name="GhiChu" Type="nvarchar(max)" />
     <Property Name="isFilledFromAPI" Type="bit" Nullable="false" />
+    <Property Name="MaPhongBan" Type="nvarchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="header_KeHoach_TieuChi_TheoNam">
+    <Key>
+      <PropertyRef Name="HeaderID" />
+    </Key>
+    <Property Name="HeaderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MaPhongBan" Type="nvarchar" MaxLength="150" />
+    <Property Name="Nam" Type="int" />
+    <Property Name="GhiChu" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="header_KeHoach_TieuChi_TheoNgay">
     <Key>
@@ -481,6 +633,14 @@
     <Property Name="NgayChamDut" Type="date" />
     <Property Name="DonViKyQuyetDinhChamDut" Type="nvarchar" MaxLength="100" />
   </EntityType>
+  <EntityType Name="Important_Documentary">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="documentary_id" Type="int" Nullable="false" />
+    <Property Name="AccountID" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Incident">
     <Key>
       <PropertyRef Name="incident_id" />
@@ -492,6 +652,18 @@
     <Property Name="reason" Type="nvarchar" MaxLength="150" />
     <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="department_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="KeHoach_TieuChi_TheoNam">
+    <Key>
+      <PropertyRef Name="HeaderID" />
+      <PropertyRef Name="MaTieuChi" />
+      <PropertyRef Name="ThoiGianNhapCuoiCung" />
+    </Key>
+    <Property Name="HeaderID" Type="int" Nullable="false" />
+    <Property Name="MaTieuChi" Type="int" Nullable="false" />
+    <Property Name="SanLuongKeHoach" Type="float" />
+    <Property Name="ThoiGianNhapCuoiCung" Type="datetime" Nullable="false" />
+    <Property Name="GhiChu" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="KeHoach_TieuChi_TheoNgay">
     <Key>
@@ -531,7 +703,7 @@
     </Key>
     <Property Name="maintainid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="equipmentid" Type="nvarchar" MaxLength="150" Nullable="false" />
-    <Property Name="date" Type="date" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
     <Property Name="departmentid" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="maintain_content" Type="nvarchar" MaxLength="150" Nullable="false" />
   </EntityType>
@@ -542,9 +714,8 @@
     <Property Name="maintaindetailid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="maintainid" Type="int" Nullable="false" />
     <Property Name="supplyid" Type="nvarchar" MaxLength="150" Nullable="false" />
-    <Property Name="quantity" Type="int" Nullable="false" />
-    <Property Name="supplyType" Type="int" Nullable="false" />
-    <Property Name="supplyStatus" Type="int" Nullable="false" />
+    <Property Name="used" Type="int" Nullable="false" />
+    <Property Name="thuhoi" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="MealRegistration">
     <Key>
@@ -558,7 +729,7 @@
   </EntityType>
   <EntityType Name="Module">
     <Key>
-      <PropertyRef Name="Module" />
+      <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Module" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -579,6 +750,7 @@
     <Property Name="QuanHe" Type="nvarchar" MaxLength="100" />
     <Property Name="SoCMND" Type="nvarchar" MaxLength="100" />
     <Property Name="SoDienThoai" Type="nvarchar" MaxLength="100" />
+    <Property Name="DiaChiThuongTru" Type="nvarchar" MaxLength="1000" />
   </EntityType>
   <EntityType Name="NhanVien">
     <Key>
@@ -632,7 +804,6 @@
     <Property Name="MaUyQuyen" Type="int" />
     <Property Name="SoBHXH" Type="nvarchar" MaxLength="100" />
     <Property Name="NgayTraBHXH" Type="date" />
-    <Property Name="LoaiNhanVien" Type="nvarchar" MaxLength="100" />
     <Property Name="MaCongViec" Type="int" />
     <Property Name="MucLuong" Type="float" />
     <Property Name="MaTrinhDo" Type="int" />
@@ -646,6 +817,7 @@
     <Property Name="MaTrangThai" Type="int" Nullable="false" />
     <Property Name="MaChuyenNganh" Type="nvarchar" MaxLength="100" />
     <Property Name="MaPhongBan" Type="nvarchar" MaxLength="150" />
+    <Property Name="MaBacLuong_ThangLuong_MucLuong" Type="int" />
   </EntityType>
   <EntityType Name="NhiemVu">
     <Key>
@@ -656,11 +828,20 @@
     <Property Name="MaChungChi" Type="int" />
     <Property Name="MaNhiemVu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
+  <EntityType Name="NhomCongViec">
+    <Key>
+      <PropertyRef Name="MaNhomCongViec" />
+    </Key>
+    <Property Name="MaNhomCongViec" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LoaiNhomCongViec" Type="nvarchar" MaxLength="100" />
+    <Property Name="TenNhomCongViec" Type="nvarchar" MaxLength="100" />
+    <Property Name="MaDienCongViec" Type="int" />
+  </EntityType>
   <EntityType Name="NhomTieuChi">
     <Key>
       <PropertyRef Name="MaNhomTieuChi" />
     </Key>
-    <Property Name="MaNhomTieuChi" Type="int" Nullable="false" />
+    <Property Name="MaNhomTieuChi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="TenNhomTieuChi" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="PhongBan_TieuChi">
@@ -709,6 +890,30 @@
     <Property Name="SoQuyetDinh" Type="nvarchar" MaxLength="50" />
     <Property Name="NgayQuyetDinh" Type="date" />
   </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="role_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Room">
+    <Key>
+      <PropertyRef Name="room_id" />
+    </Key>
+    <Property Name="department_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="room_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="room_name" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="camera_quantity" Type="int" Nullable="false" />
+    <Property Name="camera_available" Type="int" Nullable="false" />
+    <Property Name="series" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="capacity" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="disk_status" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="signal_loss_reason" Type="nvarchar" MaxLength="150" />
+    <Property Name="note" Type="nvarchar" MaxLength="150" />
+    <Property Name="disk_saveable" Type="bit" Nullable="false" />
+    <Property Name="login_information" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
   <EntityType Name="Status">
     <Key>
       <PropertyRef Name="statusid" />
@@ -725,6 +930,32 @@
     <Property Name="unit" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="price" Type="float" />
   </EntityType>
+  <EntityType Name="Supply_DiKem">
+    <Key>
+      <PropertyRef Name="equipmentId" />
+      <PropertyRef Name="equipmentId_dikem" />
+    </Key>
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="equipmentId_dikem" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="note" Type="nvarchar" MaxLength="150" />
+    <Property Name="quantity_duphong" Type="int" />
+  </EntityType>
+  <EntityType Name="Supply_Documentary_Camera">
+    <Key>
+      <PropertyRef Name="supplyDocumentaryCameraId" />
+    </Key>
+    <Property Name="supplyDocumentaryCameraId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="documentary_id" Type="int" Nullable="false" />
+    <Property Name="room_id" Type="int" Nullable="false" />
+    <Property Name="supply_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="quantity_plan" Type="int" Nullable="false" />
+    <Property Name="quantity_in" Type="int" Nullable="false" />
+    <Property Name="quantity_used" Type="int" Nullable="false" />
+    <Property Name="quantity_out" Type="int" Nullable="false" />
+    <Property Name="supplyStatus" Type="nvarchar" MaxLength="150" />
+    <Property Name="supply_documentary_status" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Supply_Documentary_Equipment">
     <Key>
       <PropertyRef Name="supplyDocumentaryEquipmentId" />
@@ -732,11 +963,22 @@
     <Property Name="supplyDocumentaryEquipmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="documentary_id" Type="int" Nullable="false" />
     <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="supply_id" Type="nvarchar" MaxLength="150" />
+    <Property Name="quantity_plan" Type="int" Nullable="false" />
+    <Property Name="quantity_in" Type="int" Nullable="false" />
+    <Property Name="quantity_used" Type="int" Nullable="false" />
+    <Property Name="quantity_out" Type="int" Nullable="false" />
+    <Property Name="supplyStatus" Type="nvarchar" MaxLength="150" />
+    <Property Name="equipmentId_dikem" Type="nvarchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="Supply_DuPhong">
+    <Key>
+      <PropertyRef Name="supply_id" />
+      <PropertyRef Name="equipmentId" />
+    </Key>
     <Property Name="supply_id" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="quantity" Type="int" Nullable="false" />
-    <Property Name="supplyType" Type="int" Nullable="false" />
-    <Property Name="supplyStatus" Type="nvarchar" MaxLength="150" Nullable="false" />
-    <Property Name="supply_documentary_status" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Supply_tieuhao">
     <Key>
@@ -758,9 +1000,9 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="supplyid" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="departmentid" Type="nvarchar" MaxLength="150" Nullable="false" />
-    <Property Name="equipmentid" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="equipmentid" Type="nvarchar" MaxLength="150" />
     <Property Name="date" Type="date" Nullable="false" />
-    <Property Name="dinh_muc" Type="float" Nullable="false" />
+    <Property Name="dinh_muc" Type="float" />
     <Property Name="quantity_plan" Type="int" Nullable="false" />
     <Property Name="quantity" Type="int" Nullable="false" />
     <Property Name="status" Type="int" />
@@ -770,11 +1012,19 @@
       <PropertyRef Name="MaTaiNan" />
     </Key>
     <Property Name="MaTaiNan" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="MaNV" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="MaNV" Type="nvarchar" MaxLength="50" />
     <Property Name="LyDo" Type="nvarchar(max)" />
     <Property Name="Ngay" Type="date" />
     <Property Name="Ca" Type="int" />
     <Property Name="Loai" Type="nvarchar" MaxLength="50" />
+    <Property Name="GhiChu" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="ThangLuong">
+    <Key>
+      <PropertyRef Name="MaThangLuong" />
+    </Key>
+    <Property Name="MaThangLuong" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MucThangLuong" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="ThucHien_TieuChi_TheoNgay">
     <Key>
@@ -823,7 +1073,19 @@
     </Key>
     <Property Name="MaQuyetDinh" Type="int" Nullable="false" />
     <Property Name="MaNV" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="NgayTuyenDung" Type="date" Nullable="false" />
+    <Property Name="NgayTuyenDung" Type="date" />
+  </EntityType>
+  <EntityType Name="User_Action_Log">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AccountID" Type="int" Nullable="false" />
+    <Property Name="Method" Type="nvarchar" MaxLength="100" />
+    <Property Name="Url" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Action_Time" Type="datetime" Nullable="false" />
+    <Property Name="Browser" Type="nvarchar" MaxLength="100" />
+    <Property Name="Location_IP" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <Association Name="FK__Acceptanc__docum__2A164134">
     <End Role="Documentary" Type="Self.Documentary" Multiplicity="1">
@@ -839,7 +1101,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Acceptanc__equip__498EEC8D">
+  <Association Name="FK__Acceptanc__equip__6FB49575">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Acceptance" Type="Self.Acceptance" Multiplicity="*" />
     <ReferentialConstraint>
@@ -851,7 +1113,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Activity__equipm__4B7734FF">
+  <Association Name="FK__Activity__equipm__756D6ECB">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
     <ReferentialConstraint>
@@ -863,7 +1125,31 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BangCap_G__MaChu__4C6B5938">
+  <Association Name="FK__BacLuong___MaBac__76619304">
+    <End Role="BacLuong" Type="Self.BacLuong" Multiplicity="0..1" />
+    <End Role="BacLuong_ThangLuong_MucLuong" Type="Self.BacLuong_ThangLuong_MucLuong" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BacLuong">
+        <PropertyRef Name="MaBacLuong" />
+      </Principal>
+      <Dependent Role="BacLuong_ThangLuong_MucLuong">
+        <PropertyRef Name="MaBacLuong" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BacLuong___MaTha__7755B73D">
+    <End Role="ThangLuong" Type="Self.ThangLuong" Multiplicity="0..1" />
+    <End Role="BacLuong_ThangLuong_MucLuong" Type="Self.BacLuong_ThangLuong_MucLuong" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ThangLuong">
+        <PropertyRef Name="MaThangLuong" />
+      </Principal>
+      <Dependent Role="BacLuong_ThangLuong_MucLuong">
+        <PropertyRef Name="MaThangLuong" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BangCap_G__MaChu__7849DB76">
     <End Role="ChuyenNganh" Type="Self.ChuyenNganh" Multiplicity="0..1" />
     <End Role="BangCap_GiayChungNhan" Type="Self.BangCap_GiayChungNhan" Multiplicity="*" />
     <ReferentialConstraint>
@@ -875,7 +1161,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BaoCaoFil__phanx__4F47C5E3">
+  <Association Name="FK__BaoCaoFil__phanx__7B264821">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="BaoCaoFile" Type="Self.BaoCaoFile" Multiplicity="*" />
     <ReferentialConstraint>
@@ -887,7 +1173,79 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Category___equip__503BEA1C">
+  <Association Name="FK__Camera_Ac__docum__7C1A6C5A">
+    <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
+    <End Role="Camera_Acceptance" Type="Self.Camera_Acceptance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Documentary">
+        <PropertyRef Name="documentary_id" />
+      </Principal>
+      <Dependent Role="Camera_Acceptance">
+        <PropertyRef Name="documentary_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Camera_Ac__room___7D0E9093">
+    <End Role="Room" Type="Self.Room" Multiplicity="1" />
+    <End Role="Camera_Acceptance" Type="Self.Camera_Acceptance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Room">
+        <PropertyRef Name="room_id" />
+      </Principal>
+      <Dependent Role="Camera_Acceptance">
+        <PropertyRef Name="room_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CameraInc__room___762C88DA">
+    <End Role="Room" Type="Self.Room" Multiplicity="1" />
+    <End Role="CameraIncident" Type="Self.CameraIncident" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Room">
+        <PropertyRef Name="room_id" />
+      </Principal>
+      <Dependent Role="CameraIncident">
+        <PropertyRef Name="room_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Car__equipmentId__7E02B4CC">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Car" Type="Self.Car" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Car">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CarGPS__equipmen__7EF6D905">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="CarGPS" Type="Self.CarGPS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="CarGPS">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Category___Equip__00DF2177">
+    <End Role="Equipment_category_attribute" Type="Self.Equipment_category_attribute" Multiplicity="1" />
+    <End Role="Category_attribute_value" Type="Self.Category_attribute_value" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment_category_attribute">
+        <PropertyRef Name="Equipment_category_attribute_id" />
+      </Principal>
+      <Dependent Role="Category_attribute_value">
+        <PropertyRef Name="Equipment_category_attribute_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Category___equip__01D345B0">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Category_attribute_value" Type="Self.Category_attribute_value" Multiplicity="*" />
     <ReferentialConstraint>
@@ -899,7 +1257,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Category___Equip__51300E55">
+  <Association Name="FK__Category___Equip__7FEAFD3E">
     <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
     <End Role="Category_attribute_value" Type="Self.Category_attribute_value" Multiplicity="*" />
     <ReferentialConstraint>
@@ -908,18 +1266,6 @@
       </Principal>
       <Dependent Role="Category_attribute_value">
         <PropertyRef Name="Equipment_category_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Category___Equip__5224328E">
-    <End Role="Equipment_category_attribute" Type="Self.Equipment_category_attribute" Multiplicity="1" />
-    <End Role="Category_attribute_value" Type="Self.Category_attribute_value" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Equipment_category_attribute">
-        <PropertyRef Name="Equipment_category_attribute_id" />
-      </Principal>
-      <Dependent Role="Category_attribute_value">
-        <PropertyRef Name="Equipment_category_attribute_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -935,7 +1281,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ChiTiet_B__MaBan__55009F39">
+  <Association Name="FK__ChiTiet_B__MaBan__04AFB25B">
     <End Role="BangCap_GiayChungNhan" Type="Self.BangCap_GiayChungNhan" Multiplicity="1" />
     <End Role="ChiTiet_BangCap_GiayChungNhan" Type="Self.ChiTiet_BangCap_GiayChungNhan" Multiplicity="*" />
     <ReferentialConstraint>
@@ -959,7 +1305,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ChungChi___MaChu__58D1301D">
+  <Association Name="FK__ChungChi___MaChu__0880433F">
     <End Role="ChungChi" Type="Self.ChungChi" Multiplicity="1" />
     <End Role="ChungChi_NhanVien" Type="Self.ChungChi_NhanVien" Multiplicity="*" />
     <ReferentialConstraint>
@@ -983,7 +1329,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ChuyenNga__MaNga__5AB9788F">
+  <Association Name="FK__ChuyenNga__MaNga__0A688BB1">
     <End Role="Nganh" Type="Self.Nganh" Multiplicity="1" />
     <End Role="ChuyenNganh" Type="Self.ChuyenNganh" Multiplicity="*" />
     <ReferentialConstraint>
@@ -995,7 +1341,43 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__DiemDanh___Heade__5BAD9CC8">
+  <Association Name="FK__CongTacAn__MaPho__0B5CAFEA">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="CongTacAnToan" Type="Self.CongTacAnToan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="CongTacAnToan">
+        <PropertyRef Name="MaPhongBan" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CongViec___MaCon__0D44F85C">
+    <End Role="CongViec" Type="Self.CongViec" Multiplicity="0..1" />
+    <End Role="CongViec_NhomCongViec" Type="Self.CongViec_NhomCongViec" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CongViec">
+        <PropertyRef Name="MaCongViec" />
+      </Principal>
+      <Dependent Role="CongViec_NhomCongViec">
+        <PropertyRef Name="MaCongViec" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CongViec___MaNho__0E391C95">
+    <End Role="NhomCongViec" Type="Self.NhomCongViec" Multiplicity="0..1" />
+    <End Role="CongViec_NhomCongViec" Type="Self.CongViec_NhomCongViec" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NhomCongViec">
+        <PropertyRef Name="MaNhomCongViec" />
+      </Principal>
+      <Dependent Role="CongViec_NhomCongViec">
+        <PropertyRef Name="MaNhomCongViec" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DiemDanh___Heade__0F2D40CE">
     <End Role="Header_DiemDanh_NangSuat_LaoDong" Type="Self.Header_DiemDanh_NangSuat_LaoDong" Multiplicity="1" />
     <End Role="DiemDanh_NangSuatLaoDong" Type="Self.DiemDanh_NangSuatLaoDong" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1007,7 +1389,79 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__DieuDong___MaQuy__17036CC0">
+  <Association Name="FK__DieuDong___MaBac__11158940">
+    <End Role="BacLuong_ThangLuong_MucLuong" Type="Self.BacLuong_ThangLuong_MucLuong" Multiplicity="0..1" />
+    <End Role="DieuDong_NhanVien" Type="Self.DieuDong_NhanVien" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BacLuong_ThangLuong_MucLuong">
+        <PropertyRef Name="MaBacLuong_ThangLuong_MucLuong" />
+      </Principal>
+      <Dependent Role="DieuDong_NhanVien">
+        <PropertyRef Name="MaBacLuong_ThangLuong_MucLuongMoi" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DieuDong___MaBac__1209AD79">
+    <End Role="BacLuong_ThangLuong_MucLuong" Type="Self.BacLuong_ThangLuong_MucLuong" Multiplicity="0..1" />
+    <End Role="DieuDong_NhanVien" Type="Self.DieuDong_NhanVien" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BacLuong_ThangLuong_MucLuong">
+        <PropertyRef Name="MaBacLuong_ThangLuong_MucLuong" />
+      </Principal>
+      <Dependent Role="DieuDong_NhanVien">
+        <PropertyRef Name="MaBacLuong_ThangLuong_MucLuongCu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DieuDong___MaChu__12FDD1B2">
+    <End Role="CongViec" Type="Self.CongViec" Multiplicity="0..1" />
+    <End Role="DieuDong_NhanVien" Type="Self.DieuDong_NhanVien" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CongViec">
+        <PropertyRef Name="MaCongViec" />
+      </Principal>
+      <Dependent Role="DieuDong_NhanVien">
+        <PropertyRef Name="MaChucVuMoi" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DieuDong___MaChu__13F1F5EB">
+    <End Role="CongViec" Type="Self.CongViec" Multiplicity="0..1" />
+    <End Role="DieuDong_NhanVien" Type="Self.DieuDong_NhanVien" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CongViec">
+        <PropertyRef Name="MaCongViec" />
+      </Principal>
+      <Dependent Role="DieuDong_NhanVien">
+        <PropertyRef Name="MaChucVuCu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DieuDong___MaDon__14E61A24">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="DieuDong_NhanVien" Type="Self.DieuDong_NhanVien" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="DieuDong_NhanVien">
+        <PropertyRef Name="MaDonViMoi" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DieuDong___MaDon__15DA3E5D">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="DieuDong_NhanVien" Type="Self.DieuDong_NhanVien" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="DieuDong_NhanVien">
+        <PropertyRef Name="MaDonViCu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__DieuDong___MaQuy__16CE6296">
     <End Role="QuyetDinh" Type="Self.QuyetDinh" Multiplicity="1" />
     <End Role="DieuDong_NhanVien" Type="Self.DieuDong_NhanVien" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1019,7 +1473,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__DieuDong_N__MaNV__17F790F9">
+  <Association Name="FK__DieuDong_N__MaNV__17C286CF">
     <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
     <End Role="DieuDong_NhanVien" Type="Self.DieuDong_NhanVien" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1031,113 +1485,135 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Documenta__depar__40058253">
-    <End Role="Department" Type="Self.Department" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
+  <Association Name="FK__Documenta__depar__19AACF41">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Documentary_big_maintain_details" Type="Self.Documentary_big_maintain_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Documentary_big_maintain_details">
+        <PropertyRef Name="department_id_from" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__depar__1C873BEC">
+    <End Role="Department" Type="Self.Department" Multiplicity="1" />
+    <End Role="Documentary_camera_repair_details" Type="Self.Documentary_camera_repair_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Documentary_camera_repair_details">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__depar__1F63A897">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Documentary_Improve_Detail" Type="Self.Documentary_Improve_Detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Documentary_Improve_Detail">
+        <PropertyRef Name="department_id_from" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__depar__22401542">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Documentary_liquidation_details" Type="Self.Documentary_liquidation_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Documentary_liquidation_details">
+        <PropertyRef Name="department_id_from" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__depar__251C81ED">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Documentary_maintain_details" Type="Self.Documentary_maintain_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Documentary_maintain_details">
+        <PropertyRef Name="department_id_from" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__depar__27F8EE98">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Documentary_moveline_details" Type="Self.Documentary_moveline_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Documentary_moveline_details">
+        <PropertyRef Name="department_id_from" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__depar__2AD55B43">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Documentary_repair_details" Type="Self.Documentary_repair_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Documentary_repair_details">
+        <PropertyRef Name="department_id_from" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__depar__2DB1C7EE">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Documentary_revoke_details" Type="Self.Documentary_revoke_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Documentary_revoke_details">
+        <PropertyRef Name="department_id_from" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__docum__18B6AB08">
+    <End Role="DocumentaryType" Type="Self.DocumentaryType" Multiplicity="1" />
     <End Role="Documentary" Type="Self.Documentary" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Department">
-        <PropertyRef Name="department_id" />
+      <Principal Role="DocumentaryType">
+        <PropertyRef Name="documentary_type" />
       </Principal>
       <Dependent Role="Documentary">
-        <PropertyRef Name="department_id" />
+        <PropertyRef Name="documentary_type" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Documenta__depar__4E53A1AA">
-    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-    <End Role="Documentary_big_maintain_details" Type="Self.Documentary_big_maintain_details" Multiplicity="*" />
+  <Association Name="FK__Documenta__docum__1D7B6025">
+    <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
+    <End Role="Documentary_camera_repair_details" Type="Self.Documentary_camera_repair_details" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Department">
-        <PropertyRef Name="department_id" />
+      <Principal Role="Documentary">
+        <PropertyRef Name="documentary_id" />
       </Principal>
-      <Dependent Role="Documentary_big_maintain_details">
-        <PropertyRef Name="department_id" />
+      <Dependent Role="Documentary_camera_repair_details">
+        <PropertyRef Name="documentary_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Documenta__depar__4F47C5E3">
-    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-    <End Role="Documentary_big_maintain_details" Type="Self.Documentary_big_maintain_details" Multiplicity="*" />
+  <Association Name="FK__Documenta__docum__2057CCD0">
+    <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
+    <End Role="Documentary_Improve_Detail" Type="Self.Documentary_Improve_Detail" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Department">
-        <PropertyRef Name="department_id" />
+      <Principal Role="Documentary">
+        <PropertyRef Name="documentary_id" />
       </Principal>
-      <Dependent Role="Documentary_big_maintain_details">
-        <PropertyRef Name="department_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Documenta__depar__540C7B00">
-    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-    <End Role="Documentary_maintain_details" Type="Self.Documentary_maintain_details" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Department">
-        <PropertyRef Name="department_id" />
-      </Principal>
-      <Dependent Role="Documentary_maintain_details">
-        <PropertyRef Name="department_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Documenta__depar__55009F39">
-    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-    <End Role="Documentary_maintain_details" Type="Self.Documentary_maintain_details" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Department">
-        <PropertyRef Name="department_id" />
-      </Principal>
-      <Dependent Role="Documentary_maintain_details">
-        <PropertyRef Name="department_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Documenta__depar__57DD0BE4">
-    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-    <End Role="Documentary_moveline_details" Type="Self.Documentary_moveline_details" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Department">
-        <PropertyRef Name="department_id" />
-      </Principal>
-      <Dependent Role="Documentary_moveline_details">
-        <PropertyRef Name="department_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Documenta__depar__58D1301D">
-    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-    <End Role="Documentary_moveline_details" Type="Self.Documentary_moveline_details" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Department">
-        <PropertyRef Name="department_id" />
-      </Principal>
-      <Dependent Role="Documentary_moveline_details">
-        <PropertyRef Name="department_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Documenta__depar__5BAD9CC8">
-    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-    <End Role="Documentary_repair_details" Type="Self.Documentary_repair_details" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Department">
-        <PropertyRef Name="department_id" />
-      </Principal>
-      <Dependent Role="Documentary_repair_details">
-        <PropertyRef Name="department_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Documenta__depar__5CA1C101">
-    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-    <End Role="Documentary_repair_details" Type="Self.Documentary_repair_details" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Department">
-        <PropertyRef Name="department_id" />
-      </Principal>
-      <Dependent Role="Documentary_repair_details">
-        <PropertyRef Name="department_id" />
+      <Dependent Role="Documentary_Improve_Detail">
+        <PropertyRef Name="documentary_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1225,6 +1701,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__Documenta__equip__1B9317B3">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Documentary_big_maintain_details" Type="Self.Documentary_big_maintain_details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Documentary_big_maintain_details">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Documenta__equip__214BF109">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Documentary_Improve_Detail" Type="Self.Documentary_Improve_Detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Documentary_Improve_Detail">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Documenta__equip__43D61338">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Documentary_liquidation_details" Type="Self.Documentary_liquidation_details" Multiplicity="*" />
@@ -1285,20 +1785,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Documenta__equip__634EBE90">
-    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
-    <End Role="Documentary_big_maintain_details" Type="Self.Documentary_big_maintain_details" Multiplicity="*" />
+  <Association Name="FK__Documenta__room___1E6F845E">
+    <End Role="Room" Type="Self.Room" Multiplicity="1" />
+    <End Role="Documentary_camera_repair_details" Type="Self.Documentary_camera_repair_details" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Equipment">
-        <PropertyRef Name="equipmentId" />
+      <Principal Role="Room">
+        <PropertyRef Name="room_id" />
       </Principal>
-      <Dependent Role="Documentary_big_maintain_details">
-        <PropertyRef Name="equipmentId" />
+      <Dependent Role="Documentary_camera_repair_details">
+        <PropertyRef Name="room_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Equipment__curre__73852659">
-    <End Role="Status" Type="Self.Status" Multiplicity="1" />
+  <Association Name="FK__Equipment__curre__308E3499">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Status">
@@ -1309,8 +1809,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Equipment__depar__625A9A57">
+  <Association Name="FK__Equipment__depar__373B3228">
     <End Role="Department" Type="Self.Department" Multiplicity="1" />
+    <End Role="Equipment_SCTX" Type="Self.Equipment_SCTX" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Equipment_SCTX">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__depar__625A9A57">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Department">
@@ -1321,8 +1833,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Equipment__Equip__756D6ECB">
-    <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
+  <Association Name="FK__Equipment__Equip__32767D0B">
+    <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="0..1" />
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Equipment_category">
@@ -1333,7 +1845,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Equipment__equip__76619304">
+  <Association Name="FK__Equipment__equip__336AA144">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Equipment_attribute" Type="Self.Equipment_attribute" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1345,7 +1857,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Equipment__Equip__7755B73D">
+  <Association Name="FK__Equipment__Equip__345EC57D">
     <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
     <End Role="Equipment_category_attribute" Type="Self.Equipment_category_attribute" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1357,19 +1869,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Equipment__Equip__7849DB76">
-    <End Role="Equipment_category" Type="Self.Equipment_category" Multiplicity="1" />
-    <End Role="Equipment_Category_Supply" Type="Self.Equipment_Category_Supply" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Equipment_category">
-        <PropertyRef Name="Equipment_category_id" />
-      </Principal>
-      <Dependent Role="Equipment_Category_Supply">
-        <PropertyRef Name="Equipment_category_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Equipment__equip__7A3223E8">
+  <Association Name="FK__Equipment__equip__3552E9B6">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Equipment_Inspection" Type="Self.Equipment_Inspection" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1381,15 +1881,51 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Equipment__suppl__793DFFAF">
+  <Association Name="FK__Equipment__equip__36470DEF">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Equipment_Insurance" Type="Self.Equipment_Insurance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Equipment_Insurance">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__equip__382F5661">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Equipment_SCTX" Type="Self.Equipment_SCTX" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Equipment_SCTX">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__maint__39237A9A">
+    <End Role="Equipment_SCTX" Type="Self.Equipment_SCTX" Multiplicity="1" />
+    <End Role="Equipment_SCTX_Detail" Type="Self.Equipment_SCTX_Detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment_SCTX">
+        <PropertyRef Name="maintain_id" />
+      </Principal>
+      <Dependent Role="Equipment_SCTX_Detail">
+        <PropertyRef Name="maintain_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Equipment__suppl__3A179ED3">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
-    <End Role="Equipment_Category_Supply" Type="Self.Equipment_Category_Supply" Multiplicity="*" />
+    <End Role="Equipment_SCTX_Detail" Type="Self.Equipment_SCTX_Detail" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Supply">
         <PropertyRef Name="supply_id" />
       </Principal>
-      <Dependent Role="Equipment_Category_Supply">
-        <PropertyRef Name="supply_id" />
+      <Dependent Role="Equipment_SCTX_Detail">
+        <PropertyRef Name="supplyid" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1405,7 +1941,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__FileBaoCa__baoCa__7C1A6C5A">
+  <Association Name="FK__FileBaoCa__baoCa__3BFFE745">
     <End Role="BaoCaoFile" Type="Self.BaoCaoFile" Multiplicity="0..1" />
     <End Role="FileBaoCao" Type="Self.FileBaoCao" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1417,7 +1953,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__FileBaoCa__nguoi__7D0E9093">
+  <Association Name="FK__FileBaoCa__nguoi__29AC2CE0">
     <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
     <End Role="FileBaoCao" Type="Self.FileBaoCao" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1429,7 +1965,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Fuel_acti__equip__7E02B4CC">
+  <Association Name="FK__Fuel_acti__depar__3DE82FB7">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Fuel_activities_consumption" Type="Self.Fuel_activities_consumption" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Fuel_activities_consumption">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Fuel_acti__equip__3EDC53F0">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Fuel_activities_consumption" Type="Self.Fuel_activities_consumption" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1441,7 +1989,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Fuel_acti__fuel___7EF6D905">
+  <Association Name="FK__Fuel_acti__fuel___3FD07829">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
     <End Role="Fuel_activities_consumption" Type="Self.Fuel_activities_consumption" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1465,19 +2013,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Header_Di__MaPho__00DF2177">
-    <End Role="Department" Type="Self.Department" Multiplicity="1" />
-    <End Role="Header_DiemDanh_NangSuat_LaoDong" Type="Self.Header_DiemDanh_NangSuat_LaoDong" Multiplicity="*" />
+  <Association Name="FK__header_Ke__MaPho__42ACE4D4">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="header_KeHoach_TieuChi_TheoNam" Type="Self.header_KeHoach_TieuChi_TheoNam" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Department">
         <PropertyRef Name="department_id" />
       </Principal>
-      <Dependent Role="Header_DiemDanh_NangSuat_LaoDong">
+      <Dependent Role="header_KeHoach_TieuChi_TheoNam">
         <PropertyRef Name="MaPhongBan" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__header_Ke__MaPho__01D345B0">
+  <Association Name="FK__header_Ke__MaPho__43A1090D">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="header_KeHoach_TieuChi_TheoNgay" Type="Self.header_KeHoach_TieuChi_TheoNgay" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1489,7 +2037,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__header_Ke__MaPho__02C769E9">
+  <Association Name="FK__header_Ke__MaPho__44952D46">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="header_KeHoachTungThang" Type="Self.header_KeHoachTungThang" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1513,6 +2061,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__Important__docum__38EE7070">
+    <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
+    <End Role="Important_Documentary" Type="Self.Important_Documentary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Documentary">
+        <PropertyRef Name="documentary_id" />
+      </Principal>
+      <Dependent Role="Important_Documentary">
+        <PropertyRef Name="documentary_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Incident__depart__6FB49575">
     <End Role="Department" Type="Self.Department" Multiplicity="1" />
     <End Role="Incident" Type="Self.Incident" Multiplicity="*" />
@@ -1525,7 +2085,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Incident__equipm__0697FACD">
+  <Association Name="FK__Incident__equipm__4A4E069C">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Incident" Type="Self.Incident" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1537,7 +2097,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__KeHoach_T__Heade__078C1F06">
+  <Association Name="FK__KeHoach_T__Heade__4B422AD5">
+    <End Role="header_KeHoach_TieuChi_TheoNam" Type="Self.header_KeHoach_TieuChi_TheoNam" Multiplicity="1" />
+    <End Role="KeHoach_TieuChi_TheoNam" Type="Self.KeHoach_TieuChi_TheoNam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="header_KeHoach_TieuChi_TheoNam">
+        <PropertyRef Name="HeaderID" />
+      </Principal>
+      <Dependent Role="KeHoach_TieuChi_TheoNam">
+        <PropertyRef Name="HeaderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__KeHoach_T__Heade__4D2A7347">
     <End Role="header_KeHoach_TieuChi_TheoNgay" Type="Self.header_KeHoach_TieuChi_TheoNgay" Multiplicity="1" />
     <End Role="KeHoach_TieuChi_TheoNgay" Type="Self.KeHoach_TieuChi_TheoNgay" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1549,7 +2121,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__KeHoach_T__MaTie__0880433F">
+  <Association Name="FK__KeHoach_T__MaTie__4C364F0E">
+    <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
+    <End Role="KeHoach_TieuChi_TheoNam" Type="Self.KeHoach_TieuChi_TheoNam" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TieuChi">
+        <PropertyRef Name="MaTieuChi" />
+      </Principal>
+      <Dependent Role="KeHoach_TieuChi_TheoNam">
+        <PropertyRef Name="MaTieuChi" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__KeHoach_T__MaTie__4E1E9780">
     <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
     <End Role="KeHoach_TieuChi_TheoNgay" Type="Self.KeHoach_TieuChi_TheoNgay" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1585,7 +2169,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Maintain___equip__0D44F85C">
+  <Association Name="FK__Maintain___equip__52E34C9D">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Maintain_Car" Type="Self.Maintain_Car" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1597,7 +2181,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Maintain___maint__0E391C95">
+  <Association Name="FK__Maintain___maint__53D770D6">
     <End Role="Maintain_Car" Type="Self.Maintain_Car" Multiplicity="1" />
     <End Role="Maintain_Car_Detail" Type="Self.Maintain_Car_Detail" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1609,7 +2193,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Maintain___suppl__0F2D40CE">
+  <Association Name="FK__Maintain___suppl__54CB950F">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
     <End Role="Maintain_Car_Detail" Type="Self.Maintain_Car_Detail" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1630,6 +2214,18 @@
       </Principal>
       <Dependent Role="MealRegistration">
         <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__NhanVien__MaBacL__56B3DD81">
+    <End Role="BacLuong_ThangLuong_MucLuong" Type="Self.BacLuong_ThangLuong_MucLuong" Multiplicity="0..1" />
+    <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BacLuong_ThangLuong_MucLuong">
+        <PropertyRef Name="MaBacLuong_ThangLuong_MucLuong" />
+      </Principal>
+      <Dependent Role="NhanVien">
+        <PropertyRef Name="MaBacLuong_ThangLuong_MucLuong" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1705,7 +2301,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PhongBan___MaPho__18B6AB08">
+  <Association Name="FK__NhomCongV__MaDie__5F492382">
+    <End Role="DienCongViec" Type="Self.DienCongViec" Multiplicity="0..1" />
+    <End Role="NhomCongViec" Type="Self.NhomCongViec" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DienCongViec">
+        <PropertyRef Name="MaDienCongViec" />
+      </Principal>
+      <Dependent Role="NhomCongViec">
+        <PropertyRef Name="MaDienCongViec" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PhongBan___MaPho__603D47BB">
     <End Role="Department" Type="Self.Department" Multiplicity="1" />
     <End Role="PhongBan_TieuChi" Type="Self.PhongBan_TieuChi" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1717,7 +2325,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PhongBan___MaTie__19AACF41">
+  <Association Name="FK__PhongBan___MaTie__61316BF4">
     <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
     <End Role="PhongBan_TieuChi" Type="Self.PhongBan_TieuChi" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1741,7 +2349,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__QuaTrinhCo__MaNV__1B9317B3">
+  <Association Name="FK__QuaTrinhCo__MaNV__6319B466">
     <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
     <End Role="QuaTrinhCongTac" Type="Self.QuaTrinhCongTac" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1750,6 +2358,54 @@
       </Principal>
       <Dependent Role="QuaTrinhCongTac">
         <PropertyRef Name="MaNV" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Room__department__640DD89F">
+    <End Role="Department" Type="Self.Department" Multiplicity="1" />
+    <End Role="Room" Type="Self.Room" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Room">
+        <PropertyRef Name="department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Supply_Di__equip__6501FCD8">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Supply_DiKem" Type="Self.Supply_DiKem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Supply_DiKem">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Supply_Di__equip__65F62111">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Supply_DiKem" Type="Self.Supply_DiKem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Supply_DiKem">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Supply_Do__docum__66EA454A">
+    <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
+    <End Role="Supply_Documentary_Camera" Type="Self.Supply_Documentary_Camera" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Documentary">
+        <PropertyRef Name="documentary_id" />
+      </Principal>
+      <Dependent Role="Supply_Documentary_Camera">
+        <PropertyRef Name="documentary_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1767,7 +2423,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Supply_Do__equip__1D7B6025">
+  <Association Name="FK__Supply_Do__equip__6ABAD62E">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Supply_Documentary_Equipment" Type="Self.Supply_Documentary_Equipment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1779,14 +2435,74 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Supply_Do__suppl__1E6F845E">
+  <Association Name="FK__Supply_Do__equip__6BAEFA67">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
+    <End Role="Supply_Documentary_Equipment" Type="Self.Supply_Documentary_Equipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Supply_Documentary_Equipment">
+        <PropertyRef Name="equipmentId_dikem" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Supply_Do__room___67DE6983">
+    <End Role="Room" Type="Self.Room" Multiplicity="1" />
+    <End Role="Supply_Documentary_Camera" Type="Self.Supply_Documentary_Camera" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Room">
+        <PropertyRef Name="room_id" />
+      </Principal>
+      <Dependent Role="Supply_Documentary_Camera">
+        <PropertyRef Name="room_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Supply_Do__suppl__68D28DBC">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
+    <End Role="Supply_Documentary_Camera" Type="Self.Supply_Documentary_Camera" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supply">
+        <PropertyRef Name="supply_id" />
+      </Principal>
+      <Dependent Role="Supply_Documentary_Camera">
+        <PropertyRef Name="supply_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Supply_Do__suppl__6CA31EA0">
+    <End Role="Supply" Type="Self.Supply" Multiplicity="0..1" />
     <End Role="Supply_Documentary_Equipment" Type="Self.Supply_Documentary_Equipment" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Supply">
         <PropertyRef Name="supply_id" />
       </Principal>
       <Dependent Role="Supply_Documentary_Equipment">
+        <PropertyRef Name="supply_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Supply_Du__equip__6D9742D9">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="Supply_DuPhong" Type="Self.Supply_DuPhong" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="Supply_DuPhong">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Supply_Du__suppl__6E8B6712">
+    <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
+    <End Role="Supply_DuPhong" Type="Self.Supply_DuPhong" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supply">
+        <PropertyRef Name="supply_id" />
+      </Principal>
+      <Dependent Role="Supply_DuPhong">
         <PropertyRef Name="supply_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -1803,7 +2519,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Supply_ti__suppl__2057CCD0">
+  <Association Name="FK__Supply_ti__suppl__7073AF84">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
     <End Role="Supply_tieuhao" Type="Self.Supply_tieuhao" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1839,8 +2555,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__SupplyPla__equip__2334397B">
-    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+  <Association Name="FK__SupplyPla__equip__73501C2F">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
     <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Equipment">
@@ -1851,7 +2567,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__SupplyPla__suppl__24285DB4">
+  <Association Name="FK__SupplyPla__suppl__74444068">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
     <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1863,7 +2579,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__SupplyPla__suppl__251C81ED">
+  <Association Name="FK__SupplyPla__suppl__753864A1">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
     <End Role="SupplyPlan" Type="Self.SupplyPlan" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1876,7 +2592,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__TaiNan__MaNV__662B2B3B">
-    <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
+    <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="0..1" />
     <End Role="TaiNan" Type="Self.TaiNan" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="NhanVien">
@@ -1887,7 +2603,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ThucHien___MaTie__2704CA5F">
+  <Association Name="FK__ThucHien___MaTie__7814D14C">
     <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
     <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1911,8 +2627,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__User_Acti__Accou__689D8392">
+    <End Role="Account" Type="Self.Account" Multiplicity="1" />
+    <End Role="User_Action_Log" Type="Self.User_Action_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="User_Action_Log">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Account_NhanVien">
-    <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="0..1" />
+    <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
     <End Role="Account" Type="Self.Account" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="NhanVien">
@@ -1920,6 +2648,54 @@
       </Principal>
       <Dependent Role="Account">
         <PropertyRef Name="NVID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Account_Right_Detail_Account">
+    <End Role="Account" Type="Self.Account" Multiplicity="1" />
+    <End Role="Account_Right_Detail" Type="Self.Account_Right_Detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Account_Right_Detail">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Account_Right_Detail_Account_Right">
+    <End Role="Account_Right" Type="Self.Account_Right" Multiplicity="1" />
+    <End Role="Account_Right_Detail" Type="Self.Account_Right_Detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account_Right">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Account_Right_Detail">
+        <PropertyRef Name="RightID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Account_Right_Module">
+    <End Role="Module" Type="Self.Module" Multiplicity="0..1" />
+    <End Role="Account_Right" Type="Self.Account_Right" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Module">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Account_Right">
+        <PropertyRef Name="ModuleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Account_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+    <End Role="Account" Type="Self.Account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Account">
+        <PropertyRef Name="Role" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1983,6 +2759,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_CongViec_ThangLuong">
+    <End Role="ThangLuong" Type="Self.ThangLuong" Multiplicity="0..1" />
+    <End Role="CongViec" Type="Self.CongViec" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ThangLuong">
+        <PropertyRef Name="MaThangLuong" />
+      </Principal>
+      <Dependent Role="CongViec">
+        <PropertyRef Name="MaThangLuong" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_DiemDanh_NangSuatLaoDong_NhanVien">
     <End Role="NhanVien" Type="Self.NhanVien" Multiplicity="1" />
     <End Role="DiemDanh_NangSuatLaoDong" Type="Self.DiemDanh_NangSuatLaoDong" Multiplicity="*" />
@@ -1995,6 +2783,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Header_DiemDanh_NangSuat_LaoDong_Department">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Header_DiemDanh_NangSuat_LaoDong" Type="Self.Header_DiemDanh_NangSuat_LaoDong" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Header_DiemDanh_NangSuat_LaoDong">
+        <PropertyRef Name="MaPhongBan" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_header_ThucHienTheoNgay_Department">
     <End Role="Department" Type="Self.Department" Multiplicity="1" />
     <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="*" />
@@ -2004,6 +2804,18 @@
       </Principal>
       <Dependent Role="header_ThucHienTheoNgay">
         <PropertyRef Name="MaPhongBan" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Important_Documentary_Account">
+    <End Role="Account" Type="Self.Account" Multiplicity="1" />
+    <End Role="Important_Documentary" Type="Self.Important_Documentary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Important_Documentary">
+        <PropertyRef Name="AccountID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2097,8 +2909,14 @@
     <EntitySet Name="Account_Right" EntityType="Self.Account_Right" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Account_Right_Detail" EntityType="Self.Account_Right_Detail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BacLuong" EntityType="Self.BacLuong" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BacLuong_ThangLuong_MucLuong" EntityType="Self.BacLuong_ThangLuong_MucLuong" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BangCap_GiayChungNhan" EntityType="Self.BangCap_GiayChungNhan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BaoCaoFile" EntityType="Self.BaoCaoFile" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Camera_Acceptance" EntityType="Self.Camera_Acceptance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CameraIncident" EntityType="Self.CameraIncident" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CarGPS" EntityType="Self.CarGPS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Category_attribute_value" EntityType="Self.Category_attribute_value" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChamDut_NhanVien" EntityType="Self.ChamDut_NhanVien" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChiTiet_BangCap_GiayChungNhan" EntityType="Self.ChiTiet_BangCap_GiayChungNhan" Schema="dbo" store:Type="Tables" />
@@ -2106,33 +2924,44 @@
     <EntitySet Name="ChungChi" EntityType="Self.ChungChi" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChungChi_NhanVien" EntityType="Self.ChungChi_NhanVien" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChuyenNganh" EntityType="Self.ChuyenNganh" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CongTacAnToan" EntityType="Self.CongTacAnToan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CongViec" EntityType="Self.CongViec" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CongViec_NhomCongViec" EntityType="Self.CongViec_NhomCongViec" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DiemDanh_NangSuatLaoDong" EntityType="Self.DiemDanh_NangSuatLaoDong" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DienCongViec" EntityType="Self.DienCongViec" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DieuDong_NhanVien" EntityType="Self.DieuDong_NhanVien" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Documentary" EntityType="Self.Documentary" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Documentary_big_maintain_details" EntityType="Self.Documentary_big_maintain_details" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Documentary_camera_repair_details" EntityType="Self.Documentary_camera_repair_details" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Documentary_Improve_Detail" EntityType="Self.Documentary_Improve_Detail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Documentary_liquidation_details" EntityType="Self.Documentary_liquidation_details" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Documentary_maintain_details" EntityType="Self.Documentary_maintain_details" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Documentary_moveline_details" EntityType="Self.Documentary_moveline_details" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Documentary_repair_details" EntityType="Self.Documentary_repair_details" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Documentary_revoke_details" EntityType="Self.Documentary_revoke_details" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DocumentaryType" EntityType="Self.DocumentaryType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Equipment_attribute" EntityType="Self.Equipment_attribute" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Equipment_category" EntityType="Self.Equipment_category" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Equipment_category_attribute" EntityType="Self.Equipment_category_attribute" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Equipment_Category_Supply" EntityType="Self.Equipment_Category_Supply" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Equipment_Inspection" EntityType="Self.Equipment_Inspection" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Equipment_Insurance" EntityType="Self.Equipment_Insurance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Equipment_SCTX" EntityType="Self.Equipment_SCTX" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Equipment_SCTX_Detail" EntityType="Self.Equipment_SCTX_Detail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FakeAPI" EntityType="Self.FakeAPI" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FileBaoCao" EntityType="Self.FileBaoCao" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Fuel_activities_consumption" EntityType="Self.Fuel_activities_consumption" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="GiayTo" EntityType="Self.GiayTo" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Header_DiemDanh_NangSuat_LaoDong" EntityType="Self.Header_DiemDanh_NangSuat_LaoDong" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="header_KeHoach_TieuChi_TheoNam" EntityType="Self.header_KeHoach_TieuChi_TheoNam" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="header_KeHoach_TieuChi_TheoNgay" EntityType="Self.header_KeHoach_TieuChi_TheoNgay" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="header_KeHoachTungThang" EntityType="Self.header_KeHoachTungThang" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="header_ThucHienTheoNgay" EntityType="Self.header_ThucHienTheoNgay" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="HoSo" EntityType="Self.HoSo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Important_Documentary" EntityType="Self.Important_Documentary" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Incident" EntityType="Self.Incident" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="KeHoach_TieuChi_TheoNam" EntityType="Self.KeHoach_TieuChi_TheoNam" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="KeHoach_TieuChi_TheoNgay" EntityType="Self.KeHoach_TieuChi_TheoNgay" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="KeHoach_TieuChi_TheoThang" EntityType="Self.KeHoach_TieuChi_TheoThang" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LichSuBoSungSYLL" EntityType="Self.LichSuBoSungSYLL" Schema="dbo" store:Type="Tables" />
@@ -2144,60 +2973,96 @@
     <EntitySet Name="NguoiUyQuyenLayHoSo_BaoHiem" EntityType="Self.NguoiUyQuyenLayHoSo_BaoHiem" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NhanVien" EntityType="Self.NhanVien" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NhiemVu" EntityType="Self.NhiemVu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NhomCongViec" EntityType="Self.NhomCongViec" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NhomTieuChi" EntityType="Self.NhomTieuChi" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PhongBan_TieuChi" EntityType="Self.PhongBan_TieuChi" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QuanHeGiaDinh" EntityType="Self.QuanHeGiaDinh" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QuaTrinhCongTac" EntityType="Self.QuaTrinhCongTac" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="QuyetDinh" EntityType="Self.QuyetDinh" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Supply" EntityType="Self.Supply" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Supply_DiKem" EntityType="Self.Supply_DiKem" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Supply_Documentary_Camera" EntityType="Self.Supply_Documentary_Camera" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Supply_Documentary_Equipment" EntityType="Self.Supply_Documentary_Equipment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Supply_DuPhong" EntityType="Self.Supply_DuPhong" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Supply_tieuhao" EntityType="Self.Supply_tieuhao" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SupplyPlan" EntityType="Self.SupplyPlan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TaiNan" EntityType="Self.TaiNan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ThangLuong" EntityType="Self.ThangLuong" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ThucHien_TieuChi_TheoNgay" EntityType="Self.ThucHien_TieuChi_TheoNgay" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TieuChi" EntityType="Self.TieuChi" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TrangThai" EntityType="Self.TrangThai" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TrinhDo" EntityType="Self.TrinhDo" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Truong" EntityType="Self.Truong" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TuyenDung_NhanVien" EntityType="Self.TuyenDung_NhanVien" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_Action_Log" EntityType="Self.User_Action_Log" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__Acceptanc__docum__2A164134" Association="Self.FK__Acceptanc__docum__2A164134">
       <End Role="Documentary" EntitySet="Documentary" />
       <End Role="Acceptance" EntitySet="Acceptance" />
     </AssociationSet>
-    <AssociationSet Name="FK__Acceptanc__equip__498EEC8D" Association="Self.FK__Acceptanc__equip__498EEC8D">
+    <AssociationSet Name="FK__Acceptanc__equip__6FB49575" Association="Self.FK__Acceptanc__equip__6FB49575">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Acceptance" EntitySet="Acceptance" />
     </AssociationSet>
-    <AssociationSet Name="FK__Activity__equipm__4B7734FF" Association="Self.FK__Activity__equipm__4B7734FF">
+    <AssociationSet Name="FK__Activity__equipm__756D6ECB" Association="Self.FK__Activity__equipm__756D6ECB">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Activity" EntitySet="Activity" />
     </AssociationSet>
-    <AssociationSet Name="FK__BangCap_G__MaChu__4C6B5938" Association="Self.FK__BangCap_G__MaChu__4C6B5938">
+    <AssociationSet Name="FK__BacLuong___MaBac__76619304" Association="Self.FK__BacLuong___MaBac__76619304">
+      <End Role="BacLuong" EntitySet="BacLuong" />
+      <End Role="BacLuong_ThangLuong_MucLuong" EntitySet="BacLuong_ThangLuong_MucLuong" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BacLuong___MaTha__7755B73D" Association="Self.FK__BacLuong___MaTha__7755B73D">
+      <End Role="ThangLuong" EntitySet="ThangLuong" />
+      <End Role="BacLuong_ThangLuong_MucLuong" EntitySet="BacLuong_ThangLuong_MucLuong" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BangCap_G__MaChu__7849DB76" Association="Self.FK__BangCap_G__MaChu__7849DB76">
       <End Role="ChuyenNganh" EntitySet="ChuyenNganh" />
       <End Role="BangCap_GiayChungNhan" EntitySet="BangCap_GiayChungNhan" />
     </AssociationSet>
-    <AssociationSet Name="FK__BaoCaoFil__phanx__4F47C5E3" Association="Self.FK__BaoCaoFil__phanx__4F47C5E3">
+    <AssociationSet Name="FK__BaoCaoFil__phanx__7B264821" Association="Self.FK__BaoCaoFil__phanx__7B264821">
       <End Role="Department" EntitySet="Department" />
       <End Role="BaoCaoFile" EntitySet="BaoCaoFile" />
     </AssociationSet>
-    <AssociationSet Name="FK__Category___equip__503BEA1C" Association="Self.FK__Category___equip__503BEA1C">
+    <AssociationSet Name="FK__Camera_Ac__docum__7C1A6C5A" Association="Self.FK__Camera_Ac__docum__7C1A6C5A">
+      <End Role="Documentary" EntitySet="Documentary" />
+      <End Role="Camera_Acceptance" EntitySet="Camera_Acceptance" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Camera_Ac__room___7D0E9093" Association="Self.FK__Camera_Ac__room___7D0E9093">
+      <End Role="Room" EntitySet="Room" />
+      <End Role="Camera_Acceptance" EntitySet="Camera_Acceptance" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CameraInc__room___762C88DA" Association="Self.FK__CameraInc__room___762C88DA">
+      <End Role="Room" EntitySet="Room" />
+      <End Role="CameraIncident" EntitySet="CameraIncident" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Car__equipmentId__7E02B4CC" Association="Self.FK__Car__equipmentId__7E02B4CC">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Car" EntitySet="Car" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CarGPS__equipmen__7EF6D905" Association="Self.FK__CarGPS__equipmen__7EF6D905">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="CarGPS" EntitySet="CarGPS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Category___Equip__00DF2177" Association="Self.FK__Category___Equip__00DF2177">
+      <End Role="Equipment_category_attribute" EntitySet="Equipment_category_attribute" />
+      <End Role="Category_attribute_value" EntitySet="Category_attribute_value" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Category___equip__01D345B0" Association="Self.FK__Category___equip__01D345B0">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Category_attribute_value" EntitySet="Category_attribute_value" />
     </AssociationSet>
-    <AssociationSet Name="FK__Category___Equip__51300E55" Association="Self.FK__Category___Equip__51300E55">
+    <AssociationSet Name="FK__Category___Equip__7FEAFD3E" Association="Self.FK__Category___Equip__7FEAFD3E">
       <End Role="Equipment_category" EntitySet="Equipment_category" />
-      <End Role="Category_attribute_value" EntitySet="Category_attribute_value" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Category___Equip__5224328E" Association="Self.FK__Category___Equip__5224328E">
-      <End Role="Equipment_category_attribute" EntitySet="Equipment_category_attribute" />
       <End Role="Category_attribute_value" EntitySet="Category_attribute_value" />
     </AssociationSet>
     <AssociationSet Name="FK__ChamDut_N__MaQuy__0B91BA14" Association="Self.FK__ChamDut_N__MaQuy__0B91BA14">
       <End Role="QuyetDinh" EntitySet="QuyetDinh" />
       <End Role="ChamDut_NhanVien" EntitySet="ChamDut_NhanVien" />
     </AssociationSet>
-    <AssociationSet Name="FK__ChiTiet_B__MaBan__55009F39" Association="Self.FK__ChiTiet_B__MaBan__55009F39">
+    <AssociationSet Name="FK__ChiTiet_B__MaBan__04AFB25B" Association="Self.FK__ChiTiet_B__MaBan__04AFB25B">
       <End Role="BangCap_GiayChungNhan" EntitySet="BangCap_GiayChungNhan" />
       <End Role="ChiTiet_BangCap_GiayChungNhan" EntitySet="ChiTiet_BangCap_GiayChungNhan" />
     </AssociationSet>
@@ -2205,7 +3070,7 @@
       <End Role="NhanVien" EntitySet="NhanVien" />
       <End Role="ChiTiet_NhiemVu_NhanVien" EntitySet="ChiTiet_NhiemVu_NhanVien" />
     </AssociationSet>
-    <AssociationSet Name="FK__ChungChi___MaChu__58D1301D" Association="Self.FK__ChungChi___MaChu__58D1301D">
+    <AssociationSet Name="FK__ChungChi___MaChu__0880433F" Association="Self.FK__ChungChi___MaChu__0880433F">
       <End Role="ChungChi" EntitySet="ChungChi" />
       <End Role="ChungChi_NhanVien" EntitySet="ChungChi_NhanVien" />
     </AssociationSet>
@@ -2213,57 +3078,101 @@
       <End Role="NhanVien" EntitySet="NhanVien" />
       <End Role="ChungChi_NhanVien" EntitySet="ChungChi_NhanVien" />
     </AssociationSet>
-    <AssociationSet Name="FK__ChuyenNga__MaNga__5AB9788F" Association="Self.FK__ChuyenNga__MaNga__5AB9788F">
+    <AssociationSet Name="FK__ChuyenNga__MaNga__0A688BB1" Association="Self.FK__ChuyenNga__MaNga__0A688BB1">
       <End Role="Nganh" EntitySet="Nganh" />
       <End Role="ChuyenNganh" EntitySet="ChuyenNganh" />
     </AssociationSet>
-    <AssociationSet Name="FK__DiemDanh___Heade__5BAD9CC8" Association="Self.FK__DiemDanh___Heade__5BAD9CC8">
+    <AssociationSet Name="FK__CongTacAn__MaPho__0B5CAFEA" Association="Self.FK__CongTacAn__MaPho__0B5CAFEA">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="CongTacAnToan" EntitySet="CongTacAnToan" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CongViec___MaCon__0D44F85C" Association="Self.FK__CongViec___MaCon__0D44F85C">
+      <End Role="CongViec" EntitySet="CongViec" />
+      <End Role="CongViec_NhomCongViec" EntitySet="CongViec_NhomCongViec" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CongViec___MaNho__0E391C95" Association="Self.FK__CongViec___MaNho__0E391C95">
+      <End Role="NhomCongViec" EntitySet="NhomCongViec" />
+      <End Role="CongViec_NhomCongViec" EntitySet="CongViec_NhomCongViec" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DiemDanh___Heade__0F2D40CE" Association="Self.FK__DiemDanh___Heade__0F2D40CE">
       <End Role="Header_DiemDanh_NangSuat_LaoDong" EntitySet="Header_DiemDanh_NangSuat_LaoDong" />
       <End Role="DiemDanh_NangSuatLaoDong" EntitySet="DiemDanh_NangSuatLaoDong" />
     </AssociationSet>
-    <AssociationSet Name="FK__DieuDong___MaQuy__17036CC0" Association="Self.FK__DieuDong___MaQuy__17036CC0">
+    <AssociationSet Name="FK__DieuDong___MaBac__11158940" Association="Self.FK__DieuDong___MaBac__11158940">
+      <End Role="BacLuong_ThangLuong_MucLuong" EntitySet="BacLuong_ThangLuong_MucLuong" />
+      <End Role="DieuDong_NhanVien" EntitySet="DieuDong_NhanVien" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DieuDong___MaBac__1209AD79" Association="Self.FK__DieuDong___MaBac__1209AD79">
+      <End Role="BacLuong_ThangLuong_MucLuong" EntitySet="BacLuong_ThangLuong_MucLuong" />
+      <End Role="DieuDong_NhanVien" EntitySet="DieuDong_NhanVien" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DieuDong___MaChu__12FDD1B2" Association="Self.FK__DieuDong___MaChu__12FDD1B2">
+      <End Role="CongViec" EntitySet="CongViec" />
+      <End Role="DieuDong_NhanVien" EntitySet="DieuDong_NhanVien" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DieuDong___MaChu__13F1F5EB" Association="Self.FK__DieuDong___MaChu__13F1F5EB">
+      <End Role="CongViec" EntitySet="CongViec" />
+      <End Role="DieuDong_NhanVien" EntitySet="DieuDong_NhanVien" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DieuDong___MaDon__14E61A24" Association="Self.FK__DieuDong___MaDon__14E61A24">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="DieuDong_NhanVien" EntitySet="DieuDong_NhanVien" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DieuDong___MaDon__15DA3E5D" Association="Self.FK__DieuDong___MaDon__15DA3E5D">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="DieuDong_NhanVien" EntitySet="DieuDong_NhanVien" />
+    </AssociationSet>
+    <AssociationSet Name="FK__DieuDong___MaQuy__16CE6296" Association="Self.FK__DieuDong___MaQuy__16CE6296">
       <End Role="QuyetDinh" EntitySet="QuyetDinh" />
       <End Role="DieuDong_NhanVien" EntitySet="DieuDong_NhanVien" />
     </AssociationSet>
-    <AssociationSet Name="FK__DieuDong_N__MaNV__17F790F9" Association="Self.FK__DieuDong_N__MaNV__17F790F9">
+    <AssociationSet Name="FK__DieuDong_N__MaNV__17C286CF" Association="Self.FK__DieuDong_N__MaNV__17C286CF">
       <End Role="NhanVien" EntitySet="NhanVien" />
       <End Role="DieuDong_NhanVien" EntitySet="DieuDong_NhanVien" />
     </AssociationSet>
-    <AssociationSet Name="FK__Documenta__depar__40058253" Association="Self.FK__Documenta__depar__40058253">
+    <AssociationSet Name="FK__Documenta__depar__19AACF41" Association="Self.FK__Documenta__depar__19AACF41">
       <End Role="Department" EntitySet="Department" />
+      <End Role="Documentary_big_maintain_details" EntitySet="Documentary_big_maintain_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__depar__1C873BEC" Association="Self.FK__Documenta__depar__1C873BEC">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Documentary_camera_repair_details" EntitySet="Documentary_camera_repair_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__depar__1F63A897" Association="Self.FK__Documenta__depar__1F63A897">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Documentary_Improve_Detail" EntitySet="Documentary_Improve_Detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__depar__22401542" Association="Self.FK__Documenta__depar__22401542">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Documentary_liquidation_details" EntitySet="Documentary_liquidation_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__depar__251C81ED" Association="Self.FK__Documenta__depar__251C81ED">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Documentary_maintain_details" EntitySet="Documentary_maintain_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__depar__27F8EE98" Association="Self.FK__Documenta__depar__27F8EE98">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Documentary_moveline_details" EntitySet="Documentary_moveline_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__depar__2AD55B43" Association="Self.FK__Documenta__depar__2AD55B43">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Documentary_repair_details" EntitySet="Documentary_repair_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__depar__2DB1C7EE" Association="Self.FK__Documenta__depar__2DB1C7EE">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Documentary_revoke_details" EntitySet="Documentary_revoke_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__docum__18B6AB08" Association="Self.FK__Documenta__docum__18B6AB08">
+      <End Role="DocumentaryType" EntitySet="DocumentaryType" />
       <End Role="Documentary" EntitySet="Documentary" />
     </AssociationSet>
-    <AssociationSet Name="FK__Documenta__depar__4E53A1AA" Association="Self.FK__Documenta__depar__4E53A1AA">
-      <End Role="Department" EntitySet="Department" />
-      <End Role="Documentary_big_maintain_details" EntitySet="Documentary_big_maintain_details" />
+    <AssociationSet Name="FK__Documenta__docum__1D7B6025" Association="Self.FK__Documenta__docum__1D7B6025">
+      <End Role="Documentary" EntitySet="Documentary" />
+      <End Role="Documentary_camera_repair_details" EntitySet="Documentary_camera_repair_details" />
     </AssociationSet>
-    <AssociationSet Name="FK__Documenta__depar__4F47C5E3" Association="Self.FK__Documenta__depar__4F47C5E3">
-      <End Role="Department" EntitySet="Department" />
-      <End Role="Documentary_big_maintain_details" EntitySet="Documentary_big_maintain_details" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Documenta__depar__540C7B00" Association="Self.FK__Documenta__depar__540C7B00">
-      <End Role="Department" EntitySet="Department" />
-      <End Role="Documentary_maintain_details" EntitySet="Documentary_maintain_details" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Documenta__depar__55009F39" Association="Self.FK__Documenta__depar__55009F39">
-      <End Role="Department" EntitySet="Department" />
-      <End Role="Documentary_maintain_details" EntitySet="Documentary_maintain_details" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Documenta__depar__57DD0BE4" Association="Self.FK__Documenta__depar__57DD0BE4">
-      <End Role="Department" EntitySet="Department" />
-      <End Role="Documentary_moveline_details" EntitySet="Documentary_moveline_details" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Documenta__depar__58D1301D" Association="Self.FK__Documenta__depar__58D1301D">
-      <End Role="Department" EntitySet="Department" />
-      <End Role="Documentary_moveline_details" EntitySet="Documentary_moveline_details" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Documenta__depar__5BAD9CC8" Association="Self.FK__Documenta__depar__5BAD9CC8">
-      <End Role="Department" EntitySet="Department" />
-      <End Role="Documentary_repair_details" EntitySet="Documentary_repair_details" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Documenta__depar__5CA1C101" Association="Self.FK__Documenta__depar__5CA1C101">
-      <End Role="Department" EntitySet="Department" />
-      <End Role="Documentary_repair_details" EntitySet="Documentary_repair_details" />
+    <AssociationSet Name="FK__Documenta__docum__2057CCD0" Association="Self.FK__Documenta__docum__2057CCD0">
+      <End Role="Documentary" EntitySet="Documentary" />
+      <End Role="Documentary_Improve_Detail" EntitySet="Documentary_Improve_Detail" />
     </AssociationSet>
     <AssociationSet Name="FK__Documenta__docum__40F9A68C" Association="Self.FK__Documenta__docum__40F9A68C">
       <End Role="Documentary" EntitySet="Documentary" />
@@ -2289,6 +3198,14 @@
       <End Role="Documentary" EntitySet="Documentary" />
       <End Role="Documentary_revoke_details" EntitySet="Documentary_revoke_details" />
     </AssociationSet>
+    <AssociationSet Name="FK__Documenta__equip__1B9317B3" Association="Self.FK__Documenta__equip__1B9317B3">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Documentary_big_maintain_details" EntitySet="Documentary_big_maintain_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Documenta__equip__214BF109" Association="Self.FK__Documenta__equip__214BF109">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Documentary_Improve_Detail" EntitySet="Documentary_Improve_Detail" />
+    </AssociationSet>
     <AssociationSet Name="FK__Documenta__equip__43D61338" Association="Self.FK__Documenta__equip__43D61338">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Documentary_liquidation_details" EntitySet="Documentary_liquidation_details" />
@@ -2309,59 +3226,75 @@
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Documentary_revoke_details" EntitySet="Documentary_revoke_details" />
     </AssociationSet>
-    <AssociationSet Name="FK__Documenta__equip__634EBE90" Association="Self.FK__Documenta__equip__634EBE90">
-      <End Role="Equipment" EntitySet="Equipment" />
-      <End Role="Documentary_big_maintain_details" EntitySet="Documentary_big_maintain_details" />
+    <AssociationSet Name="FK__Documenta__room___1E6F845E" Association="Self.FK__Documenta__room___1E6F845E">
+      <End Role="Room" EntitySet="Room" />
+      <End Role="Documentary_camera_repair_details" EntitySet="Documentary_camera_repair_details" />
     </AssociationSet>
-    <AssociationSet Name="FK__Equipment__curre__73852659" Association="Self.FK__Equipment__curre__73852659">
+    <AssociationSet Name="FK__Equipment__curre__308E3499" Association="Self.FK__Equipment__curre__308E3499">
       <End Role="Status" EntitySet="Status" />
       <End Role="Equipment" EntitySet="Equipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__depar__373B3228" Association="Self.FK__Equipment__depar__373B3228">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Equipment_SCTX" EntitySet="Equipment_SCTX" />
     </AssociationSet>
     <AssociationSet Name="FK__Equipment__depar__625A9A57" Association="Self.FK__Equipment__depar__625A9A57">
       <End Role="Department" EntitySet="Department" />
       <End Role="Equipment" EntitySet="Equipment" />
     </AssociationSet>
-    <AssociationSet Name="FK__Equipment__Equip__756D6ECB" Association="Self.FK__Equipment__Equip__756D6ECB">
+    <AssociationSet Name="FK__Equipment__Equip__32767D0B" Association="Self.FK__Equipment__Equip__32767D0B">
       <End Role="Equipment_category" EntitySet="Equipment_category" />
       <End Role="Equipment" EntitySet="Equipment" />
     </AssociationSet>
-    <AssociationSet Name="FK__Equipment__equip__76619304" Association="Self.FK__Equipment__equip__76619304">
+    <AssociationSet Name="FK__Equipment__equip__336AA144" Association="Self.FK__Equipment__equip__336AA144">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Equipment_attribute" EntitySet="Equipment_attribute" />
     </AssociationSet>
-    <AssociationSet Name="FK__Equipment__Equip__7755B73D" Association="Self.FK__Equipment__Equip__7755B73D">
+    <AssociationSet Name="FK__Equipment__Equip__345EC57D" Association="Self.FK__Equipment__Equip__345EC57D">
       <End Role="Equipment_category" EntitySet="Equipment_category" />
       <End Role="Equipment_category_attribute" EntitySet="Equipment_category_attribute" />
     </AssociationSet>
-    <AssociationSet Name="FK__Equipment__Equip__7849DB76" Association="Self.FK__Equipment__Equip__7849DB76">
-      <End Role="Equipment_category" EntitySet="Equipment_category" />
-      <End Role="Equipment_Category_Supply" EntitySet="Equipment_Category_Supply" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Equipment__equip__7A3223E8" Association="Self.FK__Equipment__equip__7A3223E8">
+    <AssociationSet Name="FK__Equipment__equip__3552E9B6" Association="Self.FK__Equipment__equip__3552E9B6">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Equipment_Inspection" EntitySet="Equipment_Inspection" />
     </AssociationSet>
-    <AssociationSet Name="FK__Equipment__suppl__793DFFAF" Association="Self.FK__Equipment__suppl__793DFFAF">
+    <AssociationSet Name="FK__Equipment__equip__36470DEF" Association="Self.FK__Equipment__equip__36470DEF">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Equipment_Insurance" EntitySet="Equipment_Insurance" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__equip__382F5661" Association="Self.FK__Equipment__equip__382F5661">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Equipment_SCTX" EntitySet="Equipment_SCTX" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__maint__39237A9A" Association="Self.FK__Equipment__maint__39237A9A">
+      <End Role="Equipment_SCTX" EntitySet="Equipment_SCTX" />
+      <End Role="Equipment_SCTX_Detail" EntitySet="Equipment_SCTX_Detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Equipment__suppl__3A179ED3" Association="Self.FK__Equipment__suppl__3A179ED3">
       <End Role="Supply" EntitySet="Supply" />
-      <End Role="Equipment_Category_Supply" EntitySet="Equipment_Category_Supply" />
+      <End Role="Equipment_SCTX_Detail" EntitySet="Equipment_SCTX_Detail" />
     </AssociationSet>
     <AssociationSet Name="FK__FakeAPI__MaNV__40F9A68C" Association="Self.FK__FakeAPI__MaNV__40F9A68C">
       <End Role="NhanVien" EntitySet="NhanVien" />
       <End Role="FakeAPI" EntitySet="FakeAPI" />
     </AssociationSet>
-    <AssociationSet Name="FK__FileBaoCa__baoCa__7C1A6C5A" Association="Self.FK__FileBaoCa__baoCa__7C1A6C5A">
+    <AssociationSet Name="FK__FileBaoCa__baoCa__3BFFE745" Association="Self.FK__FileBaoCa__baoCa__3BFFE745">
       <End Role="BaoCaoFile" EntitySet="BaoCaoFile" />
       <End Role="FileBaoCao" EntitySet="FileBaoCao" />
     </AssociationSet>
-    <AssociationSet Name="FK__FileBaoCa__nguoi__7D0E9093" Association="Self.FK__FileBaoCa__nguoi__7D0E9093">
+    <AssociationSet Name="FK__FileBaoCa__nguoi__29AC2CE0" Association="Self.FK__FileBaoCa__nguoi__29AC2CE0">
       <End Role="Account" EntitySet="Account" />
       <End Role="FileBaoCao" EntitySet="FileBaoCao" />
     </AssociationSet>
-    <AssociationSet Name="FK__Fuel_acti__equip__7E02B4CC" Association="Self.FK__Fuel_acti__equip__7E02B4CC">
+    <AssociationSet Name="FK__Fuel_acti__depar__3DE82FB7" Association="Self.FK__Fuel_acti__depar__3DE82FB7">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Fuel_activities_consumption" EntitySet="Fuel_activities_consumption" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Fuel_acti__equip__3EDC53F0" Association="Self.FK__Fuel_acti__equip__3EDC53F0">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Fuel_activities_consumption" EntitySet="Fuel_activities_consumption" />
     </AssociationSet>
-    <AssociationSet Name="FK__Fuel_acti__fuel___7EF6D905" Association="Self.FK__Fuel_acti__fuel___7EF6D905">
+    <AssociationSet Name="FK__Fuel_acti__fuel___3FD07829" Association="Self.FK__Fuel_acti__fuel___3FD07829">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="Fuel_activities_consumption" EntitySet="Fuel_activities_consumption" />
     </AssociationSet>
@@ -2369,15 +3302,15 @@
       <End Role="NhanVien" EntitySet="NhanVien" />
       <End Role="GiayTo" EntitySet="GiayTo" />
     </AssociationSet>
-    <AssociationSet Name="FK__Header_Di__MaPho__00DF2177" Association="Self.FK__Header_Di__MaPho__00DF2177">
+    <AssociationSet Name="FK__header_Ke__MaPho__42ACE4D4" Association="Self.FK__header_Ke__MaPho__42ACE4D4">
       <End Role="Department" EntitySet="Department" />
-      <End Role="Header_DiemDanh_NangSuat_LaoDong" EntitySet="Header_DiemDanh_NangSuat_LaoDong" />
+      <End Role="header_KeHoach_TieuChi_TheoNam" EntitySet="header_KeHoach_TieuChi_TheoNam" />
     </AssociationSet>
-    <AssociationSet Name="FK__header_Ke__MaPho__01D345B0" Association="Self.FK__header_Ke__MaPho__01D345B0">
+    <AssociationSet Name="FK__header_Ke__MaPho__43A1090D" Association="Self.FK__header_Ke__MaPho__43A1090D">
       <End Role="Department" EntitySet="Department" />
       <End Role="header_KeHoach_TieuChi_TheoNgay" EntitySet="header_KeHoach_TieuChi_TheoNgay" />
     </AssociationSet>
-    <AssociationSet Name="FK__header_Ke__MaPho__02C769E9" Association="Self.FK__header_Ke__MaPho__02C769E9">
+    <AssociationSet Name="FK__header_Ke__MaPho__44952D46" Association="Self.FK__header_Ke__MaPho__44952D46">
       <End Role="Department" EntitySet="Department" />
       <End Role="header_KeHoachTungThang" EntitySet="header_KeHoachTungThang" />
     </AssociationSet>
@@ -2385,19 +3318,31 @@
       <End Role="NhanVien" EntitySet="NhanVien" />
       <End Role="HoSo" EntitySet="HoSo" />
     </AssociationSet>
+    <AssociationSet Name="FK__Important__docum__38EE7070" Association="Self.FK__Important__docum__38EE7070">
+      <End Role="Documentary" EntitySet="Documentary" />
+      <End Role="Important_Documentary" EntitySet="Important_Documentary" />
+    </AssociationSet>
     <AssociationSet Name="FK__Incident__depart__6FB49575" Association="Self.FK__Incident__depart__6FB49575">
       <End Role="Department" EntitySet="Department" />
       <End Role="Incident" EntitySet="Incident" />
     </AssociationSet>
-    <AssociationSet Name="FK__Incident__equipm__0697FACD" Association="Self.FK__Incident__equipm__0697FACD">
+    <AssociationSet Name="FK__Incident__equipm__4A4E069C" Association="Self.FK__Incident__equipm__4A4E069C">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Incident" EntitySet="Incident" />
     </AssociationSet>
-    <AssociationSet Name="FK__KeHoach_T__Heade__078C1F06" Association="Self.FK__KeHoach_T__Heade__078C1F06">
+    <AssociationSet Name="FK__KeHoach_T__Heade__4B422AD5" Association="Self.FK__KeHoach_T__Heade__4B422AD5">
+      <End Role="header_KeHoach_TieuChi_TheoNam" EntitySet="header_KeHoach_TieuChi_TheoNam" />
+      <End Role="KeHoach_TieuChi_TheoNam" EntitySet="KeHoach_TieuChi_TheoNam" />
+    </AssociationSet>
+    <AssociationSet Name="FK__KeHoach_T__Heade__4D2A7347" Association="Self.FK__KeHoach_T__Heade__4D2A7347">
       <End Role="header_KeHoach_TieuChi_TheoNgay" EntitySet="header_KeHoach_TieuChi_TheoNgay" />
       <End Role="KeHoach_TieuChi_TheoNgay" EntitySet="KeHoach_TieuChi_TheoNgay" />
     </AssociationSet>
-    <AssociationSet Name="FK__KeHoach_T__MaTie__0880433F" Association="Self.FK__KeHoach_T__MaTie__0880433F">
+    <AssociationSet Name="FK__KeHoach_T__MaTie__4C364F0E" Association="Self.FK__KeHoach_T__MaTie__4C364F0E">
+      <End Role="TieuChi" EntitySet="TieuChi" />
+      <End Role="KeHoach_TieuChi_TheoNam" EntitySet="KeHoach_TieuChi_TheoNam" />
+    </AssociationSet>
+    <AssociationSet Name="FK__KeHoach_T__MaTie__4E1E9780" Association="Self.FK__KeHoach_T__MaTie__4E1E9780">
       <End Role="TieuChi" EntitySet="TieuChi" />
       <End Role="KeHoach_TieuChi_TheoNgay" EntitySet="KeHoach_TieuChi_TheoNgay" />
     </AssociationSet>
@@ -2409,21 +3354,25 @@
       <End Role="Department" EntitySet="Department" />
       <End Role="Maintain_Car" EntitySet="Maintain_Car" />
     </AssociationSet>
-    <AssociationSet Name="FK__Maintain___equip__0D44F85C" Association="Self.FK__Maintain___equip__0D44F85C">
+    <AssociationSet Name="FK__Maintain___equip__52E34C9D" Association="Self.FK__Maintain___equip__52E34C9D">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Maintain_Car" EntitySet="Maintain_Car" />
     </AssociationSet>
-    <AssociationSet Name="FK__Maintain___maint__0E391C95" Association="Self.FK__Maintain___maint__0E391C95">
+    <AssociationSet Name="FK__Maintain___maint__53D770D6" Association="Self.FK__Maintain___maint__53D770D6">
       <End Role="Maintain_Car" EntitySet="Maintain_Car" />
       <End Role="Maintain_Car_Detail" EntitySet="Maintain_Car_Detail" />
     </AssociationSet>
-    <AssociationSet Name="FK__Maintain___suppl__0F2D40CE" Association="Self.FK__Maintain___suppl__0F2D40CE">
+    <AssociationSet Name="FK__Maintain___suppl__54CB950F" Association="Self.FK__Maintain___suppl__54CB950F">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="Maintain_Car_Detail" EntitySet="Maintain_Car_Detail" />
     </AssociationSet>
     <AssociationSet Name="FK__MealRegis__depar__7A3223E8" Association="Self.FK__MealRegis__depar__7A3223E8">
       <End Role="Department" EntitySet="Department" />
       <End Role="MealRegistration" EntitySet="MealRegistration" />
+    </AssociationSet>
+    <AssociationSet Name="FK__NhanVien__MaBacL__56B3DD81" Association="Self.FK__NhanVien__MaBacL__56B3DD81">
+      <End Role="BacLuong_ThangLuong_MucLuong" EntitySet="BacLuong_ThangLuong_MucLuong" />
+      <End Role="NhanVien" EntitySet="NhanVien" />
     </AssociationSet>
     <AssociationSet Name="FK__NhanVien__MaChuy__531856C7" Association="Self.FK__NhanVien__MaChuy__531856C7">
       <End Role="ChuyenNganh" EntitySet="ChuyenNganh" />
@@ -2449,11 +3398,15 @@
       <End Role="NguoiUyQuyenLayHoSo_BaoHiem" EntitySet="NguoiUyQuyenLayHoSo_BaoHiem" />
       <End Role="NhanVien" EntitySet="NhanVien" />
     </AssociationSet>
-    <AssociationSet Name="FK__PhongBan___MaPho__18B6AB08" Association="Self.FK__PhongBan___MaPho__18B6AB08">
+    <AssociationSet Name="FK__NhomCongV__MaDie__5F492382" Association="Self.FK__NhomCongV__MaDie__5F492382">
+      <End Role="DienCongViec" EntitySet="DienCongViec" />
+      <End Role="NhomCongViec" EntitySet="NhomCongViec" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PhongBan___MaPho__603D47BB" Association="Self.FK__PhongBan___MaPho__603D47BB">
       <End Role="Department" EntitySet="Department" />
       <End Role="PhongBan_TieuChi" EntitySet="PhongBan_TieuChi" />
     </AssociationSet>
-    <AssociationSet Name="FK__PhongBan___MaTie__19AACF41" Association="Self.FK__PhongBan___MaTie__19AACF41">
+    <AssociationSet Name="FK__PhongBan___MaTie__61316BF4" Association="Self.FK__PhongBan___MaTie__61316BF4">
       <End Role="TieuChi" EntitySet="TieuChi" />
       <End Role="PhongBan_TieuChi" EntitySet="PhongBan_TieuChi" />
     </AssociationSet>
@@ -2461,27 +3414,63 @@
       <End Role="NhanVien" EntitySet="NhanVien" />
       <End Role="QuanHeGiaDinh" EntitySet="QuanHeGiaDinh" />
     </AssociationSet>
-    <AssociationSet Name="FK__QuaTrinhCo__MaNV__1B9317B3" Association="Self.FK__QuaTrinhCo__MaNV__1B9317B3">
+    <AssociationSet Name="FK__QuaTrinhCo__MaNV__6319B466" Association="Self.FK__QuaTrinhCo__MaNV__6319B466">
       <End Role="NhanVien" EntitySet="NhanVien" />
       <End Role="QuaTrinhCongTac" EntitySet="QuaTrinhCongTac" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Room__department__640DD89F" Association="Self.FK__Room__department__640DD89F">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Room" EntitySet="Room" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Supply_Di__equip__6501FCD8" Association="Self.FK__Supply_Di__equip__6501FCD8">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Supply_DiKem" EntitySet="Supply_DiKem" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Supply_Di__equip__65F62111" Association="Self.FK__Supply_Di__equip__65F62111">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Supply_DiKem" EntitySet="Supply_DiKem" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Supply_Do__docum__66EA454A" Association="Self.FK__Supply_Do__docum__66EA454A">
+      <End Role="Documentary" EntitySet="Documentary" />
+      <End Role="Supply_Documentary_Camera" EntitySet="Supply_Documentary_Camera" />
     </AssociationSet>
     <AssociationSet Name="FK__Supply_Do__docum__671F4F74" Association="Self.FK__Supply_Do__docum__671F4F74">
       <End Role="Documentary" EntitySet="Documentary" />
       <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
     </AssociationSet>
-    <AssociationSet Name="FK__Supply_Do__equip__1D7B6025" Association="Self.FK__Supply_Do__equip__1D7B6025">
+    <AssociationSet Name="FK__Supply_Do__equip__6ABAD62E" Association="Self.FK__Supply_Do__equip__6ABAD62E">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
     </AssociationSet>
-    <AssociationSet Name="FK__Supply_Do__suppl__1E6F845E" Association="Self.FK__Supply_Do__suppl__1E6F845E">
+    <AssociationSet Name="FK__Supply_Do__equip__6BAEFA67" Association="Self.FK__Supply_Do__equip__6BAEFA67">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Supply_Do__room___67DE6983" Association="Self.FK__Supply_Do__room___67DE6983">
+      <End Role="Room" EntitySet="Room" />
+      <End Role="Supply_Documentary_Camera" EntitySet="Supply_Documentary_Camera" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Supply_Do__suppl__68D28DBC" Association="Self.FK__Supply_Do__suppl__68D28DBC">
+      <End Role="Supply" EntitySet="Supply" />
+      <End Role="Supply_Documentary_Camera" EntitySet="Supply_Documentary_Camera" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Supply_Do__suppl__6CA31EA0" Association="Self.FK__Supply_Do__suppl__6CA31EA0">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Supply_Du__equip__6D9742D9" Association="Self.FK__Supply_Du__equip__6D9742D9">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="Supply_DuPhong" EntitySet="Supply_DuPhong" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Supply_Du__suppl__6E8B6712" Association="Self.FK__Supply_Du__suppl__6E8B6712">
+      <End Role="Supply" EntitySet="Supply" />
+      <End Role="Supply_DuPhong" EntitySet="Supply_DuPhong" />
     </AssociationSet>
     <AssociationSet Name="FK__Supply_ti__depar__078C1F06" Association="Self.FK__Supply_ti__depar__078C1F06">
       <End Role="Department" EntitySet="Department" />
       <End Role="Supply_tieuhao" EntitySet="Supply_tieuhao" />
     </AssociationSet>
-    <AssociationSet Name="FK__Supply_ti__suppl__2057CCD0" Association="Self.FK__Supply_ti__suppl__2057CCD0">
+    <AssociationSet Name="FK__Supply_ti__suppl__7073AF84" Association="Self.FK__Supply_ti__suppl__7073AF84">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="Supply_tieuhao" EntitySet="Supply_tieuhao" />
     </AssociationSet>
@@ -2493,15 +3482,15 @@
       <End Role="Department" EntitySet="Department" />
       <End Role="SupplyPlan" EntitySet="SupplyPlan" />
     </AssociationSet>
-    <AssociationSet Name="FK__SupplyPla__equip__2334397B" Association="Self.FK__SupplyPla__equip__2334397B">
+    <AssociationSet Name="FK__SupplyPla__equip__73501C2F" Association="Self.FK__SupplyPla__equip__73501C2F">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="SupplyPlan" EntitySet="SupplyPlan" />
     </AssociationSet>
-    <AssociationSet Name="FK__SupplyPla__suppl__24285DB4" Association="Self.FK__SupplyPla__suppl__24285DB4">
+    <AssociationSet Name="FK__SupplyPla__suppl__74444068" Association="Self.FK__SupplyPla__suppl__74444068">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="SupplyPlan" EntitySet="SupplyPlan" />
     </AssociationSet>
-    <AssociationSet Name="FK__SupplyPla__suppl__251C81ED" Association="Self.FK__SupplyPla__suppl__251C81ED">
+    <AssociationSet Name="FK__SupplyPla__suppl__753864A1" Association="Self.FK__SupplyPla__suppl__753864A1">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="SupplyPlan" EntitySet="SupplyPlan" />
     </AssociationSet>
@@ -2509,7 +3498,7 @@
       <End Role="NhanVien" EntitySet="NhanVien" />
       <End Role="TaiNan" EntitySet="TaiNan" />
     </AssociationSet>
-    <AssociationSet Name="FK__ThucHien___MaTie__2704CA5F" Association="Self.FK__ThucHien___MaTie__2704CA5F">
+    <AssociationSet Name="FK__ThucHien___MaTie__7814D14C" Association="Self.FK__ThucHien___MaTie__7814D14C">
       <End Role="TieuChi" EntitySet="TieuChi" />
       <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
     </AssociationSet>
@@ -2517,8 +3506,28 @@
       <End Role="QuyetDinh" EntitySet="QuyetDinh" />
       <End Role="TuyenDung_NhanVien" EntitySet="TuyenDung_NhanVien" />
     </AssociationSet>
+    <AssociationSet Name="FK__User_Acti__Accou__689D8392" Association="Self.FK__User_Acti__Accou__689D8392">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="User_Action_Log" EntitySet="User_Action_Log" />
+    </AssociationSet>
     <AssociationSet Name="FK_Account_NhanVien" Association="Self.FK_Account_NhanVien">
       <End Role="NhanVien" EntitySet="NhanVien" />
+      <End Role="Account" EntitySet="Account" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Account_Right_Detail_Account" Association="Self.FK_Account_Right_Detail_Account">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="Account_Right_Detail" EntitySet="Account_Right_Detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Account_Right_Detail_Account_Right" Association="Self.FK_Account_Right_Detail_Account_Right">
+      <End Role="Account_Right" EntitySet="Account_Right" />
+      <End Role="Account_Right_Detail" EntitySet="Account_Right_Detail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Account_Right_Module" Association="Self.FK_Account_Right_Module">
+      <End Role="Module" EntitySet="Module" />
+      <End Role="Account_Right" EntitySet="Account_Right" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Account_Role" Association="Self.FK_Account_Role">
+      <End Role="Role" EntitySet="Role" />
       <End Role="Account" EntitySet="Account" />
     </AssociationSet>
     <AssociationSet Name="FK_BangCap_TrinhDo" Association="Self.FK_BangCap_TrinhDo">
@@ -2541,13 +3550,25 @@
       <End Role="NhiemVu" EntitySet="NhiemVu" />
       <End Role="ChiTiet_NhiemVu_NhanVien" EntitySet="ChiTiet_NhiemVu_NhanVien" />
     </AssociationSet>
+    <AssociationSet Name="FK_CongViec_ThangLuong" Association="Self.FK_CongViec_ThangLuong">
+      <End Role="ThangLuong" EntitySet="ThangLuong" />
+      <End Role="CongViec" EntitySet="CongViec" />
+    </AssociationSet>
     <AssociationSet Name="FK_DiemDanh_NangSuatLaoDong_NhanVien" Association="Self.FK_DiemDanh_NangSuatLaoDong_NhanVien">
       <End Role="NhanVien" EntitySet="NhanVien" />
       <End Role="DiemDanh_NangSuatLaoDong" EntitySet="DiemDanh_NangSuatLaoDong" />
     </AssociationSet>
+    <AssociationSet Name="FK_Header_DiemDanh_NangSuat_LaoDong_Department" Association="Self.FK_Header_DiemDanh_NangSuat_LaoDong_Department">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Header_DiemDanh_NangSuat_LaoDong" EntitySet="Header_DiemDanh_NangSuat_LaoDong" />
+    </AssociationSet>
     <AssociationSet Name="FK_header_ThucHienTheoNgay_Department" Association="Self.FK_header_ThucHienTheoNgay_Department">
       <End Role="Department" EntitySet="Department" />
       <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Important_Documentary_Account" Association="Self.FK_Important_Documentary_Account">
+      <End Role="Account" EntitySet="Account" />
+      <End Role="Important_Documentary" EntitySet="Important_Documentary" />
     </AssociationSet>
     <AssociationSet Name="FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang" Association="Self.FK_KeHoach_TieuChi_TheoThang_header_KeHoachTungThang">
       <End Role="header_KeHoachTungThang" EntitySet="header_KeHoachTungThang" />

@@ -215,51 +215,21 @@
 
 <div id="bieudo">
     <div class="row">
-        <div class="col s12 l4">
+        <div class="col s12 l12">
             <div class="card" style="height: 200px">
                 <div class="card-content align-items-center">
                     <div class="row">
-                        <div class="col s12">
-                            <h6 class="card-subtitle">Dầu nhũ hóa sử dụng</h6>
-                            <h4>@ViewBag.DauNhuHoa Lít</h4>
+                        <div class="col s12 center">
+                            <h6 class="card-subtitle">Nhiên liệu sử dụng</h6>
+                            <h4>@ViewBag.all Lít</h4>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col s12 l4">
-            <div class="card" style="height: 200px">
-                <div class="card-content align-items-center">
-                    <div class="row">
-                        <div class="col s12">
-                            <h6 class="card-subtitle">Xăng sử dụng</h6>
-                            <h4>@ViewBag.Xang Lít</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 l4">
-            <div class="card" style="height: 200px">
-                <div class="card-content align-items-center">
-                    <div class="row">
-                        <div class="col s12">
-                            <h6 class="card-subtitle">Dầu mỡ sử dụng</h6>
-                            <h4>@ViewBag.DauMo Lít</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <div class="card">
-        <div class="card-content analytics-info">
-            <h5 class="card-title">Nhiên liệu tiêu thụ (Lít)</h5>
-            <div id="fuel" style="height:400px;"></div>
-        </div>
-    </div>
 </div>
+    </div>
+
 
 
 <div class="card">
@@ -297,26 +267,14 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" style="padding-bottom: 30px !important">
                         <div class="summary_container">
                             <div class="col l6 summary_left">
                                 <table class=" table-bordered striped">
                                     <tbody>
                                         <tr>
                                             <th class="total_row">Tổng nhiên liệu tiêu thụ: </th>
-                                            <td class="total_row">@(ViewBag.Xang + ViewBag.DauNhuHoa + ViewBag.DauMo)</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Xăng</th>
-                                            <td>@ViewBag.Xang</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Dầu diezen</th>
-                                            <td>@ViewBag.DauNhuHoa</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Dầu mỡ</th>
-                                            <td>@ViewBag.DauMo</td>
+                                            <td class="total_row">@ViewBag.all</td>
                                         </tr>
                                     </tbody>
                                 </table>

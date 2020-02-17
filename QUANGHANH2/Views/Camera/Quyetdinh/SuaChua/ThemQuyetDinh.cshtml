@@ -8,68 +8,68 @@
         <div class="row">
             <div class="col m12">
                 <div class="center">
-                    <h3><b>CHI TIẾT SỬA CHỮA</b></h3>
+                    <h3><b>CHI TIẾT QUYẾT ĐỊNH SỬA CHỮA</b></h3>
                 </div>
-                @if (ViewBag.validate == 0)
+                @if (ViewBag.DataThietBi.Count == 0)
                 {
-                    <h4>Bạn đã chọn 2 hoặc nhiều thiết bị khác vị trí, xin vui lòng <a href="/phong-cdvt/sua-chua">quay lại</a></h4>
+                    <h4>Hệ thống bạn chọn không có camera hỏng hoặc bạn chưa chọn hệ thống nào</h4>
                 }
                 else
                 {
-
-                    <form method="post" id="myform">
-                        <div class="col s3 m3">
-                            <textarea name="data" hidden value="" id="json"></textarea>
-                            <input id="documentary_code" name="documentary_code" class="form-control" type="text" placeholder="Nhập mã quyết định" readonly />
-                        </div>
-                        <div class="col s3 m3">
-                            <input name="out_in_come" class="form-control" type="text" placeholder="Nhập nguồn vốn" />
-                        </div>
-                        <div class="col s3 m3">
-                            <input class="form-control" type="text" disabled value="@ViewBag.department_name" />
-                            <input name="department_id" id="depa-id" type="hidden" readonly value="@ViewBag.department_id" />
-                        </div>
-                        <div class="col s3 m3">
-                            <input name="reason" class="form-control" type="text" required placeholder="Nội dung quyết định" />
-                        </div>
-                        <div class="col s12 table_container">
-                            <table id="mytablevattu" class="striped table-responsive center table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th class="center-align">Mã thiết bị<span></span></th>
-                                        <th class="center-align">Tên thiết bị<span></span></th>
-                                        <th class="center-align">Tình trạng thiết bị<span></span></th>
-                                        <th class="center-align">Sửa chữa đến<span></span></th>
-                                        <th class="center-align">Lý do sửa chữa<span></span></th>
-                                        <th></th>
+                    <div class="col s3 m3">
+                        <label>Sửa chữa tại :</label>
+                        <input id="department_id" class="form-control" required list="departmentName" />
+                    </div>
+                    <div class="col s3 m3">
+                        <label>Nguồn vốn :</label>
+                        <input id="out_in_come" class="form-control" type="text" />
+                    </div>
+                    <div class="col s3 m3">
+                        <label>Nội dung quyết định :</label>
+                        <input id="reason" class="form-control" type="text" required />
+                    </div>
+                    <div class="col s12 table_container">
+                        <table id="mytablevattu" class="striped table-responsive center table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="center-align">Tên hệ thống</th>
+                                    <th class="center-align">Đơn vị trực thuộc</th>
+                                    <th class="center-align">Số lượng sửa chữa</th>
+                                    <th class="center-align">Lý do sửa chữa</th>
+                                    <th class="center-align">Ghi chú</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < ViewBag.DataThietBi.Count; i++)
+                                {
+                                    <tr id="@i" data-room="@ViewBag.DataThietBi[i].room_id" data-department="@ViewBag.DataThietBi[i].department_id">
+                                        <td>@ViewBag.DataThietBi[i].room_name</td>
+                                        <td>@ViewBag.DataThietBi[i].department_name</td>
+                                        <td>
+                                            <input id="broken_camera_quantity" type="number" required class="form-control" min="1" max="@(ViewBag.DataThietBi[i].camera_quantity - ViewBag.DataThietBi[i].camera_available)" />
+                                        </td>
+                                        <td>
+                                            <input id="repair_requirement" type='text' required class='form-control' />
+                                        </td>
+                                        <td>
+                                            <input id="note" type='text' required class='form-control' />
+                                        </td>
+                                        <td>
+                                            <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">Vật tư cần</a>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @for (int i = 0; i < ViewBag.DataThietBi.Count; i++)
-                                    {
-                                        <tr id="@i">
-                                            <td>@ViewBag.DataThietBi[i].camera_id</td>
-                                            <td>@ViewBag.DataThietBi[i].camera_name</td>
-                                            <td>@ViewBag.DataThietBi[i].statusname</td>
-                                            <td>
-                                                <input type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
-                                            </td>
-                                            <td>
-                                                <input type='text' required class='form-control' />
-                                            </td>
-                                            <td>
-                                                <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">Vật tư cần</a>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="col l12 m12 s12 center">
-                        <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
-                        <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận điều động sửa chữa</a>
-                        <a href="sua-chua" class="btn blue darken-2 ">Quay lại</a>
+                        <form action="/camera/sua-chua" method="get">
+                            <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
+                            <a id="submit" class="btn blue darken-2 modal-trigger">Tạo quyết định sửa chữa</a>
+                            <input name="ListSelected" value="@ViewBag.ListSelected" readonly hidden />
+                            <button type="submit" href="sua-chua" class="btn blue darken-2 ">Quay lại</button>
+                        </form>
                     </div>
                 }
             </div>
@@ -101,7 +101,6 @@
                     </table>
                 </form>
             </div>
-            <input type="hidden" id="rownumber" disabled />
         </div>
         <div class="modal-footer">
             <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
@@ -139,6 +138,7 @@
 
 <script>
     var output = {};
+    var nth_row = 0;
 
     $(document).ready(function () {
         $('input[required]').each(function myfunction() {
@@ -178,76 +178,47 @@
         );
         $tr.appendTo('#test tbody');
     });
-    //tạo json cho thiết bị khi nhập submit vật tư
+    //thêm vật tư vào json của hệ thống đang chọn
     $("#submitvattu").click(function () {
         if ($('#mylist #test tr').length > 1) {
-            var thietbi = {};
-            var arr = [];
-            var rownumber = $('#rownumber').val();
-            thietbi.id = $('#' + rownumber + ' td:first-child').text();
+            let arr = [];
             for (var i = 1; i < $('#test tbody tr').length + 1; i++) {
                 if ($('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val() != "" &&
                     $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val() >= 1) {
                     var vattu = {};
                     vattu.supply_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val();
                     vattu.quantity = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val();
-                    vattu.supplyStatus = null;
-                    vattu.department_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(2).val();
                     arr.push(vattu);
                 }
             }
-            thietbi.vattu = arr;
-            output[rownumber] = thietbi;
-            $('#json').val(JSON.stringify(output))
+            output[nth_row].vattu = arr;
         }
     })
-
+    //tạo json cho tất cả hệ thống đã chọn
     $(document).ready(function () {
         for (var i = 0; i < $('#mytablevattu tbody tr').length; i++) {
             var thietbi = {};
-            var arr = [];
-            thietbi.id = $('#mytablevattu tbody tr:nth-child(' + (i + 1) + ') td').eq(0).text();
+            let arr = [];
+            thietbi.id = $('#mytablevattu #' + i).data("room");
+            thietbi.department_id = $('#mytablevattu #' + i).data("department");
+            thietbi.broken_camera_quantity = "";
+            thietbi.repair_requirement = "";
+            thietbi.note = "";
             thietbi.vattu = arr;
             output[i] = thietbi;
         }
-        $('#json').val(JSON.stringify(output))
     })
 </script>
 @section scripts{
     <script>
         $(document).on("click", ".open-Modal", function () {
-            $('#pre-load').show();
             var id = $(this).data('id');
-            $('#rownumber').val(id);
+            nth_row = id;
             $("#test").find("tr:gt(0)").remove();
             var equipmentId = $('#' + id + ' td:first-child').text();
             $('#listId').text("Danh sách vật tư dự phòng của thiết bị " + equipmentId)
             $('#type').val(1);
-            if (output[id].vattu.length == 0) {
-                $.ajax({
-                    type: "POST",
-                    url: "/phong-cdvt/thiet-bi/get-supply2",
-                    dataType: "json",
-                    success: function (data) {
-                        $.each(data, function (i, item) {
-                            var $tr = $('<tr>').append(
-                                $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
-                                $('<td>').html("<input type='number' min='1' class='form-control' value='0' /> ")
-                            );
-                            $tr.appendTo('#test tbody');
-                        });
-                        $('#pre-load').hide();
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $('#pre-load').hide();
-                    },
-                    data: {
-                        equipmentId: equipmentId
-                    },
-                    cache: false
-                })
-            }
-            else {
+            if (output[id].vattu.length != 0) {
                 for (var i = 0; i < output[id].vattu.length; i++) {
                     var item = output[id].vattu[i];
                     var $tr = $('<tr>').append(
@@ -256,7 +227,6 @@
                     );
                     $tr.appendTo('#test tbody');
                 }
-                $('#pre-load').hide();
             }
         })
 
@@ -277,12 +247,10 @@
                     });
                 else {
                     for (var key in output) {
-                        output[key].department_id = $('#' + key + ' input').eq(0).val();//
-                        output[key].repair_type = $('#' + key + ' select').val();
-                        output[key].repair_reason = $('#' + key + ' input').eq(1).val();
-                        output[key].finish_date_plan = $('#' + key + ' input').eq(2).val();
+                        output[key].broken_camera_quantity = $('#' + key + ' #broken_camera_quantity').val();
+                        output[key].repair_requirement = $('#' + key + ' #repair_requirement').val();
+                        output[key].note = $('#' + key + ' #note').val();
                     }
-                    $('#json').val(JSON.stringify(output))
                     $('#confirm').modal("open");
 
                 }
@@ -294,8 +262,27 @@
         })
 
         $('#create').click(function () {
-            $('#myform').submit();
-
+            $('#pre-load').show();
+            $.ajax({
+                url: "/camera/sua-chua-chon/add",
+                method: "post",
+                dataType: "json",
+                cache: false,
+                data: {
+                    department_id: $('#department_id').val(),
+                    out_in_come: $('#out_in_come').val(),
+                    data: JSON.stringify(output),
+                    reason: $('#reason').val()
+                },
+                success: function (data) {
+                    if (data.success)
+                        window.location.href = "/camera/quyet-dinh/sua-chua";
+                    else {
+                        errorAlert("Có lỗi xảy ra");
+                        $('#pre-load').hide();
+                    }
+                }
+            })
         })
 
         $("#export-button").click(function () {

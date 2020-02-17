@@ -15,7 +15,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 {
     public class LichsuOtoController : Controller
     {
-        [Auther(RightID = "13,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "13,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/oto/cap-nhat-hoat-dong")]
         [HttpGet]
         public ActionResult Index()
@@ -24,7 +24,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             string department_id = Session["departID"].ToString();
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<Supply> listSupply; List<FuelDB> listEQ;
-            if (department_id.Contains("PX"))
+            if (Session["departName"].ToString().Contains("Phân xưởng"))
             {
                 listSupply = db.Supplies.ToList();
                 listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
@@ -91,7 +91,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                         + " as t inner join Activity q on t.equipmentId = q.equipmentId "
                         + " where q.equipmentId LIKE @equipmentId"
                         + " AND t.equipment_name LIKE @equipment_name AND q.[date] between @timeFrom AND @timeTo ";
-                if (department_id.Contains("PX"))
+                if (Session["departName"].ToString().Contains("Phân xưởng"))
                 {
                     from_clause += " ANd t.department_id = @department_id";
                 }
@@ -163,7 +163,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                         + " join Supply s on s.supply_id = f.fuel_type "
                         + " where f.equipmentId LIKE @equipmentId "
                         + " AND t.equipment_name LIKE @equipment_name AND f.[date] between @timeFrom AND @timeTo ";
-                if (department_id.Contains("PX"))
+                if (Session["departName"].ToString().Contains("Phân xưởng"))
                 {
                     from_clause += " AND t.department_id = @department_id ";
                 }
@@ -261,7 +261,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             }
         }
 
-        [Auther(RightID = "15,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "15,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/oto/cap-nhat-hoat-dong/editoto")]
         [HttpPost]
         public ActionResult Edit(float quantity, string activity_name, int hours_per_day, string date1, String equipmentId, int activityid)
@@ -344,7 +344,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             }
         }
 
-        [Auther(RightID = "14,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "14,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/oto/cap-nhat-hoat-dong/addactivity")]
         [HttpPost]
         public ActionResult AddActivity(float quantity, string activity_name, int hours_per_day, string date1, String equipmentId)
@@ -527,7 +527,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 
         }
 
-        [Auther(RightID = "15,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "15,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/oto/cap-nhat-hoat-dong/edit-fuel")]
         [HttpPost]
         public ActionResult EditFuel(int consumption_value, string fuel_type, string date1, String equipmentId, int fuelid)
@@ -583,7 +583,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             }
         }
 
-        [Auther(RightID = "14,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "14,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/oto/cap-nhat-hoat-dong/addfuel")]
         [HttpPost]
         public ActionResult AddFuel(int consumption_value, string fuel_type, string date1, String equipmentId)

@@ -20,5 +20,9 @@ namespace QUANGHANH2.Models
         public System.DateTime start_time { get; set; }
         public Nullable<System.DateTime> end_time { get; set; }
         public string reason { get; set; }
+        public bool disk_saveable { get; set; }
+        public string disk_status { get; set; }
+    
+        public virtual Room Room { get; set; }
     }
 }

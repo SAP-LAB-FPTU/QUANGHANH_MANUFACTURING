@@ -15,7 +15,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
 {
     public class SCTXController : Controller
     {
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/thiet-bi/sctx")]
         [HttpGet]
         public ActionResult Index()
@@ -77,7 +77,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         //    }
         //}
 
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/thiet-bi/sctx/insertMaintainCar")]
         [HttpPost]
         public JsonResult InsertMaintainCar(List<Maintain_DetailDB> maintain, string equipmentId, string date, string maintain_content)
@@ -96,7 +96,6 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                    
                     DateTime dateTime = DateTime.ParseExact(date, "dd/MM/yyyy", null);
 
-
                     db.Database.ExecuteSqlCommand("insert into Equipment_SCTX values(@equipmentId, @date, @departmentid,@maintain_content)",
                      new SqlParameter("equipmentId", equipmentId),
                      new SqlParameter("date", DateTime.ParseExact(date, "dd/MM/yyyy", null)),
@@ -114,6 +113,14 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                               $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}') - {item.used} " +
                               $" where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}'";
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
+
+                        //update new supply du phong if it doesn't exist
+                        Supply_DuPhong duphong = db.Supply_DuPhong.Where(x => (x.supply_id == item.supplyid && x.equipmentId == equipmentId)).FirstOrDefault();
+                        if (duphong == null)
+                        {
+                            AddSupply_duphong(equipmentId, item.supplyid, item.used);
+                        }
+
                     }
                     db.Database.ExecuteSqlCommand(bulk_insert);
 
@@ -133,11 +140,34 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                     return Json("Có lỗi xảy ra vui lòng nhập lại ", JsonRequestBehavior.AllowGet);
                 }
             }
-
         }
 
+        private void AddSupply_duphong(string newEquipmentId, string newSupplyid, int newQuantity) 
+        {
+            //find old supplies by device.
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    Supply_DuPhong sp = new Supply_DuPhong()
+                    {
+                        supply_id = newSupplyid,
+                        equipmentId = newEquipmentId,
+                        quantity = -newQuantity
+                    };
+                    db.Supply_DuPhong.Add(sp);
+                    db.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                }
+            }
+        }
 
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/thiet-bi/sctx/getMaintainCarDetail")]
         [HttpPost]
         public JsonResult getMaintainCarDetail(int maintainId)
@@ -180,7 +210,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 return Json(maintainCar);
             }
         }
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/thiet-bi/sctx/search")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string equipmentName, string timeFrom, string timeTo, string content, string position)
@@ -279,7 +309,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         }
 
 
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/thiet-bi/sctx/edit")]
         [HttpPost]
         public ActionResult EditMaintain(string date, String equipmentId,String maintain_content, int maintainid)
@@ -292,7 +322,30 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 {
                     string department_id = Session["departID"].ToString();
 
-                    //          Maintain_CarDB maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content " +
+                    //get old value maintainid.
+                    List<ListSupplyByEq> oldMaintain = db.Database.SqlQuery<ListSupplyByEq>("select ed.supplyid,ed.used,e.equipmentId from Equipment_SCTX_Detail ed , Equipment_SCTX e where ed.maintain_id = e.maintain_id and ed.maintain_id = @maintain_id "
+                            , new SqlParameter("maintain_id", maintainid)).ToList();
+                    string oldEquipmentId = null;
+                    foreach (ListSupplyByEq item in oldMaintain)
+                    {
+                        //check oldEqId was taken or not
+                        if (oldEquipmentId == null)
+                        {
+                            oldEquipmentId = item.equipmentId;
+                        }
+                        //after taken , comparing 2 new and old eqId.
+                        if (oldEquipmentId != equipmentId)
+                        {
+                            EditSupply_duphong(oldEquipmentId, item.supplyid, item.used, equipmentId, item.supplyid, item.used);
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                    }
+
+                    // Maintain_CarDB maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content " +
                     //"from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId " +
                     //  "inner join Department d on d.department_id = m.departmentid where m.maintainid = @maintainId ", new SqlParameter("maintainId", maintainid)).SingleOrDefault();
 
@@ -322,14 +375,15 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 }
             }
         }
-        [Auther(RightID = "179,180,181,182,183,184,185,186,187,189")]
+
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/thiet-bi/sctx/editMaintainDetail")]
         [HttpPost]
         public ActionResult EditMaintainDetail(List<Equipment_SCTX_Detail> supplyDetail, string equipmentID)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             Equipment_SCTX_Detail m = new Equipment_SCTX_Detail();
-
+             
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 //note:  thiếu data db cho supply id
@@ -339,6 +393,21 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                     string bulk_insert = string.Empty;
                     foreach (Equipment_SCTX_Detail item in supplyDetail)
                     {
+                        //fix bug equipmentID = null
+                        if (equipmentID == null)
+                        {
+                            equipmentID = db.Database.SqlQuery<string>("select equipmentId from Equipment_SCTX where maintain_id = @maintainID ", new SqlParameter("maintainID", item.maintain_id)).SingleOrDefault(); 
+                        }
+
+                        //fix bug : get old and new record.
+                        string newSupplyId = item.supplyid;
+                        int newQuantity = item.used;
+                        Equipment_SCTX_Detail oldItem = db.Database.SqlQuery<Equipment_SCTX_Detail>("select * from Equipment_SCTX_Detail where maintain_detail_id = @maintain_detail_id "
+                            , new SqlParameter("maintain_detail_id", item.maintain_detail_id)).SingleOrDefault();
+                        string oldSupplyId = oldItem.supplyid;
+                        int oldQuantity = oldItem.used;
+
+                        //Last update query insert : 13/2/2020
                         string sub_insert = $"if exists (select * from Equipment_SCTX_Detail  where maintain_detail_id={item.maintain_detail_id} ) " +
                       "begin " +
                      "update Equipment_SCTX_Detail set " +
@@ -350,10 +419,12 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                      $" insert into Equipment_SCTX_Detail(maintain_id, supplyid, used, thuhoi) VALUES({item.maintain_id}, '{item.supplyid}', {item.used}, {item.thuhoi}) " +
                   "end;  " +
                     " update Supply_DuPhong " +
-                            $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}')-{item.used} " +
+                            $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}') " +
                             $" where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}'";
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
 
+                        //update supply du phong
+                        EditSupply_duphong(equipmentID, oldSupplyId, oldQuantity, equipmentID, newSupplyId, newQuantity);
                     }
 
                     db.Database.ExecuteSqlCommand(bulk_insert);
@@ -376,21 +447,111 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 }
             }
         }
+
+        private void EditSupply_duphong(string oldEquipmentId, string oldSupplyid, int oldQuantity, string newEquipmentId, string newSupplyid, int newQuantity)
+        {
+            //find old supplies by device.
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    //if equipmentId and supplyId doesn't change after editing.
+                    if (oldEquipmentId == newEquipmentId && oldSupplyid == newSupplyid)
+                    {
+                        Supply_DuPhong duphong = db.Supply_DuPhong.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
+                        if (duphong != null)
+                        {
+                            duphong.quantity += oldQuantity;
+                            duphong.quantity -= newQuantity;
+                            db.Entry(duphong).State = EntityState.Modified;
+                        }
+                    }
+                    else
+                    {
+                        //update quantity of old and new supplies remaining by each eqID.
+                        Supply_DuPhong oldRecord = db.Supply_DuPhong.Where(x => (x.supply_id == oldSupplyid && x.equipmentId == oldEquipmentId)).FirstOrDefault();
+                        Supply_DuPhong newRecord = db.Supply_DuPhong.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
+                        oldRecord.quantity += oldQuantity;
+
+                        // if new doesn't exist => create new with quantity = -newQuantity
+                        if (newRecord == null)
+                        {
+                            Supply_DuPhong sp = new Supply_DuPhong()
+                            {
+                                supply_id = newSupplyid,
+                                equipmentId = newEquipmentId,
+                                quantity = -newQuantity
+                            };
+                            db.Supply_DuPhong.Add(sp);
+                        }
+                        else
+                        {
+                            newRecord.quantity -= newQuantity;
+                        }
+                    }
+                    db.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                }
+            }
+        }
+
+        [Route("phong-cdvt/thiet-bi/sctx/UpdateRemaining")]
+        [HttpPost]
+        public ActionResult returnUpdateRemaining(List<Maintain_DetailDB> maintain, string equipmentID)
+        {
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            try
+            {
+                string base_query = "select quantity from Supply_DuPhong where supply_id = @supply_id and equipmentId = @equipmentId";
+                List <int> listRemaining = new List<int>();  
+                foreach (Maintain_DetailDB item in maintain)
+                {
+                    int quantity = db.Database.SqlQuery<int>(base_query, 
+                        new SqlParameter("supply_id", item.supplyid)
+                        , new SqlParameter("equipmentId", equipmentID)).SingleOrDefault();
+                    listRemaining.Add(quantity);
+                }
+                return Json(listRemaining, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(400);
+            }
+        }
+
         [Route("phong-cdvt/thiet-bi/sctx/returnsupplymaintainName")]
         [HttpPost]
-        public JsonResult returnsupplymaintainname(String supplyid)
+        public JsonResult returnsupplymaintainname(string supplyid, string equipmentId)
         {
 
             try
             {
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
                 var supply = db.Supplies.Where(x => (x.supply_id == supplyid) && (x.unit != "L" && x.unit != "kWh")).SingleOrDefault();
+                var remaining = db.Supply_DuPhong.Where(x => (x.supply_id == supplyid && x.equipmentId == equipmentId)).FirstOrDefault();
                 //String item = equipment.supply_name + "^" + equipment.unit;
-                return Json(new
+                if (remaining == null)
                 {
-                    supply_name = supply.supply_name,
-                    unit = supply.unit
-                }, JsonRequestBehavior.AllowGet); ;
+                    return Json(new
+                    {
+                        supply_name = supply.supply_name,
+                        unit = supply.unit,
+                        remain_quantity = 0
+                    }, JsonRequestBehavior.AllowGet);
+                } else
+                {
+                    return Json(new
+                    {
+                        supply_name = supply.supply_name,
+                        unit = supply.unit,
+                        remain_quantity = remaining.quantity
+                    }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch (Exception)
             {
@@ -422,5 +583,12 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         public String equipmentId { get; set; }
         public String equipment_name { get; set; }
 
+    }
+
+    public class ListSupplyByEq
+    {
+        public String supplyid { get; set; }
+        public int used { get; set; }
+        public String equipmentId { get; set; }
     }
 }

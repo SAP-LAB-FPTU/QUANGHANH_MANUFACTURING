@@ -17,7 +17,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
     public class Xincapvattu1Controller : Controller
     {
         // GET: Xincapvattu1
-        [Auther(RightID = "33,27,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "33,27,179,180,181,183,184,185,186,187,189,195")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx")]
         public ActionResult Index()
         {
@@ -86,7 +86,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                 } }
         }
 
-        [Auther(RightID = "33,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx/editoradd")]
         [HttpPost]
         public ActionResult InsertInformation(String equipmentid)
@@ -140,7 +140,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                 }
             }
         }
-        [Auther(RightID = "33,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx/xincap")]
         [HttpPost]
         public ActionResult XinCap()

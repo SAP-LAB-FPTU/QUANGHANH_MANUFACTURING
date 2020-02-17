@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -7,6 +8,7 @@ using System.Web.Hosting;
 using System.Web.Mvc;
 using OfficeOpenXml;
 using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 
 namespace QUANGHANH2.Controllers
 {
@@ -56,6 +58,96 @@ namespace QUANGHANH2.Controllers
             }
             return Json(new { result = total }, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult notifiSC()
+        {
+            var sc = db.Notifications.Where(x => x.isread == false && x.description == "su co").ToList();
+            noti ins = new noti();
+            ins.text = "";
+            ins.title = "Thông báo sự cố";
+            if(sc.Count != 0)
+            {
+                List<int> ints = new List<int>();
+                foreach(Notification i in sc)
+                {
+                    ints.Add(i.id_noti);
+                }
+                ins.text = "Có " + sc.Count + " sự cố mới được nhập.";
+                ins.id = ints;
+            }
+            return Json(ins, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult notifiQD()
+        {
+            string depart = Session["departID"].ToString();
+            var qd = db.Notifications.Where(x => x.isread == false).Where(x => x.description == "dieu dong" || x.description == "bao duong" || x.description == "cai tien" || x.description == "sua chua" || x.description == "thanh ly" || x.description == "thu hoi" || x.description == "trung dai tu").Where(x=>x.department_id == depart).ToList();
+            noti ins = new noti();
+            ins.text = "";
+            ins.title = "Thông báo quyết định";
+            if (qd.Count != 0)
+            {
+                List<int> ints = new List<int>();
+                foreach (Notification i in qd)
+                {
+                    ints.Add(i.id_noti);
+                }
+                ins.text = "Có " + qd.Count + " quyết định mới được chuyển xuống.";
+                ins.id = ints;
+            }
+            return Json(ins, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult notifiQD2()
+        {
+            var qd = db.Notifications.Where(x => x.isread == false).Where(x => x.description == "dieu dong 2" || x.description == "bao duong 2" || x.description == "cai tien 2" || x.description == "sua chua 2" || x.description == "thanh ly 2" || x.description == "thu hoi 2" || x.description == "trung dai tu 2").FirstOrDefault();
+            noti ins = new noti();
+            ins.text = "";
+            ins.title = "Thông báo quyết định";
+            if (qd != null)
+            {
+                var depart = db.Departments.Where(x => x.department_id == qd.department_id).FirstOrDefault();
+                List<int> ints = new List<int>();
+                ints.Add(qd.id_noti);
+                ins.text = depart.department_name + " đã xử lí xong quyết định.";
+                ins.id = ints;
+                if (qd.description.Equals("dieu dong 2"))
+                    ins.title += " điều động";
+                else if(qd.description.Equals("bao duong 2"))
+                    ins.title += " bảo dưỡng";
+                else if (qd.description.Equals("cai tien 2"))
+                    ins.title += " cải tiến";
+                else if (qd.description.Equals("sua chua 2"))
+                    ins.title += " sửa chữa";
+                else if (qd.description.Equals("thanh ly 2"))
+                    ins.title += " thanh lý";
+                else if (qd.description.Equals("thu hoi 2"))
+                    ins.title += " thu hồi";
+                else if (qd.description.Equals("trung dai tu 2"))
+                    ins.title += " trung đại tu";
+            }
+            return Json(ins, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult updateStatus(string id)
+        {
+            try
+            {
+                foreach(var r in id.Split(','))
+                {
+                    int i = int.Parse(r);
+                    var up = db.Notifications.Where(x => x.id_noti == i).SingleOrDefault();
+                    up.isread = true;
+                    db.Entry(up).State = EntityState.Modified;
+                }
+                db.SaveChanges();
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+            catch(Exception e)
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult Export(int type)
         {
             string path = HostingEnvironment.MapPath("/excel/Notifi/ThongbaoCDVT.xlsx");
@@ -143,6 +235,12 @@ namespace QUANGHANH2.Controllers
         public string name { get; set; }
         public DateTime date { get; set; }
         public string remain_title { get; set; }
+    }
+    public class noti
+    {
+        public List<int> id { get; set; }
+        public string text { get; set; }
+        public string title { get; set; }
     }
 }
 

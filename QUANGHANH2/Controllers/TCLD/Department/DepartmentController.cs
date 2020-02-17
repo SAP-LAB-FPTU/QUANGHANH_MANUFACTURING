@@ -16,7 +16,7 @@ namespace QUANGHANH2.Controllers.TCLD
     {
         // GET: Department
         //[Auther(RightID = "175")]
-        [Route("phong-dieu-khien/quan-ly-phong-ban")]
+        [Route("phong-tcld/quan-ly-phong-ban")]
         public ActionResult Index()
         {
             using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -24,13 +24,13 @@ namespace QUANGHANH2.Controllers.TCLD
                 var arr_department_type = db.Departments.DistinctBy(d => d.department_type).ToList();
 
                 ViewBag.arr_department_type = arr_department_type;
-                return View("/Views/DK/Department/List.cshtml");
+                return View("/Views/TCLD/Department/List.cshtml");
             }
 
         }
 
         //[Auther(RightID = "175")]
-        [Route("phong-dieu-khien/quan-ly-phong-ban")]
+        [Route("phong-tcld/quan-ly-phong-ban")]
         [HttpPost]
         public ActionResult listDepartment()
         {
@@ -149,7 +149,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }

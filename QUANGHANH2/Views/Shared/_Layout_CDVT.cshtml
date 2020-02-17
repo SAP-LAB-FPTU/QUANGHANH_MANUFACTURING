@@ -303,7 +303,7 @@
                                         <ul>
                                             <li><a href="/phong-cdvt/huy-dong"><i class="material-icons">adjust</i><span class="hide-menu">Huy động thiết bị</span></a></li>
                                             @*<li><a href="/phong-cdvt/cap-nhat-hoat-dong"><i class="material-icons">adjust</i><span class="hide-menu">Hoạt động hằng ngày</span></a></li>
-                            <li><a href="/phong-cdvt/cap-nhat-tieu-thu"><i class="material-icons">adjust</i><span class="hide-menu">Tiêu thụ hằng ngày</span></a></li>*@
+                                                <li><a href="/phong-cdvt/cap-nhat-tieu-thu"><i class="material-icons">adjust</i><span class="hide-menu">Tiêu thụ hằng ngày</span></a></li>*@
                                             @*<li><a href="/phong-cdvt/thiet-bi/sctx"><i class="material-icons">adjust</i><span class="hide-menu">Sửa chữa thường xuyên</span></a></li>*@
                                         </ul>
                                     </div>
@@ -322,7 +322,7 @@
                                     </div>
                                 </li>
                             }
-                            if (true)
+                            if (rights.Contains("193"))
                             {
                                 <li>
                                     <a href="javascript: void(0);" class="collapsible-header has-arrow"><i class="material-icons">event_available</i><span class="hide-menu">Camera</span></a>
@@ -332,17 +332,20 @@
                                                 <a href="/phong-cdvt/camera/danh-sach"><i class="material-icons">adjust</i><span class="hide-menu">Danh sách camera</span></a>
                                             </li>
                                             <li>
-                                                <a href="/camera/su-co"><i class="material-icons">adjust</i><span class="hide-menu">Sự cố</span></a>
+                                                <a href="/phong-cdvt/camera/su-co"><i class="material-icons">adjust</i><span class="hide-menu">Sự cố</span></a>
                                             </li>
-                                            @*<li>
+                                            <li>
+                                                <a href="/phong-cdvt/camera/cap-nhat"><i class="material-icons">adjust</i><span class="hide-menu">Cập nhật theo ca</span></a>
+                                            </li>
+                                            <li>
+                                                <a href="/camera/quyet-dinh/sua-chua"><i class="material-icons">adjust</i><span class="hide-menu">Quyết định sửa chữa</span></a>
+                                            </li>
+                                            <li>
                                                 <a href="/camera/cap-nhat/quyet-dinh"><i class="material-icons">adjust</i><span class="hide-menu">Xử lý quyết định</span></a>
                                             </li>
                                             <li>
                                                 <a href="/camera/nghiem-thu"><i class="material-icons">adjust</i><span class="hide-menu">Nghiệm thu</span></a>
                                             </li>
-                                            <li>
-                                                <a href="/camera/quyet-dinh-sua-chua"><i class="material-icons">adjust</i><span class="hide-menu">Quyết định sửa chữa</span></a>
-                                            </li>*@
                                         </ul>
                                     </div>
                                 </li>
@@ -481,6 +484,29 @@
         <!-- Right Sidebar -->
         <!-- ============================================================== -->
     </div>
+    @{
+        if (rights.Contains("19") || rights.Contains("30"))
+        {
+            <div class="modal fade" id="notifi">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="title-noti"></h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <h5 id="text-noti"></h5>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn blue darken-2 modal-close save-category" onclick="updateStatus()">Xác nhận</button>
+                        <button type="button" class="btn light-blue lighten-1 modal-close">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    <input type="hidden" id="ids" />
 
     <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
     <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
@@ -521,7 +547,63 @@
                 error: function (errormessage) {
                 }
             });
+
+            setInterval(function () {
+                $.ajax({
+                    url: "/Notifi/notifiSC",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.text != '') {
+                            document.getElementById('ids').value = result.id;
+                            $("#title-noti").text(result.title);
+                            $("#text-noti").text(result.text);
+                            $("#notifi").modal('open');
+                        }
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+            }, 15000);
+
+            setInterval(function () {
+                $.ajax({
+                    url: "/Notifi/notifiQD2",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.text != '') {
+                            if ($('#notifi').is(':visible')) {
+                            } else {
+                                document.getElementById('ids').value = result.id;
+                                $("#title-noti").text(result.title);
+                                $("#text-noti").text(result.text);
+                                $("#notifi").modal('open');
+                            }
+                        }
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+            }, 15000);
+            
         });
+        function updateStatus() {
+            var empObj = {
+                id: document.getElementById("ids").value
+            };
+            $.ajax({
+                url: "/Notifi/updateStatus",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
+
+                },
+                error: function (errormessage) {
+                }
+            });
+        }
     </script>
 </body>
 

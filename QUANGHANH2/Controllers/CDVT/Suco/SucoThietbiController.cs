@@ -56,7 +56,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "79,19,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "79,19,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/su-co")]
         [HttpGet]
         public ActionResult Index()
@@ -105,6 +105,16 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
 
                     DBContext.Incidents.Add(i);
                     DBContext.SaveChanges();
+
+                    Notification nt = new Notification();
+                    nt.id_problem = i.incident_id;
+                    nt.description = "su co";
+                    nt.department_id = i.department_id;
+                    nt.date = DateTime.Now.Date;
+                    nt.isread = false;
+                    DBContext.Notifications.Add(nt);
+                    DBContext.SaveChanges();
+
                     transaction.Commit();
                     return Json(new { success = true, message = "Thêm thành công" }, JsonRequestBehavior.AllowGet);
                 }
@@ -215,7 +225,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 "AND d.department_name LIKE @department_name AND i.detail_location LIKE @detail_location";
             if (reason == null)
                 query += " AND i.reason LIKE @reason";
-            if (Session["departID"].ToString().Contains("PX")) query += " AND d.department_id = '" + Session["departID"].ToString() + "'";
+            string department_id = Session["departID"].ToString();
+            if (Session["departName"].ToString().Contains("Phân xưởng")) query += " AND d.department_id = '" + department_id + "'";
             List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(base_select + query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),

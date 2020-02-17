@@ -16,10 +16,10 @@ using QUANGHANH2.SupportClass;
 
 namespace QUANGHANH2.Controllers.Camera
 {
-    public class SucoCamController : Controller
+    public class SuCoController : Controller
     {
         [Auther(RightID = "193")]
-        [Route("camera/su-co")]
+        [Route("phong-cdvt/camera/su-co")]
         [HttpGet]
         public ActionResult Index()
         {
@@ -47,12 +47,11 @@ namespace QUANGHANH2.Controllers.Camera
                     i.incident_camera_quantity = Convert.ToInt32(quan);
                     i.reason = reason;
                     i.start_time = start;
-                    if (checkBox == "yes")
-                    {
-                        i.reason = null;
-                        i.end_time = null;
-                    }
+                    i.disk_saveable = bool.Parse(Request["checkBox"].ToString());
+                    i.disk_status = Request["status"];
                     e.camera_available = e.camera_available - Convert.ToInt32(quan);
+                    e.disk_saveable = i.disk_saveable;
+                    e.disk_status = i.disk_status;
                     e.signal_loss_reason = reason;
                     DBContext.CameraIncidents.Add(i);
                     DBContext.SaveChanges();
@@ -118,8 +117,6 @@ namespace QUANGHANH2.Controllers.Camera
             {
                 i.reason = reason;
                 i.end_time = new DateTime(year, month, day, hour, minute, 0);
-                Room r = DBContext.Rooms.Where(x => x.room_id == i.room_id).FirstOrDefault();
-                r.camera_available = r.camera_available + i.incident_camera_quantity;
                 DBContext.SaveChanges();
                 return Json(new { success = true, message = "Cập nhật thành công" }, JsonRequestBehavior.AllowGet);
             }
@@ -136,7 +133,7 @@ namespace QUANGHANH2.Controllers.Camera
             string sortDirection = Request["order[0][dir]"];
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            string query = @"select r.room_name, r.camera_available, d.department_name, ci.reason, ci.incident_id, ci.start_time, ci.end_time, ci.incident_camera_quantity
+            string query = @"select r.room_name, r.camera_available, ci.disk_status, r.disk_saveable, d.department_name, ci.reason, ci.incident_id, ci.start_time, ci.end_time, ci.incident_camera_quantity
                     from Room r join Department d on r.department_id = d.department_id
                     join CameraIncident ci on r.room_id = ci.room_id where";
 
