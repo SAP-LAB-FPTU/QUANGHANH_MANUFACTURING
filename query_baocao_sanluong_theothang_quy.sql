@@ -205,3 +205,39 @@ SUM(case when((c.ThangKeHoach = 9) or(c.ThangKeHoach = 10) or(c.ThangKeHoach = 1
 
 select * from Department
 where department_type = N'Phân xưởng sản xuất chính'
+
+select * from KeHoach_TieuChi_TheoNam
+
+
+Select MaPhongBan,MaNhomTieuChi,SUM(SanLuong) as [SanLuong] from
+(select MaPhongBan,TieuChi.MaNhomTieuChi,SanLuong from (
+select tmp3.MaTieuChi,tmp3. MaPhongBan,(Case when SanLuong IS NULL then 0 else SanLuong end) as [SanLuong] from
+(select distinct MaTieuChi,MaPhongBan from ThucHien_TieuChi_TheoNgay as a
+inner join (select * from header_ThucHienTheoNgay where Ngay  between '2020-01-01' and '2020-12-31') as b
+on a.HeaderID = b.HeaderID
+union
+select distinct MaTieuChi,MaPhongBan from PhongBan_TieuChi
+where Nam = 2020
+union
+select distinct MaTieuChi,MaPhongBan from (select * from header_KeHoach_TieuChi_TheoNam where Nam = 2020) as c
+inner join (select yearlyplan.* from KeHoach_TieuChi_TheoNam as yearlyplan inner join (
+select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung]  from KeHoach_TieuChi_TheoNam
+group by HeaderID,MaTieuChi ) as maxTime
+on yearlyplan.HeaderID = maxTime.HeaderID and yearlyplan.MaTieuChi = maxTime.MaTieuChi and yearlyplan.ThoiGianNhapCuoiCung = maxTime.ThoiGianNhapCuoiCung) as d
+on c.HeaderID = d.HeaderID ) as tmp3
+left join
+(select MaPhongBan,MaTieuChi,[SanLuongKeHoach] as [SanLuong] from
+(select yearlyplan.* from 
+KeHoach_TieuChi_TheoNam as yearlyplan inner join (
+select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung]  from KeHoach_TieuChi_TheoNam
+group by HeaderID,MaTieuChi ) as maxTime
+on yearlyplan.HeaderID = maxTime.HeaderID and yearlyplan.MaTieuChi = maxTime.MaTieuChi and yearlyplan.ThoiGianNhapCuoiCung = maxTime.ThoiGianNhapCuoiCung) as tmp1
+inner join 
+(select * from header_KeHoach_TieuChi_TheoNam where Nam = 2020) as tmp2
+on tmp1.HeaderID = tmp2.HeaderID) as tmp4
+on tmp3.MaPhongBan = tmp4.MaPhongBan and tmp3.MaTieuChi = tmp4.MaTieuChi ) as tmp5
+inner join TieuChi on
+tmp5.MaTieuChi = TieuChi.MaTieuChi ) as tmp6
+group by MaPhongBan,MaNhomTieuChi
+
+select * from header_KeHoach_TieuChi_TheoNam
