@@ -170,7 +170,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             }
         }
 
-        [Auther(RightID = "35")]
+        [Auther(RightID = "28")]
         [HttpPost]
         [Route("phong-cdvt/tong-hop-vat-tu/exportdetail")]
         public ActionResult ExportDetail (List<TonghopvattuSummaryModelView> vattus)
