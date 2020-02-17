@@ -13,11 +13,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
     public class ChitietBaoduongController : Controller
     {
         [HttpGet]
-        [Route("camera/quyet-dinh/sua-chua/chi-tiet")]
+        [Route("phong-cdvt/quyet-dinh/bao-duong-chi-tiet")]
   
-        public ActionResult Index()
+        public ActionResult LoadPage(String id)
         {
-            int id = int.Parse(Request["id"]);
+            ViewBag.id = id.ToString().Split('^')[0];
             return View("/Views/CDVT/Quyet_dinh/Chi_tiet_bao_duong.cshtml");
         }
 
