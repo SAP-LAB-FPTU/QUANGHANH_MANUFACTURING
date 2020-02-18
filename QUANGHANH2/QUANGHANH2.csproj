@@ -176,7 +176,7 @@
     <Compile Include="Controllers\Camera\Quyetdinh\NghiemThuCamController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\DanhSachController.cs" />
     <Compile Include="Controllers\Camera\SuCoController.cs" />
-    <Compile Include="Controllers\Camera\Quyetdinh\XuLyQDController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\DSQDChuaxulyController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\CDVTXinCapVatTuController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
     <Compile Include="Controllers\AT\ViewAccidentController.cs" />
@@ -7482,9 +7482,9 @@
     <Content Include="Views\TCLD\Occupation\Occupation.cshtml" />
     <Content Include="Views\TCLD\Occupation\GroupOccupation.cshtml" />
     <Content Include="Views\TCLD\Occupation\SideOccupation.cshtml" />
-    <Content Include="Views\Camera\DSQD.cshtml" />
+    <Content Include="Views\Camera\Quyetdinh\DSQDChuaxuly.cshtml" />
     <Content Include="Views\LogIn\Account_Information.cshtml" />
-    <Content Include="Views\Camera\Suachua.cshtml" />
+    <Content Include="Views\Camera\Quyetdinh\SuaChua\XuLyQuyetDinh.cshtml" />
     <Content Include="Views\CDVT\Vattu\Xincapvattulan1.cshtml" />
     <Content Include="Views\Camera\Nghiemthu.cshtml" />
     <Content Include="Views\ManagementUser\Roles.cshtml" />
