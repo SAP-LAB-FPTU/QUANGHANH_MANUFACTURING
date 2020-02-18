@@ -26,8 +26,10 @@ namespace QUANGHANH2.Controllers.DK
         //
         dynamic getListReport(DateTime timeStart, DateTime timeEnd)
         {
-            var query = "select department_name, tmp2.* from (select MaPhongBan, MaTieuChi, " +
-                "SUM(Case when Ca = 1 and Ngay = @dateEndthen SanLuong else 0 end) as [Ca1], " +
+            var query = 
+                "select tmp1.*,TenTieuChi from ("+
+                "select department_name as [TenPhongBan], tmp2.* from (select MaPhongBan, MaTieuChi, " +
+                "SUM(Case when Ca = 1 and Ngay = @dateEnd then SanLuong else 0 end) as [Ca1], " +
                 "SUM(Case when Ca = 2 and Ngay = @dateEnd then SanLuong else 0 end) as [Ca2], " +
                 "SUM(Case when Ca = 3 and Ngay = @dateEnd then SanLuong else 0 end) as [Ca3], " +
                 "SUM(Case when(Ca = 3 or Ca = 2 or Ca = 1)and Ngay = @dateEnd then SanLuong else 0 end) as [TH], " +
@@ -36,7 +38,8 @@ namespace QUANGHANH2.Controllers.DK
                 "(select MaPhongBan, MaTieuChi, Ca, Ngay, SanLuong, NgaySanXuat from " +
                 "(select * from header_ThucHienTheoNgay where Ngay between @dateStart and @dateEnd) as headerDaily " +
                 "inner join ThucHien_TieuChi_TheoNgay as th on headerDaily.HeaderID = th.HeaderID) as tmp1 " +
-                "Group by MaPhongBan,MaTieuChi) as tmp2 inner join Department on tmp2.MaPhongBan = Department.department_id " +
+                "Group by MaPhongBan,MaTieuChi) as tmp2 inner join Department on tmp2.MaPhongBan = Department.department_id) as tmp1 " +
+                "inner join TieuChi on tmp1.MaTieuChi = TieuChi.MaTieuChi "+
                 "order by MaPhongBan,MaTieuChi";
 
             var querykHDaily = "select MaPhongBan,MaTieuChi,SUM(KeHoach) as KeKhoach from " +
@@ -72,12 +75,13 @@ namespace QUANGHANH2.Controllers.DK
                 // var listKHDC = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
                 var listKHDC = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
                 // var listKHDaily = db.Database.SqlQuery<KHDCDepartmentEntity>(querykHDaily, new SqlParameter("date", timeEnd), new SqlParameter("month", timeEnd.Month)).ToList();
-                var listKHDaily = db.Database.SqlQuery<DailyPlanEntity>(querykHDaily, new SqlParameter("date", timeEnd), new SqlParameter("month", timeEnd.Month)).ToList();
+                var listKHDaily = db.Database.SqlQuery<DailyPlanEntity>(querykHDaily, new SqlParameter("date", timeEnd), new SqlParameter("month", timeEnd.Month), new SqlParameter("dateEnd", timeEnd)).ToList();
                 for (var index = 0; index < listReport.Count; index++)
                 {
                     listReport[index].KHDC = listKHDC[index].KHDC;
                     listReport[index].KHBD = listKHDC[index].KHBD;
                     listReport[index].KH = listKHDaily[index].KeHoach;
+                    listReport[index].BQQHDC = listReport[index].KHDC / listKHDC[index].SoNgayLamViec;
                     listReport[index].chenhlech = listReport[index].TH - listReport[index].KH;
                     if (listReport[index].KH != 0)
                     {
@@ -237,14 +241,14 @@ namespace QUANGHANH2.Controllers.DK
             {
                 return new EmptyResult();
             }
-        }
+        }   
     }
     public class KHDCDepartmentEntity
     {
         public int MaTieuChi { get; set; }
         public double KHBD { get; set; }
         public double KHDC { get; set; }
-        public double SoNgayLamViec { get; set; }
+        public int SoNgayLamViec { get; set; }
         public string MaPhongBan { get; set; }
     }
 

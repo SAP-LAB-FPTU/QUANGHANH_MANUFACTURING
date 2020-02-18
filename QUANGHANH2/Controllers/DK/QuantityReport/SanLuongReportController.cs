@@ -416,7 +416,7 @@ public class reportEntity
     public double percentageDC { get; set; }
     public double SUM { get; set; }
     public double perday { get; set; }
-    public double NgaySanXuat { get; set; }
+    public int NgaySanXuat { get; set; }
     public double BQQHDC { get; set; }
     public string GhiChu { get; set; }
     public string TenPhongBan { get; set; }
