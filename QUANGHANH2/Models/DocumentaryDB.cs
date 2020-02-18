@@ -12,6 +12,7 @@ namespace QUANGHANH2.Models
         public string stringdate { get; set; }
         public string department_name { get; set; }
         public LinkIdCode linkIdCode { get; set; }
+        public string documentary_name { get; set; }
     }
 
     public class LinkIdCode
