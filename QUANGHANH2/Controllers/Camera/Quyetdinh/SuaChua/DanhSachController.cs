@@ -23,7 +23,7 @@ namespace QUANGHANH2.Controllers.Camera
     {
 
         [Auther(RightID = "193")]
-        [Route("camera/quyet-dinh/sua-chua")]
+        [Route("phong-cdvt/camera/quyet-dinh/sua-chua")]
         public ActionResult Index()
         {
             ViewBag.count = 1;
