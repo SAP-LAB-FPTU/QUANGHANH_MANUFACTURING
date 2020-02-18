@@ -169,11 +169,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\Camera\CapNhatTheoCaController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\DaNghiemThuController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ChiTietController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ThemQuyetDinhController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\XuLyQuyetDinhController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ChonThietBiController.cs" />
-    <Compile Include="Controllers\Camera\Quyetdinh\NghiemThuCamController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\ChuaNghiemThuController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\DanhSachController.cs" />
     <Compile Include="Controllers\Camera\SuCoController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\DSQDChuaxulyController.cs" />
@@ -225,7 +226,7 @@
     <Compile Include="Controllers\CDVT\LongCDVT\Oto\DanhsachotoController.cs" />
     <Compile Include="Controllers\CDVT\LongCDVT\Oto\huydongotoController.cs" />
     <Compile Include="Controllers\CDVT\Nghiemthu\DanghiemthuController.cs" />
-    <Compile Include="Controllers\CDVT\Nghiemthu\nghiemthuController.cs" />
+    <Compile Include="Controllers\CDVT\Nghiemthu\ChuanghiemthuController.cs" />
     <Compile Include="Controllers\CDVT\Nghiemthu\VattukemtheoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\BaoHiemOtoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\ChitietotoController.cs" />
@@ -7486,7 +7487,7 @@
     <Content Include="Views\LogIn\Account_Information.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\XuLyQuyetDinh.cshtml" />
     <Content Include="Views\CDVT\Vattu\Xincapvattulan1.cshtml" />
-    <Content Include="Views\Camera\Nghiemthu.cshtml" />
+    <Content Include="Views\Camera\Quyetdinh\ChuaNghiemThu.cshtml" />
     <Content Include="Views\ManagementUser\Roles.cshtml" />
     <Content Include="Views\CDVT\Car\BaoHiemOto.cshtml" />
     <Content Include="Views\BGD\QuantityReport\CompanyView.cshtml" />
@@ -7521,6 +7522,7 @@
     <Folder Include="Views\CapNhat\" />
     <Folder Include="Views\ChiTiet\" />
     <Folder Include="Views\ChonThietBi\" />
+    <Folder Include="Views\DaNghiemThu\" />
     <Folder Include="Views\TrangChu\" />
   </ItemGroup>
   <ItemGroup>
