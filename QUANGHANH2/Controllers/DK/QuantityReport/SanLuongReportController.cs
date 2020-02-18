@@ -411,11 +411,12 @@ public class reportEntity
     public double luyke { get; set; }
     public double chenhlech { get; set; }
     public double percentage { get; set; }
+    public double KHBD { get; set; }
     public double KHDC { get; set; }
     public double percentageDC { get; set; }
     public double SUM { get; set; }
     public double perday { get; set; }
-
+    public double NgaySanXuat { get; set; }
     public double BQQHDC { get; set; }
     public string GhiChu { get; set; }
     public string TenPhongBan { get; set; }
