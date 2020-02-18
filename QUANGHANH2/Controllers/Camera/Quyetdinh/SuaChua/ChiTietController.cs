@@ -18,110 +18,71 @@ using QUANGHANH2.SupportClass;
 
 namespace QUANGHANH2.Controllers.Camera
 {
-    public class ChitietSuachuaCamController : Controller
+    public class ChiTietController : Controller
     {
         [Auther(RightID = "193")]
-        [HttpGet]
-        public ActionResult LoadPage(String id)
+        [Route("phong-cdvt/camera/quyet-dinh/sua-chua/chi-tiet")]
+        public ActionResult Index()
         {
-            ViewBag.id = id.ToString().Split('^')[0];
-
-            return View("/Views/Camera/Chi_tiet_sua_chua.cshtml");
-        }
-
-        public string Base64Encode(string plainText)
-        {
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-            return System.Convert.ToBase64String(plainTextBytes);
-        }
-        public string Base64Decode(string base64EncodedData)
-        {
-            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
-            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
-        }
-
-        public class CameraDetail: Room
-        {
-            public string reason { get; set; }
-            public int documentary_id { get; set; }
-            public string idAndEquip { get; set; }
-        }
-
-        [HttpPost]
-        public ActionResult Detail()
-        {
-            string requestID = Request["sessionId"];
-            int id = Int32.Parse(requestID);
-            int start = Convert.ToInt32(Request["start"]);
-            int length = 10;
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
-
+            int id = int.Parse(Request["id"]);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                try
+                string documentary_code = db.Documentaries.Find(id).documentary_code;
+                ViewBag.documentary_code = documentary_code;
+
+                var listRooms = (from r in db.Rooms
+                                 join d in db.Documentary_camera_repair_details on r.room_id equals d.room_id
+                                 join depa in db.Departments on r.department_id equals depa.department_id
+                                 select new RoomDetail
+                                 {
+                                     room_id = r.room_id,
+                                     room_name = r.room_name,
+                                     department_name = depa.department_name,
+                                     broken_camera_quantity = d.broken_camera_quantity,
+                                     repair_requirement = d.repair_requirement,
+                                     note = d.note
+                                 }).ToList();
+                ViewBag.listRooms = listRooms;
+
+                var listSupplies = (from r in db.Supply_Documentary_Camera
+                                    join s in db.Supplies on r.supply_id equals s.supply_id
+                                    select new
+                                    {
+                                        room_id = r.room_id,
+                                        supply_id = r.supply_id,
+                                        quantity_plan = r.quantity_plan,
+                                        supply_name = s.supply_name
+                                    }).ToList();
+
+                JObject temp = new JObject();
+                foreach (var room in listRooms)
                 {
-                    db.Configuration.LazyLoadingEnabled = false;
-                    string query = "select c.camera_id, c.camera_name, r.room_name, doc.reason, docCam.documentary_id from Documentary_camera_repair_details docCam join " +
-                        "Documentary doc on doc.documentary_id = docCam.documentary_id join Camera c on c.camera_id = docCam.camera_id join " +
-                        "Room r on r.room_id = c.room_id join Department d on d.department_id = r.department_id where docCam.documentary_id = @requestID";
-                    List<CameraDetail> documentariesList = db.Database.SqlQuery<CameraDetail>(query, new SqlParameter("requestID", requestID)).ToList();
-                    int totalrows = documentariesList.Count;
-                    int totalrowsafterfiltering = documentariesList.Count;
-
-                    //sorting
-                    documentariesList = documentariesList.OrderBy(sortColumnName + " " + sortDirection).ToList<CameraDetail>();
-                    //paging
-
-                    documentariesList = documentariesList.Skip(start).Take(length).ToList<CameraDetail>();
-                    Console.WriteLine(Json(new { success = true, data = documentariesList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet));
-
-                    var js = Json(new { success = true, data = documentariesList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-
-                    var result = new JavaScriptSerializer().Serialize(js.Data);
-                    ViewBag.count = 0;
-                    return js;
-                }catch(Exception e)
-                {
-                    e.Message.ToString();
-                    return null;
+                    JArray list = new JArray();
+                    for (int i = 0; i < listSupplies.Count; i++)
+                    {
+                        var supply = listSupplies[i];
+                        if (supply.room_id.Equals(room.room_id))
+                        {
+                            list.Add(JToken.FromObject(new
+                            {
+                                supply_id = supply.supply_id,
+                                supply_name = supply.supply_name,
+                                quantity_plan = supply.quantity_plan
+                            }));
+                            listSupplies.Remove(supply);
+                        }
+                    }
+                    temp.Add(room.room_id.ToString(), list);
                 }
+                ViewBag.listSupplies = temp.ToString();
             }
+            return View("/Views/Camera/Quyetdinh/SuaChua/ChiTiet.cshtml");
         }
 
-        [Route("camera/GetSupply")]
-        [HttpPost]
-        public ActionResult GetSupply(string documentary_id, string equipmentId)
+        public class RoomDetail : Documentary_camera_repair_details
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Supply_Detail> supplies = DBContext.Database.SqlQuery<Supply_Detail>("select s.supply_id, s.supply_name, sdc.quantity_plan, sdc.supplyStatus from Supply_Documentary_Camera sdc join Supply s on sdc.supply_id = s.supply_id where documentary_id = @documentary_id and sdc.camera_id = @equipmentId",
-                new SqlParameter("equipmentId", equipmentId),
-                new SqlParameter("documentary_id", documentary_id)).ToList();
-            int count = supplies.Count;
-            if (count == 0)
-            {
-                return Json(new
-                {
-                    success = false,
-                    data = supplies,
-                    message = "Không có vật tư nào!"
-                }, JsonRequestBehavior.AllowGet);
-            }
-            else
-                return Json(new
-                {
-                    success = true,
-                    data = supplies
-                }, JsonRequestBehavior.AllowGet);
-
-        }
-        public class Supply_Detail
-        {
-            public string supply_id { get; set; }
-            public string supply_name { get; set; }
-            public int quantity_plan { get; set; }
-            public string supplyStatus { get; set; }
+            public string room_name { get; set; }
+            public string department_name { get; set; }
         }
 
         [Route("camera/quyet-dinh/export-word")]
@@ -282,5 +243,5 @@ namespace QUANGHANH2.Controllers.Camera
         }
     }
 
-   
+
 }
