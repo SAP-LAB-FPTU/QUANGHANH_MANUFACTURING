@@ -4422,9 +4422,6 @@
     <Content Include="assets\libs\jsgrid\dist\jsgrid-theme.min.css" />
     <Content Include="assets\libs\jsgrid\dist\jsgrid.min.css" />
     <Content Include="assets\libs\jsgrid\dist\jsgrid.min.js" />
-    <Content Include="assets\libs\jvectormap\jquery-jvectormap.css" />
-    <Content Include="assets\libs\jvectormap\jquery-jvectormap.min.js" />
-    <Content Include="assets\libs\jvectormap\lib\jquery-mousewheel.js" />
     <Content Include="assets\libs\magnific-popup\animation.css" />
     <Content Include="assets\libs\magnific-popup\dist\jquery.magnific-popup.min.js" />
     <Content Include="assets\libs\magnific-popup\dist\magnific-popup.css" />
@@ -6721,13 +6718,6 @@
     <Content Include="assets\libs\jquery-steps\nuget\jQuery.Steps.nuspec" />
     <Content Include="assets\libs\jquery-steps\steps.jquery.json" />
     <Content Include="assets\libs\jquery.repeater\repeater.jquery.json" />
-    <Content Include="assets\libs\jvectormap\build.sh" />
-    <Content Include="assets\libs\jvectormap\converter\converter.py" />
-    <Content Include="assets\libs\jvectormap\converter\processor.py" />
-    <Content Include="assets\libs\jvectormap\converter\simplifier.py" />
-    <Content Include="assets\libs\jvectormap\LICENSE-AGPL" />
-    <Content Include="assets\libs\jvectormap\LICENSE-COMMERCIAL" />
-    <Content Include="assets\libs\jvectormap\_CookieConsentPartial.cshtml" />
     <Content Include="assets\libs\morris.js\bower.travis.json" />
     <Content Include="assets\libs\node-sass\binding.gyp" />
     <Content Include="assets\libs\node-sass\bin\emcc" />
