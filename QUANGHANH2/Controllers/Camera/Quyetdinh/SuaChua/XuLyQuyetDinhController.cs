@@ -96,7 +96,7 @@ namespace QUANGHANH2.Controllers.Camera
                             a.acceptance_date = DateTime.Now;
                             a.documentary_id = id;
                             a.room_id = int.Parse(item);
-                            a.cameraStatus = 3;
+                            a.cameraStatus = 0;
                             DBContext.Camera_Acceptance.Add(a);
                             DBContext.SaveChanges();
                         }
@@ -144,6 +144,11 @@ namespace QUANGHANH2.Controllers.Camera
             {
                 try
                 {
+                    Documentary_camera_repair_details detail = DBContext.Documentary_camera_repair_details
+                        .Where(x => x.room_id == room_id && x.documentary_id == documentary_id && x.Documentary_camera_repair_status == 0).FirstOrDefault();
+                    if (detail == null)
+                        return Json(new { success = false, message = "Không thể chỉnh sửa quyết định đã xử lý" });
+
                     JObject json = JObject.Parse(list);
                     JArray arr = (JArray)json.SelectToken("list");
                     foreach (JObject item in arr)
@@ -151,7 +156,9 @@ namespace QUANGHANH2.Controllers.Camera
                         string supply_id = (string)item["supply_id"];
                         if (DBContext.Supplies.Find(supply_id) == null)
                             return Json(new { success = false, message = "Mã vật tư không tồn tại" });
-                        Supply_Documentary_Camera temp = DBContext.Supply_Documentary_Camera.Where(a => a.documentary_id == documentary_id && a.room_id.Equals(room_id) && a.supply_id == supply_id).FirstOrDefault();
+                        Supply_Documentary_Camera temp = DBContext.Supply_Documentary_Camera
+                            .Where(a => a.documentary_id == documentary_id && a.room_id.Equals(room_id) && a.supply_id == supply_id).FirstOrDefault();
+
                         if (temp == null)
                         {
                             temp = new Supply_Documentary_Camera();

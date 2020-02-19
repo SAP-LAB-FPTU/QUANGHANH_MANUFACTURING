@@ -55,8 +55,11 @@
             </div>
         </div>
         <div class="modal-footer">
-            <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
-            <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
+            @if (ViewBag.AddAble == true)
+            {
+                <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
+                <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
+            }
             <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
         </div>
     </div>
