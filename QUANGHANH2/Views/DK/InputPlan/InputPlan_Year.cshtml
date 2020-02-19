@@ -14,7 +14,7 @@
             onSubmit = "return SubmitForm(this);",
             data_restUrl = Url.Action("Add", "InputPlan_Year")
         }
-       ))
+))
         {
             <div class="center">
                 <h3><b>KẾ HOẠCH SẢN XUẤT NĂM</b></h3>
@@ -22,28 +22,33 @@
             <div class="row" style="margin-top:20px">
                 <div class="col l5">
                     <select id="department" name="department" class="custom-select">
+                        @*<option value="default-px" disabled selected>Phân xưởng</option>
+                            <option value="PXKT1">Khai thác 1</option>
+                            <option value="PXKT2">Khai thác 2</option>
+                            <option value="PXKT3">Khai thác 3</option>
+                            <option value="PXKT4">Khai thác 4</option>
+                            <option value="PXKT5">Khai thác 5</option>
+                            <option value="PXKT6">Khai thác 6</option>
+                            <option value="PXKT7">Khai thác 7</option>
+                            <option value="PXKT8">Khai thác 8</option>
+                            <option value="PXKT9">Khai thác 9</option>
+                            <option value="PXKT10">Khai thác 10</option>
+                            <option value="PXKT11">Khai thác 11</option>
+                            <option value="PXDL3">Đào lò 3</option>
+                            <option value="PXDL5">Đào lò 5</option>
+                            <option value="PXDL7">Đào lò 7</option>
+                            <option value="PXDL8">Đào lò 8</option>
+                            <option value="PXDL2">Thăng Long</option>
+                            <option value="CTA">Asean</option>
+                            <option value="PXDL1">Xây lắp mỏ</option>
+                            <option value="PXST">Sàng tuyển</option>
+                            <option value="PXLT">Lộ thiên</option>
+                            <option value="KCS">KCS</option>*@
                         <option value="default-px" disabled selected>Phân xưởng</option>
-                        <option value="PXKT1">Khai thác 1</option>
-                        <option value="PXKT2">Khai thác 2</option>
-                        <option value="PXKT3">Khai thác 3</option>
-                        <option value="PXKT4">Khai thác 4</option>
-                        <option value="PXKT5">Khai thác 5</option>
-                        <option value="PXKT6">Khai thác 6</option>
-                        <option value="PXKT7">Khai thác 7</option>
-                        <option value="PXKT8">Khai thác 8</option>
-                        <option value="PXKT9">Khai thác 9</option>
-                        <option value="PXKT10">Khai thác 10</option>
-                        <option value="PXKT11">Khai thác 11</option>
-                        <option value="PXDL3">Đào lò 3</option>
-                        <option value="PXDL5">Đào lò 5</option>
-                        <option value="PXDL7">Đào lò 7</option>
-                        <option value="PXDL8">Đào lò 8</option>
-                        <option value="PXDL2">Thăng Long</option>
-                        <option value="CTA">Asean</option>
-                        <option value="PXDL1">Xây lắp mỏ</option>
-                        <option value="PXST">Sàng tuyển</option>
-                        <option value="PXLT">Lộ thiên</option>
-                        <option value="KCS">KCS</option>
+                        @foreach (var px in ViewBag.listDepartments)
+                        {
+                            <option value="@px.department_id">@px.department_name</option>
+                        }
                     </select>
                 </div>
                 <div class="col l5">
@@ -163,14 +168,14 @@
                         errorAlert('Lỗi', 'Kế hoạch sản xuất phải là số');
                     } else if (result.message == "ErrorDepart") {
                         errorAlert('Lỗi', 'Hãy chọn phân xưởng trước khi lưu');
-                    }else if (result.message == "DupliTieuChi") {
+                    } else if (result.message == "DupliTieuChi") {
                         errorAlert('Lỗi', 'Tồn tại 2 tiêu chí trùng nhau');
-                    }else if (result.message == "ErrorTieuChi") {
+                    } else if (result.message == "ErrorTieuChi") {
                         errorAlert('Lỗi', 'Hãy chọn tiêu chí trước khi lưu');
                     } else if (result.message == "ErrorYear") {
                         errorAlert('Lỗi', 'Hãy chọn năm trước khi lưu');
                     } else {
-                        successAlert('Thành công','Thêm thành công');
+                        successAlert('Thành công', 'Thêm thành công');
                     }
                 },
                 error: function (xhr, textStatus, errorThrown) {
@@ -183,39 +188,38 @@
 </script>
 <script>
     function getInformation() {
-        if ( $('#department').val() == null) {
+        if ($('#department').val() == null) {
             errorAlert('Lỗi', 'Hãy chọn phân xưởng trước khi xem');
-        } else if ($('#yearCalendar').val() == '' )
-        {
+        } else if ($('#yearCalendar').val() == '') {
             errorAlert('Lỗi', 'Hãy chọn năm trước khi xem');
         }
         else {
-               dem = 0;
-        $('#pre-load').show();
-        $.ajax({
-            type: 'POST',
-            url: '/phong-dieu-khien/ke-hoach-san-xuat-nam/lay-thong-tin',
-            data: {
-                'department': $('#department').val(),
-                'year': $('#yearCalendar').val().split(" ")[1],
-            },
-            success: function (response) {
-                var tableBody = $("#KHNamTable").children("tbody");
-                tableBody.empty();
-                content = "";
-                let tieuChiCuList = response.tieuChiCuList;
-                for (let i = 0; i < tieuChiCuList.length; i++) {
-                    content += "<tr id=\"MaTieuChi" + dem + "\"><td>" + setSelect(tieuChiCuList[i].MaTieuChi) + "</td><td contenteditable='true'>" + tieuChiCuList[i].SanLuongKeHoach + "</td><td contenteditable='true'>" + parseNote(tieuChiCuList[i].GhiChu)  + "</td><td><a id='delete-btn' name=\"MaTieuChi" + dem + "\" class='btn red darken-2'>Xóa</a></td></tr>";
-                    dem++;
-                }
-                tableBody.html(content);
-               $("#noteNam").text(response.note) ;
-               $('#pre-load').hide();
-            },
-             error: function (response) {
+            dem = 0;
+            $('#pre-load').show();
+            $.ajax({
+                type: 'POST',
+                url: '/phong-dieu-khien/ke-hoach-san-xuat-nam/lay-thong-tin',
+                data: {
+                    'department': $('#department').val(),
+                    'year': $('#yearCalendar').val().split(" ")[1],
+                },
+                success: function (response) {
+                    var tableBody = $("#KHNamTable").children("tbody");
+                    tableBody.empty();
+                    content = "";
+                    let tieuChiCuList = response.tieuChiCuList;
+                    for (let i = 0; i < tieuChiCuList.length; i++) {
+                        content += "<tr id=\"MaTieuChi" + dem + "\"><td>" + setSelect(tieuChiCuList[i].MaTieuChi) + "</td><td contenteditable='true'>" + tieuChiCuList[i].SanLuongKeHoach + "</td><td contenteditable='true'>" + parseNote(tieuChiCuList[i].GhiChu) + "</td><td><a id='delete-btn' name=\"MaTieuChi" + dem + "\" class='btn red darken-2'>Xóa</a></td></tr>";
+                        dem++;
+                    }
+                    tableBody.html(content);
+                    $("#noteNam").text(response.note);
+                    $('#pre-load').hide();
+                },
+                error: function (response) {
 
-            }
-        })
+                }
+            })
         }
     }
     function getTenTieuChi(MaTieuChi) {
@@ -227,8 +231,7 @@
         }
         return null;
     }
-    function setSelect(MaTieuChi)
-    {
+    function setSelect(MaTieuChi) {
         selectContent = "<select id='MaTieuChi'  class='browser-default' skipped='0'>";
         for (let i = 0; i < listAspectDepartments.length; i++) {
             var selected = (listAspectDepartments[i].MaTieuChi == MaTieuChi) ? 'selected' : '';
@@ -238,8 +241,7 @@
         return selectContent;
     }
 
-    function parseNote(note)
-    {
+    function parseNote(note) {
         if (note == null) {
             return '';
         } else {

@@ -68,7 +68,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
                 string sql = @"select (case when a.supply_id is null then b.supplyid else a.supply_id end) 'SupplyId', 
 (case when a.supply_name is null then b.supply_name else a.supply_name end) 'SupplyName', 
 (case when a.department_name is null then b.department_name else a.department_name end) 'DepartmentName', 
-(case when b.quantity is null then 0 else b.quantity end) 'SupplyQuantity', 
+(case when b.quantity_provide is null then 0 else b.quantity_provide end) 'SupplyProvide',
+(case when b.quantity is null then 0 else b.quantity end) 'SupplyQuantity',
+
 (case when a.unit is null then b.unit else a.unit end) 'SupplyUnit',
 sum(case when a.used is null then 0 else a.used end) 'SupplyUsed', 
 sum(case when a.thuhoi is null then 0 else a.thuhoi end) 'SupplyEviction'
@@ -107,7 +109,7 @@ on d.department_id_to = de.department_id
 group by s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit
 ) as a 
 full outer join 
-(select sp.supplyid, s.supply_name, sp.departmentid, d.department_name, sum(sp.quantity) 'quantity', s.unit
+(select sp.supplyid, s.supply_name, sp.departmentid, d.department_name, sum(sp.quantity) 'quantity',sum(sp.quantity_provide) 'quantity_provide', s.unit
 from Supply s inner join SupplyPlan sp
 on s.supply_id = sp.supplyid inner join Department d on sp.departmentid = d.department_id
 where MONTH(sp.[date]) = @month and year(sp.[date]) = @year and sp.departmentid!='CDVT'
@@ -117,7 +119,7 @@ on a.department_id = b.departmentid and a.supply_id = b.supplyid
 where (a.supply_id like @supplyid or b.supplyid  like @supplyid ) and (b.departmentid like @departid  or a.department_id like @departid ) 
 and (a.supply_name like @supplyname  or b.supply_name like @supplyname ) and (b.department_name like @departname  or a.department_name like @departname )
 group by a.supply_id, a.department_id, b.supplyid,b.quantity, b.departmentid, a.supply_name, b.supply_name,
-a.department_name, b.department_name, a.unit, b.unit"; 
+a.department_name, b.department_name, a.unit, b.unit,b.quantity_provide"; 
                  var details = context.Database.SqlQuery<DataTieuHao>(sql, 
                                                                             new SqlParameter("month",val[1]),
                                                                             new SqlParameter("year",val[2]),
@@ -133,6 +135,7 @@ a.department_name, b.department_name, a.unit, b.unit";
                 string sql = @"select (case when a.supply_id is null then b.supplyid else a.supply_id end) 'SupplyId', 
 (case when a.supply_name is null then b.supply_name else a.supply_name end) 'SupplyName', 
 (case when a.department_name is null then b.department_name else a.department_name end) 'DepartmentName', 
+(case when b.quantity_provide is null then 0 else b.quantity_provide end) 'SupplyProvide',
 (case when b.quantity is null then 0 else b.quantity end) 'SupplyQuantity', 
 (case when a.unit is null then b.unit else a.unit end) 'SupplyUnit',
 sum(case when a.used is null then 0 else a.used end) 'SupplyUsed', 
@@ -172,7 +175,7 @@ on d.department_id_to = de.department_id
 group by s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit
 ) as a 
 full outer join 
-(select sp.supplyid, s.supply_name, sp.departmentid, d.department_name, sum(sp.quantity) 'quantity', s.unit
+(select sp.supplyid, s.supply_name, sp.departmentid, d.department_name, sum(sp.quantity) 'quantity',sum(sp.quantity_provide) 'quantity_provide', s.unit
 from Supply s inner join SupplyPlan sp
 on s.supply_id = sp.supplyid inner join Department d on sp.departmentid = d.department_id
 where  year(sp.[date]) = @year and sp.departmentid!='CDVT'
@@ -182,7 +185,7 @@ on a.department_id = b.departmentid and a.supply_id = b.supplyid
 where (a.supply_id like @supplyid or b.supplyid  like @supplyid ) and (b.departmentid like @departid  or a.department_id like @departid ) 
 and (a.supply_name like @supplyname  or b.supply_name like @supplyname ) and (b.department_name like @departname  or a.department_name like @departname )
 group by a.supply_id, a.department_id, b.supplyid,b.quantity, b.departmentid, a.supply_name, b.supply_name,
-a.department_name, b.department_name, a.unit, b.unit";
+a.department_name, b.department_name, a.unit, b.unit,b.quantity_provide";
                 var details = context.Database.SqlQuery<DataTieuHao>(sql, 
                                                                             new SqlParameter("year", search.year),
                                                                             new SqlParameter("supplyid", "%" + search.SupplyId + "%"),
@@ -202,6 +205,7 @@ a.department_name, b.department_name, a.unit, b.unit";
             {
                 string sql = @"select (case when a.supply_id is null then b.supplyid else a.supply_id end) 'SupplyId', 
 (case when a.supply_name is null then b.supply_name else a.supply_name end) 'SupplyName',
+(case when b.quantity_provide is null then 0 else b.quantity_provide end) 'SupplyProvide',
 (case when b.quantity is null then 0 else b.quantity end) 'SupplyQuantity', 
 (case when a.unit is null then b.unit else a.unit end) 'SupplyUnit',
 sum(case when a.used is null then 0 else a.used end) 'SupplyUsed', 
@@ -234,7 +238,7 @@ from Supply s inner join Supply_Documentary_Equipment sde
 on s.supply_id = sde.supply_id inner join Documentary d
 on d.documentary_id = sde.documentary_id and MONTH(d.date_created) = @month AND YEAR(d.date_created) = @year
 group by s.supply_id, s.supply_name, s.unit) as a full outer join 
-(select sp.supplyid, s.supply_name,sum(sp.quantity) 'quantity', s.unit
+(select sp.supplyid, s.supply_name,sum(sp.quantity) 'quantity', s.unit,sum(sp.quantity_provide) 'quantity_provide'
 from Supply s inner join SupplyPlan sp
 on s.supply_id = sp.supplyid 
 where MONTH(sp.[date]) = @month and year(sp.[date]) = @year and sp.departmentid!='CDVT'
@@ -242,7 +246,7 @@ group by sp.supplyid, s.supply_name, s.unit
 ) as b
 on a.supply_id = b.supplyid
 where (a.supply_id like @supplyid or b.supplyid like @supplyid) and (a.supply_name like @supplyname or b.supply_name like @supplyname)
-group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.unit, b.unit"; 
+group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.unit, b.unit,b.quantity_provide"; 
                  var details = context.Database.SqlQuery<DataTieuHao>(sql, 
                                                                             new SqlParameter("month",val[1]),
                                                                             new SqlParameter("year",val[2]),
@@ -257,6 +261,7 @@ group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.un
             {
                 string sql = @"select (case when a.supply_id is null then b.supplyid else a.supply_id end) 'SupplyId', 
 (case when a.supply_name is null then b.supply_name else a.supply_name end) 'SupplyName',
+(case when b.quantity_provide is null then 0 else b.quantity_provide end) 'SupplyProvide',
 (case when b.quantity is null then 0 else b.quantity end) 'SupplyQuantity', 
 (case when a.unit is null then b.unit else a.unit end) 'SupplyUnit',
 sum(case when a.used is null then 0 else a.used end) 'SupplyUsed', 
@@ -289,7 +294,7 @@ from Supply s inner join Supply_Documentary_Equipment sde
 on s.supply_id = sde.supply_id inner join Documentary d
 on d.documentary_id = sde.documentary_id  AND YEAR(d.date_created) = @year
 group by s.supply_id, s.supply_name, s.unit) as a full outer join 
-(select sp.supplyid, s.supply_name,sum(sp.quantity) 'quantity', s.unit
+(select sp.supplyid, s.supply_name,sum(sp.quantity) 'quantity', s.unit,sum(sp.quantity_provide) 'quantity_provide'
 from Supply s inner join SupplyPlan sp
 on s.supply_id = sp.supplyid 
 where year(sp.[date]) = @year and sp.departmentid!='CDVT'
@@ -297,7 +302,7 @@ group by sp.supplyid, s.supply_name, s.unit
 ) as b
 on a.supply_id = b.supplyid
 where (a.supply_id like @supplyid or b.supplyid like @supplyid) and (a.supply_name like @supplyname or b.supply_name like @supplyname)
-group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.unit, b.unit";
+group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.unit, b.unit,b.quantity_provide";
                 var details = context.Database.SqlQuery<DataTieuHao>(sql,
                                                                            new SqlParameter("year", search.year),
                                                                            new SqlParameter("supplyid", "%" + search.SupplyId + "%"),
@@ -362,11 +367,11 @@ group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.un
                     {
                         excelWorksheet.Cells[index, 1].Value = vattu.SupplyId;
                         excelWorksheet.Cells[index, 2].Value = vattu.SupplyName;
-                       
-                        excelWorksheet.Cells[index, 3].Value = vattu.SupplyQuantity;
-                        excelWorksheet.Cells[index, 4].Value = vattu.SupplyUnit;
-                        excelWorksheet.Cells[index, 5].Value = vattu.SupplyUsed;
-                        excelWorksheet.Cells[index, 6].Value = vattu.SupplyEviction;
+                        excelWorksheet.Cells[index, 3].Value = vattu.SupplyProvide;
+                        excelWorksheet.Cells[index, 4].Value = vattu.SupplyQuantity;
+                        excelWorksheet.Cells[index, 5].Value = vattu.SupplyUnit;
+                        excelWorksheet.Cells[index, 6].Value = vattu.SupplyUsed;
+                        excelWorksheet.Cells[index, 7].Value = vattu.SupplyEviction;
                         index++;
                     }
                     workbook.SaveAs(new FileInfo(HostingEnvironment.MapPath($"/excel/CDVT/download/{downloadFilename}")));
@@ -433,13 +438,14 @@ group by a.supply_id, b.supplyid, b.quantity, a.supply_name, b.supply_name, a.un
                         excelWorksheet.Cells[index, 1].Value = vattu.SupplyId;
                         excelWorksheet.Cells[index, 2].Value = vattu.SupplyName;
                         excelWorksheet.Cells[index, 3].Value = vattu.DepartmentName;
-                        excelWorksheet.Cells[index, 4].Value = vattu.SupplyQuantity;
-                        excelWorksheet.Cells[index, 5].Value = vattu.SupplyUnit;
-                        excelWorksheet.Cells[index, 6].Value = vattu.SupplyUsed;
-                        excelWorksheet.Cells[index, 7].Value = vattu.SupplyEviction;
+                        excelWorksheet.Cells[index, 4].Value = vattu.SupplyProvide;
+                        excelWorksheet.Cells[index, 5].Value = vattu.SupplyQuantity;
+                        excelWorksheet.Cells[index, 6].Value = vattu.SupplyUnit;
+                        excelWorksheet.Cells[index, 7].Value = vattu.SupplyUsed;
+                        excelWorksheet.Cells[index, 8].Value = vattu.SupplyEviction;
 
 
-
+                        
                         index++;
                     }
                     workbook.SaveAs(new FileInfo(HostingEnvironment.MapPath($"/excel/CDVT/download/{downloadFilename}")));
@@ -663,10 +669,13 @@ group by s.supply_id, de.department_id, d.date_created, d.documentary_code";
         public string SupplyId { get; set; }
         public string SupplyName { get; set; }
         public string DepartmentName { get; set; }
+        public int SupplyProvide { get; set; }
+
         public int SupplyQuantity { get; set; }
         public string SupplyUnit { get; set; }
         public int SupplyUsed { get; set; }
         public int SupplyEviction { get; set; }
 
     }
+   
 }

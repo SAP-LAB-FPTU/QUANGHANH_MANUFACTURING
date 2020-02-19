@@ -25,6 +25,9 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             var ngaySX = db.header_KeHoachTungThang.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
             ViewBag.SoNgaySX = ngaySX;
             ViewBag.NgayNhap = DateTime.Today.ToString("dd/MM/yyyy");
+            var query = " select * from Department WHERE department_type =@departmentType order by department_name";
+            List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
+            ViewBag.listDepartments = listDepartments;
             return View("/Views/DK/InputCharcoal/InputCharcoal.cshtml");
         }
         public class LuyKe

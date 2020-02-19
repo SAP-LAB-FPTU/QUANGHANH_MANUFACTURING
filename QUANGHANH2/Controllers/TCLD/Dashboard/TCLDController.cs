@@ -1,6 +1,6 @@
 ﻿using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
-using QUANGHANHCORE.Controllers.PX.PXKT;
+using QUANGHANHCORE.Controllers.Phanxuong.phanxuong;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -541,13 +541,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
                         BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
                         ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
-                        DuBaoNguyCo = i.DuBaoNguyCo,
-                        HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
+                        //DuBaoNguyCo = i.DuBaoNguyCo,
+                        //HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
                         LuongSauDuyet = i.DiemLuong.ToString(),
                         LuongTruocDuyet = i.DiemLuong.ToString(),
                         NoiDungCongViec = db.Departments.First().department_name,
-                        SoThe = i.MaNV,
-                        YeuCauBPKTAT = i.GiaiPhapNguyCo
+                        SoThe = i.MaNV
+                        //YeuCauBPKTAT = i.GiaiPhapNguyCo
                     };
                     customNSLDs.Add(cus);
                     stt++;
