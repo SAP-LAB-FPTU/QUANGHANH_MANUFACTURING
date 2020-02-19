@@ -96,7 +96,7 @@ namespace QUANGHANH2.Controllers.Camera
                             a.acceptance_date = DateTime.Now;
                             a.documentary_id = id;
                             a.room_id = int.Parse(item);
-                            a.cameraStatus = 0;
+                            a.isAcceptance = false;
                             DBContext.Camera_Acceptance.Add(a);
                             DBContext.SaveChanges();
                         }

@@ -20,7 +20,7 @@ namespace QUANGHANH2.Controllers.Camera
             public string room_name { get; set; }
             public string documentary_name { get; set; }
             public int broken_camera_quantity { get; set; }
-            public int cameraStatus { get; set; }
+            public bool isAcceptance { get; set; }
         }
 
 
@@ -43,7 +43,7 @@ namespace QUANGHANH2.Controllers.Camera
             //
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                string query = @"select d.documentary_id, d.documentary_code, t.documentary_name, r.room_name, r.room_id, detail.broken_camera_quantity, c.cameraStatus
+                string query = @"select d.documentary_id, d.documentary_code, t.documentary_name, r.room_name, r.room_id, detail.broken_camera_quantity, c.isAcceptance
                     from Documentary d 
                     inner join Camera_Acceptance c on d.documentary_id = c.documentary_id
                     inner join Room r on c.room_id = r.room_id
@@ -53,7 +53,7 @@ namespace QUANGHANH2.Controllers.Camera
                 docList = db.Database.SqlQuery<Documentary_Extend_Cam>(query + " order by " + sortColumnName + " " + sortDirection + " offset " + start + " rows fetch next " + length + " rows only",
                     new SqlParameter("documentary_code", "%" + documentary_code + "%"),
                     new SqlParameter("room_name", "%" + room_name + "%")).ToList();
-                int totalrows = db.Database.SqlQuery<int>(query.Replace("d.documentary_id, d.documentary_code, t.documentary_name, r.room_name, r.room_id, detail.broken_camera_quantity, c.cameraStatus", "count(d.documentary_id)"),
+                int totalrows = db.Database.SqlQuery<int>(query.Replace("d.documentary_id, d.documentary_code, t.documentary_name, r.room_name, r.room_id, detail.broken_camera_quantity, c.isAcceptance", "count(d.documentary_id)"),
                     new SqlParameter("documentary_code", "%" + documentary_code + "%"),
                     new SqlParameter("room_name", "%" + room_name + "%")).FirstOrDefault();
 
@@ -71,11 +71,11 @@ namespace QUANGHANH2.Controllers.Camera
                 try
                 {
                     Camera_Acceptance acceptance = db.Camera_Acceptance.Where(x => x.documentary_id == documentary_id && x.room_id == room_id).FirstOrDefault();
-                    acceptance.cameraStatus = 1;
+                    acceptance.isAcceptance = true;
                     acceptance.acceptance_date = DateTime.Now;
                     db.SaveChanges();
 
-                    int acceptanced = db.Database.SqlQuery<Camera_Acceptance>("SELECT * FROM Camera_Acceptance WHERE documentary_id = @documentary_id AND cameraStatus = 1",
+                    int acceptanced = db.Database.SqlQuery<Camera_Acceptance>("SELECT * FROM Camera_Acceptance WHERE documentary_id = @documentary_id AND isAcceptance = 1",
                         new SqlParameter("documentary_id", documentary_id)).ToList().Count;
 
                     int total = db.Database.SqlQuery<Camera_Acceptance>("SELECT * FROM Camera_Acceptance WHERE documentary_id = @documentary_id",
