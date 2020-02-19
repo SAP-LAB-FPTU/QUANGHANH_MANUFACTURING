@@ -17,12 +17,11 @@
                 <div class="col s12 m3 l3"></div>
                 <!--Ngay-->
                 <div class="col s12 m2 l2">
-                    <input placeholder="Chọn ngày" class="form-control" id="date" />
+                    <input placeholder="Chọn ngày" class="form-control" id="date" value="" />
                 </div>
                 <!--Ca-->
                 <div class="col s12 m2 l2">
                     <select class="form-control" id="shift">
-                        <option value="-1">Chọn ca</option>
                         <option value="1">Ca 1</option>
                         <option value="2">Ca 2</option>
                         <option value="3">Ca 3</option>
@@ -34,33 +33,42 @@
                 <div class="col s12 m3 l3"></div>
             </div>
 
-            <!--Input Than, Met lo, Xen-->
+            <!--Input TongDiemLuong, Than, Met lo, Xen-->
             <div class="col s12 m12 l12">
-                <div class="col s12 m3 l3"></div>
+                <div class="col s12 m2 l2"></div>
+                <!--TongDiemLuong-->
+                <div class="col s12 m2 l2">
+                    <label>Tổng điểm lương</label>
+                    <input type="number" class="form-control" id="effort_sum" disabled />
+                </div>
                 <!--Than-->
                 <div class="col s12 m2 l2">
                     <label>Tổng than (tấn)</label>
                     <input type="number" class="form-control" id="than" />
                 </div>
+                <!--MetLo-->
                 <div class="col s12 m2 l2">
                     <label>Tổng mét lò (mét)</label>
                     <input type="number" class="form-control" id="metlo" />
                 </div>
+                <!--Xen-->
                 <div class="col s12 m2 l2">
                     <label>Tổng xén (mét)</label>
                     <input type="number" class="form-control" id="xen" />
                 </div>
-                <div class="col s12 m3 l3"></div>
+                <div class="col s12 m2 l2"></div>
             </div>
 
-            
             <!--Table NhanVien, DiemLuong-->
             <div class="col s12 m12 l12">
                 <!--Import Excel Button-->
                 <div class="left input-field">
                     <a class="btn btn-small waves-effect waves-light green" id="importExcel"><i class="fas fa-file-excel"></i>&nbsp Import Excel</a>
                 </div>
-                <table class="table-bordered">
+                <div class="right input-field">
+                    <a class="btn btn-small waves-effect waves-light blue" id="saveButton">Lưu</a>
+                </div>
+                <table id="effortedTable" class="table-bordered">
                     <thead>
                         <tr>
                             <th>Mã thẻ</th>
@@ -82,3 +90,172 @@
     });
 </script>
 
+<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+<!------------------------------------------LOAD/LIST---------------------------------------------->
+<!--Load default table with current Ngay and Ca-->
+<script>
+    var list_nsld;
+    var effortedTable;
+    $(document).ready(function () {
+        $("#pre-load").show();
+        effortedTable = $("#effortedTable").DataTable({
+            "ajax": {
+                "url": "/phan-xuong/nang-suat-lao-dong/lay-du-lieu",
+                "type": "POST",
+                "data": {
+                    "date": function () { return $("#date").val() },
+                    "shift": function () { return $("#shift").val() }
+                },
+                "datatype": "json",
+                "dataSrc": function (data) {
+                    //set data to TongDiemLuong, Ngay and Ca inputs
+                    $("#date").val(data["date"]);
+                    $("#shift").val(data["shift"]);
+                    $("#effort_sum").val(data["effortSum"]);
+
+                    //Disabled "Lưu" button when table have no data
+                    list_nsld = data["list_nsld"];
+                    if (list_nsld.length == 0) {
+                        $("#saveButton").hide();
+                    } else {
+                        $("#saveButton").show();
+                    }
+                    return data["list_nsld"];
+                },
+                "cache": false
+            },
+            "columns": [
+                {
+                    "data": "MaNV", "name": "MaNV",
+                    "orderable": false,
+                    "searchable": false
+                },
+                {
+                    "data": "Ten", "name": "Ten",
+                    "orderable": false,
+                    "searchable": false
+                },
+                {
+                    "data": "", "name": "DiemLuong", "render": function (data, type, row) {
+                        return "<input id=\"" + row["MaNV"] + "-effort\" type=\"text\" class=\"form-control\" value=" + row["DiemLuong"] + " oninput=\"updateEffortedSum()\" />"
+                    },
+                    "orderable": false,
+                    "searchable": false
+                }
+            ],
+            "serverSide": true,
+            "order": [],
+            "searching": false,
+            "paging": false,
+            "lengthChange": false,
+            "autoWidth": false,
+            "filter": false,
+            "info": false,
+            "language": {
+                emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                paginate:
+                {
+                    previous: "Trang trước",
+                    next: "Trang sau",
+                    first: "|<",
+                    last: ">|"
+                }
+            },
+            "initComplete": function (settings, json) {
+                $("#pre-load").hide();
+            }
+        })
+    });
+</script>
+
+<!--Load when click button Xem-->
+<script>
+    $("#viewButton").click(function () {
+        effortedTable.ajax.reload();
+    });
+</script>
+
+<!---------------------------------------SAVE---------------------------------------------->
+<!--Change TongDiemLuong when change DiemLuong of NhanVien-->
+<script>
+    function updateEffortedSum() {
+        var effort_sum;
+        effort_sum = 0;
+        $("#effortedTable > tbody > tr > td > input").each(function () {
+            effort_sum = parseFloat(effort_sum) + parseFloat($(this).val());
+        });
+        $("#effort_sum").val(effort_sum);
+    }
+</script>
+
+<!--Save data when click "Lưu" button-->
+<script>
+    $("#saveButton").click(function () {
+        $("pre-load").show();
+        $.ajax({
+            url: "/phan-xuong/nang-suat-lao-dong/luu-du-lieu",
+            type: "POST",
+            datatype: "json",
+            data: {
+                date: function () { return $("#date").val() },
+                shift: function () { return $("#shift").val() },
+                arrES: arrEffortedSum(),
+                arrTB: arrTable()
+            },
+            success: function (response) {
+                if (response.success) {
+                    //alert successfully
+                    successAlert(response.title, response.message);
+                    //reload the table
+                    effortedTable.ajax.reload();
+                    //hide the pre-loader
+                    $("#pre-load").hide();
+                } else {
+                    $("#than").val("");
+                    $("#metlo").val("");
+                    $("#xen").val("");
+                    errorAlert(response.title, response.message);
+                    effortedTable.ajax.reload();
+                    $("#pre-load").hide();
+                }
+            },
+            error: function (response) {
+
+            }
+        })
+    });
+</script>
+
+<!--Array data TongDiemLuong, TongThan, TongMetLo, TongXen-->
+<script>
+    function arrEffortedSum() {
+        var arrES = [];
+        arrES.push({
+            "TongDiemLuong": $("#effort_sum").val(),
+            "TongThan": $("#than").val(),
+            "TongMetLo": $("#metlo").val(),
+            "TongXen": $("#xen").val()
+        });
+        return JSON.stringify(arrES);
+    }
+</script>
+
+<!--Array data table-->
+<script>
+    function arrTable() {
+        var arrTB = [];
+        $("#effortedTable > tbody > tr").each(function (i, item) {
+            let nhanvien = {}
+            nhanvien.mathe = item.children[0].innerText;
+            nhanvien.ten = item.children[1].innerText;
+            nhanvien.diemluong = item.children[2].children[0].value;
+            arrTB.push(nhanvien);
+        });
+        return JSON.stringify(arrTB);
+    }
+</script>
+
+<!-------Disable select option of Materialzecss------->
+<script src="../../js/Custom JS/Disable_input_material.js"></script>
