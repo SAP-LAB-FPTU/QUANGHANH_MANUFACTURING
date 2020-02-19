@@ -246,8 +246,8 @@
                 data: { id: JSON.stringify(id) },
             })
                 .done(function (data) {
+                    $("#detail-table").empty();
                     for (i = 0; i < data.length; i++) {
-                        $("#detail-table").empty();
                         $("#detail-table").append("<tr>");
                         $("#detail-table").append("<td>" + data[i].SoQuyetDinh + "</td>");
                         $("#detail-table").append("<td>" + data[i].MaNV + "</td>");

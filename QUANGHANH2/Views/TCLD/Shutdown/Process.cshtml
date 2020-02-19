@@ -19,6 +19,40 @@
     .current-data {
         color: #a7a7a7;
     }
+
+    .totals {
+        font-weight: bold;
+        color: white;
+        border-radius: 5px;
+        padding: 2px 5px 2px 5px;
+    }
+
+    #totalrows {
+        border: 1px solid red;
+        background: red;
+    }
+
+    #total_selected {
+        border: 1px solid green;
+        background: green;
+        cursor: pointer;
+    }
+
+        #total_selected:active {
+            border: 1px solid #78c17e;
+            background-color: #78c17e
+        }
+
+        #total_selected:hover {
+            border: 1px solid #78c17e;
+            background-color: #78c17e
+        }
+
+    .remove_select {
+        color: red;
+        font-size: 25px;
+        cursor: pointer;
+    }
 </style>
 <div class="row" id="chondieuchuyen">
 
@@ -61,6 +95,10 @@
                                 <div class="col l2 m12 s12 input-field">
                                     <button class="btn blue darken-2 btn-small waves-effect waves-light" id="searchButton">Tìm kiếm</button>
                                 </div>
+
+                            </div>
+                            <div class="col l12 m12 s12 input-field">
+                                <b> Đã chọn:</b> <span class="totals modal-trigger" onclick="show_selected()" href="#show_select" id="total_selected">0</span>   <b> Tổng số:</b>    <span class="totals" id="totalrows">@ViewBag.totalrows</span>
                             </div>
                             <br />
                             <table id="nhanVienTable" class="table striped table-responsive table-bordered">
@@ -73,10 +111,10 @@
                                         <th>Phân xưởng hiện tại</th>
                                         <th>Chức vụ</th>
                                         <th>
-                                            @*<label>
-                                                    <input type="checkbox" id="check-all" class="filled-in" />
-                                                    <span></span>
-                                                </label>*@
+                                            <label>
+                                                <input type="checkbox" id="check-all" class="filled-in" />
+                                                <span></span>
+                                            </label>
                                         </th>
                                     </tr>
                                 </thead>
@@ -106,13 +144,29 @@
                                                 <th>Họ và tên</th>
                                                 <th>Đơn vị hiện tại</th>
                                                 <th>Chức vụ hiện tại</th>
-                                                @*<th style="width: 150px">Đơn vị điều động</th>
-                                                    <th width="200px">Chức vụ điều động</th>
-                                                    <th style="width: 200px">Thang bậc lương</th>
-                                                    <th style="width: 200px">Phụ cấp</th>
-                                                    <th style="width: 100px">Bậc</th>
-                                                    <th style="width: 200px">Mức lương</th>*@
-                                                <th>Lý do chấm dứt</th>
+                                                <th id="lydo-header">
+                                                    Lý do chấm dứt
+                                                    <div class="select-all">
+                                                        <label>
+                                                            <input class="my_checkbox" id="check-select-all-dept" type="checkbox">
+                                                            <span>Chọn cho tất cả</span>
+                                                        </label>
+                                                        <select id="select-dept-for-all" class="form-control" onchange="onSelectTypeOfEndContract2()" disabled>
+                                                            <option value='Đi học'>Đi học</option>
+                                                            <option value='Hưu trí'>Hưu trí</option>
+                                                            <option value='Xin chấm dứt HĐLĐ, thôi việc'>Xin chấm dứt HĐLĐ, thôi việc</option>
+                                                            <option value='Sa thải'>Sa thải</option>
+                                                            <option value='Đơn phương chấm dứt HĐLĐ, bỏ việc'>Đơn phương chấm dứt HĐLĐ, bỏ việc</option>
+                                                            <option value='Đi nghĩa vụ quân sự'>Đi nghĩa vụ quân sự</option>
+                                                            <option value='Đơn vị ngoài TKV' id='dvn'>Đi đơn vị ngoài TKV</option>
+                                                            <option value='Đơn vị trong TKV'>Đi đơn vị trong TKV</option>
+                                                            <option value='Ốm chết rủi ro'>Ốm chết rủi ro</option>
+                                                            <option value='Chết do tai nạn lao động'>Chết do tai nạn lao động</option>
+                                                            <option value='TLHĐ'>Thanh lý hợp đồng</option>
+                                                            <option value='khac' id='khac'>Các trường hợp khác</option>
+                                                        </select>
+                                                    </div>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody id="selected-container">
@@ -149,11 +203,11 @@
                                         <th style="width: 200px">Đơn vị hiện tại</th>
                                         <th style="width: 500px">Chức vụ hiện tại</th>
                                         @*<th style="width: 200px">Đơn vị điều động</th>
-                                        <th style="width: 200px">Chức vụ điều động</th>
-                                        <th style="width: 200px">Thang bậc lương</th>
-                                        <th style="width: 200px">Phụ cấp</th>
-                                        <th style="width: 200px">Bậc</th>
-                                        <th style="width: 200px">Mức lương</th>*@
+                                            <th style="width: 200px">Chức vụ điều động</th>
+                                            <th style="width: 200px">Thang bậc lương</th>
+                                            <th style="width: 200px">Phụ cấp</th>
+                                            <th style="width: 200px">Bậc</th>
+                                            <th style="width: 200px">Mức lương</th>*@
                                         <th style="width: 300px">Lý do điều động</th>
                                     </tr>
                                 </thead>
@@ -177,7 +231,29 @@
     </div>
 
 </div>
-
+<div id="show_select" class="modal">
+    <div class="modal-content">
+        <h4>Danh sách đã chọn</h4>
+        <table class="striped responsive-table table-bordered">
+            <thead>
+                <tr>
+                    <th>Số thứ tự</th>
+                    <th>Số thẻ</th>
+                    <th style="width: 200px">Họ và tên</th>
+                    <th style="width: 200px">Giới tính</th>
+                    <th style="width: 500px">Ngày sinh</th>
+                    <th style="width: 200px">Phân xưởng hiện tại</th>
+                    <th style="width: 200px">Chức vụ</th>
+                    <th style="width: 200px">Bỏ chọn</th>
+                </tr>
+            </thead>
+            <tbody id="show_select_table"></tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Đóng</a>
+    </div>
+</div>
 
 
 
@@ -191,20 +267,11 @@
         $("#check-all").click(function () {
             alert("ahihi");
         })
-        //$('input[type="checkbox"]').change(function() {
-        //     alert ("The element with id " + this.id + " changed.");
-        //});
+
+
+
     </script>
-    @*<script>
-            var colors = ["red", "blue", "green", "yellow", "brown", "black"];
-            $('#searchMa').tagsinput({
-                typeahead: {
-                    source: function (query) {
-                        return colors
-                    }
-                }
-            });
-        </script>*@
+
     <script>
         $("#pre-load").show("slow", function () {
          });
@@ -217,6 +284,7 @@
                 listFromServer = ViewBag.selectedList;
             }
          }
+        var arrCarSelectedShow = [];
         var arrCarSelected = JSON.parse("@listFromServer");
         $(document).ready(function () {
             dataTable = $('#nhanVienTable')
@@ -237,7 +305,12 @@
                             "TenNV": function () { return $('#searchTenNV').val() },
                             "ChucVu": function () { return $('#chucVuSearch').val() },
                             "PhongBan": function () { return $('#phongbanSearch').val() },
+                        },
+                        "dataSrc": function ( json ) {
+                            $("#totalrows").text(json.recordsFiltered);
+                            return json.data;
                         }
+
                     },
                     "drawCallback": function (settings) {
                         $("#pre-load").hide("slow", function () {
@@ -274,10 +347,10 @@
                                 if (arrCarSelected != null) {
                                     for (let i = 0; i < arrCarSelected.length; i++)
                                         if (arrCarSelected[i] == data) {
-                                            return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "') checked><span></span></label>";
+                                            return "<label><input class='my_checkbox step1_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "') checked><span></span></label>";
                                         }
                                 }
-                                return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "')><span></span></label>";
+                                return "<label><input class='my_checkbox step1_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "')><span></span></label>";
                                 }
                             },
                             "orderable": false,
@@ -302,11 +375,13 @@
                             last: ">|"
                         }
                     },
+                    "pageLength": 15,
                     "initComplete": function (settings, json) {
 
                         $("#pre-load").hide("slow", function () {
                         });
-                    }
+                    },
+
                 });
             $(".dataTables_paginate").css("float", "left");
 
@@ -350,18 +425,38 @@
                 });
             }
         });
-        function updateList(id) {
+         function updateList(id) {
                 isExist = false;
                 for (let i = 0; i < arrCarSelected.length; i++) {
                     if (arrCarSelected[i] == id) {
                         isExist = true;
                         arrCarSelected.splice(i, 1);
+                        for (let j = 0; j < arrCarSelectedShow.length; j++) {
+                            if (arrCarSelectedShow[j].id == id) {
+                                arrCarSelectedShow.splice(j,1);
+                                break;
+                            }
+                        }
                         break;
                     }
                 }
                 if (!isExist && id != "" && id != null) {
                     arrCarSelected.push(id)
+                    this_select = [];
+                    $("#" + id).parent().parent().parent().find("td").each(function () {
+                    this_select.push($(this).text());
+                     });
+            arrCarSelectedShow.push({
+                "id": this_select[0],
+                "name": this_select[1],
+                "gender": this_select[2],
+                "dob": this_select[3],
+                "dept": this_select[4],
+                "job": this_select[5],
+            });
             }
+            $("#total_selected").text(arrCarSelected.length);
+
             }
         function sendData() {
             $.each($("input[name='abc']:checked"), function () {
@@ -509,7 +604,7 @@
         }
     </script>
     <script>
-        
+
         //check selected index:
         function step2() {
             $("#pre-load").show("slow", function () {
@@ -529,36 +624,25 @@
                         for (var i = 0; i < response.data.length; i++) {
                             var selectPhongBan = "";
                             selectPhongBan += "<option value='-1' disabled>Chọn phòng ban</option>\n";
-                            //for (var j = 0; j < phongbans.length; j++) {
-                            //    selectPhongBan += "<option value=\"" + phongbans[j].department_id + "\">" + phongbans[j].department_name + "</option>\n";
-                            //}
                             $("#selected-container").append("<tr>\n");
                             $("#selected-container").append("<td>" + (i + 1) + "</td>\n");
                             $("#selected-container").append("<td>" + response.data[i].MaNV + "</td>\n");
                             $("#selected-container").append("<td id=\"hoten-" + response.data[i].MaNV + "\">" + response.data[i].Ten + "</td>\n");
                             $("#selected-container").append("<td id=\"dvht-" + response.data[i].MaNV + "\">" + response.data[i].department_name + "</td>\n");
                             $("#selected-container").append("<td id=\"cvht-" + response.data[i].MaNV + "\">" + response.data[i].TenCongViec + "</td>\n");
-                            //$("#selected-container").append("<td><select id=\"" + "donvi" + "-" + response.data[i].MaNV + "\" class=\"donvi form-control\">" + selectPhongBan + "</select></td>\n");
-                            //$("#selected-container").append(" <td><select id=\"" + "chucvu" + "-" + response.data[i].MaNV + "\" class=\"chucvu form-control\">" + tagCV + "</select></td>\n");
-                            //var thang = response.data[i].ThangLuong === null ? "Chưa cập nhật" : response.data[i].ThangLuong;
-                            //$("#selected-container").append("<td><input data-mathangluong=\"\" id=\"" + "thang" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"thang  form-control\" placeholder=\"Thang\" readonly /><div><i class=\"current-data\"> (Hiện tại:" + thang + ")</i></div></td>\n");
-                            //var phucap = response.data[i].PhuCap === null ? "0" : response.data[i].PhuCap;
-                            //$("#selected-container").append("<td><input id=\"" + "phucap" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"phucap numberInput form-control\" placeholder=\"Phụ cấp\" readonly /><div><i class=\"current-data\"> (Hiện tại:" + AddComma(phucap) + ")</i></div></td>\n");
-                            //var bac = response.data[i].BacLuong === null ? "Chưa cập nhật" : response.data[i].BacLuong;
-                            //$("#selected-container").append("<td><select id=\"" + "bac" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"bac form-control\" placeholder=\"Bậc\" /></select><div><i class=\"current-data\"> (Hiện tại:" + bac + ")</i></div></td>\n");
-                            //var luong = response.data[i].Luong === null ? "Chưa cập nhật" : response.data[i].Luong;
-                            //$("#selected-container").append("<td><input id=\"" + "luong" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"luong numberInput form-control\" placeholder=\"Lương\" readonly /><div><i class=\"current-data\"> (Hiện tại:" + AddComma(luong) + ")</i></div></td>\n");
                             $("#selected-container").append("<td id=\"lydo-" + response.data[i].MaNV + "\">" +
-                                "<select name='lydo' class='form-control' id='tlhd-" + response.data[i].MaNV + "' onchange='onSelectTypeOfEndContract1(" + response.data[i].MaNV + ")'> " +
+                                "<select name='lydo' class='form-control lydo' id='tlhd-" + response.data[i].MaNV + "' onchange='onSelectTypeOfEndContract1(" + response.data[i].MaNV + ")'> " +
                                 "<option value='Đi học'>Đi học</option> " +
                                 "<option value='Hưu trí'>Hưu trí</option> " +
                                 "<option value='Xin chấm dứt HĐLĐ, thôi việc'>Xin chấm dứt HĐLĐ, thôi việc</option> " +
                                 "<option value='Sa thải'>Sa thải</option> " +
                                 "<option value='Đơn phương chấm dứt HĐLĐ, bỏ việc'>Đơn phương chấm dứt HĐLĐ, bỏ việc</option> " +
                                 "<option value='Đi nghĩa vụ quân sự'>Đi nghĩa vụ quân sự</option> " +
-                                "<option value='dvn' id='dvn'>Đi đơn vị ngoài</option> " +
+                                "<option value='Đơn vị ngoài TKV' id='dvn'>Đi đơn vị ngoài TKV</option> " +
+                                "<option value='Đơn vị trong TKV'>Đi đơn vị trong TKV</option> " +
                                 "<option value='Ốm chết rủi ro'>Ốm chết rủi ro</option> " +
                                 "<option value='Chết do tai nạn lao động'>Chết do tai nạn lao động</option> " +
+                                "<option value='TLHĐ'>Thanh lý hợp đồng</option> " +
                                 "<option value='khac' id='khac'>Các trường hợp khác</option> " +
                                 "</select></td>\n ");
                             $("#selected-container").append(" </tr>\n");
@@ -589,80 +673,11 @@
                         ////////////////////////////////////////THANG LUONG///////////////
 
                         $(".chucvu").change(function () {
-                            //var value = $(this).find(":selected").val();
-                            //for (var n = 0; n < cviecs.length; n++) {
-                            //    if (cviecs[n].MaCongViec == value) {
-                            //        $("#thang-" + $(this).attr('id').split('-')[1]).val(cviecs[n].ThangLuong);
-                            //        $("#phucap-" + $(this).attr('id').split('-')[1]).val(AddComma(cviecs[n].PhuCap) === 'null' ? "0" : AddComma(cviecs[n].PhuCap));
-                            //        $("#luong-" + $(this).attr('id').split('-')[1]).val("");
-                            //        $("#bac-" + $(this).attr('id').split('-')[1]).val("");
-                            //        break;
-                            //    }
-                            //}
+
                             var mcv = $(this).find(":selected").val();
                             getThangLuongAndPhuCap($(this).attr("id").split('-')[1], mcv);
                             //$("#thang-" + $(this).attr("id").split('-')[1]).val("ahihi");
                         });
-
-                        //////////////////////////////////--VALIDATE--/////////////////////////////////////
-                        //$(".numberInput").keydown(function (e) {
-                        //    var text = $(this).val().toLowerCase();
-                        //    var doubleReg = /[+-]?([0-9]*[,])?[0-9]+$/;
-                        //    if (!doubleReg.test(text)) {
-                        //        $(this).val("");
-                        //    }
-                        //    var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];// , 65, 86, 67, 90
-                        //    for (var i = 48; i <= 57; i++) {
-                        //        acceptList.push(i);
-                        //    }
-                        //    for (var i = 96; i <= 105; i++) {
-                        //        acceptList.push(i);
-                        //    }
-                        //    if (e.ctrlKey) {
-                        //        if (e.keyCode !== 65 && e.keyCode !== 86 && e.keyCode !== 67 && e.keyCode !== 90 && e.keyCode !== 88) {
-                        //            e.preventDefault();
-                        //        } else {
-                        //            acceptList.push(e.keyCode);
-                        //        }
-                        //    }
-                        //    if (acceptList.indexOf(e.keyCode) === -1) {
-                        //        e.preventDefault();
-                        //    }
-                        //});
-                        //$(".numberInput").keyup(function () {
-                        //    var text = $(this).val().toLowerCase();
-                        //    var doubleReg = /[+-]?([0-9]*[,])?[0-9]+$/;
-                        //    if (!doubleReg.test(text)) {
-                        //        $(this).val("");
-                        //    } else {
-                        //        $(this).val(AddComma(text));
-                        //    }
-                        //    text = $(this).val().toLowerCase();
-                        //});
-                        //$(".bac").keydown(function (e) {
-                        //    var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];
-                        //    for (var i = 48; i <= 57; i++) {
-                        //        acceptList.push(i);
-                        //    }
-                        //    for (var i = 96; i <= 105; i++) {
-                        //        acceptList.push(i);
-                        //    }
-                        //    if (acceptList.indexOf(e.keyCode) === -1) {
-                        //        e.preventDefault();
-                        //    }
-                        //    if ($(this).val().length === 3) {
-                        //        $(this).val("");
-                        //    }
-                        //});
-                        //$(".bac").keyup(function (e) {
-                        //    var text = $(this).val();
-                        //    if (text.length === 1) {
-                        //        $(this).val(text + "/");
-                        //    }
-                        //});
-                        //////////////////////CHUC VU//////////////////////
-                        //$(".chucvu").keydown(function (e) {
-                        //});
                         /////////////////////NGAY//////////////////////
                         $(".thoigian").keydown(function (e) {
                             e.preventDefault();
@@ -692,8 +707,34 @@
                     }
                 },
             })
+            if ($("#check-select-all-dept").prop("checked") == true) {
+                $("#check-select-all-dept").click();
+            }
+
         }
         //get list:
+    </script>
+    <script>
+        $("#check-select-all-dept").change(function () {
+            //alert('abc');
+            if ($(this).prop("checked") == false) {
+                $(".lydo").each(function () {
+                    $(this).prop("disabled", false)
+                    $("#select-dept-for-all").prop("disabled", true);
+                });
+            } else {
+                $(".lydo").each(function () {
+                    $(this).prop("disabled", true);
+                    $(this).val($("#select-dept-for-all").val());
+                    $("#select-dept-for-all").prop("disabled", false);
+                });
+            }
+        });
+        $("#select-dept-for-all").change(function () {
+            $(".lydo").each(function () {
+                $(this).val($("#select-dept-for-all").val());
+            });
+        });
     </script>
 
     <!------------------------------ VALIDATE STEP 2 ------------------------------>
@@ -705,7 +746,7 @@
                 $("#pre-load").show("slow", function () {
                 });
                 $.ajax({
-                    url: "/phong-tcld/dieu-chuyen/check-duplicate-sqd",
+                    url: "/phong-tcld/quan-ly-nhan-vien/da-xu-ly-cham-dut/check-duplicate-sqd",
                     type: "post",
                     data: { SoQD: $("#so-quyet-dinh").val().trim() },
                     dataType: 'json',
@@ -797,13 +838,46 @@
             $("#ngayqd-preview").append($("#ngay-quyet-dinh").val());
             var selectedList = [];
             for (var i = 0; i < arrCarSelected.length; i++) {
-                var obj = {
-                    'MaNV': arrCarSelected[i],
-                    'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
-                    'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
-                    'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
-                    'NgayQD': $("#ngay-quyet-dinh").val(),
-                    'LyDo': $("#tlhd-" + arrCarSelected[i]).val().trim()
+                if ($("#check-select-all-bac").prop("checked") == false) {
+                    if ($("#tlhd-" + arrCarSelected[i]).val().trim() == 'khac') {
+                        var obj = {
+                            'MaNV': arrCarSelected[i],
+                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
+                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
+                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
+                            'NgayQD': $("#ngay-quyet-dinh").val(),
+                            'LyDo': $("#khac" + arrCarSelected[i]).val().trim()
+                        }
+                    } else {
+                        var obj = {
+                            'MaNV': arrCarSelected[i],
+                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
+                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
+                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
+                            'NgayQD': $("#ngay-quyet-dinh").val(),
+                            'LyDo': $("#tlhd-" + arrCarSelected[i]).val().trim()
+                        }
+                    }
+                } else {
+                     if ($("#select-dept-for-all").val().trim() == 'khac') {
+                        var obj = {
+                            'MaNV': arrCarSelected[i],
+                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
+                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
+                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
+                            'NgayQD': $("#ngay-quyet-dinh").val(),
+                            'LyDo': $("#khac-header").val().trim()
+                        }
+                    } else {
+                        var obj = {
+                            'MaNV': arrCarSelected[i],
+                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
+                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
+                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
+                            'NgayQD': $("#ngay-quyet-dinh").val(),
+                            'LyDo': $("#select-dept-for-all").val().trim()
+                        }
+                    }
                 }
                 selectedList.push(obj);
             }
@@ -818,38 +892,6 @@
                 $("#preview-table").append("<td>" + selectedList[i].LyDo.trim() + "</td>\n");
                 $("#preview-table").append(" </tr>\n");
             }
-            //$.ajax({
-            //    type: 'Post',
-            //    url: '/phong-tcld/dieu-chuyen/tien-hanh-dieu-chuyen-step-3',
-            //    data: { selectedList: JSON.stringify(selectedList) },
-            //    dataType: 'json',
-            //    success: function (response) {
-            //        if (response.success) {
-            //            $("#maqd-preview").empty();
-            //            $("#ngayqd-preview").empty();
-            //            $("#preview-table").empty();
-            //            $("#maqd-preview").append(response.data[0].SoQD.trim() === "" ? "Chưa có (lưu vào chờ xử lý)" : response.data[0].SoQD);
-            //            $("#ngayqd-preview").append(response.data[0].NgayQD);
-            //            for (var i = 0; i < response.data.length; i++) {
-            //                $("#preview-table").append("<tr>\n");
-            //                $("#preview-table").append("<td>" + (i + 1) + "</td>\n");
-            //                $("#preview-table").append("<td>" + response.data[i].MaNV + "</td>\n");
-            //                $("#preview-table").append("<td width=\"500px\">" + response.data[i].HoTen + "</td>\n");
-            //                $("#preview-table").append("<td>" + response.data[i].DonViHienTai + "</td>\n");
-            //                $("#preview-table").append("<td>" + response.data[i].ChucVuHienTai.tenChucVu + "</td>\n"); $("#preview-table").append("<td>" + response.data[i].DonViMoi + "</td>\n");
-            //                $("#preview-table").append("<td>" + response.data[i].ChucVu.tenChucVu + "</td>\n");
-            //                $("#preview-table").append("<td>" + response.data[i].ThangBacLuong + "</td>\n");
-            //                $("#preview-table").append("<td>" + AddComma(response.data[i].PhuCap) + "</td>\n");
-            //                $("#preview-table").append("<td>" + AddComma(response.data[i].BacLuong) + "</td>\n");
-            //                $("#preview-table").append("<td>" + AddComma(response.data[i].MucLuong) + "</td>\n");
-            //                $("#preview-table").append("<td>" + response.data[i].LyDo.trim() + "</td>\n");
-            //                $("#preview-table").append(" </tr>\n");
-            //            }
-            //        }
-            //        $("#pre-load").hide("slow", function () {
-            //        });
-            //    }
-            //});
         }
         function joinArr(res) {
             var r = "";
@@ -866,25 +908,26 @@
             });
             var selectedList = [];
             for (var i = 0; i < arrCarSelected.length; i++) {
-                //var date = $("#thoigian-" + arrCarSelected[i]).val().split('-');
-                var obj = {
-                    'SoQD': $("#so-quyet-dinh").val().trim(),
-                    'MaNV': arrCarSelected[i],
-                    'MaBacLuong_ThangLuong_MucLuongCu': '',
-                    'MaBacLuong_ThangLuong_MucLuongMoi': $("#bac-" + arrCarSelected[i]).val(),
-                    'DonViMoi': $("#donvi-" + arrCarSelected[i]).val(),
-                    'ChucVu': {
-                        'maChucVu': $("#chucvu-" + arrCarSelected[i]).val(),
-                        'tenChucVu': $("#chucvu-" + arrCarSelected[i] + " :selected").text(),
-                    },
-                    'NgayQD': $("#ngay-quyet-dinh").val(),
-                    'LyDo': $("#lydo-" + arrCarSelected[i]).val().trim()
+                if ($("#tlhd-" + arrCarSelected[i]).val().trim() == 'khac') {
+                    var obj = {
+                        'SoQD': $("#so-quyet-dinh").val().trim(),
+                        'MaNV': arrCarSelected[i],
+                        'NgayChamDut': $("#ngay-quyet-dinh").val(),
+                        'LoaiChamDut': $("#khac" + arrCarSelected[i]).val()
+                    }
+                } else {
+                    var obj = {
+                        'SoQD': $("#so-quyet-dinh").val().trim(),
+                        'MaNV': arrCarSelected[i],
+                        'NgayChamDut': $("#ngay-quyet-dinh").val(),
+                        'LoaiChamDut': $("#tlhd-" + arrCarSelected[i]).val()
+                    }
                 }
                 selectedList.push(obj);
             }
             $.ajax({
                 type: 'post',
-                url: '/phong-tcld/dieu-chuyen/thuc-hien-dieu-dong',
+                url: '/delete',
                 data: { selectedList: JSON.stringify(selectedList) },
                 dataType: 'json',
                 success: function (response) {
@@ -994,5 +1037,60 @@
     <script src="~/assets/libs/toastr/build/toastr.min.js"></script>
     <script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
     <script src="~/js/Custom JS/TCLD/Brief/Briefs_List.js"></script>
+    <script>
+        $("#check-all").change(function () {
+            if ($(this).prop("checked") == false) {
+                $(".step1_checkbox").each(function () {
+                    if ($(this).prop("checked") == true) {
+                        $(this).click();
+                    }
+                });
+            } else {
+                $(".step1_checkbox").each(function () {
+                    if ($(this).prop("checked") == false) {
+                        $(this).click();
+                    }
+                });
+            }
+
+        });
+
+
+
+    </script>
+    <script>
+        function show_selected() {
+            $("#show_select_table").empty();
+            for (let i = 0; i < arrCarSelectedShow.length; i++) {
+                $("#show_select_table").append("<tr>");
+                $("#show_select_table").append("<td>" + (i + 1) + "</td>");
+                $("#show_select_table").append("<td>" + arrCarSelectedShow[i].id + "</td>");
+                $("#show_select_table").append("<td>" + arrCarSelectedShow[i].name + "</td>");
+                $("#show_select_table").append("<td>" + arrCarSelectedShow[i].gender + "</td>");
+                $("#show_select_table").append("<td>" + arrCarSelectedShow[i].dob + "</td>");
+                $("#show_select_table").append("<td>" + arrCarSelectedShow[i].dept + "</td>");
+                $("#show_select_table").append("<td>" + arrCarSelectedShow[i].job + "</td>");
+                $("#show_select_table").append("<td><i onclick=\"remove_from_selected(" + arrCarSelectedShow[i].id + ")\" class=\"remove_select material-icons dp48\">cancel</i></td>");
+                $("#show_select_table").append("</tr>");
+            }
+        }
+        function remove_from_selected(id) {
+            for (i in arrCarSelected) {
+                if (arrCarSelected[i] == id) {
+                    arrCarSelected.splice(i, 1);
+                    break;
+                }
+            }
+            for (j in arrCarSelectedShow) {
+                if (arrCarSelectedShow[j].id == id) {
+                    arrCarSelectedShow.splice(j, 1);
+                    break;
+                }
+            }
+            $("#" + id).prop("checked", false);
+            $("#total_selected").text(arrCarSelected.length);
+            show_selected()
+        }
+    </script>
 }  <!-- This page plugin js -->
 <!-- ============================================================== -->
