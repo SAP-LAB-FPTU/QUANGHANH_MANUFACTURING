@@ -12,23 +12,14 @@
 
                 <div class="advanded-search">
                     <div class="row">
-                        <h3 class="center"><b>DANH SÁCH THIẾT BỊ CHỜ NGHIỆM THU</b></h3>
+                        <h3 class="center"><b>DANH SÁCH NGHIỆM THU HỆ THỐNG</b></h3>
                         <hr>
                         <div class="row center">
-                            <div class="col l1 m12 s12 input-field">
-
-                            </div>
-                            <div class="col l1 m12 s12 input-field">
-
-                            </div>
                             <div class="col l2 m12 s12 input-field">
                                 <input type="text"  placeholder="Tìm kiếm theo mã quyết định" id="doccumentid" class='form-control' />
                             </div>
                             <div class="col l2 m12 s12 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo mã tài sản cố định" id="equimentid" class='form-control' />
-                            </div>
-                            <div class="col l2 m12 s12 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo tên thiết bị" id="equimentname" class='form-control' />
+                                <input type="text" placeholder="Tìm kiếm theo tên hệ thống" id="equimentname" class='form-control' />
                             </div>
                             <div class="col l2 m12 s12 input-field">
                                 <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
@@ -43,15 +34,12 @@
                     <table id="docTable" class="striped table-bordered centered responsive-table mytable">
                         <thead>
                             <tr>
-                                <th rowspan="2">Quyết định số</th>
-                                <th rowspan="2">Loại quyết định</th>
-                                <th colspan="2">Thông tin thiết bị</th>
-                                <th rowspan="2"></th>
-                                <th rowspan="2"></th>
-                            </tr>
-                            <tr>
-                                <th>Mã thiết bị</th>
-                                <th>Tên thiết bị</th>
+                                <th>Số quyết định</th>
+                                <th>Loại quyết định</th>
+                                <th>Tên hệ thống</th>
+                                <th>Số lượng camera</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                     </table>
@@ -118,52 +106,41 @@
                 "ajax": {
                     "url": "/camera/nghiem-thu/search",
                     "type": "POST",
-                "datatype": "json",
-                "data": {
-                    "document_code": function () { return $('#doccumentid').val() },
-                    "equiment_id": function () { return $('#equimentid').val() },
-                    "equiment_name": function () { return $('#equimentname').val() }
-                    //"dateStart": $('#date-start-search').val(),
-                    //"dateEnd": $('#date-end-search').val()
+                    "datatype": "json",
+                    "data": {
+                        "documentary_code": function () { return $('#doccumentid').val() },
+                        "room_name": function () { return $('#equimentname').val() }
                     },
                 },
                 "drawCallback": function (settings) {
-                    $("#pre-load").hide("slow", function () {
-                });
-
+                    $("#pre-load").hide(); 
                 },
                 "columns": [
                     {
-                        "data": "temp", "name" : "documentary_id", "render": function (data) {
-                            return "<a  class='modal-trigger' data-target='thongtin' onclick=Detail('@Url.Action("Detail","nghiemthu")?id=" + data.split("^")[0] + "')> "+data.split("^")[1]+"</a>";
+                        "data": {}, "name": "documentary_id", "render": function (data) {
+                            return "<a  class='modal-trigger' data-target='thongtin' onclick=Detail('@Url.Action("Detail","nghiemthu")?id=" + data.room_id + "')> " + data.documentary_code + "</a>";
 
                         },
                     },
                     { "data": "documentary_name", "name": "documentary_name" },
-                    { "data": "camera_id", "name": "camera_id" },
-                    { "data": "camera_name", "name": "camera_name" },
+                    { "data": "room_name", "name": "room_name" },
+                    { "data": "broken_camera_quantity", "name": "broken_camera_quantity" },
                     {
                         "data": {}, "render": function (data) {
-                            if (data.di_kem)
-                                return "<td><a class='btn blue modal-trigger open-DiKem' data-equip='" + data.camera_id + "' data-code='" + data.documentary_id + "' href='#mylist'>VT đi kèm</a></td>";
-                            else if (data.can)
-                                return "<td><a class='btn blue modal-trigger open-DiKem' data-equip='" + data.camera_id + "' data-code='" + data.documentary_id + "' href='#mylist'>VT cần</a></td>";
-                            else
-                                return "";
+                            return "<td><a class='btn blue modal-trigger open-DiKem' data-equip='" + data.room_id + "' data-code='" + data.documentary_id + "' href='#mylist'>Chi tiết VT</a></td>";
                         },
                         "orderable": false,
                         "searchable": false
                     },
                     {
-                        "data": "idAndid", "render": function (data) {
-                            if (data.split("^")[2] == 2) {
-                            return "<td><a class='btn blue darken-2 modal-trigger disabled open-UpdateModal' data-equip='" + data.split("^")[0] + "' data-code='" + data.split("^")[1] + "' >Đã&nbsp;nghiệm&nbsp;thu</a></td>";
+                        "data": {}, name: "cameraStatus", "render": function (data) {
+                            if (data.cameraStatus == 0) {
+                            return "<td><a class='btn blue darken-2 modal-trigger disabled open-UpdateModal' data-equip='" + data.room_id + "' data-code='" + data.documentary_id + "' >Đã&nbsp;nghiệm&nbsp;thu</a></td>";
 
                             } else {
-                            return "<td><a class='btn blue darken-2 modal-trigger open-UpdateModal' data-equip='" + data.split("^")[0] + "' data-code='" + data.split("^")[1] + "' >Nghiệm&nbsp;thu</a></td>";
+                            return "<td><a class='btn blue darken-2 modal-trigger open-UpdateModal' data-equip='" + data.room_id + "' data-code='" + data.documentary_id + "' >Nghiệm&nbsp;thu</a></td>";
                             }
                         },
-                        "orderable": false,
                         "searchable":false
                     }
                 ],
@@ -195,21 +172,21 @@
             $("#test").find("tr").remove();
             var documentary_id = $(this).data("code");
             var equipmentId = $(this).data("equip");
-            $('#mylist h3').text("Thiết bị " + equipmentId)
             $("#mathietbi").val(equipmentId)
             $("#maquyetdinh").val(documentary_id)
             $.ajax({
                 type: "POST",
-                url: "/cap-nhat/camera/quyet-dinh/GetSupply",
+                url: "/cap-nhat/camera/quyet-dinh/GetSupply2",
                 dataType: "json",
                 success: function (data) {
                     $(function () {
-                        var header = $('<tr>').html('<th>Mã vật tư</th><th>Số lượng xin cấp</th><th>Số lượng đã nhận</th><th>Số lượng sử dụng</th><th>Số lượng lấy ra</th><th>Ghi chú</th>');
+                        var header = $('<tr>').html('<th>Mã vật tư</th><th>Tên vật tư</th><th>Số lượng xin cấp</th><th>Số lượng đã nhận</th><th>Số lượng sử dụng</th><th>Số lượng lấy ra</th><th>Ghi chú</th>');
                         header.appendTo('#test thead');
                         $.each(data, function (i, item) {
                             var temp = item.supplyStatus == null ? "" : item.supplyStatus;
                             var $tr = $('<tr>').append(
                                 $('<td>').html('<input type="text" value="' + item.supply_id + '" readonly class="form-control" />'),
+                                $('<td>').text(item.supply_name),
                                 $('<td>').html('<input type="text" value="' + item.quantity_plan + '" readonly class="form-control" />'),
                                 $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
                                 $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_used + "' max='" + item.quantity_plan + "' value='" + item.quantity_used + "' />"),
@@ -226,7 +203,7 @@
                 },
                 data: {
                     documentary_id: documentary_id,
-                    equipmentId: equipmentId
+                    room_id: equipmentId
                 },
                 cache: false
             })
@@ -284,9 +261,8 @@
         }
 
         $(document).on("click", ".open-UpdateModal", function () {
-            var equipmentId = $(this).data('equip');
+            var room_id = $(this).data('equip');
             var documentary_id = $(this).data('code');
-            var documentary_code = $(this).parent().parent().children().eq(0).text();
             confirmAlert(
             'Bạn có chắc chắn muốn nghiệm thu không?',
             '',
@@ -306,8 +282,7 @@
                     errorAlert('Lỗi', 'Có lỗi xảy ra');
                 },
                 data: {
-                    id: equipmentId,
-                    documentary_code: documentary_code,
+                    room_id: room_id,
                     documentary_id: documentary_id
                 },
                 cache: false

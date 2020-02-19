@@ -14,9 +14,9 @@
                        style="margin-top:30px; text-align:center;" id="complex_header">
                     <thead>
                         <tr>
-                            <th>Mã thiết bị</th>
-                            <th>Tên thiết bị</th>
-                            <th>Vị trí hiện tại</th>
+                            <th>Tên hệ thống</th>
+                            <th>Đơn vị trực thuộc</th>
+                            <th>Số lượng sửa chữa</th>
                             <th>Danh sách vật tư thay thế</th>
                             <th>Đã xử lý</th>
                         </tr>
@@ -34,9 +34,6 @@
 
 <div class="modal" id="mylist">
     <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title"></h3>
-        </div>
         <div class="modal-body table_container">
             <div class="row">
                 <form>
@@ -44,10 +41,11 @@
                         <thead>
                             <tr>
                                 <th>Mã vật tư</th>
+                                <th>Tên vật tư</th>
                                 <th>Số lượng xin cấp</th>
                                 <th>Số lượng đã nhận</th>
                                 <th>Số lượng sử dụng</th>
-                                <th>Số lượng lấy ra</th>
+                                <th>Số lượng thu hồi</th>
                                 <th>Ghi chú</th>
                             </tr>
                         </thead>
@@ -55,12 +53,13 @@
                     </table>
                 </form>
             </div>
-            <input type="hidden" id="mathietbi" disabled />
-            <input type="hidden" id="maquyetdinh" disabled />
         </div>
-        <div class="modal-footer" id="vattu">
-            <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
-            <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
+        <div class="modal-footer">
+            @if (ViewBag.AddAble == true)
+            {
+                <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
+                <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
+            }
             <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
         </div>
     </div>
@@ -86,15 +85,19 @@
         <option value="@item.supply_id">@item.supply_name</option>
     }
 </datalist>
+
 <script src="~/js/Custom JS/CDVT/Capnhat/check.js"></script>
 
 @section scripts{
     <script src="~/js/jquery.dataTables.min.js"></script>
     <script>
+        var room_id, documentary_id;
+
         $(document).on("click", "#addcolumn", function () {
             var $tr = $('<tr>').append(
                 $('<td>').html("<input list='supplyID' type='text' id='vattu' class='form-control td-id' />"),
-                $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
+                $('<td>'),
+                $('<td>').html("<input type='number' readonly value='0' class='form-control' />"),
                 $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
                 $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
                 $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
@@ -106,10 +109,8 @@
         $(document).on("click", ".open-Modal", function () {
             $('#pre-load').show();
             $("#test").find("tr:gt(0)").remove();
-            var QDIdAndEquipId = $(this).data('list');
-            $('#mylist h3').text("Danh sách vật tư thay thế của thiết bị " + QDIdAndEquipId.split("^")[1])
-            $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
-            $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
+            documentary_id = $(this).data("documentary")
+            room_id = $(this).data("room")
             $.ajax({
                 type: "POST",
                 url: "/cap-nhat/camera/quyet-dinh/GetSupply2",
@@ -120,6 +121,7 @@
                             var temp = item.supplyStatus == null ? "" : item.supplyStatus;
                             var $tr = $('<tr>').append(
                                 $('<td>').html('<input type="text" value="' + item.supply_id + '" readonly class="form-control" />'),
+                                $('<td>').text(item.supply_name),
                                 $('<td>').html('<input type="text" value="' + item.quantity_plan + '" readonly class="form-control" />'),
                                 $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
                                 $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_used + "' max='" + item.quantity_plan + "' value='" + item.quantity_used + "' />"),
@@ -135,8 +137,8 @@
                     errorAlert('Lỗi');
                 },
                 data: {
-                    documentary_id: QDIdAndEquipId.split("^")[0],
-                    equipmentId: QDIdAndEquipId.split("^")[1]
+                    documentary_id: documentary_id,
+                    room_id: room_id
                 },
                 cache: false
             })
@@ -150,11 +152,11 @@
                 var temp = {};
                 if ($("#mylist #test tbody tr:nth-child(" + i + ") input").eq(0).val() == "") break;
                 temp.supply_id = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 1 + ") input").val();
-                temp.quantity_plan = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 2 + ") input").val();
-                temp.quantity_in = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 3 + ") input").val();
-                temp.quantity_used = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 4 + ") input").val();
-                temp.quantity_out = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 5 + ") input").val();
-                temp.supplyStatus = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 6 + ") input").val();
+                temp.quantity_plan = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 3 + ") input").val();
+                temp.quantity_in = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 4 + ") input").val();
+                temp.quantity_used = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 5 + ") input").val();
+                temp.quantity_out = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 6 + ") input").val();
+                temp.supplyStatus = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 7 + ") input").val();
                 arr.push(temp);
             }
             output.list = arr
@@ -173,6 +175,10 @@
             if (findDuplicates(list) == 0) return true;
             else return false;
         }
+
+        $(document).on("focusout", "#vattu", function () {
+            $(this).closest("tr").children("td:eq(1)").text($('#supplyID option[value="' + $(this).val() + '"]').text())
+        })
     </script>
     <script>
         var Popup, dataTable;
@@ -190,26 +196,26 @@
                 }
             },
             "ajax": {
-                "url": "/cap-nhat/camera/quyet-dinh/sua-chua/GetData",
+                "url": "/phong-cdvt/camera/xu-ly/sua-chua",
                 "type": "POST",
                 "datatype": "json",
                 "data": {
-                    "id": $('#id').val()
+                    "id": @ViewBag.id,
                 },
                 "cache": false
             },
             "columns": [
-                { "data": "equipmentId", "name": "equipmentId" },
-                { "data": "equipment_name", "name": "equipment_name" },
+                { "data": "room_name", "name": "room_name" },
                 { "data": "department_name", "name": "department_name" },
+                { "data": "broken_camera_quantity", "name": "broken_camera_quantity" },
                 {
-                    "data": "idAndEquip", "name": "person_created", "render": function (data) {
-                        return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal\" href=\"#mylist\">Vật tư thay thế</a>";
+                    "data": {}, "render": function (data) {
+                        return "<a data-documentary=\"" + data.documentary_id + "\" data-room='" + data.room_id + "' class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal\" href=\"#mylist\">Vật tư thay thế</a>";
                     }
                 },
                 {
-                    "data": "statusAndEquip", "name": "person_created", "render": function (data) {
-                        if (data.split("^")[0] == "0") return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.split("^")[1] + "\">Chưa xử lý</button>";
+                    "data": {}, "render": function (data) {
+                        if (data.Documentary_camera_repair_status == 0) return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.room_id + "\">Chưa xử lý</button>";
                         else return "<button disabled class=\"btn blue darken-2\">Đã xử lý</button>"
                     }
                 }
@@ -252,7 +258,7 @@
                         dataTable.ajax.reload(function () {
                             $('#pre-load').hide();
                             successAlert(data.message);
-                            location.replace("/camera/cap-nhat/quyet-dinh")
+                            location.replace("/phong-cdvt/camera/xu-ly")
                         });
                     }
                     else {
@@ -265,7 +271,7 @@
                     errorAlert('Lỗi');
                 },
                 data: {
-                    id: $('#id').val(),
+                    id: @ViewBag.id,
                     edit: equipments
                 },
                 cache: false
@@ -295,8 +301,8 @@
                 },
                 data: {
                     list: function () { return getJsonArray(); },
-                    documentary_id: $("#maquyetdinh").val(),
-                    equipmentId: $("#mathietbi").val()
+                    documentary_id: documentary_id,
+                    room_id: room_id
                 },
                 cache: false
             })

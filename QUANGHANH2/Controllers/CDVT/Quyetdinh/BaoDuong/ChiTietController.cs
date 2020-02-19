@@ -17,7 +17,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
   
         public ActionResult LoadPage(String id)
         {
-            ViewBag.id = id.ToString().Split('^')[0];         
+            ViewBag.id = id.ToString().Split('^')[0];
             return View("/Views/CDVT/Quyet_dinh/Chi_tiet_bao_duong.cshtml");
         }
 

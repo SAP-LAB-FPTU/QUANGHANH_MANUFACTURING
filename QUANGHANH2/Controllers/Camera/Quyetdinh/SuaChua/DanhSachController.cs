@@ -23,7 +23,7 @@ namespace QUANGHANH2.Controllers.Camera
     {
 
         [Auther(RightID = "193")]
-        [Route("camera/quyet-dinh/sua-chua")]
+        [Route("phong-cdvt/camera/quyet-dinh/sua-chua")]
         public ActionResult Index()
         {
             ViewBag.count = 1;
@@ -176,9 +176,7 @@ namespace QUANGHANH2.Controllers.Camera
 
         public class CamDocument : Documentary
         {
-            public string camera_id { get; set; }
             public int count { get; set; }
-            public string tempId { get; set; }
         }
 
         [Route("camera/quyet-dinh-sua-chua")]
@@ -221,8 +219,9 @@ namespace QUANGHANH2.Controllers.Camera
                                    date_created = document.date_created,
                                    person_created = document.person_created,
                                    reason = document.reason,
-                                   out_in_come = document.out_in_come
-                               }).ToList().Select(p => new CamDocument
+                                   out_in_come = document.out_in_come,
+                                   count = temporary.Select(x => x.broken_camera_quantity).Sum()
+                               }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList().Select(p => new CamDocument
                                {
                                    documentary_id = p.documentary_id,
                                    documentary_code = p.documentary_code,
@@ -230,27 +229,18 @@ namespace QUANGHANH2.Controllers.Camera
                                    person_created = p.person_created,
                                    reason = p.reason,
                                    out_in_come = p.out_in_come,
+                                   count = p.count
                                }).ToList();
 
-            foreach (var el in documentaryList)
-            {
-                if (el.documentary_code == null || el.documentary_code.Equals(""))
-                {
-                    el.tempId = el.documentary_id + "^false";
-                }
-                else
-                {
-                    el.tempId = el.documentary_id + "^true^" + el.documentary_code;
-                }
-
-            }
-
-            //}
-
-
-            int totalrows = documentaryList.Count;
-            int totalrowsafterfiltering = documentaryList.Count;
-            return Json(new { success = true, data = documentaryList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            int totalrows = (from document in db.Documentaries
+                             where document.documentary_type == 8 && (document.documentary_code == null || document.documentary_code == "") && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
+                             join cam in db.Documentary_camera_repair_details on document.documentary_id equals cam.documentary_id
+                             into temporary
+                             select new
+                             {
+                                 documentary_id = document.documentary_id
+                             }).Count();
+            return Json(new { success = true, data = documentaryList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
 
