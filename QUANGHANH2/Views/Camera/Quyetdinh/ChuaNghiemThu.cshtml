@@ -5,45 +5,40 @@
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
 <div class="card">
     <div class="card-content">
-        <div class="row">
+        <div class="row center">
             <div class="col s12">
-
-                <div class="advanded-search">
-                    <div class="row">
-                        <h3 class="center"><b>DANH SÁCH NGHIỆM THU HỆ THỐNG</b></h3>
-                        <hr>
-                        <div class="row center">
-                            <div class="col l2 m12 s12 input-field">
-                                <input type="text"  placeholder="Tìm kiếm theo mã quyết định" id="doccumentid" class='form-control' />
-                            </div>
-                            <div class="col l2 m12 s12 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo tên hệ thống" id="equimentname" class='form-control' />
-                            </div>
-                            <div class="col l2 m12 s12 input-field">
-                                <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
-                            </div>
-
-                        </div>
-
+                <h3><b>DANH SÁCH NGHIỆM THU HỆ THỐNG</b></h3>
+                <hr>
+                <div class="row">
+                    <div class="col l6 m12 s12 input-field">
+                        <input type="text" placeholder="Tìm kiếm theo số quyết định" id="doccumentid" class='form-control' />
+                    </div>
+                    <div class="col l6 m12 s12 input-field">
+                        <input type="text" placeholder="Tìm kiếm theo tên hệ thống" id="equimentname" class='form-control' />
+                    </div>
+                    <div class="col l12 m12 s12 input-field">
+                        <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
                     </div>
                 </div>
-
-                <div class="col s12">
-                    <table id="docTable" class="striped table-bordered centered responsive-table mytable">
-                        <thead>
-                            <tr>
-                                <th>Số quyết định</th>
-                                <th>Loại quyết định</th>
-                                <th>Tên hệ thống</th>
-                                <th>Số lượng camera</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+            </div>
+            <div class="col s12">
+                <table id="docTable" class="striped table-bordered centered responsive-table mytable">
+                    <thead>
+                        <tr>
+                            <th>Số quyết định</th>
+                            <th>Loại quyết định</th>
+                            <th>Tên hệ thống</th>
+                            <th>Số lượng camera</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
@@ -113,7 +108,7 @@
                     },
                 },
                 "drawCallback": function (settings) {
-                    $("#pre-load").hide(); 
+                    $("#pre-load").hide();
                 },
                 "columns": [
                     {
@@ -133,8 +128,8 @@
                         "searchable": false
                     },
                     {
-                        "data": {}, name: "cameraStatus", "render": function (data) {
-                            if (data.cameraStatus == 0) {
+                        "data": {}, name: "isAcceptance", "render": function (data) {
+                            if (data.isAcceptance) {
                             return "<td><a class='btn blue darken-2 modal-trigger disabled open-UpdateModal' data-equip='" + data.room_id + "' data-code='" + data.documentary_id + "' >Đã&nbsp;nghiệm&nbsp;thu</a></td>";
 
                             } else {
@@ -249,74 +244,38 @@
             })
         })
 
-        function Detail(url) {
-                $.get(url)
-                .done(function (response) {
-                    $("#detailTable").html(response)
-                });
-                return false;
-        }
-        function GetData(url) {
-            window.location.href = url;
-        }
-
         $(document).on("click", ".open-UpdateModal", function () {
             var room_id = $(this).data('equip');
             var documentary_id = $(this).data('code');
             confirmAlert(
-            'Bạn có chắc chắn muốn nghiệm thu không?',
-            '',
-            function nghiemthu(){
-                $.ajax({
-                type: "POST",
-                url: "/camera/nghiem-thu/Edit",
-                dataType: "json",
-                success: function (data) {
-                    if (data.success == true)
-                        successAlert('Thành công', data.message);
-                    else
-                        errorAlert('Lỗi', data.message);
-                    dataTable.ajax.reload()
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    errorAlert('Lỗi', 'Có lỗi xảy ra');
-                },
-                data: {
-                    room_id: room_id,
-                    documentary_id: documentary_id
-                },
-                cache: false
-            })
-            });
-        });
-
-        $("#searchButton").click(function () {
-            $("#pre-load").show();
-            dataTable.ajax.reload(function () {
-                $.notify("Tìm kiếm thành công", {
-                    globalPosition: "top center",
-                    className: "success"
+                'Bạn có chắc chắn muốn nghiệm thu không?',
+                '',
+                function nghiemthu() {
+                    $('#pre-load').show();
+                    $.ajax({
+                    type: "POST",
+                    url: "/camera/nghiem-thu/Edit",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success == true)
+                            successAlert('Thành công', data.message);
+                        else
+                            errorAlert('Lỗi', data.message);
+                        dataTable.ajax.reload()
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        errorAlert('Lỗi', 'Có lỗi xảy ra');
+                        dataTable.ajax.reload()
+                    },
+                    data: {
+                        room_id: room_id,
+                        documentary_id: documentary_id
+                    },
+                    cache: false
                 })
             });
         });
-        $("#doccumentid").keyup(function (event) {
-            if (event.keyCode === 13) {
-                $("#searchButton").click();
-                $("#doccumentid").blur();
-            }
-        });
-        $("#equimentid").keyup(function (event) {
-            if (event.keyCode === 13) {
-                $("#searchButton").click();
-                $("#equimentid").blur();
-            }
-        });
-        $("#equimentname").keyup(function (event) {
-            if (event.keyCode === 13) {
-                $("#searchButton").click();
-                $("#equimentname").blur();
-            }
-        });
     </script>
 }
-
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>

@@ -69,7 +69,6 @@ namespace QUANGHANH2.Controllers.Camera
                                 supply_name = supply.supply_name,
                                 quantity_plan = supply.quantity_plan
                             }));
-                            listSupplies.Remove(supply);
                         }
                     }
                     temp.Add(room.room_id.ToString(), list);

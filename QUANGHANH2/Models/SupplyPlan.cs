@@ -23,6 +23,7 @@ namespace QUANGHANH2.Models
         public int quantity_plan { get; set; }
         public int quantity { get; set; }
         public Nullable<int> status { get; set; }
+        public Nullable<int> quantity_provide { get; set; }
     
         public virtual Department Department { get; set; }
         public virtual Department Department1 { get; set; }
