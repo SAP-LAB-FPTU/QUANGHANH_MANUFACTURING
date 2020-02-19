@@ -169,14 +169,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Controllers\Camera\CapNhatTheoCaController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\DaNghiemThuController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ChiTietController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ThemQuyetDinhController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\XuLyQuyetDinhController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ChonThietBiController.cs" />
-    <Compile Include="Controllers\Camera\Quyetdinh\NghiemThuCamController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\ChuaNghiemThuController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\DanhSachController.cs" />
     <Compile Include="Controllers\Camera\SuCoController.cs" />
-    <Compile Include="Controllers\Camera\Quyetdinh\XuLyQDController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\DSQDChuaxulyController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\CDVTXinCapVatTuController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
     <Compile Include="Controllers\AT\ViewAccidentController.cs" />
@@ -225,7 +226,7 @@
     <Compile Include="Controllers\CDVT\LongCDVT\Oto\DanhsachotoController.cs" />
     <Compile Include="Controllers\CDVT\LongCDVT\Oto\huydongotoController.cs" />
     <Compile Include="Controllers\CDVT\Nghiemthu\DanghiemthuController.cs" />
-    <Compile Include="Controllers\CDVT\Nghiemthu\nghiemthuController.cs" />
+    <Compile Include="Controllers\CDVT\Nghiemthu\ChuanghiemthuController.cs" />
     <Compile Include="Controllers\CDVT\Nghiemthu\VattukemtheoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\BaoHiemOtoController.cs" />
     <Compile Include="Controllers\CDVT\Oto\ChitietotoController.cs" />
@@ -4421,9 +4422,6 @@
     <Content Include="assets\libs\jsgrid\dist\jsgrid-theme.min.css" />
     <Content Include="assets\libs\jsgrid\dist\jsgrid.min.css" />
     <Content Include="assets\libs\jsgrid\dist\jsgrid.min.js" />
-    <Content Include="assets\libs\jvectormap\jquery-jvectormap.css" />
-    <Content Include="assets\libs\jvectormap\jquery-jvectormap.min.js" />
-    <Content Include="assets\libs\jvectormap\lib\jquery-mousewheel.js" />
     <Content Include="assets\libs\magnific-popup\animation.css" />
     <Content Include="assets\libs\magnific-popup\dist\jquery.magnific-popup.min.js" />
     <Content Include="assets\libs\magnific-popup\dist\magnific-popup.css" />
@@ -6720,13 +6718,6 @@
     <Content Include="assets\libs\jquery-steps\nuget\jQuery.Steps.nuspec" />
     <Content Include="assets\libs\jquery-steps\steps.jquery.json" />
     <Content Include="assets\libs\jquery.repeater\repeater.jquery.json" />
-    <Content Include="assets\libs\jvectormap\build.sh" />
-    <Content Include="assets\libs\jvectormap\converter\converter.py" />
-    <Content Include="assets\libs\jvectormap\converter\processor.py" />
-    <Content Include="assets\libs\jvectormap\converter\simplifier.py" />
-    <Content Include="assets\libs\jvectormap\LICENSE-AGPL" />
-    <Content Include="assets\libs\jvectormap\LICENSE-COMMERCIAL" />
-    <Content Include="assets\libs\jvectormap\_CookieConsentPartial.cshtml" />
     <Content Include="assets\libs\morris.js\bower.travis.json" />
     <Content Include="assets\libs\node-sass\binding.gyp" />
     <Content Include="assets\libs\node-sass\bin\emcc" />
@@ -7474,7 +7465,7 @@
     <Content Include="Views\Shared\_Layout_KCM.cshtml" />
     <Content Include="Views\Camera\DanhSachCamera.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />
-    <Content Include="Views\Camera\Chi_tiet_sua_chua.cshtml" />
+    <Content Include="Views\Camera\Quyetdinh\SuaChua\ChiTiet.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\DanhSach.cshtml" />
     <Content Include="Views\Camera\Sua_chua_camera.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\ThemQuyetDinh.cshtml" />
@@ -7482,11 +7473,11 @@
     <Content Include="Views\TCLD\Occupation\Occupation.cshtml" />
     <Content Include="Views\TCLD\Occupation\GroupOccupation.cshtml" />
     <Content Include="Views\TCLD\Occupation\SideOccupation.cshtml" />
-    <Content Include="Views\Camera\DSQD.cshtml" />
+    <Content Include="Views\Camera\Quyetdinh\DSQDChuaxuly.cshtml" />
     <Content Include="Views\LogIn\Account_Information.cshtml" />
-    <Content Include="Views\Camera\Suachua.cshtml" />
+    <Content Include="Views\Camera\Quyetdinh\SuaChua\XuLyQuyetDinh.cshtml" />
     <Content Include="Views\CDVT\Vattu\Xincapvattulan1.cshtml" />
-    <Content Include="Views\Camera\Nghiemthu.cshtml" />
+    <Content Include="Views\Camera\Quyetdinh\ChuaNghiemThu.cshtml" />
     <Content Include="Views\ManagementUser\Roles.cshtml" />
     <Content Include="Views\CDVT\Car\BaoHiemOto.cshtml" />
     <Content Include="Views\BGD\QuantityReport\CompanyView.cshtml" />
@@ -7521,6 +7512,7 @@
     <Folder Include="Views\CapNhat\" />
     <Folder Include="Views\ChiTiet\" />
     <Folder Include="Views\ChonThietBi\" />
+    <Folder Include="Views\DaNghiemThu\" />
     <Folder Include="Views\TrangChu\" />
   </ItemGroup>
   <ItemGroup>

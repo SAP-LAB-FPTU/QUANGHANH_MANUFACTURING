@@ -131,6 +131,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     new SqlParameter("ChucVu", ChucVu),
                     new SqlParameter("PhongBan", PhongBan)
                     ).FirstOrDefault();
+                ViewBag.totalrows = totalrows;
                 return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
 
             }
@@ -198,53 +199,88 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult DidList(string NgayQuyetDinh, string SoQuyetDinh, string NgayChamDut)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-
-            db.Configuration.LazyLoadingEnabled = false;
-
-            string dateQDFixed = "";
-            string dateCDFixed = "";
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
-            string query = "  select q.*, cd.MaNV,cd.LoaiChamDut, cd.NgayChamDut from QuyetDinh q inner join ChamDut_NhanVien cd " +
-                "on q.MaQuyetDinh = cd.MaQuyetDinh where cd.LoaiChamDut is not null and q.SoQuyetDinh != '' and ";
-            if (!NgayQuyetDinh.Equals(""))
+            try
             {
-                string[] fixDate1 = NgayQuyetDinh.ToString().Split('/');
-                dateQDFixed = fixDate1[1] + "/" + fixDate1[0] + "/" + fixDate1[2];
-                if (!NgayQuyetDinh.Equals("")) query += "q.NgayQuyetDinh = @NgayQD AND ";
-            }
-            if (!NgayChamDut.Equals(""))
+
+                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+
+                db.Configuration.LazyLoadingEnabled = false;
+
+                string dateQDFixed = "";
+                string dateCDFixed = "";
+                int start = Convert.ToInt32(Request["start"]);
+                int length = Convert.ToInt32(Request["length"]);
+                string searchValue = Request["search[value]"];
+                string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                string sortDirection = Request["order[0][dir]"];
+                string query = @" select q.*,cd.NgayChamDut from QuyetDinh q inner join ChamDut_NhanVien cd
+                on q.MaQuyetDinh = cd.MaQuyetDinh where cd.LoaiChamDut is not null and q.SoQuyetDinh != ''
+				 and ";
+                if (!NgayQuyetDinh.Equals(""))
+                {
+                    string[] fixDate1 = NgayQuyetDinh.ToString().Split('/');
+                    dateQDFixed = fixDate1[1] + "/" + fixDate1[0] + "/" + fixDate1[2];
+                    if (!NgayQuyetDinh.Equals("")) query += "q.NgayQuyetDinh = @NgayQD AND ";
+                }
+                if (!NgayChamDut.Equals(""))
+                {
+                    string[] fixDate2 = NgayChamDut.Split('/');
+                    dateCDFixed = fixDate2[1] + "/" + fixDate2[0] + "/" + fixDate2[2];
+                    if (!NgayChamDut.Equals("")) query += "cd.NgayChamDut = @NgayCD AND ";
+
+                }
+                if (!SoQuyetDinh.Equals(""))
+                {
+                    if (!SoQuyetDinh.Equals("")) query += "q.SoQuyetDinh LIKE @SoQD AND ";
+                }
+                query = query.Substring(0, query.Length - 5);
+                query += @" group by q.MaQuyetDinh, q.SoQuyetDinh, q.NgayQuyetDinh, cd.NgayChamDut";
+                List<QuyetDinhLink> searchList = db.Database.SqlQuery<QuyetDinhLink>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
+                    new SqlParameter("NgayQD", dateQDFixed),
+                    new SqlParameter("NgayCD", dateCDFixed),
+                    new SqlParameter("SoQD", '%' + SoQuyetDinh + '%')
+                    ).ToList();
+
+                int totalrows = db.Database.SqlQuery<int>(query.Replace("q.*,cd.NgayChamDut", "count(cd.NgayChamDut)"),
+                    new SqlParameter("NgayQD", dateQDFixed),
+                    new SqlParameter("NgayCD", dateCDFixed),
+                    new SqlParameter("SoQD", '%' + SoQuyetDinh + '%')
+                    ).FirstOrDefault();
+
+                return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
+
+            }catch(Exception e)
             {
-                string[] fixDate2 = NgayChamDut.Split('/');
-                dateCDFixed = fixDate2[1] + "/" + fixDate2[0] + "/" + fixDate2[2];
-                if (!NgayChamDut.Equals("")) query += "cd.NgayChamDut = @NgayCD AND ";
-
+                return null;
             }
-            if (!SoQuyetDinh.Equals(""))
-            {
-                if (!SoQuyetDinh.Equals("")) query += "q.SoQuyetDinh LIKE @SoQD AND ";
-            }
-            query = query.Substring(0, query.Length - 5);
-
-            List<QuyetDinhLink> searchList = db.Database.SqlQuery<QuyetDinhLink>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
-                new SqlParameter("NgayQD", dateQDFixed),
-                new SqlParameter("NgayCD", dateCDFixed),
-                new SqlParameter("SoQD", '%' + SoQuyetDinh + '%')
-                ).ToList();
-
-            int totalrows = db.Database.SqlQuery<int>(query.Replace("q.*, cd.MaNV,cd.LoaiChamDut, cd.NgayChamDut", "count(cd.NgayChamDut)"),
-                new SqlParameter("NgayQD", dateQDFixed),
-                new SqlParameter("NgayCD", dateCDFixed),
-                new SqlParameter("SoQD", '%' + SoQuyetDinh + '%')
-                ).FirstOrDefault();
-
-            return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
-
         }
+
+        [Route("phong-tcld/quan-ly-nhan-vien/da-xu-ly-cham-dut/check-duplicate-sqd")]
+        [HttpPost]
+        public ActionResult checkDuplicateSQD()
+        {
+            string sqd = Request["SoQD"];
+            if (sqd != null && sqd != "")
+            {
+                int result;
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    string sql = "select count(SoQuyetDinh) as sqd from QuyetDinh\n" +
+                    "where SoQuyetDinh = @SoQD ";
+                    result = db.Database.SqlQuery<int>(sql, new SqlParameter("SoQD", sqd)).ToList<int>()[0];
+                }
+                if (result != 0)
+                {
+                    return Json(new { success = true, data = true });
+                }
+                else
+                {
+                    return Json(new { success = true, data = false });
+                }
+            }
+            return Json(new { success = false, message = "Lỗi" });
+        }
+
 
         [Route("phong-tcld/quan-ly-nhan-vien/da-xu-ly-cham-dut-chi-tiet")]
         [HttpPost]
@@ -350,7 +386,7 @@ namespace QUANGHANH2.Controllers.TCLD
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-            string query = "select q.MaQuyetDinh, q.SoQuyetDinh, q.NgayQuyetDinh, cd.LoaiChamDut, cd.NgayChamDut from QuyetDinh q,ChamDut_NhanVien cd " +
+            string query = "select q.*,cd.NgayChamDut from QuyetDinh q,ChamDut_NhanVien cd " +
                 "where q.MaQuyetDinh = cd.MaQuyetDinh and cd.LoaiChamDut is not null and q.SoQuyetDinh = '' and ";
             if (!MaQuyetDinh.Equals(""))
             {
@@ -365,7 +401,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 if (!NgayChamDut.Equals("")) query += "cd.NgayChamDut = @NgayCD AND ";
             }
             query = query.Substring(0, query.Length - 5);
-
+            query += @" group by q.MaQuyetDinh, q.SoQuyetDinh, q.NgayQuyetDinh, cd.NgayChamDut";
             List<QuyetDinhLink> searchList = db.Database.SqlQuery<QuyetDinhLink>(query,
                 new SqlParameter("MaQD", MaQuyetDinh),
                 new SqlParameter("NgayCD", dateFix)

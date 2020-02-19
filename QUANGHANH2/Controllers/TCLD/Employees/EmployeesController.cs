@@ -1,4 +1,5 @@
 ﻿using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using OfficeOpenXml;
 using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Script.Serialization;
 
 namespace QUANGHANH2.Controllers.TCLD
 {
@@ -669,18 +671,25 @@ namespace QUANGHANH2.Controllers.TCLD
             return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
-        
+
         //[Route("phong-tcld/quan-ly-nhan-vien/lich-su-lam-viec")]
         //public ActionResult WorkHistory()
         //{
         //    ViewBag.nameDepartment = "baohiem";
         //    return View("/Views/TCLD/Brief/WorkHistory.cshtml");
         //}
+        public class ChamDutModel
+        {
+            public string MaNV { get; set; }
+            public string LoaiChamDut { get; set; }
+            public string NgayChamDut { get; set; }
+            public string SoQD { get; set; }
+        }
 
         [Auther(RightID = "55")]
         [Route("delete")]
         [HttpPost]
-        public ActionResult TLHD(string id, string soQD, string lydo, string dateTLHD, string group1, string group2, string elseCase)
+        public ActionResult TLHD(string selectedList)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             using (DbContextTransaction dbct = db.Database.BeginTransaction())
@@ -688,69 +697,53 @@ namespace QUANGHANH2.Controllers.TCLD
                 try
                 {
                     QuyetDinh qd = new QuyetDinh();
-                    List<QuyetDinh> qdList = db.QuyetDinhs.ToList<QuyetDinh>();
-                    if (!soQD.Equals(""))
+                    var js = new JavaScriptSerializer();
+                    var result = JsonConvert.DeserializeObject<List<ChamDutModel>>(selectedList);
+                    string[] date = result[0].NgayChamDut.Split('/');
+                    var emp = new NhanVien();
+                    if (result[0].SoQD.Equals(""))
                     {
-                        foreach (var qdL in qdList)
+                        qd.SoQuyetDinh = "";
+                        foreach(var item in result)
                         {
-                            if (soQD == qdL.SoQuyetDinh)
-                            {
-                                return Json(new { message = "Số quyết định đã tồn tại", success = "soQDExist" }, JsonRequestBehavior.AllowGet);
-                            }
+                            emp = db.NhanViens.Where(x => x.MaNV == item.MaNV).FirstOrDefault();
+                            emp.MaTrangThai = 4;
                         }
-                    }
-                    string[] arr2 = dateTLHD.Split('/');
-                    string dateTLHDFix = "";
-                    for (int i = 0; i < arr2.Length; i++)
-                    {
-                        dateTLHDFix = arr2[1] + "/" + arr2[0] + "/" + arr2[2];
-                    }
-                    var emp = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault();
-                    if (soQD.Equals(""))
-                    {
-                        emp.MaTrangThai = 4;
                     }
                     else
                     {
-                        emp.MaTrangThai = 2;
+                        qd.SoQuyetDinh = result[0].SoQD;
+                        foreach (var item in result)
+                        {
+                            emp = db.NhanViens.Where(x => x.MaNV == item.MaNV).FirstOrDefault();
+                            emp.MaTrangThai = 2;
+                        }
                     }
+                    qd.NgayQuyetDinh = DateTime.Parse(date[2] + "/" + date[1] + "/" + date[0]);
                     db.Entry(emp).State = EntityState.Modified;
-
-                    qd.SoQuyetDinh = soQD;
-                    qd.NgayQuyetDinh = DateTime.Today;
                     db.QuyetDinhs.Add(qd);
+                    db.SaveChanges();
 
-                    ChamDut_NhanVien tlhd = new ChamDut_NhanVien();
-                    tlhd.MaNV = id;
-                    if (lydo.Equals("Đi đơn vị ngoài"))
+                    int maqd = db.QuyetDinhs.Select(n => n.MaQuyetDinh).DefaultIfEmpty(0).Max();
+                    foreach(var item in result)
                     {
-                        tlhd.LoaiChamDut = group1;
+                        ChamDut_NhanVien tlhd = new ChamDut_NhanVien();
+                        tlhd.MaNV = item.MaNV;
+                        tlhd.MaQuyetDinh = maqd;
+                        tlhd.NgayChamDut = DateTime.Parse(date[2] + "/" + date[1] + "/" + date[0]);
+                        tlhd.LoaiChamDut = item.LoaiChamDut;
+                        db.ChamDut_NhanVien.Add(tlhd);
+
                     }
-                    else if (lydo.Equals("Các trường hợp khác"))
-                    {
-                        if (group2.Equals("on"))
-                        {
-                            tlhd.LoaiChamDut = elseCase;
-                        }
-                        else
-                        {
-                            tlhd.LoaiChamDut = group2;
-                        }
-                    }
-                    else
-                    {
-                        tlhd.LoaiChamDut = lydo;
-                    }
-                    tlhd.NgayChamDut = Convert.ToDateTime(dateTLHDFix);
-                    db.ChamDut_NhanVien.Add(tlhd);
                     db.SaveChanges();
                     dbct.Commit();
-                    return Json(new { data = "" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, message = "Tạo quyết định thành công" }, JsonRequestBehavior.AllowGet);
+
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     dbct.Rollback();
-                    return Json(new { success = true, message = "Chưa nhập ngày chấm dứt" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = false, message = "Lỗi" }, JsonRequestBehavior.AllowGet);
 
                 }
 
