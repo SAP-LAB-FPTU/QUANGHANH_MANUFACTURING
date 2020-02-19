@@ -92,7 +92,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-2">Loại thiết bị</label>
                             <div class="col-md-10">
-                                <select class="form-control" name="attype">
+                                <select id="changetype" class="form-control" name="attype">
                                     <option value="0">Thiết bị thường</option>
                                     <option value="1">Thiết bị đính kèm</option>
                                 </select>
@@ -303,6 +303,11 @@
 }
 <script src="~/js/Custom JS/CDVT/Home/huydong.js"></script>
 <script>
+    $("#changetype").change(function () {
+        var value = $("#changetype").val();
+        if (value == 0) $("#myadd20").show();
+        else $("#myadd20").hide();
+    });
     $('#Equipment_category_id').change(function () {
         $('#atri').val($('#Equipment_category_id').val());
         $('#myForm').submit();
