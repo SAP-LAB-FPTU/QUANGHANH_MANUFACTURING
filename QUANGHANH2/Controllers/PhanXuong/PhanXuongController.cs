@@ -459,7 +459,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    double effortSum = 0;
+                    //get list_nsld
                     var mysql = @"select 
                                 (case when hd.NgayDiemDanh is NULL then '0-0-0' else hd.NgayDiemDanh end) as 'NgayDiemDanh', 
                                 (case when hd.Ca is NULL then '0' else hd.Ca end) as 'Ca', 
@@ -467,18 +467,25 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 (case when nv.Ten is NULL then '' else nv.Ten end) as 'Ten', 
                                 (case when dd.DiemLuong is NULL then 0 else dd.DiemLuong end) as 'DiemLuong' 
                                 from 
-                                (select HeaderID, NgayDiemDanh, Ca, MaPhongBan from Header_DiemDanh_NangSuat_LaoDong where NgayDiemDanh = @date and Ca = @shift and  MaPhongBan = @departmentID) as hd 
+                                (select HeaderID, NgayDiemDanh, Ca, MaPhongBan from Header_DiemDanh_NangSuat_LaoDong where NgayDiemDanh = @date 
+                                                    and Ca = @shift 
+                                                    and  MaPhongBan = @departmentID) as hd 
                                 join (select * from DiemDanh_NangSuatLaoDong where DiLam = 1) as dd on hd.HeaderID = dd.HeaderID
                                 join NhanVien nv on nv.MaNV = dd.MaNV";
                     List<NangSuatLaoDong_TungCongNhan> list_nsld = db.Database.SqlQuery<NangSuatLaoDong_TungCongNhan>(mysql,
                         new SqlParameter("date", convert_date),
                         new SqlParameter("shift", convert_shift),
                         new SqlParameter("departmentID", departmentID)).ToList();
-                    foreach (NangSuatLaoDong_TungCongNhan x in list_nsld)
-                    {
-                        effortSum += x.DiemLuong;
-                    }
-                    return Json(new { list_nsld = list_nsld, effortSum = effortSum, date = Convert.ToDateTime(convert_date).Date.ToString("dd/MM/yyyy"), shift = convert_shift });
+
+                    //get list_sum_effort
+                    var mysql_sum = @"select TotalEffort,ThanThucHien, MetLoThucHien, XenThucHien from Header_DiemDanh_NangSuat_LaoDong 
+                                    where NgayDiemDanh = @date and Ca = @shift and MaPhongBan = @departmentID";
+                    List<Sum_DiemLuong_Than_MetLo_Xen> list_sum = db.Database.SqlQuery<Sum_DiemLuong_Than_MetLo_Xen>(mysql_sum,
+                        new SqlParameter("date", convert_date),
+                        new SqlParameter("shift", convert_shift),
+                        new SqlParameter("departmentID", departmentID)).ToList();
+
+                    return Json(new { list_nsld = list_nsld, list_sum = list_sum, date = Convert.ToDateTime(convert_date).Date.ToString("dd/MM/yyyy"), shift = convert_shift });
                 }
             }
             catch (Exception e)
@@ -1093,6 +1100,14 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         public string MaNV { get; set; }
         public string Ten { get; set; }
         public double DiemLuong { get; set; }
+    }
+
+    public class Sum_DiemLuong_Than_MetLo_Xen
+    {
+        public double TotalEffort { get; set; }
+        public double ThanThucHien { get; set; }
+        public double MetLoThucHien { get; set; }
+        public double XenThucHien { get; set; }
     }
 
     public class BaoCaoTheoCa
