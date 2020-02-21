@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "View";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    List<string> rights = (List<string>)Session["RightIDs"];
 }
 
 <link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet" />
@@ -101,9 +102,12 @@
             <div class="col s12">
                 <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton">Tìm kiếm</a>
             </div>
-            <div class="col s12">
-                <a class="waves-effect waves-light btn-small blue modal-trigger left" id="add-room" href="#myadd">Thêm</a>
-            </div>
+            @if (rights.Contains("196"))
+            {
+                <div class="col s12">
+                    <a class="waves-effect waves-light btn-small blue modal-trigger left" id="add-room" href="#myadd">Thêm</a>
+                </div>
+            }
             <div class="col s12 table_container">
                 <table class="table-bordered striped table-responsive centered" id="complex_header">
                     <thead>

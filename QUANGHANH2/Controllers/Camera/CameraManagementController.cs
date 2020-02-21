@@ -169,7 +169,7 @@ namespace QUANGHANH2.Controllers.Camera
             }
         }
 
-        [Auther(RightID = "193")]
+        [Auther(RightID = "196")]
         [Route("camera/add")]
         [HttpPost]
         public ActionResult Add()

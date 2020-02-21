@@ -867,7 +867,7 @@
     function RightDetail() {
         show();
         var pb = document.getElementById('MaPB').value;
-        if (pb === 'CDVT') { $("#hide16").show(); GetRightFromDBNotFill(1); }
+        if (pb === 'CV') { $("#hide16").show(); GetRightFromDBNotFill(1); }
         if (pb === 'TCLD') { $("#hide15").show(); GetRightFromDBNotFill(2); }
         if (pb === 'KCS') { $("#hide17").show(); GetRightFromDBNotFill(3); }
         if (pb === 'DK') { $("#hide14").show(); GetRightFromDBNotFill(4); }
@@ -997,7 +997,7 @@
             module20 = 0;
         }
         var pb = document.getElementById('MaPB').value;
-        if (pb === 'CDVT') { var rights = GetAcceptRights(right1); }
+        if (pb === 'CV') { var rights = GetAcceptRights(right1); }
         if (pb === 'TCLD') { var rights = GetAcceptRights(right2); }
         if (pb === 'KCS') { var rights = GetAcceptRights(right3); }
         if (pb === 'DK') { var rights = GetAcceptRights(right4); }
@@ -1176,7 +1176,7 @@
         //    GetAcceptRights(right16) +
         //    GetAcceptRights(right19);
         var pb = document.getElementById('MaPB').value;
-        if (pb === 'CDVT') { var rights = GetAcceptRights(right1); }
+        if (pb === 'CV') { var rights = GetAcceptRights(right1); }
         if (pb === 'TCLD') { var rights = GetAcceptRights(right2); }
         if (pb === 'KCS') { var rights = GetAcceptRights(right3); }
         if (pb === 'DK') { var rights = GetAcceptRights(right4); }
