@@ -868,20 +868,20 @@
         show();
         var pb = document.getElementById('MaPB').value;
         if (pb === 'CV') { $("#hide16").show(); GetRightFromDBNotFill(1); }
-        if (pb === 'TCLD') { $("#hide15").show(); GetRightFromDBNotFill(2); }
+        if (pb === 'TCLĐ') { $("#hide15").show(); GetRightFromDBNotFill(2); }
         if (pb === 'KCS') { $("#hide17").show(); GetRightFromDBNotFill(3); }
-        if (pb === 'DK') { $("#hide14").show(); GetRightFromDBNotFill(4); }
-        if (pb === 'BGD') { $("#hide18").show(); GetRightFromDBNotFill(5); }
-        if (pb === 'PXCDM') { $("#hide7").show(); GetRightFromDBNotFill(13); }
-        if (pb === 'PXCKSC') { $("#hide2").show(); GetRightFromDBNotFill(19); }
+        if (pb === 'ĐK') { $("#hide14").show(); GetRightFromDBNotFill(4); }
+        if (pb === 'BGĐ') { $("#hide18").show(); GetRightFromDBNotFill(5); }
+        if (pb === 'CĐM') { $("#hide7").show(); GetRightFromDBNotFill(13); }
+        if (pb === 'CKSC') { $("#hide2").show(); GetRightFromDBNotFill(19); }
         if (pb === 'KCM') { $("#hide1").show(); GetRightFromDBNotFill(18); }
-        if (pb.substring(0, 4) === 'PXDL') { $("#hide3").show(); GetRightFromDBNotFill(8); }
-        if (pb === 'PXDS') { $("#hide11").show(); GetRightFromDBNotFill(12); }
-        if (pb.substring(0, 4) === 'PXKT') { $("#hide13").show(); GetRightFromDBNotFill(6); }
-        if (pb === 'PXPV') { $("#hide10").show(); GetRightFromDBNotFill(11); }
-        if (pb === 'PXTGQLKM') { $("#hide8").show(); GetRightFromDBNotFill(14); }
-        if (pb.substring(0, 4) === 'PXVT') { $("#hide4").show(); GetRightFromDBNotFill(9); }
-        if (pb === 'PXXD') { $("#hide9").show(); GetRightFromDBNotFill(15); }
+        if (pb.substring(0, 2) === 'ĐL') { $("#hide3").show(); GetRightFromDBNotFill(8); }
+        if (pb === 'ĐS') { $("#hide11").show(); GetRightFromDBNotFill(12); }
+        if (pb.substring(0, 2) === 'KT') { $("#hide13").show(); GetRightFromDBNotFill(6); }
+        if (pb === 'PV') { $("#hide10").show(); GetRightFromDBNotFill(11); }
+        if (pb === 'TG-QLKM') { $("#hide8").show(); GetRightFromDBNotFill(14); }
+        if (pb.substring(0, 3) === 'VTL') { $("#hide4").show(); GetRightFromDBNotFill(9); }
+        if (pb === 'XD') { $("#hide9").show(); GetRightFromDBNotFill(15); }
         if (pb === 'AT') { $("#hide19").show(); GetRightFromDBNotFill(17); }
         if (pb === 'PXCBT') { $("#hide20").show(); GetRightFromDBNotFill(20); }
     }
@@ -998,20 +998,20 @@
         }
         var pb = document.getElementById('MaPB').value;
         if (pb === 'CV') { var rights = GetAcceptRights(right1); }
-        if (pb === 'TCLD') { var rights = GetAcceptRights(right2); }
+        if (pb === 'TCLĐ') { var rights = GetAcceptRights(right2); }
         if (pb === 'KCS') { var rights = GetAcceptRights(right3); }
-        if (pb === 'DK') { var rights = GetAcceptRights(right4); }
-        if (pb === 'BGD') { var rights = GetAcceptRights(right5); }
-        if (pb === 'PXCDM') { var rights = GetAcceptRights(right13); }
-        if (pb === 'PXCKSC') { var rights = GetAcceptRights(right19); }
+        if (pb === 'ĐK') { var rights = GetAcceptRights(right4); }
+        if (pb === 'BGĐ') { var rights = GetAcceptRights(right5); }
+        if (pb === 'CĐM') { var rights = GetAcceptRights(right13); }
+        if (pb === 'CKSC') { var rights = GetAcceptRights(right19); }
         if (pb === 'KCM') { var rights = GetAcceptRights(right18); }
-        if (pb.substring(0, 4) === 'PXDL') { var rights = GetAcceptRights(right8); }
-        if (pb === 'PXDS') { var rights = GetAcceptRights(right12); }
-        if (pb.substring(0, 4) === 'PXKT') { var rights = GetAcceptRights(right6); }
-        if (pb === 'PXPV') { var rights = GetAcceptRights(right11); }
-        if (pb === 'PXTGQLKM') { var rights = GetAcceptRights(right14); }
-        if (pb.substring(0, 4) === 'PXVT') { var rights = GetAcceptRights(right9); }
-        if (pb === 'PXXD') { var rights = GetAcceptRights(right15); }
+        if (pb.substring(0, 2) === 'ĐL') { var rights = GetAcceptRights(right8); }
+        if (pb === 'ĐS') { var rights = GetAcceptRights(right12); }
+        if (pb.substring(0, 2) === 'KT') { var rights = GetAcceptRights(right6); }
+        if (pb === 'PV') { var rights = GetAcceptRights(right11); }
+        if (pb === 'TG-QLKM') { var rights = GetAcceptRights(right14); }
+        if (pb.substring(0, 3) === 'VTL') { var rights = GetAcceptRights(right9); }
+        if (pb === 'XD') { var rights = GetAcceptRights(right15); }
         if (pb === 'AT') { var rights = GetAcceptRights(right17); }
         if (pb === 'PXCBT') { var rights = GetAcceptRights(right20); }
         var empObj = {
@@ -1177,20 +1177,20 @@
         //    GetAcceptRights(right19);
         var pb = document.getElementById('MaPB').value;
         if (pb === 'CV') { var rights = GetAcceptRights(right1); }
-        if (pb === 'TCLD') { var rights = GetAcceptRights(right2); }
+        if (pb === 'TCLĐ') { var rights = GetAcceptRights(right2); }
         if (pb === 'KCS') { var rights = GetAcceptRights(right3); }
-        if (pb === 'DK') { var rights = GetAcceptRights(right4); }
-        if (pb === 'BGD') { var rights = GetAcceptRights(right5); }
-        if (pb === 'PXCDM') { var rights = GetAcceptRights(right13); }
-        if (pb === 'PXCKSC') { var rights = GetAcceptRights(right19); }
+        if (pb === 'ĐK') { var rights = GetAcceptRights(right4); }
+        if (pb === 'BGĐ') { var rights = GetAcceptRights(right5); }
+        if (pb === 'CĐM') { var rights = GetAcceptRights(right13); }
+        if (pb === 'CKSC') { var rights = GetAcceptRights(right19); }
         if (pb === 'KCM') { var rights = GetAcceptRights(right18); }
-        if (pb.substring(0, 4) === 'PXDL') { var rights = GetAcceptRights(right8); }
-        if (pb === 'PXDS') { var rights = GetAcceptRights(right12); }
-        if (pb.substring(0, 4) === 'PXKT') { var rights = GetAcceptRights(right6); }
-        if (pb === 'PXPV') { var rights = GetAcceptRights(right11); }
-        if (pb === 'PXTGQLKM') { var rights = GetAcceptRights(right14); }
-        if (pb.substring(0, 4) === 'PXVT') { var rights = GetAcceptRights(right9); }
-        if (pb === 'PXXD') { var rights = GetAcceptRights(right15); }
+        if (pb.substring(0, 2) === 'ĐL') { var rights = GetAcceptRights(right8); }
+        if (pb === 'ĐS') { var rights = GetAcceptRights(right12); }
+        if (pb.substring(0, 2) === 'KT') { var rights = GetAcceptRights(right6); }
+        if (pb === 'PV') { var rights = GetAcceptRights(right11); }
+        if (pb === 'TG-QLKM') { var rights = GetAcceptRights(right14); }
+        if (pb.substring(0, 3) === 'VTL') { var rights = GetAcceptRights(right9); }
+        if (pb === 'XD') { var rights = GetAcceptRights(right15); }
         if (pb === 'AT') { var rights = GetAcceptRights(right17); }
         if (pb === 'PXCBT') { var rights = GetAcceptRights(right20); }
         var empObj = {

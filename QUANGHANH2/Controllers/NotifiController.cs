@@ -24,7 +24,8 @@ namespace QUANGHANH2.Controllers
         {
             List<main> total = new List<main>();
             var testTime = DateTime.Now.AddDays(10);
-            var hanDangKiem = db.Equipments.Where(x => x.durationOfInspection <= testTime && x.durationOfInspection >= DateTime.Now).OrderBy(x => x.durationOfInspection).
+            var testTimeKD = DateTime.Now.AddDays(60);
+            var hanDangKiem = db.Equipments.Where(x => x.durationOfInspection <= testTimeKD && x.durationOfInspection >= DateTime.Now).OrderBy(x => x.durationOfInspection).
                                     Select(x => new main
                                     {
                                         type = 0,
