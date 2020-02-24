@@ -113,11 +113,12 @@
                     //set data to TongDiemLuong, TongThan, TongMetLo, TongXen , Ngay and Ca inputs
                     $("#date").val(data["date"]);
                     $("#shift").val(data["shift"]);
-                    $("#effort_sum").val(data["list_sum"][0]["TotalEffort"]);
-                    $("#than").val(data["list_sum"][0]["ThanThucHien"]);
-                    $("#metlo").val(data["list_sum"][0]["MetLoThucHien"]);
-                    $("#xen").val(data["list_sum"][0]["XenThucHien"]);
-
+                    if (data["list_sum"].length != 0) {
+                        $("#effort_sum").val(data["list_sum"][0]["TotalEffort"]);
+                        $("#than").val(data["list_sum"][0]["ThanThucHien"]);
+                        $("#metlo").val(data["list_sum"][0]["MetLoThucHien"]);
+                        $("#xen").val(data["list_sum"][0]["XenThucHien"]);
+                    }
                     //Disabled "Lưu" button when table have no data
                     list_nsld = data["list_nsld"];
                     if (list_nsld.length == 0) {
