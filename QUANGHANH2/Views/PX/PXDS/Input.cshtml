@@ -34,6 +34,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="row left">
+                    <div class="col l12 m12 s12">
+                        <button class="btn blue darken-2 btn-small" id="saveBtn">Lưu đăng ký</button>
+                    </div>
+                </div>
                 <div class="col">
                     <table class="table table-bordered striped table-responsive centered"
                            style="margin-top:30px; text-align:center;" id="tbl_details">
@@ -46,8 +51,14 @@
                                 <th colspan="2">Thứ 4</th>
                                 <th colspan="2">Thứ 5</th>
                                 <th colspan="2">Thứ 6</th>
+                                <th colspan="2">Thứ 7</th>
+                                <th colspan="2">Chủ nhật</th>
                             </tr>
                             <tr>
+                                <th>Kế Hoạch</th>
+                                <th>Thực tế</th>
+                                <th>Kế Hoạch</th>
+                                <th>Thực tế</th>
                                 <th>Kế Hoạch</th>
                                 <th>Thực tế</th>
                                 <th>Kế Hoạch</th>
@@ -62,11 +73,7 @@
                         </thead>
                     </table>
                 </div>
-                <div class="row center">
-                    <div class="col l12 m12 s12 input-field center">
-                        <button class="btn blue darken-2 btn-small" id="saveBtn">Lưu đăng ký</button>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -154,6 +161,30 @@
                             return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMealChange('${domId}', '${row['DepartmentId']}', 4)` + '" ' + '/>';
                         }
                     },
+                    {
+                        "data": "RegSaturdayPlan", "name": "RegSaturdayPlan", "render": function (data, type, row, meta) {
+                            let domId = `${row['DepartmentId']}_reg_sat_plan`
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMealChange('${domId}', '${row['DepartmentId']}', 15)` + '" ' + '/>';
+                        }
+                    },
+                    {
+                        "data": "RegSaturday", "name": "RegSaturday", "render": function (data, type, row, meta) {
+                            let domId = `${row['DepartmentId']}_reg_sat`
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMealChange('${domId}', '${row['DepartmentId']}', 5)` + '" ' + '/>';
+                        }
+                    },
+                    {
+                        "data": "RegSundayPlan", "name": "RegSundayPlan", "render": function (data, type, row, meta) {
+                            let domId = `${row['DepartmentId']}_reg_sun_plan`
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMealChange('${domId}', '${row['DepartmentId']}', 16)` + '" ' + '/>';
+                        }
+                    },
+                    {
+                        "data": "RegSunday", "name": "RegSunday", "render": function (data, type, row, meta) {
+                            let domId = `${row['DepartmentId']}_reg_sun`
+                            return `<input type="number" min="0" value="${data}" class="form-control" id="` + domId + '" ' + 'oninput="' + `handleRegMealChange('${domId}', '${row['DepartmentId']}', 6)` + '" ' + '/>';
+                        }
+                    }
                 ],
                 "processing": true,
                 "order": [0, "asc"],
@@ -229,6 +260,12 @@
                         case 4:
                             payload[i].RegFriday = parse2PosInt(val);
                             break;
+                        case 5:
+                            payload[i].RegSaturday = parse2PosInt(val);
+                            break;
+                        case 6:
+                            payload[i].RegSunday = parse2PosInt(val);
+                            break;
                         case 10:
                             payload[i].RegMondayPlan = parse2PosInt(val);
                             break;
@@ -243,6 +280,12 @@
                             break;
                         case 14:
                             payload[i].RegFridayPlan = parse2PosInt(val);
+                            break;
+                        case 15:
+                            payload[i].RegSaturdayPlan = parse2PosInt(val);
+                            break;
+                        case 16:
+                            payload[i].RegSundayPlan = parse2PosInt(val);
                             break;
                     }
                 }

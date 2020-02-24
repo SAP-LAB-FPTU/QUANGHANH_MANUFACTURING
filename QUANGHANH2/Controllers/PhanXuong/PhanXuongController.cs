@@ -1013,7 +1013,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             var timeHelper = new TimeHelper();
             DateTime mondayOfNextWeek = timeHelper.StartOfNextWeek(DateTime.Now, DayOfWeek.Monday);
             ViewBag.MondayOfNextWeek = mondayOfNextWeek.Date.ToString("dd/MM/yyyy");
-            ViewBag.FridayOfNextWeek = mondayOfNextWeek.AddDays(5).Date.ToString("dd/MM/yyyy");
+            ViewBag.FridayOfNextWeek = mondayOfNextWeek.AddDays(7).Date.ToString("dd/MM/yyyy");
             return View("/Views/PX/PXDS/Input.cshtml");
         }
 
