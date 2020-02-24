@@ -16,7 +16,7 @@
         })
     });
     $(document).ready(function () {
-        $("#dateforsearch").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
+        $("#dateforsearch").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now.AddDays(-1))");
         $("#ngayreport").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
         var url_string = window.location.href;
         var url = new URL(url_string);
@@ -41,7 +41,7 @@
                        data-language='vi'
                        data-min-view="days"
                        data-view="days"
-                       data-date-format="dd/mm/yyyy" value="@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)" />
+                       data-date-format="dd/mm/yyyy" value="" />
                 <br /><br />
 
             </h3>
@@ -516,7 +516,7 @@
     <script>
         $('#dateforsearch').datepicker({
             language: 'vi',
-            maxDate: new Date() // Now can select only dates, which goes after today
+            maxDate: new Date()-1 // Now can select only dates, which goes after today
         })
         $(document).ready(function () {
             $('.datepicker-inline').remove();
