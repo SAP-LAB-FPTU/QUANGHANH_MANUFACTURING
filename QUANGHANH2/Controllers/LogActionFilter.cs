@@ -27,7 +27,7 @@ namespace QUANGHANH2.Controllers
             var Request = HttpContext.Current.Request;
             List<string> except = new List<string>() { "/Notifi/CDVT", "/" };     //  thêm path loại trừ tại đây
             bool hasMatch = except.Any(x => x.Equals(Request.FilePath));
-            if (hasMatch)
+            if (hasMatch || Request.FilePath.ToLower().Contains("noti"))
                 return;
             string ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
 
