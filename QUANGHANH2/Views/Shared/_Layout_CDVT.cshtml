@@ -328,9 +328,12 @@
                                     <a href="javascript: void(0);" class="collapsible-header has-arrow"><i class="material-icons">event_available</i><span class="hide-menu">Camera</span></a>
                                     <div class="collapsible-body">
                                         <ul>
-                                            <li>
-                                                <a href="/phong-cdvt/camera/danh-sach"><i class="material-icons">adjust</i><span class="hide-menu">Danh sách camera</span></a>
-                                            </li>
+                                            @if (rights.Contains("193"))
+                                            {
+                                                <li>
+                                                    <a href="/phong-cdvt/camera/danh-sach"><i class="material-icons">adjust</i><span class="hide-menu">Danh sách camera</span></a>
+                                                </li>
+                                            }
                                             <li>
                                                 <a href="/phong-cdvt/camera/su-co"><i class="material-icons">adjust</i><span class="hide-menu">Sự cố</span></a>
                                             </li>
@@ -586,7 +589,7 @@
                     }
                 });
             }, 15000);
-            
+
         });
         function updateStatus() {
             var empObj = {
