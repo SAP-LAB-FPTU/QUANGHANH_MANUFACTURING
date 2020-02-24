@@ -282,14 +282,14 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 string Fextension = Path.GetExtension(fileName);
                                 var timeStamp = DateTime.Now.ToFileTime();
                                 fileName = ngayNhap.Replace("/", "") + ca + phanxuong + timeStamp + Fextension;
-                                string path = "/FileContainer/PhanXuongLenDK/";
-                                if (!Directory.Exists(HostingEnvironment.MapPath(path)))
+                                string path = @"D:\QLSX_FileContainer\PhanXuongLenDK\";
+                                if (!Directory.Exists(path))
                                 {
-                                    Directory.CreateDirectory(HostingEnvironment.MapPath(path));
+                                    Directory.CreateDirectory(path);
                                 }
                                 if (file.ContentLength > 0)
                                 {
-                                    file.SaveAs(HostingEnvironment.MapPath(path + fileName));
+                                    file.SaveAs(path + fileName);
                                 }
                                 sql = "insert into FileBaoCao(baoCaoID,fileName,fileNameDisplay,nguoinhap_id,uploadTime,chuthich)\n" +
                                     "values(@ID,@filename,@fileNameDisplay,@nguoinhap,@time,@chuthich)";
@@ -345,7 +345,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                         {
                             string sql = "select * from filebaocao where id=@ID";
                             string fileName = db.Database.SqlQuery<FileBaoCao>(sql, new SqlParameter("id", Int32.Parse(id))).ToList<FileBaoCao>()[0].fileName;
-                            string path = HostingEnvironment.MapPath(@"/FileContainer/PhanXuongLenDK/" + fileName);
+                            string path = @"D:\QLSX_FileContainer\PhanXuongLenDK\" + fileName;
                             if (System.IO.File.Exists(path))
                             {
                                 System.IO.File.Delete(path);
@@ -390,7 +390,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
             MemoryStream memoryStream = new MemoryStream();
             string handle = Guid.NewGuid().ToString();
-            using (FileStream fileStream = new FileStream(HostingEnvironment.MapPath(location), FileMode.Open, FileAccess.Read))
+            using (FileStream fileStream = new FileStream(location, FileMode.Open, FileAccess.Read))
             {
                 fileStream.CopyTo(memoryStream);
                 memoryStream.Position = 0;
