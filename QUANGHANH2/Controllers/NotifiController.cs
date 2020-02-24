@@ -129,6 +129,65 @@ namespace QUANGHANH2.Controllers
             return Json(ins, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult notifi21()
+        {
+            string depart = Session["departID"].ToString();
+            int month = DateTime.Now.Month;
+            int year = DateTime.Now.Year;
+            var check = db.Notifications.Where(x => x.description == "21" && x.department_id == depart && x.date.Month == month && x.date.Year == year).FirstOrDefault();
+            if(check == null)
+            {
+                var qd = db.SupplyPlans.Where(x => x.status == 1 && x.date.Month == month && x.date.Year == year && x.departmentid == depart).ToList();
+                if (qd.Count == 0)
+                {
+                    Notification no = new Notification();
+                    no.id_problem = 21;
+                    no.date = DateTime.Now.Date;
+                    no.description = "21";
+                    no.department_id = depart;
+                    no.isread = false;
+                    db.Notifications.Add(no);
+                    db.SaveChanges();
+                }
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult notifiNonXC()
+        {
+            string depart = Session["departID"].ToString();
+            var qd = db.Notifications.Where(x=>x.department_id == depart && x.isread == false && x.description == "21").ToList();
+            noti ins = new noti();
+            ins.text = "";
+            ins.title = "Thông báo xin cấp vật tư";
+            if (qd.Count != 0)
+            {
+                List<int> ints = new List<int>();
+                foreach (Notification i in qd)
+                {
+                    ints.Add(i.id_noti);
+                }
+                ins.text = "Phân xưởng chưa xin cấp vật tư trong tháng này.";
+                ins.id = ints;
+            }
+            return Json(ins, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult notifiPXXC()
+        {
+            var qd = db.Notifications.Where(x => x.isread == false && x.description == "XCVT").FirstOrDefault();
+            noti ins = new noti();
+            ins.text = "";
+            ins.title = "Thông báo xin cấp vật tư";
+            if (qd != null)
+            {
+                var depart = db.Departments.Where(x => x.department_id == qd.department_id).FirstOrDefault();
+                List<int> ints = new List<int>();
+                ints.Add(qd.id_noti);
+                ins.text = depart.department_name + " vừa xin cấp vật tư.";
+                ins.id = ints;
+            }
+            return Json(ins, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult updateStatus(string id)
         {
             try

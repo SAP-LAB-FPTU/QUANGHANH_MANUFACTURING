@@ -129,6 +129,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                     }
                     db.Database.ExecuteSqlCommand(bulk_insert);
                     db.SaveChanges();
+
                     transaction.Commit();
                     return Json(new { success = true, message = "Chỉnh sửa thành công" }, JsonRequestBehavior.AllowGet);
                 }
@@ -153,6 +154,15 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                 {
                     db.Database.ExecuteSqlCommand("update Supplyplan set status=1,date=getdate() where departmentid=@departmentid and month(date)=month(getDate())",
                     new SqlParameter("departmentid", department_id));
+                    db.SaveChanges();
+
+                    Notification nt = new Notification();
+                    nt.id_problem = 0;
+                    nt.description = "XCVT";
+                    nt.department_id = department_id;
+                    nt.date = DateTime.Now.Date;
+                    nt.isread = false;
+                    db.Notifications.Add(nt);
                     db.SaveChanges();
 
                     transaction.Commit();
@@ -201,7 +211,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
 
         }
         //Duyệt Cấp
-        [Auther(RightID = "33,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx/duyet-cap/getinformation")]
         [HttpPost]
         public ActionResult EquipmentInformation()
@@ -244,7 +254,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                 return DBContext.Database.SqlQuery<int>(@"select count(quantity_provide)'number' from supplyplan
                                                        where quantity_provide is not null").First() >= 1;
             } }
-        [Auther(RightID = "33,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx/duyet-cap/getListSupply")]
         [HttpPost]
         public ActionResult ListSupplyGeted(String equipmentId)
@@ -264,7 +274,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                 }
             }
         }
-        [Auther(RightID = "33,179,180,181,182,183,184,185,186,187,188,189")]
+        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx/duyet-cap/edit")]
         [HttpPost]
         public ActionResult EditListSupplyGeted(List<SupplyPlanDB> listvattu )

@@ -555,10 +555,13 @@
                     contentType: "application/json;charset=utf-8",
                     success: function (result) {
                         if (result.text != '') {
-                            document.getElementById('ids').value = result.id;
-                            $("#title-noti").text(result.title);
-                            $("#text-noti").text(result.text);
-                            $("#notifi").modal('open');
+                            if ($('#notifi').is(':visible')) {
+                            } else {
+                                document.getElementById('ids').value = result.id;
+                                $("#title-noti").text(result.title);
+                                $("#text-noti").text(result.text);
+                                $("#notifi").modal('open');
+                            }
                         }
                     },
                     error: function (errormessage) {
@@ -586,7 +589,27 @@
                     }
                 });
             }, 15000);
-            
+
+            setInterval(function () {
+                $.ajax({
+                    url: "/Notifi/notifiPXXC",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.text != '') {
+                            if ($('#notifi').is(':visible')) {
+                            } else {
+                                document.getElementById('ids').value = result.id;
+                                $("#title-noti").text(result.title);
+                                $("#text-noti").text(result.text);
+                                $("#notifi").modal('open');
+                            }
+                        }
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+            }, 15000);
         });
         function updateStatus() {
             var empObj = {
