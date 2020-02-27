@@ -53,6 +53,10 @@
         font-size: 25px;
         cursor: pointer;
     }
+
+    [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: unset !important;
+    }
 </style>
 <div class="row" id="chondieuchuyen">
 
@@ -177,7 +181,7 @@
                                                     Thang bậc lương
                                                     <input type="hidden" id="thang-selectAll" />
                                                 </th>
-                                                <th style="width: 200px" >
+                                                <th style="width: 200px">
                                                     Phụ cấp
                                                     <input type="hidden" id="phucap-selectAll" />
                                                 </th>
@@ -190,9 +194,9 @@
                                                         </label>
                                                         <select id="bac-selectAll" class="form-control" disabled>
                                                             @*@foreach (var pb in ViewBag.listBacLuong)
-                                                            {
-                                                                <option value="@pb.MaBacLuong">@pb.MucBacLuong</option>
-                                                            }*@
+                                                                {
+                                                                    <option value="@pb.MaBacLuong">@pb.MucBacLuong</option>
+                                                                }*@
                                                         </select>
                                                     </div>
                                                 </th>
@@ -200,7 +204,16 @@
                                                     Mức lương
                                                     <input type="hidden" id="luong-selectAll" />
                                                 </th>
-                                                <th style="width: 300px">Lý do điều động</th>
+                                                <th style="width: 300px">
+                                                    Lý do điều động
+                                                    <div class="select-all">
+                                                        <label>
+                                                            <input class="my_checkbox" id="check-select-all-note" type="checkbox" onclick="">
+                                                            <span>Chọn cho tất cả</span>
+                                                        </label>
+                                                        <input id="lydo-all" type="text" class="form-control" placeholder="Lý do điều động" disabled>
+                                                    </div>
+                                                </th>
                                             </tr>
                                         </thead>
 
@@ -704,8 +717,8 @@
             });
         }
 
-        
-        
+
+
     </script>
     <script>
         //check selected index:
@@ -870,7 +883,7 @@
         $("#check-select-all-bac").click(function (e) {
             if ($("#check-select-all-job").prop("checked") == false) {
                 e.preventDefault();
-            } 
+            }
         })
         $("#check-select-all-bac").change(function () {
             if ($(this).prop("checked") == false) {
@@ -882,6 +895,25 @@
                 $(".bac").append($("#bac-selectAll").html());
                 $(".bac").val($("#bac-selectAll").val());
                 $("#bac-selectAll").prop("disabled", false);
+            }
+        });
+
+        $("#check-select-all-note").change(function () {
+            if ($(this).prop("checked") == false) {
+                $(".lydo").prop("disabled", false)
+                $("#lydo-all").prop("disabled", true);
+            } else {
+                $(".lydo").prop("disabled", true);
+                $(".lydo").empty();
+                $(".lydo").append($("#lydo-all").html());
+                $(".lydo").val($("#lydo-all").val());
+                $("#lydo-all").prop("disabled", false);
+            }
+        });
+
+        $("#lydo-all").keydown(function () {
+            if ($("#check-select-all-note").prop("checked") == true) {
+                $(".lydo").val($(this).val());
             }
         });
 
@@ -1132,15 +1164,25 @@
     <script>
         function AddComma(Num) { //function to add commas to textboxes
             Num += '';
-            Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
-            Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
-            x = Num.split('.');
+            Num = Num.replace('.', ''); Num = Num.replace('.', ''); Num = Num.replace('.', '');
+            Num = Num.replace('.', ''); Num = Num.replace('.', ''); Num = Num.replace('.', '');
+            x = Num.split(',');
             x1 = x[0];
-            x2 = x.length > 1 ? '.' + x[1] : '';
+            x2 = x.length > 1 ? ',' + x[1] : '';
             var rgx = /(\d+)(\d{3})/;
             while (rgx.test(x1))
-                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                x1 = x1.replace(rgx, '$1' + '.' + '$2');
             return x1 + x2;
+            //Num += '';
+            //Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+            //Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
+            //x = Num.split('.');
+            //x1 = x[0];
+            //x2 = x.length > 1 ? '.' + x[1] : '';
+            //var rgx = /(\d+)(\d{3})/;
+            //while (rgx.test(x1))
+            //    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            //return x1 + x2;
         }
     </script>
 
@@ -1258,7 +1300,7 @@
             }
 
         });
-       
+
     </script>
 
     <script>
