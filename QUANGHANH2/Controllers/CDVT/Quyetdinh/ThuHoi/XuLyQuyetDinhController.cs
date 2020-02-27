@@ -100,14 +100,6 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                             Documentary docu = DBContext.Documentaries.Find(idnumber);
                             docu.documentary_status = 2;
 
-                            Notification noti = new Notification();
-                            noti.date = DateTime.Now.Date;
-                            noti.department_id = docu.department_id_to;
-                            noti.description = "thu hoi 2";
-                            noti.id_problem = docu.documentary_id;
-                            noti.isread = false;
-                            DBContext.Notifications.Add(noti);
-                            DBContext.SaveChanges();
                         }
 
                   

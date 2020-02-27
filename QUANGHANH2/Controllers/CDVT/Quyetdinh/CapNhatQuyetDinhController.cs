@@ -33,22 +33,27 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                     if (doc.documentary_code != null)
                     {
                         int affected = 0;
+                        Notification noti = new Notification();
+                        noti.description = "";
                         switch (doc.documentary_type)
                         {
                             case 1:
                                 affected = db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 3
 where equipmentId in
 (select equipmentId from Documentary_repair_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
+                                noti.description = "sua chua";
                                 break;
                             case 2:
                                 affected = db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 5
 where equipmentId in
 (select equipmentId from Documentary_maintain_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
+                                noti.description = "bao duong";
                                 break;
                             case 3:
                                 var temp = db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 6
 where equipmentId in
 (select equipmentId from Documentary_moveline_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
+                                noti.description = "dieu dong";
                                 break;
                             case 4:
                                 affected = db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 7
@@ -64,16 +69,27 @@ where equipmentId in
                                 affected = db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 9
 where equipmentId in 
 (select equipmentId from Documentary_big_maintain_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
+                                noti.description = "trung dai tu";
                                 break;
                             case 7:
                                 affected = db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 16
 where equipmentId in
 (select equipmentId from Documentary_Improve_Detail where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
+                                noti.description = "cai tien";
                                 break;
                             case 8:
                                 break;
                             default:
                                 return Json(new { success = false, message = "Loại quyết định không tồn tại" });
+                        }
+                        if (!noti.description.Equals(""))
+                        {
+                            noti.date = DateTime.Now.Date;
+                            noti.department_id = doc.department_id_to;
+                            noti.id_problem = doc.documentary_id;
+                            noti.isread = false;
+                            db.Notifications.Add(noti);
+                            db.SaveChanges();
                         }
                     }
 

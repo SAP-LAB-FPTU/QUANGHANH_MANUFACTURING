@@ -551,6 +551,63 @@
                 }
             });
 
+                $.ajax({
+                    url: "/Notifi/notifiSC",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.text != '') {
+                            if ($('#notifi').is(':visible')) {
+                            } else {
+                                document.getElementById('ids').value = result.id;
+                                $("#title-noti").text(result.title);
+                                $("#text-noti").text(result.text);
+                                $("#notifi").modal('open');
+                            }
+                        }
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+
+                $.ajax({
+                    url: "/Notifi/notifiQD2",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.text != '') {
+                            if ($('#notifi').is(':visible')) {
+                            } else {
+                                document.getElementById('ids').value = result.id;
+                                $("#title-noti").text(result.title);
+                                $("#text-noti").text(result.text);
+                                $("#notifi").modal('open');
+                            }
+                        }
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+
+                $.ajax({
+                    url: "/Notifi/notifiPXXC",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.text != '') {
+                            if ($('#notifi').is(':visible')) {
+                            } else {
+                                document.getElementById('ids').value = result.id;
+                                $("#title-noti").text(result.title);
+                                $("#text-noti").text(result.text);
+                                $("#notifi").modal('open');
+                            }
+                        }
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+
             setInterval(function () {
                 $.ajax({
                     url: "/Notifi/notifiSC",
