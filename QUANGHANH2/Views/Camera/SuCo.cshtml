@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "SuCo";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    List<string> rights = (List<string>)Session["RightIDs"];
 }
 
 <!-- This page CSS -->
@@ -49,146 +50,23 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col s12">
+                        <a class="waves-effect waves-light btn-small blue modal-trigger" id="searchButton1">Tìm kiếm</a>
+                    </div>
                 </div>
             </form>
             <div class="col s12 left">
-
-
-                <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
-
-                <form action="" method="POST" id="myeditform" role="form">
-                    <div class="modal" id="myedit">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3 class="modal-title">Sửa sự cố</h3>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col s12 m6">
-                                        <div class="col s12 m6">
-                                            <div class="form-group">
-                                                <label for="date">Thời gian bắt đầu sự cố : </label>
-                                                <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-start-edit" />
-                                            </div>
-                                        </div>
-                                        <div class="col s12 m3">
-                                            <div class="form-group">
-                                                <label for="date">Giờ : </label>
-                                                <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-start-edit" />
-                                            </div>
-                                        </div>
-                                        <div class="col s12 m3">
-                                            <div class="form-group">
-                                                <label for="date">Phút : </label>
-                                                <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-start-edit" />
-                                            </div>
-                                        </div>
-                                        <div class="col s12 m12">
-                                            <div class="form-group">
-                                                <label for="id">Số lượng hỏng : </label>
-                                                <input required type="number" min="0" class="form-control" value="" id="quan-edit" />
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="col s12 m6">
-                                        <div class="col s12 m6">
-                                            <div class="form-group">
-                                                <label for="date">Thời gian kết thúc sự cố : </label>
-                                                <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-end-edit" />
-                                                <input type='hidden' class='datepicker-here form-control' id="incident-edit" />
-                                            </div>
-                                        </div>
-                                        <div class="col s12 m3">
-                                            <div class="form-group">
-                                                <label for="date">Giờ : </label>
-                                                <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-end-edit" />
-                                            </div>
-                                        </div>
-                                        <div class="col s12 m3">
-                                            <div class="form-group">
-                                                <label for="date">Phút : </label>
-                                                <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-end-edit" />
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col s12 m12">
-                                            <div class="form-group">
-                                                <label for="supplier">Lý do sự cố : </label>
-                                                <input required type="text" class="form-control" id="reason-edit" />
-                                            </div>
-                                        </div>
-                                        <div class="col s12 m12">
-                                            <div class="form-group">
-                                                <label for="id">Hệ thống : </label>
-                                                <input required type="text" list="department_name" class="form-control" value="" id="department-edit" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</button>
-                                <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-edit-button">Thoát</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-                <form action="" method="POST" id="myupdateform" role="form">
-                    <div id="myupdate" class="modal">
-                        <div class="modal-content">
-                            <div class="modal-header center">
-                                <h3><b>Cập nhật sự cố</b></h3>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col s12 m4">
-                                        <div class="form-group">
-                                            <label for="date">Thời gian kết thúc sự cố : </label>
-                                            <input required type='text' class='datepicker-here form-control minDate' data-language='vi' value="" id="date-end-update" />
-                                        </div>
-                                    </div>
-                                    <div class="col s12 m2">
-                                        <div class="form-group">
-                                            <label for="date">Giờ : </label>
-                                            <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-end-update" />
-                                        </div>
-                                    </div>
-                                    <div class="col s12 m2">
-                                        <div class="form-group">
-                                            <label for="date">Phút : </label>
-                                            <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-end-update" />
-                                        </div>
-                                    </div>
-                                    <div class="col s12 m4">
-                                        <div class="form-group">
-                                            <label for="name">Lý do sự cố : </label>
-                                            <input required type="text" name="reason" class="form-control" id="reason-update" />
-                                            <input type="hidden" value="" class="form-control" id="incident-update" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</button>
-                                <button type="button" class="btn light-blue modal-close darken-2" id="exit-update-button">Đóng</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-                @*<a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>*@
-
-
+                @if (rights.Contains("201"))
+                {
+                    <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
+                }
             </div>
             <div class="col s12 table_container">
                 <table class="table-bordered striped table-responsive centered"
                        style="margin-top:30px; text-align:center;" id="complex_header">
                     <thead>
                         <tr>
-                            <th>Phòng ban</th>
+                            <th>Đơn vị trực thuộc</th>
                             <th>Hệ thống</th>
                             <th>Số camera hỏng</th>
                             <th>Tình trạng ổ cứng</th>
@@ -196,7 +74,10 @@
                             <th>Thời gian bắt đầu sự cố</th>
                             <th>Thời gian kết thúc sự cố</th>
                             <th>Tình trạng kỹ thuật camera</th>
-                            <th></th>
+                            @if (rights.Contains("202"))
+                            {
+                                <th></th>
+                            }
                         </tr>
                     </thead>
                 </table>
@@ -205,7 +86,148 @@
     </div>
 </div>
 
-<form action="" method="POST" id="myaddform" role="form">
+<datalist id="department_name">
+    @foreach (var item in ViewBag.departments)
+    {
+        <option>@item.room_name</option>
+    }
+</datalist>
+<!-- ============================================================== -->
+<!-- Apps -->
+<!-- ============================================================== -->
+
+<script>
+    $('.maxDate').datepicker({
+        language: 'vi',
+        maxDate: new Date(),
+        minDate: new Date("1/1/1900")
+    })
+    $('.minDate').datepicker({
+        language: 'vi',
+        maxDate: new Date() // Now can select only dates, which goes after today
+    })
+    $(document).ready(function () {
+        var dt = new Date();
+        $('#date-end-add').val(dt.getDate());
+        $('.datepicker-inline').remove();
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '/' + mm + '/' + yyyy;
+        $(".minDate").each(function () {
+            $(this).val(today);
+        });
+        today = new Date("1/1/1900");
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '/' + mm + '/' + yyyy;
+        $(".maxDate").val(today)
+    });
+
+    var dataTable;
+    $("#pre-load").show();
+
+    $(document).ready(function () {
+        dataTable = $('#complex_header').DataTable({
+            "language": {
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                "paginate": {
+                    "first": "Trang đầu",
+                    "last": "Trang cuối",
+                    "next": "Trang sau",
+                    "previous": "Trang trước"
+                }
+            },
+            "ajax": {
+                "url": "/camera/su-co",
+                "type": "POST",
+                "datatype": "json",
+                "data": {
+                    "depart": function () { return $('#depart-search').val() },
+                    "room": function () { return $('#room-search').val() },
+                    "dateStart": function () { return $('#date-start-search').val() },
+                    "dateEnd": function () { return $('#date-end-search').val() }
+                },
+                "cache": false
+            },
+            "columns": [
+                { "data": "department_name", "name": "department_name" },
+                { "data": "room_name", "name": "room_name" },
+                { "data": "incident_camera_quantity", "name": "incident_camera_quantity" },
+                { "data": "disk_status", "name": "disk_status" },
+                {
+                    "data": "disk_saveable", "name": "disk_saveable", render: function (data) {
+                        return data ? "Có" : "Không";
+                    }
+                },
+                { "data": "stringStartTime", "name": "start_time" },
+                { "data": "stringEndTime", "name": "end_time" },
+                { "data": "reason", "name": "reason" },
+                @if (rights.Contains("202"))
+                {
+                @Html.Raw(@"
+                {
+                    data: { }, render: function(data) {
+                        if (data.end_time == null)
+                            return " + "\"<a href='#myupdate' data-toggle='modal' class='open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger' data-incident-id='\" + data.incident_id + \"'>Cập&nbsp;nhật</a>\";" + @"
+                        else
+                            return " + "\"<a href='#myedit' data-toggle='modal' class='open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger' data-incident-id='\" + data.incident_id + \"'>Chỉnh&nbsp;sửa</a>\";" + @"
+                    },
+                    orderable: false,
+                    width: '150px'
+                }");
+                }
+            ],
+            "serverSide": "true",
+            "order": [5, "desc"],
+            "rowId": "incident_id",
+            "lengthChange": false,
+            "searching": false,
+            "initComplete": function (settings, json) {
+                $("#pre-load").hide();
+                    },
+            "preDrawCallback": function (settings) {
+                $('#pre-load').show();
+                    },
+            "drawCallback": function (settings) {
+                $('#pre-load').hide();
+                    }
+                });
+
+        $("#searchButton1").click(function () {
+            $("#pre-load").show();
+            dataTable.ajax.reload();
+        });
+    });
+
+    $(document).ready(function () {
+        $('input[required]').each(function myfunction() {
+            $(this).attr("oninvalid", "setCustomValidity('Không được bỏ trống ô này')");
+            $(this).attr("oninput", "this.setCustomValidity('')");
+        })
+    })
+</script>
+
+@if (rights.Contains("201"))
+{
     <div class="modal" id="myadd">
         <div class="modal-content">
             <div class="modal-header">
@@ -285,71 +307,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</button>
+                <button class="waves-effect waves-light btn blue darken-2 modal-trigger" id="submit-add-button">Lưu</button>
                 <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</button>
             </div>
         </div>
     </div>
-</form>
-
-<datalist id="department_name">
-    @foreach (var item in ViewBag.departments)
-    {
-        <option>@item.room_name</option>
-    }
-</datalist>
-
-<!-- ============================================================== -->
-<!-- Apps -->
-<!-- ============================================================== -->
-
-
-@section scripts{
 
     <script>
-        $('.maxDate').datepicker({
-            language: 'vi',
-            maxDate: new Date(),
-            minDate: new Date("1/1/1900")
-        })
-        $('.minDate').datepicker({
-            language: 'vi',
-            maxDate: new Date() // Now can select only dates, which goes after today
-        })
-        $(document).ready(function () {
-            var dt = new Date();
-            $('#date-end-add').val(dt.getDate());
-            $('.datepicker-inline').remove();
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1; //January is 0!
-
-            var yyyy = today.getFullYear();
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-            var today = dd + '/' + mm + '/' + yyyy;
-            $(".minDate").each(function () {
-                $(this).val(today);
-            });
-            today = new Date("1/1/1900");
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1; //January is 0!
-
-            var yyyy = today.getFullYear();
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-            var today = dd + '/' + mm + '/' + yyyy;
-            $(".maxDate").val(today)
-        });
-
         $('#checkbox-add').on('click', function (e) {
 
             // prevents the event from bubbling up the DOM tree
@@ -368,298 +332,177 @@
             }
         }
 
-        $(document).ready(function () {
-            $('input[required]').each(function myfunction() {
-                $(this).attr("oninvalid", "setCustomValidity('Không được bỏ trống ô này')");
-                $(this).attr("oninput", "this.setCustomValidity('')");
-            })
-        })
-    </script>
-    <script>
-        var Popup, dataTable;
-        $("#pre-load").show();
-
-        $(document).ready(function () {
-            dataTable = $('#complex_header').DataTable({
-                "language": {
-                    "emptyTable": "Không tìm thấy dữ liệu",
-                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
-                    "paginate": {
-                        "first": "Trang đầu",
-                        "last": "Trang cuối",
-                        "next": "Trang sau",
-                        "previous": "Trang trước"
-                    }
-                },
-                "ajax": {
-                    "url": "/camera/su-co",
-                    "type": "POST",
-                    "datatype": "json",
-                    "data": {
-                        "depart": function () { return $('#depart-search').val() },
-                        "room": function () { return $('#room-search').val() },
-                        "dateStart": function () { return $('#date-start-search').val() },
-                        "dateEnd": function () { return $('#date-end-search').val() }
-                    },
-                    "cache": false
-                },
-                "columns": [
-                    { "data": "department_name", "name": "department_name" },
-                    { "data": "room_name", "name": "room_name" },
-                    { "data": "incident_camera_quantity", "name": "incident_camera_quantity" },
-                    { "data": "disk_status", "name": "disk_status" },
-                    {
-                        "data": "disk_saveable", "name": "disk_saveable", render: function (data) {
-                            return data ? "Có" : "Không";
-                        }
-                    },
-                    { "data": "stringStartTime", "name": "start_time" },
-                    { "data": "stringEndTime", "name": "end_time" },
-                    { "data": "reason", "name": "reason" },
-                    {
-                        "data": {}, "render": function (data) {
-                            console.log(data)
-                            if (data.end_time == null)
-                                return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.incident_id + "\">Cập&nbsp;nhật</a>";
-                            else
-                                return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.incident_id + "\">Chỉnh&nbsp;sửa</a>";
-                        },
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "150px"
-                    }
-                ],
-                "serverSide": "true",
-                "order": [4, "desc"],
-                "rowId": "incident_id",
-                "lengthChange": false,
-                "searching": false,
-                "initComplete": function (settings, json) {
-                    $("#pre-load").hide();
-                },
-                "preDrawCallback": function (settings) {
-                    $('#pre-load').show();
-                },
-                "drawCallback": function (settings) {
-                    $('#pre-load').hide();
-                }
-            });
-        });
-
-        //export fuction
-        $("#export-button").click(function () {
+        //ajax add
+        $("#submit-add-button").click(function (e) {
             $("#pre-load").show();
             $.ajax({
                 type: "POST",
-                url: "/camera/su-co/export",
-                cache: false
-            }).done(function () {
-                window.location.href = "/excel/CDVT/download/su-co_temp.xlsx";
-                $("#pre-load").hide();
-            })
-        });
-
-
-        $(document).ready(function () {
-            var dataTable = $('#complex_header').DataTable();
-
-            //ajax add
-            $("#myaddform").submit(function (e) {
-                $("#pre-load").show();
-                $.ajax({
-                    type: "POST",
-                    url: "/camera/su-co/add",
-                    dataType: "json",
-                    success: function (data) {
-                        dataTable.ajax.reload();
-                        if (data.success == true) {
-                            successAlert('Thành công', data.message);
-                            $('#exit-add-button').click();
-                            $('#pre-load').hide();
-                            $('#equipment-add').val("");
-                            $('#department-add').val("");
-                            $('#reason-add').val("");
-                            $('#detail-add').val("");
-                            $('#date-start-add').val().split("/")[2];
-                            $('#hour-start-add').val(0);
-                            $('#minute-start-add').val(0);
-                            $('#date-end-add').val().split("/")[0];
-                            $('#hour-end-add').val(0);
-                            $('#minute-end-add').val(0)
-                        }
-                        else
-                            errorAlert('Lỗi', data.message);
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                url: "/camera/su-co/add",
+                dataType: "json",
+                success: function (data) {
+                    dataTable.ajax.reload();
+                    if (data.success == true) {
+                        successAlert('Thành công', data.message);
+                        $('#exit-add-button').click();
                         $('#pre-load').hide();
-                        errorAlert('Lỗi', "Có lỗi xảy ra");
-                    },
-                    data: {
-                        reason: $('#reason-add').val(),
-                        detail: $('#detail-add').val(),
-                        yearStart: $('#date-start-add').val().split("/")[2],
-                        monthStart: $('#date-start-add').val().split("/")[1],
-                        dayStart: $('#date-start-add').val().split("/")[0],
-                        hourStart: $('#hour-start-add').val(),
-                        minuteStart: $('#minute-start-add').val(),
-                        yearEnd: $('#date-end-add').val().split("/")[2],
-                        monthEnd: $('#date-end-add').val().split("/")[1],
-                        dayEnd: $('#date-end-add').val().split("/")[0],
-                        hourEnd: $('#hour-end-add').val(),
-                        minuteEnd: $('#minute-end-add').val(),
-                        checkBox: $('#checkbox-add').val(),
-                        depart: $('#department-add').val(),
-                        quan: $('#quan-add').val(),
-                        status: $('#status-add').val(),
-                    },
-                    cache: false
-                })
-                return false;
-            });
-
-            //ajax edit
-            $("#myeditform").submit(function (e) {
-                $("#pre-load").show();
-                $.ajax({
-                    type: "POST",
-                    url: "/camera/su-co/edit",
-                    dataType: "json",
-                    success: function (data) {
-                        dataTable.ajax.reload();
-                        if (data.success == true) {
-                            successAlert('Thành công', data.message);
-                            $('#exit-edit-button').click();
-                        }
-                        else
-                            errorAlert('Lỗi', data.message);
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $('#pre-load').hide();
-                        errorAlert('Lỗi', 'Có lỗi xảy ra');
-                    },
-                    data: {
-                        incident_id: Number($('#incident-edit').val()),
-                        department: $('#department-edit').val(),
-                        reason: $('#reason-edit').val(),
-                        quan: $('#quan-edit').val(),
-                        yearStart: $('#date-start-edit').val().split("/")[2],
-                        monthStart: $('#date-start-edit').val().split("/")[1],
-                        dayStart: $('#date-start-edit').val().split("/")[0],
-                        hourStart: $('#hour-start-edit').val(),
-                        minuteStart: $('#minute-start-edit').val(),
-                        yearEnd: $('#date-end-edit').val().split("/")[2],
-                        monthEnd: $('#date-end-edit').val().split("/")[1],
-                        dayEnd: $('#date-end-edit').val().split("/")[0],
-                        hourEnd: $('#hour-end-edit').val(),
-                        minuteEnd: $('#minute-end-edit').val()
-                    },
-                    cache: false
-                }).done(function () {
+                        $('#department-add').val("");
+                        $('#reason-add').val("");
+                        $('#date-start-add').val().split("/")[2];
+                        $('#hour-start-add').val(0);
+                        $('#minute-start-add').val(0);
+                        $('#date-end-add').val().split("/")[0];
+                        $('#hour-end-add').val(0);
+                        $('#minute-end-add').val(0)
+                    }
+                    else
+                        errorAlert('Lỗi', data.message);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $('#pre-load').hide();
-                })
-                return false;
-            });
-
-            //ajax update
-            $("#myupdateform").submit(function (e) {
-                $("#pre-load").show();
-                $.ajax({
-                    type: "POST",
-                    url: "/camera/su-co/update",
-                    dataType: "json",
-                    success: function (data) {
-                        dataTable.ajax.reload();
-                        if (data.success == true) {
-                            successAlert('Thành công', data.message);
-                            $("#exit-update-button").click();
-                        }
-                        else
-                            errorAlert('Lỗi', data.message);
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $('#pre-load').hide();
-                        errorAlert('Lỗi', "Có lỗi xảy ra");
-                    },
-                    data: {
-                        incident_id: $('#incident-update').val(),
-                        reason: $('#reason-update').val(),
-                        year: $('#date-end-update').val().split("/")[2],
-                        month: $('#date-end-update').val().split("/")[1],
-                        day: $('#date-end-update').val().split("/")[0],
-                        hour: $('#hour-end-update').val(),
-                        minute: $('#minute-end-update').val()
-                    },
-                    cache: false
-                }).done(function () {
-                    $("#pre-load").hide();
-                })
-                return false;
-            });
-
-            //search
-            $("#equipmentId-search").keyup(function (e) {
-                if (e.which == 13) {
-                    $("#searchButton1").click();
-                    $("#equipmentId-search").blur();
-                }
-            });
-            $("#equipmentName-search").keyup(function (e) {
-                if (e.which == 13) {
-                    $("#searchButton1").click();
-                    $("#equipmentName-search").blur();
-                }
-            });
-            $("#department-search").keyup(function (e) {
-                if (e.which == 13) {
-                    $("#searchButton1").click();
-                    $("#department-search").blur();
-                }
-            });
-            $("#date-start-search").keyup(function (e) {
-                if (e.which == 13) {
-                    $("#searchButton1").click();
-                    $("#date-start-search").blur();
-                }
-            });
-            $("#date-end-search").keyup(function (e) {
-                if (e.which == 13) {
-                    $("#searchButton1").click();
-                    $("#date-end-search").blur();
-                }
-            });
-            $("#detail-search").keyup(function (e) {
-                if (e.which == 13) {
-                    $("#searchButton1").click();
-                    $("#detail-search").blur();
-                }
-            });
-            $("#reason-search").keyup(function (e) {
-                if (e.which == 13) {
-                    $("#searchButton1").click();
-                    $("#reason-search").blur();
-                }
-            });
-
-
-
-
-            $("#searchButton1").click(function () {
-                $("#pre-load").show();
-                dataTable.ajax.reload(function () {
-                    $("#pre-load").hide();
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    })
-                })
-            });
+                    errorAlert('Lỗi', "Có lỗi xảy ra");
+                },
+                data: {
+                    depart: $('#department-add').val(),
+                    quan: $('#quan-add').val(),
+                    reason: $('#reason-add').val(),
+                    yearStart: $('#date-start-add').val().split("/")[2],
+                    monthStart: $('#date-start-add').val().split("/")[1],
+                    dayStart: $('#date-start-add').val().split("/")[0],
+                    hourStart: $('#hour-start-add').val(),
+                    minuteStart: $('#minute-start-add').val(),
+                    checkBox: $('#checkbox-add').val(),
+                    status: $('#status-add').val(),
+                },
+                cache: false
+            })
+            return false;
         });
+    </script>
+}
+
+@if (rights.Contains("202"))
+{
+    <div class="modal" id="myedit">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Sửa sự cố</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="col s12 m6">
+                            <div class="form-group">
+                                <label for="date">Thời gian bắt đầu sự cố : </label>
+                                <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-start-edit" />
+                            </div>
+                        </div>
+                        <div class="col s12 m3">
+                            <div class="form-group">
+                                <label for="date">Giờ : </label>
+                                <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-start-edit" />
+                            </div>
+                        </div>
+                        <div class="col s12 m3">
+                            <div class="form-group">
+                                <label for="date">Phút : </label>
+                                <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-start-edit" />
+                            </div>
+                        </div>
+                        <div class="col s12 m12">
+                            <div class="form-group">
+                                <label for="id">Số lượng hỏng : </label>
+                                <input required type="number" min="0" class="form-control" value="" id="quan-edit" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="col s12 m6">
+                            <div class="form-group">
+                                <label for="date">Thời gian kết thúc sự cố : </label>
+                                <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-end-edit" />
+                                <input type='hidden' class='datepicker-here form-control' id="incident-edit" />
+                            </div>
+                        </div>
+                        <div class="col s12 m3">
+                            <div class="form-group">
+                                <label for="date">Giờ : </label>
+                                <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-end-edit" />
+                            </div>
+                        </div>
+                        <div class="col s12 m3">
+                            <div class="form-group">
+                                <label for="date">Phút : </label>
+                                <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-end-edit" />
+                            </div>
+                        </div>
 
 
+                        <div class="col s12 m12">
+                            <div class="form-group">
+                                <label for="supplier">Tình trạng kỹ thuật camera : </label>
+                                <input required type="text" class="form-control" id="reason-edit" />
+                            </div>
+                        </div>
+                        <div class="col s12 m12">
+                            <div class="form-group">
+                                <label for="id">Hệ thống : </label>
+                                <input required type="text" list="department_name" class="form-control" value="" id="department-edit" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="waves-effect waves-light btn blue darken-2 modal-trigger" id="submit-edit-button">Lưu</button>
+                <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-edit-button">Thoát</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="myupdate" class="modal">
+        <div class="modal-content">
+            <div class="modal-header center">
+                <h3><b>Cập nhật sự cố</b></h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col s12 m4">
+                        <div class="form-group">
+                            <label for="date">Thời gian kết thúc sự cố : </label>
+                            <input required type='text' class='datepicker-here form-control minDate' data-language='vi' value="" id="date-end-update" />
+                        </div>
+                    </div>
+                    <div class="col s12 m2">
+                        <div class="form-group">
+                            <label for="date">Giờ : </label>
+                            <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-end-update" />
+                        </div>
+                    </div>
+                    <div class="col s12 m2">
+                        <div class="form-group">
+                            <label for="date">Phút : </label>
+                            <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-end-update" />
+                        </div>
+                    </div>
+                    <div class="col s12 m4">
+                        <div class="form-group">
+                            <label for="name">Tình trạng kỹ thuật camera : </label>
+                            <input required type="text" name="reason" class="form-control" id="reason-update" />
+                            <input type="hidden" value="" class="form-control" id="incident-update" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="waves-effect waves-light btn blue darken-2 modal-trigger" id="submit-update-button">Lưu</button>
+                <button type="button" class="btn light-blue modal-close darken-2" id="exit-update-button">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
         $(document).on("click", ".open-UpdateModal", function () {
-            var currentRow = $(this).closest("tr");
-            var data = currentRow.find("td:eq(6)").text();
             var incidentId = $(this).data('incident-id');
             $("#incident-update").val(incidentId);
         });
@@ -694,30 +537,86 @@
             })
         });
 
-        $('#equipment-add').change(function (event) {
-
+        //ajax edit
+        $("#submit-edit-button").click(function (e) {
+            $("#pre-load").show();
             $.ajax({
                 type: "POST",
-                url: "/camera/su-co/getDepartment",
+                url: "/camera/su-co/edit",
                 dataType: "json",
                 success: function (data) {
-                    if (data.success == false) {
+                    dataTable.ajax.reload();
+                    if (data.success == true) {
+                        successAlert('Thành công', data.message);
+                        $('#exit-edit-button').click();
+                    }
+                    else
                         errorAlert('Lỗi', data.message);
-                    }
-                    else {
-                        $("#department-add").val(data.message);
-                    }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
                     errorAlert('Lỗi', 'Có lỗi xảy ra');
                 },
                 data: {
-                    equipmentId: $(this).val()
+                    incident_id: Number($('#incident-edit').val()),
+                    department: $('#department-edit').val(),
+                    reason: $('#reason-edit').val(),
+                    quan: $('#quan-edit').val(),
+                    yearStart: $('#date-start-edit').val().split("/")[2],
+                    monthStart: $('#date-start-edit').val().split("/")[1],
+                    dayStart: $('#date-start-edit').val().split("/")[0],
+                    hourStart: $('#hour-start-edit').val(),
+                    minuteStart: $('#minute-start-edit').val(),
+                    yearEnd: $('#date-end-edit').val().split("/")[2],
+                    monthEnd: $('#date-end-edit').val().split("/")[1],
+                    dayEnd: $('#date-end-edit').val().split("/")[0],
+                    hourEnd: $('#hour-end-edit').val(),
+                    minuteEnd: $('#minute-end-edit').val()
                 },
                 cache: false
+            }).done(function () {
+                $('#pre-load').hide();
             })
+            return false;
+        });
 
+        //ajax update
+        $("#submit-update-button").click(function (e) {
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/camera/su-co/update",
+                dataType: "json",
+                success: function (data) {
+                    dataTable.ajax.reload();
+                    if (data.success == true) {
+                        $('#hour-end-update').val(0);
+                        $('#minute-end-update').val(0);
+                        $('#reason-update').val("");
+                        successAlert('Thành công', data.message);
+                        $("#exit-update-button").click();
+                    }
+                    else
+                        errorAlert('Lỗi', data.message);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    errorAlert('Lỗi', "Có lỗi xảy ra");
+                },
+                data: {
+                    incident_id: $('#incident-update').val(),
+                    reason: $('#reason-update').val(),
+                    year: $('#date-end-update').val().split("/")[2],
+                    month: $('#date-end-update').val().split("/")[1],
+                    day: $('#date-end-update').val().split("/")[0],
+                    hour: $('#hour-end-update').val(),
+                    minute: $('#minute-end-update').val()
+                },
+                cache: false
+            }).done(function () {
+                $("#pre-load").hide();
+            })
+            return false;
         });
     </script>
 }
-
