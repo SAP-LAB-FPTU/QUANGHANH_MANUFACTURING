@@ -78,25 +78,25 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             {
                 var ngay = DateTime.Now.Date;
                 query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,e.equipmentId as MaThietBi, 
-                            equipment_name as TenThietBi,(CAST([Value] as float) / 1000) * a.hours_per_day as 
+                            equipment_name as TenThietBi,(CAST(ca.[Value] as float) / 1000) * a.hours_per_day as 
                             LuongTieuThu,a.quantity as SanLuong,N'tấn' as DonVi 
                             from Equipment e
 							inner Join Category_attribute_value ca on e.equipmentId = ca.equipmentId
 							inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId
 							inner join Activity a on a.equipmentid = e.equipmentId
-                            where  a.date = fa.date and a.date = '" + ngay + "'";
+                            where ca.Equipment_category_attribute_id = 'CS' and a.date = fa.date and a.date = '" + ngay + "'";
             }
             if (type == "day")
             {
                 var ngay = DateTime.ParseExact(date,"dd/MM/yyyy",null).ToString("yyyy-MM-dd");
                 query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,e.equipmentId as MaThietBi, 
-                            equipment_name as TenThietBi,(CAST([Value] as float) / 1000) * a.hours_per_day as 
+                            equipment_name as TenThietBi,(CAST(ca.[Value] as float) / 1000) * a.hours_per_day as 
                             LuongTieuThu,a.quantity as SanLuong,N'tấn' as DonVi 
                             from Equipment e
 							inner Join Category_attribute_value ca on e.equipmentId = ca.equipmentId
 							inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId
 							inner join Activity a on a.equipmentid = e.equipmentId
-                            where  a.date = fa.date and a.date = '" + ngay+"'";
+                            where ca.Equipment_category_attribute_id = 'CS' and a.date = fa.date and a.date = '" + ngay+"'";
                 ViewBag.now = date;
             }
             if (type == "month")
@@ -104,13 +104,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 int thang = Convert.ToInt32(month);
                 int nam = Convert.ToInt32(year);
                 query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,e.equipmentId as MaThietBi, 
-                            equipment_name as TenThietBi,(CAST([Value] as float) / 1000) * a.hours_per_day as 
+                            equipment_name as TenThietBi,(CAST(ca.[Value] as float) / 1000) * a.hours_per_day as 
                             LuongTieuThu,a.quantity as SanLuong,N'tấn' as DonVi 
                             from Equipment e
 							inner Join Category_attribute_value ca on e.equipmentId = ca.equipmentId
 							inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId
 							inner join Activity a on a.equipmentid = e.equipmentId
-                            where  a.date = fa.date and YEAR(a.date) = " + nam + " and MONTH(a.date) = " + thang;
+                            where ca.Equipment_category_attribute_id = 'CS' and a.date = fa.date and YEAR(a.date) = " + nam + " and MONTH(a.date) = " + thang;
             }
             if (type == "quarter")
             {
@@ -133,25 +133,25 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                     quy = " (10,11,12) ";
                 }
                 query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,e.equipmentId as MaThietBi, 
-                            equipment_name as TenThietBi,(CAST([Value] as float) / 1000) * a.hours_per_day as 
+                            equipment_name as TenThietBi,(CAST(ca.[Value] as float) / 1000) * a.hours_per_day as 
                             LuongTieuThu,a.quantity as SanLuong,N'tấn' as DonVi 
                             from Equipment e
 							inner Join Category_attribute_value ca on e.equipmentId = ca.equipmentId
 							inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId
 							inner join Activity a on a.equipmentid = e.equipmentId
-                            where  a.date = fa.date and YEAR(a.date) = " + nam + " and Month(a.date) in " + quy;
+                            where ca.Equipment_category_attribute_id = 'CS' and a.date = fa.date and YEAR(a.date) = " + nam + " and Month(a.date) in " + quy;
             }
             if (type == "year")
             {
                 int nam = Convert.ToInt32(year);
                 query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,e.equipmentId as MaThietBi, 
-                            equipment_name as TenThietBi,(CAST([Value] as float) / 1000) * a.hours_per_day as 
+                            equipment_name as TenThietBi,(CAST(ca.[Value] as float) / 1000) * a.hours_per_day as 
                             LuongTieuThu,a.quantity as SanLuong,N'tấn' as DonVi 
                             from Equipment e
 							inner Join Category_attribute_value ca on e.equipmentId = ca.equipmentId
 							inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId
 							inner join Activity a on a.equipmentid = e.equipmentId
-                            where  a.date = fa.date and YEAR(a.date) = " + nam;
+                            where ca.Equipment_category_attribute_id = 'CS' and a.date = fa.date and YEAR(a.date) = " + nam;
             }
             return query;
         }
