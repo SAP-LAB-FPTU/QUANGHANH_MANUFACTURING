@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "CapNhatTrangThai";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    List<string> rights = (List<string>)Session["RightIDs"];
 }
 
 <div class="card">
@@ -27,17 +28,18 @@
                         </thead>
                     </table>
                 </div>
-                <div class="col">
-                    <button href="#" id="tienhanh" class="btn blue darken-2">Lưu</button>
-                </div>
+                @if (rights.Contains("204"))
+                {
+                    <div class="col">
+                        <button href="#" id="tienhanh" class="btn blue darken-2">Lưu</button>
+                    </div>
+                }
             </form>
         </div>
     </div>
 </div>
 
 <script>
-    var json = {};
-
     $(document).ready(() => {
         $('#inputdate').datepicker({
             language: 'vi',
@@ -58,33 +60,11 @@
         var today = dd + '/' + mm + '/' + yyyy;
         $('#inputdate').val(today);
     })
-
-    function myfunction() {
-        var row = $('#complex_header tbody tr').length;
-        var arr = [];
-        for (var i = 0; i < row; i++) {
-            for (var j = 1; j < 4; j++) {
-                var temp = {};
-                temp.equipmentId = $('#complex_header tbody tr:nth-child(' + (i + 1) + ')').attr("id");
-                temp.ca = j;
-                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') td:nth-child(' + (j + 2) + ') label input').is(':checked')) {
-                    temp.available = false;
-                }
-                else {
-                    temp.available = true;
-                }
-                arr.push(temp);
-            }
-        }
-        json.list = arr;
-        json.date = $('#inputdate').val();
-        return JSON.stringify(json);
-    }
 </script>
 
 @section scripts{
     <script>
-        var Popup, dataTable, session;
+        var dataTable, session;
         $(document).ready(function () {
             dataTable = $('#complex_header').DataTable({
                 language: {
@@ -168,40 +148,6 @@
             })
         })
 
-        $(document).ready(function () {
-
-            //ajax update
-            $("#myupdateform").submit(function (e) {
-                $("#pre-load").show();
-                $.ajax({
-                    type: "POST",
-                    url: "/phong-cdvt/camera/cap-nhat/Update",
-                    dataType: "json",
-                    success: function (data) {
-                        dataTable.ajax.reload();
-                        if (data.success == true) {
-                            if (data.redirect == true)
-                                window.open("/phong-cdvt/camera/su-co");
-                            successAlert(data.message);
-                        }
-                        else
-                            errorAlert(data.message);
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        errorAlert('Có lỗi xảy ra', '');
-                        $("#pre-load").hide();
-                    },
-                    data: {
-                        stringjson: myfunction()
-                    },
-                    cache: false
-                }).done(function () {
-                    $("#pre-load").hide();
-                })
-                return false;
-            });
-        })
-
         $(document).on("click", "#search", function () {
             $('#pre-load').show()
             dataTable.ajax.reload(function () {
@@ -209,4 +155,65 @@
             });
         })
     </script>
+
+    @if (rights.Contains("204"))
+    {
+        <script>
+            function myfunction() {
+                let json = {};
+                let row = $('#complex_header tbody tr').length;
+                let arr = [];
+                for (let i = 0; i < row; i++) {
+                    for (let j = 1; j < 4; j++) {
+                        let temp = {};
+                        temp.equipmentId = $('#complex_header tbody tr:nth-child(' + (i + 1) + ')').attr("id");
+                        temp.ca = j;
+                        if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') td:nth-child(' + (j + 2) + ') label input').is(':checked')) {
+                            temp.available = false;
+                        }
+                        else {
+                            temp.available = true;
+                        }
+                        arr.push(temp);
+                    }
+                }
+                json.list = arr;
+                json.date = $('#inputdate').val();
+                return JSON.stringify(json);
+            }
+
+            $(document).ready(function () {
+                //ajax update
+                $("#myupdateform").submit(function (e) {
+                    $("#pre-load").show();
+                    $.ajax({
+                        type: "POST",
+                        url: "/phong-cdvt/camera/cap-nhat/Update",
+                        dataType: "json",
+                        success: function (data) {
+                            dataTable.ajax.reload();
+                            if (data.success == true) {
+                                if (data.redirect == true)
+                                    window.open("/phong-cdvt/camera/su-co");
+                                successAlert(data.message);
+                            }
+                            else
+                                errorAlert(data.message);
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            errorAlert('Có lỗi xảy ra', '');
+                            $("#pre-load").hide();
+                        },
+                        data: {
+                            stringjson: myfunction()
+                        },
+                        cache: false
+                    }).done(function () {
+                        $("#pre-load").hide();
+                    })
+                    return false;
+                });
+            })
+        </script>
+    }
 }
