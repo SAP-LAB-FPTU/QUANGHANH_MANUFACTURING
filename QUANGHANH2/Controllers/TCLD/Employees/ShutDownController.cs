@@ -4,16 +4,11 @@ using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
-using System.Windows;
-using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
 using System.Web.Hosting;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -23,8 +18,8 @@ using System.Data.Entity;
 using QUANGHANH2.SupportClass;
 using static QUANGHANH2.Controllers.TCLD.EmployeesController;
 using static QUANGHANHCORE.Controllers.TCLD.TransferController;
-
-
+using System.IO.Compression;
+using System.Net;
 
 namespace QUANGHANH2.Controllers.TCLD
 {
@@ -545,16 +540,19 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult ExportReport(string selectedList)
         {
+            string zipPath = HostingEnvironment.MapPath("/doc/TCLD/chamdutzip" + "/quyetdinh.zip");
+            string sourcePath = HostingEnvironment.MapPath("/doc/TCLD/chamdutdow");
             try
             {
+
                 var js = new JavaScriptSerializer();
-                var result = JsonConvert.DeserializeObject<ChamDutModel>(selectedList);
+                List<ChamDutModel> result = JsonConvert.DeserializeObject<List<ChamDutModel>>(selectedList);
                 string manv = "";
-                //for (int i = 0; i < result.Count; i++)
-                //{
-                //    manv += "'" + int.Parse(((ChamDutModel)result[i]).MaNV) + "',";
-                //}
-                //manv = manv.Remove(manv.Length - 1);
+                for (int i = 0; i < result.Count; i++)
+                {
+                    manv += "" + int.Parse(((ChamDutModel)result[i]).MaNV) + ",";
+                }
+                manv = manv.Remove(manv.Length - 1);
                 List<ChamDutModel> exportList = new List<ChamDutModel>();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
@@ -564,15 +562,29 @@ namespace QUANGHANH2.Controllers.TCLD
                             left join BacLuong_ThangLuong_MucLuong c on 
                             a.MaBacLuong_ThangLuong_MucLuong = c.MaBacLuong_ThangLuong_MucLuong 
                             left join ThangLuong d on c.MaThangLuong = d.MaThangLuong                       
-                            where a.MaNV in (@MaNV)";
-                    exportList = db.Database.SqlQuery<ChamDutModel>(query, new SqlParameter("manv", result.MaNV)).ToList();
+                            where a.MaNV in (" + manv + ")";
+                    exportList = db.Database.SqlQuery<ChamDutModel>(query).ToList();
                 }
-                string Flocation = "/doc/TCLD/chamdut/quyetdinh-chamdut.doc";
-                //Mot nguoi
+                string chamdut = result[0].NgayChamDut;
+                for (int i = 0; i < exportList.Count; i++)
+                {
+                    exportList[i].NgayChamDut = result[i].NgayChamDut;
+                    exportList[i].LoaiChamDut = result[i].LoaiChamDut;
+                }
+                int count = 1;
 
-               
-                    string fileName = HostingEnvironment.MapPath("/doc/TCLD/chamdut/motnguoi/chamdut-ko-tro-cap-template.docx");
-                    byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
+                //Mot nguoi
+                System.IO.DirectoryInfo di = new DirectoryInfo(HostingEnvironment.MapPath("/doc/TCLD/chamdutdow"));
+
+                foreach (FileInfo file in di.GetFiles())
+                {
+                    file.Delete();
+                }
+                string savePath = "";
+                string fileName = HostingEnvironment.MapPath("/doc/TCLD/chamdut/motnguoi/chamdut-ko-tro-cap-template.docx");
+                byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
+                foreach (ChamDutModel item in exportList)
+                {
                     using (var stream = new MemoryStream())
                     {
                         stream.Write(byteArray, 0, byteArray.Length);
@@ -583,68 +595,83 @@ namespace QUANGHANH2.Controllers.TCLD
                             {
                                 docText = sr.ReadToEnd();
                             }
+
+                            string Flocation = "/doc/TCLD/chamdutdow/quyetdinh-chamdut_";
                             Regex regexText = new Regex("%ngayquyetdinh%");
-                            string[] ngay = result.NgayChamDut.Split('/');
+                            string[] ngay = item.NgayChamDut.Split('/');
                             docText = regexText.Replace(docText, "Ngày " + ngay[0] + " tháng " + ngay[1] + " năm " + ngay[2]);
 
                             regexText = new Regex("%ngaychamdut%");
                             docText = regexText.Replace(docText, ngay[1] + "/" + ngay[2]);
 
                             regexText = new Regex("%soqd%");
-                            docText = regexText.Replace(docText, result.SoQD);
+                            docText = regexText.Replace(docText, item.SoQD == null ? "" : item.SoQD);
 
                             regexText = new Regex("%name%");
-                            docText = regexText.Replace(docText, exportList[0].Ten);
+                            docText = regexText.Replace(docText, item.Ten);
 
                             regexText = new Regex("%gender%");
-                            docText = regexText.Replace(docText, exportList[0].GioiTinh?"Ông":"Bà");
+                            docText = regexText.Replace(docText, item.GioiTinh ? "Ông" : "Bà");
 
                             regexText = new Regex("%sothe%");
-                            docText = regexText.Replace(docText, exportList[0].MaNV);
+                            docText = regexText.Replace(docText, item.MaNV);
 
                             regexText = new Regex("%ngaysinh%");
-                            docText = regexText.Replace(docText, exportList[0].NgaySinh==null?"": exportList[0].NgaySinh.Value.ToString("dd/MM/yyyy"));
+                            docText = regexText.Replace(docText, item.NgaySinh == null ? "" : item.NgaySinh.Value.ToString("dd/MM/yyyy"));
 
                             regexText = new Regex("%ngaydilam%");
-                            docText = regexText.Replace(docText, exportList[0].NgayDiLam == null ? "" : exportList[0].NgayDiLam.Value.ToString("MM/yyyy"));
+                            docText = regexText.Replace(docText, item.NgayDiLam == null ? "" : item.NgayDiLam.Value.ToString("MM/yyyy"));
 
                             regexText = new Regex("%soBHXH%");
-                            docText = regexText.Replace(docText, exportList[0].SoBHXH==null?"":exportList[0].SoBHXH);
+                            docText = regexText.Replace(docText, item.SoBHXH == null ? "" : item.SoBHXH);
 
                             regexText = new Regex("%nghenghiep%");
-                            docText = regexText.Replace(docText, result.DonViHienTai);
+                            docText = regexText.Replace(docText, item.DonViHienTai == null ? "" : item.DonViHienTai);
 
                             regexText = new Regex("%bacluong%");
-                            docText = regexText.Replace(docText, exportList[0].BacLuong==null?"": exportList[0].BacLuong);
+                            docText = regexText.Replace(docText, item.BacLuong == null ? "" : item.BacLuong);
 
                             regexText = new Regex("%mucluong%");
-                            docText = regexText.Replace(docText, exportList[0].DonViHienTai==null?"":exportList[0].DonViHienTai);
+                            docText = regexText.Replace(docText, item.DonViHienTai == null ? "" : item.DonViHienTai);
 
                             regexText = new Regex("%thangluong%");
-                            docText = regexText.Replace(docText, exportList[0].ThangLuong == null ? "" : exportList[0].ThangLuong);
+                            docText = regexText.Replace(docText, item.ThangLuong == null ? "" : item.ThangLuong);
 
                             regexText = new Regex("%phanxuong%");
-                            docText = regexText.Replace(docText, exportList[0].PhanXuong == null?"":exportList[0].PhanXuong);
+                            docText = regexText.Replace(docText, item.PhanXuong == null ? "" : item.PhanXuong);
+
+                            regexText = new Regex("%lydo%");
+                            docText = regexText.Replace(docText, item.LoaiChamDut == null ? "" : item.LoaiChamDut);
                             using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
                             {
                                 sw.Write(docText);
                             }
 
                             doc.MainDocumentPart.Document.Save(); // won't update the original file 
+
+                            Flocation += item.MaNV + ".doc";
+                            savePath = HostingEnvironment.MapPath(Flocation);
+                            stream.Position = 0;
+                            System.IO.File.WriteAllBytes(savePath, stream.ToArray());
+                            doc.Close();
                         }
-                        // Save the file with the new name
-                        string savePath = HostingEnvironment.MapPath(Flocation);
-                        stream.Position = 0;
-                        System.IO.File.WriteAllBytes(savePath, stream.ToArray());
                     }
-                return Json(new { success = true, location = Flocation }, JsonRequestBehavior.AllowGet);
+                }
+                if (System.IO.File.Exists(zipPath))
+                {
+                    System.IO.File.Delete(zipPath);
+                }
+                ZipFile.CreateFromDirectory(sourcePath, zipPath);
+
+
+                return Json(new { success = true, location = "/doc/TCLD/chamdutzip/quyetdinh.zip" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
                 return null;
             }
 
-            
+
 
             //nhieu nguoi
             //else

@@ -1054,11 +1054,10 @@
                 }
                 selectedList.push(obj);
             }
-            for (var i = 0; i < selectedList.length; i++) {
                 $.ajax({
                     type: 'Post',
                     url: '/phong-tcld/quan-ly-nhan-vien/cham-dut/export-quyet-dinh',
-                    data: { selectedList: JSON.stringify(selectedList[i]) },
+                    data: { selectedList: JSON.stringify(selectedList) },
                     dataType: 'json',
                     success: function (response) {
                         if (response.success) {
@@ -1071,7 +1070,7 @@
                         }
                     }
                 });
-            }
+            
         });
     </script>
     <script>
