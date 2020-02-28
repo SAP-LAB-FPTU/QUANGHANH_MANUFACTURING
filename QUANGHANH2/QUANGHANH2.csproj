@@ -184,6 +184,7 @@
     <Compile Include="Controllers\Camera\SuCoController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\DSQDChuaxulyController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\CDVTXinCapVatTuController.cs" />
+    <Compile Include="Controllers\DK\Accident\StatisticalAccidentController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
     <Compile Include="Controllers\AT\ViewAccidentController.cs" />
     <Compile Include="Controllers\BGD\AccidentReportController.cs" />
@@ -296,7 +297,7 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\ThemQuyenDinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\SuaChua\ThemQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\SuaChua\ChonThietBiController.cs" />
-    <Compile Include="Controllers\DK\AccidentController.cs" />
+    <Compile Include="Controllers\DK\Accident\AccidentController.cs" />
     <Compile Include="Controllers\DK\BaoCaoDemoController.cs" />
     <Compile Include="Controllers\DK\Criteria\CriteriaController.cs" />
     <Compile Include="Controllers\DK\Criteria\GroupCriteriaController.cs" />
@@ -548,6 +549,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InsideExcel.cs" />
+    <Compile Include="Models\KeHoachTungThang.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\KeHoach_TieuChi_TheoNam.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -660,6 +664,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThangLuong.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ThucHienTheoNgay.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThucHien_TieuChi_TheoNgay.cs">
@@ -7163,6 +7170,7 @@
     <Content Include="excel\CDVT\download\huy-dong-2.xlsx" />
     <Content Include="excel\CDVT\download\baocaohoatdong-2.xlsx" />
     <Content Include="excel\TCLD\Brief\Inside.xlsx" />
+    <Content Include="doc\TCLD\chamdut\motnguoi\chamdut-ko-tro-cap-template.docx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7170,12 +7178,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="doc\TCLD\chamdut\motnguoi\dieudong-template.docx" />
-    <Content Include="doc\TCLD\chamdut\nhieunguoi\dieudong-template.docx" />
-    <Content Include="doc\TCLD\chamdut\quyetdinh-dieudong.docx" />
-    <Content Include="doc\TCLD\chamdut\motnguoi\chamdut-ko-tro-cap-template.docx" />
-    <Content Include="doc\TCLD\chamdut\quyetdinh-chamdut.docx" />
-    <Content Include="doc\TCLD\chamdut\motnguoi\name.docx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7427,7 +7429,7 @@
     <Content Include="Views\CDVT\Report\bao_cao_trung_tu.cshtml" />
     <Content Include="Views\CDVT\Report\TangGiam.cshtml" />
     <Content Include="Views\CDVT\Thietbi\Kiemdinh.cshtml" />
-    <Content Include="Views\DK\Acident.cshtml" />
+    <Content Include="Views\DK\Accident\Acident.cshtml" />
     <Content Include="Views\Brief\AddLichSuBoSung.cshtml" />
     <Content Include="Views\Brief\suaGiayTo.cshtml" />
     <Content Include="Views\Brief\themGiayTo.cshtml" />
@@ -7446,7 +7448,7 @@
     <Content Include="Views\Department\AddDepartment.cshtml" />
     <Content Include="Views\CDVT\Nghiemthu\Vattuditheo.cshtml" />
     <Content Include="Views\PX\PXKT\BaoCaoLenPhongDK.cshtml" />
-    <Content Include="Views\DK\ListAccident.cshtml" />
+    <Content Include="Views\DK\Accident\ListAccident.cshtml" />
     <Content Include="Views\DK\InputCharcoal\InputCharcoal.cshtml" />
     <Content Include="Views\Phanxuong\ChonBaoCao\ChonBaoCao.cshtml" />
     <Content Include="Views\Shared\_Layout_NhapBaoCaoLenDK.cshtml" />
@@ -7508,9 +7510,12 @@
     <Content Include="Views\Camera\TrangChu.cshtml" />
     <Content Include="Views\PX\PXKT\InputNSLD.cshtml" />
     <Content Include="Views\TCLD\Shutdown\Process.cshtml" />
+    <Content Include="Views\DK\Accident\StatisticalAccident.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="doc\TCLD\chamdutdow\" />
+    <Folder Include="doc\TCLD\chamdutzip\" />
     <Folder Include="excel\Notifi\download\" />
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
@@ -7521,6 +7526,7 @@
     <Folder Include="Views\ChiTiet\" />
     <Folder Include="Views\ChonThietBi\" />
     <Folder Include="Views\DaNghiemThu\" />
+    <Folder Include="Views\StatisticalAccident\" />
     <Folder Include="Views\TrangChu\" />
   </ItemGroup>
   <ItemGroup>
