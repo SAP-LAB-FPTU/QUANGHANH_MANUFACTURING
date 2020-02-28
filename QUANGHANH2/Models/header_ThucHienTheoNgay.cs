@@ -21,12 +21,10 @@ namespace QUANGHANH2.Models
         }
     
         public string MaPhongBan { get; set; }
-        public System.DateTime Ngay { get; set; }
         public int HeaderID { get; set; }
-        public int Ca { get; set; }
-        public Nullable<int> NgaySanXuat { get; set; }
     
         public virtual Department Department { get; set; }
+        public virtual ThucHienTheoNgay ThucHienTheoNgay { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ThucHien_TieuChi_TheoNgay> ThucHien_TieuChi_TheoNgay { get; set; }
     }
