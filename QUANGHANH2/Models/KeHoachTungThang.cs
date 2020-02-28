@@ -14,11 +14,18 @@ namespace QUANGHANH2.Models
     
     public partial class KeHoachTungThang
     {
-        public int HeaderID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public KeHoachTungThang()
+        {
+            this.header_KeHoachTungThang = new HashSet<header_KeHoachTungThang>();
+        }
+    
+        public int ThangID { get; set; }
         public Nullable<int> ThangKeHoach { get; set; }
         public Nullable<int> NamKeHoach { get; set; }
         public Nullable<int> SoNgayLamViec { get; set; }
     
-        public virtual header_KeHoachTungThang header_KeHoachTungThang { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<header_KeHoachTungThang> header_KeHoachTungThang { get; set; }
     }
 }

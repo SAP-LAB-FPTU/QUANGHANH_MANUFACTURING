@@ -96,20 +96,21 @@ namespace QUANGHANHCORE.Controllers.DK
 
             string query = @"select d.MaTieuChi, (case when a.thuchien is null then 0 else a.thuchien end) as 'thuchien', b.LUYKE, (case when c.KH is null then 0 else c.KH end) as 'KH', d.KHDC
                             from (select a.MaTieuChi, sum(kt.SanLuong) 'KHDC'
-		                            from(select  kt.HeaderID, hkt.MaPhongBan, hkt.ThangKeHoach,kt.MaTieuChi,max(ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung'
+		                            from(select  kt.HeaderID, hkt.MaPhongBan, khtt.ThangKeHoach,kt.MaTieuChi,max(ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung'
 		                            from KeHoach_TieuChi_TheoThang kt inner join header_KeHoachTungThang hkt
 		                            on kt.HeaderID = hkt.HeaderID
-		                            where hkt.ThangKeHoach = @month and hkt.NamKeHoach = @year
-		                            group by kt.HeaderID, hkt.MaPhongBan, hkt.ThangKeHoach, kt.MaTieuChi
+                                    join KeHoachTungThang khtt on khtt.ThangID = hkt.ThangID
+		                            where khtt.ThangKeHoach = @month and khtt.NamKeHoach = @year
+		                            group by kt.HeaderID, hkt.MaPhongBan, khtt.ThangKeHoach, kt.MaTieuChi
 		                            ) as a inner join KeHoach_TieuChi_TheoThang kt on a.HeaderID = kt.HeaderID and a.ThoiGianNhapCuoiCung = kt.ThoiGianNhapCuoiCung and a.MaTieuChi = kt.MaTieuChi
 		                            group by a.MaTieuChi) as d
 
                             join (select MaTieuChi, sum(SanLuong) as 'LUYKE' from ThucHien_TieuChi_TheoNgay as th
-		                            join (select *from header_ThucHienTheoNgay where Ngay between @dateStart and @dateEnd) as h on th.HeaderID = h.HeaderID
+		                            join (select tht.*,hth.MaPhongBan,hth.HeaderID from header_ThucHienTheoNgay hth join ThucHienTheoNgay tht on hth.NgayID = tht.NgayID where Ngay between @dateStart and @dateEnd) as h on th.HeaderID = h.HeaderID
 		                            group by MaTieuChi) as b on d.MaTieuChi = b.MaTieuChi
 
                             left outer join (select MaTieuChi, sum(SanLuong) as 'thuchien' from ThucHien_TieuChi_TheoNgay as th
-		                            join (select *from header_ThucHienTheoNgay where Ngay = @date) as h on th.HeaderID = h.HeaderID
+		                            join (select tht.*,hth.MaPhongBan,hth.HeaderID from header_ThucHienTheoNgay hth join ThucHienTheoNgay tht on hth.NgayID = tht.NgayID where Ngay = @date) as h on th.HeaderID = h.HeaderID
 		                            group by MaTieuChi) as a on d.MaTieuChi = a.MaTieuChi
 
                             left outer join  (select a.MaTieuChi, sum(kt.KeHoach) 'KH'

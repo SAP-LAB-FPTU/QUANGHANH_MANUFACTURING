@@ -23,9 +23,12 @@
             <div class="row">
                 <h3 class="center">NHẬP LIỆU SẢN XUẤT</h3>
                 <div class="row center">
-                    <div class="input-field col s3 m3 l3"></div>
+                    <div class="input-field col s3 m3 l1"></div>
+                    <div class="input-field col s3 m3 l2">
+                        <button class="modal-trigger btn btn-small darken-2 blue" data-target="addsnlv" id="butsnlv">Nhập ngày sản xuất</button>
+                    </div>
                     <div class="input-field col l2 m2 s2">
-                        <input id="ngaySanXuat" name="ngaySX" required autocomplete="off" class="form-control center" onchange="percentOnchange()" placeholder="NgàySX" onchange="onChangeAll()" />
+                        <input disabled id="ngaySanXuat" name="ngaySX" value="@ViewBag.NgaySX" required autocomplete="off" class="form-control center" onchange="percentOnchange()" placeholder="NgàySX" onchange="onChangeAll()" />
                     </div>
                     <div class="input-field col l2 m2 s2">
                         <input id="SoNgaySX" class="form-control center" value="@ViewBag.SoNgaySX" readonly />
@@ -117,6 +120,22 @@
     </div>
 
 }
+
+<div class="modal" id="addsnlv">
+    <div class="card">
+        <div class="card-content">
+            <div class="modal-header row">
+                <h4 class="col l6">Nhập ngày sản xuất hôm nay</h4>
+                <input id="nsx" class="form-control col l6" min="0" type="number" />
+                @*<button id="butluu">Lưu</button>*@
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button id="butluu" class="btn blue modal-close">Lưu</button>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready(function () {
         $('select').formSelect();
@@ -128,8 +147,16 @@
 <script src="~/js/Custom JS/DK/InputCharcoal/AddRow.js"></script>
 
 <script>
-    $(document).ready(function () {
+   
 
+    $(document).ready(function () {
+        var check = $('#ngaySanXuat').val();
+        if (check == "0") {
+            $("#butsnlv").click();
+        }
+        else {
+            $("#butsnlv").hide();
+        }
         $(".date-click").datepicker({
             onSelect: function (dateText) {
             }
@@ -149,6 +176,22 @@
     //    }
     //});
 
+     $("#butluu").click(function () {
+        $("#pre-load").show();
+        $.ajax({
+            type: "POST",
+            url: "/phong-dieu-khien/nhapnsx",
+            data: {
+                "nsx": $("#nsx").val(),
+                "ngay": $("#dateInput").val(),
+            },
+            success: function (response) {
+                $("#ngaySanXuat").val($("#nsx").val());
+                successAlert(response.title, response.message);
+                $("#pre-load").hide();
+            }
+        });
+    });
 
     function change() {
         confirmAlert("Dữ liệu chưa được lưu?", "Xác nhận đổi",
@@ -166,8 +209,8 @@
                     data: { 'px_value': px_value, 'date': date, 'ca_value': ca_value },
                     success: function (response) {
                         if (response.success == true) {
-                            $("#ngaySanXuat").val(response.listSXLoad[0].NgaySanXuat)
-                            $("#SoNgaySX").val(response.dateSX)
+                            $("#ngaySanXuat").val(response.listSXLoad[0].NgaySanXuat);
+                            $("#SoNgaySX").val(response.dateSX);
                             $("#dayMonthDis").empty();
                             document.getElementById("dayMonthDis").innerHTML = "Ngày " + response.ngay + " tháng " + response.thang;
                             $("#monthDis").empty();

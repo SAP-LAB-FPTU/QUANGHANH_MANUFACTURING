@@ -22,6 +22,8 @@ namespace QUANGHANH2.Models
     
         public string MaPhongBan { get; set; }
         public int HeaderID { get; set; }
+        public int NgayID { get; set; }
+        public int Ca { get; set; }
     
         public virtual Department Department { get; set; }
         public virtual ThucHienTheoNgay ThucHienTheoNgay { get; set; }

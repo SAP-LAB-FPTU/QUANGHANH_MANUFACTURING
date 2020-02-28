@@ -14,11 +14,17 @@ namespace QUANGHANH2.Models
     
     public partial class ThucHienTheoNgay
     {
-        public int HeaderID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ThucHienTheoNgay()
+        {
+            this.header_ThucHienTheoNgay = new HashSet<header_ThucHienTheoNgay>();
+        }
+    
+        public int NgayID { get; set; }
         public System.DateTime Ngay { get; set; }
-        public int Ca { get; set; }
         public Nullable<int> NgaySanXuat { get; set; }
     
-        public virtual header_ThucHienTheoNgay header_ThucHienTheoNgay { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<header_ThucHienTheoNgay> header_ThucHienTheoNgay { get; set; }
     }
 }
