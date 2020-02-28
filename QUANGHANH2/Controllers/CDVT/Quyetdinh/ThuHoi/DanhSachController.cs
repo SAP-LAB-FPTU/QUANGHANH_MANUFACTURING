@@ -246,9 +246,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
                 documentaryList = (from document in db.Documentaries
-                             where document.documentary_type.Equals(4) && (document.documentary_code =="" || document.documentary_code == null) && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
-                             join detail in db.Documentary_revoke_details on document.documentary_id equals detail.documentary_id
-                                into temporary
+                                   where document.documentary_type.Equals(4) && (document.documentary_code == "" || document.documentary_code == null) && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
+                                   join detail in db.Documentary_revoke_details on document.documentary_id equals detail.documentary_id
                              select new
                              {
                                  documentary_id = document.documentary_id,
@@ -257,7 +256,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                                  person_created = document.person_created,
                                  reason = document.reason,
                                  out_in_come = document.out_in_come,
-                                 count = temporary.Select(x => new { x.equipmentId }).Count()
                              }).ToList().Select(p => new Documentary_Extend
                              {
                                  documentary_id = p.documentary_id,
@@ -265,8 +263,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                                  date_created = p.date_created,
                                  person_created = p.person_created,
                                  reason = p.reason,
-                                 out_in_come = p.out_in_come,
-                                 count = p.count
+                                 out_in_come = p.out_in_come
                              }).ToList();
            
             foreach (var el in documentaryList)

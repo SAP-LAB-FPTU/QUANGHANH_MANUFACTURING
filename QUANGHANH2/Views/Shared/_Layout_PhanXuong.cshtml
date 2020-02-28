@@ -468,6 +468,54 @@
     </script>
     <script>
         $(document).ready(function () {
+            if (@DateTime.Now.Date.Day == 21) {
+                $.ajax({
+                    url: "/Notifi/notifi21",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+            }
+            $.ajax({
+                url: "/Notifi/notifiQD",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
+                    if (result.text != '') {
+                        if ($('#notifi').is(':visible')) {
+                        } else {
+                            document.getElementById('ids').value = result.id;
+                            $("#title-noti").text(result.title);
+                            $("#text-noti").text(result.text);
+                            $("#notifi").modal('open');
+                        }
+                    }
+                },
+                error: function (errormessage) {
+                }
+            });
+
+            $.ajax({
+                url: "/Notifi/notifiNonXC",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
+                    if (result.text != '') {
+                        if ($('#notifi').is(':visible')) {
+                        } else {
+                            document.getElementById('ids').value = result.id;
+                            $("#title-noti").text(result.title);
+                            $("#text-noti").text(result.text);
+                            $("#notifi").modal('open');
+                        }
+                    }
+                },
+                error: function (errormessage) {
+                }
+            });
 
             setInterval(function () {
                 $.ajax({
@@ -488,20 +536,6 @@
                     error: function (errormessage) {
                     }
                 });
-            }, 15000);
-
-            setInterval(function () {
-                if (@DateTime.Now.Date.Day == 21) {
-                $.ajax({
-                    url: "/Notifi/notifi21",
-                    type: "POST",
-                    contentType: "application/json;charset=utf-8",
-                    success: function (result) {
-                    },
-                    error: function (errormessage) {
-                    }
-                });
-                }
             }, 15000);
 
             setInterval(function () {

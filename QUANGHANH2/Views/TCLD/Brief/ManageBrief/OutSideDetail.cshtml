@@ -39,14 +39,14 @@
                                 }
                                 if (isAcess)
                                 {
-                                    <div  class="col m4">
-                                        <a  class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua1">Chỉnh Sửa</a>
+                                    <div class="col m4">
+                                        <a class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua1">Chỉnh Sửa</a>
                                     </div>
-                                    
+
                                 }
                                 else
                                 {
-                                    <div  class="col m4">
+                                    <div class="col m4">
                                         <a disabled class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua1">Chỉnh Sửa</a>
                                     </div>
                                 }
@@ -69,7 +69,7 @@
                             </div>
                             <div class="col m4">
                                 <label class='custom-label'>Ngày tháng năm sinh</label>
-                                <input  disabled="" type="text" id="ngaythangnamsinh" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="dd/mm/yyyy" />
+                                <input disabled="" type="text" id="ngaythangnamsinh" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="dd/mm/yyyy" />
                             </div>
                         </div>
                         <div class="input-field col m12">
@@ -108,13 +108,13 @@
                     <div id="form2" class="row">
                         <div class="input-field col m12" id="btn-fix-save">
                             @{
-                               
+
                                 if (isAcess)
                                 {
                                     <div class="col m4">
                                         <a class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua2">Chỉnh Sửa</a>
                                     </div>
-                                   
+
                                 }
                                 else
                                 {
@@ -174,13 +174,13 @@
                     <div id="form3" class="row">
                         <div class="input-field col m12" id="btn-fix-save">
                             @{
-                                
+
                                 if (isAcess)
                                 {
                                     <div class="col m4">
                                         <a class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua3">Chỉnh Sửa</a>
                                     </div>
-                                  
+
                                 }
                                 else
                                 {
@@ -231,7 +231,7 @@
                     if (isAcess)
                     {
                         <div class="col m4">
-                            <a onclick="themGiayTo()" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' href='#modal2'  id="btnThemGiayTo">Thêm</a>
+                            <a onclick="themGiayTo()" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' href='#modal2' id="btnThemGiayTo">Thêm</a>
                         </div>
 
                     }
@@ -242,7 +242,7 @@
                         </div>
                     }
                 }
-                
+
                 <div class="col m12">
                     <div id="form3" class="row">
 
@@ -323,7 +323,7 @@
 
 <div id="modal2" class="modal">
     <div class="modal-content">
-        <div class="input-field col m12"> 
+        <div class="input-field col m12">
             <div class="col m4">
                 <label class='custom-label'>Kiểu giấy tờ</label>
                 <input type="text" id="suakieu2" class="inputEdit form-control" />
@@ -332,7 +332,7 @@
                 <label class='custom-label'>Tên giấy tờ</label>
                 <input type="text" id="suaten2" class="inputEdit form-control" />
             </div>
-          
+
         </div>
     </div>
     <div class="modal-footer">
@@ -365,7 +365,7 @@
     <script>
     var table;
         $(document).ready(function () {
-           
+
         customeClick();
 
         $('input').prop('disabled', true);
@@ -479,7 +479,7 @@
         ,
          error: () => {
                             $("#pre-load").hide()
-                         
+
                             errorAlert('Thất bại', 'Đã xảy ra lỗi');
                         }
 
@@ -522,7 +522,7 @@
         ,
          error: () => {
                             $("#pre-load").hide()
-                         
+
                             errorAlert('Thất bại', 'Đã xảy ra lỗi');
                         }
 
@@ -555,7 +555,7 @@
         ,
          error: () => {
                             $("#pre-load").hide()
-                         
+
                             errorAlert('Thất bại', 'Đã xảy ra lỗi');
                         }
 
@@ -817,13 +817,13 @@
 
                 //  alert('ddd');
                 loadThongTinCoBan();
-                
+
                 successAlert('Thành công', 'Cập nhật thông tin cơ bản');
             }
             ,
          error: () => {
                             $("#pre-load").hide()
-                         
+
                             errorAlert('Thất bại', 'Đã xảy ra lỗi');
                         }
 
@@ -849,7 +849,7 @@
             ,
          error: () => {
                             $("#pre-load").hide()
-                         
+
                             errorAlert('Thất bại', 'Đã xảy ra lỗi');
                         }
 
@@ -874,7 +874,7 @@
             ,
          error: () => {
                             $("#pre-load").hide()
-                         
+
                             errorAlert('Thất bại', 'Đã xảy ra lỗi');
                         }
 
@@ -982,16 +982,16 @@
         url: "/Brief/updateGiayTo",
         data: { json: JSON.stringify(object) },
         dataType: "json",
-        success: function (data) {        
+        success: function (data) {
             //loadThongTinGiayTo();
             //     setTimeout(() => {
             table.ajax.reload(() => { successAlert('Thành công', 'Cập nhật giấy tờ thành công'); }, false);
             //     },500)
-            
+
         },
          error: () => {
                             $("#pre-load").hide()
-                         
+
                             errorAlert('Thất bại', 'Đã xảy ra lỗi');
                         }
 
@@ -1005,9 +1005,9 @@
 
 
          function dongYThemGiayTo() {
-       
+
             var object = {
-           
+
             "manv": '@ViewBag.manv',
             "kieu": $('#suakieu2').val(),
               "ten": $('#suaten2').val()
@@ -1022,16 +1022,16 @@
         url: "/Brief/insertGiayTo",
         data: { json: JSON.stringify(object) },
         dataType: "json",
-        success: function (data) {        
+        success: function (data) {
             //loadThongTinGiayTo();
             //     setTimeout(() => {
             table.ajax.reload(() => { successAlert('Thành công', 'Thêm giấy tờ thành công'); }, false);
             //     },500)
-            
+
         },
          error: () => {
                             $("#pre-load").hide()
-                         
+
                             errorAlert('Thất bại', 'Đã xảy ra lỗi');
                         }
 
@@ -1119,16 +1119,16 @@ $(".datepicker-here").keydown(function (e) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 function AddComma(Num) { //function to add commas to textboxes
-    Num += '';
-    Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
-    Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
-    x = Num.split('.');
-    x1 = x[0];
-    x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1))
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    return x1 + x2;
+     Num += '';
+            Num = Num.replace('.', ''); Num = Num.replace('.', ''); Num = Num.replace('.', '');
+            Num = Num.replace('.', ''); Num = Num.replace('.', ''); Num = Num.replace('.', '');
+            x = Num.split(',');
+            x1 = x[0];
+            x2 = x.length > 1 ? ',' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1))
+                x1 = x1.replace(rgx, '$1' + '.' + '$2');
+            return x1 + x2;
 }
 
 function revert(res) {
@@ -1152,7 +1152,7 @@ $(function(){
 
 
 
-        $('.validatengay').datepicker({   
+        $('.validatengay').datepicker({
         language: 'vi',
         maxDate: new Date() // Now can select only dates, which goes after today
         })

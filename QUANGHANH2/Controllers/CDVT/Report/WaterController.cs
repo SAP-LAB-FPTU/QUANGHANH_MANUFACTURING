@@ -84,35 +84,35 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             {
                 var ngay = DateTime.Now.Date;
                 query = @"select MONTH(ac.date) as Thang, YEAR(ac.date) as Nam,c.equipmentId as MaThietBi,c.mark_code as MaTSCD, 
-                          d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong , hours_per_day * (CAST(ca.Value as float) / 1000) as 
+                          d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong , hours_per_day * (CAST(ca.[Value] as float) / 1000) as 
                           LuongTieuThu,ac.quantity as SanLuong from Equipment c 
                           inner join Activity ac on c.equipmentId = ac.equipmentid 
                           inner join Department d on d.department_id = c.department_id 
                           inner join Category_attribute_value ca on ca.equipmentId = c.equipmentId
-                          where ac.date = '"+ngay+"' and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
+                          where ca.Equipment_category_attribute_id = 'CS' and ac.date = '" + ngay+"' and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
             }
             if (type == "day")
             {
                 var ngay = DateTime.ParseExact(date, "dd/MM/yyyy", null).ToString("yyyy-MM-dd");
                 query = @"select MONTH(ac.date) as Thang, YEAR(ac.date) as Nam,c.equipmentId as MaThietBi,c.mark_code as MaTSCD, 
-                          d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong , hours_per_day * (CAST(ca.Value as float) / 1000) as 
+                          d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong , hours_per_day * (CAST(ca.[Value] as float) / 1000) as 
                           LuongTieuThu,ac.quantity as SanLuong from Equipment c 
                           inner join Activity ac on c.equipmentId = ac.equipmentid 
                           inner join Department d on d.department_id = c.department_id 
                           inner join Category_attribute_value ca on ca.equipmentId = c.equipmentId
-                          where ac.date = '"+ngay+"' and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
+                          where ca.Equipment_category_attribute_id = 'CS' and ac.date = '" + ngay+"' and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
             }
             if (type == "month")
             {
                 int thang = Convert.ToInt32(month);
                 int nam = Convert.ToInt32(year);
                 query = @"select MONTH(ac.date) as Thang, YEAR(ac.date) as Nam,c.equipmentId as MaThietBi,c.mark_code as MaTSCD, 
-                          d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong , hours_per_day * (CAST(ca.Value as float) / 1000) as 
+                          d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong , hours_per_day * (CAST(ca.[Value] as float) / 1000) as 
                           LuongTieuThu,ac.quantity as SanLuong from Equipment c 
                           inner join Activity ac on c.equipmentId = ac.equipmentid 
                           inner join Department d on d.department_id = c.department_id 
                           inner join Category_attribute_value ca on ca.equipmentId = c.equipmentId
-                          where YEAR(ac.date) = "+nam+" and MONTH(ac.date) = "+thang+" and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
+                          where ca.Equipment_category_attribute_id = 'CS' and YEAR(ac.date) = " + nam+" and MONTH(ac.date) = "+thang+" and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
             }
             if (type == "quarter")
             {
@@ -135,23 +135,23 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                     quy = " (10,11,12) ";
                 }
                 query = @"select MONTH(ac.date) as Thang, YEAR(ac.date) as Nam,c.equipmentId as MaThietBi,c.mark_code as MaTSCD, 
-                          d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong , hours_per_day * (CAST(ca.Value as float) / 1000) as 
+                          d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong , hours_per_day * (CAST(ca.[Value] as float) / 1000) as 
                           LuongTieuThu,ac.quantity as SanLuong from Equipment c 
                           inner join Activity ac on c.equipmentId = ac.equipmentid 
                           inner join Department d on d.department_id = c.department_id 
                           inner join Category_attribute_value ca on ca.equipmentId = c.equipmentId
-                          where MONTH(ac.date) in "+quy+" and YEAR(ac.date) = "+nam+" and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
+                          where ca.Equipment_category_attribute_id = 'CS' and MONTH(ac.date) in " + quy+" and YEAR(ac.date) = "+nam+" and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
             }
             if (type == "year")
             {
                 int nam = Convert.ToInt32(year);
                 query = @"select MONTH(ac.date) as Thang, YEAR(ac.date) as Nam,c.equipmentId as MaThietBi,c.mark_code as MaTSCD, 
-                          d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong , hours_per_day * (CAST(ca.Value as float) / 1000) as 
+                          d.department_name as ViTriDat, equipment_name as TenThietBi, ac.hours_per_day as GioHoatDong , hours_per_day * (CAST(ca.[Value] as float) / 1000) as 
                           LuongTieuThu,ac.quantity as SanLuong from Equipment c 
                           inner join Activity ac on c.equipmentId = ac.equipmentid 
                           inner join Department d on d.department_id = c.department_id 
                           inner join Category_attribute_value ca on ca.equipmentId = c.equipmentId
-                          where YEAR(ac.date) = "+nam+" and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
+                          where ca.Equipment_category_attribute_id = 'CS' and YEAR(ac.date) = " + nam+" and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
             }
             return query;
         }
