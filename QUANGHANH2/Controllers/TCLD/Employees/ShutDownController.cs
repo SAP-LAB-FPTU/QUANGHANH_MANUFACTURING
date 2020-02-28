@@ -1,19 +1,30 @@
-﻿using QUANGHANH2.Models;
-using QUANGHANH2.SupportClass;
+﻿using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
+using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
-using System.Linq.Dynamic;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Hosting;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Script.Serialization;
+using System.Windows;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System.Web.Hosting;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Data.SqlClient;
+using System.Linq.Dynamic;
+using System.Data.Entity;
+using QUANGHANH2.SupportClass;
 using static QUANGHANH2.Controllers.TCLD.EmployeesController;
 using static QUANGHANHCORE.Controllers.TCLD.TransferController;
+
+
 
 namespace QUANGHANH2.Controllers.TCLD
 {
@@ -249,7 +260,8 @@ namespace QUANGHANH2.Controllers.TCLD
 
                 return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
 
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return null;
             }
@@ -507,6 +519,198 @@ namespace QUANGHANH2.Controllers.TCLD
                     return Json(new { success = false }, JsonRequestBehavior.AllowGet);
                 }
             }
+        }
+
+        public class ChamDutModel
+        {
+            public string MaNV { get; set; }
+            public string Ten { get; set; }
+            public string LoaiChamDut { get; set; }
+            public string NgayChamDut { get; set; }
+            public string DonViHienTai { get; set; }
+            public string PhanXuong { get; set; }
+            public string SoQD { get; set; }
+            public string BacLuong { get; set; }
+            public string ThangLuong { get; set; }
+            public string SoBHXH { get; set; }
+            public string MucLuong { get; set; }
+            public string PhongBan { get; set; }
+            public Nullable<DateTime> NgaySinh { get; set; }
+            public Nullable<DateTime> NgayDiLam { get; set; }
+            public bool GioiTinh { get; set; }
+        }
+
+
+        [Route("phong-tcld/quan-ly-nhan-vien/cham-dut/export-quyet-dinh")]
+        [HttpPost]
+        public ActionResult ExportReport(string selectedList)
+        {
+            try
+            {
+                var js = new JavaScriptSerializer();
+                var result = JsonConvert.DeserializeObject<ChamDutModel>(selectedList);
+                string manv = "";
+                //for (int i = 0; i < result.Count; i++)
+                //{
+                //    manv += "'" + int.Parse(((ChamDutModel)result[i]).MaNV) + "',";
+                //}
+                //manv = manv.Remove(manv.Length - 1);
+                List<ChamDutModel> exportList = new List<ChamDutModel>();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    db.Configuration.LazyLoadingEnabled = false;
+                    string query = @"select a.*, b.department_name as 'PhanXuong', d.MucThangLuong as 'ThangLuong' from NhanVien a
+                            left join Department b on a.MaPhongBan = b.department_id
+                            left join BacLuong_ThangLuong_MucLuong c on 
+                            a.MaBacLuong_ThangLuong_MucLuong = c.MaBacLuong_ThangLuong_MucLuong 
+                            left join ThangLuong d on c.MaThangLuong = d.MaThangLuong                       
+                            where a.MaNV in (@MaNV)";
+                    exportList = db.Database.SqlQuery<ChamDutModel>(query, new SqlParameter("manv", result.MaNV)).ToList();
+                }
+                string Flocation = "/doc/TCLD/chamdut/quyetdinh-chamdut.doc";
+                //Mot nguoi
+
+               
+                    string fileName = HostingEnvironment.MapPath("/doc/TCLD/chamdut/motnguoi/chamdut-ko-tro-cap-template.docx");
+                    byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
+                    using (var stream = new MemoryStream())
+                    {
+                        stream.Write(byteArray, 0, byteArray.Length);
+                        using (var doc = WordprocessingDocument.Open(stream, true))
+                        {
+                            string docText = null;
+                            using (StreamReader sr = new StreamReader(doc.MainDocumentPart.GetStream()))
+                            {
+                                docText = sr.ReadToEnd();
+                            }
+                            Regex regexText = new Regex("%ngayquyetdinh%");
+                            string[] ngay = result.NgayChamDut.Split('/');
+                            docText = regexText.Replace(docText, "Ngày " + ngay[0] + " tháng " + ngay[1] + " năm " + ngay[2]);
+
+                            regexText = new Regex("%ngaychamdut%");
+                            docText = regexText.Replace(docText, ngay[1] + "/" + ngay[2]);
+
+                            regexText = new Regex("%soqd%");
+                            docText = regexText.Replace(docText, result.SoQD);
+
+                            regexText = new Regex("%name%");
+                            docText = regexText.Replace(docText, exportList[0].Ten);
+
+                            regexText = new Regex("%gender%");
+                            docText = regexText.Replace(docText, exportList[0].GioiTinh?"Ông":"Bà");
+
+                            regexText = new Regex("%sothe%");
+                            docText = regexText.Replace(docText, exportList[0].MaNV);
+
+                            regexText = new Regex("%ngaysinh%");
+                            docText = regexText.Replace(docText, exportList[0].NgaySinh==null?"": exportList[0].NgaySinh.Value.ToString("dd/MM/yyyy"));
+
+                            regexText = new Regex("%ngaydilam%");
+                            docText = regexText.Replace(docText, exportList[0].NgayDiLam == null ? "" : exportList[0].NgayDiLam.Value.ToString("MM/yyyy"));
+
+                            regexText = new Regex("%soBHXH%");
+                            docText = regexText.Replace(docText, exportList[0].SoBHXH==null?"":exportList[0].SoBHXH);
+
+                            regexText = new Regex("%nghenghiep%");
+                            docText = regexText.Replace(docText, result.DonViHienTai);
+
+                            regexText = new Regex("%bacluong%");
+                            docText = regexText.Replace(docText, exportList[0].BacLuong==null?"": exportList[0].BacLuong);
+
+                            regexText = new Regex("%mucluong%");
+                            docText = regexText.Replace(docText, exportList[0].DonViHienTai==null?"":exportList[0].DonViHienTai);
+
+                            regexText = new Regex("%thangluong%");
+                            docText = regexText.Replace(docText, exportList[0].ThangLuong == null ? "" : exportList[0].ThangLuong);
+
+                            regexText = new Regex("%phanxuong%");
+                            docText = regexText.Replace(docText, exportList[0].PhanXuong == null?"":exportList[0].PhanXuong);
+                            using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
+                            {
+                                sw.Write(docText);
+                            }
+
+                            doc.MainDocumentPart.Document.Save(); // won't update the original file 
+                        }
+                        // Save the file with the new name
+                        string savePath = HostingEnvironment.MapPath(Flocation);
+                        stream.Position = 0;
+                        System.IO.File.WriteAllBytes(savePath, stream.ToArray());
+                    }
+                return Json(new { success = true, location = Flocation }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+            
+
+            //nhieu nguoi
+            //else
+            //{
+            //    string fileName = HostingEnvironment.MapPath("/doc/TCLD/dieudong/nhieunguoi/dieudong-template.docx");
+            //    byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
+            //    using (var stream = new MemoryStream())
+            //    {
+            //        stream.Write(byteArray, 0, byteArray.Length);
+            //        using (var doc = WordprocessingDocument.Open(stream, true))
+            //        {
+            //            string docText = null;
+            //            using (StreamReader sr = new StreamReader(doc.MainDocumentPart.GetStream()))
+            //            {
+            //                docText = sr.ReadToEnd();
+            //            }
+            //            Regex regexText = new Regex("%ngayquyetdinh%");
+            //            string[] ngay = result[0].NgayChamDut.Split('/');
+            //            docText = regexText.Replace(docText, "Ngày " + ngay[0] + " tháng " + ngay[1] + " năm " + ngay[2]);
+
+            //            regexText = new Regex("%soquyetdinh%");
+            //            docText = regexText.Replace(docText, result[0].SoQD);
+
+            //            using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
+            //            {
+            //                sw.Write(docText);
+            //            }
+            //            Table table =  doc.MainDocumentPart.Document.Body.Elements<Table>().ElementAt(2);
+            //            int i = 0;
+            //            foreach (ChamDutModel d in result)
+            //            {
+            //                TableRow tr = new TableRow();
+            //                i++;
+            //                TableCell tc1 = new TableCell();
+            //                tc1.Append(new Paragraph(new Run(new Text((i).ToString()))));
+            //                tr.Append(tc1);
+
+            //                TableCell tc2 = new TableCell();
+            //                tc2.Append(new Paragraph(new Run(new Text(d.MaNV))));
+            //                tr.Append(tc2);
+
+            //                TableCell tc3 = new TableCell();
+            //                tc3.Append(new Paragraph(new Run(new Text(d.TenNV))));
+            //                tr.Append(tc3);
+
+            //                TableCell tc4 = new TableCell();
+            //                tc4.Append(new Paragraph(new Run(new Text(d.DonViHienTai))));
+            //                tr.Append(tc4);
+
+            //                TableCell tc5 = new TableCell();
+            //                tc5.Append(new Paragraph(new Run(new Text(d.LoaiChamDut))));
+            //                tr.Append(tc5);
+
+            //                table.Append(tr);
+            //            }
+            //            doc.MainDocumentPart.Document.Save(); // won't update the original file 
+            //        }
+            //        // Save the file with the new name
+            //        string savePath = HostingEnvironment.MapPath(Flocation);
+            //        stream.Position = 0;
+            //        System.IO.File.WriteAllBytes(savePath, stream.ToArray());
+            //    }
+            //}
+
+
+
         }
     }
 }
