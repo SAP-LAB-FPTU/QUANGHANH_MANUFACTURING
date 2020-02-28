@@ -70,7 +70,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             {
                 ca = Convert.ToInt32(ca_value);
             }
-            DateTime dateTime = Convert.ToDateTime(date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2]);
+            DateTime dateTime = Convert.ToDateTime(date);
             string date_sql = date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2];
             try
             {
