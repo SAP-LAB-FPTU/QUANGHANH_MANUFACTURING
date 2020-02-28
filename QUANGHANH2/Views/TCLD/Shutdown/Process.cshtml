@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Select";
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
@@ -859,7 +860,7 @@
                         }
                     }
                 } else {
-                     if ($("#select-dept-for-all").val().trim() == 'khac') {
+                    if ($("#select-dept-for-all").val().trim() == 'khac') {
                         var obj = {
                             'MaNV': arrCarSelected[i],
                             'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
@@ -907,20 +908,55 @@
             $("#pre-load").show("slow", function () {
             });
             var selectedList = [];
+
             for (var i = 0; i < arrCarSelected.length; i++) {
-                if ($("#tlhd-" + arrCarSelected[i]).val().trim() == 'khac') {
-                    var obj = {
-                        'SoQD': $("#so-quyet-dinh").val().trim(),
-                        'MaNV': arrCarSelected[i],
-                        'NgayChamDut': $("#ngay-quyet-dinh").val(),
-                        'LoaiChamDut': $("#khac" + arrCarSelected[i]).val()
+                if ($("#check-select-all-bac").prop("checked") == false) {
+                    if ($("#tlhd-" + arrCarSelected[i]).val().trim() == 'khac') {
+                        var obj = {
+                            'SoQD': $("#so-quyet-dinh").val().trim(),
+                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
+                            'MaNV': arrCarSelected[i],
+                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
+                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
+                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
+                            'NgayQD': $("#ngay-quyet-dinh").val(),
+                            'LyDo': $("#khac" + arrCarSelected[i]).val().trim()
+                        }
+                    } else {
+                        var obj = {
+                            'SoQD': $("#so-quyet-dinh").val().trim(),
+                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
+                            'MaNV': arrCarSelected[i],
+                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
+                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
+                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
+                            'NgayQD': $("#ngay-quyet-dinh").val(),
+                            'LoaiChamDut': $("#tlhd-" + arrCarSelected[i]).val().trim()
+                        }
                     }
                 } else {
-                    var obj = {
-                        'SoQD': $("#so-quyet-dinh").val().trim(),
-                        'MaNV': arrCarSelected[i],
-                        'NgayChamDut': $("#ngay-quyet-dinh").val(),
-                        'LoaiChamDut': $("#tlhd-" + arrCarSelected[i]).val()
+                    if ($("#select-dept-for-all").val().trim() == 'khac') {
+                        var obj = {
+                            'SoQD': $("#so-quyet-dinh").val().trim(),
+                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
+                            'MaNV': arrCarSelected[i],
+                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
+                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
+                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
+                            'NgayQD': $("#ngay-quyet-dinh").val(),
+                            'LoaiChamDut': $("#khac-header").val().trim()
+                        }
+                    } else {
+                        var obj = {
+                            'SoQD': $("#so-quyet-dinh").val().trim(),
+                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
+                            'MaNV': arrCarSelected[i],
+                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
+                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
+                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
+                            'NgayQD': $("#ngay-quyet-dinh").val(),
+                            'LoaiChamDut': $("#select-dept-for-all").val().trim()
+                        }
                     }
                 }
                 selectedList.push(obj);
@@ -967,60 +1003,75 @@
             });
             var selectedList = [];
             for (var i = 0; i < arrCarSelected.length; i++) {
-                //var date = $("#thoigian-" + arrCarSelected[i]).val().split('-');
-                selectedList.push({
-                    'SoQD': $("#so-quyet-dinh").val().trim(),
-                    'MaNV': arrCarSelected[i],
-                    'HoTen': "",
-                    'DonViHienTai': "",
-                    'ChucVuHienTai': "",
-                    'BacLuong': $("#bac-" + arrCarSelected[i]).find(":selected").text(),
-                    'MucLuong': $("#luong-" + arrCarSelected[i]).val(),
-                    'ThangBacLuong': $("#thang-" + arrCarSelected[i]).val(),
-                    'PhuCap': $("#phucap-" + arrCarSelected[i]).val(),
-                    'DonViMoi': $("#donvi-" + arrCarSelected[i]).val(),
-                    'ChucVu': {
-                        'maChucVu': $("#chucvu-" + arrCarSelected[i]).val(),
-                        'tenChucVu': $("#chucvu-" + arrCarSelected[i] + " :selected").text(),
-                    },
-                    'NgayQD': $("#ngay-quyet-dinh").val(),
-                    'LyDo': $("#lydo-" + arrCarSelected[i]).val().trim()
-                });
-            }
-            //var urlToSend = '/phong-tcld/dieu-chuyen/export-quyet-dinh';
-            //var req = new XMLHttpRequest();
-            //req.open("POST", urlToSend, true);
-            //req.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-            //req.responseType = "blob";
-            //req.onload = function (event) {
-            //    console.log(req.response);
-            //    var blob = req.response;
-            //    var fileName = "quyetdinh-dieudong.docx";
-            //    var link = document.createElement('a');
-            //    link.href = window.URL.createObjectURL(blob);
-            //    link.download = fileName;
-            //    link.click();
-            //};
-            //$("#pre-load").hide("slow", function () {
-            //});
-            //req.send(JSON.stringify(selectedList));
-            $.ajax({
-                type: 'Post',
-                url: '/phong-tcld/dieu-chuyen/export-quyet-dinh',
-                data: { selectedList: JSON.stringify(selectedList) },
-                dataType: 'json',
-                success: function (response) {
-                    if (response.success) {
-                        window.location.href = response.location;
-                        $("#pre-load").hide("slow", function () {
-                        });
-
+                if ($("#check-select-all-bac").prop("checked") == false) {
+                    if ($("#tlhd-" + arrCarSelected[i]).val().trim() == 'khac') {
+                        var obj = {
+                            'SoQD': $("#so-quyet-dinh").val().trim(),
+                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
+                            'MaNV': arrCarSelected[i],
+                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
+                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
+                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
+                            'NgayQD': $("#ngay-quyet-dinh").val(),
+                            'LyDo': $("#khac" + arrCarSelected[i]).val().trim()
+                        }
                     } else {
-                        alert("error");
+                        var obj = {
+                            'SoQD': $("#so-quyet-dinh").val().trim(),
+                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
+                            'MaNV': arrCarSelected[i],
+                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
+                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
+                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
+                            'NgayQD': $("#ngay-quyet-dinh").val(),
+                            'LoaiChamDut': $("#tlhd-" + arrCarSelected[i]).val().trim()
+                        }
+                    }
+                } else {
+                    if ($("#select-dept-for-all").val().trim() == 'khac') {
+                        var obj = {
+                            'SoQD': $("#so-quyet-dinh").val().trim(),
+                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
+                            'MaNV': arrCarSelected[i],
+                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
+                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
+                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
+                            'NgayQD': $("#ngay-quyet-dinh").val(),
+                            'LoaiChamDut': $("#khac-header").val().trim()
+                        }
+                    } else {
+                        var obj = {
+                            'SoQD': $("#so-quyet-dinh").val().trim(),
+                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
+                            'MaNV': arrCarSelected[i],
+                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
+                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
+                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
+                            'NgayQD': $("#ngay-quyet-dinh").val(),
+                            'LoaiChamDut': $("#select-dept-for-all").val().trim()
+                        }
                     }
                 }
-            });
+                selectedList.push(obj);
+            }
+            for (var i = 0; i < selectedList.length; i++) {
+                $.ajax({
+                    type: 'Post',
+                    url: '/phong-tcld/quan-ly-nhan-vien/cham-dut/export-quyet-dinh',
+                    data: { selectedList: JSON.stringify(selectedList[i]) },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            window.location.href = response.location;
+                            $("#pre-load").hide("slow", function () {
+                            });
 
+                        } else {
+                            alert("error");
+                        }
+                    }
+                });
+            }
         });
     </script>
     <script>

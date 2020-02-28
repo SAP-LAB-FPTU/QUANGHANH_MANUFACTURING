@@ -7168,6 +7168,12 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="doc\TCLD\chamdut\motnguoi\dieudong-template.docx" />
+    <Content Include="doc\TCLD\chamdut\nhieunguoi\dieudong-template.docx" />
+    <Content Include="doc\TCLD\chamdut\quyetdinh-dieudong.docx" />
+    <Content Include="doc\TCLD\chamdut\motnguoi\chamdut-ko-tro-cap-template.docx" />
+    <Content Include="doc\TCLD\chamdut\quyetdinh-chamdut.docx" />
+    <Content Include="doc\TCLD\chamdut\motnguoi\name.docx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
