@@ -14,7 +14,7 @@ namespace QUANGHANH2.Controllers.Camera
 {
     public class CapNhatTheoCaController : Controller
     {
-        [Auther(RightID = "190")]
+        [Auther(RightID = "203")]
         [Route("phong-cdvt/camera/cap-nhat")]
         public ActionResult Index()
         {
@@ -72,7 +72,7 @@ namespace QUANGHANH2.Controllers.Camera
             return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering, session = session });
         }
 
-        [Auther(RightID = "191")]
+        [Auther(RightID = "204")]
         [Route("phong-cdvt/camera/cap-nhat/Update")]
         [HttpPost]
         public ActionResult Update(string stringjson)

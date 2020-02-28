@@ -11,11 +11,15 @@ namespace QUANGHANH2.ModelViews
         public int RegWednesday { get; set; }
         public int RegThursday { get; set; }
         public int RegFriday { get; set; }
+        public int RegSaturday { get; set; }
+        public int RegSunday { get; set; }
         public int RegMondayPlan { get; set; }
         public int RegTuesdayPlan { get; set; }
         public int RegWednesdayPlan { get; set; }
         public int RegThursdayPlan { get; set; }
         public int RegFridayPlan { get; set; }
+        public int RegSaturdayPlan { get; set; }
+        public int RegSundayPlan { get; set; }
     }
 
     public class PxdsMealRegistrationModelView

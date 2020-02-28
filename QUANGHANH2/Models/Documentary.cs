@@ -46,6 +46,7 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Acceptance> Acceptances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Camera_Acceptance> Camera_Acceptance { get; set; }
+        public virtual Department Department { get; set; }
         public virtual DocumentaryType DocumentaryType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_camera_repair_details> Documentary_camera_repair_details { get; set; }

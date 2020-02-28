@@ -559,7 +559,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         //usedDay
                         emp.usedDay = DateTime.ParseExact(used, "dd/MM/yyyy", null);
                         emp.input_channel = "Đường kế toán";
-                        emp.department_id = "CDVT";
+                        emp.department_id = Convert.ToString(Session["departID"]);
                         emp.total_operating_hours = 0;
                         emp.durationOfMaintainance = DateTime.Now;
                         db.Equipments.Add(emp);

@@ -18,7 +18,7 @@ namespace QUANGHANH2.Models
         public int acceptance_camera_quantity { get; set; }
         public int documentary_id { get; set; }
         public Nullable<System.DateTime> acceptance_date { get; set; }
-        public int cameraStatus { get; set; }
+        public bool isAcceptance { get; set; }
     
         public virtual Documentary Documentary { get; set; }
         public virtual Room Room { get; set; }
