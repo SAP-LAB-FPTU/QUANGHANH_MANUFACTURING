@@ -410,7 +410,7 @@ namespace QUANGHANH2.Controllers.TCLD
         }
 
         [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
-        [Route("phan-xuong-khai-thac/dang-ki-nhiem-vu")]
+        [Route("phan-xuong/dang-ki-nhiem-vu")]
         public ActionResult DangKiNhiemVu()
         {
             int start = Convert.ToInt32(Request["start"]);
