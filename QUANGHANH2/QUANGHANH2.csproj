@@ -329,6 +329,7 @@
     <Compile Include="Controllers\TCLD\Brief\BriefController.cs" />
     <Compile Include="Controllers\TCLD\Brief\BriefRegulationController.cs" />
     <Compile Include="Controllers\TCLD\Certificates\CertificateController.cs" />
+    <Compile Include="Controllers\TCLD\Certificates\ReportController.cs" />
     <Compile Include="Controllers\TCLD\Department\DepartmentController.cs" />
     <Compile Include="Controllers\TCLD\Diploma\DiplomaController.cs" />
     <Compile Include="Controllers\TCLD\EatingController.cs" />
@@ -7356,7 +7357,7 @@
     <Content Include="Views\TCLD\Brief\ManageBrief\RegulationEdit.cshtml" />
     <Content Include="Views\TCLD\Brief\ManageBrief\Regulations.cshtml" />
     <Content Include="Views\TCLD\Brief\ListAll.cshtml" />
-    <Content Include="Views\TCLD\Certificate\ReportJob.cshtml" />
+    <Content Include="Views\TCLD\Certificate\Report.cshtml" />
     <Content Include="Views\TCLD\Certificate\ViewJobByPX.cshtml" />
     <Content Include="Views\TCLD\Certificate\ViewJobRegister.cshtml" />
     <Content Include="Views\TCLD\ModifiedHistory\ModifiedHistory.cshtml" />
