@@ -114,10 +114,10 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
             //
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                //var tongsongayDB = db.header_KeHoachTungThang.FirstOrDefault(x => x.ThangKeHoach == timeEnd.Month && x.NamKeHoach == timeEnd.Year);
-                //int tongsongay = tongsongayDB == null ? 1 : (int)tongsongayDB.SoNgayLamViec;
-                //var headerDateWorked = db.header_ThucHienTheoNgay.FirstOrDefault(x => x.Ngay == timeEnd);
-                //int ngaylam = headerDateWorked == null ? 0 : (int)headerDateWorked.NgaySanXuat;
+                var tongsongayDB = db.KeHoachTungThangs.FirstOrDefault(x => x.ThangKeHoach == timeEnd.Month && x.NamKeHoach == timeEnd.Year);
+                int tongsongay = tongsongayDB == null ? 1 : (int)tongsongayDB.SoNgayLamViec;
+                var headerDateWorked = db.ThucHienTheoNgays.FirstOrDefault(x => x.Ngay == timeEnd);
+                int ngaylam = headerDateWorked == null ? 0 : (int)headerDateWorked.NgaySanXuat;
                 //
                 var listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
                 var list_KHDC = db.Database.SqlQuery<KHDCEntity>(query_KHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
@@ -126,7 +126,7 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                 for (var index = 0; index < listReport.Count; index++)
                 {
                     listReport[index].KHDC = list_KHDC[index].SanLuong;
-                    //listReport[index].BQQHDC = Math.Round(listReport[index].KHDC / (tongsongay - ngaylam), 2, MidpointRounding.ToEven);
+                    listReport[index].BQQHDC = Math.Round(listReport[index].KHDC / (tongsongay - ngaylam), 2, MidpointRounding.ToEven);
                     listReport[index].KH = list_KHDaily[index].SanLuong;
                 }
                 //
@@ -136,7 +136,7 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                     item.percentage = item.KH == 0 ? 100 : Math.Round(item.TH / item.KH, 2, MidpointRounding.ToEven);
                     item.percentageDC = item.KHDC == 0 ? 100 : Math.Round(item.luyke / item.KHDC, 2, MidpointRounding.ToEven);
                     item.SUM = item.KHDC - item.luyke;
-                    //item.perday = Math.Round(item.SUM / (tongsongay - ngaylam), 2, MidpointRounding.ToEven);
+                    item.perday = Math.Round(item.SUM / (tongsongay - ngaylam), 2, MidpointRounding.ToEven);
                 }
                 //
                 List<reportEntity> reports = new List<reportEntity>();
