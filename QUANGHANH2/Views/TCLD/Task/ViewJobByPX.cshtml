@@ -8,6 +8,15 @@
     var arrPhanXuong = ViewBag.PhanXuongs;
     var arrNhiemVu = ViewBag.arrNhiemVu;
 }
+<style>
+    /*[tuankq] add from here*/
+    .label-danger {
+    background-color: #f5365c !important;
+    font-size: 8.5px !important;
+    padding: 3px 3px !important;
+    /*[tuankq] to here*/
+}
+</style>
 <div class="row">
     <div class="card">
         <div class="card-content">
@@ -180,13 +189,14 @@
                     { "data": "MaNV", "name": "MaNV", "render": (data) => { return "<label>" + data + "</label>" }, "orderable": true },
                     { "data": "Ten", "name": "Ten", "render": (data, type, row, meta) => { return "<a class='font-weight-bold text-success' href='@Url.Action("chung-chi-cua-nhan-vien", "phong-tcld")?MaNV=" + row['MaNV'] + "'>" + data + "</a>" }, "orderable": true },
                     @{
+                        /*[tuankq] add from here*/int index = 0;/*[tuankq] to here*/
                         foreach (var b in arrNhiemVu)
                         {
                             foreach (var c in b.arrNV)
                             {
 
                                 var pp = "{ \"data\": \"MaNV\", \"render\": (data, type, row, meta) => {" +
-                                    "var i;" +
+                                    "var i;"+/*[tuankq] add from here*/" var ii = "+ index + ";" /*[tuankq] to here*/+
                                     "for(i =0 ; i < row['ChungChiNhiemVu'].length ; i++ ){" +
                                         "if(row['ChungChiNhiemVu'][i].MaNhiemVu == " + c.MaNhiemVu + "){" +
                                             "var rt = \"<label><input class='job' value='"
@@ -201,11 +211,23 @@
                                             "rt = \"<div class='row'>\"+rt+\"</div>\"; return rt;" +
                                         "}" +/* end if*/
                                     "}" + /*end for*/
-                                        "return \"<label><input class='job' value='"
-                                        + c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=selectNewJob('"
-                                        + c.MaNhiemVu + "_" + "\"+data+\"" + "') disabled /><span></span></label> " +
-                                        "\"} " + // ngoac cua function render
-                                        " ,\"orderable\": false  } ,";
+                                          //"return \"<label><input class='job' value='"
+                                          //+ c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=selectNewJob('"
+                                          //+ c.MaNhiemVu + "_" + "\"+data+\"" + "') disabled /><span></span></label> " +
+                                          //"\"} " + // ngoac cua function render
+                                          //" ,\"orderable\": false  } ,";
+                                          " var rt = \"<label><input class='job' value='"
+                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=selectNewJob('"
+                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "')  disabled /><span></span></label>\";" +
+                                            "if(row['ChungChiNhiemVu'][ii].TinhTrangChungChi == 'Còn hạn'){" +
+                                                " rt += \"<br/><a class='label label-success' >\"+row['ChungChiNhiemVu'][ii].TinhTrangChungChi+\"</a>\"}" +
+                                            "else if(row['ChungChiNhiemVu'][ii].TinhTrangChungChi == 'Hết hạn'){" +
+                                              " rt += \"<br/><a class='label label-warning'  >\"+row['ChungChiNhiemVu'][ii].TinhTrangChungChi+\"</a>\"}" +
+                                            "else{" +
+                                                "rt += \"<br/><a class='label label-danger' >\"+row['ChungChiNhiemVu'][ii].TinhTrangChungChi+\"</a>\" }" +
+                                            "rt = \"<div class='row'>\"+rt+\"</div>\"; return rt;" +
+                                        "}" + // ngoac cua function render
+                                       " ,\"orderable\": false  } ,";
 
 
                                 <text>
