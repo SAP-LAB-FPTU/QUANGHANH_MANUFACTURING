@@ -7179,6 +7179,8 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="doc\TCLD\chamdutdow\chamdut-ko-tro-cap-template.docx" />
+    <Content Include="doc\TCLD\chamdutzip\chamdut-ko-tro-cap-template.docx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7515,8 +7517,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="doc\TCLD\chamdutdow\" />
-    <Folder Include="doc\TCLD\chamdutzip\" />
     <Folder Include="excel\Notifi\download\" />
     <Folder Include="FileContainer\KCS\" />
     <Folder Include="FileContainer\PhanXuongLenDK\" />
