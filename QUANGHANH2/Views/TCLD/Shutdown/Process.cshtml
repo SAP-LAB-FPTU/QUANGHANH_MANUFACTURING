@@ -149,7 +149,7 @@
                                                     Lý do chấm dứt
                                                     <div class="select-all">
                                                         <label>
-                                                            <input class="my_checkbox" id="check-select-all-dept" type="checkbox">
+                                                            <input class="my_checkbox" id="check-select-all-bac" type="checkbox">
                                                             <span>Chọn cho tất cả</span>
                                                         </label>
                                                         <select id="select-dept-for-all" class="form-control" onchange="onSelectTypeOfEndContract2()" disabled>
@@ -708,15 +708,15 @@
                     }
                 },
             })
-            if ($("#check-select-all-dept").prop("checked") == true) {
-                $("#check-select-all-dept").click();
+            if ($("#check-select-all-bac").prop("checked") == true) {
+                $("#check-select-all-bac").click();
             }
 
         }
         //get list:
     </script>
     <script>
-        $("#check-select-all-dept").change(function () {
+        $("#check-select-all-bac").change(function () {
             //alert('abc');
             if ($(this).prop("checked") == false) {
                 $(".lydo").each(function () {
