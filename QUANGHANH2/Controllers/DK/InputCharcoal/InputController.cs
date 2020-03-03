@@ -304,7 +304,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                 }
             }
 
-            catch (Exception e)
+            catch (Exception e) 
             {
                 e.Message.ToString();
                 return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);

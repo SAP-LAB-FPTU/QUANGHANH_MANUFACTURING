@@ -28,7 +28,7 @@
                         <button class="modal-trigger btn btn-small darken-2 blue" data-target="addsnlv" id="butsnlv">Nhập ngày sản xuất</button>
                     </div>
                     <div class="input-field col l2 m2 s2">
-                        <input disabled id="ngaySanXuat" name="ngaySX" value="@ViewBag.NgaySX" required autocomplete="off" class="form-control center" onchange="percentOnchange()" placeholder="NgàySX" onchange="onChangeAll()" />
+                        <input readonly id="ngaySanXuat" name="ngaySX" value="@ViewBag.NgaySX" required autocomplete="off" class="form-control center" onchange="percentOnchange()" placeholder="NgàySX" onchange="onChangeAll()" />
                     </div>
                     <div class="input-field col l2 m2 s2">
                         <input id="SoNgaySX" class="form-control center" value="@ViewBag.SoNgaySX" readonly />
@@ -154,7 +154,13 @@
 <script src="~/js/Custom JS/DK/InputCharcoal/AddRow.js"></script>
 
 <script>
-   
+    $(document).ready(function () {
+        var ngaySanXuat = document.getElementById('ngaySanXuat').value;
+        var SoNgaySX = document.getElementById('SoNgaySX').value;
+        var phanTramNgay = document.getElementById('phanTramNgay').value;
+        document.getElementById('process').innerHTML = 'Kế hoạch còn lại: ' + SoNgaySX - ngaySanXuat + ' ngày - Số ngày SX: ' + ngaySanXuat + '/' + SoNgaySX + ' ngày đạt ' + phanTramNgay + '%'
+    });
+
 
     $(document).ready(function () {
         $("#process").hide();
@@ -184,7 +190,7 @@
     //    }
     //});
 
-     $("#butluu").click(function () {
+    $("#butluu").click(function () {
         $("#pre-load").show();
         $.ajax({
             type: "POST",
