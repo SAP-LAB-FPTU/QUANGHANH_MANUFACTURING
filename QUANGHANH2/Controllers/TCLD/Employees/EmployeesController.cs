@@ -617,6 +617,10 @@ namespace QUANGHANH2.Controllers.TCLD
         public ActionResult List()
         {
             ViewBag.nameDepartment = "baohiem";
+            string sql = @"select * from Department d";
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            List<Department> pb = db.Database.SqlQuery<Department>(sql).ToList();
+            ViewBag.pb = pb;
             return View("/Views/TCLD/Brief/List.cshtml");
         }
 
@@ -629,7 +633,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [Auther(RightID = "51")]
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
         [HttpPost]
-        public ActionResult Search(string MaNV, string TenNV, string Gender)
+        public ActionResult Search(string MaNV, string TenNV, string Gender, string pb)
         {
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
@@ -638,12 +642,13 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortDirection = Request["order[0][dir]"];
             string query = "select n.*, t.TenTrangThai from NhanVien n inner join" +
                 " [TrangThai] t on n.MaTrangThai = t.MaTrangThai " +
-                "where n.MaTrangThai = 1 OR n.MaTrangThai = 2 AND ";
-            if (!MaNV.Equals("") || !TenNV.Equals("") || !Gender.Equals(""))
+                "where n.MaTrangThai in (1,2) AND ";
+            if (!MaNV.Equals("") || !TenNV.Equals("") || !Gender.Equals("") || !pb.Equals(""))
             {
                 if (!MaNV.Equals("")) query += "n.MaNV LIKE @MaNV AND ";
                 if (!TenNV.Equals("")) query += "n.Ten LIKE @Ten AND ";
                 if (!Gender.Equals("")) query += "n.GioiTinh LIKE @GioiTinh AND ";
+                if (!pb.Equals("")) query += "n.MaPhongBan = @pb AND ";
             }
             query = query.Substring(0, query.Length - 5);
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
@@ -660,12 +665,14 @@ namespace QUANGHANH2.Controllers.TCLD
             List<NhanVienLink> searchList = db.Database.SqlQuery<NhanVienLink>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                 new SqlParameter("MaNV", '%' + MaNV + '%'),
                 new SqlParameter("Ten", '%' + TenNV + '%'),
-                new SqlParameter("GioiTinh", GioiTinh)
+                new SqlParameter("GioiTinh", GioiTinh),
+                new SqlParameter("pb", pb)
                 ).ToList();
             int totalrows = db.Database.SqlQuery<int>(query.Replace("n.*, t.TenTrangThai", "count(t.TenTrangThai)"),
                 new SqlParameter("MaNV", '%' + MaNV + '%'),
                 new SqlParameter("Ten", '%' + TenNV + '%'),
-                new SqlParameter("GioiTinh", GioiTinh)
+                new SqlParameter("GioiTinh", GioiTinh),
+                new SqlParameter("pb", pb)
                 ).FirstOrDefault();
 
             return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);

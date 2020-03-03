@@ -71,14 +71,22 @@ namespace QUANGHANH2.Controllers.TCLD
                         string names = (string)item["1"];
                         string dob = (string)item["2"];
                         string gender = (string)item["3"];
-                        string unit = (string)item["4"];
-                        string level = (string)item["5"];
-                        string specialized = (string)item["6"];
-                        string working = (string)item["7"];
-                        string place = (string)item["8"];
-                        string salary = (string)item["9"];
-                        string leveWork = (string)item["10"];
-                        string salaryMonth = (string)item["11"];
+                        string phone = (string)item["4"];
+                        string cmt = (string)item["5"];
+                        string dateOfIssue = (string)item["6"];
+                        string placeOfIssue = (string)item["7"];
+                        string nation = (string)item["8"];
+                        string father = (string)item["9"];
+                        string mother = (string)item["10"];
+                        string wife = (string)item["11"];
+                        string unit = (string)item["12"];
+                        string level = (string)item["13"];
+                        string specialized = (string)item["14"];
+                        string working = (string)item["15"];
+                        string place = (string)item["16"];
+                        string salary = (string)item["17"];
+                        string leveWork = (string)item["18"];
+                        string salaryMonth = (string)item["19"];
                         TuyenDung_NhanVien tdnv = new TuyenDung_NhanVien();
                         tdnv.MaQuyetDinh = maQD;
                         tdnv.MaNV = id;
@@ -112,7 +120,16 @@ namespace QUANGHANH2.Controllers.TCLD
                                 return Json(new { message = "NgaySinh", responseText = id }, JsonRequestBehavior.AllowGet);
                             }
                         }
+                        if (dateOfIssue.Trim() != "")
+                        {
+                            emp.NgayCapCMND = convertDOB(dateOfIssue);
 
+                            if (emp.NgayCapCMND.HasValue ? checkDate(emp.NgayCapCMND.Value) == false : false)
+                            {
+                                transaction.Rollback();
+                                return Json(new { message = "NgayCap", responseText = id }, JsonRequestBehavior.AllowGet);
+                            }
+                        }
                         BacLuong bacLuong = null;
                         bacLuong = DBcontext.BacLuongs.Where(x => x.MucBacLuong.Equals(leveWork)).FirstOrDefault<BacLuong>();
                         if(bacLuong == null)
@@ -122,7 +139,7 @@ namespace QUANGHANH2.Controllers.TCLD
                         }
 
                         
-                        if(gender.Equals("nam"))
+                        if(gender.Equals("Nam"))
                         {
                             emp.GioiTinh = true;
                         }
@@ -130,7 +147,12 @@ namespace QUANGHANH2.Controllers.TCLD
                         {
                             emp.GioiTinh = false;
                         }
-                        if(unit.Trim() != "")
+                        emp.SoDienThoai = phone;
+                        emp.SoCMND = cmt;
+                       
+                        emp.NoiCapCMND = placeOfIssue;
+                        emp.DanToc = nation;
+                        if (unit.Trim() != "")
                         {
                             emp.MaPhongBan = unit;
                             if (getPhongBan(unit) == null)
@@ -143,8 +165,24 @@ namespace QUANGHANH2.Controllers.TCLD
                                 emp.MaPhongBan = getPhongBan(unit).department_id;
                             }
                         }
-                        
-                        
+                        QuanHeGiaDinh fatherRela = new QuanHeGiaDinh();
+                        fatherRela.MaNV = id;
+                        fatherRela.MoiQuanHe = "Bố";
+                        fatherRela.HoTen = father;
+                        DBcontext.QuanHeGiaDinhs.Add(fatherRela);
+
+                        QuanHeGiaDinh motherRela = new QuanHeGiaDinh();
+                        motherRela.MaNV = id;
+                        motherRela.MoiQuanHe = "Mẹ";
+                        motherRela.HoTen = mother;
+                        DBcontext.QuanHeGiaDinhs.Add(motherRela);
+
+                        QuanHeGiaDinh wifeRela = new QuanHeGiaDinh();
+                        wifeRela.MaNV = id;
+                        wifeRela.MoiQuanHe = "Vợ";
+                        wifeRela.HoTen = wife;
+                        DBcontext.QuanHeGiaDinhs.Add(wifeRela);
+
                         emp.NoiOHienTai = place;
                         if (working.Trim() != "") {
                             emp.MaCongViec = getMaCongViec(thangLuong, working);
@@ -320,7 +358,7 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 congViec = db.CongViecs.Where(x => (x.TenCongViec.ToLower().Trim().Equals(working.ToLower().Trim()) && x.MaThangLuong == thangLuong.MaThangLuong)).FirstOrDefault<CongViec>();
             }
-            if(working != null)
+            if(congViec != null)
             {
                 return congViec.MaCongViec;
             }
@@ -445,14 +483,23 @@ namespace QUANGHANH2.Controllers.TCLD
                         if (!workSheet.Cells[4, 2].Value.ToString().Equals("Số thẻ")) checkExel = false;
                         if (!workSheet.Cells[4, 3].Value.ToString().Equals("Họ và tên")) checkExel = false;
                         if (!workSheet.Cells[4, 4].Value.ToString().Equals("Ngày sinh")) checkExel = false;
-                        if (!workSheet.Cells[4, 5].Value.ToString().Equals("Đơn vị")) checkExel = false;
-                        if (!workSheet.Cells[4, 6].Value.ToString().Equals("Trình độ")) checkExel = false;
-                        if (!workSheet.Cells[4, 7].Value.ToString().Equals("Chuyên Nghành")) checkExel = false;
-                        if (!workSheet.Cells[4, 8].Value.ToString().Equals("Công việc bố trí")) checkExel = false;
-                        if (!workSheet.Cells[4, 9].Value.ToString().Equals("Thường trú")) checkExel = false;
-                        if (!workSheet.Cells[4, 10].Value.ToString().Equals("Thang lương")) checkExel = false;
-                        if (!workSheet.Cells[4, 11].Value.ToString().Equals("Bậc")) checkExel = false;
-                        if (!workSheet.Cells[4, 12].Value.ToString().Equals("Mức lương (đồng/ tháng)")) checkExel = false;
+                        if (!workSheet.Cells[4, 5].Value.ToString().Equals("Giới tính")) checkExel = false;
+                        if (!workSheet.Cells[4, 6].Value.ToString().Equals("SĐT")) checkExel = false;
+                        if (!workSheet.Cells[4, 7].Value.ToString().Equals("CMT")) checkExel = false;
+                        if (!workSheet.Cells[4, 8].Value.ToString().Equals("Ngày cấp CMT")) checkExel = false;
+                        if (!workSheet.Cells[4, 9].Value.ToString().Equals("Nơi cấp")) checkExel = false;
+                        if (!workSheet.Cells[4, 10].Value.ToString().Equals("Dân tộc")) checkExel = false;
+                        if (!workSheet.Cells[4, 11].Value.ToString().Equals("Bố")) checkExel = false;
+                        if (!workSheet.Cells[4, 12].Value.ToString().Equals("Mẹ")) checkExel = false;
+                        if (!workSheet.Cells[4, 13].Value.ToString().Equals("Vợ")) checkExel = false;
+                        if (!workSheet.Cells[4, 14].Value.ToString().Equals("Đơn vị")) checkExel = false;
+                        if (!workSheet.Cells[4, 15].Value.ToString().Equals("Trình độ")) checkExel = false;
+                        if (!workSheet.Cells[4, 16].Value.ToString().Equals("Chuyên Nghành")) checkExel = false;
+                        if (!workSheet.Cells[4, 17].Value.ToString().Equals("Công việc bố trí")) checkExel = false;
+                        if (!workSheet.Cells[4, 18].Value.ToString().Equals("Thường trú")) checkExel = false;
+                        if (!workSheet.Cells[4, 19].Value.ToString().Equals("Thang lương")) checkExel = false;
+                        if (!workSheet.Cells[4, 20].Value.ToString().Equals("Bậc")) checkExel = false;
+                        if (!workSheet.Cells[4, 21].Value.ToString().Equals("Mức lương (đồng/ tháng)")) checkExel = false;
                         if (!workSheet.Cells[3, 5].Value.ToString().Equals("Ngày")) checkExel = false;
                         if (!workSheet.Cells[3, 7].Value.ToString().Equals("Tháng")) checkExel = false;
                         if (!workSheet.Cells[3, 9].Value.ToString().Equals("Năm")) checkExel = false;
@@ -471,14 +518,23 @@ namespace QUANGHANH2.Controllers.TCLD
                             a.SoThe = workSheet.Cells[i, 2].Value == null ? "" : workSheet.Cells[i, 2].Value.ToString();
                             a.HoTen = workSheet.Cells[i, 3].Value == null ? "" : workSheet.Cells[i, 3].Value.ToString();
                             a.NgaySinh = workSheet.Cells[i, 4].Value == null ? "" : workSheet.Cells[i, 4].Value.ToString();
-                            a.DonVi = workSheet.Cells[i, 5].Value == null ? "" : workSheet.Cells[i, 5].Value.ToString();
-                            a.TrinhDo = workSheet.Cells[i, 6].Value == null ? "" : workSheet.Cells[i, 6].Value.ToString();
-                            a.ChuyenNganh = workSheet.Cells[i, 7].Value == null ? "" : workSheet.Cells[i, 7].Value.ToString();
-                            a.CongViec = workSheet.Cells[i, 8].Value == null ? "" : workSheet.Cells[i, 8].Value.ToString();
-                            a.ThuongTru = workSheet.Cells[i, 9].Value == null ? "" : workSheet.Cells[i, 9].Value.ToString();
-                            a.ThangLuong = workSheet.Cells[i, 10].Value == null ? "" : workSheet.Cells[i, 10].Value.ToString();
-                            a.Bac = workSheet.Cells[i, 11].Value == null ? "" : workSheet.Cells[i, 11].Value.ToString();
-                            a.MucLuong = workSheet.Cells[i, 12].Value == null ? "" : workSheet.Cells[i, 12].Value.ToString();
+                            a.GioiTinh = workSheet.Cells[i, 5].Value == null ? "" : workSheet.Cells[i, 5].Value.ToString();
+                            a.SDT = workSheet.Cells[i, 6].Value == null ? "" : workSheet.Cells[i, 6].Value.ToString();
+                            a.CMT = workSheet.Cells[i, 7].Value == null ? "" : workSheet.Cells[i, 7].Value.ToString();
+                            a.NgayCap = workSheet.Cells[i, 8].Value == null ? "" : workSheet.Cells[i, 8].Value.ToString();
+                            a.NoiCap = workSheet.Cells[i, 9].Value == null ? "" : workSheet.Cells[i, 9].Value.ToString();
+                            a.DanToc = workSheet.Cells[i, 10].Value == null ? "" : workSheet.Cells[i, 10].Value.ToString();
+                            a.Bo = workSheet.Cells[i, 11].Value == null ? "" : workSheet.Cells[i, 11].Value.ToString();
+                            a.Me = workSheet.Cells[i, 12].Value == null ? "" : workSheet.Cells[i, 12].Value.ToString();
+                            a.Vo = workSheet.Cells[i, 13].Value == null ? "" : workSheet.Cells[i, 13].Value.ToString();
+                            a.DonVi = workSheet.Cells[i, 14].Value == null ? "" : workSheet.Cells[i, 14].Value.ToString();
+                            a.TrinhDo = workSheet.Cells[i, 15].Value == null ? "" : workSheet.Cells[i, 15].Value.ToString();
+                            a.ChuyenNganh = workSheet.Cells[i, 16].Value == null ? "" : workSheet.Cells[i, 16].Value.ToString();
+                            a.CongViec = workSheet.Cells[i, 17].Value == null ? "" : workSheet.Cells[i, 17].Value.ToString();
+                            a.ThuongTru = workSheet.Cells[i, 18].Value == null ? "" : workSheet.Cells[i, 18].Value.ToString();
+                            a.ThangLuong = workSheet.Cells[i, 19].Value == null ? "" : workSheet.Cells[i, 19].Value.ToString();
+                            a.Bac = workSheet.Cells[i, 20].Value == null ? "" : workSheet.Cells[i, 20].Value.ToString();
+                            a.MucLuong = workSheet.Cells[i, 21].Value == null ? "" : workSheet.Cells[i, 21].Value.ToString();
                             a.ngay = workSheet.Cells[3, 6].Value == null ? "" : workSheet.Cells[3, 6].Value.ToString();
                             a.thang = workSheet.Cells[3, 8].Value == null ? "" : workSheet.Cells[3, 8].Value.ToString();
                             a.nam = workSheet.Cells[3, 10].Value == null ? "" : workSheet.Cells[3, 10].Value.ToString();
@@ -500,6 +556,16 @@ namespace QUANGHANH2.Controllers.TCLD
             public string SoThe { get; set; }
             public string HoTen { get; set; }
             public string NgaySinh { get; set; }
+            public string GioiTinh { get; set; }
+            public string SDT { get; set; }
+            public string CMT { get; set; }
+            public string NgayCap { get; set; }
+            public string NoiCap { get; set; }
+            public string DanToc { get; set; }
+            public string Bo { get; set; }
+            public string Me { get; set; }
+            public string Vo { get; set; }
+        
             public string DonVi { get; set; }
             public string TrinhDo { get; set; }
             public string ChuyenNganh { get; set; }

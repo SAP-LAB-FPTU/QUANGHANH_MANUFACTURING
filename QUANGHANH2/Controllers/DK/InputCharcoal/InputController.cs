@@ -127,21 +127,22 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
 
                     if (checkList.Count <= 0)
                     {
-                        string sql = "select a.MaTieuChi, a.TenTieuChi,case when b.luyke is null then 0 else b.luyke end 'LuyKe', a.DonViDo from " +
-                                    "(select pb.MaTieuChi, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left " +
-                                    "join TieuChi tc " +
-                                    "on pb.MaTieuChi = tc.MaTieuChi " +
-                                    "where pb.MaPhongBan = @px and pb.Thang = @thang and pb.Nam = @nam) as a " +
-                                    "left join( " +
-                                    "select a.MaPhongBan, a.MaTieuChi, sum(a.SanLuong) as 'luyke' " +
-                                    "from(select t.SanLuong, t.MaTieuChi, h.MaPhongBan " +
-                                    "from header_ThucHienTheoNgay h left " +
-                                    "join ThucHien_TieuChi_TheoNgay t " +
-                                    "on h.HeaderID = t.HeaderID " +
-                                    "where h.MaPhongBan = @px and h.Ngay between @start and @date and h.Ca <= @ca) as a " +
-                                    "group by a.MaPhongBan,a.MaTieuChi) as b " +
-                                    "on a.MaTieuChi = b.MaTieuChi " +
-                                    "order by a.MaTieuChi ASC";
+                        string sql = @"select a.MaTieuChi, a.TenTieuChi,case when b.luyke is null then 0 else b.luyke end 'LuyKe', a.DonViDo from 
+                                        (select pb.MaTieuChi, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left 
+                                        join TieuChi tc 
+                                        on pb.MaTieuChi = tc.MaTieuChi 
+                                        where pb.MaPhongBan = @px and pb.Thang = @thang and pb.Nam = @nam) as a 
+                                        left join( 
+                                        select a.MaPhongBan, a.MaTieuChi, sum(a.SanLuong) as 'luyke' 
+                                        from(select t.SanLuong, t.MaTieuChi, h.MaPhongBan 
+                                        from header_ThucHienTheoNgay h left 
+                                        join ThucHien_TieuChi_TheoNgay t 
+                                        on h.HeaderID = t.HeaderID 
+                                        join ThucHienTheoNgay ttt on h.NgayID = ttt.NgayID
+                                        where h.MaPhongBan = @px and ttt.Ngay between @start and @date and h.Ca <= @ca) as a 
+                                        group by a.MaPhongBan,a.MaTieuChi) as b 
+                                        on a.MaTieuChi = b.MaTieuChi 
+                                        order by a.MaTieuChi ASC";
                         listSX = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
                                                                     new SqlParameter("start", year + "-" + month + "-1"),
                                                                     new SqlParameter("date", date_sql),
@@ -365,7 +366,11 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             {
                 e.Message.ToString();
             }
-            return Json(new { success = true, list = tcList, dateSX = ngaySX, luyKe = LK, listSXLoad = listSX, ngaySXnow = ngay_SX_now, thang = date.Split('/')[1], ngay = date.Split('/')[0]}, JsonRequestBehavior.AllowGet);
+            string sqltmep = @"select *
+                                from ThucHienTheoNgay
+                                where Ngay = @date";
+            ThucHienTheoNgay thtt = db.Database.SqlQuery<ThucHienTheoNgay>(sqltmep, new SqlParameter("date", date_sql)).FirstOrDefault();
+            return Json(new { success = true, list = tcList, dateSX = ngaySX, NgaySX = thtt.NgaySanXuat, luyKe = LK, listSXLoad = listSX, ngaySXnow = ngay_SX_now, thang = date.Split('/')[1], ngay = date.Split('/')[0]}, JsonRequestBehavior.AllowGet);
         }
         public class MaxKHDate : KeHoach_TieuChi_TheoThang
         {
