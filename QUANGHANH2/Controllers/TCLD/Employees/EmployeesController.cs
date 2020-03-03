@@ -642,13 +642,13 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortDirection = Request["order[0][dir]"];
             string query = "select n.*, t.TenTrangThai from NhanVien n inner join" +
                 " [TrangThai] t on n.MaTrangThai = t.MaTrangThai " +
-                "where n.MaTrangThai = 1 OR n.MaTrangThai = 2 AND ";
+                "where n.MaTrangThai in (1,2) AND ";
             if (!MaNV.Equals("") || !TenNV.Equals("") || !Gender.Equals("") || !pb.Equals(""))
             {
                 if (!MaNV.Equals("")) query += "n.MaNV LIKE @MaNV AND ";
                 if (!TenNV.Equals("")) query += "n.Ten LIKE @Ten AND ";
                 if (!Gender.Equals("")) query += "n.GioiTinh LIKE @GioiTinh AND ";
-                if (!pb.Equals("")) query += "n.MaPhongBan LIKE @pb AND ";
+                if (!pb.Equals("")) query += "n.MaPhongBan = @pb AND ";
             }
             query = query.Substring(0, query.Length - 5);
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
