@@ -221,7 +221,9 @@
         return false;
     }
     function updateDate() {
-        $('#ngaycap_add_cert').val($('#start_time').val());
+        var ngaycap = $('#start_time').val();
+        var arr  = ngaycap.split('/');
+        $('#ngaycap_add_cert').val(arr[1] + "/" + arr[0] + "/" + arr[2]);
     }
     //$('#submit_form').click(function () {
     //    var ngaycap = $('#start_time').val();

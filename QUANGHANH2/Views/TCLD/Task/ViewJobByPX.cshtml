@@ -11,10 +11,15 @@
 <style>
     /*[tuankq] add from here*/
     .label-danger {
-    background-color: #f5365c !important;
-    font-size: 8.5px !important;
+        background-color: #f5365c !important;
+        font-size: 8.5px !important;
+        padding: 3px 3px !important;
+        /*[tuankq] to here*/
+    }
+ .label-success {
+    background-color: #44c06a !important;
+    font-size: 9px !important;
     padding: 3px 3px !important;
-    /*[tuankq] to here*/
 }
 </style>
 <div class="row">
@@ -34,7 +39,7 @@
                 </div>
                 <div class="col s3 m3 l3 input-field">
                     <select id="sl_phan_xuong" class="form-control">
-                        <option disabled selected>Phân Xưởng</option>
+                        <option value="" selected>Tất cả các phân xưởng</option>
                         @{
                             foreach (var phanXuong in arrPhanXuong)
                             {
@@ -59,7 +64,6 @@
                                     <th colspan="@a.arrNV.Count">@a.loai</th>
                                 }
                             }
-                            <th></th>
                         </tr>
                         <tr>
                             @{
@@ -71,7 +75,6 @@
                                     }
                                 }
                             }
-                            <th></th>
                         </tr>
                     </thead>
                 </table>
@@ -188,56 +191,38 @@
                 "columns": [
                     { "data": "MaNV", "name": "MaNV", "render": (data) => { return "<label>" + data + "</label>" }, "orderable": true },
                     { "data": "Ten", "name": "Ten", "render": (data, type, row, meta) => { return "<a class='font-weight-bold text-success' href='@Url.Action("chung-chi-cua-nhan-vien", "phong-tcld")?MaNV=" + row['MaNV'] + "'>" + data + "</a>" }, "orderable": true },
-                    @{
-                        /*[tuankq] add from here*/int index = 0;/*[tuankq] to here*/
-                        foreach (var b in arrNhiemVu)
-                        {
-                            foreach (var c in b.arrNV)
-                            {
-
-                                var pp = "{ \"data\": \"MaNV\", \"render\": (data, type, row, meta) => {" +
-                                    "var i;"+/*[tuankq] add from here*/" var ii = "+ index + ";" /*[tuankq] to here*/+
-                                    "for(i =0 ; i < row['ChungChiNhiemVu'].length ; i++ ){" +
-                                        "if(row['ChungChiNhiemVu'][i].MaNhiemVu == " + c.MaNhiemVu + "){" +
-                                            "var rt = \"<label><input class='job' value='"
-                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=removeTask('"
-                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "') checked disabled /><span></span></label></br>\";" +
-                                            "if(row['ChungChiNhiemVu'][i].TinhTrangChungChi == 'Còn hạn'){" +
-                                                " rt += \"<a class='label label-success' >\"+row['ChungChiNhiemVu'][i].TinhTrangChungChi+\"</a></br>\" +" + "\"<a class='label label-success' >\"+row['ChungChiNhiemVu'][i].SoNgay+\" ngày</a>\" " + "}" +
-                                            "else if(row['ChungChiNhiemVu'][i].TinhTrangChungChi == 'Hết hạn'){" +
-                                              " rt += \"<a class='label label-warning modal-trigger' onclick=popupGiaHan(\"+data+\",\"+row['ChungChiNhiemVu'][i].MaChungChi+\") data-target='giahan'>\"+row['ChungChiNhiemVu'][i].TinhTrangChungChi+\"</a></br>\" +" + "\"<a class='label label-warning' >\"+row['ChungChiNhiemVu'][i].SoNgay+\" ngày</a>\" " + "}" +
-                                            "else{" +
-                                                "rt += \"<a class='label label-danger modal-trigger'  onclick=popupThemMoi(\"+data+\",\"+row['ChungChiNhiemVu'][i].MaChungChi+\") data-target='chuaco'>\"+row['ChungChiNhiemVu'][i].TinhTrangChungChi+\"</a>\" }" +
-                                            "rt = \"<div class='row'>\"+rt+\"</div>\"; return rt;" +
-                                        "}" +/* end if*/
-                                    "}" + /*end for*/
-                                          //"return \"<label><input class='job' value='"
-                                          //+ c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=selectNewJob('"
-                                          //+ c.MaNhiemVu + "_" + "\"+data+\"" + "') disabled /><span></span></label> " +
-                                          //"\"} " + // ngoac cua function render
-                                          //" ,\"orderable\": false  } ,";
-                                          " var rt = \"<label><input class='job' value='"
-                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=selectNewJob('"
-                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "')  disabled /><span></span></label>\";" +
-                                            "if(row['ChungChiNhiemVu'][ii].TinhTrangChungChi == 'Còn hạn'){" +
-                                                " rt += \"<br/><a class='label label-success' >\"+row['ChungChiNhiemVu'][ii].TinhTrangChungChi+\"</a>\"}" +
-                                            "else if(row['ChungChiNhiemVu'][ii].TinhTrangChungChi == 'Hết hạn'){" +
-                                              " rt += \"<br/><a class='label label-warning'  >\"+row['ChungChiNhiemVu'][ii].TinhTrangChungChi+\"</a>\"}" +
-                                            "else{" +
-                                                "rt += \"<br/><a class='label label-danger' >\"+row['ChungChiNhiemVu'][ii].TinhTrangChungChi+\"</a>\" }" +
-                                            "rt = \"<div class='row'>\"+rt+\"</div>\"; return rt;" +
-                                        "}" + // ngoac cua function render
-                                       " ,\"orderable\": false  } ,";
-
-
-                                <text>
-                                    @{WriteLiteral(pp);}
-                    </text>
-
-                            }
-                        }
-                    }
-                    { "data": "ChungChiNhiemVu", "name": "ChungChiNhiemVu", "render": () => { return "" }, "orderable" : false },
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[0].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[1].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[2].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[3].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[4].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[5].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[6].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[7].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[8].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[9].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[10].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[11].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[12].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[13].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[14].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[15].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[16].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[17].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[18].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[19].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[20].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[21].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[22].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[23].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[24].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[25].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[26].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[27].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[28].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[29].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[30].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}},
+                    { "data": "chungchi", "name": "chungchi", "render": (data) => { return data[31].status==true?"<a class='label label-success' >Còn hạn</a>":"<a class='label label-danger' >Hết hạn</a>"}}
                 ],
                 "bInfo": false,
                 "bLengthChange": false,
@@ -276,27 +261,27 @@
                 }
             });
             //them su kien an enter de tim kiem cho truong ma nhan vien
-            document.querySelector('#mnv_search').addEventListener('keypress', function (e) { // them su kien nhan nut enter cho phan search
-                var key = e.which || e.keyCode;
-                if (key === 13) {
+            //document.querySelector('#mnv_search').addEventListener('keypress', function (e) { // them su kien nhan nut enter cho phan search
+            //    var key = e.which || e.keyCode;
+            //    if (key === 13) {
 
-                    search();
-                }
-            });
+            //        search();
+            //    }
+            //});
             //khi nhan vao o tim kiem bang mnv se khong search bang ten va px dc nua
-            $("#mnv_search").focus(() => {
-                $('#sl_phan_xuong').val("Phân Xưởng").trigger('change')
-                $('#name_search').val("")
-                $("#name_search").prop('disabled', true);
-                $("#sl_phan_xuong").prop('disabled', true);
-            })
+            //$("#mnv_search").focus(() => {
+            //    $('#sl_phan_xuong').val("Phân Xưởng").trigger('change')
+            //    $('#name_search').val("")
+            //    $("#name_search").prop('disabled', true);
+            //    $("#sl_phan_xuong").prop('disabled', true);
+            //})
             //khi nhan ra ngoai ma o gia tri cua mnv khac "" se khong cho search bangten va px
-            $("#mnv_search").blur(() => {
-                if ($("#mnv_search").val() == "") {
-                    $("#name_search").prop('disabled', false);
-                    $("#sl_phan_xuong").prop('disabled', false);
-                }
-            })
+            //$("#mnv_search").blur(() => {
+            //    if ($("#mnv_search").val() == "") {
+            //        $("#name_search").prop('disabled', false);
+            //        $("#sl_phan_xuong").prop('disabled', false);
+            //    }
+            //})
 
         })
 
@@ -557,4 +542,4 @@
 
     </script>
 }
-    <script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
