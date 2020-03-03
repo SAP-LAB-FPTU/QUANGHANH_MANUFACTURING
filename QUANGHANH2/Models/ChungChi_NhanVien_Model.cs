@@ -10,6 +10,7 @@ namespace QUANGHANH2.Models
     {
         [Required(ErrorMessage = "Không được để trống")]
         new public string SoHieu { get; set; }
+
         [Required(ErrorMessage = "Không được để trống")]
         new public Nullable<System.DateTime> NgayCap { get; set; }
         [Required(ErrorMessage = "Không được để trống")]
@@ -18,7 +19,6 @@ namespace QUANGHANH2.Models
         new public int MaChungChi { get; set; }
         public string TenNV { get; set; }
         public string TenChungChi { get; set; }
-
         public string isConHan { get; set; }
         public int? SoNgay { get; set; }
     }

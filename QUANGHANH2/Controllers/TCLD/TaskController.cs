@@ -606,18 +606,27 @@ namespace QUANGHANH2.Controllers.TCLD
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var temp = (from px in db.Departments
-                            join
-                            nv in db.NhanViens
-                            on px.department_id equals nv.MaPhongBan
-                            where nv.MaTrangThai == 1
-                            select new
-                            {
-                                TenNhanVien = nv.Ten,
-                                MaNhanVien = nv.MaNV
-                            });
-                List<NhanVien_Extend> arrNhanVien = temp.ToList().Select(p => new NhanVien_Extend { Ten = p.TenNhanVien, MaNV = p.MaNhanVien }).ToList();
+                List<NhanVien_Extend> arrNhanVien = (from px in db.Departments
+                                                     join
+                                                     nv in db.NhanViens
+                                                     on px.department_id equals nv.MaPhongBan
+                                                     where nv.MaTrangThai == 1
+                                                     select new NhanVien_Extend
+                                                     {
+                                                         MaNV = nv.MaNV
+                                                     }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
+                string listMaNV = "";
+                foreach(NhanVien_Extend n in arrNhanVien)
+                {
+                    listMaNV += "'" + n.MaNV + "',";
+                }
+                
+                string sql = "select a.*,NhanVien.Ten, DATEADD(month, chungchi.ThoiHan, a.NgayCap) AS NgayHetHan,month(a.NgayCap),chungchi.TenChungChi,chungchi.ThoiHan,ChungChi.KieuChungChi from chungchi,NhanVien,"
+	            +"(select * from chungchi_nhanvien where manv in ("+ listMaNV.Substring(0, listMaNV.Length - 1) + ")) a"
+	            +"where chungchi.MaChungChi=a.MaChungChi and NhanVien.MaNV=a.MaNV";
 
+                listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql).ToList<NhanVienModel>();
+                ////List<NhanVien_Extend> arrNhanVien = temp.ToList().Select(p => new NhanVien_Extend { Ten = p.TenNhanVien, MaNV = p.MaNhanVien }).ToList();
                 //foreach (NhanVien_Extend nv in arrNhanVien)
                 //{
                 //    foreach (ChiTiet_NhiemVu_NhanVien nvnv in db.ChiTiet_NhiemVu_NhanVien)
@@ -672,83 +681,84 @@ namespace QUANGHANH2.Controllers.TCLD
                 /////////////////////////////////////////
                 ///
                 //[tuankq] add from here
-                IOrderedEnumerable<NhiemVu> arrNhiemVu = db.NhiemVus.ToList().OrderBy(n => n.Loai);
-                int totalrows = arrNhanVien.Count;
-                int totalrowsafterfiltering = arrNhanVien.Count;
-                arrNhanVien = arrNhanVien.Skip(start).Take(length).ToList<NhanVien_Extend>();
-                foreach (NhanVien_Extend nv in arrNhanVien)
-                {
-                    foreach (NhiemVu nvu in arrNhiemVu)
-                    {
-                        var isNvienDoingThisJob = (from nvnhiemvu in db.ChiTiet_NhiemVu_NhanVien
-                                                   where nvnhiemvu.MaNV.Equals(nv.MaNV)
-                                                   && nvnhiemvu.MaNhiemVu.Equals(nvu.MaNhiemVu)
-                                                   && nvnhiemvu.IsInProcess == true
-                                                   && nvnhiemvu.IsUpdated == false
-                                                   select new { nvnhiemvu.MaNV }
-                                  ).FirstOrDefault();
-                        if (isNvienDoingThisJob != null)
-                        {
-                            int mcc = Convert.ToInt16(nvu.MaChungChi);
-                            TinhTrangChungChi ttcc = CheckTinhTrangChungChi(nv.MaNV, mcc);
-                            Chung_Chi_Nhan_Vien_Extend ccnv;
-                            if (ttcc == null)
-                            {
-                                ccnv = new Chung_Chi_Nhan_Vien_Extend
-                                {
-                                    MaNhiemVu = nvu.MaNhiemVu,
-                                    TinhTrangChungChi = "Chưa có",
-                                    SoNgay = 0,
-                                    MaChungChi = mcc
-                                };
-                            }
-                            else
-                            {
-                                ccnv = new Chung_Chi_Nhan_Vien_Extend
-                                {
-                                    MaNhiemVu = nvu.MaNhiemVu,
-                                    TinhTrangChungChi = ttcc.TinhTrang,
-                                    SoNgay = ttcc.SoNgay,
-                                    MaChungChi = mcc
-                                };
-                            }
-                            nv.MaNhiemVu.Add(nvu.MaNhiemVu);
-                            nv.ChungChiNhiemVu.Add(ccnv);
-                        }
-                        else
-                        {
-                            int mcc = Convert.ToInt16(nvu.MaChungChi);
-                            TinhTrangChungChi ttcc = CheckTinhTrangChungChi(nv.MaNV, mcc);
-                            Chung_Chi_Nhan_Vien_Extend ccnv;
-                            if (ttcc == null)
-                            {
-                                ccnv = new Chung_Chi_Nhan_Vien_Extend
-                                {
-                                    MaNhiemVu = -1,
-                                    TinhTrangChungChi = "Chưa có",
-                                    SoNgay = 0,
-                                    MaChungChi = mcc
-                                };
-                            }
-                            else
-                            {
-                                ccnv = new Chung_Chi_Nhan_Vien_Extend
-                                {
-                                    MaNhiemVu = -1,
-                                    TinhTrangChungChi = ttcc.TinhTrang,
-                                    SoNgay = ttcc.SoNgay,
-                                    MaChungChi = mcc
-                                };
-                            }
-                            nv.ChungChiNhiemVu.Add(ccnv);
-                        }
-                    }
-                }
-                IOrderedEnumerable<NhanVien_Extend> arrnvorder = arrNhanVien.OrderBy(n => n.MaNV);
-                arrNhanVien = arrNhanVien.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVien_Extend>();
+                //IOrderedEnumerable<NhiemVu> arrNhiemVu = db.NhiemVus.ToList().OrderBy(n => n.Loai);
+                //int totalrows = arrNhanVien.Count;
+                //int totalrowsafterfiltering = arrNhanVien.Count;
+                //arrNhanVien = arrNhanVien.Skip(start).Take(length).ToList<NhanVien_Extend>();
+                //foreach (NhanVien_Extend nv in arrNhanVien)
+                //{
+                //    foreach (NhiemVu nvu in arrNhiemVu)
+                //    {
+                //        var isNvienDoingThisJob = (from nvnhiemvu in db.ChiTiet_NhiemVu_NhanVien
+                //                                   where nvnhiemvu.MaNV.Equals(nv.MaNV)
+                //                                   && nvnhiemvu.MaNhiemVu.Equals(nvu.MaNhiemVu)
+                //                                   && nvnhiemvu.IsInProcess == true
+                //                                   && nvnhiemvu.IsUpdated == false
+                //                                   select new { nvnhiemvu.MaNV }
+                //                  ).FirstOrDefault();
+                //        if (isNvienDoingThisJob != null)
+                //        {
+                //            int mcc = Convert.ToInt16(nvu.MaChungChi);
+                //            TinhTrangChungChi ttcc = CheckTinhTrangChungChi(nv.MaNV, mcc);
+                //            Chung_Chi_Nhan_Vien_Extend ccnv;
+                //            if (ttcc == null)
+                //            {
+                //                ccnv = new Chung_Chi_Nhan_Vien_Extend
+                //                {
+                //                    MaNhiemVu = nvu.MaNhiemVu,
+                //                    TinhTrangChungChi = "Chưa có",
+                //                    SoNgay = 0,
+                //                    MaChungChi = mcc
+                //                };
+                //            }
+                //            else
+                //            {
+                //                ccnv = new Chung_Chi_Nhan_Vien_Extend
+                //                {
+                //                    MaNhiemVu = nvu.MaNhiemVu,
+                //                    TinhTrangChungChi = ttcc.TinhTrang,
+                //                    SoNgay = ttcc.SoNgay,
+                //                    MaChungChi = mcc
+                //                };
+                //            }
+                //            nv.MaNhiemVu.Add(nvu.MaNhiemVu);
+                //            nv.ChungChiNhiemVu.Add(ccnv);
+                //        }
+                //        else
+                //        {
+                //            int mcc = Convert.ToInt16(nvu.MaChungChi);
+                //            TinhTrangChungChi ttcc = CheckTinhTrangChungChi(nv.MaNV, mcc);
+                //            Chung_Chi_Nhan_Vien_Extend ccnv;
+                //            if (ttcc == null)
+                //            {
+                //                ccnv = new Chung_Chi_Nhan_Vien_Extend
+                //                {
+                //                    MaNhiemVu = -1,
+                //                    TinhTrangChungChi = "Chưa có",
+                //                    SoNgay = 0,
+                //                    MaChungChi = mcc
+                //                };
+                //            }
+                //            else
+                //            {
+                //                ccnv = new Chung_Chi_Nhan_Vien_Extend
+                //                {
+                //                    MaNhiemVu = -1,
+                //                    TinhTrangChungChi = ttcc.TinhTrang,
+                //                    SoNgay = ttcc.SoNgay,
+                //                    MaChungChi = mcc
+                //                };
+                //            }
+                //            nv.ChungChiNhiemVu.Add(ccnv);
+                //        }
+                //    }
+                //}
+                //IOrderedEnumerable<NhanVien_Extend> arrnvorder = arrNhanVien.OrderBy(n => n.MaNV);
+                //arrNhanVien = arrNhanVien.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVien_Extend>();
                 //[tuankq] to here
 
-                return Json(new { success = true, data = arrNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                return null;
+                //return Json(new { success = true, data = arrNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
 
