@@ -37,7 +37,7 @@ namespace QUANGHANH2.Controllers.DK
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<NhanVien> listNhanVien = db.NhanViens.ToList<NhanVien>();
             ViewBag.listNhanVien = listNhanVien;
-            return View("/Views/DK/ListAccident.cshtml");
+            return View("/Views/DK/Accident/ListAccident.cshtml");
         }
         [Route("phong-dieu-khien/danh-sach-tai-nan/search-accident")]
         [HttpPost]

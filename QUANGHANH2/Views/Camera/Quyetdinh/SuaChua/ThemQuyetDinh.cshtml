@@ -276,7 +276,7 @@
                 },
                 success: function (data) {
                     if (data.success)
-                        window.location.href = "/camera/quyet-dinh/sua-chua";
+                        window.location.href = "/phong-cdvt/camera/quyet-dinh/sua-chua";
                     else {
                         errorAlert("Có lỗi xảy ra");
                         $('#pre-load').hide();
@@ -286,9 +286,10 @@
         })
 
         $("#export-button").click(function () {
-            window.location = '/camera/quyet-dinh/export-word?data=' + $('#json').val()
-                + '&title=' + $('input[name = "reason"]').val() + '&department_id=CDVT&documentary_type=' + 8
-                + '&fileName=Quyết định sửa chữa camere.docx' + '&resource=' + $('input[name = "out_in_come"]').val()
+            window.location = '/phong-cdvt/quyet-dinh/export-word?data=' + JSON.stringify(output)
+                + '&title=' + $('#reason').val() + '&department_id='
+                + $('#department_id').val() + '&documentary_type=' + 8
+                + '&fileName=Quyết định sửa chữa.docx' + '&resource=' + $('#out_in_come').val()
         });
     </script>
 }

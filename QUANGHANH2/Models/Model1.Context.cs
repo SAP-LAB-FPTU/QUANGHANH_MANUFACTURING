@@ -85,6 +85,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<KeHoach_TieuChi_TheoNam> KeHoach_TieuChi_TheoNam { get; set; }
         public virtual DbSet<KeHoach_TieuChi_TheoNgay> KeHoach_TieuChi_TheoNgay { get; set; }
         public virtual DbSet<KeHoach_TieuChi_TheoThang> KeHoach_TieuChi_TheoThang { get; set; }
+        public virtual DbSet<KeHoachTungThang> KeHoachTungThangs { get; set; }
         public virtual DbSet<LichSuBoSungSYLL> LichSuBoSungSYLLs { get; set; }
         public virtual DbSet<Maintain_Car> Maintain_Car { get; set; }
         public virtual DbSet<Maintain_Car_Detail> Maintain_Car_Detail { get; set; }
@@ -112,10 +113,10 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Supply_DuPhong> Supply_DuPhong { get; set; }
         public virtual DbSet<Supply_tieuhao> Supply_tieuhao { get; set; }
         public virtual DbSet<SupplyPlan> SupplyPlans { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TaiNan> TaiNans { get; set; }
         public virtual DbSet<ThangLuong> ThangLuongs { get; set; }
         public virtual DbSet<ThucHien_TieuChi_TheoNgay> ThucHien_TieuChi_TheoNgay { get; set; }
+        public virtual DbSet<ThucHienTheoNgay> ThucHienTheoNgays { get; set; }
         public virtual DbSet<TieuChi> TieuChis { get; set; }
         public virtual DbSet<TrangThai> TrangThais { get; set; }
         public virtual DbSet<TrinhDo> TrinhDoes { get; set; }

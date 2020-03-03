@@ -28,8 +28,8 @@ namespace QUANGHANH2.Models
             this.Documentary_repair_details = new HashSet<Documentary_repair_details>();
             this.Documentary_revoke_details = new HashSet<Documentary_revoke_details>();
             this.Important_Documentary = new HashSet<Important_Documentary>();
-            this.Supply_Documentary_Camera = new HashSet<Supply_Documentary_Camera>();
             this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
+            this.Supply_Documentary_Camera = new HashSet<Supply_Documentary_Camera>();
         }
     
         public int documentary_id { get; set; }
@@ -46,6 +46,7 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Acceptance> Acceptances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Camera_Acceptance> Camera_Acceptance { get; set; }
+        public virtual Department Department { get; set; }
         public virtual DocumentaryType DocumentaryType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_camera_repair_details> Documentary_camera_repair_details { get; set; }
@@ -66,8 +67,8 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Important_Documentary> Important_Documentary { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_Documentary_Camera> Supply_Documentary_Camera { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Supply_Documentary_Camera> Supply_Documentary_Camera { get; set; }
     }
 }

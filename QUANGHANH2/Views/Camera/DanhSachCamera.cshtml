@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "View";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    List<string> rights = (List<string>)Session["RightIDs"];
 }
 
 <link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet" />
@@ -42,15 +43,9 @@
     .dropzone .dz-preview .dz-progress .dz-upload {
         background: #29bb22 !important;
         background: linear-gradient(to bottom, #7ceb69, #29bb22) !important;
-        /*position: absolute;*/
         top: 0;
         bottom: 0;
         width: 0;
-        /*-webkit-transition: width 300ms ease-in-out;
-        -moz-transition: width 300ms ease-in-out;
-        -ms-transition: width 300ms ease-in-out;
-        -o-transition: width 300ms ease-in-out;
-        transition: width 300ms ease-in-out;*/
     }
 
     .dz-preview.dz-processing.dz-success.dz-complete.dz-image-preview {
@@ -101,9 +96,12 @@
             <div class="col s12">
                 <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton">Tìm kiếm</a>
             </div>
-            <div class="col s12">
-                <a class="waves-effect waves-light btn-small blue modal-trigger left" id="add-room" href="#myadd">Thêm</a>
-            </div>
+            @if (rights.Contains("196"))
+            {
+                <div class="col s12">
+                    <a class="waves-effect waves-light btn-small blue modal-trigger left" id="add-room" href="#myadd">Thêm</a>
+                </div>
+            }
             <div class="col s12 table_container">
                 <table class="table-bordered striped table-responsive centered" id="complex_header">
                     <thead>
@@ -118,184 +116,18 @@
                             <th>Ổ cứng đang lưu dữ liệu</th>
                             <th>Tình trạng kỹ thuật camera</th>
                             <th>Ghi chú</th>
-                            <th></th>
-                            <th></th>
+                            @if (rights.Contains("199"))
+                            {
+                                <th></th>
+                            }
+                            @if (rights.Contains("198"))
+                            {
+                                <th></th>
+                            }
                         </tr>
                     </thead>
                 </table>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal" id="myadd">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Thêm hệ thống camera</h3>
-        </div>
-        <div class="modal-body">
-            <div class="row">
-                <div class="col s12 m6">
-                    <div class="s12 m12">
-                        <div class="form-group">
-                            <label>Đơn vị trực thuộc : </label>
-                            <input class="form-control" id="department-add" list="departs" />
-                        </div>
-                    </div>
-                    <div class="s12 m12">
-                        <div class="form-group">
-                            <label>Tên vị trí hệ thống : </label>
-                            <input required type="text" class="form-control" id="location-add" />
-                        </div>
-                    </div>
-                    <div class="s12 m12">
-                        <div class="form-group">
-                            <label>Số lượng : </label>
-                            <input required type="number" min="1" value="1" class="form-control" id="quantity-add" />
-                        </div>
-                    </div>
-                    <div class="s12 m12">
-                        <div class="form-group">
-                            <label>Ghi chú : </label>
-                            <input required type="text" class="form-control" id="note-add" />
-                        </div>
-                    </div>
-                    <div class="s12 m12">
-                        <div class="form-group">
-                            <label>Thông tin đăng nhập : </label>
-                            <input required type="text" class="form-control" id="login-add" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 m6">
-                    <div class="s12 m12">
-                        <div class="form-group">
-                            <label>Số seri ổ cứng : </label>
-                            <input required type="text" class="form-control" id="resial-add" />
-                        </div>
-                    </div>
-                    <div class="s12 m12">
-                        <div class="form-group">
-                            <label>Tình trạng ổ cứng : </label>
-                            <input required type="text" class="form-control" id="status-add" />
-                        </div>
-                    </div>
-                    <div class="s12 m12">
-                        <div class="form-group">
-                            <label>Dung lượng ổ cứng (GB) : </label>
-                            <input required type="number" min="1" class="form-control" value="1" id="capacity-add" />
-                        </div>
-                    </div>
-                    <div class="s12 m12">
-                        <div class="form-group" style="padding-top: 29px;">
-                            <label class="custom-control custom-checkbox">
-                                <input type="checkbox" value="false" class="custom-control-input" id="checkbox-add" onclick="checkbox()">
-                                <span class="custom-control-label" for="chbxTerms">Có lưu dữ liệu</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 m12" id="photo-container">
-                    <label>Ảnh hệ thống : </label>
-                    <div action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
-                        <div class="fallback">
-                            <input type="file" id="fUpload" class="form-control" single />
-                        </div>
-                        <div class="dz-message needsclick">
-                            <i class="medium material-icons dp48">cloud_upload</i>
-                            <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
-                            <span class="text-muted font-13">(File hợp lệ: jpg, png)</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save-add">Lưu</a>
-            <button class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</button>
-        </div>
-    </div>
-</div>
-
-<div id="myedit" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Chỉnh sửa thông tin hệ thống camera <span></span></h3>
-        </div>
-        <div class="modal-body">
-            <div class="row">
-                <div class="col s12 m6">
-                    <div class="col s12 m12">
-                        <div class="form-group">
-                            <label>Trực thuộc phòng ban : </label>
-                            <input class="form-control" id="department-edit" list="departs" />
-                        </div>
-                    </div>
-                    <div class="col s12 m12">
-                        <div class="form-group">
-                            <label>Tên vị trí hệ thống : </label>
-                            <input required type="text" class="form-control" id="location-edit" />
-                        </div>
-                    </div>
-                    <div class="col s12 m12">
-                        <div class="form-group">
-                            <label>Thông tin đăng nhập : </label>
-                            <input required type="text" class="form-control" id="login-edit" />
-                        </div>
-                    </div>
-                    <div class="col s12 m12">
-                        <div class="form-group">
-                            <label>Số lượng : </label>
-                            <input required type="number" min="1" value="1" class="form-control" id="quantity-edit" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col s12 m6">
-                    <div class="col s12 m12">
-                        <div class="form-group">
-                            <label>Số seri ổ cứng : </label>
-                            <input required type="text" class="form-control" id="resial-edit" />
-                        </div>
-                    </div>
-                    <div class="col s12 m12">
-                        <div class="form-group">
-                            <label>Tình trạng ổ cứng : </label>
-                            <input required type="text" class="form-control" id="status-edit" />
-                        </div>
-                    </div>
-                    <div class="col s12 m12">
-                        <div class="form-group">
-                            <label>Dung lượng ổ cứng (GB) : </label>
-                            <input required type="number" min="1" class="form-control" value="1" id="capacity-edit" />
-                        </div>
-                    </div>
-                    <div class="col s12 m12">
-                        <div class="form-group">
-                            <label>Ghi chú : </label>
-                            <input required type="text" class="form-control" id="note-edit" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save-edit">Lưu</a>
-            <button class="btn light-blue lighten-1 modal-close" id="exit-edit">Thoát</button>
-        </div>
-    </div>
-</div>
-
-<div id="mydelete" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Xóa thông tin hệ thống camera <span></span></h3>
-        </div>
-        <div class="modal-body">
-            <h4>Dữ liệu sẽ không thể khôi phục sau khi xóa</h4>
-        </div>
-        <div class="modal-footer">
-            <a class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save-delete">Lưu</a>
-            <button class="btn light-blue lighten-1 modal-close" id="exit-delete">Thoát</button>
         </div>
     </div>
 </div>
@@ -309,32 +141,11 @@
             <img id="photocamera" />
         </div>
         <div class="modal-footer">
-            <a class="waves-effect waves-light btn blue darken-2 modal-trigger" href="#myphoto2">Thay ảnh</a>
+            @if (rights.Contains("197"))
+            {
+                <a class="waves-effect waves-light btn blue darken-2 modal-trigger" href="#myphoto2">Thay ảnh</a>
+            }
             <a class="btn light-blue lighten-1 modal-close" id="exit-delete">Thoát</a>
-        </div>
-    </div>
-</div>
-
-<div id="myphoto2" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Ảnh thông tin hệ thống camera <span></span></h3>
-        </div>
-        <div class="modal-body">
-            <div action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
-                <div class="fallback">
-                    <input type="file" id="fUpload" class="form-control" single />
-                </div>
-                <div class="dz-message needsclick">
-                    <i class="medium material-icons dp48">cloud_upload</i>
-                    <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
-                    <span class="text-muted font-13">(File hợp lệ: jpg, png)</span>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save-photo">Lưu</button>
-            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-delete">Thoát</button>
         </div>
     </div>
 </div>
@@ -406,15 +217,14 @@
                 },
                 { "data": "signal_loss_reason", "name": "signal_loss_reason" },
                 { "data": "note", "name": "note" },
+                @if (rights.Contains("199"))
                 {
-                    data: "room_id", orderable: false, render: function (data) {
-                        return "<a class='waves-effect waves-light btn blue darken-2 modal-trigger edit-room' href='#myedit' data-room='" + data + "'>Sửa</a>";
-                    }
-                },
+                    @Html.Raw("{ data: \"room_id\", orderable: false, render: function (data) { return \"<a class='waves-effect waves-light btn blue darken-2 modal-trigger edit-room' href='#myedit' data-room='\" + data + \"'>Sửa</a>\"; } },");
+                }
+
+                @if (rights.Contains("198"))
                 {
-                    data: "room_id", orderable: false, render: function (data) {
-                        return "<a class='waves-effect waves-light btn red darken-2 modal-trigger' href='#mydelete' data-room='" + data + "'>Xóa</a>";
-                    }
+                    @Html.Raw("{ data: \"room_id\", orderable: false, render: function (data) { return \"<a class='waves-effect waves-light btn red darken-2 modal-trigger' href='#mydelete' data-room='\" + data + \"'>Xóa</a>\"; } },");
                 }
             ],
             createdRow: function (row, data, dataIndex) {
@@ -444,7 +254,130 @@
             $('#mydelete h3 span').text($(this).closest('tr').children('td').eq(0).text());
             $('#myedit h3 span').text($(this).closest('tr').children('td').eq(0).text());
         })
+    });
 
+    $(document).on('click', '.get-photo', function () {
+        $('#pre-load').show();
+        $('#photocamera').removeAttr('src');
+        $.ajax({
+            url: "/phong-cdvt/camera/danh-sach/photo",
+            data: {
+                id: $(this).data('room')
+            },
+            cache: false,
+            method: 'get',
+            success: function (data) {
+                if (data.success) {
+                    var image = new Image();
+                    image.src = 'data:image/jpeg;base64,' + data.base64;
+                    image.onload = function () {
+                        var ratio = Math.max(Math.ceil(image.width / $(window).width()), Math.ceil(image.height / $(window).height()));
+                        image.width = image.width / ratio;
+                        image.height = image.height / ratio;
+                        $('#myphoto').width(image.width + 24 * 2);
+                        $('#photocamera').attr('src', 'data:image/jpeg;base64,' + data.base64);
+                        $('#photocamera').width(image.width);
+                        $('#photocamera').height(image.height);
+                    };
+                }
+                $('#pre-load').hide();
+            }
+        })
+    })
+</script>
+
+@if (rights.Contains("196"))
+{
+    <div class="modal" id="myadd">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Thêm hệ thống camera</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="s12 m12">
+                            <div class="form-group">
+                                <label>Đơn vị trực thuộc : </label>
+                                <input class="form-control" id="department-add" list="departs" />
+                            </div>
+                        </div>
+                        <div class="s12 m12">
+                            <div class="form-group">
+                                <label>Tên vị trí hệ thống : </label>
+                                <input required type="text" class="form-control" id="location-add" />
+                            </div>
+                        </div>
+                        <div class="s12 m12">
+                            <div class="form-group">
+                                <label>Số lượng : </label>
+                                <input required type="number" min="1" value="1" class="form-control" id="quantity-add" />
+                            </div>
+                        </div>
+                        <div class="s12 m12">
+                            <div class="form-group">
+                                <label>Ghi chú : </label>
+                                <input required type="text" class="form-control" id="note-add" />
+                            </div>
+                        </div>
+                        <div class="s12 m12">
+                            <div class="form-group">
+                                <label>Thông tin đăng nhập : </label>
+                                <input required type="text" class="form-control" id="login-add" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="s12 m12">
+                            <div class="form-group">
+                                <label>Số seri ổ cứng : </label>
+                                <input required type="text" class="form-control" id="resial-add" />
+                            </div>
+                        </div>
+                        <div class="s12 m12">
+                            <div class="form-group">
+                                <label>Tình trạng ổ cứng : </label>
+                                <input required type="text" class="form-control" id="status-add" />
+                            </div>
+                        </div>
+                        <div class="s12 m12">
+                            <div class="form-group">
+                                <label>Dung lượng ổ cứng (GB) : </label>
+                                <input required type="number" min="1" class="form-control" value="1" id="capacity-add" />
+                            </div>
+                        </div>
+                        <div class="s12 m12">
+                            <div class="form-group" style="padding-top: 29px;">
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" value="false" class="custom-control-input" id="checkbox-add" onclick="checkbox()">
+                                    <span class="custom-control-label" for="chbxTerms">Có lưu dữ liệu</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m12" id="photo-container">
+                        <label>Ảnh hệ thống : </label>
+                        <div action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
+                            <div class="fallback">
+                                <input type="file" id="fUpload" class="form-control" single />
+                            </div>
+                            <div class="dz-message needsclick">
+                                <i class="medium material-icons dp48">cloud_upload</i>
+                                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                                <span class="text-muted font-13">(File hợp lệ: jpg, png)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save-add">Lưu</a>
+                <button class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
         $('#add-room').click(function () {
             $('#location-add').val('');
             $('#status-add').val('');
@@ -455,18 +388,13 @@
             $('#login-add').val('');
         })
 
-        $(document).on('click', '.edit-room', function () {
-            let $tr = $(this).closest('tr').children('td');
-            $('#location-edit').val($tr.eq(0).text());
-            $('#department-edit').val($tr.eq(1).data('department'));
-            $('#login-edit').val($tr.eq(2).text());
-            $('#quantity-edit').val($tr.eq(3).text().split('/')[1]);
-            $('#status-edit').val($tr.eq(4).text());
-            let capacity = $tr.eq(5).text().endsWith('GB') ? $tr.eq(5).text().split(' ')[0] : ($tr.eq(5).text().split(' ')[0] * 1000)
-            $('#capacity-edit').val(capacity);
-            $('#resial-edit').val($tr.eq(6).text());
-            $('#note-edit').val($tr.eq(7).text());
-        })
+        function checkbox() {
+            if ($('#checkbox-add').is(':checked')) {
+                $('#checkbox-add').val(true)
+            } else {
+                $('#checkbox-add').val(false)
+            }
+        }
 
         $('#save-add').click(function () {
             if ($("#location-add").val() == "" || $('#quantity-add').val() < 1 || $('#capacity-add').val() < 1 || $('#resial-add').val() == "" || $('#status-add').val() == "" || room_id == "") {
@@ -504,128 +432,61 @@
                 }
             })
         })
+    </script>
+}
 
-        $('#save-edit').click(function () {
-            if ($("#location-edit").val() == "" || $('#quantity-edit').val() < 1 || $('#capacity-edit').val() < 1 || $('#resial-edit').val() == "" || $('#status-edit').val() == "" || room_id == "") {
-                toastr.error("Xin điền đầy đủ thông tin");
-                return;
-            }
-            $('#pre-load').show();
-            $.ajax({
-                url: "/camera/edit",
-                type: "post",
-                data: {
-                    location: $("#location-edit").val(),
-                    quantity: $('#quantity-edit').val(),
-                    note: $('#note-edit').val(),
-                    department: $('#department-edit').val(),
-                    capacity: $('#capacity-edit').val(),
-                    serial: $('#resial-edit').val(),
-                    status: $('#status-edit').val(),
-                    room_id: room_id,
-                    login: $('#login-edit').val()
-                },
-                cache: false,
-                datatype: "json",
-                success: function (data) {
-                    if (data.success) {
-                        $('#exit-edit').click();
-                        dataTable.ajax.reload();
-                        successAlert(data.message);
-                    }
-                    else {
-                        errorAlert(data.message);
-                        $('#pre-load').hide();
-                    }
-                    room_id = "";
-                }
-            })
-        })
+@if (rights.Contains("197"))
+{
+    <div id="myphoto2" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Ảnh thông tin hệ thống camera <span></span></h3>
+            </div>
+            <div class="modal-body">
+                <div action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
+                    <div class="fallback">
+                        <input type="file" id="fUpload" class="form-control" single />
+                    </div>
+                    <div class="dz-message needsclick">
+                        <i class="medium material-icons dp48">cloud_upload</i>
+                        <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                        <span class="text-muted font-13">(File hợp lệ: jpg, png)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save-photo">Lưu</button>
+                <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-delete">Thoát</button>
+            </div>
+        </div>
+    </div>
 
-        $('#save-delete').click(function () {
-            $('#pre-load').show();
-            $.ajax({
-                url: "/camera/delete",
-                type: "post",
-                data: {
-                    room_id: room_id
-                },
-                cache: false,
-                datatype: 'json',
-                success: function (data) {
-                    if (data.success) {
-                        $('#exit-delete').click();
-                        dataTable.ajax.reload();
-                        successAlert(data.message);
-                    }
-                    else {
-                        errorAlert(data.message);
-                        $('#pre-load').hide();
-                    }
-                    room_id = "";
-                }
-            })
-        })
-
-        $('#save-photo').click(function () {
-            $('#pre-load').show();
-            let data = new FormData();
-            data.append("img", data1.get("img"));
-            data.append("room_id", room_id);
-            $.ajax({
-                url: "/phong-cdvt/camera/danh-sach/photo",
-                type: "post",
-                data: data,
-                cache: false,
-                datatype: 'json',
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    if (data.success) {
-                        window.location.reload();
-                    }
-                    else {
-                        errorAlert(data.message);
-                        $('#pre-load').hide();
-                    }
-                }
-            })
-        })
-    });
-
-    $(document).on('click', '.get-photo', function () {
+    <script>
+    $('#save-photo').click(function () {
         $('#pre-load').show();
-        $('#photocamera').removeAttr('src');
+        let data = new FormData();
+        data.append("img", data1.get("img"));
+        data.append("room_id", room_id);
         $.ajax({
             url: "/phong-cdvt/camera/danh-sach/photo",
-            data: {
-                id: $(this).data('room')
-            },
+            type: "post",
+            data: data,
             cache: false,
-            method: 'get',
+            datatype: 'json',
+            processData: false,
+            contentType: false,
             success: function (data) {
                 if (data.success) {
-                    var image = new Image();
-                    image.src = 'data:image/jpeg;base64,' + data.base64;
-                    image.onload = function () {
-                        $('#myphoto').width(image.width + 24 * 2);
-                        $('#photocamera').attr('src', 'data:image/jpeg;base64,' + data.base64);
-                    };
+                    window.location.reload();
                 }
-                $('#pre-load').hide();
+                else {
+                    errorAlert(data.message);
+                    $('#pre-load').hide();
+                }
             }
         })
     })
 
-    function checkbox() {
-        if ($('#checkbox-add').is(':checked')) {
-            $('#checkbox-add').val(true)
-        } else {
-            $('#checkbox-add').val(false)
-        }
-    }
-</script>
-<script>
     //Create by TUANKQ, THANGDV
     var data1 = new FormData();
 
@@ -713,4 +574,173 @@
 
         $('#pre-load').hide();
     }
-</script>
+    </script>
+}
+
+@if (rights.Contains("198"))
+{
+    <div id="mydelete" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Xóa thông tin hệ thống camera <span></span></h3>
+            </div>
+            <div class="modal-body">
+                <h4>Dữ liệu sẽ không thể khôi phục sau khi xóa</h4>
+            </div>
+            <div class="modal-footer">
+                <a class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save-delete">Lưu</a>
+                <button class="btn light-blue lighten-1 modal-close">Thoát</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#save-delete').click(function () {
+            $('#pre-load').show();
+            $.ajax({
+                url: "/camera/delete",
+                type: "post",
+                data: {
+                    room_id: room_id
+                },
+                cache: false,
+                datatype: 'json',
+                success: function (data) {
+                    if (data.success) {
+                        $('#mydelete').modal();
+                        dataTable.ajax.reload();
+                        successAlert(data.message);
+                    }
+                    else {
+                        errorAlert(data.message);
+                        $('#pre-load').hide();
+                    }
+                    room_id = "";
+                }
+            })
+        })
+    </script>
+}
+
+@if (rights.Contains("199"))
+{
+    <div id="myedit" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Chỉnh sửa thông tin hệ thống camera <span></span></h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="col s12 m12">
+                            <div class="form-group">
+                                <label>Trực thuộc phòng ban : </label>
+                                <input class="form-control" id="department-edit" list="departs" />
+                            </div>
+                        </div>
+                        <div class="col s12 m12">
+                            <div class="form-group">
+                                <label>Tên vị trí hệ thống : </label>
+                                <input required type="text" class="form-control" id="location-edit" />
+                            </div>
+                        </div>
+                        <div class="col s12 m12">
+                            <div class="form-group">
+                                <label>Thông tin đăng nhập : </label>
+                                <input required type="text" class="form-control" id="login-edit" />
+                            </div>
+                        </div>
+                        <div class="col s12 m12">
+                            <div class="form-group">
+                                <label>Số lượng : </label>
+                                <input required type="number" min="1" value="1" class="form-control" id="quantity-edit" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="col s12 m12">
+                            <div class="form-group">
+                                <label>Số seri ổ cứng : </label>
+                                <input required type="text" class="form-control" id="resial-edit" />
+                            </div>
+                        </div>
+                        <div class="col s12 m12">
+                            <div class="form-group">
+                                <label>Tình trạng ổ cứng : </label>
+                                <input required type="text" class="form-control" id="status-edit" />
+                            </div>
+                        </div>
+                        <div class="col s12 m12">
+                            <div class="form-group">
+                                <label>Dung lượng ổ cứng (GB) : </label>
+                                <input required type="number" min="1" class="form-control" value="1" id="capacity-edit" />
+                            </div>
+                        </div>
+                        <div class="col s12 m12">
+                            <div class="form-group">
+                                <label>Ghi chú : </label>
+                                <input required type="text" class="form-control" id="note-edit" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="waves-effect waves-light btn blue darken-2 modal-trigger" id="save-edit">Lưu</a>
+                <button class="btn light-blue lighten-1 modal-close" id="exit-edit">Thoát</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).on('click', '.edit-room', function () {
+            let $tr = $(this).closest('tr').children('td');
+            $('#location-edit').val($tr.eq(0).text());
+            $('#department-edit').val($tr.eq(1).data('department'));
+            $('#login-edit').val($tr.eq(2).text());
+            $('#quantity-edit').val($tr.eq(3).text().split('/')[1]);
+            $('#status-edit').val($tr.eq(4).text());
+            let capacity = $tr.eq(5).text().endsWith('GB') ? $tr.eq(5).text().split(' ')[0] : ($tr.eq(5).text().split(' ')[0] * 1000)
+            $('#capacity-edit').val(capacity);
+            $('#resial-edit').val($tr.eq(6).text());
+            $('#note-edit').val($tr.eq(9).text());
+        })
+
+        $('#save-edit').click(function () {
+            if ($("#location-edit").val() == "" || $('#quantity-edit').val() < 1 || $('#capacity-edit').val() < 1 || $('#resial-edit').val() == "" || $('#status-edit').val() == "" || room_id == "") {
+                toastr.error("Xin điền đầy đủ thông tin");
+                return;
+            }
+            $('#pre-load').show();
+            $.ajax({
+                url: "/camera/edit",
+                type: "post",
+                data: {
+                    location: $("#location-edit").val(),
+                    quantity: $('#quantity-edit').val(),
+                    note: $('#note-edit').val(),
+                    department: $('#department-edit').val(),
+                    capacity: $('#capacity-edit').val(),
+                    serial: $('#resial-edit').val(),
+                    status: $('#status-edit').val(),
+                    room_id: room_id,
+                    login: $('#login-edit').val()
+                },
+                cache: false,
+                datatype: "json",
+                success: function (data) {
+                    if (data.success) {
+                        $('#exit-edit').click();
+                        dataTable.ajax.reload();
+                        successAlert(data.message);
+                    }
+                    else {
+                        errorAlert(data.message);
+                        $('#pre-load').hide();
+                    }
+                    room_id = "";
+                }
+            })
+        })
+    </script>
+}

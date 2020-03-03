@@ -282,14 +282,14 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 string Fextension = Path.GetExtension(fileName);
                                 var timeStamp = DateTime.Now.ToFileTime();
                                 fileName = ngayNhap.Replace("/", "") + ca + phanxuong + timeStamp + Fextension;
-                                string path = "/FileContainer/PhanXuongLenDK/";
-                                if (!Directory.Exists(HostingEnvironment.MapPath(path)))
+                                string path = @"D:\QLSX_FileContainer\PhanXuongLenDK\";
+                                if (!Directory.Exists(path))
                                 {
-                                    Directory.CreateDirectory(HostingEnvironment.MapPath(path));
+                                    Directory.CreateDirectory(path);
                                 }
                                 if (file.ContentLength > 0)
                                 {
-                                    file.SaveAs(HostingEnvironment.MapPath(path + fileName));
+                                    file.SaveAs(path + fileName);
                                 }
                                 sql = "insert into FileBaoCao(baoCaoID,fileName,fileNameDisplay,nguoinhap_id,uploadTime,chuthich)\n" +
                                     "values(@ID,@filename,@fileNameDisplay,@nguoinhap,@time,@chuthich)";
@@ -345,7 +345,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                         {
                             string sql = "select * from filebaocao where id=@ID";
                             string fileName = db.Database.SqlQuery<FileBaoCao>(sql, new SqlParameter("id", Int32.Parse(id))).ToList<FileBaoCao>()[0].fileName;
-                            string path = HostingEnvironment.MapPath(@"/FileContainer/PhanXuongLenDK/" + fileName);
+                            string path = @"D:\QLSX_FileContainer\PhanXuongLenDK\" + fileName;
                             if (System.IO.File.Exists(path))
                             {
                                 System.IO.File.Delete(path);
@@ -390,7 +390,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
             MemoryStream memoryStream = new MemoryStream();
             string handle = Guid.NewGuid().ToString();
-            using (FileStream fileStream = new FileStream(HostingEnvironment.MapPath(location), FileMode.Open, FileAccess.Read))
+            using (FileStream fileStream = new FileStream(location, FileMode.Open, FileAccess.Read))
             {
                 fileStream.CopyTo(memoryStream);
                 memoryStream.Position = 0;
@@ -408,128 +408,259 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             }
         }
 
+        /// <summary>
+        /// NSLD va Diem Luong
+        /// </summary>
+        /// <returns></returns>
         [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [Route("phan-xuong/nang-suat-lao-dong")]
         public ActionResult NSLD()
         {
             return View("/Views/PX/PXKT/InputNSLD.cshtml");
         }
+
         [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
-        [Route("phan-xuong/nang-suat-lao-dong-getData")]
         [HttpPost]
-        public ActionResult getDataNSLD()
+        [Route("phan-xuong/nang-suat-lao-dong/lay-du-lieu")]
+        /////////////////////GET DATA///////////////////////
+        public ActionResult getEffortData()
         {
+            string date = Request["date"];
+            string shift = Request["shift"];
+            string departmentID = (String)Session["departID"];
+            string convert_date;
+            int convert_shift = 0;
             try
             {
-                string caSearch = Request["caSearch"];
-                string ngaySearch = Request["ngaySearch"];
-                string Donvi = Request["phongbanSearch"];
-                ngaySearch = ngaySearch.Split('"')[1];
-                int calamviec = Int32.Parse(caSearch.Split('"')[1]);
-                ngaySearch = ngaySearch.Split('/')[1] + "/" + ngaySearch.Split('/')[0] + "/" + ngaySearch.Split('/')[2];
-                DateTime date = DateTime.Parse(ngaySearch);
-                List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
-
-                Donvi = Donvi.Split('"')[1];
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.MaPhongBan == Donvi && a.Ca == calamviec && a.NgayDiemDanh == date).First();
-                List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
-                    .Where(a => a.DiLam == true)
-                    .Where(a => a.HeaderID == header.HeaderID)
-                    .ToList();
-                customNSLDs = new List<BaoCaoTheoCa>();
-                BaoCaoTheoCa cus;
-                int num = 1;
-                foreach (var i in list)
+                if (date.Equals("") || shift.Equals(""))
                 {
-                    string MaPhongBan = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.HeaderID == i.HeaderID).First().MaPhongBan;
-                    cus = new BaoCaoTheoCa
+                    convert_date = DateTime.Now.Date.ToString("yyyy/MM/dd");
+                    var curr_hour = DateTime.Now.Hour;
+                    if (curr_hour >= 8 && curr_hour < 16)
                     {
-                        STT = num,
-                        Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
-                        BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
-                        ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
-                        //DuBaoNguyCo = i.DuBaoNguyCo,
-                        //HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
-                        LuongSauDuyet = i.DiemLuong.ToString(),
-                        LuongTruocDuyet = i.DiemLuong.ToString(),
-                        NoiDungCongViec = db.Departments.Where(a => a.department_id == MaPhongBan).First().department_name,
-                        SoThe = i.MaNV
-                        //YeuCauBPKTAT = i.GiaiPhapNguyCo
-                    };
-                    customNSLDs.Add(cus);
-                    num++;
+                        //Shift 1
+                        convert_shift = 1;
+                    }
+                    if (16 <= curr_hour && curr_hour < 23)
+                    {
+                        //shift 2
+                        convert_shift = 2;
+                    }
+                    else if (0 <= curr_hour && curr_hour < 16)
+                    {
+                        convert_shift = 3;
+                    }
                 }
-                return Json(new
+                else
                 {
-                    success = true,
-                    customNSLDs = customNSLDs,
-                    total_point = header.TotalEffort,
-                    than = header.ThanThucHien,
-                    lo = header.MetLoThucHien,
-                    xen = header.XenThucHien,
-                    note = header.GhiChu == null ? "" : header.GhiChu
-                }, JsonRequestBehavior.AllowGet);
+                    convert_date = Convert.ToDateTime(date).Date.ToString("yyyy/MM/dd");
+                    convert_shift = Convert.ToInt32(shift);
+                }
+
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    //get list_nsld
+                    var mysql = @"select 
+                                (case when hd.NgayDiemDanh is NULL then '0-0-0' else hd.NgayDiemDanh end) as 'NgayDiemDanh', 
+                                (case when hd.Ca is NULL then '0' else hd.Ca end) as 'Ca', 
+                                (case when dd.MaNV is NULL then '0' else dd.MaNV end) as 'MaNV', 
+                                (case when nv.Ten is NULL then '' else nv.Ten end) as 'Ten', 
+                                (case when dd.DiemLuong is NULL then 0 else dd.DiemLuong end) as 'DiemLuong' 
+                                from 
+                                (select HeaderID, NgayDiemDanh, Ca, MaPhongBan from Header_DiemDanh_NangSuat_LaoDong where NgayDiemDanh = @date 
+                                                    and Ca = @shift 
+                                                    and  MaPhongBan = @departmentID) as hd 
+                                join (select * from DiemDanh_NangSuatLaoDong where DiLam = 1) as dd on hd.HeaderID = dd.HeaderID
+                                join NhanVien nv on nv.MaNV = dd.MaNV";
+                    List<NangSuatLaoDong_TungCongNhan> list_nsld = db.Database.SqlQuery<NangSuatLaoDong_TungCongNhan>(mysql,
+                        new SqlParameter("date", convert_date),
+                        new SqlParameter("shift", convert_shift),
+                        new SqlParameter("departmentID", departmentID)).ToList();
+
+                    //get list_sum_effort
+                    var mysql_sum = @"select TotalEffort,ThanThucHien, MetLoThucHien, XenThucHien from Header_DiemDanh_NangSuat_LaoDong 
+                                    where NgayDiemDanh = @date and Ca = @shift and MaPhongBan = @departmentID";
+                    List<Sum_DiemLuong_Than_MetLo_Xen> list_sum = db.Database.SqlQuery<Sum_DiemLuong_Than_MetLo_Xen>(mysql_sum,
+                        new SqlParameter("date", convert_date),
+                        new SqlParameter("shift", convert_shift),
+                        new SqlParameter("departmentID", departmentID)).ToList();
+
+                    return Json(new { list_nsld = list_nsld, list_sum = list_sum, date = Convert.ToDateTime(convert_date).Date.ToString("dd/MM/yyyy"), shift = convert_shift });
+                }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return Json(new { success = false });
+
             }
+            return null;
         }
+
         [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
-        [Route("phan-xuong/nang-suat-lao-dong-update")]
-        public ActionResult UpdateNSLD(string stringjson)
+        [Route("phan-xuong/nang-suat-lao-dong/luu-du-lieu")]
+        [HttpPost]
+        public ActionResult saveNSLD()
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                DbContextTransaction transaction = db.Database.BeginTransaction();
+                try
                 {
-                    try
-                    {
-                        JObject json = JObject.Parse(stringjson);
-                        int calamviec = (int)json["ca"];
-                        string Donvi = (string)json["phongban"];
-                        string ngaySearch = (string)json["ngay"];
-                        ngaySearch = ngaySearch.Split('/')[1] + "/" + ngaySearch.Split('/')[0] + "/" + ngaySearch.Split('/')[2];
-                        DateTime date = DateTime.Parse(ngaySearch);
-                        Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.MaPhongBan.Equals(Donvi) && a.Ca == calamviec && a.NgayDiemDanh == date).FirstOrDefault();
-                        if (header != null)
-                        {
-                            header.TotalEffort = (double)json["total_point"];
-                            header.GhiChu = (string)json["note"];
-                            header.ThanThucHien = (double)json["than"];
-                            header.MetLoThucHien = (double)json["lo"];
-                            header.XenThucHien = (double)json["xen"];
-                            JArray temp = (JArray)json.SelectToken("list");
-                            foreach (JObject item in temp)
-                            {
-                                DiemDanh_NangSuatLaoDong NSLD = db.DiemDanh_NangSuatLaoDong.Find((string)item["MaNhanVien"], (int)header.HeaderID);
-                                //NSLD.HeSoChiaLuong = (double?)item["HeSoChiaLuong"];
-                                NSLD.DiemLuong = (double?)item["Luong"];
-                                //NSLD.DuBaoNguyCo = (string)item["DuBaoNguyCo"];
-                                //NSLD.GiaiPhapNguyCo = (string)item["YeuCauBPKTAT"];
-                                db.SaveChanges();
-                            }
-                            transaction.Commit();
-                            return Json(new { success = true, message = "Cập nhật thành công" });
-                        }
-                        else
-                        {
-                            return Json(new { success = false, message = "Cập nhật thất bại." });
-                        }
+                    //header params
+                    var departmentID = Session["departID"].ToString();
+                    var date = DateTime.Parse(Request["date"]).Date;
+                    var shift = Convert.ToInt32(Request["shift"]);
+
+                    //list data need to save
+                    var arrES = JArray.Parse(Request["arrES"]);
+                    var arrTB = JArray.Parse(Request["arrTB"]);
 
 
-                    }
-                    catch (Exception e)
+                    Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(x => x.NgayDiemDanh == date && x.Ca == shift && x.MaPhongBan.Equals(departmentID)).FirstOrDefault();
+                    if (header != null)
                     {
-                        transaction.Rollback();
-                        return Json(new { success = false, message = "Cập nhật thất bại" });
+                        //save to Header_DiemDanh_NangSuat_LaoDong
+                        header.TotalEffort = Convert.ToDouble(arrES[0]["TongDiemLuong"]);
+                        header.ThanThucHien = Convert.ToDouble(arrES[0]["TongThan"]);
+                        header.MetLoThucHien = Convert.ToDouble(arrES[0]["TongMetLo"]);
+                        header.XenThucHien = Convert.ToDouble(arrES[0]["TongXen"]);
+
+                        //save to DiemDanh_NangSuat_LaoDong
+                        var headerID = Convert.ToInt32(header.HeaderID);
+                        foreach (var row in arrTB)
+                        {
+                            string nhanvien_id = (String)row["mathe"];
+                            double diemluong = Convert.ToDouble(row["diemluong"]);
+                            DiemDanh_NangSuatLaoDong effort = db.DiemDanh_NangSuatLaoDong.Find(nhanvien_id, headerID);
+                            effort.DiemLuong = Convert.ToDouble(diemluong);
+                            db.SaveChanges();
+                        }
                     }
+                    transaction.Commit();
+                    return Json(new { success = true, title = "Thành công", message = "Cập nhật công việc thành công." });
                 }
-
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    return Json(new { success = false, title = "Có lỗi", message = "Cập nhật không thành công." });
+                }
             }
-
         }
+        //public ActionResult getDataNSLD()
+        //{
+        //    try
+        //    {
+        //        string caSearch = Request["caSearch"];
+        //        string ngaySearch = Request["ngaySearch"];
+        //        string Donvi = Request["phongbanSearch"];
+        //        ngaySearch = ngaySearch.Split('"')[1];
+        //        int calamviec = Int32.Parse(caSearch.Split('"')[1]);
+        //        ngaySearch = ngaySearch.Split('/')[1] + "/" + ngaySearch.Split('/')[0] + "/" + ngaySearch.Split('/')[2];
+        //        DateTime date = DateTime.Parse(ngaySearch);
+        //        List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
+
+        //        Donvi = Donvi.Split('"')[1];
+        //        QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+        //        Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.MaPhongBan == Donvi && a.Ca == calamviec && a.NgayDiemDanh == date).First();
+        //        List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
+        //            .Where(a => a.DiLam == true)
+        //            .Where(a => a.HeaderID == header.HeaderID)
+        //            .ToList();
+        //        customNSLDs = new List<BaoCaoTheoCa>();
+        //        BaoCaoTheoCa cus;
+        //        int num = 1;
+        //        foreach (var i in list)
+        //        {
+        //            string MaPhongBan = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.HeaderID == i.HeaderID).First().MaPhongBan;
+        //            cus = new BaoCaoTheoCa
+        //            {
+        //                STT = num,
+        //                Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
+        //                BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
+        //                ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
+        //                //DuBaoNguyCo = i.DuBaoNguyCo,
+        //                //HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
+        //                LuongSauDuyet = i.DiemLuong.ToString(),
+        //                LuongTruocDuyet = i.DiemLuong.ToString(),
+        //                NoiDungCongViec = db.Departments.Where(a => a.department_id == MaPhongBan).First().department_name,
+        //                SoThe = i.MaNV
+        //                //YeuCauBPKTAT = i.GiaiPhapNguyCo
+        //            };
+        //            customNSLDs.Add(cus);
+        //            num++;
+        //        }
+        //        return Json(new
+        //        {
+        //            success = true,
+        //            customNSLDs = customNSLDs,
+        //            total_point = header.TotalEffort,
+        //            than = header.ThanThucHien,
+        //            lo = header.MetLoThucHien,
+        //            xen = header.XenThucHien,
+        //            note = header.GhiChu == null ? "" : header.GhiChu
+        //        }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return Json(new { success = false });
+        //    }
+        //}
+        //[Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        //[Route("phan-xuong/nang-suat-lao-dong-update")]
+        //public ActionResult UpdateNSLD(string stringjson)
+        //{
+        //    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+        //    {
+        //        using (DbContextTransaction transaction = db.Database.BeginTransaction())
+        //        {
+        //            try
+        //            {
+        //                JObject json = JObject.Parse(stringjson);
+        //                int calamviec = (int)json["ca"];
+        //                string Donvi = (string)json["phongban"];
+        //                string ngaySearch = (string)json["ngay"];
+        //                ngaySearch = ngaySearch.Split('/')[1] + "/" + ngaySearch.Split('/')[0] + "/" + ngaySearch.Split('/')[2];
+        //                DateTime date = DateTime.Parse(ngaySearch);
+        //                Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.MaPhongBan.Equals(Donvi) && a.Ca == calamviec && a.NgayDiemDanh == date).FirstOrDefault();
+        //                if (header != null)
+        //                {
+        //                    header.TotalEffort = (double)json["total_point"];
+        //                    header.GhiChu = (string)json["note"];
+        //                    header.ThanThucHien = (double)json["than"];
+        //                    header.MetLoThucHien = (double)json["lo"];
+        //                    header.XenThucHien = (double)json["xen"];
+        //                    JArray temp = (JArray)json.SelectToken("list");
+        //                    foreach (JObject item in temp)
+        //                    {
+        //                        DiemDanh_NangSuatLaoDong NSLD = db.DiemDanh_NangSuatLaoDong.Find((string)item["MaNhanVien"], (int)header.HeaderID);
+        //                        //NSLD.HeSoChiaLuong = (double?)item["HeSoChiaLuong"];
+        //                        NSLD.DiemLuong = (double?)item["Luong"];
+        //                        //NSLD.DuBaoNguyCo = (string)item["DuBaoNguyCo"];
+        //                        //NSLD.GiaiPhapNguyCo = (string)item["YeuCauBPKTAT"];
+        //                        db.SaveChanges();
+        //                    }
+        //                    transaction.Commit();
+        //                    return Json(new { success = true, message = "Cập nhật thành công" });
+        //                }
+        //                else
+        //                {
+        //                    return Json(new { success = false, message = "Cập nhật thất bại." });
+        //                }
+
+
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                transaction.Rollback();
+        //                return Json(new { success = false, message = "Cập nhật thất bại" });
+        //            }
+        //        }
+
+        //    }
+
+        //}
+
+
+
         [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [Route("phan-xuong/diem-danh")]
         public ActionResult takeAttendanceView()
@@ -675,7 +806,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                 listAtten_NotAtten = getAttendance_NotAttendance(session, departmentID, dateAtt);
                 JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
                 var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
-                return Json(new { success = true, data = result , listAtten_NotAtten = listAtten_NotAtten }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, data = result, listAtten_NotAtten = listAtten_NotAtten }, JsonRequestBehavior.AllowGet);
             }
         }
         [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
@@ -738,7 +869,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             listAtten_NotAtten = getAttendance_NotAttendance(session, departmentID, dateAtt);
             JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
-            return Json(new { success = true, data = result, listAtten_NotAtten = listAtten_NotAtten}, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, data = result, listAtten_NotAtten = listAtten_NotAtten }, JsonRequestBehavior.AllowGet);
         }
         [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [HttpPost]
@@ -882,7 +1013,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             var timeHelper = new TimeHelper();
             DateTime mondayOfNextWeek = timeHelper.StartOfNextWeek(DateTime.Now, DayOfWeek.Monday);
             ViewBag.MondayOfNextWeek = mondayOfNextWeek.Date.ToString("dd/MM/yyyy");
-            ViewBag.FridayOfNextWeek = mondayOfNextWeek.AddDays(5).Date.ToString("dd/MM/yyyy");
+            ViewBag.FridayOfNextWeek = mondayOfNextWeek.AddDays(7).Date.ToString("dd/MM/yyyy");
             return View("/Views/PX/PXDS/Input.cshtml");
         }
 
@@ -944,21 +1075,6 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
     }
 
-    public class BaoCaoTheoCa
-    {
-        public int STT { get; set; }
-        public string Name { get; set; }
-        public string SoThe { get; set; }
-        public string BacTho { get; set; }
-        public string ChucDanh { get; set; }
-        public string NoiDungCongViec { get; set; }
-        public string HeSoChiaLuong { get; set; }
-        public string LuongTruocDuyet { get; set; }
-        public string LuongSauDuyet { get; set; }
-        public string DuBaoNguyCo { get; set; }
-        public string YeuCauBPKTAT { get; set; }
-    }
-
     public class SoLuongDiLam_Vang
     {
         public int TongDiLam { get; set; }
@@ -975,5 +1091,37 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         public int ThaiSan { get; set; }
         public int TamHoanLaoDong { get; set; }
         public int VoLyDoDai { get; set; }
+    }
+
+    public class NangSuatLaoDong_TungCongNhan
+    {
+        public DateTime NgayDiemDanh { get; set; }
+        public int Ca { get; set; }
+        public string MaNV { get; set; }
+        public string Ten { get; set; }
+        public double DiemLuong { get; set; }
+    }
+
+    public class Sum_DiemLuong_Than_MetLo_Xen
+    {
+        public double TotalEffort { get; set; }
+        public double ThanThucHien { get; set; }
+        public double MetLoThucHien { get; set; }
+        public double XenThucHien { get; set; }
+    }
+
+    public class BaoCaoTheoCa
+    {
+        public int STT { get; set; }
+        public string Name { get; set; }
+        public string SoThe { get; set; }
+        public string BacTho { get; set; }
+        public string ChucDanh { get; set; }
+        public string NoiDungCongViec { get; set; }
+        public string HeSoChiaLuong { get; set; }
+        public string LuongTruocDuyet { get; set; }
+        public string LuongSauDuyet { get; set; }
+        public string DuBaoNguyCo { get; set; }
+        public string YeuCauBPKTAT { get; set; }
     }
 }

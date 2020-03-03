@@ -1744,18 +1744,23 @@
     };
         myCharttl.setOption(option);
 
+
         $(function () {
             $(window).on('resize', resize);
-            $(".sidebar-toggle").click(resize);
-                function resize() {
-                    setTimeout(function() {
+            $(".sidebar-toggle").on('click', resize);
+            function resize() {
+                setTimeout(function () {
                         myChartsc.resize();
                         myChartbd.resize();
                         myCharttl.resize();
                         myCharttdt.resize();
-                    }, 200);
-                }
-            });
+                }, 200);
+            }
+                        myChartsc.resize();
+                        myChartbd.resize();
+                        myCharttl.resize();
+                        myCharttdt.resize();
+        });
     });
 
 </script>

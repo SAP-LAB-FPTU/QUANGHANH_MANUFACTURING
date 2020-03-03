@@ -240,14 +240,14 @@
 <script>
     function AddComma(Num) { //function to add commas to textboxes
         Num += '';
-        Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
-        Num = Num.replace(',', ''); Num = Num.replace(',', ''); Num = Num.replace(',', '');
-        x = Num.split('.');
+        Num = Num.replace('.', ''); Num = Num.replace('.', ''); Num = Num.replace('.', '');
+        Num = Num.replace('.', ''); Num = Num.replace('.', ''); Num = Num.replace('.', '');
+        x = Num.split(',');
         x1 = x[0];
-        x2 = x.length > 1 ? '.' + x[1] : '';
+        x2 = x.length > 1 ? ',' + x[1] : '';
         var rgx = /(\d+)(\d{3})/;
         while (rgx.test(x1))
-            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            x1 = x1.replace(rgx, '$1' + '.' + '$2');
         return x1 + x2;
     }
 </script>
@@ -629,11 +629,11 @@
                             },]
                         });
                         /////////////////////////////BAO CAO SAN LUONG//////////////////////////
-                        $("#slkh").text(AddComma(response.sanluong.SLKH==null?0:response.sanluong.SLKH));
-                        $("#lksl").text(AddComma(response.sanluong.LKSL==null?0:response.sanluong.LKSL));
+                        $("#slkh").text(AddComma(response.sanluong.SLKH == null ? 0 : response.sanluong.SLKH));
+                        $("#lksl").text(AddComma(response.sanluong.LKSL == null ? 0 : response.sanluong.LKSL));
                         $("#slcl").text(AddComma(response.sanluong.SLKH - response.sanluong.LKSL));
-                        $("#mlkh").text(AddComma(response.sanluong.MLKH==null?0:response.sanluong.MLKH));
-                        $("#lkml").text(AddComma(response.sanluong.LKML==null?0:response.sanluong.LKML));
+                        $("#mlkh").text(AddComma(response.sanluong.MLKH == null ? 0 : response.sanluong.MLKH));
+                        $("#lkml").text(AddComma(response.sanluong.LKML == null ? 0 : response.sanluong.LKML));
                         $("#mlcl").text(AddComma(response.sanluong.MLKH - response.sanluong.LKML));
                         ///////////////////////////BIEU DO BARCHARRT NHAN LUC/////////////////
                         var donvi = [];

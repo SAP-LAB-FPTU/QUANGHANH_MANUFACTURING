@@ -23,22 +23,10 @@
                             <input placeholder="Tìm kiếm theo số quyết định" class='form-control' id="id-search" />
                         </div>
                         <div class="col l10 m10 s12 input-field">
-                            <select class="form-control" id="type-search">
-                                <option value="0">Tất cả loại quyết định</option>
-                                <option value="1">Sửa chữa</option>
-                                <option value="2">Bảo dưỡng</option>
-                                <option value="3">Điều động</option>
-                                <option value="4">Thu hồi</option>
-                                <option value="5">Thanh lý</option>
-                                <option value="6">Trung đại tu</option>
-                            </select>
-                        </div>
-                        <div class="col l10 m10 s12 input-field">
                             <select class="form-control" id="status-search">
                                 <option value="0">Chưa xử lý và chưa nghiệm thu</option>
                                 <option value="1">Đang xử lý</option>
                                 <option value="2">Đã xử lý chưa nghiệm thu</option>
-                                @*<option value="3">Đã nghiệm thu</option>*@
                             </select>
                         </div>
                     </div>
@@ -75,7 +63,7 @@
                         <tr>
                             <th>Số quyết định</th>
                             <th>Loại quyết định</th>
-                            <th>Đơn vị đang sử dụng</th>
+                            <th>Đơn vị sửa chữa</th>
                             <th>Ngày tạo quyết định</th>
                             <th>Người tạo quyết định</th>
                             <th>Nội dung quyết định</th>
@@ -153,11 +141,10 @@
                     }
                 },
                 "ajax": {
-                    "url": "/camera/cap-nhat/quyet-dinh/search",
+                    "url": "/phong-cdvt/camera/xu-ly",
                     "type": "POST",
                     "data": {
                         "documentary_id": function () { return $('#id-search').val() },
-                        "type": function () { return $('#type-search').val() },
                         "department": function () { return $('#department-search').val() },
                         "reason": function () { return $('#reason-search').val() },
                         "dateStart": function () { return $('#date-start-search').val() },
@@ -169,18 +156,18 @@
                 },
                 "columns": [
                     {
-                        "data": "linkIdCode", "name": "documentary_id",
+                        "data": {}, "name": "documentary_id",
                         "render": function (data) {
-                            return "<a href=\"/cap-nhat/camera/quyet-dinh/" + data.link + "?id=" + data.id + "\"> " + data.code + "</a>";
+                            return "<a href=\"/phong-cdvt/camera/xu-ly/sua-chua?id=" + data.documentary_id + "\"> " + data.documentary_code + "</a>";
                         },
                     },
-                    { "data": "stringtype", "name": "stringtype" },
+                    { "data": "documentary_name", "name": "documentary_name" },
                     { "data": "department_name", "name": "department_name" },
-                    { "data": "stringdate", "name": "stringdate" },
+                    { "data": "stringdate", "name": "date_created" },
                     { "data": "person_created", "name": "person_created" },
                     { "data": "reason", "name": "reason" },
                     { "data": "out_in_come", "name": "out_in_come" },
-                    { "data": "stringstatus", "name": "stringstatus" },
+                    { "data": "stringstatus", "name": "documentary_status" },
                 ],
                 "serverSide": "true",
                 "order": [3, "desc"],
@@ -197,18 +184,11 @@
                     $('#pre-load').hide();
                 }
             });
-
-        });
-
-        $(document).ready(function () {
-            var dataTable = $('#DSQD_id').DataTable();
-            //search
+            
             $("#searchButton1").click(function () {
                 $("#pre-load").show();
-                dataTable.ajax.reload(function () {
-                    successAlert('Tìm kiếm thành công', "");
-                });
+                dataTable.ajax.reload();
             });
-        })
+        });
     </script>
 }

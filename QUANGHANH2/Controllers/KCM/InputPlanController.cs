@@ -100,9 +100,9 @@ namespace QUANGHANH2.Controllers.KCM
                             //insert to header_KeHoachTungThang
                             listHeader = new header_KeHoachTungThang();
                             listHeader.MaPhongBan = MaPhongBan;
-                            listHeader.ThangKeHoach = Thang;
-                            listHeader.NamKeHoach = Nam;
-                            listHeader.SoNgayLamViec = Convert.ToInt32(SoNgaySanXuat);
+                            //listHeader.ThangKeHoach = Thang;
+                            //listHeader.NamKeHoach = Nam;
+                            //listHeader.SoNgayLamViec = Convert.ToInt32(SoNgaySanXuat);
                             db.header_KeHoachTungThang.Add(listHeader);
                             db.SaveChanges();
                         }
@@ -111,9 +111,9 @@ namespace QUANGHANH2.Controllers.KCM
                             //update header_KeHoachTungThang
                             var update = db.header_KeHoachTungThang.Find(listHeader.HeaderID);
                             update.MaPhongBan = MaPhongBan;
-                            update.ThangKeHoach = Thang;
-                            update.NamKeHoach = Nam;
-                            update.SoNgayLamViec = Convert.ToInt32(SoNgaySanXuat);
+                            //update.ThangKeHoach = Thang;
+                            //update.NamKeHoach = Nam;
+                            //update.SoNgayLamViec = Convert.ToInt32(SoNgaySanXuat);
                             db.SaveChanges();
                         }
                         //insert to KeHoachTungThang

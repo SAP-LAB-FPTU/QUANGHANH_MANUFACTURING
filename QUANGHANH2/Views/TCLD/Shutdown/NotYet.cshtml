@@ -23,8 +23,8 @@
                         <button class="waves-effect waves-light btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
                     </div>
                     @*<div class="col l2 m12 s12 input-field">
-                        <button class="waves-effect waves-light btn blue darken-2 btn-small" id="clear">Xóa trường</button>
-                    </div>*@
+                            <button class="waves-effect waves-light btn blue darken-2 btn-small" id="clear">Xóa trường</button>
+                        </div>*@
                 </div>
             </div>
         </div>
@@ -77,15 +77,15 @@
             </div>
             <div class="modal-body row">
                 <div class="col s3 m3 l3">
-                    <input class="form-control" id="soqd" placeholder="Số quyết định" name="SoQD" autocomplete = "off" />
+                    <input class="form-control" id="soqd" placeholder="Số quyết định" name="SoQD" autocomplete="off" />
                     <br />
                 </div>
                 <div class="col s6 m6 l6">
 
                 </div>
-                <div class="col s3 m3 l3">
+                @*<div class="col s3 m3 l3">
                     <a class="right waves-effect waves-light btn blue darken-2 btn-small">Xuất word</a>
-                </div>
+                </div>*@
                 <div class="col s3 m3 l3">
                     @*<p id="message" style="display: none !important ">Mã nhân viên bị trùng</p>*@
                 </div>
@@ -316,8 +316,8 @@
                 data: { id: JSON.stringify(id) },
             })
                 .done(function (data) {
-                    for (i = 0; i < data.length; i++) {
                         $("#detail-table").empty();
+                    for (i = 0; i < data.length; i++) {
                         $("#detail-table").append("<tr>");
                         $("#detail-table").append("<td>" + data[i].MaNV + "</td>");
                         $("#detail-table").append("<td>" + data[i].Ten + "</td>");

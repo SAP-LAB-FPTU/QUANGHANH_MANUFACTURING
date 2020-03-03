@@ -322,30 +322,48 @@
                                     </div>
                                 </li>
                             }
-                            if (rights.Contains("193"))
+                            if (rights.Contains("193") || rights.Contains("200") || rights.Contains("203") || rights.Contains("205") || rights.Contains("207") || rights.Contains("208"))
                             {
                                 <li>
                                     <a href="javascript: void(0);" class="collapsible-header has-arrow"><i class="material-icons">event_available</i><span class="hide-menu">Camera</span></a>
                                     <div class="collapsible-body">
                                         <ul>
-                                            <li>
-                                                <a href="/phong-cdvt/camera/danh-sach"><i class="material-icons">adjust</i><span class="hide-menu">Danh sách camera</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="/phong-cdvt/camera/su-co"><i class="material-icons">adjust</i><span class="hide-menu">Sự cố</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="/phong-cdvt/camera/cap-nhat"><i class="material-icons">adjust</i><span class="hide-menu">Cập nhật theo ca</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="/camera/quyet-dinh/sua-chua"><i class="material-icons">adjust</i><span class="hide-menu">Quyết định sửa chữa</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="/camera/cap-nhat/quyet-dinh"><i class="material-icons">adjust</i><span class="hide-menu">Xử lý quyết định</span></a>
-                                            </li>
-                                            <li>
-                                                <a href="/camera/nghiem-thu"><i class="material-icons">adjust</i><span class="hide-menu">Nghiệm thu</span></a>
-                                            </li>
+                                            @if (rights.Contains("193"))
+                                            {
+                                                <li>
+                                                    <a href="/phong-cdvt/camera/danh-sach"><i class="material-icons">adjust</i><span class="hide-menu">Danh sách camera</span></a>
+                                                </li>
+                                            }
+                                            @if (rights.Contains("200"))
+                                            {
+                                                <li>
+                                                    <a href="/phong-cdvt/camera/su-co"><i class="material-icons">adjust</i><span class="hide-menu">Sự cố</span></a>
+                                                </li>
+                                            }
+                                            @if (rights.Contains("203"))
+                                            {
+                                                <li>
+                                                    <a href="/phong-cdvt/camera/cap-nhat"><i class="material-icons">adjust</i><span class="hide-menu">Cập nhật theo ca</span></a>
+                                                </li>
+                                            }
+                                            @if (rights.Contains("205"))
+                                            {
+                                                <li>
+                                                    <a href="/phong-cdvt/camera/quyet-dinh/sua-chua"><i class="material-icons">adjust</i><span class="hide-menu">Quyết định sửa chữa</span></a>
+                                                </li>
+                                            }
+                                            @if (rights.Contains("207"))
+                                            {
+                                                <li>
+                                                    <a href="/phong-cdvt/camera/xu-ly"><i class="material-icons">adjust</i><span class="hide-menu">Xử lý quyết định</span></a>
+                                                </li>
+                                            }
+                                            @if (rights.Contains("208"))
+                                            {
+                                                <li>
+                                                    <a href="/phong-cdvt/camera/nghiem-thu"><i class="material-icons">adjust</i><span class="hide-menu">Nghiệm thu</span></a>
+                                                </li>
+                                            }
                                         </ul>
                                     </div>
                                 </li>
@@ -548,6 +566,63 @@
                 }
             });
 
+                $.ajax({
+                    url: "/Notifi/notifiSC",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.text != '') {
+                            if ($('#notifi').is(':visible')) {
+                            } else {
+                                document.getElementById('ids').value = result.id;
+                                $("#title-noti").text(result.title);
+                                $("#text-noti").text(result.text);
+                                $("#notifi").modal('open');
+                            }
+                        }
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+
+                $.ajax({
+                    url: "/Notifi/notifiQD2",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.text != '') {
+                            if ($('#notifi').is(':visible')) {
+                            } else {
+                                document.getElementById('ids').value = result.id;
+                                $("#title-noti").text(result.title);
+                                $("#text-noti").text(result.text);
+                                $("#notifi").modal('open');
+                            }
+                        }
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+
+                $.ajax({
+                    url: "/Notifi/notifiPXXC",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.text != '') {
+                            if ($('#notifi').is(':visible')) {
+                            } else {
+                                document.getElementById('ids').value = result.id;
+                                $("#title-noti").text(result.title);
+                                $("#text-noti").text(result.text);
+                                $("#notifi").modal('open');
+                            }
+                        }
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+
             setInterval(function () {
                 $.ajax({
                     url: "/Notifi/notifiSC",
@@ -555,10 +630,13 @@
                     contentType: "application/json;charset=utf-8",
                     success: function (result) {
                         if (result.text != '') {
-                            document.getElementById('ids').value = result.id;
-                            $("#title-noti").text(result.title);
-                            $("#text-noti").text(result.text);
-                            $("#notifi").modal('open');
+                            if ($('#notifi').is(':visible')) {
+                            } else {
+                                document.getElementById('ids').value = result.id;
+                                $("#title-noti").text(result.title);
+                                $("#text-noti").text(result.text);
+                                $("#notifi").modal('open');
+                            }
                         }
                     },
                     error: function (errormessage) {
@@ -586,7 +664,27 @@
                     }
                 });
             }, 15000);
-            
+
+            setInterval(function () {
+                $.ajax({
+                    url: "/Notifi/notifiPXXC",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.text != '') {
+                            if ($('#notifi').is(':visible')) {
+                            } else {
+                                document.getElementById('ids').value = result.id;
+                                $("#title-noti").text(result.title);
+                                $("#text-noti").text(result.text);
+                                $("#notifi").modal('open');
+                            }
+                        }
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+            }, 15000);
         });
         function updateStatus() {
             var empObj = {

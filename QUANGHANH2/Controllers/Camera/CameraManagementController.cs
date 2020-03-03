@@ -19,45 +19,6 @@ namespace QUANGHANH2.Controllers.Camera
 {
     public class CameraManagementController : Controller
     {
-        [Route("camera/export")]
-        [HttpPost]
-        public void Export()
-        {
-            string path = HostingEnvironment.MapPath("/excel/Camera/");
-            string filename = "camera-temp.xlsx";
-            FileInfo file = new FileInfo(path + filename);
-            using (ExcelPackage excelPackage = new ExcelPackage(file))
-            {
-                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
-                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-                {
-
-                    string sql = "select c.*, d.capacity, d.disk_status, d.series, r.room_name, de.department_name, s.statusname " +
-                                "from Camera c inner join Disk d on c.camera_id = d.camera_id " +
-                                "inner join Room r on c.room_id = r.room_id " +
-                                "inner join Department de on r.department_id = de.department_id " +
-                                "inner join Status s on c.camera_status = s.statusid";
-                    var equipList = db.Database.SqlQuery<camDB>(sql).ToList();
-                    int k = 3;
-                    for (int i = 0; i < equipList.Count; i++)
-                    {
-                        excelWorksheet.Cells[k, 1].Value = equipList.ElementAt(i).room_id;
-                        excelWorksheet.Cells[k, 2].Value = equipList.ElementAt(i).camera_available;
-                        excelWorksheet.Cells[k, 3].Value = equipList.ElementAt(i).room_name;
-                        excelWorksheet.Cells[k, 4].Value = equipList.ElementAt(i).series;
-                        excelWorksheet.Cells[k, 5].Value = equipList.ElementAt(i).capacity;
-                        excelWorksheet.Cells[k, 6].Value = equipList.ElementAt(i).disk_status;
-                        //excelWorksheet.Cells[k, 7].Value = equipList.ElementAt(i).statusname;
-                        excelWorksheet.Cells[k, 8].Value = equipList.ElementAt(i).note;
-                        k++;
-                    }
-                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/Camera/Download/camera-temp-download.xlsx")));
-                }
-            }
-        }
-
         [Auther(RightID = "193")]
         [Route("phong-cdvt/camera/danh-sach")]
         [HttpGet]
@@ -68,8 +29,8 @@ namespace QUANGHANH2.Controllers.Camera
                 ViewBag.departs = (from d in db.Departments
                                    select new
                                    {
-                                       department_id = d.department_id,
-                                       department_name = d.department_name
+                                       d.department_id,
+                                       d.department_name
                                    }).ToList().Select(x => new Department
                                    {
                                        department_id = x.department_id,
@@ -104,7 +65,7 @@ namespace QUANGHANH2.Controllers.Camera
             }
         }
 
-        [Auther(RightID = "193")]
+        [Auther(RightID = "197")]
         [Route("phong-cdvt/camera/danh-sach/photo")]
         [HttpPost]
         public ActionResult SetPhoto()
@@ -130,7 +91,7 @@ namespace QUANGHANH2.Controllers.Camera
                     transaction.Commit();
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     transaction.Rollback();
                     return Json(new { success = false }, JsonRequestBehavior.AllowGet);
@@ -169,7 +130,7 @@ namespace QUANGHANH2.Controllers.Camera
             }
         }
 
-        [Auther(RightID = "193")]
+        [Auther(RightID = "196")]
         [Route("camera/add")]
         [HttpPost]
         public ActionResult Add()
@@ -213,7 +174,7 @@ namespace QUANGHANH2.Controllers.Camera
                 return Json(new { success = false, message = "Có lỗi xảy ra" });
             }
         }
-        [Auther(RightID = "193")]
+        [Auther(RightID = "199")]
         [Route("camera/edit")]
         [HttpPost]
         public ActionResult Edit()
@@ -243,7 +204,7 @@ namespace QUANGHANH2.Controllers.Camera
             }
         }
 
-        [Auther(RightID = "193")]
+        [Auther(RightID = "198")]
         [Route("camera/delete")]
         [HttpPost]
         public ActionResult Delete()
@@ -259,13 +220,13 @@ namespace QUANGHANH2.Controllers.Camera
                     return Json(new { success = true, message = "Xóa thành công" });
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "Có lỗi xảy ra" });
             }
         }
 
-        public class camDB : Models.Room
+        public class camDB : Room
         {
             public string department_name { get; set; }
         }

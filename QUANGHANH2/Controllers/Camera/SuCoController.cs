@@ -18,7 +18,7 @@ namespace QUANGHANH2.Controllers.Camera
 {
     public class SuCoController : Controller
     {
-        [Auther(RightID = "193")]
+        [Auther(RightID = "200")]
         [Route("phong-cdvt/camera/su-co")]
         [HttpGet]
         public ActionResult Index()
@@ -28,7 +28,8 @@ namespace QUANGHANH2.Controllers.Camera
             ViewBag.departments = departments;
             return View("/Views/Camera/SuCo.cshtml");
         }
-        [Auther(RightID = "193")]
+
+        [Auther(RightID = "201")]
         [Route("camera/su-co/add")]
         [HttpPost]
         public ActionResult Add(string depart, string quan, string reason, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, string checkBox)
@@ -47,7 +48,7 @@ namespace QUANGHANH2.Controllers.Camera
                     i.incident_camera_quantity = Convert.ToInt32(quan);
                     i.reason = reason;
                     i.start_time = start;
-                    i.disk_saveable = bool.Parse(Request["checkBox"].ToString());
+                    i.disk_saveable = bool.Parse(checkBox);
                     i.disk_status = Request["status"];
                     e.camera_available = e.camera_available - Convert.ToInt32(quan);
                     e.disk_saveable = i.disk_saveable;
@@ -65,7 +66,7 @@ namespace QUANGHANH2.Controllers.Camera
                 }
             }
         }
-        [Auther(RightID = "193")]
+        [Auther(RightID = "202")]
         [Route("camera/su-co/edit")]
         [HttpPost]
         public ActionResult Edit(int incident_id, string department, string reason, int quan, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd)
@@ -99,7 +100,8 @@ namespace QUANGHANH2.Controllers.Camera
                 }
             }
         }
-        [Auther(RightID = "193")]
+
+        [Auther(RightID = "202")]
         [Route("camera/su-co/update")]
         [HttpPost]
         public ActionResult Update(int incident_id, string reason, int year, int month, int day, int hour, int minute)
@@ -172,40 +174,40 @@ namespace QUANGHANH2.Controllers.Camera
             return Json(new { success = true, data = incidents, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
-        [Route("camera/su-co/export")]
-        public void Export()
-        {
-            string path = HostingEnvironment.MapPath("/excel/CDVT/download/su-co.xlsx");
-            FileInfo file = new FileInfo(path);
-            using (ExcelPackage excelPackage = new ExcelPackage(file))
-            {
-                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
-                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+        //[Route("camera/su-co/export")]
+        //public void Export()
+        //{
+        //    string path = HostingEnvironment.MapPath("/excel/CDVT/download/su-co.xlsx");
+        //    FileInfo file = new FileInfo(path);
+        //    using (ExcelPackage excelPackage = new ExcelPackage(file))
+        //    {
+        //        ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+        //        ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
 
-                using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
-                {
-                    var incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.Equipment_category_id, e.*, i.*, d.department_name FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d on d.department_id = i.department_id inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id").ToList();
-                    int k = 0;
-                    for (int i = 5; i < incidents.Count + 5; i++)
-                    {
-                        excelWorksheet.Cells[i, 1].Value = (k + 1);
-                        excelWorksheet.Cells[i, 2].Value = incidents.ElementAt(k).Equipment_category_id;
-                        excelWorksheet.Cells[i, 3].Value = incidents.ElementAt(k).camera_name;
-                        excelWorksheet.Cells[i, 4].Value = incidents.ElementAt(k).mark_code;
-                        //excelWorksheet.Cells[i, 5].Value = incidents.ElementAt(k).camera_id;
-                        excelWorksheet.Cells[i, 6].Value = incidents.ElementAt(k).fabrication_number;
-                        excelWorksheet.Cells[i, 8].Value = incidents.ElementAt(k).room_name;
-                        excelWorksheet.Cells[i, 9].Value = incidents.ElementAt(k).start_time.ToString("HH:mm dd/MM/yyyy");
-                        excelWorksheet.Cells[i, 10].Value = incidents.ElementAt(k).getEndtime();
-                        excelWorksheet.Cells[i, 11].Value = incidents.ElementAt(k).getDiffTime();
-                        excelWorksheet.Cells[i, 12].Value = incidents.ElementAt(k).reason;
-                        k++;
-                    }
-                    string location = HostingEnvironment.MapPath("/excel/CDVT/download");
-                    excelPackage.SaveAs(new FileInfo(location + "/su-co_temp.xlsx"));
-                }
-            }
-        }
+        //        using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+        //        {
+        //            var incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.Equipment_category_id, e.*, i.*, d.department_name FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d on d.department_id = i.department_id inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id").ToList();
+        //            int k = 0;
+        //            for (int i = 5; i < incidents.Count + 5; i++)
+        //            {
+        //                excelWorksheet.Cells[i, 1].Value = (k + 1);
+        //                excelWorksheet.Cells[i, 2].Value = incidents.ElementAt(k).Equipment_category_id;
+        //                excelWorksheet.Cells[i, 3].Value = incidents.ElementAt(k).camera_name;
+        //                excelWorksheet.Cells[i, 4].Value = incidents.ElementAt(k).mark_code;
+        //                //excelWorksheet.Cells[i, 5].Value = incidents.ElementAt(k).camera_id;
+        //                excelWorksheet.Cells[i, 6].Value = incidents.ElementAt(k).fabrication_number;
+        //                excelWorksheet.Cells[i, 8].Value = incidents.ElementAt(k).room_name;
+        //                excelWorksheet.Cells[i, 9].Value = incidents.ElementAt(k).start_time.ToString("HH:mm dd/MM/yyyy");
+        //                excelWorksheet.Cells[i, 10].Value = incidents.ElementAt(k).getEndtime();
+        //                excelWorksheet.Cells[i, 11].Value = incidents.ElementAt(k).getDiffTime();
+        //                excelWorksheet.Cells[i, 12].Value = incidents.ElementAt(k).reason;
+        //                k++;
+        //            }
+        //            string location = HostingEnvironment.MapPath("/excel/CDVT/download");
+        //            excelPackage.SaveAs(new FileInfo(location + "/su-co_temp.xlsx"));
+        //        }
+        //    }
+        //}
 
         [Route("camera/su-co/get")]
         [HttpPost]
@@ -228,23 +230,6 @@ namespace QUANGHANH2.Controllers.Camera
             catch (Exception)
             {
                 return Json(new { success = false, message = "Có lỗi xảy ra\nxin vui lòng thử lại" }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [Route("camera/su-co/getDepartment")]
-        [HttpPost]
-        public ActionResult getDepartment(string equipmentId)
-        {
-            try
-            {
-                //QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                //Models.Camera e = DBContext.Cameras.Find(equipmentId);
-                //Room d = DBContext.Rooms.Find(e.room_id);
-                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(new { success = false, message = "Mã thiết bị không tồn tại\nxin vui lòng thử lại" }, JsonRequestBehavior.AllowGet);
             }
         }
     }

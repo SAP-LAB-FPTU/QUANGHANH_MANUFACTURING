@@ -114,9 +114,9 @@ namespace QUANGHANH2.Controllers.DK
             //
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var tongsongayDB = db.header_KeHoachTungThang.FirstOrDefault(x => x.ThangKeHoach == timeEnd.Month && x.NamKeHoach == timeEnd.Year);
+                var tongsongayDB = db.KeHoachTungThangs.FirstOrDefault(x => x.ThangKeHoach == timeEnd.Month && x.NamKeHoach == timeEnd.Year);
                 int tongsongay = tongsongayDB == null ? 1 : (int)tongsongayDB.SoNgayLamViec;
-                var headerDateWorked = db.header_ThucHienTheoNgay.FirstOrDefault(x => x.Ngay == timeEnd);
+                var headerDateWorked = db.ThucHienTheoNgays.FirstOrDefault(x => x.Ngay == timeEnd);
                 int ngaylam = headerDateWorked == null ? 0 : (int)headerDateWorked.NgaySanXuat;
                 //
                 var listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();

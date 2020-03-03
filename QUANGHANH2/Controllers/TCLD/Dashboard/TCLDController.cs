@@ -104,7 +104,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 /////////////////////////////////////////////////////////////////////////////////////////////
 
                 //////////////////////////////////////GET TI LE HUY DONG////////////////////////////////////////
-                String currentDate = DateTime.Now.Date.AddDays(-1).ToString("yyyy/MM/dd");
+                DateTime currentDate = DateTime.Now.Date.AddDays(-1);
+                int currentMonth = currentDate.Month;
                 try
                 {
                     sql = @"select a.department_id, a.QL, (a.KT + a.CD) as Tong, a.KT, a.CD, 0 as 'HSTT', 
@@ -206,13 +207,17 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 }
 
                 ///////////////////////////////////////GET DATA SAN LUONG///////////////////////////////////////////////
-                sql = "select (select (case when sum(tc_kh.SanLuongKeHoach) is null then 0 else sum(tc_kh.SanLuongKeHoach) end) from (select tc.MaTieuChi, tc.DonViDo, kh.SanLuongKeHoach, kh.ThangKeHoach, kh.NamKeHoach from KeHoach_TieuChi kh join TieuChi tc on kh.MaTieuChi = tc.MaTieuChi) as tc_kh where tc_kh.MaTieuChi in (1,2,3,4) and  tc_kh.ThangKeHoach = (SELECT MONTH(CONVERT(VARCHAR(10), getdate() - 1, 101))) and tc_kh.NamKeHoach = (SELECT YEAR(CONVERT(VARCHAR(10), getdate() - 1, 101)))) 'SLKH', \n" +
-                "(select (case when sum(tc_kh.SanLuongKeHoach) is null then 0 else sum(tc_kh.SanLuongKeHoach) end) from (select tc.MaTieuChi, tc.DonViDo, kh.SanLuongKeHoach, kh.ThangKeHoach, kh.NamKeHoach from KeHoach_TieuChi kh join TieuChi tc on kh.MaTieuChi = tc.MaTieuChi) as tc_kh where tc_kh.MaTieuChi in (7,8) and  tc_kh.ThangKeHoach = (SELECT MONTH(CONVERT(VARCHAR(10), getdate() - 1, 101))) and tc_kh.NamKeHoach = (SELECT YEAR(CONVERT(VARCHAR(10), getdate() - 1, 101)))) 'MLKH',\n" +
-                "(select (case when sum(tc_th.SanLuongThucHien) is null then 0 else sum(tc_th.SanLuongThucHien) end) from (select tc.MaTieuChi, tc.DonViDo, th.SanLuongThucHien, th.NgayThucHien from ThucHien_TieuChi th join TieuChi tc on th.MaTieuChi = tc.MaTieuChi) as tc_th where tc_th.MaTieuChi in (1,2,3,4) and  MONTH(tc_th.NgayThucHien) = (SELECT MONTH(CONVERT(VARCHAR(10), getdate() - 1, 101))) and YEAR(tc_th.NgayThucHien) = (SELECT YEAR(CONVERT(VARCHAR(10), getdate() - 1, 101)))) 'LKSL',\n" +
-                "(select (case when sum(tc_th.SanLuongThucHien) is null then 0 else sum(tc_th.SanLuongThucHien) end) from (select tc.MaTieuChi, tc.DonViDo, th.SanLuongThucHien, th.NgayThucHien from ThucHien_TieuChi th join TieuChi tc on th.MaTieuChi = tc.MaTieuChi) as tc_th where tc_th.MaTieuChi in (7,8) and  MONTH(tc_th.NgayThucHien) = (SELECT MONTH(CONVERT(VARCHAR(10), getdate() - 1, 101))) and YEAR(tc_th.NgayThucHien) = (SELECT YEAR(CONVERT(VARCHAR(10), getdate() - 1, 101)))) 'LKML'";
+                sql = @"select 
+                        convert(float,0,2) as 'SLKH',
+                        convert(float,0,2) as 'MLKH',
+                        convert(float,sum(case when hd.ThanThucHien is NULL then 0 else hd.ThanThucHien end),2) as 'LKSL', 
+                        convert(float,sum(case when hd.MetLoThucHien is NULL then 0 else hd.MetLoThucHien end),2) as 'LKML' 
+                        from Header_DiemDanh_NangSuat_LaoDong hd where MONTH(NgayDiemDanh) = @ThangDiemDanh and NgayDiemDanh = @NgayDiemDanh";
                 try
                 {
-                    sanluong = db.Database.SqlQuery<SanLuong>(sql).ToList<SanLuong>()[0];
+                    sanluong = db.Database.SqlQuery<SanLuong>(sql, 
+                        new SqlParameter("ThangDiemDanh",currentMonth),
+                        new SqlParameter("NgayDiemDanh",currentDate)).FirstOrDefault();
                 }
                 catch (Exception e)
                 {
@@ -369,7 +374,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                 ) as b on a.department_id = b.department_id";
                         List<BaoCaoNgayDB> listTLHD = db.Database.SqlQuery<BaoCaoNgayDB>(sql, new SqlParameter("NgayDiemDanh", tempDate)).ToList();
                         for (int i = 0; i < listTLHD.Count; i++)
-                         {
+                        {
                             if (listTLHD[i].tile >= 82)
                             {
                                 tren82++;
@@ -402,7 +407,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                     }
                     ///////////////////////////////////////////////////////////////////////////////////////////////////
-                    
+
                     ////////////////////////////////////////GET DATA NHAN LUC////////////////////////////////////////////////
                     sql = "select tb1.department_id as MaDonVi,\n" +
                             "(case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong\n" +

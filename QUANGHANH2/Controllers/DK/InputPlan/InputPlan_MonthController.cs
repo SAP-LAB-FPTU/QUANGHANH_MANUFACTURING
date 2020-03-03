@@ -42,10 +42,10 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                     ViewBag.listDepartments = listDepartments;
                     //get data's table to paging
                     int start = Convert.ToInt32(Request["start"]);
-                    int length = Convert.ToInt32(Request["length"]);
-                    string searchValue = Request["search[value]"];
-                    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-                    string sortDirection = Request["order[0][dir]"];
+                    int length = Convert.ToInt32(Request["length"]) == 0 ? 10 : Convert.ToInt32(Request["length"]);
+                    string searchValue = Request["search[value]"] == null ? "" : Request["search[value]"];
+                    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"] == null ? "TenTieuChi" : Request["columns[" + Request["order[0][column]"] + "][name]"];
+                    string sortDirection = Request["order[0][dir]"] == null ? "desc" : Request["order[0][dir]"];
 
                     var sqlGetInfor = @"select pb_tc.MaPhongBan, (case when kh_th.SoNgayLamViec is null then 0 else kh_th.SoNgayLamViec end) as SoNgayLamViec, pb_tc.MaTieuChi, pb_tc.TenTieuChi, pb_tc.DonViDo, ISNULL(kh_th.SanLuong, 0) as SanLuong, kh_th.GhiChu from
                                         ((select a.MaTieuChi, b.TenTieuChi, b.DonViDo, a.MaPhongBan from PhongBan_TieuChi a left outer join TieuChi b on a.MaTieuChi = b.MaTieuChi
@@ -54,13 +54,13 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                                         (select kh_a.MaPhongBan, kh_b.SoNgayLamViec, kh_a.MaTieuChi, kh_b.SanLuong, kh_a.ThoiGianNhapCuoiCung, kh_b.GhiChu  
                                         from ((select a.MaPhongBan, b.MaTieuChi, Max(b.ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung 
                                         from header_KeHoachTungThang a join KeHoach_TieuChi_TheoThang b 
-                                        on a.HeaderID = b.HeaderID 
-                                        where a.ThangKeHoach = @month and a.NamKeHoach = @year and a.MaPhongBan = @departmentID
+                                        on a.HeaderID = b.HeaderID join KeHoachTungThang khtt on a.ThangID = khtt.ThangID
+                                        where khtt.ThangKeHoach = @month and khtt.NamKeHoach = @year and a.MaPhongBan = @departmentID
                                         group by a.MaPhongBan, b.MaTieuChi) as kh_a 
                                         left outer join  
-                                        (select a.MaPhongBan, b.MaTieuChi, a.SoNgayLamViec, b.SanLuong, b.ThoiGianNhapCuoiCung, b.GhiChu 
+                                        (select a.MaPhongBan, b.MaTieuChi, khtt.SoNgayLamViec, b.SanLuong, b.ThoiGianNhapCuoiCung, b.GhiChu 
                                         from header_KeHoachTungThang a join KeHoach_TieuChi_TheoThang b 
-                                        on a.HeaderID = b.HeaderID) as kh_b
+                                        on a.HeaderID = b.HeaderID join KeHoachTungThang khtt on a.ThangID = khtt.ThangID) as kh_b
                                         on kh_a.MaTieuChi = kh_b.MaTieuChi and kh_a.MaPhongBan = kh_b.MaPhongBan and kh_a.ThoiGianNhapCuoiCung = kh_b.ThoiGianNhapCuoiCung)) as kh_th
                                         on pb_tc.MaTieuChi = kh_th.MaTieuChi and pb_tc.MaPhongBan = kh_th.MaPhongBan)
                                         order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
@@ -68,13 +68,56 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                     int totalrows = db.NhomCongViecs.Count();
                     int totalrowsafterfiltering = totalrows;
                     List<KeHoachSanXuatTheoThang> listKH = db.Database.SqlQuery<KeHoachSanXuatTheoThang>(sqlGetInfor, new SqlParameter("month", Thang), new SqlParameter("year", Nam), new SqlParameter("departmentID", MaPhongBan)).ToList();
-                    return Json(new { SoNgayLamViec = listKH.Count == 0 ? 0 : listKH[0].SoNgayLamViec, listKH = listKH, recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                    string sqlchecksnlv = @"select *
+                                            from KeHoachTungThang where ThangKeHoach = @month and NamKeHoach = @year";
+                    KeHoachTungThang khtt = db.Database.SqlQuery<KeHoachTungThang>(sqlchecksnlv, new SqlParameter("month", Thang), new SqlParameter("year", Nam)).FirstOrDefault();
+                    string ck = "";
+                    int num = 0;
+                    if (khtt == null) ck = "0";
+                    else
+                    {
+                        ck = "1";
+                        num = khtt.SoNgayLamViec.Value;
+                    }
+                    return Json(new { SoNgayLamViec = listKH.Count == 0 ? 0 : listKH[0].SoNgayLamViec, listKH = listKH, recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering, check = ck, snlv = num }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception e)
             {
                 return null;
             }
+        }
+
+        [Route("phong-dieu-khien/ke-hoach-san-xuat-thang/nhapsnlv")]
+        [HttpPost]
+        public ActionResult AddSNLV()
+        {
+
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        int snlv = Convert.ToInt32(Request["snlv"]);
+                        int thang = Convert.ToInt32(Request["thang"].Split()[1]);
+                        int nam = Convert.ToInt32(Request["nam"].Split()[1]);
+                        KeHoachTungThang kh = new KeHoachTungThang();
+                        kh.NamKeHoach = nam;
+                        kh.ThangKeHoach = thang;
+                        kh.SoNgayLamViec = snlv;
+                        db.KeHoachTungThangs.Add(kh);
+                        db.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                    }
+                }
+            }
+
+            return Json(new { success = true, title = "Thành công", message = "Thêm kế hoạch tháng thành công." });
         }
 
         /////////////////////////////////INSERT OR UPDATE///////////////////////////////
@@ -107,9 +150,9 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                             //insert to header_KeHoachTungThang
                             listHeader = new header_KeHoachTungThang();
                             listHeader.MaPhongBan = MaPhongBan;
-                            listHeader.ThangKeHoach = Thang;
-                            listHeader.NamKeHoach = Nam;
-                            listHeader.SoNgayLamViec = Convert.ToInt32(SoNgaySanXuat);
+                            //listHeader.ThangKeHoach = Thang;
+                            //listHeader.NamKeHoach = Nam;
+                            //listHeader.SoNgayLamViec = Convert.ToInt32(SoNgaySanXuat);
                             db.header_KeHoachTungThang.Add(listHeader);
                             db.SaveChanges();
                         }
@@ -118,9 +161,9 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                             //update header_KeHoachTungThang
                             var update = db.header_KeHoachTungThang.Find(listHeader.HeaderID);
                             update.MaPhongBan = MaPhongBan;
-                            update.ThangKeHoach = Thang;
-                            update.NamKeHoach = Nam;
-                            update.SoNgayLamViec = Convert.ToInt32(SoNgaySanXuat);
+                            //update.ThangKeHoach = Thang;
+                            //update.NamKeHoach = Nam;
+                            //update.SoNgayLamViec = Convert.ToInt32(SoNgaySanXuat);
                             db.SaveChanges();
                         }
                         //insert to KeHoachTungThang
