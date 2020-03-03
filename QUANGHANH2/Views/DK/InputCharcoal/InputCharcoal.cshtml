@@ -38,6 +38,13 @@
                     </div>
                     <div class="input-field col s3 m3 l3"></div>
                 </div>
+                <div class="row center">
+                    <div class="input-field col s3 m3 l3"></div>
+                    <div class="input-field col s6 m6 l6" id="process" style="font-size:larger">
+                        Kế hoạch còn lại: <span id="ngaySXconlai"></span> ngày - Số ngày SX:<span id="ngaySXhientai"></span>/<span id="tongNgaySX"></span> ngày đạt <span id="tiendoNgay"></span>%
+                    </div>
+                    <div class="input-field col s3 m3 l3"></div>
+                </div>
                 <div class="input-field col l3 m12 s12">
                     <input type="text" placeholder="Ngày" value="@ViewBag.NgayNhap" autocomplete="off" class='form-control date-click center' id="dateInput" name="ngayNhap" multiple />
                 </div>
@@ -67,9 +74,9 @@
                                 <tr>
                                     <th class="tieu-chi" rowspan="2">Tiêu chí</th>
                                     @*<th class="moi-them" rowspan="2">BQKH<br />tháng</th>
-                                        <th class="moi-them" rowspan="2">Tiết<br />diện<br />đào</th>
-                                        <th class="moi-them" rowspan="2">Bước<br />chống</th>
-                                        <th class="moi-them" rowspan="2">Công nghệ<br />khai thác</th>*@
+                            <th class="moi-them" rowspan="2">Tiết<br />diện<br />đào</th>
+                            <th class="moi-them" rowspan="2">Bước<br />chống</th>
+                            <th class="moi-them" rowspan="2">Công nghệ<br />khai thác</th>*@
                                     <th class="moi-them" rowspan="2">Đơn<br />vị<br />đo</th>
                                     <th class="nhap-lieu" id="dayMonthDis" colspan="5">
                                         Ngày @if (ViewBag.day != null)
@@ -150,6 +157,7 @@
    
 
     $(document).ready(function () {
+        $("#process").hide();
         var check = $('#ngaySanXuat').val();
         if (check == "0") {
             $("#butsnlv").click();
@@ -209,8 +217,11 @@
                     data: { 'px_value': px_value, 'date': date, 'ca_value': ca_value },
                     success: function (response) {
                         if (response.success == true) {
-                            $("#ngaySanXuat").val(response.listSXLoad[0].NgaySanXuat);
+                            $("#process").show();
+                            $("#ngaySanXuat").val(response.NgaySX);
+                            $("#ngaySXhientai").text(response.NgaySX);
                             $("#SoNgaySX").val(response.dateSX);
+                            $("#tongNgaySX").text(response.dateSX);
                             $("#dayMonthDis").empty();
                             document.getElementById("dayMonthDis").innerHTML = "Ngày " + response.ngay + " tháng " + response.thang;
                             $("#monthDis").empty();
@@ -240,7 +251,10 @@
                             if (ngaySx != '' && soNgaySx != '') {
                                 var phanTram = ngaySx / soNgaySx * 100;
                                 document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
+                                $("#tiendoNgay").text(Math.round(phanTram, 2));
+                                
                             }
+                            $("#ngaySXconlai").text(response.dateSX - response.NgaySX);
                             successAlert("Thành công", "Đổi thành công");
                         } else {
                             $("#pre-load").hide("slow", function () {
