@@ -28,13 +28,20 @@
                         <button class="modal-trigger btn btn-small darken-2 blue" data-target="addsnlv" id="butsnlv">Nhập ngày sản xuất</button>
                     </div>
                     <div class="input-field col l2 m2 s2">
-                        <input disabled id="ngaySanXuat" name="ngaySX" value="@ViewBag.NgaySX" required autocomplete="off" class="form-control center" onchange="percentOnchange()" placeholder="NgàySX" onchange="onChangeAll()" />
+                        <input readonly id="ngaySanXuat" name="ngaySX" value="@ViewBag.NgaySX" required autocomplete="off" class="form-control center" onchange="percentOnchange()" placeholder="NgàySX" onchange="onChangeAll()" />
                     </div>
                     <div class="input-field col l2 m2 s2">
                         <input id="SoNgaySX" class="form-control center" value="@ViewBag.SoNgaySX" readonly />
                     </div>
                     <div class="input-field col l2 m2 s2">
                         <input id="phanTramNgay" class="form-control center" value="" readonly />
+                    </div>
+                    <div class="input-field col s3 m3 l3"></div>
+                </div>
+                <div class="row center">
+                    <div class="input-field col s3 m3 l3"></div>
+                    <div class="input-field col s6 m6 l6" id="process">
+                        Kế hoạch còn lại: 17 ngày - Số ngày SX:06/23 ngày đạt 26%
                     </div>
                     <div class="input-field col s3 m3 l3"></div>
                 </div>
@@ -147,7 +154,13 @@
 <script src="~/js/Custom JS/DK/InputCharcoal/AddRow.js"></script>
 
 <script>
-   
+    $(document).ready(function () {
+        var ngaySanXuat = document.getElementById('ngaySanXuat').value;
+        var SoNgaySX = document.getElementById('SoNgaySX').value;
+        var phanTramNgay = document.getElementById('phanTramNgay').value;
+        document.getElementById('process').innerHTML = 'Kế hoạch còn lại: ' + SoNgaySX - ngaySanXuat + ' ngày - Số ngày SX: ' + ngaySanXuat + '/' + SoNgaySX + ' ngày đạt ' + phanTramNgay + '%'
+    });
+
 
     $(document).ready(function () {
         var check = $('#ngaySanXuat').val();
@@ -176,7 +189,7 @@
     //    }
     //});
 
-     $("#butluu").click(function () {
+    $("#butluu").click(function () {
         $("#pre-load").show();
         $.ajax({
             type: "POST",

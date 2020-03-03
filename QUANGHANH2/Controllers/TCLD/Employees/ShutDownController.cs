@@ -20,6 +20,7 @@ using static QUANGHANH2.Controllers.TCLD.EmployeesController;
 using static QUANGHANHCORE.Controllers.TCLD.TransferController;
 using System.IO.Compression;
 using System.Net;
+using OfficeOpenXml;
 
 namespace QUANGHANH2.Controllers.TCLD
 {
@@ -317,19 +318,25 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     string query3 = "select cd.* from ChamDut_NhanVien cd inner join NhanVien nv on cd.MaNV = nv.MaNV inner join QuyetDinh q on q.MaQuyetDinh = cd.MaQuyetDinh where cd.MaQuyetDinh = @id";
                     List<ChamDut_NhanVien> list = db.Database.SqlQuery<ChamDut_NhanVien>(query3, new SqlParameter("id", id)).ToList();
-                    string query4 = "update NhanVien set MaTrangThai = 1 where MaNV = @MaNV";
-                    db.Database.ExecuteSqlCommand(query4, new SqlParameter("MaNV", list[0].MaNV));
+                    string listMaNV = "";
+                    foreach(var MaNV in list)
+                    {
+                        listMaNV += "'"+MaNV.MaNV +"'"+ ",";
+                    }
+                    listMaNV = listMaNV.Substring(0, listMaNV.Length-1);
+                    string query4 = "update NhanVien set MaTrangThai = 1 where MaNV in("+ listMaNV + ")";
+                    db.Database.ExecuteSqlCommand(query4);
 
                     string query1 = "delete from ChamDut_NhanVien where MaQuyetDinh = @id";
                     db.Database.ExecuteSqlCommand(query1, new SqlParameter("id", id));
                     string query2 = "delete from QuyetDinh where MaQuyetDinh = @id";
                     db.Database.ExecuteSqlCommand(query2, new SqlParameter("id", id));
-                    //db.SaveChanges();
+                    db.SaveChanges();
                     dbct.Commit();
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
 
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     dbct.Rollback();
                     return Json(new { success = false }, JsonRequestBehavior.AllowGet);
@@ -350,14 +357,20 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     string query3 = "select cd.* from ChamDut_NhanVien cd inner join NhanVien nv on cd.MaNV = nv.MaNV inner join QuyetDinh q on q.MaQuyetDinh = cd.MaQuyetDinh where cd.MaQuyetDinh = @id";
                     List<ChamDut_NhanVien> list = db.Database.SqlQuery<ChamDut_NhanVien>(query3, new SqlParameter("id", id)).ToList();
-                    string query4 = "update NhanVien set MaTrangThai = 1 where MaNV = @MaNV";
-                    db.Database.ExecuteSqlCommand(query4, new SqlParameter("MaNV", list[0].MaNV));
+                    string listMaNV = "";
+                    foreach (var MaNV in list)
+                    {
+                        listMaNV += "'" + MaNV.MaNV + "'" + ",";
+                    }
+                    listMaNV = listMaNV.Substring(0, listMaNV.Length - 1);
+                    string query4 = "update NhanVien set MaTrangThai = 1 where MaNV in(" + listMaNV + ")";
+                    db.Database.ExecuteSqlCommand(query4);
 
                     string query1 = "delete from ChamDut_NhanVien where MaQuyetDinh = @id";
                     db.Database.ExecuteSqlCommand(query1, new SqlParameter("id", id));
                     string query2 = "delete from QuyetDinh where MaQuyetDinh = @id";
                     db.Database.ExecuteSqlCommand(query2, new SqlParameter("id", id));
-                    //db.SaveChanges();
+                    db.SaveChanges();
                     dbct.Commit();
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
 
@@ -454,32 +467,31 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     if (!SoQD.Equals(""))
                     {
+                        string query = @"select * from QuyetDinh where SoQuyetDinh = @SoQD";
+                        List<QuyetDinh> qdList = db.Database.SqlQuery<QuyetDinh>(query, new SqlParameter("SoQD", SoQD)).ToList();
 
-                        List<QuyetDinh> qdList = db.QuyetDinhs.ToList();
-                        foreach (var item in qdList)
+                        if (qdList.Count > 0)
                         {
-                            if (SoQD.Equals(item.SoQuyetDinh))
+                            return Json(new { success = false, message = "Số quyết định trùng" }, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            int MaQD = Convert.ToInt32(id);
+                            QuyetDinh qd = db.QuyetDinhs.Where(x => x.MaQuyetDinh == MaQD).FirstOrDefault();
+                            qd.SoQuyetDinh = SoQD;
+                            qd.NgayQuyetDinh = System.DateTime.Now.AddDays(2);
+                            db.Entry(qd).State = EntityState.Modified;
+
+                            List<string> maNV = db.ChamDut_NhanVien.Where(x => x.MaQuyetDinh == qd.MaQuyetDinh).Select(x => x.MaNV).ToList();
+                            foreach (var item in maNV)
                             {
-                                return Json(new { success = false, message = "Số quyết định trùng" }, JsonRequestBehavior.AllowGet);
+                                var Nv = db.NhanViens.Where(nv => nv.MaNV == item).FirstOrDefault();
+                                Nv.MaTrangThai = 2;
+                                db.Entry(Nv).State = EntityState.Modified;
                             }
-                            else
-                            {
-                                if (item.MaQuyetDinh == Int32.Parse(id))
-                                {
-                                    item.SoQuyetDinh = SoQD;
-                                    item.NgayQuyetDinh = System.DateTime.Now.AddDays(2);
-                                    db.Entry(item).State = EntityState.Modified;
-                                    //
-                                    var maNV = db.ChamDut_NhanVien.Where(x => x.MaQuyetDinh == item.MaQuyetDinh).Select(x => x.MaNV).FirstOrDefault();
-                                    //
-                                    var Nv = db.NhanViens.Where(nv => nv.MaNV == maNV).FirstOrDefault();
-                                    Nv.MaTrangThai = 2;
-                                    db.Entry(Nv).State = EntityState.Modified;
-                                    db.SaveChanges();
-                                    dbct.Commit();
-                                    break;
-                                }
-                            }
+
+                            db.SaveChanges();
+                            dbct.Commit();
                         }
                     }
                     else
@@ -487,11 +499,12 @@ namespace QUANGHANH2.Controllers.TCLD
                         return Json(new { success = false, message = "Chưa nhập số quyết định" }, JsonRequestBehavior.AllowGet);
                     }
 
+
                     return Json(new { success = true, message = "Thêm thành công" }, JsonRequestBehavior.AllowGet);
 
 
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     dbct.Rollback();
                     return Json(new { success = false, message = "Có lỗi khi thêm" }, JsonRequestBehavior.AllowGet);
@@ -739,5 +752,74 @@ namespace QUANGHANH2.Controllers.TCLD
 
 
         }
+
+
+        [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-cham-dut/excel")]
+        [HttpPost]
+        public void ReturnExcel()
+        {
+            string path = HostingEnvironment.MapPath("/excel/TCLD/Brief/Danh-sách-nhân-viên.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    string query = "select * from NhanVien nv left outer join CongViec cv on nv.MaCongViec = cv.MaCongViec where nv.MaTrangThai = 2";
+                    List<NhanVienExcel> list = db.Database.SqlQuery<NhanVienExcel>(query).ToList();
+                    int k = 4;
+                    for (int i = 0; i < list.Count; i++)
+                    {
+
+                        excelWorksheet.Cells[k, 1].Value = i + 1;
+                        excelWorksheet.Cells[k, 2].Value = list.ElementAt(i).MaNV;
+                        excelWorksheet.Cells[k, 3].Value = list.ElementAt(i).Ten;
+                        if (list.ElementAt(i).GioiTinh)
+                        {
+                            excelWorksheet.Cells[k, 4].Value = "Nam";
+                        }
+                        else
+                        {
+                            excelWorksheet.Cells[k, 4].Value = "Nữ";
+                        }
+                        excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).NgaySinh.HasValue ? list.ElementAt(i).NgaySinh.Value.ToString("dd/MM/yyyy") : "";
+                        excelWorksheet.Cells[k, 6].Value = list.ElementAt(i).SoCMND;
+                        excelWorksheet.Cells[k, 7].Value = list.ElementAt(i).SoBHXH;
+                        excelWorksheet.Cells[k, 14].Value = list.ElementAt(i).TenCongViec;
+                        excelWorksheet.Cells[k, 15].Value = list.ElementAt(i).MucLuong;
+                        excelWorksheet.Cells[k, 17].Value = list.ElementAt(i).BacLuong;
+                        if (list.ElementAt(i).MaTrinhDo != null)
+                        {
+                            if (list.ElementAt(i).MaTrinhDo.Equals("1"))
+                            {
+                                excelWorksheet.Cells[k, 20].Value = "Tiểu học";
+                            }
+                            else if (list.ElementAt(i).MaTrinhDo.Equals("2"))
+                            {
+                                excelWorksheet.Cells[k, 20].Value = "THCS";
+                            }
+                            else if (list.ElementAt(i).MaTrinhDo.Equals("3"))
+                            {
+                                excelWorksheet.Cells[k, 20].Value = "THPT";
+                            }
+                            else if (list.ElementAt(i).MaTrinhDo.Equals("4"))
+                            {
+                                excelWorksheet.Cells[k, 20].Value = "Trung cấp";
+                            }
+                            else
+                            {
+                                excelWorksheet.Cells[k, 20].Value = "Đại học";
+                            }
+                        }
+                        excelWorksheet.Cells[k, 22].Value = list.ElementAt(i).QueQuan;
+                        k++;
+                    }
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/TCLD/download/Danh-sách-nhân-viên.xlsx")));
+                }
+            }
+
+        }
     }
+
 }
