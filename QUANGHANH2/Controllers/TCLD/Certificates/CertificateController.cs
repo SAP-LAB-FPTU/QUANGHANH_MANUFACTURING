@@ -230,14 +230,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult AddCertificateEmployee(ChungChi_NhanVien chungChi_nhanVien)
         {
+            //string ngaycap = chungChi_nhanVien.NgayCap.ToString();
+            //ngaycap = ngaycap.Split(' ')[0];
+            //ngaycap = ngaycap.Split('/')[1] +"/"+ ngaycap.Split('/')[0] + "/" + ngaycap.Split('/')[2];
+            //chungChi_nhanVien.NgayCap = DateTime.Parse(ngaycap);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-
                 if (chungChi_nhanVien != null)
                 {
                     db.ChungChi_NhanVien.Add(chungChi_nhanVien);
                     db.SaveChanges();
-
                 }
                 return RedirectToAction("List");
             }

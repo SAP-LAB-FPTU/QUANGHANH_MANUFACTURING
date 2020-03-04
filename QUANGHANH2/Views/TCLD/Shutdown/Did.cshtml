@@ -44,6 +44,9 @@
                 <br />
                 <div class="col s12 m12 l12">
                     <br />
+                    <div class="col s3 m3 l3">
+                        <button class="waves-effect waves-light btn blue darken-2 btn-small" id="exportExcel">Export Excel</button>
+                    </div>
                     <table id="did-table" class="striped responsive-table table-bordered">
                         <thead>
                             <tr>
@@ -143,6 +146,19 @@
 <script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
 @section scripts{
     <script>
+         $("#exportExcel").click(function () {
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-tcld/quan-ly-nhan-vien/danh-sach-cham-dut/excel",
+                cache: false
+            }).done(function () {
+                window.location.href = "/excel/TCLD/download/Danh-sách-nhân-viên.xlsx";
+                $("#pre-load").hide();
+            })
+         });
+
+
         var Popup, dataTable;
 
 

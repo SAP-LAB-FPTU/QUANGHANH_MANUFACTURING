@@ -28,13 +28,20 @@
                         <button class="modal-trigger btn btn-small darken-2 blue" data-target="addsnlv" id="butsnlv">Nhập ngày sản xuất</button>
                     </div>
                     <div class="input-field col l2 m2 s2">
-                        <input disabled id="ngaySanXuat" name="ngaySX" value="@ViewBag.NgaySX" required autocomplete="off" class="form-control center" onchange="percentOnchange()" placeholder="NgàySX" onchange="onChangeAll()" />
+                        <input readonly id="ngaySanXuat" name="ngaySX" value="@ViewBag.NgaySX" required autocomplete="off" class="form-control center" onchange="percentOnchange()" placeholder="NgàySX" onchange="onChangeAll()" />
                     </div>
                     <div class="input-field col l2 m2 s2">
                         <input id="SoNgaySX" class="form-control center" value="@ViewBag.SoNgaySX" readonly />
                     </div>
                     <div class="input-field col l2 m2 s2">
                         <input id="phanTramNgay" class="form-control center" value="" readonly />
+                    </div>
+                    <div class="input-field col s3 m3 l3"></div>
+                </div>
+                <div class="row center">
+                    <div class="input-field col s3 m3 l3"></div>
+                    <div class="input-field col s6 m6 l6" id="process" style="font-size:larger">
+                        Kế hoạch còn lại: <span id="ngaySXconlai"></span> ngày - Số ngày SX:<span id="ngaySXhientai"></span>/<span id="tongNgaySX"></span> ngày đạt <span id="tiendoNgay"></span>%
                     </div>
                     <div class="input-field col s3 m3 l3"></div>
                 </div>
@@ -67,9 +74,9 @@
                                 <tr>
                                     <th class="tieu-chi" rowspan="2">Tiêu chí</th>
                                     @*<th class="moi-them" rowspan="2">BQKH<br />tháng</th>
-                                        <th class="moi-them" rowspan="2">Tiết<br />diện<br />đào</th>
-                                        <th class="moi-them" rowspan="2">Bước<br />chống</th>
-                                        <th class="moi-them" rowspan="2">Công nghệ<br />khai thác</th>*@
+                            <th class="moi-them" rowspan="2">Tiết<br />diện<br />đào</th>
+                            <th class="moi-them" rowspan="2">Bước<br />chống</th>
+                            <th class="moi-them" rowspan="2">Công nghệ<br />khai thác</th>*@
                                     <th class="moi-them" rowspan="2">Đơn<br />vị<br />đo</th>
                                     <th class="nhap-lieu" id="dayMonthDis" colspan="5">
                                         Ngày @if (ViewBag.day != null)
@@ -147,9 +154,16 @@
 <script src="~/js/Custom JS/DK/InputCharcoal/AddRow.js"></script>
 
 <script>
-   
+    $(document).ready(function () {
+        var ngaySanXuat = document.getElementById('ngaySanXuat').value;
+        var SoNgaySX = document.getElementById('SoNgaySX').value;
+        var phanTramNgay = document.getElementById('phanTramNgay').value;
+        document.getElementById('process').innerHTML = 'Kế hoạch còn lại: ' + SoNgaySX - ngaySanXuat + ' ngày - Số ngày SX: ' + ngaySanXuat + '/' + SoNgaySX + ' ngày đạt ' + phanTramNgay + '%'
+    });
+
 
     $(document).ready(function () {
+        $("#process").hide();
         var check = $('#ngaySanXuat').val();
         if (check == "0") {
             $("#butsnlv").click();
@@ -176,7 +190,7 @@
     //    }
     //});
 
-     $("#butluu").click(function () {
+    $("#butluu").click(function () {
         $("#pre-load").show();
         $.ajax({
             type: "POST",
@@ -209,8 +223,11 @@
                     data: { 'px_value': px_value, 'date': date, 'ca_value': ca_value },
                     success: function (response) {
                         if (response.success == true) {
-                            $("#ngaySanXuat").val(response.listSXLoad[0].NgaySanXuat);
+                            $("#process").show();
+                            $("#ngaySanXuat").val(response.NgaySX);
+                            $("#ngaySXhientai").text(response.NgaySX);
                             $("#SoNgaySX").val(response.dateSX);
+                            $("#tongNgaySX").text(response.dateSX);
                             $("#dayMonthDis").empty();
                             document.getElementById("dayMonthDis").innerHTML = "Ngày " + response.ngay + " tháng " + response.thang;
                             $("#monthDis").empty();
@@ -240,7 +257,10 @@
                             if (ngaySx != '' && soNgaySx != '') {
                                 var phanTram = ngaySx / soNgaySx * 100;
                                 document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
+                                $("#tiendoNgay").text(Math.round(phanTram, 2));
+                                
                             }
+                            $("#ngaySXconlai").text(response.dateSX - response.NgaySX);
                             successAlert("Thành công", "Đổi thành công");
                         } else {
                             $("#pre-load").hide("slow", function () {
