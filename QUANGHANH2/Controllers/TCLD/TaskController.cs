@@ -446,6 +446,41 @@ namespace QUANGHANH2.Controllers.TCLD
         }
 
         [HttpPost]
+        [Route("phong-tcld/gia-han-them-chung-chi-cho-nhan-vien")]
+        public ActionResult GiaHanChungChiChoNhanVien()
+        {
+            try
+            {
+                string maNV = Request["maNV"];
+                int machungchi = 0;
+                try
+                {
+                    machungchi= int.Parse(Request["machungchi"]);
+                }catch(Exception e)
+                {
+
+                }
+                using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    ChungChi_NhanVien c = (from n in db.ChungChi_NhanVien
+                                        where ((n.MaNV == maNV) && (n.MaChungChi==machungchi))
+                                        select n).SingleOrDefault();
+                    c.NgayCap = DateTime.Now;
+                    db.SaveChanges();
+                    string sql = @"select DATEDIFF(day,getDate()+1,DATEADD(month, chungchi.ThoiHan, getDate())) as songayconlai from chungchi 
+                                where machungchi=@machungchi";
+                    int songayconlai = db.Database.SqlQuery<int>(sql, new SqlParameter("machungchi", machungchi)).ToList<int>()[0];
+                    return Json(new { success = true, songayconlai = songayconlai }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { success=false },JsonRequestBehavior.AllowGet);
+            }
+            return null;
+        }
+
+        [HttpPost]
         public ActionResult GetAllChungChiOfNV(string mnv = "")
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -508,8 +543,8 @@ namespace QUANGHANH2.Controllers.TCLD
                 }
                 string sql = "select a.SoHieu,a.NgayCap,a.MaNV,a.MaChungChi," +
                             "NhanVien.Ten as TenNV," +
-                            "(CASE when (getDate() between a.NgayCap and DATEADD(month, chungchi.ThoiHan, a.NgayCap)) then '1' else '0' end)" +
-                            "as isConHan," +
+                            "DATEDIFF(day, getDate()+1, DATEADD(month, chungchi.ThoiHan, a.NgayCap))" +
+                            "as songay," +
                             "chungchi.TenChungChi from chungchi,NhanVien,"
                             + "(select * from chungchi_nhanvien "+(arrMaNV.Length<=0?"": " where manv in (" + arrMaNV.Substring(0, arrMaNV.Length - 1) + ")") +") a" +
                             " where chungchi.MaChungChi=a.MaChungChi and NhanVien.MaNV=a.MaNV and NhanVien.MaTrangThai!=2 order by a.MaNV";
@@ -547,7 +582,7 @@ namespace QUANGHANH2.Controllers.TCLD
                         {
                             if (ccnv.MaNV == nv.MaNV && ccnv.MaChungChi == thisChungChi.MaChungChi)
                             {
-                                thisChungChi.status = ccnv.isConHan == "1";
+                                thisChungChi.songayconlai = ccnv.SoNgay;
                             }
                         }
                     }
@@ -1396,11 +1431,11 @@ namespace QUANGHANH2.Controllers.TCLD
         }
         class TrangThaiChungChiNhanVienModel : ChungChi, ICloneable
         {
-            public bool status { get; set; }
+            public int? songayconlai { get; set; }
 
             public TrangThaiChungChiNhanVienModel()
             {
-                this.status = false;
+                this.songayconlai = null;
             }
             public object Clone()
             {
