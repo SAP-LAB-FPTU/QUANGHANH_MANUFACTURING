@@ -5,6 +5,7 @@ using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -26,146 +27,27 @@ namespace QUANGHANH2.Controllers.TCLD
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
+            dynamic dataJson = JObject.Parse(data);
 
+            string name = dataJson.name==null?"": dataJson.name.Trim();
+            string mnv = dataJson.mnv == null ? "" : dataJson.mnv;
+            mnv = mnv.Trim();
+            try { string[] d = mnv.Split(' '); mnv = ""; foreach (string i in d) { mnv += "'" + i + "',"; } mnv = mnv.Substring(0, mnv.Length - 1); mnv = mnv == "''" ? "" : mnv; } catch (Exception e) { }
+            string dept_id = dataJson.px==null?"": dataJson.px;
+            dept_id = dept_id.Trim();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                dynamic dataJson = JObject.Parse(data);
-
-                string name = dataJson.name;
-                string px = dataJson.px;
-                string mnv = dataJson.mnv;
-
-                List<NhanVien_Extend> emp = null;
-                if (mnv != null)
-                { // search bang mnv
-                    var temp = (from pxx in db.Departments
-                                join
-                                nv in db.NhanViens
-                                on pxx.department_id equals nv.MaPhongBan
-                                where (nv.MaNV.Contains(mnv))
-                                && nv.MaTrangThai == 1
-                                select new
-                                {
-                                    pxx.department_name,
-                                    nv.Ten,
-                                    nv.MaNV
-                                }).FirstOrDefault();
-                    emp = new List<NhanVien_Extend>();
-
-                    if (temp != null)
-                    {
-                        NhanVien_Extend nv = new NhanVien_Extend { Ten = temp.Ten, MaNV = temp.MaNV };
-                        emp.Add(nv);
-
-                    }
-                }
-                else if (name == null && mnv == null && px != null) //  chi search bang px
-                {
-                    var temp = (from pxx in db.Departments
-                                join
-                                nv in db.NhanViens
-                                on pxx.department_id equals nv.MaPhongBan
-                                where (pxx.department_id.Equals(px))
-                                && nv.MaTrangThai == 1
-                                select new
-                                {
-                                    nv.Ten,
-                                    nv.MaNV
-                                });
-                    emp = temp.ToList().Select(p => new NhanVien_Extend { MaNV = p.MaNV, Ten = p.Ten }).ToList();
-                }
-                else if (px == null && name != null && mnv == null) // chi search bang name
-                {
-                    var temp = (from pxx in db.Departments
-                                join
-                                nv in db.NhanViens
-                                on pxx.department_id equals nv.MaPhongBan
-                                where (nv.Ten.Contains(name))
-                                && nv.MaTrangThai == 1
-                                select new
-                                {
-                                    nv.Ten,
-                                    nv.MaNV
-                                });
-                    emp = temp.ToList().Select(p => new NhanVien_Extend { MaNV = p.MaNV, Ten = p.Ten }).ToList();
-                }
-                else if (name != null && px != null && mnv == null) // search bang ten va px
-                {
-                    var temp = (from pxx in db.Departments
-                                join
-                                nv in db.NhanViens
-                                on pxx.department_id equals nv.MaPhongBan
-                                where (pxx.department_id.Contains(px) && nv.Ten.Contains(name) && nv.MaTrangThai == 1)
-                                select new
-                                {
-                                    nv.Ten,
-                                    nv.MaNV
-                                });
-                    emp = temp.ToList().Select(p => new NhanVien_Extend { MaNV = p.MaNV, Ten = p.Ten }).ToList();
-                }
-                else // lay ra all
-                {
-                    var temp = (from pxx in db.Departments
-                                join
-                                nv in db.NhanViens
-                                on pxx.department_id equals nv.MaPhongBan
-                                select new
-                                {
-                                    nv.Ten,
-                                    nv.MaNV
-                                });
-                    emp = temp.ToList().Select(p => new NhanVien_Extend { MaNV = p.MaNV, Ten = p.Ten }).ToList();
-                }
-
-                int totalrows = emp.Count;
-                int totalrowsafterfiltering = emp.Count;
-                emp = emp.Skip(start).Take(length).ToList<NhanVien_Extend>();
-
-                foreach (NhanVien_Extend nv in emp)
-                {
-                    foreach (ChiTiet_NhiemVu_NhanVien nvnv in db.ChiTiet_NhiemVu_NhanVien)
-                    {
-                        if (nv.MaNV.Equals(nvnv.MaNV) && nvnv.IsInProcess == true)
-                        {
-
-                            var mccTemp = (from nvunv in db.ChiTiet_NhiemVu_NhanVien
-                                           join NhiemVu nvu in db.NhiemVus
-                                           on nvunv.MaNhiemVu equals nvu.MaNhiemVu
-                                           join cc in db.ChungChis
-                                           on nvu.MaChungChi equals cc.MaChungChi
-                                           where nvu.MaNhiemVu.Equals(nvnv.MaNhiemVu)
-                                           select new { mcc = cc.MaChungChi }
-                                       ).FirstOrDefault();
-                            int mcc = mccTemp.mcc;
-                            TinhTrangChungChi ttcc = CheckTinhTrangChungChi(nv.MaNV, mcc);
-                            Chung_Chi_Nhan_Vien_Extend ccnv;
-                            if (ttcc == null)
-                            {
-                                ccnv = new Chung_Chi_Nhan_Vien_Extend
-                                {
-                                    MaNhiemVu = nvnv.MaNhiemVu,
-                                    TinhTrangChungChi = "Chưa có",
-                                    SoNgay = 0,
-                                    MaChungChi = mcc
-                                };
-                            }
-                            else
-                            {
-                                ccnv = new Chung_Chi_Nhan_Vien_Extend
-                                {
-                                    MaNhiemVu = nvnv.MaNhiemVu,
-                                    TinhTrangChungChi = ttcc.TinhTrang,
-                                    SoNgay = ttcc.SoNgay,
-                                    MaChungChi = mcc
-                                };
-                            }
-
-                            nv.MaNhiemVu.Add(nvnv.MaNhiemVu);
-                            nv.ChungChiNhiemVu.Add(ccnv);
-                        }
-                    }
-                }
-                return Json(new { success = true, data = emp, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                string sql = @"select * from nhanvien nv join Department dp
+                on nv.MaPhongBan=dp.department_id and nv.MaTrangThai<>2 and nv.Ten like @name";
+                sql += mnv == "" ? "" : " and nv.MaNV in (" + mnv + ")";
+                sql += dept_id == "" ? "" : " and nv.MaPhongBan=@phongban";
+                List<NhanVien> listMaNV = db.Database.SqlQuery<NhanVien>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
+                    new SqlParameter("name", "%" + name + "%"),
+                    new SqlParameter("phongban", dept_id)).ToList();
+                int totalrows = db.Database.SqlQuery<int>(sql.Replace("*","count(*)"), 
+                    new SqlParameter("name", "%" + name + "%"),
+                    new SqlParameter("phongban", dept_id)).ToList()[0];
+                return getData(listMaNV, totalrows);
             }
 
         }
@@ -473,9 +355,9 @@ namespace QUANGHANH2.Controllers.TCLD
                             rtSplit = rt.Split('_');
                             string mnv = rtSplit[1];
                             int mnvu = Convert.ToInt16(rtSplit[0]);
-                            ChiTiet_NhiemVu_NhanVien at = db.ChiTiet_NhiemVu_NhanVien.Where(p => p.MaNV.Equals(mnv) 
+                            ChiTiet_NhiemVu_NhanVien at = db.ChiTiet_NhiemVu_NhanVien.Where(p => p.MaNV.Equals(mnv)
                             && p.MaNhiemVu.Equals(mnvu) && p.IsInProcess == true && p.IsUpdated == false).FirstOrDefault();
-                            if(at != null)
+                            if (at != null)
                             {
                                 at.IsUpdated = true;
                             }
@@ -500,8 +382,8 @@ namespace QUANGHANH2.Controllers.TCLD
                             string mnv = tSplit[1];
                             int mnvu = Convert.ToInt16(tSplit[0]);
                             ChiTiet_NhiemVu_NhanVien at = db.ChiTiet_NhiemVu_NhanVien.Where(p => p.MaNV.Equals(mnv)
-                            && p.MaNhiemVu.Equals(mnvu)  && p.IsUpdated == false).FirstOrDefault();
-                            if(at != null)
+                            && p.MaNhiemVu.Equals(mnvu) && p.IsUpdated == false).FirstOrDefault();
+                            if (at != null)
                             {
                                 if (!at.IsInProcess == true)
                                 {
@@ -531,7 +413,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                 };
                                 db.ChiTiet_NhiemVu_NhanVien.Add(nvu);
                             }
-                          
+
                         }
                     }
                     db.SaveChanges();
@@ -561,6 +443,41 @@ namespace QUANGHANH2.Controllers.TCLD
                 ViewBag.TenNhanVien = tenNhanVien;
             }
             return View("/Views/TCLD/Task/ViewCertificateByNV.cshtml");
+        }
+
+        [HttpPost]
+        [Route("phong-tcld/gia-han-them-chung-chi-cho-nhan-vien")]
+        public ActionResult GiaHanChungChiChoNhanVien()
+        {
+            try
+            {
+                string maNV = Request["maNV"];
+                int machungchi = 0;
+                try
+                {
+                    machungchi= int.Parse(Request["machungchi"]);
+                }catch(Exception e)
+                {
+
+                }
+                using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    ChungChi_NhanVien c = (from n in db.ChungChi_NhanVien
+                                        where ((n.MaNV == maNV) && (n.MaChungChi==machungchi))
+                                        select n).SingleOrDefault();
+                    c.NgayCap = DateTime.Now;
+                    db.SaveChanges();
+                    string sql = @"select DATEDIFF(day,getDate()+1,DATEADD(month, chungchi.ThoiHan, getDate())) as songayconlai from chungchi 
+                                where machungchi=@machungchi";
+                    int songayconlai = db.Database.SqlQuery<int>(sql, new SqlParameter("machungchi", machungchi)).ToList<int>()[0];
+                    return Json(new { success = true, songayconlai = songayconlai }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { success=false },JsonRequestBehavior.AllowGet);
+            }
+            return null;
         }
 
         [HttpPost]
@@ -602,163 +519,77 @@ namespace QUANGHANH2.Controllers.TCLD
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-
-
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                List<NhanVien_Extend> arrNhanVien = (from px in db.Departments
-                                                     join
-                                                     nv in db.NhanViens
-                                                     on px.department_id equals nv.MaPhongBan
-                                                     where nv.MaTrangThai == 1
-                                                     select new NhanVien_Extend
-                                                     {
-                                                         MaNV = nv.MaNV
-                                                     }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
-                string listMaNV = "";
-                foreach(NhanVien_Extend n in arrNhanVien)
+                List<NhanVien> listMaNV = (from px in db.Departments
+                                                  join
+                                                  nv in db.NhanViens
+                                                  on px.department_id equals nv.MaPhongBan
+                                                  where nv.MaTrangThai != 2
+                                                  select nv).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
+                int totalrows = db.NhanViens.Where(x => x.MaTrangThai != 2).ToList().Count;
+                return getData(listMaNV, totalrows);
+            }
+        }
+
+        public JsonResult getData(List<NhanVien> listMaNV,int totalrows)
+        {
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                string arrMaNV = "";
+                foreach (NhanVien n in listMaNV)
                 {
-                    listMaNV += "'" + n.MaNV + "',";
+                    arrMaNV += "'" + n.MaNV + "',";
                 }
-                
-                string sql = "select a.*,NhanVien.Ten, DATEADD(month, chungchi.ThoiHan, a.NgayCap) AS NgayHetHan,month(a.NgayCap),chungchi.TenChungChi,chungchi.ThoiHan,ChungChi.KieuChungChi from chungchi,NhanVien,"
-	            +"(select * from chungchi_nhanvien where manv in ("+ listMaNV.Substring(0, listMaNV.Length - 1) + ")) a"
-	            +"where chungchi.MaChungChi=a.MaChungChi and NhanVien.MaNV=a.MaNV";
+                string sql = "select a.SoHieu,a.NgayCap,a.MaNV,a.MaChungChi," +
+                            "NhanVien.Ten as TenNV," +
+                            "DATEDIFF(day, getDate()+1, DATEADD(month, chungchi.ThoiHan, a.NgayCap))" +
+                            "as songay," +
+                            "chungchi.TenChungChi from chungchi,NhanVien,"
+                            + "(select * from chungchi_nhanvien "+(arrMaNV.Length<=0?"": " where manv in (" + arrMaNV.Substring(0, arrMaNV.Length - 1) + ")") +") a" +
+                            " where chungchi.MaChungChi=a.MaChungChi and NhanVien.MaNV=a.MaNV and NhanVien.MaTrangThai!=2 order by a.MaNV";
+                List<ChungChi_NhanVien_Model> listNhanVien_ChungChi = db.Database.SqlQuery<ChungChi_NhanVien_Model>(sql).ToList();
 
-                listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql).ToList<NhanVienModel>();
-                ////List<NhanVien_Extend> arrNhanVien = temp.ToList().Select(p => new NhanVien_Extend { Ten = p.TenNhanVien, MaNV = p.MaNhanVien }).ToList();
-                //foreach (NhanVien_Extend nv in arrNhanVien)
-                //{
-                //    foreach (ChiTiet_NhiemVu_NhanVien nvnv in db.ChiTiet_NhiemVu_NhanVien)
-                //    {
-                //        if (nv.MaNV.Equals(nvnv.MaNV) && nvnv.IsInProcess == true && Convert.ToBoolean(nvnv.IsUpdated) == false)
-                //        {
+                //lấy list tất cả các trạng thái và set giá trị status (ý là tình trạng) về false hết để làm sample
+                List<TrangThaiChungChiNhanVienModel> listChungChiDefault =
+                    (from cc in db.ChungChis
+                     select new TrangThaiChungChiNhanVienModel
+                     {
+                         MaChungChi = cc.MaChungChi,
+                         TenChungChi = cc.TenChungChi,
+                         KieuChungChi = cc.KieuChungChi,
+                         ThoiHan = cc.ThoiHan,
+                     })
+                    .ToList<TrangThaiChungChiNhanVienModel>();
+                IOrderedEnumerable<NhiemVu> orders_chungchi = db.NhiemVus.ToList().OrderBy(n => n.Loai);
+                int[] newOrder = new int[orders_chungchi.Count()];
+                for (int j = 0; j < orders_chungchi.Count(); j++) { newOrder[j] = (int)orders_chungchi.ElementAt(j).MaChungChi; }
+                //sort list chứng chỉ theo như thứ tự ở bảng ngoài view luôn để tránh việc chạy nhiều vòng lặp và tiết kiệm bước xử lý
+                Dictionary<int, int> newOrderIndexedMap = Enumerable.Range(0, newOrder.Length).ToDictionary(r => newOrder[r], r => r);
+                listChungChiDefault = listChungChiDefault.OrderBy(test => newOrderIndexedMap[test.MaChungChi]).ToList();
 
-                //            var mccTemp = (from nvunv in db.ChiTiet_NhiemVu_NhanVien
-                //                           join NhiemVu nvu in db.NhiemVus
-                //                           on nvunv.MaNhiemVu equals nvu.MaNhiemVu
-                //                           join cc in db.ChungChis
-                //                           on nvu.MaChungChi equals cc.MaChungChi
-                //                           where nvu.MaNhiemVu.Equals(nvnv.MaNhiemVu)
-                //                           select new { mcc = cc.MaChungChi }
-                //                       ).FirstOrDefault();
-                //            int mcc = mccTemp.mcc;
-                //            TinhTrangChungChi ttcc = CheckTinhTrangChungChi(nv.MaNV, mcc);
-                //            Chung_Chi_Nhan_Vien_Extend ccnv;
-                //            if (ttcc == null)
-                //            {
-                //                ccnv = new Chung_Chi_Nhan_Vien_Extend
-                //                {
-                //                    MaNhiemVu = nvnv.MaNhiemVu,
-                //                    TinhTrangChungChi = "Chưa có",
-                //                    SoNgay = 0,
-                //                    MaChungChi = mcc
-                //                };
-                //            }
-                //            else
-                //            {
-                //                ccnv = new Chung_Chi_Nhan_Vien_Extend
-                //                {
-                //                    MaNhiemVu = nvnv.MaNhiemVu,
-                //                    TinhTrangChungChi = ttcc.TinhTrang,
-                //                    SoNgay = ttcc.SoNgay,
-                //                    MaChungChi = mcc
-                //                };
-                //            }
-
-                //            nv.MaNhiemVu.Add(nvnv.MaNhiemVu);
-                //            nv.ChungChiNhiemVu.Add(ccnv);
-                //        }
-                //    }
-                //}
-
-                //IOrderedEnumerable<NhanVien_Extend> arrnvorder = arrNhanVien.OrderBy(n => n.MaNV);
-                //int totalrows = arrNhanVien.Count;
-                //int totalrowsafterfiltering = arrNhanVien.Count;
-                //arrNhanVien = arrNhanVien.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVien_Extend>();
-                //arrNhanVien = arrNhanVien.Skip(start).Take(length).ToList<NhanVien_Extend>();
-
-                /////////////////////////////////////////
-                ///
-                //[tuankq] add from here
-                //IOrderedEnumerable<NhiemVu> arrNhiemVu = db.NhiemVus.ToList().OrderBy(n => n.Loai);
-                //int totalrows = arrNhanVien.Count;
-                //int totalrowsafterfiltering = arrNhanVien.Count;
-                //arrNhanVien = arrNhanVien.Skip(start).Take(length).ToList<NhanVien_Extend>();
-                //foreach (NhanVien_Extend nv in arrNhanVien)
-                //{
-                //    foreach (NhiemVu nvu in arrNhiemVu)
-                //    {
-                //        var isNvienDoingThisJob = (from nvnhiemvu in db.ChiTiet_NhiemVu_NhanVien
-                //                                   where nvnhiemvu.MaNV.Equals(nv.MaNV)
-                //                                   && nvnhiemvu.MaNhiemVu.Equals(nvu.MaNhiemVu)
-                //                                   && nvnhiemvu.IsInProcess == true
-                //                                   && nvnhiemvu.IsUpdated == false
-                //                                   select new { nvnhiemvu.MaNV }
-                //                  ).FirstOrDefault();
-                //        if (isNvienDoingThisJob != null)
-                //        {
-                //            int mcc = Convert.ToInt16(nvu.MaChungChi);
-                //            TinhTrangChungChi ttcc = CheckTinhTrangChungChi(nv.MaNV, mcc);
-                //            Chung_Chi_Nhan_Vien_Extend ccnv;
-                //            if (ttcc == null)
-                //            {
-                //                ccnv = new Chung_Chi_Nhan_Vien_Extend
-                //                {
-                //                    MaNhiemVu = nvu.MaNhiemVu,
-                //                    TinhTrangChungChi = "Chưa có",
-                //                    SoNgay = 0,
-                //                    MaChungChi = mcc
-                //                };
-                //            }
-                //            else
-                //            {
-                //                ccnv = new Chung_Chi_Nhan_Vien_Extend
-                //                {
-                //                    MaNhiemVu = nvu.MaNhiemVu,
-                //                    TinhTrangChungChi = ttcc.TinhTrang,
-                //                    SoNgay = ttcc.SoNgay,
-                //                    MaChungChi = mcc
-                //                };
-                //            }
-                //            nv.MaNhiemVu.Add(nvu.MaNhiemVu);
-                //            nv.ChungChiNhiemVu.Add(ccnv);
-                //        }
-                //        else
-                //        {
-                //            int mcc = Convert.ToInt16(nvu.MaChungChi);
-                //            TinhTrangChungChi ttcc = CheckTinhTrangChungChi(nv.MaNV, mcc);
-                //            Chung_Chi_Nhan_Vien_Extend ccnv;
-                //            if (ttcc == null)
-                //            {
-                //                ccnv = new Chung_Chi_Nhan_Vien_Extend
-                //                {
-                //                    MaNhiemVu = -1,
-                //                    TinhTrangChungChi = "Chưa có",
-                //                    SoNgay = 0,
-                //                    MaChungChi = mcc
-                //                };
-                //            }
-                //            else
-                //            {
-                //                ccnv = new Chung_Chi_Nhan_Vien_Extend
-                //                {
-                //                    MaNhiemVu = -1,
-                //                    TinhTrangChungChi = ttcc.TinhTrang,
-                //                    SoNgay = ttcc.SoNgay,
-                //                    MaChungChi = mcc
-                //                };
-                //            }
-                //            nv.ChungChiNhiemVu.Add(ccnv);
-                //        }
-                //    }
-                //}
-                //IOrderedEnumerable<NhanVien_Extend> arrnvorder = arrNhanVien.OrderBy(n => n.MaNV);
-                //arrNhanVien = arrNhanVien.OrderBy(sortColumnName + " " + sortDirection).ToList<NhanVien_Extend>();
-                //[tuankq] to here
-
-                return null;
-                //return Json(new { success = true, data = arrNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////
+                List<NhanVienChungChiNewModel> list = new List<NhanVienChungChiNewModel>();
+                foreach (NhanVien nv in listMaNV)
+                {
+                    NhanVienChungChiNewModel a = new NhanVienChungChiNewModel();
+                    a.chungchi = listChungChiDefault.Select(x => (TrangThaiChungChiNhanVienModel)x.Clone()).ToList();
+                    a.Ten = nv.Ten;
+                    a.MaNV = nv.MaNV;
+                    foreach (TrangThaiChungChiNhanVienModel thisChungChi in a.chungchi)
+                    {
+                        foreach (ChungChi_NhanVien_Model ccnv in listNhanVien_ChungChi)
+                        {
+                            if (ccnv.MaNV == nv.MaNV && ccnv.MaChungChi == thisChungChi.MaChungChi)
+                            {
+                                thisChungChi.songayconlai = ccnv.SoNgay;
+                            }
+                        }
+                    }
+                    list.Add(a);
+                }
+                int totalrowsafterfiltering = totalrows;
+                return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -1589,6 +1420,27 @@ namespace QUANGHANH2.Controllers.TCLD
                 }
             }
 
+        }
+
+        class NhanVienChungChiNewModel
+        {
+            public String MaNV { get; set; }
+            public String Ten { get; set; }
+            public List<TrangThaiChungChiNhanVienModel> chungchi { get; set; }
+
+        }
+        class TrangThaiChungChiNhanVienModel : ChungChi, ICloneable
+        {
+            public int? songayconlai { get; set; }
+
+            public TrangThaiChungChiNhanVienModel()
+            {
+                this.songayconlai = null;
+            }
+            public object Clone()
+            {
+                return this.MemberwiseClone();
+            }
         }
     }
 }
