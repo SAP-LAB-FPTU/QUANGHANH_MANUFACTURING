@@ -1,0 +1,220 @@
+﻿
+@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_Layout_DK.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="center black-text row">
+                <h3><b>BÁO CÁO SỰ CỐ CÁC PHÂN XƯỞNG</b></h3>
+                <div class="col s12">
+                    <div class="center">
+                        <div class="month" id="visiblemonth">
+                            <h3>
+                                <i class="fas fa-calendar-alt icon"></i>
+                                <input type="text"
+                                       id="txtmonth"
+                                       class="datepicker-here center"
+                                       data-language='vi'
+                                       data-min-view="months"
+                                       data-view="months"
+                                       data-date-format="MM yyyy" />
+                            </h3>
+                        </div>
+                        <div class="quarter" id="visiblequater" style="display: none">
+                            <div class="row">
+                                <div class="col l4 m4"></div>
+                                <div class="col l2 m2 s4">
+                                    <select class="form-control" style="width: 30%" id="txtquarter">
+                                        <option value="1">Quý I</option>
+                                        <option value="2">Quý II</option>
+                                        <option value="3">Quý III</option>
+                                        <option value="4">Quý IV</option>
+                                    </select>
+                                </div>
+                                <div class="col l2 m2 s6">
+                                    <input type="text"
+                                           id="quateryear"
+                                           class="datepicker-here center form-control"
+                                           data-language='vi'
+                                           data-min-view="years"
+                                           data-view="years"
+                                           data-date-format="yyyy" value="@DateTime.Now.Year" style="width: 150px !important" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="year" id="visibleyear" style="display: none">
+                            <h3>
+                                <i class="fas fa-calendar-alt icon"></i>
+                                <input type="text"
+                                       id="txtyear"
+                                       class="datepicker-here center"
+                                       data-language='vi'
+                                       data-min-view="years"
+                                       data-view="years"
+                                       data-date-format="yyyy" />
+                            </h3>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <br />
+            <hr>
+            <br />
+        </div>
+        <div class="row">
+            <a id="typeview" class='dropdown-trigger btn' href='#' data-target='dropdown1' style="width:250px;background-color:#273146">Xem Theo Tháng</a>
+            <a id="export-button" class="waves-effect waves-light btn blue">Xuất ra file excel</a>
+        </div>
+        <br />
+        <div class="row" id="table-container">
+            <table class="centered highlight responsive-table striped responsive-table table-bordered" id="reportTable">
+                <thead>
+                    <tr>
+                        <th>Phân xưởng</th>
+                        <th>Số lần xảy ra sự cố</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.list)
+                    {
+                        <tr>
+                            <td>@item.department_name</td>
+                            <td>@item.total</td>
+                            <td><a id="view-btn" class="waves-effect waves-light btn blue darken-2" data-department="@item.department_id">Chi tiết</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ul id='dropdown1' class='dropdown-content'>
+    <li onclick="ViewbyMonth();"><a id="month" href="#" ;>Xem Theo Tháng</a></li>
+    <li onclick="ViewbyQuarter();"><a id="quarter" href="#" ;>Xem Theo Quý</a></li>
+    <li onclick="ViewbyYear();"><a id="year" href="#" ;>Xem Theo Năm</a></li>
+</ul>
+
+<script>
+    $(function () {
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        $("#txtmonth").datepicker({
+            onSelect: function () {
+                $('#pre-load').show();
+                var val = document.getElementById("txtmonth").value;
+                var val2 = val.split(" ");
+                window.location = "/phong-dieu-khien/su-co/bao-cao?type=month&month=" + val2[1] + "&year=" + val2[2];
+            }
+        })
+        $("#txtyear").datepicker({
+            onSelect: function () {
+                $('#pre-load').show();
+                window.location = "/phong-dieu-khien/su-co/bao-cao?type=year&year=" + document.getElementById("txtyear").value;
+            }
+        })
+        $("#minMaxDate").datepicker({
+            onSelect: function () {
+                $('#pre-load').show();
+                window.location = "/phong-dieu-khien/su-co/bao-cao?type=day&date=" + document.getElementById("minMaxDate").value;
+            }
+        })
+        $('#txtquarter').change(function () {
+            $('#pre-load').show();
+            window.location = "/phong-dieu-khien/su-co/bao-cao?type=quarter&quarter=" + document.getElementById("txtquarter").value + "&year=" + document.getElementById("quateryear").value;
+        });
+        $("#quateryear").datepicker({
+            onSelect: function () {
+                $('#pre-load').show();
+                window.location = "/phong-dieu-khien/su-co/bao-cao?type=quarter&quarter=" + document.getElementById("txtquarter").value + "&year=" + document.getElementById("quateryear").value;
+            }
+        })
+    });
+
+    $(document).on("click", "#view-btn", function () {
+        alert("abc")
+        //$.ajax({
+        //    url
+        //})
+    })
+
+    $(document).ready(function () {
+
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var c = url.searchParams.get("type");
+        var month = url.searchParams.get("month");
+        var quater = url.searchParams.get("quarter");
+        var year = url.searchParams.get("year");
+        $("#minMaxDate").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
+        $("#txtmonth").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
+        $("#txtquarter").val(@(DateTime.Now.Month % 3 == 0 ? DateTime.Now.Month / 3 : DateTime.Now.Month / 3 + 1))
+        $("#txtyear").val("@DateTime.Now.Year");
+        $("#quateryear").val("@DateTime.Now.Year");
+
+        if (c == "month") {
+            document.getElementById("typeview").innerText = "Xem Theo Tháng";
+            document.getElementById("visiblequater").style.display = "none";
+            document.getElementById("visibleyear").style.display = "none";
+            document.getElementById("visiblemonth").style.display = "inline";
+            $("#txtmonth").val("Tháng " + month +" "+ year);
+        }
+        if (c == "quarter") {
+            document.getElementById("typeview").innerText = "Xem Theo Quý";
+            document.getElementById("visibleyear").style.display = "none";
+            document.getElementById("visiblemonth").style.display = "none";
+            document.getElementById("visiblequater").style.display = "inline";
+            document.getElementById('txtquarter').selectedIndex = quater - 1;
+            $("#quateryear").val(year);
+        }
+        if (c == "year") {
+            document.getElementById("typeview").innerText = "Xem Theo Năm";
+            document.getElementById("visiblemonth").style.display = "none";
+            document.getElementById("visiblequater").style.display = "none";
+            document.getElementById("visibleyear").style.display = "inline";
+            $("#txtyear").val(year);
+        }
+
+        $('#txtquarter').parent().children().not('#txtquarter').remove();
+        $('#reportTable').DataTable({
+            "language": {
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                "paginate": {
+                    "first": "Trang đầu",
+                    "last": "Trang cuối",
+                    "next": "Trang sau",
+                    "previous": "Trang trước"
+                }
+            },
+            "columnDefs": [
+                { "orderable": false, "targets": 2 }
+            ],
+            "order": [0, "desc"],
+            "lengthChange": false,
+            "searching": false,
+            "paging": false
+        });
+    });
+
+    function ViewbyMonth() {
+        $('#pre-load').show();
+        var val = document.getElementById("txtmonth").value;
+        var val2 = val.split(" ");
+        window.location = "/phong-dieu-khien/su-co/bao-cao?type=month&month=" + val2[1] + "&year=" + val2[2];
+    }
+    function ViewbyQuarter() {
+        $('#pre-load').show();
+        window.location = "/phong-dieu-khien/su-co/bao-cao?type=quarter&quarter=" + document.getElementById("txtquarter").value + "&year=" + document.getElementById("quateryear").value;
+    }
+    function ViewbyYear() {
+        $('#pre-load').show();
+        window.location = "/phong-dieu-khien/su-co/bao-cao?type=year&year=" + document.getElementById("txtyear").value;
+    }
+</script>
