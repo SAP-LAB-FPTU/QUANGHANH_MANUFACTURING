@@ -109,68 +109,68 @@
                 $("#pre-load").hide();
             }
         });
-        //if ($("#aspectDetailTable tbody tr").length == 0) {
-        //    table = $("#aspectDetailTable").DataTable({
-        //        "ajax": {
-        //            "url": "/phong-dieu-khien/ke-hoach-san-xuat-thang/lay-thong-tin",
-        //            "type": "POST",
-        //            "datatype": "json",
-        //            "cache": "false",
-        //            "data": {
-        //                "Thang": function () { return $("#monthCalendar").val() },
-        //                "Nam": function () { return $("#yearCalendar").val() },
-        //                "MaPhongBan": function () { return $("#px").val() }
-        //            },
-        //            "dataSrc": function (json) {
-        //                $("#totalDays").val(json.SoNgayLamViec);
-        //                return json["listKH"]
-        //            }
-        //        },
-        //        //"columns": [
-        //            //{
-        //            //    "name": "TenTieuChi", "data": "TenTieuChi"
-        //            //}
-        //            //{ "name": "DonViDo", "data": "DonViDo" },
-        //            //{
-        //            //    "name": "SanLuong", "data": "", "render": function (data, type, row) {
-        //            //        return "<input type=\"number\" value=\"" + row["SanLuong"] + "\" />"
-        //            //    }
-        //            //},
-        //            //{
-        //            //    "name": "GhiChu", "data": "", "render": function (data, type, row) {
-        //            //        return "<input type=\"text\" value=\"" + (row["GhiChu"] == null ? "" : row["GhiChu"]) + "\" />"
-        //            //    }
-        //            //}
-        //        //],
-        //        "rowId": "MaTieuChi",
-        //        "serverSide": "true",
-        //        "order": [0, "desc"],
-        //        "searching": false,
-        //        "lengthChange": false,
-        //        "autoWidth": false,
-        //        "filter": true,
-        //        "info": false,
-        //        "language": {
-        //            emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
-        //            paginate:
-        //            {
-        //                previous: "Trang trước",
-        //                next: "Trang sau",
-        //                first: "|<",
-        //                last: ">|"
-        //            }
-        //        },
-        //        "initComplete": function (response) {
-        //            $("#pre-load").hide();
-        //        },
-        //        "drawCallback": function (response) {
-        //            $("#pre-load").hide();
-        //        }
+        if ($("#aspectDetailTable tbody tr").length == 0) {
+            table = $("#aspectDetailTable").DataTable({
+                "ajax": {
+                    "url": "/phong-dieu-khien/ke-hoach-san-xuat-thang/lay-thong-tin",
+                    "type": "POST",
+                    "datatype": "json",
+                    "cache": "false",
+                    "data": {
+                        "Thang": function () { return $("#monthCalendar").val() },
+                        "Nam": function () { return $("#yearCalendar").val() },
+                        "MaPhongBan": function () { return $("#px").val() }
+                    },
+                    "dataSrc": function (json) {
+                        $("#totalDays").val(json.SoNgayLamViec);
+                        return json["listKH"]
+                    }
+                },
+                "columns": [
+                    {
+                        "name": "TenTieuChi", "data": "TenTieuChi"
+                    },
+                    { "name": "DonViDo", "data": "DonViDo" },
+                    {
+                        "name": "SanLuong", "data": "", "render": function (data, type, row) {
+                            return "<input type=\"number\" value=\"" + row["SanLuong"] + "\" />"
+                        }
+                    },
+                    {
+                        "name": "GhiChu", "data": "", "render": function (data, type, row) {
+                            return "<input type=\"text\" value=\"" + (row["GhiChu"] == null ? "" : row["GhiChu"]) + "\" />"
+                        }
+                    }
+                ],
+                "rowId": "MaTieuChi",
+                "serverSide": "true",
+                "order": [0, "desc"],
+                "searching": false,
+                "lengthChange": false,
+                "autoWidth": false,
+                "filter": true,
+                "info": false,
+                "language": {
+                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                    paginate:
+                    {
+                        previous: "Trang trước",
+                        next: "Trang sau",
+                        first: "|<",
+                        last: ">|"
+                    }
+                },
+                "initComplete": function (response) {
+                    $("#pre-load").hide();
+                },
+                "drawCallback": function (response) {
+                    $("#pre-load").hide();
+                }
 
-        //    })
-        //} else {
-        //    table.ajax.reload();
-        //}
+            })
+        } else {
+            table.ajax.reload();
+        }
     });
 </script>
 
@@ -217,10 +217,11 @@
             }
         });
     });
+
     $("#save").click(function () {
         $("#pre-load").show();
         $.ajax({
-            url: "/phong-dieu-khien/ke-hoach-san-xuat-thang/nhap-du-lieu-hoac-cap-nhat",
+            url: "/phong-dieu-khien/ke-hoach-san-xuat-thang/nhap-du-lieu-hoac-cap",
             type: "POST",
             datatype: "json",
             cache: "false",

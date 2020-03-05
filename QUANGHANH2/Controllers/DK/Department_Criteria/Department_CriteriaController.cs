@@ -74,7 +74,7 @@ namespace QUANGHANH2.Controllers.DK
                 string sqlQuery = "insert into PhongBan_TieuChi(MaPhongBan, MaTieuChi, Thang, Nam) values";
                 for(int i = 0; i < listCriteria.Length; i++)
                 {
-                    sqlQuery += " ('" + departmentID + "'," + listCriteria[i] + "," + month + "," + year + "),";
+                    sqlQuery += " (N'" + departmentID + "'," + listCriteria[i] + "," + month + "," + year + "),";
                 }
                 sqlQuery = sqlQuery.Substring(0, sqlQuery.Length - 1);
                 using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
