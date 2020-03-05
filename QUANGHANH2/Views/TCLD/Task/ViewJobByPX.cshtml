@@ -11,11 +11,33 @@
 <style>
     /*[tuankq] add from here*/
     .label-danger {
-    background-color: #f5365c !important;
-    font-size: 8.5px !important;
-    padding: 3px 3px !important;
-    /*[tuankq] to here*/
-}
+        background-color: #f5365c !important;
+        font-size: 8.5px !important;
+        padding: 3px 3px !important;
+        /*[tuankq] to here*/
+    }
+
+    .label-success {
+        background-color: #44c06a !important;
+        font-size: 9px !important;
+        padding: 3px 3px !important;
+    }
+
+    .label-warning {
+        background-color: orange !important;
+        font-size: 9px !important;
+        padding: 3px 3px !important;
+    }
+
+    .label-default {
+        background-color: gray !important;
+        font-size: 8px !important;
+        padding: 3px 3px !important;
+    }
+
+    .label-hethan {
+        cursor: pointer;
+    }
 </style>
 <div class="row">
     <div class="card">
@@ -34,7 +56,7 @@
                 </div>
                 <div class="col s3 m3 l3 input-field">
                     <select id="sl_phan_xuong" class="form-control">
-                        <option disabled selected>Phân Xưởng</option>
+                        <option value="" selected>Tất cả các phân xưởng</option>
                         @{
                             foreach (var phanXuong in arrPhanXuong)
                             {
@@ -59,7 +81,6 @@
                                     <th colspan="@a.arrNV.Count">@a.loai</th>
                                 }
                             }
-                            <th></th>
                         </tr>
                         <tr>
                             @{
@@ -71,7 +92,6 @@
                                     }
                                 }
                             }
-                            <th></th>
                         </tr>
                     </thead>
                 </table>
@@ -168,6 +188,31 @@
         var dataTable;
         var x;
         var isEnableCheckBox = false;
+        function extend(lb, manv, machungchi) {
+            confirmAlert("Gia hạn thêm chứng chỉ cho nhân viên này?", "", function () {
+                $("#pre-load").show("slow");
+            $(lb).text("ahihi");
+            $.ajax({
+                type: "post",
+                url: "/phong-tcld/gia-han-them-chung-chi-cho-nhan-vien",
+                data: {
+                    maNV: manv,
+                    machungchi: machungchi
+                },
+                success: function (response) {
+                    if (response.success) {
+                        var a = $(lb).closest("td");
+                        $(a).empty();
+                        $(a).append("<a class='label label-success'>Còn hạn</a> <br/><a class='label label-success' style=" + (response.songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + response.songayconlai + " ngày)</a>")
+                        $("#pre-load").hide("slow");
+                    } else {
+                        errorAlert("Lỗi!", "");
+                        $("#pre-load").hide("slow");
+                    }
+                }
+            });
+            })
+        }
         $(Document).ready(() => {
             $("#pre-load").show()
             $('.dropdown-trigger').dropdown();
@@ -186,58 +231,40 @@
                     });
                 },
                 "columns": [
-                    { "data": "MaNV", "name": "MaNV", "render": (data) => { return "<label>" + data + "</label>" }, "orderable": true },
-                    { "data": "Ten", "name": "Ten", "render": (data, type, row, meta) => { return "<a class='font-weight-bold text-success' href='@Url.Action("chung-chi-cua-nhan-vien", "phong-tcld")?MaNV=" + row['MaNV'] + "'>" + data + "</a>" }, "orderable": true },
-                    @{
-                        /*[tuankq] add from here*/int index = 0;/*[tuankq] to here*/
-                        foreach (var b in arrNhiemVu)
-                        {
-                            foreach (var c in b.arrNV)
-                            {
-
-                                var pp = "{ \"data\": \"MaNV\", \"render\": (data, type, row, meta) => {" +
-                                    "var i;"+/*[tuankq] add from here*/" var ii = "+ index + ";" /*[tuankq] to here*/+
-                                    "for(i =0 ; i < row['ChungChiNhiemVu'].length ; i++ ){" +
-                                        "if(row['ChungChiNhiemVu'][i].MaNhiemVu == " + c.MaNhiemVu + "){" +
-                                            "var rt = \"<label><input class='job' value='"
-                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=removeTask('"
-                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "') checked disabled /><span></span></label></br>\";" +
-                                            "if(row['ChungChiNhiemVu'][i].TinhTrangChungChi == 'Còn hạn'){" +
-                                                " rt += \"<a class='label label-success' >\"+row['ChungChiNhiemVu'][i].TinhTrangChungChi+\"</a></br>\" +" + "\"<a class='label label-success' >\"+row['ChungChiNhiemVu'][i].SoNgay+\" ngày</a>\" " + "}" +
-                                            "else if(row['ChungChiNhiemVu'][i].TinhTrangChungChi == 'Hết hạn'){" +
-                                              " rt += \"<a class='label label-warning modal-trigger' onclick=popupGiaHan(\"+data+\",\"+row['ChungChiNhiemVu'][i].MaChungChi+\") data-target='giahan'>\"+row['ChungChiNhiemVu'][i].TinhTrangChungChi+\"</a></br>\" +" + "\"<a class='label label-warning' >\"+row['ChungChiNhiemVu'][i].SoNgay+\" ngày</a>\" " + "}" +
-                                            "else{" +
-                                                "rt += \"<a class='label label-danger modal-trigger'  onclick=popupThemMoi(\"+data+\",\"+row['ChungChiNhiemVu'][i].MaChungChi+\") data-target='chuaco'>\"+row['ChungChiNhiemVu'][i].TinhTrangChungChi+\"</a>\" }" +
-                                            "rt = \"<div class='row'>\"+rt+\"</div>\"; return rt;" +
-                                        "}" +/* end if*/
-                                    "}" + /*end for*/
-                                          //"return \"<label><input class='job' value='"
-                                          //+ c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=selectNewJob('"
-                                          //+ c.MaNhiemVu + "_" + "\"+data+\"" + "') disabled /><span></span></label> " +
-                                          //"\"} " + // ngoac cua function render
-                                          //" ,\"orderable\": false  } ,";
-                                          " var rt = \"<label><input class='job' value='"
-                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=selectNewJob('"
-                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "')  disabled /><span></span></label>\";" +
-                                            "if(row['ChungChiNhiemVu'][ii].TinhTrangChungChi == 'Còn hạn'){" +
-                                                " rt += \"<br/><a class='label label-success' >\"+row['ChungChiNhiemVu'][ii].TinhTrangChungChi+\"</a>\"}" +
-                                            "else if(row['ChungChiNhiemVu'][ii].TinhTrangChungChi == 'Hết hạn'){" +
-                                              " rt += \"<br/><a class='label label-warning'  >\"+row['ChungChiNhiemVu'][ii].TinhTrangChungChi+\"</a>\"}" +
-                                            "else{" +
-                                                "rt += \"<br/><a class='label label-danger' >\"+row['ChungChiNhiemVu'][ii].TinhTrangChungChi+\"</a>\" }" +
-                                            "rt = \"<div class='row'>\"+rt+\"</div>\"; return rt;" +
-                                        "}" + // ngoac cua function render
-                                       " ,\"orderable\": false  } ,";
-
-
-                                <text>
-                                    @{WriteLiteral(pp);}
-                    </text>
-
-                            }
-                        }
-                    }
-                    { "data": "ChungChiNhiemVu", "name": "ChungChiNhiemVu", "render": () => { return "" }, "orderable" : false },
+                        { "data": "MaNV", "name": "MaNV", "render": (data) => { return "<label>" + data + "</label>" }, "orderable": true },
+                        { "data": "Ten", "name": "Ten", "render": (data, type, row, meta) => { return "<a class='font-weight-bold text-success' href='@Url.Action("chung-chi-cua-nhan-vien", "phong-tcld")?MaNV=" + row['MaNV'] + "'>" + data + "</a>" }, "orderable": true },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[0].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[0].songayconlai > 0 && data[0].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[0].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[0].songayconlai + " ngày)</a>"; } else if (data[0].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[0].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[0].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[0].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[1].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[1].songayconlai > 0 && data[1].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[1].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[1].songayconlai + " ngày)</a>"; } else if (data[1].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[1].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[1].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[1].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[2].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[2].songayconlai > 0 && data[2].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[2].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[2].songayconlai + " ngày)</a>"; } else if (data[2].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[2].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[2].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[2].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[3].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[3].songayconlai > 0 && data[3].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[3].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[3].songayconlai + " ngày)</a>"; } else if (data[3].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[3].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[3].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[3].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[4].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[4].songayconlai > 0 && data[4].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[4].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[4].songayconlai + " ngày)</a>"; } else if (data[4].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[4].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[4].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[4].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[5].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[5].songayconlai > 0 && data[5].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[5].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[5].songayconlai + " ngày)</a>"; } else if (data[5].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[5].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[5].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[5].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[6].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[6].songayconlai > 0 && data[6].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[6].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[6].songayconlai + " ngày)</a>"; } else if (data[6].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[6].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[6].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[6].MaChungChi+"');\" >Hết hạn</a>" } } },
+                    { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[7].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[7].songayconlai > 0 && data[7].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[7].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[7].songayconlai + " ngày)</a>"; } else if (data[7].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[7].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[7].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[7].MaChungChi+"');\">Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[8].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[8].songayconlai > 0 && data[8].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[8].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[8].songayconlai + " ngày)</a>"; } else if (data[8].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[8].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[8].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[8].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[9].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[9].songayconlai > 0 && data[9].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[9].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[9].songayconlai + " ngày)</a>"; } else if (data[9].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[9].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[9].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[9].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[10].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[10].songayconlai > 0 && data[10].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[10].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[10].songayconlai + " ngày)</a>"; } else if (data[10].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[10].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[10].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[10].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[11].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[11].songayconlai > 0 && data[11].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[11].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[11].songayconlai + " ngày)</a>"; } else if (data[11].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[11].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[11].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[11].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[12].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[12].songayconlai > 0 && data[12].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[12].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[12].songayconlai + " ngày)</a>"; } else if (data[12].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[12].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[12].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[12].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[13].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[13].songayconlai > 0 && data[13].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[13].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[13].songayconlai + " ngày)</a>"; } else if (data[13].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[13].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[13].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[13].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[14].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[14].songayconlai > 0 && data[14].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[14].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[14].songayconlai + " ngày)</a>"; } else if (data[14].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[14].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[14].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[14].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[15].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[15].songayconlai > 0 && data[15].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[15].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[15].songayconlai + " ngày)</a>"; } else if (data[15].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[15].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[15].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[15].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[16].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[16].songayconlai > 0 && data[16].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[16].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[16].songayconlai + " ngày)</a>"; } else if (data[16].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[16].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[16].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[16].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[17].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[17].songayconlai > 0 && data[17].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[17].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[17].songayconlai + " ngày)</a>"; } else if (data[17].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[17].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[17].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[17].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[18].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[18].songayconlai > 0 && data[18].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[18].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[18].songayconlai + " ngày)</a>"; } else if (data[18].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[18].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[18].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[18].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[19].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[19].songayconlai > 0 && data[19].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[19].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[19].songayconlai + " ngày)</a>"; } else if (data[19].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[19].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[19].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[19].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[20].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[20].songayconlai > 0 && data[20].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[20].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[20].songayconlai + " ngày)</a>"; } else if (data[20].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[20].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[20].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[20].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[21].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[21].songayconlai > 0 && data[21].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[21].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[21].songayconlai + " ngày)</a>"; } else if (data[21].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[21].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[21].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[21].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[22].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[22].songayconlai > 0 && data[22].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[22].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[22].songayconlai + " ngày)</a>"; } else if (data[22].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[22].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[22].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[22].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[23].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[23].songayconlai > 0 && data[23].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[23].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[23].songayconlai + " ngày)</a>"; } else if (data[23].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[23].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[23].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[23].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[24].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[24].songayconlai > 0 && data[24].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[24].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[24].songayconlai + " ngày)</a>"; } else if (data[24].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[24].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[24].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[24].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[25].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[25].songayconlai > 0 && data[25].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[25].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[25].songayconlai + " ngày)</a>"; } else if (data[25].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[25].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[25].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[25].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[26].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[26].songayconlai > 0 && data[26].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[26].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[26].songayconlai + " ngày)</a>"; } else if (data[26].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[26].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[26].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[26].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[27].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[27].songayconlai > 0 && data[27].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[27].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[27].songayconlai + " ngày)</a>"; } else if (data[27].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[27].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[27].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[27].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[28].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[28].songayconlai > 0 && data[28].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[28].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[28].songayconlai + " ngày)</a>"; } else if (data[28].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[28].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[28].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[28].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[29].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[29].songayconlai > 0 && data[29].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[29].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[29].songayconlai + " ngày)</a>"; } else if (data[29].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[29].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[29].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[29].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[30].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[30].songayconlai > 0 && data[30].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[30].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[30].songayconlai + " ngày)</a>"; } else if (data[30].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[30].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[30].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[30].MaChungChi+"');\" >Hết hạn</a>" } } },
+                     { "data": "chungchi", "name": "chungchi", "render": (data, type, row, meta) => { if (data[31].songayconlai == null) { return "<a class='label label-warning' >Chưa có</a>"; } else if (data[31].songayconlai > 0 && data[31].songayconlai <= 7) { return "<a class='label label-danger' style='font-size:7px!important;' >Sắp hết hạn</a><br/><a class='label label-danger' style=" + (data[31].songayconlai > 999 ? "font-size:7px!important;" : "") + " >(" + data[31].songayconlai + " ngày)</a>"; } else if (data[31].songayconlai > 7) { return "<a class='label label-success' >Còn hạn</a> <br/><a class='label label-success' style=" + (data[31].songayconlai > 999 ? "font-size:7px!important;" : "") + ">(" + data[31].songayconlai + " ngày)</a>"; } else { return "<a class='label-hethan label label-default' onclick=\"extend(this,'"+row['MaNV']+"','"+data[31].MaChungChi+"');\" >Hết hạn</a>" } } },
                 ],
                 "bInfo": false,
                 "bLengthChange": false,
@@ -247,6 +274,10 @@
                 "initComplete": () => { $("#pre-load").hide()},
                 "searching": false,
                 "serverSide": true,
+                //'columnDefs': [ {
+                // 'targets': [0,2], /* column index */
+                //  'orderable': false, /* true or false */
+                // }],
                 "language": {
                     emptyTable: "Không có dữ liệu",
                     zeroRecords: "Không có dữ liệu",
@@ -263,7 +294,8 @@
                 },
 
             })
-
+            //tat sort cho cac cot chung chi
+            $(".sorting").off("click");
 
             //set dropdown ve gia tri default khi nhan va input search ten
             $('#name_search').focus(() => { $('#sl_phan_xuong').val("Phân Xưởng").trigger('change') })
@@ -276,27 +308,27 @@
                 }
             });
             //them su kien an enter de tim kiem cho truong ma nhan vien
-            document.querySelector('#mnv_search').addEventListener('keypress', function (e) { // them su kien nhan nut enter cho phan search
-                var key = e.which || e.keyCode;
-                if (key === 13) {
+            //document.querySelector('#mnv_search').addEventListener('keypress', function (e) { // them su kien nhan nut enter cho phan search
+            //    var key = e.which || e.keyCode;
+            //    if (key === 13) {
 
-                    search();
-                }
-            });
+            //        search();
+            //    }
+            //});
             //khi nhan vao o tim kiem bang mnv se khong search bang ten va px dc nua
-            $("#mnv_search").focus(() => {
-                $('#sl_phan_xuong').val("Phân Xưởng").trigger('change')
-                $('#name_search').val("")
-                $("#name_search").prop('disabled', true);
-                $("#sl_phan_xuong").prop('disabled', true);
-            })
+            //$("#mnv_search").focus(() => {
+            //    $('#sl_phan_xuong').val("Phân Xưởng").trigger('change')
+            //    $('#name_search').val("")
+            //    $("#name_search").prop('disabled', true);
+            //    $("#sl_phan_xuong").prop('disabled', true);
+            //})
             //khi nhan ra ngoai ma o gia tri cua mnv khac "" se khong cho search bangten va px
-            $("#mnv_search").blur(() => {
-                if ($("#mnv_search").val() == "") {
-                    $("#name_search").prop('disabled', false);
-                    $("#sl_phan_xuong").prop('disabled', false);
-                }
-            })
+            //$("#mnv_search").blur(() => {
+            //    if ($("#mnv_search").val() == "") {
+            //        $("#name_search").prop('disabled', false);
+            //        $("#sl_phan_xuong").prop('disabled', false);
+            //    }
+            //})
 
         })
 
@@ -386,7 +418,7 @@
             })
         }
         // popup len form gia han khi nhan vao nhan vien cos chung chi het han
-        var popupGiaHan = (mnv, mcc) => {
+        @*var popupGiaHan = (mnv, mcc) => {
             $("#pre-load").show();
             $.ajax({
                 url: '@Url.Action("getGiaHanPopUpInfo", "Task")',
@@ -409,7 +441,7 @@
                      errorAlert('Thất bại', 'Gặp vấn đề về mạng');
                 }
             })
-        };
+        };*@
 
         // popup len form them moi khi nhan vao them moi cho nhan vien chua co chung chi
     var popupThemMoi = (mnv, mcc) => {
@@ -557,4 +589,4 @@
 
     </script>
 }
-    <script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
