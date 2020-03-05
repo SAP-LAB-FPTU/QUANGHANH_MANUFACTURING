@@ -93,16 +93,22 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
         [HttpPost]
         public ActionResult AddSNLV()
         {
-
+            int snlv = Convert.ToInt32(Request["snlv"]);
+            int thang = Convert.ToInt32(Request["thang"].Split()[1]);
+            int nam = Convert.ToInt32(Request["nam"].Split()[1]);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                string sql = "select * from KeHoachTungThang where ThangKeHoach = @month and NamKeHoach = @year";
+                KeHoachTungThang checkadd = db.Database.SqlQuery<KeHoachTungThang>(sql, new SqlParameter("month", thang), new SqlParameter("year", nam)).FirstOrDefault();
+                if (checkadd != null)
+                {
+                    return Json(new { success = false, title = "Thêm không thành công", message = "Tháng này đã nhập số ngày sản xuất." });
+                }
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
                     try
                     {
-                        int snlv = Convert.ToInt32(Request["snlv"]);
-                        int thang = Convert.ToInt32(Request["thang"].Split()[1]);
-                        int nam = Convert.ToInt32(Request["nam"].Split()[1]);
+                        
                         KeHoachTungThang kh = new KeHoachTungThang();
                         kh.NamKeHoach = nam;
                         kh.ThangKeHoach = thang;
