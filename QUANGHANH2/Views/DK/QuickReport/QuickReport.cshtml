@@ -36,6 +36,13 @@
                     <b>BÁO CÁO NHANH NGÀY </b><i class="fas fa-calendar-alt icon"></i>
                     <input id="data" type='text' class='datepicker-here center date-click' data-language='vi' />
                 </h3>
+                <div class="row center">
+                    <div class="input-field col s3 m3 l3"></div>
+                    <div class="input-field col s6 m6 l6" id="process" style="font-size:larger">
+                        Kế hoạch còn lại: <span id="ngaySXconlai">@ViewBag.ngaySXconlai</span> ngày - Số ngày SX:<span id="ngaySXhientai">@ViewBag.ngaySXhientai</span>/<span id="tongNgaySX">@ViewBag.tongNgaySX</span> ngày đạt <span id="tiendoNgay">@ViewBag.tiendoNgay</span>%
+                    </div>
+                    <div class="input-field col s3 m3 l3"></div>
+                </div>
                 <!--Date here-->
             </div>
         </div>
@@ -621,6 +628,10 @@
 
 <script>
     $(document).ready(function () {
+        var temp = "@ViewBag.ngaySXconlai";
+        if (temp == "") {
+            $("#process").hide();
+        }
         //than dao lo
         var x = @ViewBag.tdl.percentDay; if (x > 100) x = 100;
         $('#tdlDay').width(x + '%');
