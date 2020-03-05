@@ -205,9 +205,15 @@
                 "thang": $("#monthCalendar").val()
             },
             success: function (response) {
-                successAlert(response.title, response.message);
-                $("#totalDays").val($("#snlv").val());
-                $("#pre-load").hide();
+                if (response.success == true) {
+                    successAlert(response.title, response.message);
+                    $("#totalDays").val($("#snlv").val());
+                    $("#pre-load").hide();
+                }
+                else {
+                    errorAlert(response.title, response.message);
+                    $("#pre-load").hide();
+                }
             }
         });
     });
