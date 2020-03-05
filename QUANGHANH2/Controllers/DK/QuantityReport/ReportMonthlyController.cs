@@ -23,106 +23,106 @@ namespace QUANGHANH2.Controllers.DK
         public ActionResult getDataFromDB()
         {
             int year = Int32.Parse(Request["years"]);
-            var query = "select tmp5.*,Department.department_name as TenPhongBan,NhomTieuChi.TenNhomTieuChi from (" +
-                "select tmp4.*, (Jan + Feb + March + April) as [Q1],(May + June + July + Aug) as [Q2],(Sep + Oct + Nov + [Dec]) as [Q3],(Jan + Feb + March + April + May + June + July + Aug + Sep + Oct + Nov + [Dec]) as [totalYear] from " +
-                "(select MaNhomTieuChi, MaPhongBan, " +
-                "SUM(Jan) as [Jan], SUM([Feb]) as [Feb],SUM([March]) as [March],SUM([April]) as [April], " +
-                "SUM([May]) as [May],SUM([June]) as [June],SUM([July]) as [July],SUM([Aug]) as [Aug],  SUM([Sep]) as [Sep],SUM([Oct]) as [Oct],SUM([Nov]) as [Nov],SUM([Dec]) as [Dec] " +
-                "FROM( select MaNhomTieuChi, MaPhongBan, " +
-                "Sum(case when tmp2.Ngay between @startJan and @endJan then SanLuong else 0 end) as [Jan], " +
-                "Sum(case when tmp2.Ngay between @startFeb and @endFeb then SanLuong else 0 end) as [Feb], " +
-                "Sum(case when tmp2.Ngay between @startMar and @endMar then SanLuong else 0 end) as [March], " +
-                "Sum(case when tmp2.Ngay between @startApril and @endApril then SanLuong else 0 end) as [April], " +
-                "Sum(case when tmp2.Ngay between @startMay and @endMay then SanLuong else 0 end) as [May], " +
-                "Sum(case when tmp2.Ngay between @startJune and @endJune then SanLuong else 0 end) as [June], " +
-                "Sum(case when tmp2.Ngay between @startJuly and @endJuly then SanLuong else 0 end) as [July], " +
-                "Sum(case when tmp2.Ngay between @startAug and @endAug then SanLuong else 0 end) as [Aug], " +
-                "Sum(case when tmp2.Ngay between @startSep and @endSep then SanLuong else 0 end) as [Sep], " +
-                "Sum(case when tmp2.Ngay between @startOct and @endOct then SanLuong else 0 end) as [Oct], " +
-                "Sum(case when tmp2.Ngay between @startNov and @endNov then SanLuong else 0 end) as [Nov], " +
-                "Sum(case when tmp2.Ngay between @startDec and @endDec then SanLuong else 0 end) as [Dec] " +
-                "from(" +
-                "select tmp1.* , TieuChi.MaNhomTieuChi from (select mutualCitirias.MaPhongBan, mutualCitirias.MaTieuChi, " +
-                "(Case when performance.Ngay IS NULL then @startJan else performance.Ngay end) as [Ngay], " +
-                "(Case when performance.SanLuong IS NULL then 0 else performance.SanLuong end) as [SanLuong] from " +
-                "(select distinct MaTieuChi, MaPhongBan from ThucHien_TieuChi_TheoNgay as a " +
-                "inner join(select * from header_ThucHienTheoNgay where Ngay  between @startJan and @endDec) as b " +
-                "on a.HeaderID = b.HeaderID union " +
-                "select distinct MaTieuChi, MaPhongBan from PhongBan_TieuChi " +
-                "where Nam = @year " +
-                "union select distinct MaTieuChi, MaPhongBan from(select * from header_KeHoach_TieuChi_TheoNam where Nam = @year) as c " +
-                "inner join(select yearlyplan.* from KeHoach_TieuChi_TheoNam as yearlyplan inner join( " +
-                "select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung]  from KeHoach_TieuChi_TheoNam " +
-                "group by HeaderID, MaTieuChi) as maxTime " +
-                "on yearlyplan.HeaderID = maxTime.HeaderID and yearlyplan.MaTieuChi = maxTime.MaTieuChi and yearlyplan.ThoiGianNhapCuoiCung = maxTime.ThoiGianNhapCuoiCung) as d " +
-                "on c.HeaderID = d.HeaderID) mutualCitirias left join " +
-                "(select MaPhongBan, Ngay, MaTieuChi, SanLuong from " +
-                "(select * from header_ThucHienTheoNgay where Ngay  between @startJan and @endDec) as header " +
-                "left join ThucHien_TieuChi_TheoNgay on ThucHien_TieuChi_TheoNgay.HeaderID = header.HeaderID) as performance " +
-                "on mutualCitirias.MaPhongBan = performance.MaPhongBan and mutualCitirias.MaTieuChi = performance.MaTieuChi) as tmp1 " +
-                "inner join TieuChi on tmp1.MaTieuChi = TieuChi.MaTieuChi) as tmp2 group by MaNhomTieuChi, MaPhongBan ) as tmp3 " +
-                "group by MaNhomTieuChi, MaPhongBan) as tmp4 ) as tmp5 " +
-                "inner join Department on tmp5.MaPhongBan = Department.department_id " +
-                "inner join NhomTieuChi on tmp5.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi " +
-                "order by MaPhongBan,MaNhomTieuChi";
+            var query = @"select tmp5.*,Department.department_name as TenPhongBan,NhomTieuChi.TenNhomTieuChi from (
+                            select tmp4.*, (Jan + Feb + March + April) as [Q1],(May + June + July + Aug) as [Q2],(Sep + Oct + Nov + [Dec]) as [Q3],(Jan + Feb + March + April + May + June + July + Aug + Sep + Oct + Nov + [Dec]) as [totalYear] from 
+                            (select MaNhomTieuChi, MaPhongBan, 
+                            SUM(Jan) as [Jan], SUM([Feb]) as [Feb],SUM([March]) as [March],SUM([April]) as [April], 
+                            SUM([May]) as [May],SUM([June]) as [June],SUM([July]) as [July],SUM([Aug]) as [Aug],  SUM([Sep]) as [Sep],SUM([Oct]) as [Oct],SUM([Nov]) as [Nov],SUM([Dec]) as [Dec] 
+                            FROM( select MaNhomTieuChi, MaPhongBan, 
+                            Sum(case when tmp2.Ngay between @startJan and @endJan then SanLuong else 0 end) as [Jan], 
+                            Sum(case when tmp2.Ngay between @startFeb and @endFeb then SanLuong else 0 end) as [Feb], 
+                            Sum(case when tmp2.Ngay between @startMar and @endMar then SanLuong else 0 end) as [March], 
+                            Sum(case when tmp2.Ngay between @startApril and @endApril then SanLuong else 0 end) as [April], 
+                            Sum(case when tmp2.Ngay between @startMay and @endMay then SanLuong else 0 end) as [May], 
+                            Sum(case when tmp2.Ngay between @startJune and @endJune then SanLuong else 0 end) as [June], 
+                            Sum(case when tmp2.Ngay between @startJuly and @endJuly then SanLuong else 0 end) as [July], 
+                            Sum(case when tmp2.Ngay between @startAug and @endAug then SanLuong else 0 end) as [Aug], 
+                            Sum(case when tmp2.Ngay between @startSep and @endSep then SanLuong else 0 end) as [Sep], 
+                            Sum(case when tmp2.Ngay between @startOct and @endOct then SanLuong else 0 end) as [Oct], 
+                            Sum(case when tmp2.Ngay between @startNov and @endNov then SanLuong else 0 end) as [Nov], 
+                            Sum(case when tmp2.Ngay between @startDec and @endDec then SanLuong else 0 end) as [Dec] 
+                            from(
+                            select tmp1.* , TieuChi.MaNhomTieuChi from (select mutualCitirias.MaPhongBan, mutualCitirias.MaTieuChi, 
+                            (Case when performance.Ngay IS NULL then @startJan else performance.Ngay end) as [Ngay], 
+                            (Case when performance.SanLuong IS NULL then 0 else performance.SanLuong end) as [SanLuong] from 
+                            (select distinct MaTieuChi, MaPhongBan from ThucHien_TieuChi_TheoNgay as a 
+                            inner join(select h.* from header_ThucHienTheoNgay h join ThucHienTheoNgay tht on h.NgayID = tht.NgayID where Ngay  between @startJan and @endDec) as b 
+                            on a.HeaderID = b.HeaderID union 
+                            select distinct MaTieuChi, MaPhongBan from PhongBan_TieuChi 
+                            where Nam = @year 
+                            union select distinct MaTieuChi, MaPhongBan from(select * from header_KeHoach_TieuChi_TheoNam where Nam = @year) as c 
+                            inner join(select yearlyplan.* from KeHoach_TieuChi_TheoNam as yearlyplan inner join( 
+                            select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung]  from KeHoach_TieuChi_TheoNam 
+                            group by HeaderID, MaTieuChi) as maxTime 
+                            on yearlyplan.HeaderID = maxTime.HeaderID and yearlyplan.MaTieuChi = maxTime.MaTieuChi and yearlyplan.ThoiGianNhapCuoiCung = maxTime.ThoiGianNhapCuoiCung) as d 
+                            on c.HeaderID = d.HeaderID) mutualCitirias left join 
+                            (select MaPhongBan, Ngay, MaTieuChi, SanLuong from 
+                            (select h.*, tht.Ngay from header_ThucHienTheoNgay h join ThucHienTheoNgay tht on h.NgayID = tht.NgayID where Ngay  between @startJan and @endDec) as header 
+                            left join ThucHien_TieuChi_TheoNgay on ThucHien_TieuChi_TheoNgay.HeaderID = header.HeaderID) as performance 
+                            on mutualCitirias.MaPhongBan = performance.MaPhongBan and mutualCitirias.MaTieuChi = performance.MaTieuChi) as tmp1 
+                            inner join TieuChi on tmp1.MaTieuChi = TieuChi.MaTieuChi) as tmp2 group by MaNhomTieuChi, MaPhongBan ) as tmp3 
+                            group by MaNhomTieuChi, MaPhongBan) as tmp4 ) as tmp5 
+                            inner join Department on tmp5.MaPhongBan = Department.department_id 
+                            inner join NhomTieuChi on tmp5.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi 
+                            order by MaPhongBan,MaNhomTieuChi";
             //
-            var queryKH = "select MaPhongBan,MaNhomTieuChi," +
-                "SUM(case when tmp6.ThangKeHoach = 1 then SanLuong else 0 end) as [Jan],SUM(case when tmp6.ThangKeHoach = 2 then SanLuong else 0 end) as [Feb], " +
-                "SUM(case when tmp6.ThangKeHoach = 3 then SanLuong else 0 end) as [March], SUM(case when tmp6.ThangKeHoach = 4 then SanLuong else 0 end) as [April], " +
-                "SUM(case when((tmp6.ThangKeHoach = 4) or(tmp6.ThangKeHoach = 1) or(tmp6.ThangKeHoach = 2) or(tmp6.ThangKeHoach = 3)) then SanLuong else 0 end) as [Q1]," +
-                "SUM(case when tmp6.ThangKeHoach = 5 then SanLuong else 0 end) as [May], SUM(case when tmp6.ThangKeHoach = 6 then SanLuong else 0 end) as [June]," +
-                "SUM(case when tmp6.ThangKeHoach = 7 then SanLuong else 0 end) as [July], SUM(case when tmp6.ThangKeHoach = 8 then SanLuong else 0 end) as [Aug], " +
-                "SUM(case when((tmp6.ThangKeHoach = 5) or(tmp6.ThangKeHoach = 6) or(tmp6.ThangKeHoach = 7) or(tmp6.ThangKeHoach = 8)) then SanLuong else 0 end) as [Q2], " +
-                "SUM(case when tmp6.ThangKeHoach = 9 then SanLuong else 0 end) as [Sep],SUM(case when tmp6.ThangKeHoach = 10 then SanLuong else 0 end) as [Oct]," +
-                "SUM(case when tmp6.ThangKeHoach = 11 then SanLuong else 0 end) as [Nov],SUM(case when tmp6.ThangKeHoach = 12 then SanLuong else 0 end) as [Dec], " +
-                "SUM(case when((tmp6.ThangKeHoach = 9) or(tmp6.ThangKeHoach = 10) or(tmp6.ThangKeHoach = 11) or(tmp6.ThangKeHoach = 12)) then SanLuong else 0 end) as [Q3] " +
-                "from (select MaPhongBan, SanLuong, ThangKeHoach, MaNhomTieuChi from " +
-                "(select tmp3.MaPhongBan, tmp3.MaTieuChi, (case when tmp4.SanLuong is null then 0 else tmp4.SanLuong end) as [SanLuong],(case when tmp4.ThangKeHoach is null then 1 else tmp4.ThangKeHoach end) as [ThangKeHoach] from( " +
-                "select distinct MaTieuChi, MaPhongBan from ThucHien_TieuChi_TheoNgay as a " +
-                "inner join(select * from header_ThucHienTheoNgay where Ngay  between @startJan and @endDec) as b " +
-                "on a.HeaderID = b.HeaderID " +
-                "union " +
-                "select distinct MaTieuChi, MaPhongBan from PhongBan_TieuChi where Nam = @year " +
-                "union " +
-                "select distinct MaTieuChi, MaPhongBan from(select * from header_KeHoach_TieuChi_TheoNam where Nam = @year) as c " +
-                "inner join(select yearlyplan.* from KeHoach_TieuChi_TheoNam as yearlyplan inner join(" +
-                "select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung]  from KeHoach_TieuChi_TheoNam " +
-                "group by HeaderID, MaTieuChi) as maxTime " +
-                "on yearlyplan.HeaderID = maxTime.HeaderID and yearlyplan.MaTieuChi = maxTime.MaTieuChi and yearlyplan.ThoiGianNhapCuoiCung = maxTime.ThoiGianNhapCuoiCung) as d " +
-                "on c.HeaderID = d.HeaderID) as tmp3 " +
-                "left join " +
-                "(select MaPhongBan, MaTieuChi, SanLuong, ThangKeHoach from " +
-                "(select monthlyplan.*from KeHoach_TieuChi_TheoThang as monthlyplan inner join(" +
-                "select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung]  from KeHoach_TieuChi_TheoThang " +
-                "group by HeaderID,MaTieuChi ) as maxTime " +
-                "on monthlyplan.HeaderID = maxTime.HeaderID and monthlyplan.MaTieuChi = maxTime.MaTieuChi and monthlyplan.ThoiGianNhapCuoiCung = maxTime.ThoiGianNhapCuoiCung) as tmp1 " +
-                "inner join (select * from header_KeHoachTungThang where NamKeHoach = @year) as tmp2 on tmp1.HeaderID = tmp2.HeaderID) as tmp4 " +
-                "on tmp3.MaPhongBan = tmp4.MaPhongBan and tmp3.MaTieuChi = tmp4.MaTieuChi) as tmp5 " +
-                "inner join TieuChi on tmp5.MaTieuChi = TieuChi.MaTieuChi) as tmp6 " +
-                "group by MaPhongBan,MaNhomTieuChi";
-                var yearlyPlanQuery = "Select MaPhongBan,MaNhomTieuChi,SUM(SanLuong) as [SanLuong] from (select MaPhongBan, TieuChi.MaNhomTieuChi, SanLuong from( " +
-                "select tmp3.MaTieuChi, tmp3.MaPhongBan, (Case when SanLuong IS NULL then 0 else SanLuong end) as [SanLuong] from " +
-                "(select distinct MaTieuChi, MaPhongBan from ThucHien_TieuChi_TheoNgay as a " +
-                "inner join(select * from header_ThucHienTheoNgay where Ngay  between @startJan and @endDec) as b " +
-                "on a.HeaderID = b.HeaderID " +
-                "union " +
-                "select distinct MaTieuChi, MaPhongBan from PhongBan_TieuChi " +
-                "where Nam = @year " +
-                "union " +
-                "select distinct MaTieuChi, MaPhongBan from(select * from header_KeHoach_TieuChi_TheoNam where Nam = @year) as c " +
-                "inner join(select yearlyplan.* from KeHoach_TieuChi_TheoNam as yearlyplan inner join( " +
-                "select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung]  from KeHoach_TieuChi_TheoNam " +
-                "group by HeaderID, MaTieuChi) as maxTime " +
-                "on yearlyplan.HeaderID = maxTime.HeaderID and yearlyplan.MaTieuChi = maxTime.MaTieuChi and yearlyplan.ThoiGianNhapCuoiCung = maxTime.ThoiGianNhapCuoiCung) as d " +
-                "on c.HeaderID = d.HeaderID) as tmp3 " +
-                "left join " +
-                "(select MaPhongBan, MaTieuChi, [SanLuongKeHoach] as [SanLuong] from (select yearlyplan.* from KeHoach_TieuChi_TheoNam as yearlyplan " +
-                "inner join( select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung]  from KeHoach_TieuChi_TheoNam " +
-                "group by HeaderID, MaTieuChi) as maxTime on yearlyplan.HeaderID = maxTime.HeaderID and yearlyplan.MaTieuChi = maxTime.MaTieuChi and yearlyplan.ThoiGianNhapCuoiCung = maxTime.ThoiGianNhapCuoiCung) as tmp1 " +
-                "inner join (select* from header_KeHoach_TieuChi_TheoNam where Nam = @year) as tmp2 " +
-                "on tmp1.HeaderID = tmp2.HeaderID) as tmp4 on tmp3.MaPhongBan = tmp4.MaPhongBan and tmp3.MaTieuChi = tmp4.MaTieuChi ) as tmp5 " +
-                "inner join TieuChi on tmp5.MaTieuChi = TieuChi.MaTieuChi ) as tmp6 " +
-                "group by MaPhongBan,MaNhomTieuChi";
+            var queryKH = @"select MaPhongBan,MaNhomTieuChi,
+                            SUM(case when tmp6.ThangKeHoach = 1 then SanLuong else 0 end) as [Jan],SUM(case when tmp6.ThangKeHoach = 2 then SanLuong else 0 end) as [Feb], 
+                            SUM(case when tmp6.ThangKeHoach = 3 then SanLuong else 0 end) as [March], SUM(case when tmp6.ThangKeHoach = 4 then SanLuong else 0 end) as [April], 
+                            SUM(case when((tmp6.ThangKeHoach = 4) or(tmp6.ThangKeHoach = 1) or(tmp6.ThangKeHoach = 2) or(tmp6.ThangKeHoach = 3)) then SanLuong else 0 end) as [Q1],
+                            SUM(case when tmp6.ThangKeHoach = 5 then SanLuong else 0 end) as [May], SUM(case when tmp6.ThangKeHoach = 6 then SanLuong else 0 end) as [June],
+                            SUM(case when tmp6.ThangKeHoach = 7 then SanLuong else 0 end) as [July], SUM(case when tmp6.ThangKeHoach = 8 then SanLuong else 0 end) as [Aug], 
+                            SUM(case when((tmp6.ThangKeHoach = 5) or(tmp6.ThangKeHoach = 6) or(tmp6.ThangKeHoach = 7) or(tmp6.ThangKeHoach = 8)) then SanLuong else 0 end) as [Q2], 
+                            SUM(case when tmp6.ThangKeHoach = 9 then SanLuong else 0 end) as [Sep],SUM(case when tmp6.ThangKeHoach = 10 then SanLuong else 0 end) as [Oct],
+                            SUM(case when tmp6.ThangKeHoach = 11 then SanLuong else 0 end) as [Nov],SUM(case when tmp6.ThangKeHoach = 12 then SanLuong else 0 end) as [Dec], 
+                            SUM(case when((tmp6.ThangKeHoach = 9) or(tmp6.ThangKeHoach = 10) or(tmp6.ThangKeHoach = 11) or(tmp6.ThangKeHoach = 12)) then SanLuong else 0 end) as [Q3] 
+                            from (select MaPhongBan, SanLuong, ThangKeHoach, MaNhomTieuChi from 
+                            (select tmp3.MaPhongBan, tmp3.MaTieuChi, (case when tmp4.SanLuong is null then 0 else tmp4.SanLuong end) as [SanLuong],(case when tmp4.ThangKeHoach is null then 1 else tmp4.ThangKeHoach end) as [ThangKeHoach] from( 
+                            select distinct MaTieuChi, MaPhongBan from ThucHien_TieuChi_TheoNgay as a 
+                            inner join(select h.*, tht.Ngay from header_ThucHienTheoNgay h join ThucHienTheoNgay tht on h.NgayID = tht.NgayID where Ngay  between @startJan and @endDec) as b 
+                            on a.HeaderID = b.HeaderID 
+                            union 
+                            select distinct MaTieuChi, MaPhongBan from PhongBan_TieuChi where Nam = @year 
+                            union 
+                            select distinct MaTieuChi, MaPhongBan from(select * from header_KeHoach_TieuChi_TheoNam where Nam = @year) as c 
+                            inner join(select yearlyplan.* from KeHoach_TieuChi_TheoNam as yearlyplan inner join(
+                            select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung]  from KeHoach_TieuChi_TheoNam 
+                            group by HeaderID, MaTieuChi) as maxTime 
+                            on yearlyplan.HeaderID = maxTime.HeaderID and yearlyplan.MaTieuChi = maxTime.MaTieuChi and yearlyplan.ThoiGianNhapCuoiCung = maxTime.ThoiGianNhapCuoiCung) as d 
+                            on c.HeaderID = d.HeaderID) as tmp3 
+                            left join 
+                            (select MaPhongBan, MaTieuChi, SanLuong, ThangKeHoach from 
+                            (select monthlyplan.*from KeHoach_TieuChi_TheoThang as monthlyplan inner join(
+                            select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung]  from KeHoach_TieuChi_TheoThang 
+                            group by HeaderID,MaTieuChi ) as maxTime 
+                            on monthlyplan.HeaderID = maxTime.HeaderID and monthlyplan.MaTieuChi = maxTime.MaTieuChi and monthlyplan.ThoiGianNhapCuoiCung = maxTime.ThoiGianNhapCuoiCung) as tmp1 
+                            inner join (select k.*, kh.ThangKeHoach from header_KeHoachTungThang k join KeHoachTungThang kh on k.ThangID = kh.ThangID where NamKeHoach = @year) as tmp2 on tmp1.HeaderID = tmp2.HeaderID) as tmp4 
+                            on tmp3.MaPhongBan = tmp4.MaPhongBan and tmp3.MaTieuChi = tmp4.MaTieuChi) as tmp5 
+                            inner join TieuChi on tmp5.MaTieuChi = TieuChi.MaTieuChi) as tmp6 
+                            group by MaPhongBan,MaNhomTieuChi";
+                var yearlyPlanQuery = @"Select MaPhongBan,MaNhomTieuChi,SUM(SanLuong) as [SanLuong] from (select MaPhongBan, TieuChi.MaNhomTieuChi, SanLuong from( 
+                            select tmp3.MaTieuChi, tmp3.MaPhongBan, (Case when SanLuong IS NULL then 0 else SanLuong end) as [SanLuong] from 
+                            (select distinct MaTieuChi, MaPhongBan from ThucHien_TieuChi_TheoNgay as a 
+                            inner join(select h.* from header_ThucHienTheoNgay h join ThucHienTheoNgay tht on h.NgayID = tht.NgayID where Ngay  between @startJan and @endDec) as b 
+                            on a.HeaderID = b.HeaderID 
+                            union 
+                            select distinct MaTieuChi, MaPhongBan from PhongBan_TieuChi 
+                            where Nam = @year 
+                            union 
+                            select distinct MaTieuChi, MaPhongBan from(select * from header_KeHoach_TieuChi_TheoNam where Nam = @year) as c 
+                            inner join(select yearlyplan.* from KeHoach_TieuChi_TheoNam as yearlyplan inner join( 
+                            select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung]  from KeHoach_TieuChi_TheoNam 
+                            group by HeaderID, MaTieuChi) as maxTime 
+                            on yearlyplan.HeaderID = maxTime.HeaderID and yearlyplan.MaTieuChi = maxTime.MaTieuChi and yearlyplan.ThoiGianNhapCuoiCung = maxTime.ThoiGianNhapCuoiCung) as d 
+                            on c.HeaderID = d.HeaderID) as tmp3 
+                            left join 
+                            (select MaPhongBan, MaTieuChi, [SanLuongKeHoach] as [SanLuong] from (select yearlyplan.* from KeHoach_TieuChi_TheoNam as yearlyplan 
+                            inner join( select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung]  from KeHoach_TieuChi_TheoNam 
+                            group by HeaderID, MaTieuChi) as maxTime on yearlyplan.HeaderID = maxTime.HeaderID and yearlyplan.MaTieuChi = maxTime.MaTieuChi and yearlyplan.ThoiGianNhapCuoiCung = maxTime.ThoiGianNhapCuoiCung) as tmp1 
+                            inner join (select* from header_KeHoach_TieuChi_TheoNam where Nam = @year) as tmp2 
+                            on tmp1.HeaderID = tmp2.HeaderID) as tmp4 on tmp3.MaPhongBan = tmp4.MaPhongBan and tmp3.MaTieuChi = tmp4.MaTieuChi ) as tmp5 
+                            inner join TieuChi on tmp5.MaTieuChi = TieuChi.MaTieuChi ) as tmp6 
+                            group by MaPhongBan,MaNhomTieuChi";
 
             var endDays = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
             List<DateTime> endDates = new List<DateTime>();

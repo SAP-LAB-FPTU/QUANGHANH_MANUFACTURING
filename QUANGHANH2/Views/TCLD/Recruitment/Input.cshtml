@@ -54,14 +54,6 @@
                                     <th class="center-align">Họ tên</th>
                                     <th class="center-align">Ngày sinh</th>
                                     <th class="center-align">Giới tính</th>
-                                    <th class="center-align">SĐT</th>
-                                    <th class="center-align">CMT</th>
-                                    <th class="center-align">Ngày cấp CMT</th>
-                                    <th class="center-align">Nơi cấp</th>
-                                    <th class="center-align">Dân tộc</th>
-                                    <th class="center-align">Bố</th>
-                                    <th class="center-align">Mẹ</th>
-                                    <th class="center-align">Vợ</th>
                                     <th class="center-align">Đơn vị</th>
                                     <th class="center-align">Trình độ</th>
                                     <th class="center-align">Chuyên Nghành</th>
@@ -70,6 +62,14 @@
                                     <th class="center-align">Thang lương</th>
                                     <th class="center-align">Bậc</th>
                                     <th class="center-align">Mức lương (đồng/tháng)</th>
+                                    <th class="center-align">SĐT</th>
+                                    <th class="center-align">CMT</th>
+                                    <th class="center-align">Ngày cấp CMT</th>
+                                    <th class="center-align">Nơi cấp</th>
+                                    <th class="center-align">Dân tộc</th>
+                                    <th class="center-align">Bố</th>
+                                    <th class="center-align">Mẹ</th>
+                                    <th class="center-align">Vợ</th>
                                 </tr>
                             </thead>
                             <tbody id="tablecontent">
@@ -207,6 +207,12 @@
                          errorAlert('Lỗi', 'Hãy kiểm tra lại bậc lương hoặc thang lương của nhân viên mã ' + result.responseText);
                     } else if (result.message == "NgayCap") {
                         errorAlert('Lỗi', 'Hãy kiểm tra lại ngày cấp CMT của nhân viên mã ' + result.responseText);
+                    } else if (result.message == "gender") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại giới tính của nhân viên mã ' + result.responseText);
+                    }else if (result.message == "bacLuong_ThangLuong") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại bậc lương hoặc thang lương của nhân viên mã ' + result.responseText);
+                    }else if (result.message == "TrinhDo") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại trình độ của nhân viên mã ' + result.responseText);
                     }
                     else {
                         reloadAlert('Thêm thành công', 3000);
@@ -310,14 +316,6 @@
                                 $tr.append("<td>" + data.list[i].HoTen + "</td>");
                                 $tr.append("<td>" + formatDate(data.list[i].NgaySinh) + "</td>");
                                 $tr.append("<td>" + data.list[i].GioiTinh + "</td>");
-                                $tr.append("<td>" + data.list[i].SDT + "</td>");
-                                $tr.append("<td>" + data.list[i].CMT + "</td>");
-                                $tr.append("<td>" + formatDate(data.list[i].NgayCap) + "</td>");
-                                $tr.append("<td>" + data.list[i].NoiCap + "</td>");
-                                $tr.append("<td>" + data.list[i].DanToc + "</td>");
-                                $tr.append("<td>" + data.list[i].Bo + "</td>");
-                                $tr.append("<td>" + data.list[i].Me + "</td>");
-                                $tr.append("<td>" + data.list[i].Vo + "</td>");
                                 $tr.append("<td>" + data.list[i].DonVi + "</td>");
                                 $tr.append("<td>" + data.list[i].TrinhDo + "</td>");
                                 $tr.append("<td>" + data.list[i].ChuyenNganh + "</td>");
@@ -326,6 +324,14 @@
                                 $tr.append("<td>" + data.list[i].ThangLuong + "</td>");
                                 $tr.append("<td>" + data.list[i].Bac + "</td>");
                                 $tr.append("<td>" + data.list[i].MucLuong + "</td>");
+                                $tr.append("<td>" + data.list[i].SDT + "</td>");
+                                $tr.append("<td>" + data.list[i].CMT + "</td>");
+                                $tr.append("<td>" + formatDate(data.list[i].NgayCap) + "</td>");
+                                $tr.append("<td>" + data.list[i].NoiCap + "</td>");
+                                $tr.append("<td>" + data.list[i].DanToc + "</td>");
+                                $tr.append("<td>" + data.list[i].Bo + "</td>");
+                                $tr.append("<td>" + data.list[i].Me + "</td>");
+                                $tr.append("<td>" + data.list[i].Vo + "</td>");
                                 $('#tablecontent').append($tr);
                             }
                         }
