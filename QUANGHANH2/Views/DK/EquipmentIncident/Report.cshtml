@@ -70,12 +70,16 @@
             <a id="export-button" class="waves-effect waves-light btn blue">Xuất ra file excel</a>
         </div>
         <br />
+        <div class="row">
+            <h5>Tổng số lần xảy ra sự cố: @ViewBag.total</h5>
+        </div>
         <div class="row" id="table-container">
             <table class="centered highlight responsive-table striped responsive-table table-bordered" id="reportTable">
                 <thead>
                     <tr>
                         <th>Phân xưởng</th>
                         <th>Số lần xảy ra sự cố</th>
+                        <th>Tổng số thời gian dừng hoạt động</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -85,7 +89,8 @@
                         <tr>
                             <td>@item.department_name</td>
                             <td>@item.total</td>
-                            <td><a id="view-btn" class="waves-effect waves-light btn blue darken-2" data-department="@item.department_id">Chi tiết</a></td>
+                            <td>@item.stringdiff()</td>
+                            <td><a id="view-btn" class="waves-effect waves-light btn blue darken-2 modal-trigger" href="#mydetail" data-department="@item.department_id">Chi tiết</a></td>
                         </tr>
                     }
                 </tbody>
@@ -99,6 +104,33 @@
     <li onclick="ViewbyQuarter();"><a id="quarter" href="#" ;>Xem Theo Quý</a></li>
     <li onclick="ViewbyYear();"><a id="year" href="#" ;>Xem Theo Năm</a></li>
 </ul>
+
+<div id="mydetail" class="modal">
+    <div class="modal-content">
+        <div class="modal-header center">
+            <h3><b>Tổng thời gian dừng hoạt động của từng thiết bị</b></h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col s12 table_container">
+                    <table class="table-bordered striped table-responsive centered" id="subtable" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <td>Mã thiết bị</td>
+                                <td>Tên thiết bị</td>
+                                <td>Tổng số thời gian dừng hoạt động</td>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn light-blue modal-close darken-2">Đóng</button>
+        </div>
+    </div>
+</div>
 
 <script>
     $(function () {
@@ -135,13 +167,6 @@
             }
         })
     });
-
-    $(document).on("click", "#view-btn", function () {
-        alert("abc")
-        //$.ajax({
-        //    url
-        //})
-    })
 
     $(document).ready(function () {
 
@@ -194,13 +219,47 @@
                 }
             },
             "columnDefs": [
-                { "orderable": false, "targets": 2 }
+                { "orderable": false, "targets": 3 }
             ],
-            "order": [0, "desc"],
+            "order": [1, "desc"],
             "lengthChange": false,
             "searching": false,
             "paging": false
         });
+
+        $(document).on("click", "#view-btn", function () {
+            $('#pre-load').show();
+            $('#subtable tbody').empty();
+            let department_id = $(this).data("department");
+            $.ajax({
+                url: "/phong-dieu-khien/su-co/bao-cao",
+                method: "POST",
+                dataType: "json",
+                data: {
+                    type: c,
+                    month: month,
+                    quarter: quater,
+                    year: year,
+                    department_id: department_id
+                },
+                cache: false,
+                success: function (json) {
+                    if (json.success) {
+                        if (json.data.length == 0)
+                            $('#subtable tbody').append("<tr><td colspan='3'>Không có dữ liệu")
+                        else
+                            json.data.forEach(e => {
+                                $('#subtable tbody').append("<tr><td>" + e.equipmentId + "</td><td>" + e.equipment_name + "</td><td>" + e.stringdiff)
+                            })
+                    }
+                    else {
+                        errorAlert(json.message);
+                        $('#subtable tbody').append("<tr><td colspan='3'>Không có dữ liệu")
+                    }
+                    $('#pre-load').hide();
+                }
+            })
+        })
     });
 
     function ViewbyMonth() {
