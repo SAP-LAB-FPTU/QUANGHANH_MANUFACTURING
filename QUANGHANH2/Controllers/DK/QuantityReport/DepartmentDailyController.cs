@@ -26,21 +26,22 @@ namespace QUANGHANH2.Controllers.DK
         //
         dynamic getListReport(DateTime timeStart, DateTime timeEnd)
         {
-            var query = 
-                "select tmp1.*,TenTieuChi from ("+
-                "select department_name as [TenPhongBan], tmp2.* from (select MaPhongBan, MaTieuChi, " +
-                "SUM(Case when Ca = 1 and Ngay = @dateEnd then SanLuong else 0 end) as [Ca1], " +
-                "SUM(Case when Ca = 2 and Ngay = @dateEnd then SanLuong else 0 end) as [Ca2], " +
-                "SUM(Case when Ca = 3 and Ngay = @dateEnd then SanLuong else 0 end) as [Ca3], " +
-                "SUM(Case when(Ca = 3 or Ca = 2 or Ca = 1)and Ngay = @dateEnd then SanLuong else 0 end) as [TH], " +
-                "SUM(Case when Ngay = @dateEnd then NgaySanXuat else 0 end) as [NgaySanXuat], " +
-                "SUM(SanLuong) as [LuyKe] from " +
-                "(select MaPhongBan, MaTieuChi, Ca, Ngay, SanLuong, NgaySanXuat from " +
-                "(select * from header_ThucHienTheoNgay where Ngay between @dateStart and @dateEnd) as headerDaily " +
-                "inner join ThucHien_TieuChi_TheoNgay as th on headerDaily.HeaderID = th.HeaderID) as tmp1 " +
-                "Group by MaPhongBan,MaTieuChi) as tmp2 inner join Department on tmp2.MaPhongBan = Department.department_id) as tmp1 " +
-                "inner join TieuChi on tmp1.MaTieuChi = TieuChi.MaTieuChi "+
-                "order by MaPhongBan,MaTieuChi";
+            var query =
+                @"select tmp1.*,TenTieuChi from (
+                    select department_name as [TenPhongBan], tmp2.* from(select MaPhongBan, MaTieuChi,
+                    SUM(Case when Ca = 1 and Ngay = @dateStart then SanLuong else 0 end) as [Ca1], 
+                    SUM(Case when Ca = 2 and Ngay = @dateStart then SanLuong else 0 end) as [Ca2], 
+                    SUM(Case when Ca = 3 and Ngay = @dateStart then SanLuong else 0 end) as [Ca3], 
+                    SUM(Case when(Ca = 3 or Ca = 2 or Ca = 1)and Ngay = @dateEnd then SanLuong else 0 end) as [TH], 
+                    SUM(Case when Ngay = @dateEnd then NgaySanXuat else 0 end) as [NgaySanXuat], 
+                    SUM(SanLuong) as [LuyKe] from
+                    (select MaPhongBan, MaTieuChi, Ca, Ngay, SanLuong, NgaySanXuat from
+                    (select h.*, t.NgaySanXuat, t.Ngay from header_ThucHienTheoNgay h join ThucHienTheoNgay t on h.NgayID = t.NgayID where Ngay between @dateStart and @dateEnd) as headerDaily
+                    inner join ThucHien_TieuChi_TheoNgay as th on headerDaily.HeaderID = th.HeaderID
+                    ) as tmp1
+                    Group by MaPhongBan,MaTieuChi) as tmp2 inner join Department on tmp2.MaPhongBan = Department.department_id) as tmp1
+                    inner join TieuChi on tmp1.MaTieuChi = TieuChi.MaTieuChi
+                    order by MaPhongBan,MaTieuChi";
 
             var querykHDaily = "select MaPhongBan,MaTieuChi,SUM(KeHoach) as KeKhoach from " +
                 "(select MaPhongBan, MaTieuChi, KeHoach from " +
@@ -55,7 +56,7 @@ namespace QUANGHANH2.Controllers.DK
                 "order by MaPhongBan, MaTieuChi";
 
             var queryKHDC = "select MaPhongBan,MaTieuChi,KHBD,KHDC,SoNgayLamViec from" +
-                "(select * from header_KeHoachTungThang where ThangKeHoach = @month and NamKeHoach = @year) as headerMonthlyPlan " +
+                "(select h.* from header_KeHoachTungThang h join KeHoachTungThang k on h.ThangID = k.ThangID where ThangKeHoach = @month and NamKeHoach = @year) as headerMonthlyPlan " +
                 "inner join " +
                 "(select HeaderID, MaTieuChi, " +
                 "SUM(Case when ThoiGianNhapCuoiCung = ThoiGianNhapBanDau then SanLuong else 0 end) as [KHBD], " +
