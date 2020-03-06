@@ -98,7 +98,7 @@ namespace QUANGHANH2.Controllers.DK.EquipmentIncident
         }
 
         [Route("phong-dieu-khien/su-co/bao-cao/excel")]
-        public ActionResult Export()
+        public void Export()
         {
             string path = HostingEnvironment.MapPath("/excel/DK/SuCoThietBi.xlsx");
             string saveAsPath = ("/excel/DK/download/SuCoThietBi.xlsx");
@@ -110,7 +110,21 @@ namespace QUANGHANH2.Controllers.DK.EquipmentIncident
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     var type = new[] { "month", "quarter", "year" }.Contains(Request["type"]) ? Request["type"] : "month";
-                    int year = Request["year"] == null ? DateTime.Now.Year : int.Parse(Request["year"]);
+                    if (int.TryParse(Request["year"], out int year))
+                        year = int.Parse(Request["year"]);
+                    else
+                        year = DateTime.Now.Year;
+
+                    if (int.TryParse(Request["month"], out int month))
+                        month = int.Parse(Request["month"]);
+                    else
+                        month = DateTime.Now.Month;
+
+                    if (int.TryParse(Request["quarter"], out int quarter))
+                        quarter = int.Parse(Request["quarter"]);
+                    else
+                        quarter = 1;
+
                     var sql = @"select d.department_id, department_name, (case when total is null then 0 else total end) as total, (case when diff is null then 0 else diff end) as diff
                         from Department d left join
 	                        (select
@@ -119,11 +133,9 @@ namespace QUANGHANH2.Controllers.DK.EquipmentIncident
                     switch (type)
                     {
                         case "month":
-                            int month = Request["month"] == null ? DateTime.Now.Month : int.Parse(Request["month"]);
                             sql += " and month(start_time) = " + month;
                             break;
                         case "quarter":
-                            int quarter = Request["quarter"] == null ? 1 : int.Parse(Request["quarter"]);
                             sql += " and month(start_time) between " + (quarter * 3 - 2) + " and " + (quarter * 3);
                             break;
                         default:
@@ -133,16 +145,21 @@ namespace QUANGHANH2.Controllers.DK.EquipmentIncident
 	                        ) as i on d.department_id = i.department_id
                         where d.department_type like N'%phân xưởng%'";
                     List<Report> content = db.Database.SqlQuery<Report>(sql).ToList();
-                    for (int i = 4; i < content.Count; i++)
+                    for (int i = 3; i < content.Count; i++)
                     {
                         excelWorksheet.Cells[i, 1].Value = content.ElementAt(i).department_name;
                         excelWorksheet.Cells[i, 2].Value = content.ElementAt(i).total;
                         excelWorksheet.Cells[i, 3].Value = content.ElementAt(i).stringdiff();
                     }
-                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
+                    Response.Clear();
+                    Response.AddHeader("content-disposition", "attachment; filename=LeadsExport.xlsx");
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    Response.BinaryWrite(excelPackage.GetAsByteArray());
+                    Response.End();
+                    //excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath(saveAsPath)));
                 }
             }
-            return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
+            //return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
         }
 
         public class Report

@@ -133,6 +133,7 @@
 </div>
 
 <script>
+    var c, month, quater, year;
     $(function () {
         var url_string = window.location.href;
         var url = new URL(url_string);
@@ -172,10 +173,10 @@
 
         var url_string = window.location.href;
         var url = new URL(url_string);
-        var c = url.searchParams.get("type");
-        var month = url.searchParams.get("month");
-        var quater = url.searchParams.get("quarter");
-        var year = url.searchParams.get("year");
+        c = url.searchParams.get("type");
+        month = url.searchParams.get("month");
+        quater = url.searchParams.get("quarter");
+        year = url.searchParams.get("year");
         $("#minMaxDate").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
         $("#txtmonth").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
         $("#txtquarter").val(@(DateTime.Now.Month % 3 == 0 ? DateTime.Now.Month / 3 : DateTime.Now.Month / 3 + 1))
@@ -259,6 +260,12 @@
                     $('#pre-load').hide();
                 }
             })
+        })
+
+        $('#export-button').click(function () {
+            if (c == null) c = "month";
+            var quarter = quater;
+            window.location.href = "/phong-dieu-khien/su-co/bao-cao/excel?type=" + c + "&year=" + year + "&quarter=" + quarter + "&month=" + month;
         })
     });
 
