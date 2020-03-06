@@ -54,19 +54,19 @@ namespace QUANGHANH2.Controllers.DK
 
         dynamic getData(DateTime timeStart, DateTime timeEnd)
         {
-            var query = @"select TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,MaPhongBan,
-                            (Case when CA1 IS NULL then CONVERT(float, 0) else CA1 end) as [CA1],
-                            (Case when CA2 IS NULL then CONVERT(float,0) else CA2 end) as [CA2], 
-                            (Case when CA3 IS NULL then CONVERT(float,0) else CA3 end) as [CA3], 
-                            (Case when TH IS NULL then CONVERT(float,0) else TH end) as TH, 
-                            (Case when LUYKE IS NULL then CONVERT(float,0) else LUYKE end) as LUYKE, 
-                            (Case when KH IS NULL then CONVERT(float,0) else KH end) as KH, 
-                            (Case when CHENHLECH IS NULL then CONVERT(float,0) else CHENHLECH end) as [CHENHLECH], 
-                            (Case when[PERCENTAGE] IS NULL then CONVERT(float,0) else [PERCENTAGE] end) as [PERCENTAGE], 
-                            (Case when KHDC IS NULL then CONVERT(float,0) else KHDC end) as KHDC, 
-                            (Case when percentDC IS NULL then 0 else percentDC end) as percentDC, 
-                            (Case when LUYKE IS NULL then 0 else LUYKE end) as LUYKE, 
-                            (Case when KH IS NULL then 0 else KH end) as KH from TieuChi 
+            var query = @"select TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,
+                            SUM(Case when CA1 IS NULL then CONVERT(float, 0) else CA1 end) as [CA1],
+                            SUM(Case when CA2 IS NULL then CONVERT(float,0) else CA2 end) as [CA2], 
+                            SUM(Case when CA3 IS NULL then CONVERT(float,0) else CA3 end) as [CA3], 
+                            SUM(Case when TH IS NULL then CONVERT(float,0) else TH end) as TH, 
+                            SUM(Case when LUYKE IS NULL then CONVERT(float,0) else LUYKE end) as LUYKE, 
+                            SUM(Case when KH IS NULL then CONVERT(float,0) else KH end) as KH, 
+                            SUM(Case when CHENHLECH IS NULL then CONVERT(float,0) else CHENHLECH end) as [CHENHLECH], 
+                            SUM(Case when[PERCENTAGE] IS NULL then CONVERT(float,0) else [PERCENTAGE] end) as [PERCENTAGE], 
+                            SUM(Case when KHDC IS NULL then CONVERT(float,0) else KHDC end) as KHDC, 
+                            SUM(Case when percentDC IS NULL then 0 else percentDC end) as percentDC, 
+                            SUM(Case when LUYKE IS NULL then 0 else LUYKE end) as LUYKE, 
+                            SUM(Case when KH IS NULL then 0 else KH end) as KH from TieuChi 
                             left join (select * ,CONVERT(float, 0) as [KH],
                             CONVERT(float, 0) as [CHENHLECH],CONVERT(float, 0) as [PERCENTAGE], 
                             CONVERT(float, 0) as [KHDC], CONVERT(float, 0) as [percentDC], 
@@ -84,6 +84,7 @@ namespace QUANGHANH2.Controllers.DK
                             INNER JOIN Department as px on px.department_id = header_th.MaPhongBan) as a GROUP BY MaTieuChi,MaPhongBan) as table2 ) 
                             as table3 on table3.MaTieuChi = TieuChi.MaTieuChi 
                             inner join NhomTieuChi on TieuChi.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi 
+                            group by TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi
                             order by MaTieuChi";
 
             var query_KHDC = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,
@@ -154,7 +155,7 @@ namespace QUANGHANH2.Controllers.DK
                         foreach (var item in listReport)
                         {
                             reportEntity rp2 = new reportEntity();
-                            if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo")
+                            if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo" || item.TenNhomTieuChi == "Mét Lò Xén")
                             {
                                 //
                                 if (item.MaPhongBan != "PXDL1" && item.MaPhongBan != "PXDL2")
@@ -189,12 +190,12 @@ namespace QUANGHANH2.Controllers.DK
                             foreach (var item in listReport)
                             {
                                 reportEntity rp2 = new reportEntity();
-                                if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo")
+                                if (item.TenNhomTieuChi == "Mét Lò Đào Thuê Ngoài" || item.TenNhomTieuChi == "Mét Lò Neo Thuê Ngoài" || item.TenNhomTieuChi == "Mét Lò Xén Thuê Ngoài")
                                 {
                                     //
                                     if (item.MaPhongBan == "PXDL1" || item.MaPhongBan == "PXDL2")
                                     {
-                                        if (item.TenNhomTieuChi == "Mét Lò Đào")
+                                        if (item.TenNhomTieuChi == "Mét Lò Đào Thuê Ngoài")
                                         {
                                             rp = addUp(rp, item);
                                         }

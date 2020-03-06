@@ -186,6 +186,8 @@
     <Compile Include="Controllers\CDVT\Vattu\CDVTXinCapVatTuController.cs" />
     <Compile Include="Controllers\DK\Accident\StatisticalAccidentController.cs" />
     <Compile Include="Controllers\DK\EquipmentIncident\ReportController.cs" />
+    <Compile Include="Controllers\DK\Department_Criteria\Department_Criteria_By_MonthController.cs" />
+    <Compile Include="Controllers\DK\Department_Criteria\Department_Criteria_By_YearController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
     <Compile Include="Controllers\AT\ViewAccidentController.cs" />
     <Compile Include="Controllers\BGD\AccidentReportController.cs" />
@@ -303,7 +305,6 @@
     <Compile Include="Controllers\DK\Criteria\CriteriaController.cs" />
     <Compile Include="Controllers\DK\Criteria\GroupCriteriaController.cs" />
     <Compile Include="Controllers\DK\QuantityReport\DepartmentDailyController.cs" />
-    <Compile Include="Controllers\DK\Department_Criteria\Department_CriteriaController.cs" />
     <Compile Include="Controllers\DK\InputPlan\InputPlan_YearController.cs" />
     <Compile Include="Controllers\DK\InputPlan\InputPlan_MonthController.cs" />
     <Compile Include="Controllers\DK\DashboardToBGD\QuickReportController.cs" />
@@ -7475,7 +7476,6 @@
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_cai_tien.cshtml" />
     <Content Include="Views\CDVT\Work\CaiTien\ChonThietBi.cshtml" />
     <Content Include="Views\CDVT\Work\CaiTien\ThemCaiTien.cshtml" />
-    <Content Include="Views\DK\Department_Criteria\Department_Criteria.cshtml" />
     <Content Include="Views\Shared\_Layout_KCM.cshtml" />
     <Content Include="Views\Camera\DanhSachCamera.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />
@@ -7516,6 +7516,8 @@
     <Content Include="Views\TCLD\Shutdown\Process.cshtml" />
     <Content Include="Views\DK\Accident\StatisticalAccident.cshtml" />
     <Content Include="Views\DK\EquipmentIncident\Report.cshtml" />
+    <Content Include="Views\DK\Department_Criteria\Department_Criteria_By_Month.cshtml" />
+    <Content Include="Views\DK\Department_Criteria\Department_Criteria_By_Year.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7529,6 +7531,9 @@
     <Folder Include="Views\ChiTiet\" />
     <Folder Include="Views\ChonThietBi\" />
     <Folder Include="Views\DaNghiemThu\" />
+    <Folder Include="Views\Department_CriteriaController_By_Month\" />
+    <Folder Include="Views\Department_CriteriaController_By_Year\" />
+    <Folder Include="Views\Department_Criteria_By_Year\" />
     <Folder Include="Views\StatisticalAccident\" />
     <Folder Include="Views\TrangChu\" />
   </ItemGroup>
