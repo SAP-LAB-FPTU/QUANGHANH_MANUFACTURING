@@ -383,6 +383,9 @@ namespace QUANGHANH2.Controllers.DK
         public double Q1Por { get; set; }
         public double Q2Por { get; set; }
         public double Q3Por { get; set; }
+
+        public double firstPlan { get; set; }
+        public double adjustedPlan { get; set; }
     }
 
     public class yearlyPlan : header_SanLuongTheoThangQuy
