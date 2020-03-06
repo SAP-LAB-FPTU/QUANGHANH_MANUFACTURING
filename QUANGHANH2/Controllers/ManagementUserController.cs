@@ -704,8 +704,8 @@ namespace QUANGHANH2.Controllers
                 foreach (var ID in IDs)
                 {
                     db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account_Right_Detail] WHERE Account_Right_Detail.AccountID = '" + ID + "'");
-                    db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account] WHERE Account.ID = '" + ID + "'");
                     db.Database.ExecuteSqlCommand("delete from User_Action_Log where AccountID = '" + ID + "'");
+                    db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account] WHERE Account.ID = '" + ID + "'");
                 }
                 db.SaveChanges();
                 return Json("", JsonRequestBehavior.AllowGet);
