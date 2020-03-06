@@ -10,10 +10,10 @@ using System.Web.Script.Serialization;
 
 namespace QUANGHANH2.Controllers.DK
 {
-    public class Department_CriteriaController : Controller
+    public class Department_Criteria_By_MonthController : Controller
     {
         // GET: Department_Criteria
-        [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi")]
+        [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-thang")]
         public ActionResult Index()
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -21,12 +21,12 @@ namespace QUANGHANH2.Controllers.DK
                 var query = " select * from Department WHERE department_type =@departmentType order by department_name";
                 List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
                 ViewBag.listDepartments = listDepartments;
-                return View("/Views/DK/Department_Criteria/Department_Criteria.cshtml");
+                return View("/Views/DK/Department_Criteria/Department_Criteria_By_Month.cshtml");
             }
         }
 
         /////////////////////////////////LIST/////////////////////////////////////
-        [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/lay-thong-tin")]
+        [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-thang/lay-thong-tin")]
         public ActionResult getInformation()
         {
             try
@@ -60,7 +60,7 @@ namespace QUANGHANH2.Controllers.DK
         }
 
         //////////////////////////////////INSERT////////////////////////////////////
-        [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/cap-nhat-thong-tin")]
+        [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-thang/cap-nhat-thong-tin")]
         public ActionResult InsertInformation()
         {
             try
@@ -91,7 +91,7 @@ namespace QUANGHANH2.Controllers.DK
         }
 
         ///////////////////////////////DELETE///////////////////////////////
-        [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/xoa-tieu-chi-cua-phong-ban")]
+        [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-thang/xoa-tieu-chi-cua-phong-ban")]
         public ActionResult DeleteInformation()
         {
             try

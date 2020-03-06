@@ -132,7 +132,7 @@
         console.log($("#cbx-px").val());
         $.ajax({
             type: 'post',
-            url: '/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/lay-thong-tin',
+            url: '/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-thang/lay-thong-tin',
             data: {
                 'month': $("#monthCalendar").val().split(" ")[1],
                 'year': $("#yearCalendar").val().split(" ")[1],
@@ -206,7 +206,7 @@
     function sendUpdateData() {
         setTimeout($('#pre-load').show(), 3000)
         $.ajax({
-            url: "/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/cap-nhat-thong-tin",
+            url: "/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-thang/cap-nhat-thong-tin",
             type: "post",
             data: {
                 'month': $("#monthCalendar").val().split(" ")[1],
@@ -230,7 +230,7 @@
         confirmAlert("Xác nhận xóa?", "", function () {
              setTimeout($('#pre-load').show(), 3000);
         $.ajax({
-            url: "/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi/xoa-tieu-chi-cua-phong-ban",
+            url: "/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-thang/xoa-tieu-chi-cua-phong-ban",
             type: "post",
             //dataType: "json",
             data: {
