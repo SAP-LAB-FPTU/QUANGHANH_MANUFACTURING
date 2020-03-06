@@ -124,6 +124,23 @@ namespace QUANGHANH2.Controllers.DK
                             inner join TieuChi on tmp5.MaTieuChi = TieuChi.MaTieuChi ) as tmp6 
                             group by MaPhongBan,MaNhomTieuChi";
 
+            var queryKHDC = "select MaPhongBan,MaTieuChi,SUM(case when KHBD is not null then CONVERT(float, 0) else CONVERT(float, KHBD) end) as KHBD,SUM(case when KHDC is not null then CONVERT(float, 0) else CONVERT(float, KHBD) end) as KHDC from" +
+                "(select h.* from header_KeHoachTungThang h join KeHoachTungThang k on h.ThangID = k.ThangID where NamKeHoach = @year) as headerMonthlyPlan " +
+                "inner join " +
+                "(select HeaderID, MaTieuChi, " +
+                "SUM(Case when ThoiGianNhapCuoiCung = ThoiGianNhapBanDau then SanLuong else 0 end) as [KHBD], " +
+                "SUM(Case when ThoiGianNhapCuoiCung = ThoiGianNhapCuoiCung_compare then SanLuong else 0 end) as [KHDC] " +
+                "from " +
+                "(select monthlyPlan.*, maxTime.ThoiGianNhapBanDau, maxTime.ThoiGianNhapCuoiCung as [ThoiGianNhapCuoiCung_compare] from KeHoach_TieuChi_TheoThang as monthlyPlan " +
+                "inner join " +
+                "(select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung], Min(ThoiGianNhapCuoiCung) as [ThoiGianNhapBanDau] from KeHoach_TieuChi_TheoThang " +
+                "group by HeaderID, MaTieuChi) as maxTime " +
+                "on maxTime.HeaderID = monthlyPlan.HeaderID and maxTime.MaTieuChi = monthlyPlan.MaTieuChi and(maxTime.ThoiGianNhapCuoiCung = monthlyPlan.ThoiGianNhapCuoiCung or maxTime.ThoiGianNhapBanDau = monthlyPlan.ThoiGianNhapCuoiCung)) as tmp1 " +
+                "group by HeaderID,MaTieuChi) as tmp2 " +
+                "on headerMonthlyPlan.HeaderID = tmp2.HeaderID " +
+                "group by MaPhongBan,MaTieuChi " +
+                "order by MaPhongBan,MaTieuChi";
+
             var endDays = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
             List<DateTime> endDates = new List<DateTime>();
             List<DateTime> startDates = new List<DateTime>();
@@ -158,6 +175,8 @@ namespace QUANGHANH2.Controllers.DK
                 var listKH = db.Database.SqlQuery<SanLuongTheoThangQuy>(queryKH, new SqlParameter("year", year), new SqlParameter("startJan", startDates[0]), new SqlParameter("endDec", endDates[11])).ToList();
                 //
                 var listYearlyPlan = db.Database.SqlQuery<yearlyPlan>(yearlyPlanQuery, new SqlParameter("year", year), new SqlParameter("startJan", startDates[0]), new SqlParameter("endDec", endDates[11])).ToList();
+                //
+                var listKHDC_BD = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("year", year)).ToList();
                 //Thu Tu In Ra Theo Ten Phong Ban
                 //
                 var departmentName = new string[] { "Phân xưởng khai thác 1", "Phân xưởng khai thác 2", "Phân xưởng khai thác 3", "Phân xưởng khai thác 4","Phân xưởng khai thác 5",
@@ -205,6 +224,9 @@ namespace QUANGHANH2.Controllers.DK
                             bc.Q1KH = listKH[index2].Q1;
                             bc.Q2KH = listKH[index2].Q2;
                             bc.Q3KH = listKH[index2].Q3;
+                            //
+                            bc.adjustedPlan = listKHDC_BD[index2].KHDC;
+                            bc.firstPlan = listKHDC_BD[index2].KHBD;
                             //
                             bc.totalYearKH = listYearlyPlan[index2].SanLuong;
                             //
