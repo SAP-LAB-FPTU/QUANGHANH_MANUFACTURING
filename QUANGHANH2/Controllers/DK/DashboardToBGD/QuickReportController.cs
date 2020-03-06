@@ -63,7 +63,7 @@ namespace QUANGHANHCORE.Controllers.DK
             public string Ten { get; set; }
         }
         // GET: /<controller>/
-        [Auther(RightID = "004")]
+        [Auther(RightID = "004,192")]
         [Route("phong-dieu-khien")]
         [HttpPost]
         public ActionResult GetData(string date)
@@ -72,7 +72,7 @@ namespace QUANGHANHCORE.Controllers.DK
 
         }
 
-        [Auther(RightID = "004")]
+        [Auther(RightID = "004,192")]
         [Route("phong-dieu-khien")]
         [HttpGet]
         public ActionResult Index(string date)

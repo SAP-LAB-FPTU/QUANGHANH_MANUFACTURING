@@ -114,7 +114,7 @@ namespace QUANGHANHCORE.Controllers
             {
                 RightIDs.Add(right.RightID + "");
             }
-            if(Session["Position"].ToString().Equals("Trưởng phòng") && Session["departID"].ToString().Equals("CDVT"))
+            if(Session["Position"].ToString().Equals("Trưởng phòng") && Session["departID"].ToString().Equals("CV"))
             {
                 RightIDs.Add("192");
             }
