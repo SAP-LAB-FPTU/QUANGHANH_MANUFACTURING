@@ -185,6 +185,7 @@
     <Compile Include="Controllers\Camera\Quyetdinh\DSQDChuaxulyController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\CDVTXinCapVatTuController.cs" />
     <Compile Include="Controllers\DK\Accident\StatisticalAccidentController.cs" />
+    <Compile Include="Controllers\DK\EquipmentIncident\ReportController.cs" />
     <Compile Include="Controllers\DK\Department_Criteria\Department_Criteria_By_MonthController.cs" />
     <Compile Include="Controllers\DK\Department_Criteria\Department_Criteria_By_YearController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
@@ -316,7 +317,7 @@
     <Compile Include="Controllers\DK\ReportManuCharcoal\ReportManuCharcoalController.cs" />
     <Compile Include="Controllers\DK\QuantityReport\ReportMonthlyController.cs" />
     <Compile Include="Controllers\DK\QuantityReport\SanLuongReportController.cs" />
-    <Compile Include="Controllers\DK\SucoThietbiDKController.cs" />
+    <Compile Include="Controllers\DK\EquipmentIncident\SucoThietbiDKController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KCM\InputPlanController.cs" />
     <Compile Include="Controllers\KCS\KCSController.cs" />
@@ -7514,6 +7515,7 @@
     <Content Include="Views\PX\PXKT\InputNSLD.cshtml" />
     <Content Include="Views\TCLD\Shutdown\Process.cshtml" />
     <Content Include="Views\DK\Accident\StatisticalAccident.cshtml" />
+    <Content Include="Views\DK\EquipmentIncident\Report.cshtml" />
     <Content Include="Views\DK\Department_Criteria\Department_Criteria_By_Month.cshtml" />
     <Content Include="Views\DK\Department_Criteria\Department_Criteria_By_Year.cshtml" />
   </ItemGroup>
