@@ -55,21 +55,21 @@ namespace QUANGHANH2.Controllers.DK
                 "group by MaPhongBan,MaTieuChi " +
                 "order by MaPhongBan, MaTieuChi";
 
-            var queryKHDC = "select MaPhongBan,MaTieuChi,KHBD,KHDC,SoNgayLamViec from" +
-                "(select h.* from header_KeHoachTungThang h join KeHoachTungThang k on h.ThangID = k.ThangID where ThangKeHoach = @month and NamKeHoach = @year) as headerMonthlyPlan " +
-                "inner join " +
-                "(select HeaderID, MaTieuChi, " +
-                "SUM(Case when ThoiGianNhapCuoiCung = ThoiGianNhapBanDau then SanLuong else 0 end) as [KHBD], " +
-                "SUM(Case when ThoiGianNhapCuoiCung = ThoiGianNhapCuoiCung_compare then SanLuong else 0 end) as [KHDC] " +
-                "from " +
-                "(select monthlyPlan.*, maxTime.ThoiGianNhapBanDau, maxTime.ThoiGianNhapCuoiCung as [ThoiGianNhapCuoiCung_compare] from KeHoach_TieuChi_TheoThang as monthlyPlan " +
-                "inner join " +
-                "(select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung], Min(ThoiGianNhapCuoiCung) as [ThoiGianNhapBanDau] from KeHoach_TieuChi_TheoThang " +
-                "group by HeaderID, MaTieuChi) as maxTime " +
-                "on maxTime.HeaderID = monthlyPlan.HeaderID and maxTime.MaTieuChi = monthlyPlan.MaTieuChi and(maxTime.ThoiGianNhapCuoiCung = monthlyPlan.ThoiGianNhapCuoiCung or maxTime.ThoiGianNhapBanDau = monthlyPlan.ThoiGianNhapCuoiCung)) as tmp1 " +
-                "group by HeaderID,MaTieuChi) as tmp2 " +
-                "on headerMonthlyPlan.HeaderID = tmp2.HeaderID " +
-                "order by MaPhongBan,MaTieuChi";
+            var queryKHDC = @"select MaPhongBan,MaTieuChi,KHBD,KHDC,SoNgayLamViec from
+                            (select h.*, k.SoNgayLamViec from header_KeHoachTungThang h join KeHoachTungThang k on h.ThangID = k.ThangID where ThangKeHoach = @month and NamKeHoach = @year) as headerMonthlyPlan 
+                            inner join 
+                            (select HeaderID, MaTieuChi, 
+                            SUM(Case when ThoiGianNhapCuoiCung = ThoiGianNhapBanDau then SanLuong else 0 end) as [KHBD], 
+                            SUM(Case when ThoiGianNhapCuoiCung = ThoiGianNhapCuoiCung_compare then SanLuong else 0 end) as [KHDC] 
+                            from 
+                            (select monthlyPlan.*, maxTime.ThoiGianNhapBanDau, maxTime.ThoiGianNhapCuoiCung as [ThoiGianNhapCuoiCung_compare] from KeHoach_TieuChi_TheoThang as monthlyPlan 
+                            inner join 
+                            (select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung], Min(ThoiGianNhapCuoiCung) as [ThoiGianNhapBanDau] from KeHoach_TieuChi_TheoThang 
+                            group by HeaderID, MaTieuChi) as maxTime 
+                            on maxTime.HeaderID = monthlyPlan.HeaderID and maxTime.MaTieuChi = monthlyPlan.MaTieuChi and(maxTime.ThoiGianNhapCuoiCung = monthlyPlan.ThoiGianNhapCuoiCung or maxTime.ThoiGianNhapBanDau = monthlyPlan.ThoiGianNhapCuoiCung)) as tmp1 
+                            group by HeaderID,MaTieuChi) as tmp2 
+                            on headerMonthlyPlan.HeaderID = tmp2.HeaderID 
+                            order by MaPhongBan,MaTieuChi";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 var listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
