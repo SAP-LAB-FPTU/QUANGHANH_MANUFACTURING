@@ -14,18 +14,24 @@ namespace QUANGHANH2.Controllers.DK
         [Route("phong-dieu-khien/bao-cao-ngay-trong-thang")]
         public ActionResult Index()
         {
-            string thisMonthYear ="Tháng" + DateTime.Today.Month.ToString() + "-" + DateTime.Today.Year.ToString();
+            string thisMonthYear = "Tháng " + DateTime.Today.Month.ToString() + "-" + DateTime.Today.Year.ToString();
+            ViewBag.month = DateTime.Today.Month;
+            ViewBag.year = DateTime.Today.Year;
             ViewBag.thisMonthYear = thisMonthYear;
             return View("/Views/DK/BaoCaoDemo.cshtml");
         }
 
-        public ActionResult getData(int month, int year)
+        public ActionResult getData(string monthYear)
         {
+            if (monthYear == null || monthYear.Equals(""))
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
             var endDays = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-            month = 3;
-            year = 2020;
-            DateTime startDate = DateTime.Parse(year.ToString() + '/' + month.ToString() + '/' + '1');
-            DateTime endDate = DateTime.Parse(year.ToString() + '/' + month.ToString() + '/' + endDays[month - 1].ToString());
+            string[] monthYearArr = monthYear.Split('-');
+            string[] monthArr = monthYearArr[0].Split(' ');
+            DateTime startDate = DateTime.Parse(monthYearArr[1].ToString() + '/' + monthArr[1].ToString() + '/' + '1');
+            DateTime endDate = DateTime.Parse(monthYearArr[1].ToString() + '/' + monthArr[1].ToString() + '/' + endDays[int.Parse(monthArr[1]) - 1].ToString());
 
 
             var queryKH = @"select MaPhongBan,SUM(case when MaTieuChi = 1 then SanLuong else 0 end) as [DAOLO],
@@ -114,18 +120,18 @@ namespace QUANGHANH2.Controllers.DK
                             on view1.Ngay <= view2.[date]) as view3 group by[date] order by[date]";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var listKH = db.Database.SqlQuery<KHEntities>(queryKH, new SqlParameter("month", month), new SqlParameter("year", year)).ToList();
-                var listTH = db.Database.SqlQuery<DailyEntity>(queryDaily, new SqlParameter("month", month), new SqlParameter("year", year), new SqlParameter("startDate", startDate), new SqlParameter("endDate", endDate)).ToList();
-                return Json(new { success = true, listKH = listKH, listTH = listTH }, JsonRequestBehavior.AllowGet);
+                var listKH = db.Database.SqlQuery<KHEntities>(queryKH, new SqlParameter("month", monthArr[1]), new SqlParameter("year", monthYearArr[1])).ToList();
+                var listTH = db.Database.SqlQuery<DailyEntity>(queryDaily, new SqlParameter("month", monthArr[1]), new SqlParameter("year", monthYearArr[1]), new SqlParameter("startDate", startDate), new SqlParameter("endDate", endDate)).ToList();
+                return Json(new { success = true, listKH = listKH, listTH = listTH, year = monthYearArr[1], month = monthArr[1] }, JsonRequestBehavior.AllowGet);
             }
         }
 
         [Route("phong-dieu-khien/bao-cao-ngay-trong-thang/lay-du-lieu")]
         public ActionResult ProcessRequest()
         {
-            int month = int.Parse(Request["month"]);
-            int year = int.Parse(Request["year"]);
-            return getData(month, year);
+            string month = Request["month"];
+            //int year = int.Parse(Request["year"]);
+            return getData(month);
         }
     }
 
