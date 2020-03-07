@@ -40,6 +40,13 @@
 <link href="/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
 <link href="/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+
+<!--QuangHanh Alert-->
+<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+<script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+<script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+<script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+
 <!--Custom Datepicker JS-->
 <script src="/lib/datepicker_src/dist/js/datepicker.js"></script>
 <script src="/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
@@ -130,7 +137,7 @@
         @*<table>
             <tr>
                 <td rowspan="2">*@
-        <h1><b>BẢNG TỔNG HỢP CÁC CHỈ TIÊU SẢN XUẤT THÁNG <span id='month'>9</span> NĂM <span id='year'>2019</span></b></h1>
+        <h1><b>BẢNG TỔNG HỢP CÁC CHỈ TIÊU SẢN XUẤT THÁNG <span id='month'>@ViewBag.month</span> NĂM <span id='year'>@ViewBag.year</span></b></h1>
         @*</td>
                 </tr>
             </table>*@
@@ -143,11 +150,11 @@
                    data-min-view="months"
                    data-view="months"
                    data-date-format="MM-yyyy"
-                   required value="Tháng 01-2020" />
+                   required value="@ViewBag.thisMonthYear" autocomplete="off" />
 
         </div>
         <div class="col l4 m4 s4">
-            <button id="change" class="btn blue modal-close btn-small">Đổi</button>
+            <button id="change" onclick="change()" class="btn blue modal-close btn-small">Đổi</button>
         </div>
     </div>
 </div>
@@ -354,29 +361,41 @@
     $(document).ready(function () {
         $("#change").click();
     });
-    $(document).ready(() => {
+    var temp = 1;
+    function change() {
         $.ajax({
             'url': '/phong-dieu-khien/bao-cao-ngay-trong-thang/lay-du-lieu',
             'type': 'post',
             'data': {
-                'month': $("#month").html(),
-                'year': $('#year').html()
+                'month': $("#yearCalendar").val(),
+                //'year': $('#year').html()
             },
             'success': function (response) {
                 // format date
-                tableBody = ''
-                response["listTH"].map(elem => {
-                    elem["date"] = dateFormat2(elem["date"])
-                    tableBody += "<tr>"
-                    Object.keys(elem).forEach((key, index) => {
-                        tableBody += "<td>" + elem[key] + "</td>"
+                if (response.success) {
+                    tableBody = ''
+                    response["listTH"].map(elem => {
+                        elem["date"] = dateFormat2(elem["date"])
+                        tableBody += "<tr>"
+                        Object.keys(elem).forEach((key, index) => {
+                            tableBody += "<td>" + elem[key] + "</td>"
+                        })
+                        tableBody += "</tr>"
                     })
-                    tableBody += "</tr>"
-                })
-                $("#mainTable tbody").html(tableBody)
+                    $("#mainTable tbody").html(tableBody)
+                    $("#month").html(response.month);
+                    $("#year").html(response.year);
+                    if (temp != 1) {
+                        successAlert("Thành công", "Đổi thành công")
+                    } else {
+                        temp = 0;
+                    }
+                } else if (!response.success) {
+                    errorAlert("Có lỗi", "Chưa chọn tháng năm")
+                }
             }
         })
-    })
+    }
 
     $(".date-click").datepicker({
         onSelect: function (dateText) {
