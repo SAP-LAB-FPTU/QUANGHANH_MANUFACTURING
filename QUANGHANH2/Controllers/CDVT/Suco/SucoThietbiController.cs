@@ -214,8 +214,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            DateTime dtStart = dateStart.Equals("") ? DateTime.ParseExact("01/01/1900", "dd/MM/yyyy", null) : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
-            DateTime dtEnd = dateStart.Equals("") ? DateTime.Now : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
+            DateTime dtStart = (dateStart == null || dateStart.Equals("")) ? DateTime.ParseExact("01/01/1900", "dd/MM/yyyy", null) : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
+            DateTime dtEnd = (dateEnd == null || dateEnd.Equals("")) ? DateTime.Now : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             string base_select = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different ";
