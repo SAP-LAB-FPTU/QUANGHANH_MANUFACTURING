@@ -425,7 +425,10 @@
                         {
                             dataCertificateEmp.ajax.reload();
                             dataTable.ajax.reload();
-                            successAlert('Thành công', 'Xóa chứng chỉ của nhân viên thành công');
+                            $.notify("Đã xóa chứng chỉ!", {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
                         }
                         else {
                             errorAlert('Bạn không có quyền hạn này', '');

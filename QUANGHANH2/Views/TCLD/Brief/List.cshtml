@@ -8,7 +8,14 @@
     ViewBag.Title = "Add";
     List<string> right = (List<string>)Session["RightIDs"];
 }
-
+<datalist id="pb">
+    @{ 
+        foreach(var item in ViewBag.pb)
+        {
+            <option value="@item.department_id">@item.department_name</option>
+        }
+    }
+</datalist>
 <div class="col s12 m12 l12">
     <div class="card">
         <div class="card-content">
@@ -17,20 +24,23 @@
                 <hr>
                 <div class="col s12 m12 l12">
                     <div class="row center">
-                        <div class="col l3 m12 s12 input-field">
+                        <div class="col l2 m12 s12 input-field">
                             <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV input-field' id="searchMaNV" multiple />
                         </div>
-                        <div class="col l3 m12 s12 input-field">
+                        <div class="col l2 m12 s12 input-field">
                             <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name input-field' id="searchTenNV" multiple />
                         </div>
-                        <div class="col l3 m12 s12 input-field">
+                        <div class="col l2 m12 s12 input-field">
                             <select class="form-control" id="searchGioiTinh">
                                 <option value="" selected>Giới tính</option>
                                 <option value="true">Nam</option>
                                 <option value="false">Nữ</option>
                             </select>
                         </div>
-                        <div class="col l3 m12 s12 input-field">
+                        <div class="col l2 m12 s12 input-field">
+                            <input type="text" list="pb" placeholder="Phòng ban" class='form-control input-field' id="searchPB" multiple />
+                        </div>
+                        <div class="col l4 m12 s12 input-field">
                             <button class="waves-effect waves-light btn blue darken-2 btn-small" id="searchButton"><i class="fas fas fa-search"></i></button>
                         </div>
                     </div>
@@ -301,6 +311,8 @@
                             "MaNV": function () { return $('#searchMaNV').val() },
                             "TenNV": function () { return $('#searchTenNV').val() },
                             "Gender": function () { return $('#searchGioiTinh').val() },
+                            "pb": function () { return $('#searchPB').val() },
+
                         }
                     },
                     "columns": [

@@ -434,26 +434,27 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             {
                 if (date.Equals("") || shift.Equals(""))
                 {
-                    convert_date = DateTime.Now.Date.ToString("yyyy/MM/dd");
+                    convert_date = DateTime.Now.ToString("MM/dd/yyyy");
                     var curr_hour = DateTime.Now.Hour;
                     if (curr_hour >= 8 && curr_hour < 16)
                     {
                         //Shift 1
                         convert_shift = 1;
                     }
-                    if (16 <= curr_hour && curr_hour < 23)
+                    if (16 <= curr_hour && curr_hour < 24)
                     {
                         //shift 2
                         convert_shift = 2;
                     }
                     else if (0 <= curr_hour && curr_hour < 16)
                     {
+                        //shift 3
                         convert_shift = 3;
                     }
                 }
                 else
                 {
-                    convert_date = Convert.ToDateTime(date).Date.ToString("yyyy/MM/dd");
+                    convert_date = Convert.ToDateTime(date).ToString("dd/MM/yyyy");
                     convert_shift = Convert.ToInt32(shift);
                 }
 
@@ -485,7 +486,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                         new SqlParameter("shift", convert_shift),
                         new SqlParameter("departmentID", departmentID)).ToList();
 
-                    return Json(new { list_nsld = list_nsld, list_sum = list_sum, date = Convert.ToDateTime(convert_date).Date.ToString("dd/MM/yyyy"), shift = convert_shift });
+                    return Json(new { list_nsld = list_nsld, list_sum = list_sum, date = Convert.ToDateTime(convert_date).ToString("dd/MM/yyyy"), shift = convert_shift });
                 }
             }
             catch (Exception e)
@@ -507,7 +508,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                 {
                     //header params
                     var departmentID = Session["departID"].ToString();
-                    var date = DateTime.Parse(Request["date"]).Date;
+                    var date = DateTime.Parse(Convert.ToDateTime(Request["date"]).ToString("dd/MM/yyyy")).Date;
                     var shift = Convert.ToInt32(Request["shift"]);
 
                     //list data need to save
@@ -534,9 +535,14 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                             effort.DiemLuong = Convert.ToDouble(diemluong);
                             db.SaveChanges();
                         }
+                        transaction.Commit();
+                        return Json(new { success = true, title = "Thành công", message = "Cập nhật công việc thành công." });
                     }
-                    transaction.Commit();
-                    return Json(new { success = true, title = "Thành công", message = "Cập nhật công việc thành công." });
+                    else
+                    {
+                        transaction.Rollback();
+                        return Json(new { success = false, title = "Có lỗi", message = "Cập nhật không thành công." });
+                    }
                 }
                 catch (Exception e)
                 {

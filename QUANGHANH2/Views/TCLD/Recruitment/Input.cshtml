@@ -47,13 +47,13 @@
                         <div data-target="modal1" style="margin-right:10px" class="modal-trigger waves-effect waves-light btn">
                             <i class="fas fa-file-excel"></i><span> Nhập từ Excel</span>
                         </div>
-                        <table class="table table-bordered table-responsive" id="tuyendung">
+                        <table class="table table-bordered table-responsive" style="overflow:auto" id="tuyendung">
                             <thead>
                                 <tr>
                                     <th class="center-align">Số thẻ</th>
                                     <th class="center-align">Họ tên</th>
                                     <th class="center-align">Ngày sinh</th>
-                                    <th class="center-align" width="9%">Giới tính</th>
+                                    <th class="center-align">Giới tính</th>
                                     <th class="center-align">Đơn vị</th>
                                     <th class="center-align">Trình độ</th>
                                     <th class="center-align">Chuyên Nghành</th>
@@ -62,6 +62,14 @@
                                     <th class="center-align">Thang lương</th>
                                     <th class="center-align">Bậc</th>
                                     <th class="center-align">Mức lương (đồng/tháng)</th>
+                                    <th class="center-align">SĐT</th>
+                                    <th class="center-align">CMT</th>
+                                    <th class="center-align">Ngày cấp CMT</th>
+                                    <th class="center-align">Nơi cấp</th>
+                                    <th class="center-align">Dân tộc</th>
+                                    <th class="center-align">Bố</th>
+                                    <th class="center-align">Mẹ</th>
+                                    <th class="center-align">Vợ</th>
                                 </tr>
                             </thead>
                             <tbody id="tablecontent">
@@ -144,11 +152,12 @@
         for (var i = 1; i < $('#tuyendung tr').length; i++) {
             var temp = {};
             for (var j = 0; j < $('#tuyendung thead tr:nth-child(1) th').length; j++) {
-                if (j == 3) {
-                    temp[j] = $('#tablecontent tr:nth-child(' + i + ') td #gender').val();
-                } else {
-                    temp[j] = $('#tablecontent tr:nth-child(' + i + ') td').eq(j).text();
-                }
+                //if (j == 3) {
+                //    temp[j] = $('#tablecontent tr:nth-child(' + i + ') td #gender').val();
+                //} else {
+                //    temp[j] = $('#tablecontent tr:nth-child(' + i + ') td').eq(j).text();
+                //}
+                temp[j] = $('#tablecontent tr:nth-child(' + i + ') td').eq(j).text();
             }
             abc.push(temp);
         }
@@ -190,12 +199,20 @@
                          errorAlert('Lỗi', 'Hãy kiểm tra lại chuyên ngành của nhân viên mã ' + result.responseText);
                     }else if (result.message === "DonVi") {
                          errorAlert('Lỗi', 'Hãy kiểm tra lại đơn vị của nhân viên mã ' + result.responseText);
-                    }else if (result.message === "MucLuong") {
+                    }else if (result.message == "MucLuong") {
                          errorAlert('Lỗi', 'Hãy kiểm tra lại mức lương của nhân viên mã ' + result.responseText);
                     }else if (result.message === "bacluong") {
                          errorAlert('Lỗi', 'Hãy kiểm tra lại bậc lương của nhân viên mã ' + result.responseText);
                     }else if (result.message === "SalaryFailed") {
-                         errorAlert('Lỗi', 'Hãy kiểm tra lại mức lương của nhân viên mã ' + result.responseText);
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại bậc lương hoặc thang lương của nhân viên mã ' + result.responseText);
+                    } else if (result.message == "NgayCap") {
+                        errorAlert('Lỗi', 'Hãy kiểm tra lại ngày cấp CMT của nhân viên mã ' + result.responseText);
+                    } else if (result.message == "gender") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại giới tính của nhân viên mã ' + result.responseText);
+                    }else if (result.message == "bacLuong_ThangLuong") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại bậc lương hoặc thang lương của nhân viên mã ' + result.responseText);
+                    }else if (result.message == "TrinhDo") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại trình độ của nhân viên mã ' + result.responseText);
                     }
                     else {
                         reloadAlert('Thêm thành công', 3000);
@@ -298,9 +315,8 @@
                                 $tr.append("<td>" + data.list[i].SoThe + "</td>");
                                 $tr.append("<td>" + data.list[i].HoTen + "</td>");
                                 $tr.append("<td>" + formatDate(data.list[i].NgaySinh) + "</td>");
-                                $tr.append("<td>" + gender + "</td>");
+                                $tr.append("<td>" + data.list[i].GioiTinh + "</td>");
                                 $tr.append("<td>" + data.list[i].DonVi + "</td>");
-
                                 $tr.append("<td>" + data.list[i].TrinhDo + "</td>");
                                 $tr.append("<td>" + data.list[i].ChuyenNganh + "</td>");
                                 $tr.append("<td>" + data.list[i].CongViec + "</td>");
@@ -308,6 +324,14 @@
                                 $tr.append("<td>" + data.list[i].ThangLuong + "</td>");
                                 $tr.append("<td>" + data.list[i].Bac + "</td>");
                                 $tr.append("<td>" + data.list[i].MucLuong + "</td>");
+                                $tr.append("<td>" + data.list[i].SDT + "</td>");
+                                $tr.append("<td>" + data.list[i].CMT + "</td>");
+                                $tr.append("<td>" + formatDate(data.list[i].NgayCap) + "</td>");
+                                $tr.append("<td>" + data.list[i].NoiCap + "</td>");
+                                $tr.append("<td>" + data.list[i].DanToc + "</td>");
+                                $tr.append("<td>" + data.list[i].Bo + "</td>");
+                                $tr.append("<td>" + data.list[i].Me + "</td>");
+                                $tr.append("<td>" + data.list[i].Vo + "</td>");
                                 $('#tablecontent').append($tr);
                             }
                         }

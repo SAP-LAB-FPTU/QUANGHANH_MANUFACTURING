@@ -63,7 +63,7 @@ namespace QUANGHANHCORE.Controllers.DK
             public string Ten { get; set; }
         }
         // GET: /<controller>/
-        [Auther(RightID = "004")]
+        [Auther(RightID = "004,192")]
         [Route("phong-dieu-khien")]
         [HttpPost]
         public ActionResult GetData(string date)
@@ -72,7 +72,7 @@ namespace QUANGHANHCORE.Controllers.DK
 
         }
 
-        [Auther(RightID = "004")]
+        [Auther(RightID = "004,192")]
         [Route("phong-dieu-khien")]
         [HttpGet]
         public ActionResult Index(string date)
@@ -405,7 +405,31 @@ namespace QUANGHANHCORE.Controllers.DK
             ViewBag.dilam = dilam_result;
             ViewBag.nghi = nghi_result;
 
+            string mysql = @"select th.NgaySanXuat, kh.SoNgayLamViec
+                            from ThucHienTheoNgay th , KeHoachTungThang kh 
+                            where th.Ngay = @day";
+            QuickReport qr = db.Database.SqlQuery<QuickReport>(mysql, new SqlParameter("day", date)).FirstOrDefault();
+            if(qr != null)
+            {
+                ViewBag.ngaySXconlai = qr.SoNgayLamViec - qr.NgaySanXuat;
+                ViewBag.ngaySXhientai = qr.NgaySanXuat;
+                ViewBag.tongNgaySX = qr.SoNgayLamViec;
+                ViewBag.tiendoNgay = Convert.ToDouble(qr.NgaySanXuat) / Convert.ToDouble(qr.SoNgayLamViec) * 100;
+            } else
+            {
+                ViewBag.ngaySXconlai = "";
+                ViewBag.ngaySXhientai = "";
+                ViewBag.tongNgaySX = "";
+                ViewBag.tiendoNgay = "";
+            }
+
             return View("/Views/DK/QuickReport/QuickReport.cshtml");
+        }
+
+        public class QuickReport
+        {
+            public int NgaySanXuat { get; set; }
+            public int SoNgayLamViec { get; set; }
         }
 
         public class chart

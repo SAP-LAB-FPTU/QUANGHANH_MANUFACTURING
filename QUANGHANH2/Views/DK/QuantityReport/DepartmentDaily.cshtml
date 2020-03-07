@@ -70,7 +70,7 @@
                         <th rowspan="2">TOÀN CÔNG TY</th>
                         <th rowspan="2">BQKHDC THÁNG</th>
                         <th colspan="7" id="date-cell"></th>
-                        <th colspan="3" id="month-cell"></th>
+                        <th colspan="4" id="month-cell"></th>
                         <th colspan="2">C.LẠI THEO KHĐC</th>
                         <th rowspan="2">GHI CHÚ</th>
                     </tr>
@@ -83,7 +83,8 @@
                         <th>C.Lệch</th>
                         <th>%</th>
                         <th>Lũy kế</th>
-                        <th>KHĐC(Tăng 3-5%)</th>
+                        <th>KHBD</th>
+                        <th>KHĐC</th>
                         <th>% ĐC</th>
                         <th>Tổng</th>
                         <th>1 Ngày</th>
@@ -138,7 +139,7 @@
                 var nam = $("#yearCalendar").val().split("-")[2];
                 $("#date-cell").text("Ngày "+ngay +" tháng "+thang+" năm "+nam);
                 $("#month-cell").text("Tháng "+thang);
-                tieuchiName = ["TenTieuChi", "BQQHDC", "Ca1", "Ca2", "Ca3", "TH", "KH", "chenhlech", "percentage", "luyke", "KHDC", "percentageDC", "SUM", "perday", "GhiChu"]
+                tieuchiName = ["TenTieuChi", "BQQHDC", "Ca1", "Ca2", "Ca3", "TH", "KH", "chenhlech", "percentage", "luyke","KHBD", "KHDC", "percentageDC", "SUM", "perday", "GhiChu"]
                 let count = 1;
                 for (let index = 0; index < data.length; index++) {
                     content += "<tr>"

@@ -291,22 +291,21 @@
                                         <div class="dw-user-box">
                                             <div class="u-img"><img src="/assets/images/users/2.jpg" alt="user"></div>
                                             <div class="u-text">
-                                                <h4>Vũ Văn An</h4>
-                                                <p>anvv.cdvt@gmail.com</p>
+                                                <h4>@Session["Name"]</h4>
+                                                <p>@Session["username"]</p>
                                                 <a class="waves-effect waves-light btn-small red white-text">Xem Hồ Sơ</a>
                                             </div>
                                         </div>
                                     </li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="@Url.Action("Detail", "LogIn")"><i class="material-icons">account_circle</i> Hồ Sơ Của Tôi</a></li>
-                                    <li><a href="#"><i class="material-icons">inbox</i> Tin nhắn</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#"><i class="material-icons">settings</i> Cài Đặt Tài Khoản</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="@Url.Action("Logout","LogIn")"><i class="material-icons">power_settings_new</i>Đăng Xuất</a></li>
                                 </ul>
                             </li>
-                            <li id="user-icon"><a href="">Vũ Văn An<span class="new badge red" data-badge-caption="Chuyên Viên Điều Khiển"></span></a></li>
+                            <li id="user-icon"><a href="">@Session["Name"] <span class="new badge red" data-badge-caption="@Session["Position"]"></span></a></li>
                         </ul>
                         <!-- ============================================================== -->
                         <!-- Right topbar icon scss in header.scss -->
@@ -377,11 +376,27 @@
                                 
                             </li>
                             <li>
-                                <a href="/phong-cdvt/su-co" class="collapsible-header">
-                                    <i class="material-icons">assignment</i><span class="hide-menu">
-                                        Sự cố thiết bị
-                                    </span>
+                                <a href="javascript:void(0);" class="collapsible-header has-arrow">
+                                    <i class="material-icons">build</i><span class="hide-menu">Sự cố thiết bị</span>
                                 </a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li>
+                                            <a href="/phong-cdvt/su-co">
+                                                <i class="material-icons">adjust</i><span class="hide-menu">
+                                                    Danh sách sự cố
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/phong-dieu-khien/su-co/bao-cao">
+                                                <i class="material-icons">adjust</i><span class="hide-menu">
+                                                    Báo cáo sự cố
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
 
                             <li>
@@ -416,7 +431,7 @@
 
                             <li>
                                 <a href="javascript:void(0);" class="collapsible-header has-arrow">
-                                    <i class="material-icons">account_balance</i><span class="hide-menu">Phòng ban - tiêu chí</span>
+                                    <i class="material-icons">account_balance</i><span class="hide-menu">Phân xưởng - tiêu chí</span>
                                 </a>
                                 <div class="collapsible-body">
                                     <ul>
@@ -431,8 +446,13 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi">
-                                                <i class="material-icons">keyboard</i><span class="hide-menu">Phòng ban - tiêu chí</span>
+                                            <a href="/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-thang">
+                                                <i class="material-icons">keyboard</i><span class="hide-menu">Phân xưởng-tiêu chí-tháng</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-nam">
+                                                <i class="material-icons">keyboard</i><span class="hide-menu">Phân xưởng-tiêu chí-năm</span>
                                             </a>
                                         </li>
                                     </ul>

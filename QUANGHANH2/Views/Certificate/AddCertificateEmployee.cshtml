@@ -12,7 +12,7 @@
     <title>AddCertificateEmployee</title>
 </head>
 <body>
-    @using (Html.BeginForm("AddCertificateEmployee", "Certificate", FormMethod.Post, new { onSubmit = "return SubmitForm(this)" }))
+    @using (Html.BeginForm("AddCertificateEmployee", "Certificate", FormMethod.Post, new { onSubmit = "return (updateDate()&&SubmitForm(this))" }))
     {
         @Html.AntiForgeryToken()
         <div class="card">
@@ -73,7 +73,7 @@
                         </div>
                         <hr />
                         <div class="form-group col s12 m12 l12">
-                            <br/>
+                            <br />
                             <div class="col-md-offset-2 col-md-10">
                                 <input type="submit" value="Thêm" class=" waves-light btn blue darken-2 white-text " id="submit_form" />
                             </div>
@@ -174,7 +174,6 @@
     })
     $('#start_time').blur(function () {
         //alert("adasds");
-
         var date_validate = $('#start_time').val();
 
         var arr = date_validate.split('/');
@@ -206,8 +205,7 @@
             $('#message_date_error_add').hide();
             $('#submit_form').attr("disabled", false);
         }
-
-    })
+    });
     function testDate(str) {
 
         var t = str.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
@@ -222,14 +220,16 @@
 
         return false;
     }
-    $('#submit_form').click(function () {
-
+    function updateDate() {
         var ngaycap = $('#start_time').val();
         var arr  = ngaycap.split('/');
         $('#ngaycap_add_cert').val(arr[1] + "/" + arr[0] + "/" + arr[2]);
-
-    })
-
+    }
+    //$('#submit_form').click(function () {
+    //    var ngaycap = $('#start_time').val();
+    //    var arr  = ngaycap.split('/');
+    //    $('#ngaycap_add_cert').val(arr[1] + "/" + arr[0] + "/" + arr[2]);
+    //})
 </script>
 
 

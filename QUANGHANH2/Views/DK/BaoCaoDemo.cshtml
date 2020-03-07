@@ -36,6 +36,13 @@
 <!-- ============================================================== -->
 <script src="~/dist/js/custom.min.js"></script>
 <!-- ============================================================== -->
+<!--Custom Datepicker CSS-->
+<link href="/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<!--Custom Datepicker JS-->
+<script src="/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
 <!-- This page plugin js -->
 <style>
     body {
@@ -79,9 +86,9 @@
         text-align: center;
     }
 
-    .big-title{
+    .big-title {
         font-weight: 600;
-        vertical-align:middle;     
+        vertical-align: middle;
         margin-top: 35px;
     }
 
@@ -89,13 +96,16 @@
         background-color: #ff9191 !important;
         font-size: 25px;
     }
-    .red-title{
-        color:red;
+
+    .red-title {
+        color: red;
     }
-    table th *{
-        display:inline;
+
+    table th * {
+        display: inline;
     }
-    #header-of-page table td{
+
+    #header-of-page table td {
         border: 1px solid #ffff;
     }
 </style>
@@ -120,10 +130,25 @@
         @*<table>
             <tr>
                 <td rowspan="2">*@
-                    <h1><b>BẢNG TỔNG HỢP CÁC CHỈ TIÊU SẢN XUẤT THÁNG <span id='month'>9</span> NĂM <span id='year'>2019</span></b></h1>
-                @*</td>
-            </tr>
-        </table>*@
+        <h1><b>BẢNG TỔNG HỢP CÁC CHỈ TIÊU SẢN XUẤT THÁNG <span id='month'>9</span> NĂM <span id='year'>2019</span></b></h1>
+        @*</td>
+                </tr>
+            </table>*@
+
+    </div>
+    <div class="row">
+        <div class="col l4 m4 s4">
+            <input type="text" id="yearCalendar" class="form-control datepicker-here datepicker-add center"
+                   data-language='vi'
+                   data-min-view="months"
+                   data-view="months"
+                   data-date-format="MM-yyyy"
+                   required value="Tháng 01-2020" />
+
+        </div>
+        <div class="col l4 m4 s4">
+            <button id="change" class="btn blue modal-close btn-small">Đổi</button>
+        </div>
     </div>
 </div>
 <table class="table striped table-responsive table-bordered" id="mainTable">
@@ -318,35 +343,44 @@
 </table>
 <script>
     function dateFormat2(d) {
-            var dateString = d.substr(6);
-            var currentTime = new Date(parseInt(dateString));
-            var month = currentTime.getMonth() + 1;
-            var day = currentTime.getDate();
-            var year = currentTime.getFullYear();
-            var date = day + "/" + month + "/" + year;
-            return (date);
+        var dateString = d.substr(6);
+        var currentTime = new Date(parseInt(dateString));
+        var month = currentTime.getMonth() + 1;
+        var day = currentTime.getDate();
+        var year = currentTime.getFullYear();
+        var date = day + "/" + month + "/" + year;
+        return (date);
     }
+    $(document).ready(function () {
+        $("#change").click();
+    });
     $(document).ready(() => {
         $.ajax({
-            'url' : '/phong-dieu-khien/bao-cao-ngay-trong-thang/lay-du-lieu',
-            'type' : 'post',
-            'data' : {
-                'month' : $("#month").html(),
-                'year' : $('#year').html()
+            'url': '/phong-dieu-khien/bao-cao-ngay-trong-thang/lay-du-lieu',
+            'type': 'post',
+            'data': {
+                'month': $("#month").html(),
+                'year': $('#year').html()
             },
-            'success' : function(response) {
+            'success': function (response) {
                 // format date
                 tableBody = ''
                 response["listTH"].map(elem => {
                     elem["date"] = dateFormat2(elem["date"])
-                    tableBody+="<tr>"
-                    Object.keys(elem).forEach((key,index)=> {
-                        tableBody+= "<td>"+elem[key]+"</td>"
+                    tableBody += "<tr>"
+                    Object.keys(elem).forEach((key, index) => {
+                        tableBody += "<td>" + elem[key] + "</td>"
                     })
-                    tableBody+="</tr>"
+                    tableBody += "</tr>"
                 })
                 $("#mainTable tbody").html(tableBody)
             }
         })
     })
+
+    $(".date-click").datepicker({
+        onSelect: function (dateText) {
+        }
+    });
 </script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
