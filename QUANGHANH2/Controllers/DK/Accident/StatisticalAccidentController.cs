@@ -53,6 +53,7 @@ namespace QUANGHANH2.Controllers.DK.Accident
                 recordsFiltered
             }, JsonRequestBehavior.AllowGet);
         }
+
         public List<AccidentSummary> GetDetails(Detail search)
         { 
             var month1 = search.month1.Split(' ');
@@ -61,10 +62,10 @@ namespace QUANGHANH2.Controllers.DK.Accident
             if (search.type == null || search.type == "month")
             {
                 string sql = @"select department_name,Loai,count(loai) as number
-from TaiNan inner join NhanVien on TaiNan.MaNV = NhanVien.MaNV
-inner join Department on Department.department_id = NhanVien.MaPhongBan
-where department_id like @departmentid and Loai like @loai and DATEPART(year, ngay) +datepart(month, ngay) between @year1 + @month1 and @year2 + @month2
-group by department_name,Loai";
+                                from TaiNan inner join NhanVien on TaiNan.MaNV = NhanVien.MaNV
+                                inner join Department on Department.department_id = NhanVien.MaPhongBan
+                                where department_id like @departmentid and Loai like @loai and DATEPART(year, ngay) +datepart(month, ngay) between @year1 + @month1 and @year2 + @month2
+                                group by department_name,Loai";
                 var details = context.Database.SqlQuery<AccidentSummary>(sql, new SqlParameter("loai", "%" + search.loai + "%"),
                                                                            new SqlParameter("month1", Int32.Parse(month1[1])),
                                                                            new SqlParameter("month2", Int32.Parse(month2[1])),
@@ -78,10 +79,10 @@ group by department_name,Loai";
             if (search.type == "year")
             {
                 string sql = @"select department_name,Loai,count(loai) as number
-from TaiNan inner join NhanVien on TaiNan.MaNV = NhanVien.MaNV
-inner join Department on Department.department_id = NhanVien.MaPhongBan
-where department_id like @departmentid and Loai like @loai and year(ngay) between @year1 and @year2
-group by department_name,Loai";
+                                from TaiNan inner join NhanVien on TaiNan.MaNV = NhanVien.MaNV
+                                inner join Department on Department.department_id = NhanVien.MaPhongBan
+                                where department_id like @departmentid and Loai like @loai and year(ngay) between @year1 and @year2
+                                group by department_name,Loai";
                 var details = context.Database.SqlQuery<AccidentSummary>(sql, new SqlParameter("loai", "%" + search.loai + "%"),
                                                                            new SqlParameter("departmentid", "%" + search.DepartmentId + "%"),
                                                                            new SqlParameter("year1", search.year1),
