@@ -22,28 +22,6 @@
             <div class="row" style="margin-top:20px">
                 <div class="col l5">
                     <select id="department" name="department" class="custom-select">
-                        @*<option value="default-px" disabled selected>Phân xưởng</option>
-                            <option value="PXKT1">Khai thác 1</option>
-                            <option value="PXKT2">Khai thác 2</option>
-                            <option value="PXKT3">Khai thác 3</option>
-                            <option value="PXKT4">Khai thác 4</option>
-                            <option value="PXKT5">Khai thác 5</option>
-                            <option value="PXKT6">Khai thác 6</option>
-                            <option value="PXKT7">Khai thác 7</option>
-                            <option value="PXKT8">Khai thác 8</option>
-                            <option value="PXKT9">Khai thác 9</option>
-                            <option value="PXKT10">Khai thác 10</option>
-                            <option value="PXKT11">Khai thác 11</option>
-                            <option value="PXDL3">Đào lò 3</option>
-                            <option value="PXDL5">Đào lò 5</option>
-                            <option value="PXDL7">Đào lò 7</option>
-                            <option value="PXDL8">Đào lò 8</option>
-                            <option value="PXDL2">Thăng Long</option>
-                            <option value="CTA">Asean</option>
-                            <option value="PXDL1">Xây lắp mỏ</option>
-                            <option value="PXST">Sàng tuyển</option>
-                            <option value="PXLT">Lộ thiên</option>
-                            <option value="KCS">KCS</option>*@
                         <option value="default-px" disabled selected>Phân xưởng</option>
                         @foreach (var px in ViewBag.listDepartments)
                         {
@@ -73,15 +51,11 @@
                                 <th width="30%">Tiêu chí</th>
                                 <th width="20%">Kế hoạch sản xuất lúc sau</th>
                                 <th width="40">Ghi chú</th>
-                                <th width="10%"></th>
                             </tr>
                         </thead>
                         <tbody id="table-body"></tbody>
                     </table>
                     <textarea readonly name="jsonname" hidden id="jsonid"></textarea>
-                </div>
-                <div class="col s12 m12 l12 input-field center row">
-                    <a class="btn blue darken-2" id="addRowsbtn">Thêm</a>
                 </div>
                 <div class="col s12 m12 l12 input-field center row">
                     <textarea style="width:50%;height:150px" name="noteNam" id="noteNam" placeholder="Ghi chú"></textarea>
@@ -118,7 +92,7 @@
             selectContent += "<option id=\"" + listAspectDepartments[i].MaTieuChi + "\" value=\"" + listAspectDepartments[i].MaTieuChi + "\">" + listAspectDepartments[i].TenTieuChi + "</option>";
         }
         selectContent += "</select>";
-        content += "<tr id=\"MaTieuChi" + dem + "\"><td>" + selectContent + "</td></td><td contenteditable='true'></td><td  contenteditable='true'></td><td><a id='delete-btn' name=\"MaTieuChi" + dem + "\" class='btn red darken-2'>Xóa</a></td></tr>";
+        content += "<tr id=\"MaTieuChi" + dem + "\"><td>" + selectContent + "</td></td><td contenteditable='true'></td><td  contenteditable='true'></td></tr>";
         dem++;
         $("#table-body").append(content);
     });
@@ -146,7 +120,7 @@
             var temp = {};
             for (var j = 0; j < $('#KHNamTable thead tr:nth-child(1) th').length; j++) {
                 if (j == 0) {
-                    temp[j] = $('#table-body tr:nth-child(' + i + ') td #MaTieuChi option:selected').val();
+                    temp[j] = $('#table-body tr:nth-child(' + i + ') td').attr("id");
                 } else {
                     temp[j] = $('#table-body tr:nth-child(' + i + ') td').eq(j).text();
                 }
@@ -209,7 +183,7 @@
                     content = "";
                     let tieuChiCuList = response.tieuChiCuList;
                     for (let i = 0; i < tieuChiCuList.length; i++) {
-                        content += "<tr id=\"MaTieuChi" + dem + "\"><td>" + setSelect(tieuChiCuList[i].MaTieuChi) + "</td><td contenteditable='true'>" + tieuChiCuList[i].SanLuongKeHoach + "</td><td contenteditable='true'>" + parseNote(tieuChiCuList[i].GhiChu) + "</td><td><a id='delete-btn' name=\"MaTieuChi" + dem + "\" class='btn red darken-2'>Xóa</a></td></tr>";
+                        content += "<tr id=\"MaTieuChi" + dem + "\"><td id='" + tieuChiCuList[i].MaTieuChi + "'>" + getTenTieuChi(tieuChiCuList[i].MaTieuChi) + "</td><td contenteditable='true'>" + tieuChiCuList[i].SanLuongKeHoach + "</td><td contenteditable='true'>" + parseNote(tieuChiCuList[i].GhiChu) + "</td></tr>";
                         dem++;
                     }
                     tableBody.html(content);
