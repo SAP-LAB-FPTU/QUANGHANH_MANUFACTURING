@@ -14,15 +14,26 @@ namespace QUANGHANH2.Controllers.DK
         [Route("phong-dieu-khien/bao-cao-ngay-trong-thang")]
         public ActionResult Index()
         {
+            string thisMonthYear = "Tháng " + DateTime.Today.Month.ToString() + "-" + DateTime.Today.Year.ToString();
+            ViewBag.month = DateTime.Today.Month;
+            ViewBag.year = DateTime.Today.Year;
+            ViewBag.thisMonthYear = thisMonthYear;
             return View("/Views/DK/BaoCaoDemo.cshtml");
         }
 
-        public ActionResult getData(int month, int year)
+        public ActionResult getData(string monthYear)
         {
+            if (monthYear == null || monthYear.Equals(""))
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
             var endDays = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-            DateTime startDate = DateTime.Parse(year.ToString() + '/' + month.ToString() + '/' + '1');
-            DateTime endDate = DateTime.Parse(year.ToString() + '/' + month.ToString() + '/' + endDays[month - 1].ToString());
-            //
+            string[] monthYearArr = monthYear.Split('-');
+            string[] monthArr = monthYearArr[0].Split(' ');
+            DateTime startDate = DateTime.Parse(monthYearArr[1].ToString() + '/' + monthArr[1].ToString() + '/' + '1');
+            DateTime endDate = DateTime.Parse(monthYearArr[1].ToString() + '/' + monthArr[1].ToString() + '/' + endDays[int.Parse(monthArr[1]) - 1].ToString());
+
+
             var queryKH = @"select MaPhongBan,SUM(case when MaTieuChi = 1 then SanLuong else 0 end) as [DAOLO],
                             SUM(case when MaTieuChi = 2 then SanLuong else 0 end) as [KHAITHAC],
                             SUM(case when MaTieuChi = 7 or MaTieuChi = 9 or MaTieuChi = 19 then SanLuong else 0 end) as [METLO],
@@ -41,52 +52,48 @@ namespace QUANGHANH2.Controllers.DK
                             tmp.MaPhongBan = pbtc.MaPhongBan and tmp.MaTieuChi = pbtc.MaTieuChi) as view5 
                             group by MaPhongBan order by MaPhongBan";
             //
-            var queryDaily = @"select [date],SUM(case when MaPhongBan = 'PXDL1' and MaTieuChi = 1 and Ngay = [date] then SanLuong else 0 end) as PXDL1_THANTH,
-                            SUM(case when MaPhongBan = 'PXDL1' and MaTieuChi = 1 then SanLuong else 0 end) as PXDL1_THANLK,
-                            SUM(case when(MaPhongBan = 'PXDL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as PXDL1_MLTH,
-                            SUM(case when(MaPhongBan = 'PXDL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as PXDL1_MLLK,
-                            SUM(case when MaPhongBan = 'PXDL3' and MaTieuChi = 1 and Ngay = [date] then SanLuong else 0 end) as PXDL3_THANTH,
-                            SUM(case when MaPhongBan = 'PXDL3' and MaTieuChi = 1  then SanLuong else 0 end) as PXDL3_THANLK,
-                            SUM(case when(MaPhongBan = 'PXDL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as PXDL3_MLTH,
-                            SUM(case when(MaPhongBan = 'PXDL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as PXDL3_MLLK,
-                            SUM(case when MaPhongBan = 'PXDL4' and MaTieuChi = 1 and Ngay = [date] then SanLuong else 0 end) as PXDL4_THANTH,
-                            SUM(case when MaPhongBan = 'PXDL4' and MaTieuChi = 1  then SanLuong else 0 end) as PXDL4_THANLK,
-                            SUM(case when(MaPhongBan = 'PXDL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as PXDL4_MLTH,
-                            SUM(case when(MaPhongBan = 'PXDL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as PXDL4_MLLK,
-                            SUM(case when MaPhongBan = 'PXDL5' and MaTieuChi = 1 and Ngay = [date] then SanLuong else 0 end) as PXDL5_THANTH,
-                            SUM(case when MaPhongBan = 'PXDL5' and MaTieuChi = 1  then SanLuong else 0 end) as PXDL5_THANLK,
-                            SUM(case when(MaPhongBan = 'PXDL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as PXDL5_MLTH,
-                            SUM(case when(MaPhongBan = 'PXDL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as PXDL5_MLLK,
-                            SUM(case when MaPhongBan = 'PXDL7' and MaTieuChi = 1  and Ngay = [date]then SanLuong else 0 end) as PXDL7_THANTH,
-                            SUM(case when MaPhongBan = 'PXDL7' and MaTieuChi = 1  then SanLuong else 0 end) as PXDL7_THANLK,
-                            SUM(case when(MaPhongBan = 'PXDL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as PXDL7_MLTH,
-                            SUM(case when(MaPhongBan = 'PXDL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as PXDL7_MLLK,
-                            SUM(case when MaPhongBan = 'PXDL8' and MaTieuChi = 1  and Ngay = [date]then SanLuong else 0 end) as PXDL8_THANTH,
-                            SUM(case when MaPhongBan = 'PXDL8' and MaTieuChi = 1  then SanLuong else 0 end) as PXDL8_THANLK,
-                            SUM(case when(MaPhongBan = 'PXDL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as PXDL8_MLTH,
-                            SUM(case when(MaPhongBan = 'PXDL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as PXDL8_MLLK,
-                            SUM(case when MaPhongBan = 'PXKT1' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT1_THANTH,
-                            SUM(case when MaPhongBan = 'PXKT1' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT1_THANLK,
-                            SUM(case when MaPhongBan = 'PXKT2' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT2_THANTH,
-                            SUM(case when MaPhongBan = 'PXKT2' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT2_THANLK,
-                            SUM(case when MaPhongBan = 'PXKT3' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT3_THANTH,
-                            SUM(case when MaPhongBan = 'PXKT3' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT3_THANLK,
-                            SUM(case when MaPhongBan = 'PXKT4' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT4_THANTH,
-                            SUM(case when MaPhongBan = 'PXKT4' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT4_THANLK,
-                            SUM(case when MaPhongBan = 'PXKT5' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT5_THANTH,
-                            SUM(case when MaPhongBan = 'PXKT5' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT5_THANLK,
-                            SUM(case when MaPhongBan = 'PXKT6' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT6_THANTH,
-                            SUM(case when MaPhongBan = 'PXKT6' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT6_THANLK,
-                            SUM(case when MaPhongBan = 'PXKT7' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT7_THANTH,
-                            SUM(case when MaPhongBan = 'PXKT7' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT7_THANLK,
-                            SUM(case when MaPhongBan = 'PXKT8' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT8_THANTH,
-                            SUM(case when MaPhongBan = 'PXKT8' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT8_THANLK,
-                            SUM(case when MaPhongBan = 'PXKT9' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT9_THANTH,
-                            SUM(case when MaPhongBan = 'PXKT9' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT9_THANLK,
-                            SUM(case when MaPhongBan = 'PXKT10' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT10_THANTH,
-                            SUM(case when MaPhongBan = 'PXKT10' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT10_THANLK,
-                            SUM(case when MaPhongBan = 'PXKT11' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT11_THANTH,
-                            SUM(case when MaPhongBan = 'PXKT11' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT11_THANLK,
+            var queryDaily = @"select [date],SUM(case when MaPhongBan = N'ĐL1' and MaTieuChi = 1 and Ngay = [date] then SanLuong else 0 end) as PXDL1_THANTH,
+                            SUM(case when MaPhongBan = N'ĐL1' and MaTieuChi = 1 then SanLuong else 0 end) as PXDL1_THANLK,
+                            SUM(case when(MaPhongBan = N'ĐL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as PXDL1_MLTH,
+                            SUM(case when(MaPhongBan = N'ĐL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as PXDL1_MLLK,
+                            SUM(case when MaPhongBan = N'ĐL3' and MaTieuChi = 1 and Ngay = [date] then SanLuong else 0 end) as PXDL3_THANTH,
+                            SUM(case when MaPhongBan = N'ĐL3' and MaTieuChi = 1  then SanLuong else 0 end) as PXDL3_THANLK,
+                            SUM(case when(MaPhongBan = N'ĐL3' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as PXDL3_MLTH,
+                            SUM(case when(MaPhongBan = N'ĐL3' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as PXDL3_MLLK,
+                            SUM(case when MaPhongBan = N'ĐL5' and MaTieuChi = 1 and Ngay = [date] then SanLuong else 0 end) as PXDL5_THANTH,
+                            SUM(case when MaPhongBan = N'ĐL5' and MaTieuChi = 1  then SanLuong else 0 end) as PXDL5_THANLK,
+                            SUM(case when(MaPhongBan = N'ĐL5' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as PXDL5_MLTH,
+                            SUM(case when(MaPhongBan = N'ĐL5' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as PXDL5_MLLK,
+                            SUM(case when MaPhongBan = N'ĐL7' and MaTieuChi = 1  and Ngay = [date]then SanLuong else 0 end) as PXDL7_THANTH,
+                            SUM(case when MaPhongBan = N'ĐL7' and MaTieuChi = 1  then SanLuong else 0 end) as PXDL7_THANLK,
+                            SUM(case when(MaPhongBan = N'ĐL7' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as PXDL7_MLTH,
+                            SUM(case when(MaPhongBan = N'ĐL7' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as PXDL7_MLLK,
+                            SUM(case when MaPhongBan = N'ĐL8' and MaTieuChi = 1  and Ngay = [date]then SanLuong else 0 end) as PXDL8_THANTH,
+                            SUM(case when MaPhongBan = N'ĐL8' and MaTieuChi = 1  then SanLuong else 0 end) as PXDL8_THANLK,
+                            SUM(case when(MaPhongBan = N'ĐL8' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as PXDL8_MLTH,
+                            SUM(case when(MaPhongBan = N'ĐL8' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as PXDL8_MLLK,
+                            SUM(case when MaPhongBan = 'KT1' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT1_THANTH,
+                            SUM(case when MaPhongBan = 'KT1' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT1_THANLK,
+                            SUM(case when MaPhongBan = 'KT2' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT2_THANTH,
+                            SUM(case when MaPhongBan = 'KT2' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT2_THANLK,
+                            SUM(case when MaPhongBan = 'KT3' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT3_THANTH,
+                            SUM(case when MaPhongBan = 'KT3' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT3_THANLK,
+                            SUM(case when MaPhongBan = 'KT4' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT4_THANTH,
+                            SUM(case when MaPhongBan = 'KT4' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT4_THANLK,
+                            SUM(case when MaPhongBan = 'KT5' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT5_THANTH,
+                            SUM(case when MaPhongBan = 'KT5' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT5_THANLK,
+                            SUM(case when MaPhongBan = 'KT6' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT6_THANTH,
+                            SUM(case when MaPhongBan = 'KT6' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT6_THANLK,
+                            SUM(case when MaPhongBan = 'KT7' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT7_THANTH,
+                            SUM(case when MaPhongBan = 'KT7' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT7_THANLK,
+                            SUM(case when MaPhongBan = 'KT8' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT8_THANTH,
+                            SUM(case when MaPhongBan = 'KT8' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT8_THANLK,
+                            SUM(case when MaPhongBan = 'KT9' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT9_THANTH,
+                            SUM(case when MaPhongBan = 'KT9' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT9_THANLK,
+                            SUM(case when MaPhongBan = 'KT10' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT10_THANTH,
+                            SUM(case when MaPhongBan = 'KT10' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT10_THANLK,
+                            SUM(case when MaPhongBan = 'KT11' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT11_THANTH,
+                            SUM(case when MaPhongBan = 'KT11' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT11_THANLK,
                             SUM(case when MaTieuChi = 30 and Ngay = [date]  then SanLuong else 0 end) as DOANHTHU_TH,
                             SUM(case when MaTieuChi = 30  then SanLuong else 0 end) as DOANHTHU_LK,
                             SUM(case when(MaTieuChi = 2 or MaTieuChi = 1 or MaTieuChi = 4 or MaTieuChi = 3) and Ngay = [date] then SanLuong else 0 end) as SX_THANTH,
@@ -103,28 +110,28 @@ namespace QUANGHANH2.Controllers.DK
                             SUM(case when(MaTieuChi = 21 or MaTieuChi = 22 or MaTieuChi = 23 or MaTieuChi = 24 or MaTieuChi = 25 or MaTieuChi = 26 or MaTieuChi = 27 or MaTieuChi = 28)  then SanLuong else 0 end) as TieuThu_LK 
                             from(select * from(select a.* from( 
                             select MaTieuChi, Sum(SanLuong) as SanLuong, MaPhongBan, Ngay from ThucHien_TieuChi_TheoNgay as th 
-                            inner join (select h.*,ttt.Ngay from header_ThucHienTheoNgay h join ThucHienTheoNgay ttt on h.NgayID = ttt.NgayID where Ngay >= @startDate  and Ngay <= @endDate) as header 
-                            on th.HeaderID = header.HeaderID group by MaTieuChi, MaPhongBan, Ngay) as a inner join 
+                            right join (select h.*,ttt.Ngay from header_ThucHienTheoNgay h join ThucHienTheoNgay ttt on h.NgayID = ttt.NgayID where Ngay >= @startDate  and Ngay <= @endDate) as header 
+                            on th.HeaderID = header.HeaderID group by MaTieuChi, MaPhongBan, Ngay) as a right join 
                             (select * from PhongBan_TieuChi where Thang = @month and Nam = @year) as pbtc 
                             on a.MaPhongBan = pbtc.MaPhongBan and a.MaTieuChi = pbtc.MaTieuChi) as view1 
-                            inner join (Select * from (SELECT[date] = DATEADD(Day, Number - 1, @startDate) 
+                            right join (Select * from (SELECT[date] = DATEADD(Day, Number - 1, @startDate) 
                             FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0)) a(n), 
                             (VALUES(0), (0), (0), (0), (0), (0)) b(n)) as a) as b where b.[date] <= @endDate) as view2 
                             on view1.Ngay <= view2.[date]) as view3 group by[date] order by[date]";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var listKH = db.Database.SqlQuery<KHEntities>(queryKH, new SqlParameter("month", month), new SqlParameter("year", year)).ToList();
-                var listTH = db.Database.SqlQuery<DailyEntity>(queryDaily, new SqlParameter("month", month), new SqlParameter("year", year), new SqlParameter("startDate", startDate), new SqlParameter("endDate", endDate)).ToList();
-                return Json(new { success = true, listKH = listKH, listTH = listTH }, JsonRequestBehavior.AllowGet);
+                var listKH = db.Database.SqlQuery<KHEntities>(queryKH, new SqlParameter("month", monthArr[1]), new SqlParameter("year", monthYearArr[1])).ToList();
+                var listTH = db.Database.SqlQuery<DailyEntity>(queryDaily, new SqlParameter("month", monthArr[1]), new SqlParameter("year", monthYearArr[1]), new SqlParameter("startDate", startDate), new SqlParameter("endDate", endDate)).ToList();
+                return Json(new { success = true, listKH = listKH, listTH = listTH, year = monthYearArr[1], month = monthArr[1] }, JsonRequestBehavior.AllowGet);
             }
         }
 
         [Route("phong-dieu-khien/bao-cao-ngay-trong-thang/lay-du-lieu")]
         public ActionResult ProcessRequest()
         {
-            int month = int.Parse(Request["month"]);
-            int year = int.Parse(Request["year"]);
-            return getData(month, year);
+            string month = Request["month"];
+            //int year = int.Parse(Request["year"]);
+            return getData(month);
         }
     }
 
