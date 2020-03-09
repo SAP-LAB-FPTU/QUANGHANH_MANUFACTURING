@@ -58,6 +58,49 @@ namespace QUANGHANH2.Controllers.DK
             }
             return null;
         }
+        [HttpPost]
+        [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-thang/lay-thong-tin-thang-truoc")]
+        
+        public ActionResult getBeforeInformation()
+        {
+            try
+            {
+                var month = Int32.Parse(Request["month"]);
+                var year = Int32.Parse(Request["year"]);
+                var departmentID = Request["department"];
+                if(month == 1)
+                {
+                    month = 12;
+                    year = year - 1;
+                }
+                else
+                {
+                    month = month - 1;
+                }
+                List<TieuChiABC> list = new List<TieuChiABC>();
+                List<TieuChi> listTieuChi = new List<TieuChi>();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    var query = " select * from Department WHERE department_type =@departmentType order by department_name";
+                    List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
+                    ViewBag.listDepartments = listDepartments;
+                    //
+                    string sqlPhongBanTieuChi = "select a.MaPhongBan,a.MaTieuChi,b.TenTieuChi from PhongBan_TieuChi a left join TieuChi b on a.MaTieuChi = b.MaTieuChi\n" +
+                        "where MaPhongBan = @maphongban and Thang = @thang and Nam = @nam ";
+                    string sqlTieuChi = "select * from TieuChi";
+                    list = db.Database.SqlQuery<TieuChiABC>(sqlPhongBanTieuChi, new SqlParameter("maphongban", departmentID),
+                        new SqlParameter("thang", month),
+                        new SqlParameter("nam", year)).ToList<TieuChiABC>();
+                    listTieuChi = db.Database.SqlQuery<TieuChi>(sqlTieuChi).ToList<TieuChi>();
+                    return Json(new { listPhongBanTieuChi = list, listTieuChi = listTieuChi });
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            return null;
+        }
 
         //////////////////////////////////INSERT////////////////////////////////////
         [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-thang/cap-nhat-thong-tin")]
@@ -100,7 +143,7 @@ namespace QUANGHANH2.Controllers.DK
                 var year = Int32.Parse(Request["year"]);
                 var departmentID = Request["department"];
                 var criteria = Request["criteria"];
-                string sqlDelete = "Delete PhongBan_TieuChi where MaTieuChi = "+ criteria +" and MaPhongBan = '"+ departmentID +"' and Thang = "+ month +" and Nam = "+ year +"";
+                string sqlDelete = "Delete PhongBan_TieuChi where MaTieuChi = "+ criteria +" and MaPhongBan = N'"+ departmentID +"' and Thang = "+ month +" and Nam = "+ year +"";
                 using (QUANGHANHABCEntities db =  new QUANGHANHABCEntities())
                 {
                     db.Database.ExecuteSqlCommand(sqlDelete);

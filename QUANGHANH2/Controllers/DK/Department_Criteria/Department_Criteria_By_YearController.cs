@@ -36,11 +36,42 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
                     List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
                     ViewBag.listDepartments = listDepartments;
                     //
-                    string sqlPhongBanTieuChi = "select h.HeaderID,h.MaPhongBan,h.Nam,h.GhiChu,k.MaTieuChi,t.TenTieuChi from header_KeHoach_TieuChi_TheoNam as h,KeHoach_TieuChi_TheoNam as k,TieuChi t " +
+                    string sqlPhongBanTieuChi = "select distinct h.HeaderID,h.MaPhongBan,h.Nam,h.GhiChu,k.MaTieuChi,t.TenTieuChi from header_KeHoach_TieuChi_TheoNam as h,KeHoach_TieuChi_TheoNam as k,TieuChi t " +
                                                 "where h.HeaderID = k.HeaderID and k.MaTieuChi = t.MaTieuChi and h.MaPhongBan = @maphongban and h.Nam = @nam";
                     string sqlTieuChi = "select * from TieuChi";
                     list = db.Database.SqlQuery<header_tieu_chi_nam>(sqlPhongBanTieuChi, new SqlParameter("maphongban", departmentID),
                         new SqlParameter("nam", year)).ToList<header_tieu_chi_nam>();
+                    listTieuChi = db.Database.SqlQuery<TieuChi>(sqlTieuChi).ToList<TieuChi>();
+                    return Json(new { listPhongBanTieuChi = list, listTieuChi = listTieuChi });
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            return null;
+        }
+        ////////////////////// GET BEFORE INFORMATION //////////////////////
+        [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-nam/lay-thong-tin-nam-truoc")]
+        public ActionResult getBeforeInformation()
+        {
+            try
+            {
+                var year = Int32.Parse(Request["year"]);
+                var departmentID = Request["department"];
+                List<header_tieu_chi_nam> list = new List<header_tieu_chi_nam>();
+                List<TieuChi> listTieuChi = new List<TieuChi>();
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    var query = " select * from Department WHERE department_type =@departmentType order by department_name";
+                    List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
+                    ViewBag.listDepartments = listDepartments;
+                    //
+                    string sqlPhongBanTieuChi = "select distinct h.HeaderID,h.MaPhongBan,h.Nam,h.GhiChu,k.MaTieuChi,t.TenTieuChi from header_KeHoach_TieuChi_TheoNam as h,KeHoach_TieuChi_TheoNam as k,TieuChi t " +
+                                                "where h.HeaderID = k.HeaderID and k.MaTieuChi = t.MaTieuChi and h.MaPhongBan = @maphongban and h.Nam = @nam";
+                    string sqlTieuChi = "select * from TieuChi";
+                    list = db.Database.SqlQuery<header_tieu_chi_nam>(sqlPhongBanTieuChi, new SqlParameter("maphongban", departmentID),
+                        new SqlParameter("nam", year-1)).ToList<header_tieu_chi_nam>();
                     listTieuChi = db.Database.SqlQuery<TieuChi>(sqlTieuChi).ToList<TieuChi>();
                     return Json(new { listPhongBanTieuChi = list, listTieuChi = listTieuChi });
                 }
@@ -100,13 +131,17 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
                 var currentSelectedValue = Request["currentSelectedValue"];
                 string[] listCriteria = js.Deserialize<string[]>(currentSelectedValue);
                 KeHoach_TieuChi_TheoNam keHoach_TieuChi_TheoNam = new KeHoach_TieuChi_TheoNam();
-                string sqlQuery = "insert into KeHoach_TieuChi_TheoNam (HeaderID,MaTieuChi,SanLuongKeHoach,ThoiGianNhapCuoiCung) values ";
-                for (int i = 0; i < listCriteria.Length; i++)
+                if(listCriteria.Count() > 0)
                 {
-                    sqlQuery += " ("+headerID+","+listCriteria[i]+","+0+",'"+DateTime.Now+"'),";
+                    string sqlQuery = "insert into KeHoach_TieuChi_TheoNam (HeaderID,MaTieuChi,SanLuongKeHoach,ThoiGianNhapCuoiCung) values";
+                    for (int i = 0; i < listCriteria.Length; i++)
+                    {
+                        sqlQuery += " (" + headerID + "," + listCriteria[i] + "," + 0 + ",'" + DateTime.Now + "'),";
+                    }
+                    sqlQuery = sqlQuery.Substring(0, sqlQuery.Length - 1);
+                    db.Database.ExecuteSqlCommand(sqlQuery);
                 }
-                sqlQuery = sqlQuery.Substring(0, sqlQuery.Length - 1);
-                db.Database.ExecuteSqlCommand(sqlQuery);
+                
                 db.SaveChanges();
             }
             return null;

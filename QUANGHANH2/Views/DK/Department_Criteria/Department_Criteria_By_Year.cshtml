@@ -23,9 +23,10 @@
     <div class="card-content">
         <h3 class="center">PHÂN XƯỞNG TIÊU CHÍ-NĂM</h3>
         <div class="row">
-            <div class="input-field col l1 m12 s12">
+            <div class="input-field col l3 m12 s12">
+                <a class="btn blue darken-2 right" onclick="getBeforeInformation()">LẤY DỮ LIỆU NĂM TRƯỚC</a>
             </div>
-            <div class="input-field offset-l1 col l3 m12 s12">
+            <div class="input-field col l3 m12 s12">
                 <input type="text" id="yearCalendar" class="form-control datepicker-here datepicker-add center"
                        data-language='vi'
                        data-min-view="years"
@@ -138,6 +139,44 @@
                 ViewMode();
                 mode = 0;
                 listAspectDepartments = response.listTieuChi;
+                $('#pre-load').hide();
+            },
+            error: function (response) {
+
+            }
+        })
+    }
+  
+    function getBeforeInformation() {
+        dem = 0;
+        if ( $('#yearCalendar').val() == "" || $('#cbx-px').val() == null)
+            return false;
+        $('#pre-load').show();
+        $.ajax({
+            type: 'post',
+            url: '/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-nam/lay-thong-tin-nam-truoc',
+            data: {
+                'year': $("#yearCalendar").val().split(" ")[1],
+                'department': $("#cbx-px").val(),
+            },
+            success: function (response) {
+                tableBody = $("#aspectDetailTable").children("tbody");
+                tableBody.empty();
+                content = "";
+                let reponseListPhongBanTieuChi = response.listPhongBanTieuChi;
+                for (let i = 0; i < reponseListPhongBanTieuChi.length; i++) {
+                    content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a class='btn red darken-2' onclick='deleteInformation(" + reponseListPhongBanTieuChi[i].HeaderID +","+ reponseListPhongBanTieuChi[i].MaTieuChi +")'>Xóa</a></td><tr>";
+                }
+                tableBody.html(content);
+                ViewMode();
+                mode = 0;
+                listAspectDepartments = response.listTieuChi;
+                 //reset arr to push currentSelectedValue
+                emptyArr();
+                for (var i = 0; i < reponseListPhongBanTieuChi.length; i++) {
+                    currentSelectedValue.push(reponseListPhongBanTieuChi[i].MaTieuChi);
+                    
+                }
                 $('#pre-load').hide();
             },
             error: function (response) {
