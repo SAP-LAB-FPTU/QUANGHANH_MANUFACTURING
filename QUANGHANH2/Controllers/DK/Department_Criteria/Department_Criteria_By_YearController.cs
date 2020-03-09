@@ -100,15 +100,13 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
                 var currentSelectedValue = Request["currentSelectedValue"];
                 string[] listCriteria = js.Deserialize<string[]>(currentSelectedValue);
                 KeHoach_TieuChi_TheoNam keHoach_TieuChi_TheoNam = new KeHoach_TieuChi_TheoNam();
+                string sqlQuery = "insert into KeHoach_TieuChi_TheoNam (HeaderID,MaTieuChi,SanLuongKeHoach,ThoiGianNhapCuoiCung) values ";
                 for (int i = 0; i < listCriteria.Length; i++)
                 {
-                    keHoach_TieuChi_TheoNam.HeaderID = headerID;
-                    keHoach_TieuChi_TheoNam.MaTieuChi = Convert.ToInt32(listCriteria[i]);
-                    keHoach_TieuChi_TheoNam.SanLuongKeHoach = 0;
-                    keHoach_TieuChi_TheoNam.ThoiGianNhapCuoiCung = DateTime.Now;
-                    db.KeHoach_TieuChi_TheoNam.Add(keHoach_TieuChi_TheoNam);
-
+                    sqlQuery += " ("+headerID+","+listCriteria[i]+","+0+",'"+DateTime.Now+"'),";
                 }
+                sqlQuery = sqlQuery.Substring(0, sqlQuery.Length - 1);
+                db.Database.ExecuteSqlCommand(sqlQuery);
                 db.SaveChanges();
             }
             return null;
