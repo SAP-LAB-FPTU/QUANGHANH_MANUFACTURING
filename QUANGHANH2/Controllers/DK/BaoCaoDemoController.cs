@@ -51,8 +51,8 @@ namespace QUANGHANH2.Controllers.DK
                             on header.HeaderID = kh.HeaderID) as tmp 
                             inner join(select * from PhongBan_TieuChi where Thang = @month and Nam = @year) as pbtc on 
                             tmp.MaPhongBan = pbtc.MaPhongBan and tmp.MaTieuChi = pbtc.MaTieuChi) as view5
-							right join Department on MaPhongBan = department_id
-							inner join TieuChi t on view5.MaTieuChi = t.MaTieuChi
+                            inner join TieuChi t on view5.MaTieuChi = t.MaTieuChi							
+                            right join Department on MaPhongBan = department_id
 							where department_id in (N'ĐL1',N'ĐL3',N'ĐL4',N'ĐL5',N'ĐL7',N'ĐL8',N'KT1',N'KT2',N'KT3',N'KT4',N'KT5',N'KT6',N'KT7',N'KT8',N'KT9',N'KT10',N'KT11')
                             group by department_id
 							order by

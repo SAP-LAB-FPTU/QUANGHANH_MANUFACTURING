@@ -178,7 +178,7 @@ namespace QUANGHANH2.Controllers.DK
                 var listYearlyPlan = db.Database.SqlQuery<yearlyPlan>(yearlyPlanQuery, new SqlParameter("year", year), new SqlParameter("startJan", startDates[0]), new SqlParameter("endDec", endDates[11])).ToList();
                 //
                 var listKHDC_BD = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("year", year)).ToList();
-                if(listKHDC_BD.Count == 0)
+                if(listKHDC_BD.Count < listTH.Count)
                 {
                     return Json(new { success = false, mess = "chưa nhập kế hoạch năm" }, JsonRequestBehavior.AllowGet);
                 }
