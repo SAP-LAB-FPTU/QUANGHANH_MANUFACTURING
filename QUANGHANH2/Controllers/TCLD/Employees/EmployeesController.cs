@@ -629,6 +629,7 @@ namespace QUANGHANH2.Controllers.TCLD
             public string TenTrangThai { get; set; }
             public string TenTrinhDo { get; set; }
             public string TenCongViec { get; set; }
+            //public string MaNV_MaTrangThai { get; set; }
         }
         [Auther(RightID = "51")]
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
@@ -642,7 +643,7 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortDirection = Request["order[0][dir]"];
             string query = "select n.*, t.TenTrangThai from NhanVien n inner join" +
                 " [TrangThai] t on n.MaTrangThai = t.MaTrangThai " +
-                "where n.MaTrangThai in (1,2) AND ";
+                "where n.MaTrangThai in (1,2,3,4) AND ";
             if (!MaNV.Equals("") || !TenNV.Equals("") || !Gender.Equals("") || !pb.Equals(""))
             {
                 if (!MaNV.Equals("")) query += "n.MaNV LIKE @MaNV AND ";
