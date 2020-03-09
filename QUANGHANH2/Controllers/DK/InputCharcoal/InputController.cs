@@ -456,20 +456,21 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         int caSXConvert = Convert.ToInt32(ca_value);
                         KeHoach_TieuChi_TheoThang khMonth = new KeHoach_TieuChi_TheoThang();
 
-                        string queryHeaderIDMonth = "select * from header_KeHoachTungThang a left join KeHoachTungThang b on a.ThangID = b.ThangID where MaPhongBan = 'KT1' and b.ThangKeHoach = @month and b.NamKeHoach = @year";
+                        string queryHeaderIDMonth = "select * from header_KeHoachTungThang a left join KeHoachTungThang b on a.ThangID = b.ThangID where MaPhongBan = @px and b.ThangID = @thangID";
                         var PlanMonth = db.Database.SqlQuery<header_KeHoachTungThang>(queryHeaderIDMonth, new SqlParameter("px", px_value),
-                                                                           new SqlParameter("month", ngaySXFix.Month),
-                                                                           new SqlParameter("year", ngaySXFix.Year)).FirstOrDefault();
+                                                                           new SqlParameter("thangID", ngaySXFix.Month)).FirstOrDefault();
                         if (PlanMonth == null)
                         {
-                            string query = @"insert into header_KeHoachTungThang values (@pb,@thang,@nam,@ngayLamViec)";
+                            //string query_fix = @"insert into KeHoachTungThang values (@thang, @nam, @ngayLamViec)";
+                            //db.Database.ExecuteSqlCommand(query_fix,new SqlParameter("thang", month),
+                            //                                    new SqlParameter("nam", year),
+                            //                                    new SqlParameter("ngayLamViec", ngaySX));
+                            var thangID = db.KeHoachTungThangs.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.ThangID).FirstOrDefault();
+                            string query = @"insert into header_KeHoachTungThang values (@pb,@thangID)";
                             db.Database.ExecuteSqlCommand(query, new SqlParameter("pb", px_value),
-                                                                 new SqlParameter("thang", month),
-                                                                 new SqlParameter("nam", year),
-                                                                 new SqlParameter("ngayLamViec", ngaySX));
+                                                                 new SqlParameter("thangID", thangID));
                             PlanMonth = db.Database.SqlQuery<header_KeHoachTungThang>(queryHeaderIDMonth, new SqlParameter("px", px_value),
-                                                                           new SqlParameter("month", ngaySXFix.Month),
-                                                                           new SqlParameter("year", ngaySXFix.Year)).FirstOrDefault();
+                                                                           new SqlParameter("thangID", thangID)).FirstOrDefault();
                         }
                         if (tcList.Count == 0)
                         {
@@ -527,6 +528,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                                                      new SqlParameter("ca", ca_value),
                                                                      new SqlParameter("date", date_sql));
                             }
+                            Console.WriteLine();
                         }
                         else if (tcList.Count == pbtcList.Count)
                         {

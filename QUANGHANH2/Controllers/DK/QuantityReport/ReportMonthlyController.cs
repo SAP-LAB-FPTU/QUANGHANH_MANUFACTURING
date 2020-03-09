@@ -126,22 +126,21 @@ namespace QUANGHANH2.Controllers.DK
                             group by MaPhongBan,MaNhomTieuChi
                             order by MaPhongBan";
 
-            var queryKHDC = "select MaPhongBan,MaTieuChi,SUM(case when KHBD is not null then CONVERT(float, 0) else CONVERT(float, KHBD) end) as KHBD,SUM(case when KHDC is not null then CONVERT(float, 0) else CONVERT(float, KHBD) end) as KHDC from" +
-                "(select h.* from header_KeHoachTungThang h join KeHoachTungThang k on h.ThangID = k.ThangID where NamKeHoach = @year) as headerMonthlyPlan " +
-                "inner join " +
-                "(select HeaderID, MaTieuChi, " +
-                "SUM(Case when ThoiGianNhapCuoiCung = ThoiGianNhapBanDau then SanLuong else 0 end) as [KHBD], " +
-                "SUM(Case when ThoiGianNhapCuoiCung = ThoiGianNhapCuoiCung_compare then SanLuong else 0 end) as [KHDC] " +
-                "from " +
-                "(select monthlyPlan.*, maxTime.ThoiGianNhapBanDau, maxTime.ThoiGianNhapCuoiCung as [ThoiGianNhapCuoiCung_compare] from KeHoach_TieuChi_TheoThang as monthlyPlan " +
-                "inner join " +
-                "(select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung], Min(ThoiGianNhapCuoiCung) as [ThoiGianNhapBanDau] from KeHoach_TieuChi_TheoThang " +
-                "group by HeaderID, MaTieuChi) as maxTime " +
-                "on maxTime.HeaderID = monthlyPlan.HeaderID and maxTime.MaTieuChi = monthlyPlan.MaTieuChi and(maxTime.ThoiGianNhapCuoiCung = monthlyPlan.ThoiGianNhapCuoiCung or maxTime.ThoiGianNhapBanDau = monthlyPlan.ThoiGianNhapCuoiCung)) as tmp1 " +
-                "group by HeaderID,MaTieuChi) as tmp2 " +
-                "on headerMonthlyPlan.HeaderID = tmp2.HeaderID " +
-                "group by MaPhongBan,MaTieuChi " +
-                "order by MaPhongBan,MaTieuChi";
+            var queryKHDC = @"select MaPhongBan,MaTieuChi,KHBD,KHDC from
+                            (select h.* from header_KeHoach_TieuChi_TheoNam h where h.Nam = @year) as headerMonthlyPlan 
+                            inner join 
+                            (select HeaderID, MaTieuChi, 
+                            SUM(Case when ThoiGianNhapCuoiCung = ThoiGianNhapBanDau then SanLuongKeHoach else 0 end) as [KHBD], 
+                            SUM(Case when ThoiGianNhapCuoiCung = ThoiGianNhapCuoiCung_compare then SanLuongKeHoach else 0 end) as [KHDC] 
+                            from 
+                            (select monthlyPlan.*, maxTime.ThoiGianNhapBanDau, maxTime.ThoiGianNhapCuoiCung as [ThoiGianNhapCuoiCung_compare] from KeHoach_TieuChi_TheoNam as monthlyPlan 
+                            inner join 
+                            (select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung], Min(ThoiGianNhapCuoiCung) as [ThoiGianNhapBanDau] from KeHoach_TieuChi_TheoNam 
+                            group by HeaderID, MaTieuChi) as maxTime 
+                            on maxTime.HeaderID = monthlyPlan.HeaderID and maxTime.MaTieuChi = monthlyPlan.MaTieuChi and(maxTime.ThoiGianNhapCuoiCung = monthlyPlan.ThoiGianNhapCuoiCung or maxTime.ThoiGianNhapBanDau = monthlyPlan.ThoiGianNhapCuoiCung)) as tmp1 
+                            group by HeaderID,MaTieuChi) as tmp2 
+                            on headerMonthlyPlan.HeaderID = tmp2.HeaderID 
+                            order by MaPhongBan";
 
             var endDays = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
             List<DateTime> endDates = new List<DateTime>();
@@ -179,6 +178,10 @@ namespace QUANGHANH2.Controllers.DK
                 var listYearlyPlan = db.Database.SqlQuery<yearlyPlan>(yearlyPlanQuery, new SqlParameter("year", year), new SqlParameter("startJan", startDates[0]), new SqlParameter("endDec", endDates[11])).ToList();
                 //
                 var listKHDC_BD = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("year", year)).ToList();
+                if(listKHDC_BD.Count == 0)
+                {
+                    return Json(new { success = false, mess = "chưa nhập kế hoạch năm" }, JsonRequestBehavior.AllowGet);
+                }
                 //Thu Tu In Ra Theo Ten Phong Ban
                 //
                 var departmentName = new string[] { "Phân xưởng khai thác 1", "Phân xưởng khai thác 2", "Phân xưởng khai thác 3", "Phân xưởng khai thác 4","Phân xưởng khai thác 5",
