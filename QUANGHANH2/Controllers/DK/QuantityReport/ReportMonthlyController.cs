@@ -99,7 +99,8 @@ namespace QUANGHANH2.Controllers.DK
                             inner join (select k.*, kh.ThangKeHoach from header_KeHoachTungThang k join KeHoachTungThang kh on k.ThangID = kh.ThangID where NamKeHoach = @year) as tmp2 on tmp1.HeaderID = tmp2.HeaderID) as tmp4 
                             on tmp3.MaPhongBan = tmp4.MaPhongBan and tmp3.MaTieuChi = tmp4.MaTieuChi) as tmp5 
                             inner join TieuChi on tmp5.MaTieuChi = TieuChi.MaTieuChi) as tmp6 
-                            group by MaPhongBan,MaNhomTieuChi";
+                            group by MaPhongBan,MaNhomTieuChi
+                            order by MaPhongBan";
                 var yearlyPlanQuery = @"Select MaPhongBan,MaNhomTieuChi,SUM(SanLuong) as [SanLuong] from (select MaPhongBan, TieuChi.MaNhomTieuChi, SanLuong from( 
                             select tmp3.MaTieuChi, tmp3.MaPhongBan, (Case when SanLuong IS NULL then 0 else SanLuong end) as [SanLuong] from 
                             (select distinct MaTieuChi, MaPhongBan from ThucHien_TieuChi_TheoNgay as a 
@@ -122,7 +123,8 @@ namespace QUANGHANH2.Controllers.DK
                             inner join (select* from header_KeHoach_TieuChi_TheoNam where Nam = @year) as tmp2 
                             on tmp1.HeaderID = tmp2.HeaderID) as tmp4 on tmp3.MaPhongBan = tmp4.MaPhongBan and tmp3.MaTieuChi = tmp4.MaTieuChi ) as tmp5 
                             inner join TieuChi on tmp5.MaTieuChi = TieuChi.MaTieuChi ) as tmp6 
-                            group by MaPhongBan,MaNhomTieuChi";
+                            group by MaPhongBan,MaNhomTieuChi
+                            order by MaPhongBan";
 
             var queryKHDC = "select MaPhongBan,MaTieuChi,SUM(case when KHBD is not null then CONVERT(float, 0) else CONVERT(float, KHBD) end) as KHBD,SUM(case when KHDC is not null then CONVERT(float, 0) else CONVERT(float, KHBD) end) as KHDC from" +
                 "(select h.* from header_KeHoachTungThang h join KeHoachTungThang k on h.ThangID = k.ThangID where NamKeHoach = @year) as headerMonthlyPlan " +
