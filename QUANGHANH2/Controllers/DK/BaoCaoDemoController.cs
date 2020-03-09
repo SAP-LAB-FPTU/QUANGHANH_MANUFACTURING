@@ -42,14 +42,14 @@ namespace QUANGHANH2.Controllers.DK
                             SUM(case when view5.MaTieuChi = 30 then SanLuong else 0 end) as [DOANHTHU] 
                             from(select tmp.* from( 
                             select header.MaPhongBan, kh.MaTieuChi, kh.SanLuong from 
-                            (select h.*, kh.SoNgayLamViec from header_KeHoachTungThang h join KeHoachTungThang kh on h.ThangID = kh.ThangID where ThangKeHoach = 3 and NamKeHoach = 2020) as header 
+                            (select h.*, kh.SoNgayLamViec from header_KeHoachTungThang h join KeHoachTungThang kh on h.ThangID = kh.ThangID where ThangKeHoach = @month and NamKeHoach = @year) as header 
                             inner join (select v2.* from 
                             (select HeaderID, MaTieuChi, MAX(ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung from KeHoach_TieuChi_TheoThang 
                             group by HeaderID, MaTieuChi) as v1 
                             inner join KeHoach_TieuChi_TheoThang as v2 
                             on v1.HeaderID = v2.HeaderID and v1.MaTieuChi = v2.MaTieuChi and v1.ThoiGianNhapCuoiCung = v2.ThoiGianNhapCuoiCung) as kh 
                             on header.HeaderID = kh.HeaderID) as tmp 
-                            inner join(select * from PhongBan_TieuChi where Thang = 3 and Nam = 2020) as pbtc on 
+                            inner join(select * from PhongBan_TieuChi where Thang = @month and Nam = @year) as pbtc on 
                             tmp.MaPhongBan = pbtc.MaPhongBan and tmp.MaTieuChi = pbtc.MaTieuChi) as view5
 							right join Department on MaPhongBan = department_id
 							inner join TieuChi t on view5.MaTieuChi = t.MaTieuChi
@@ -161,7 +161,7 @@ namespace QUANGHANH2.Controllers.DK
 
     public class KHEntities
     {
-        public string MaPhongBan { get; set; }
+        public string department_id { get; set; }
         public double DAOLO { get; set; }
         public double KHAITHAC { get; set; }
         public double METLO { get; set; }
