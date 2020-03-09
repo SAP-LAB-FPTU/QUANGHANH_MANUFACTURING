@@ -70,6 +70,9 @@ namespace QUANGHANH2.Controllers.DK
                             group by HeaderID,MaTieuChi) as tmp2 
                             on headerMonthlyPlan.HeaderID = tmp2.HeaderID 
                             order by MaPhongBan,MaTieuChi";
+
+            List<reportEntity> reports = new List<reportEntity>();
+
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 var listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
@@ -77,6 +80,10 @@ namespace QUANGHANH2.Controllers.DK
                 var listKHDC = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
                 // var listKHDaily = db.Database.SqlQuery<KHDCDepartmentEntity>(querykHDaily, new SqlParameter("date", timeEnd), new SqlParameter("month", timeEnd.Month)).ToList();
                 var listKHDaily = db.Database.SqlQuery<DailyPlanEntity>(querykHDaily, new SqlParameter("date", timeEnd), new SqlParameter("month", timeEnd.Month), new SqlParameter("dateEnd", timeEnd)).ToList();
+                if(listKHDaily.Count == 0)
+                {
+                    return reports;
+                }
                 for (var index = 0; index < listReport.Count; index++)
                 {
                     listReport[index].KHDC = listKHDC[index].KHDC;
@@ -106,7 +113,6 @@ namespace QUANGHANH2.Controllers.DK
                                                     "Phân xưởng khai thác 11", "Phân xưởng đào lò 3", "Phân xưởng đào lò 5", "Phân xưởng đào lò 7","Phân xưởng đào lò 8",
                                                     "Phân xưởng chế biến than","Phân xưởng vận tải lò 1","Phân xưởng vận tải lò 2"};
 
-                List<reportEntity> reports = new List<reportEntity>();
                 foreach (var name in departmentName)
                 {
                     reportEntity rp = new reportEntity();

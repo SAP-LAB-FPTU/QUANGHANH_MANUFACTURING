@@ -50,14 +50,14 @@ namespace QUANGHANH2.Controllers.DK
                         List<BaoCaoFile> isLockList = new List<BaoCaoFile>();
                         List<allFileObject> allFilesList = new List<allFileObject>();
                         sql = "select * from department where department_id in\n" +
-                        "('PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7',\n" +
-                        "'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11', 'PXDL3', 'PXDL5', 'PXDL7', 'PXDL8',\n" +
-                        "'PXVT1', 'PXVT2', 'PXTGQLKM', 'PXST', 'PXCDM', 'PXCKSC', 'PXPV', 'PXXD', 'PXDS','KCS', 'PXLT')\n" +
+                        "('KT1', 'KT2', 'KT3', 'KT4', 'KT5', 'KT6', 'KT7',\n" +
+                        "'KT8', 'KT9', 'KT10', 'KT11', N'ĐL3', N'ĐL5', N'ĐL7', N'ĐL8',\n" +
+                        "'VT1', 'VT2', 'TG-QLKM', 'ST', N'CĐM', 'CKSC', 'PV', 'XD', 'DS','KCS')\n" +
                         "order by department_name";
                         listPX = db.Database.SqlQuery<Department>(sql).ToList<Department>();
-                        String[] listPXId = {"PXKT1", "PXKT2", "PXKT3", "PXKT4", "PXKT5", "PXKT6", "PXKT7",
-                        "PXKT8", "PXKT9", "PXKT10", "PXKT11", "PXDL3", "PXDL5", "PXDL7", "PXDL8",
-                        "PXVT1", "PXVT2", "PXTGQLKM", "PXST", "PXCDM", "PXCKSC", "PXPV", "PXXD", "PXDS", "KCS", "PXLT"};
+                        String[] listPXId = {"KT1", "KT2", "KT3", "KT4", "KT5", "KT6", "KT7",
+                        "KT8", "KT9", "KT10", "KT11", "ĐL3", "ĐL5", "ĐL7", "ĐL8",
+                        "VT1", "VT2", "TG-QLKM", "ST", "CĐM", "CKSC", "PV", "XD", "DS", "KCS"};
                         ///////////////////////////////////////////FOR PHAN XUONG///////////////////////////////////////
                         if (phanxuong != null
                             && phanxuong.ToLower() != "kcs"
