@@ -340,7 +340,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             DateTime dtStart = Convert.ToDateTime("01/01/2000");
-            DateTime dtEnd = DateTime.Today;
+            DateTime dtEnd = DateTime.MaxValue;
             if (!dateStart.Equals(""))
             {
                 string[] date = dateStart.Split('/');
