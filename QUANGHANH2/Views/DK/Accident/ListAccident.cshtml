@@ -1,4 +1,4 @@
-﻿
+﻿ 
 @{
     ViewBag.Title = "ListAccident";
     Layout = "~/Views/Shared/_Layout_DK.cshtml";
@@ -149,7 +149,8 @@
                         </div>
                         <div class="col s12">
                             <label for="number">Ngày xảy ra: </label>
-                            <input type="text" class=" datepicker-here form-control" placeholder="Ngày" name="date" id="dateaccident" />
+                            <input type="text" class="  datepicker-here form-control" placeholder="Ngày" name="date" id="dateaccident" />
+                           
                         </div>
                     </div>
                     <div class="col s12 m6">
@@ -190,7 +191,7 @@
                     <div class="col s12 m6">
                         <div class="col s12">
                             <label for="number">Mã nhân viên: </label>
-                            <input list="EmployeeID" type="text" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="employeeIdEdit" onclick=" searchMaNV(this)" />
+                            <input list="EmployeeID" type="text" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="employeeIdEdit" onchange=" searchMaNV(this)" />
                             <input type="hidden" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="MaTaiNan" />
                         </div>
                         <div class="col s12">
@@ -281,17 +282,15 @@
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script>
     //function for date.
-    $('#date').datepicker({
+    $('.datepicker-here').datepicker({
         language: 'vi',
         maxDate: new Date() // Now can select only dates, which goes after today
     })
-    $('#dateEdit').datepicker({
-        language: 'vi',
-        maxDate: new Date() // Now can select only dates, which goes after today
-    })
+    
     $(document).ready(function () {
         $('.datepicker-inline').remove();
     });
+
 </script>
 <!--JavaScript của Báo cáo tai nạn-->
 <script>
@@ -500,7 +499,10 @@
             error: function (XMLHttpRequest, textStatus, errorThrown) {
 
                 dataTable.ajax.reload();
-                errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
+                $.notify(XMLHttpRequest.responseText, {
+                    globalPosition: "top center",
+                    className: "error"
+                });
             }
         });
     }
@@ -551,7 +553,10 @@
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 $('#pre-load').hide();
-                errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
+                $.notify(XMLHttpRequest.responseText, {
+                    globalPosition: "top center",
+                    className: "error"
+                });
                 dataTable.ajax.reload();
                 $('#close').click();
             },

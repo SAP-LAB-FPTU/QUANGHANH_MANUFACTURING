@@ -35,7 +35,8 @@ namespace QUANGHANH2.Controllers.DK
         public ActionResult DanhSachBaoCao()
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<NhanVien> listNhanVien = db.NhanViens.ToList<NhanVien>();
+            List<NhanVien> listNhanVien = db.Database.SqlQuery<NhanVien>("select NhanVien.* from NhanVien inner join TrangThai" +
+                    " on NhanVien.MaTrangThai = TrangThai.MaTrangThai where TrangThai.MaTrangThai=1 ").ToList();
             ViewBag.listNhanVien = listNhanVien;
             return View("/Views/DK/Accident/ListAccident.cshtml");
         }
@@ -164,11 +165,19 @@ namespace QUANGHANH2.Controllers.DK
                 try
                 {
                     TaiNan t = new TaiNan();
+                    NhanVien nv = db.Database.SqlQuery<NhanVien>("select NhanVien.* from NhanVien inner join TrangThai" +
+                  " on NhanVien.MaTrangThai = TrangThai.MaTrangThai where TrangThai.MaTrangThai=1 and MaNV=@MaNV", new SqlParameter("MaNV", accident.MaNV)).SingleOrDefault();
 
                     if (accident.MaNV == null || db.NhanViens.Find(accident.MaNV) == null)
                     {
                         transaction.Rollback();
                         Response.Write("Mã nhân viên không tồn tại");
+                        return new HttpStatusCodeResult(400);
+                    }
+                    if(nv==null)
+                    {
+                        transaction.Rollback();
+                        Response.Write("Nhân viên này đang trong trạng thái không đi làm ");
                         return new HttpStatusCodeResult(400);
                     }
 
@@ -199,25 +208,39 @@ namespace QUANGHANH2.Controllers.DK
         }
         [Route("phong-dieu-khien/bao-cao-tai-nan/returnEmployeeName")]
         [HttpPost]
-        public JsonResult returnEmployeename(String MaNV)
+        public ActionResult returnEmployeename(String MaNV)
         {
 
             try
             {
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                NhanVien nv = db.NhanViens.Where(x => x.MaNV == MaNV).SingleOrDefault();
-                Department d = db.Departments.Where(x => x.department_id == nv.MaPhongBan).SingleOrDefault();
+                NhanVien nv = db.Database.SqlQuery<NhanVien>("select NhanVien.* from NhanVien inner join TrangThai" +
+                    " on NhanVien.MaTrangThai = TrangThai.MaTrangThai where TrangThai.MaTrangThai=1 and MaNV=@MaNV", new SqlParameter("MaNV",MaNV)).SingleOrDefault();
+                DepartmentDB d = db.Database.SqlQuery<DepartmentDB>("select department_name from Department where department_id=@departmentid ",new SqlParameter("departmentid",nv.MaPhongBan)).FirstOrDefault();
 
                 //String item = equipment.supply_name + "^" + equipment.unit;
-                return Json(new
+                if (nv != null && d == null)
                 {
+                    return Json(new
+                    {
+                        Ten = nv.Ten,
+                        department_name = "Không thuộc đơn vị nào"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+               else return Json(new
+                { 
                     Ten = nv.Ten,
                     department_name = d.department_name
-                }, JsonRequestBehavior.AllowGet); ;
+                }, JsonRequestBehavior.AllowGet); 
             }
             catch (Exception)
             {
-                return Json("Mã nhân viên không tồn tại", JsonRequestBehavior.AllowGet);
+                return Json(new
+                {
+                    Ten = "",
+                    department_name = "Không xác định"
+                   
+                }, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -230,8 +253,8 @@ namespace QUANGHANH2.Controllers.DK
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
                 TaiNanDB tn = db.Database.SqlQuery<TaiNanDB>(
-                    "select t.*,n.Ten,d.department_name from TaiNan t, NhanVien n, Department d " +
-    " where t.MaNV = n.MaNV and d.department_id = n.MaPhongBan and MaTaiNan =@MaTaiNan", new SqlParameter("MaTaiNan", MaTaiNan)
+                   "select t.*,n.Ten,d.department_name from TaiNan t inner join  NhanVien n on t.MaNV = n.MaNV left join  Department d on  d.department_id = n.MaPhongBan "+
+     " where  MaTaiNan = @MaTaiNan", new SqlParameter("MaTaiNan", MaTaiNan)
                     ).First();
                 tn.stringDate = tn.Ngay.Value.ToString("dd/MM/yyyy");
 
@@ -255,9 +278,17 @@ namespace QUANGHANH2.Controllers.DK
 
                 try
                 {
+                    NhanVien nv = DBContext.Database.SqlQuery<NhanVien>("select NhanVien.* from NhanVien inner join TrangThai" +
+                   " on NhanVien.MaTrangThai = TrangThai.MaTrangThai where TrangThai.MaTrangThai=1 and MaNV=@MaNV", new SqlParameter("MaNV", tainandb.MaNV)).SingleOrDefault();
+                    if (nv == null)
+                    {
+                        transaction.Rollback();
+                        Response.Write("Nhân viên này đang trong trạng thái không đi làm");
+                        return new HttpStatusCodeResult(400);
+                    }
 
                     t.MaNV = tainandb.MaNV;
-                    t.LyDo = tainandb.LyDo;
+                    t.LyDo = tainandb.LyDo; 
                     t.Ngay = DateTime.ParseExact(tainandb.stringDate, "dd/MM/yyyy", null);
                     t.Loai = tainandb.Loai;
                     t.Ca = tainandb.Ca;
@@ -475,5 +506,12 @@ namespace QUANGHANH2.Controllers.DK
         public string department_name { get; set; }
 
         public string stringDate { get; set; }
+    }
+    public class DepartmentDB : CongTacAnToan
+    {
+
+        public string department_name { get; set; }
+
+       
     }
 }
