@@ -48,7 +48,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             ngay = temp[1] + "/" + temp[0] + "/" + temp[2];
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                string sql = "select Max(NgaySanXuat) as 'check' from ThucHienTheoNgay where year(Ngay) = @year and month(Ngay) = @month";
+                string sql = "select case when Max(NgaySanXuat) is null then 0 else Max(NgaySanXuat) end as 'check' from ThucHienTheoNgay where year(Ngay) = @year and month(Ngay) = @month";
                 int check = db.Database.SqlQuery<int>(sql, new SqlParameter("year", temp[2]), new SqlParameter("month", temp[1])).FirstOrDefault();
                 if(check >= nsx)
                 {
