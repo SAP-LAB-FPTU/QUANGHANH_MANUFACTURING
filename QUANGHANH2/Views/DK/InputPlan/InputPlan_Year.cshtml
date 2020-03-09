@@ -187,7 +187,7 @@
                         dem++;
                     }
                     tableBody.html(content);
-                    $("#noteNam").text(response.note);
+                    $("#noteNam").text(parseNote(response.note));
                     $('#pre-load').hide();
                 },
                 error: function (response) {
