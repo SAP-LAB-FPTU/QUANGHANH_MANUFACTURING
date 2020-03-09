@@ -175,6 +175,10 @@
                 }
                 $("#reportTable").children("tbody").html(content);
                 $("#pre-load").hide("slow", function () { });
+                var a = $("#reportTable > tbody > tr").length;
+                if (a == 0) {
+                    errorAlert('', 'Chưa có dữ liệu kế hoạch hôm nay');
+                } 
             },
             error: function (response) {
             }
