@@ -227,7 +227,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 "where headKH.MaPhongBan = @px  and headKH.Ca = @ca and headKH.NgayNhapKH = @date " +
                                 "group by headKH.HeaderID, headKH.MaPhongBan, Headkh.Ca, headKH.NgayNhapKH, khDay.MaTieuChi) as a " +
                                 "inner join KeHoach_TieuChi_TheoNgay khDay2 " +
-                                "on a.HeaderID = khDay2.HeaderID and a.MaxDate = khday2.ThoiGianNhapCuoiCung " +
+                                " on a.HeaderID = khDay2.HeaderID and a.MaxDate = khday2.ThoiGianNhapCuoiCung and a.MaTieuChi = khDay2.MaTieuChi  " +
                                 "inner join(select tc.TenTieuChi, tc.DonViDo, tc.MaTieuChi from PhongBan_TieuChi pb inner join TieuChi tc " +
                                 "on pb.MaTieuChi = tc.MaTieuChi " +
                                 "where pb.MaPhongBan = @px and pb.Thang = @thang and pb.Nam = @nam) as c " +
