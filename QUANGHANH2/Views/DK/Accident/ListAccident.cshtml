@@ -7,6 +7,9 @@
     select {
         width: 100% !important;
     }
+    .err{
+       color:red !important;
+   }
 </style>
 <link href="~/lib/mutiple select/slimselect.css" rel="stylesheet" />
 <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
@@ -134,6 +137,8 @@
                         <div class="col s12">
                             <label for="number">Mã nhân viên: </label>
                             <input list="EmployeeID" type="text" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="employeeId" onchange=" searchMaNV(this)" />
+                            <div id="validate-employee" class="err">
+                            </div>
                         </div>
                         <div class="col s12">
                             <label for="number">Đơn vị: </label>
@@ -150,7 +155,8 @@
                         <div class="col s12">
                             <label for="number">Ngày xảy ra: </label>
                             <input type="text" class="  datepicker-here form-control" placeholder="Ngày" name="date" id="dateaccident" />
-                           
+                            <div id="validate-day" class="err">
+                            </div>
                         </div>
                     </div>
                     <div class="col s12 m6">
@@ -175,7 +181,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-offset-2 col-md-10">
-                    <button type="submit" class="btn blue btn-default modal-close" style="color:white" onclick="add()">Xác nhận</button>
+                    <button  class="btn blue btn-default " style="color:white" onclick="add()">Xác nhận</button>
                     <button type="submit" class="btn blue btn-default modal-close" style="color:white">Đóng</button>
                 </div>
             </div>
@@ -193,6 +199,8 @@
                             <label for="number">Mã nhân viên: </label>
                             <input list="EmployeeID" type="text" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="employeeIdEdit" onchange=" searchMaNV(this)" />
                             <input type="hidden" class="form-control" name="employeeid" placeholder="Mã nhân viên" id="MaTaiNan" />
+                            <div id="validate-employee-edit" class="err">
+                            </div>
                         </div>
                         <div class="col s12">
                             <label for="number">Đơn vị: </label>
@@ -209,6 +217,8 @@
                         <div class="col s12">
                             <label for="number">Ngày xảy ra: </label>
                             <input type="text" class=" datepicker-here form-control" placeholder="Ngày" name="date" id="dateEdit" />
+                            <div id="validate-day-edit" class="err">
+                            </div>
                         </div>
                     </div>
                     <div class="col s12 m6">
@@ -233,7 +243,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-md-offset-2 col-md-10">
-                    <button id="submitedit" class="btn blue darken-2 modal-close save-category modal-close">Lưu</button>
+                    <button id="submitedit" class="btn blue darken-2  save-category ">Lưu</button>
                     <button type="button" class="btn light-blue lighten-1 modal-close" id="exit">Thoát</button>
                 </div>
             </div>
@@ -306,7 +316,7 @@
             });
         });
     });
-    var exportPayload = [], isFirstInit = true;
+    var exportSearch = [], isFirstInit = true;
     function searchAccident() {
 
         //get data
@@ -337,11 +347,14 @@
                 "cache": "false",
                 "dataSrc": function (json) {
                     index = 1;
-                    if (isFirstInit) {
-                        exportPayload = json.data;
-                        isFirstInit = false;
-                    }
-                    return json.data;
+                        if (isFirstInit) {
+                            exportSearch = json.data;
+                            isFirstInit = false;
+                        } else {
+                            exportSearch = [];
+                            exportSearch = json.data;
+                        }
+                        return json.data;
                 }
             },
             "drawCallback": function (settings) {
@@ -357,11 +370,7 @@
                 { "data": "LyDo", "name": "LyDo" },
                 { "data": "Loai", "name": "Loai" },
                 { "data": "Ca_Name", "name": "Ca_Name" },
-                {
-                    "data": "Ngay", "name": "Ngay", "render": function (data) {
-                        return dateFormat2(data);
-                    },
-                },
+                { "data": "stringDate", "name": "stringDate"},
                 {
                     "data": "MaTaiNan", "render": function (data) {
                         return "<a href=\"#edittainan\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-maTaiNan=\"" + data + "\">Chỉnh&nbsp;Sửa</a>";
@@ -395,18 +404,25 @@
 
         });
     }
-    $("#export_excel").click(function () {
-        $("#pre-load").show();
-        $.ajax({
-            type: "POST",
-            url: "/phong-dieu-khien/bao-cao-tai-nan/export",
-            cache: false
-        }).done(function () {
-            window.location.href = "/excel/DK/DanhSachTaiNan-download.xlsx";
-            $("#pre-load").hide();
+    
+     $("#export_excel").click(function () {
+                $("#pre-load").show();
+                $.ajax({
+                    dataType: "json",
+                    contentType: "application/json, charset=utf-8",
+                    type: 'POST',
+                    url: '/phong-dieu-khien/bao-cao-tai-nan/export',
+                    data: JSON.stringify(exportSearch),
+                    success: function (res) {
 
-        });
-    });
+                            var response = JSON.parse(JSON.stringify(res.data));
+                            window.location = '/phong-dieu-khien/bao-cao-tai-nan/downloaddetail?fileGuid=' + response.FileGuid
+                                + '&filename=' + response.FileName;
+
+                    }
+                });
+                $("#pre-load").hide();
+            });
     function searchMaNV(txtMaNV) {
         var tmp = {
             MaNV: txtMaNV.value
@@ -486,6 +502,24 @@
             Loai: document.getElementById("loaitainan").value,
             stringDate: document.getElementById("dateaccident").value
         };
+         if ($('#employeeId').val().trim() === '') {
+            
+            $('#validate-employee').text('Vui lòng nhập mã nhân viên');
+            
+            return false;
+        }
+        else {
+            $('#validate-employee').text('');
+         }
+        if ($('#dateaccident').val().trim() === '') {
+            
+            $('#validate-day').text('Vui lòng chọn ngày');
+            
+            return false;
+        }
+        else {
+            $('#validate-day').text('');
+        }
         $.ajax({
             url: "/phong-dieu-khien/bao-cao-tai-nan/insertaccident",
             type: "POST",
@@ -493,6 +527,7 @@
             contentType: "application/json;charset=utf-8",
             dataType: "json",
             success: function () {
+                 $('#themtainan').modal('close');
                 dataTable.ajax.reload();
                 successAlert('Thành công', 'Thêm thành công');
             },
@@ -541,6 +576,25 @@
         })
     });
     $("#submitedit").click(function (e) {
+
+        if ($('#employeeIdEdit').val().trim() === '') {
+            
+            $('#validate-employee-edit').text('Vui lòng nhập mã nhân viên');
+            
+            return false;
+        }
+        else {
+            $('#validate-employee-edit').text('');
+        }
+        if ($('#dateEdit').val().trim() === '') {
+            
+            $('#validate-day-edit').text('Vui lòng nhập mã nhân viên');
+            
+            return false;
+        }
+        else {
+            $('#validate-day-edit').text('');
+        }
         $.ajax({
             type: "POST",
             url: "/phong-dieu-khien/bao-cao-tai-nan/editaccident",
