@@ -371,10 +371,10 @@ namespace QUANGHANHCORE.Controllers.DK
                         "	, SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Thai sản',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai'  " +
                         "	from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID  " +
                         "	where h.NgayDiemDanh = @day group by n.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan " +
-                        "	where a.MaPhongBan in ('PXDL3', 'PXDL5', 'PXDL7', 'PXDL8', 'PXKT1', 'PXKT2', 'PXKT3', 'PXKT4', 'PXKT5', 'PXKT6', 'PXKT7', 'PXKT8', 'PXKT9', 'PXKT10', 'PXKT11', 'PXVT1', 'PXVT2') " +
+                        "	where a.MaPhongBan in ('ĐL3', 'ĐL5', 'ĐL7', 'ĐL8', 'KT1', 'KT2', 'KT3', 'KT4', 'KT5', 'KT6', 'KT7', 'KT8', 'KT9', 'KT10', 'KT11', 'VTL1', 'VTL2') " +
                         "	order by a.MaPhongBan";
             List<chart> list_chart = db.Database.SqlQuery<chart>(sql_chart, new SqlParameter("day", date)).ToList();
-            List<string> donvi = new List<string> { "PXDL3", "PXDL5", "PXDL7", "PXDL8", "PXKT1", "PXKT2", "PXKT3", "PXKT4", "PXKT5", "PXKT6", "PXKT7", "PXKT8", "PXKT9", "PXKT10", "PXKT11", "PXVT1", "PXVT2" };
+            List<string> donvi = new List<string> { "ĐL3", "ĐL5", "ĐL7", "ĐL8", "KT1", "KT2", "KT3", "KT4", "KT5", "KT6", "KT7", "KT8", "KT9", "KT10", "KT11", "VTL1", "VTL2" };
             string result = JsonConvert.SerializeObject(donvi);
             ViewBag.donvi = result;
 
