@@ -123,6 +123,7 @@
 
 <!--LIST + ADD + UPDATE + DELETE-->
 <script>
+    var checkButton;
     function getInformation() {
         dem = 0;
         if ($('#monthCalendar').val() == "" || $('#yearCalendar').val() == "" || $('#cbx-px').val() == null)
@@ -151,6 +152,7 @@
                 ViewMode();
                 mode = 0;
                 listAspectDepartments = response.listTieuChi;
+                checkButton = 1;
                 $('#pre-load').hide();
             },
             error: function (response) {
@@ -194,6 +196,7 @@
                     currentSelectedValue.push(reponseListPhongBanTieuChi[i].MaTieuChi);
                     
                 }
+                checkButton = 2;
                 $('#pre-load').hide();
             },
             error: function (response) {
@@ -285,7 +288,13 @@
             },
             success: function (response) {
                 successAlert('Thành công', 'Thao tác thành công');
-                getInformation();
+                if (checkButton == 1) {
+                    getInformation();
+                }
+                if (checkButton == 2) {
+                     getInformation();
+                }
+               
                 $('#pre-load').hide();
             },
             error: function (response) {
