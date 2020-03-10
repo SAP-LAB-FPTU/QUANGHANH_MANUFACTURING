@@ -123,6 +123,7 @@
 
 <!--LIST + ADD + UPDATE + DELETE-->
 <script>
+    //check button that user press is "View" or "GetDataLastMonth"
     var checkButton;
     function getInformation() {
         dem = 0;
@@ -152,6 +153,7 @@
                 ViewMode();
                 mode = 0;
                 listAspectDepartments = response.listTieuChi;
+                 //Button that user press is View
                 checkButton = 1;
                 $('#pre-load').hide();
             },
@@ -196,6 +198,7 @@
                     currentSelectedValue.push(reponseListPhongBanTieuChi[i].MaTieuChi);
                     
                 }
+                //Button that user press is GetDataLastMonth
                 checkButton = 2;
                 $('#pre-load').hide();
             },
