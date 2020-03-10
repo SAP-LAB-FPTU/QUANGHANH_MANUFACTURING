@@ -89,7 +89,10 @@ namespace QUANGHANH2.Controllers.DK
                                                  }
                                   ).Where(x => x.MaNV.Contains(employeeID) && x.Ten.Contains(EmployeeName) && x.Ngay >= timeF && x.Ngay <= timeT)
                                   .OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
-
+                    foreach (TaiNanDB item in listTainan)
+                    {
+                        item.stringDate = item.Ngay.Value.ToString("dd/MM/yyyy");
+                    }
                     int totalrows = (from tainan in db.TaiNans
                                      join nhanvien in db.NhanViens on tainan.MaNV equals nhanvien.MaNV
                                      join depart in db.Departments on nhanvien.MaPhongBan equals depart.department_id into output
@@ -165,8 +168,7 @@ namespace QUANGHANH2.Controllers.DK
                 try
                 {
                     TaiNan t = new TaiNan();
-                    NhanVien nv = db.Database.SqlQuery<NhanVien>("select NhanVien.* from NhanVien inner join TrangThai" +
-                  " on NhanVien.MaTrangThai = TrangThai.MaTrangThai where TrangThai.MaTrangThai=1 and MaNV=@MaNV", new SqlParameter("MaNV", accident.MaNV)).SingleOrDefault();
+                   
 
                     if (accident.MaNV == null || db.NhanViens.Find(accident.MaNV) == null)
                     {
@@ -174,7 +176,9 @@ namespace QUANGHANH2.Controllers.DK
                         Response.Write("Mã nhân viên không tồn tại");
                         return new HttpStatusCodeResult(400);
                     }
-                    if(nv==null)
+                    NhanVien nv = db.Database.SqlQuery<NhanVien>("select NhanVien.* from NhanVien inner join TrangThai" +
+                 " on NhanVien.MaTrangThai = TrangThai.MaTrangThai where TrangThai.MaTrangThai=1 and MaNV=@MaNV", new SqlParameter("MaNV", accident.MaNV)).SingleOrDefault();
+                    if (nv==null)
                     {
                         transaction.Rollback();
                         Response.Write("Nhân viên này đang trong trạng thái không đi làm ");
@@ -200,6 +204,7 @@ namespace QUANGHANH2.Controllers.DK
                 catch (Exception e)
                 {
                     transaction.Rollback();
+                    Response.Write("Có lỗi xảy ra, vui lòng nhập lại");
                     return new HttpStatusCodeResult(400);
                 }
 
@@ -216,18 +221,12 @@ namespace QUANGHANH2.Controllers.DK
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
                 NhanVien nv = db.Database.SqlQuery<NhanVien>("select NhanVien.* from NhanVien inner join TrangThai" +
                     " on NhanVien.MaTrangThai = TrangThai.MaTrangThai where TrangThai.MaTrangThai=1 and MaNV=@MaNV", new SqlParameter("MaNV",MaNV)).SingleOrDefault();
-                DepartmentDB d = db.Database.SqlQuery<DepartmentDB>("select department_name from Department where department_id=@departmentid ",new SqlParameter("departmentid",nv.MaPhongBan)).FirstOrDefault();
-
+                
+                DepartmentDB d = db.Database.SqlQuery<DepartmentDB>("select department_name from Department where department_id=@departmentid ", new SqlParameter("departmentid", nv.MaPhongBan)).SingleOrDefault();
+                
                 //String item = equipment.supply_name + "^" + equipment.unit;
-                if (nv != null && d == null)
-                {
-                    return Json(new
-                    {
-                        Ten = nv.Ten,
-                        department_name = "Không thuộc đơn vị nào"
-                    }, JsonRequestBehavior.AllowGet);
-                }
-               else return Json(new
+               
+                return Json(new
                 { 
                     Ten = nv.Ten,
                     department_name = d.department_name
@@ -305,7 +304,7 @@ namespace QUANGHANH2.Controllers.DK
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-
+                    Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
 
                     return new HttpStatusCodeResult(400);
                 }
@@ -343,28 +342,10 @@ namespace QUANGHANH2.Controllers.DK
         //[Auther(RightID = "35")]
         [HttpPost]
         [Route("phong-dieu-khien/bao-cao-tai-nan/export")]
-        public void Export()
+        public ActionResult ExportDetail(List<TaiNanDB> accidentSummaries)
         {
             try
             {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                List<TaiNanDB> vattus = (from tainan in db.TaiNans
-                                             join nhanvien in db.NhanViens on tainan.MaNV equals nhanvien.MaNV
-                                             join depart in db.Departments on nhanvien.MaPhongBan equals depart.department_id
-                                             select new TaiNanDB
-                                             {
-                                                 MaTaiNan = tainan.MaTaiNan,
-                                                 MaNV = tainan.MaNV,
-                                                 Ten = nhanvien.Ten,
-                                                 department_name = depart.department_name,
-                                                 LyDo = tainan.LyDo,
-                                                 Loai = tainan.Loai,
-                                                 Ca_Name = tainan.Ca == 1 ? "CA 1" : tainan.Ca == 2 ? "CA 2" : "CA 3",
-                                                 Ngay = tainan.Ngay
-
-                                             }
-                                  ).ToList();
-
                 string path = HostingEnvironment.MapPath("/excel/DK/");
                 string templateFilename = "DanhSachTaiNan.xlsx";
                 string downloadFilename = "DanhSachTaiNan-download.xlsx";
@@ -374,31 +355,63 @@ namespace QUANGHANH2.Controllers.DK
                     int index = 2;
                     ExcelWorkbook excelWorkbook = workbook.Workbook;
                     ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                    string abc = "";
-                    for(int i = 0; i < vattus.Count(); i++)
+                    foreach (var acci in accidentSummaries)
                     {
-                        excelWorksheet.Cells[index, 1].Value = vattus.ElementAt(i).MaNV;
-                        excelWorksheet.Cells[index, 2].Value = vattus.ElementAt(i).Ten;
-                        excelWorksheet.Cells[index, 3].Value = vattus.ElementAt(i).department_name;
-                        excelWorksheet.Cells[index, 4].Value = vattus.ElementAt(i).LyDo;
-                        excelWorksheet.Cells[index, 5].Value = vattus.ElementAt(i).Loai;
-                        excelWorksheet.Cells[index, 6].Value = vattus.ElementAt(i).Ca_Name;
-                        excelWorksheet.Cells[index, 7].Value = vattus.ElementAt(i).Ngay.Value.ToString("dd/MM/yyyy");
+
+                        excelWorksheet.Cells[index, 1].Value = acci.MaNV;
+                        excelWorksheet.Cells[index, 2].Value = acci.Ten;
+                        excelWorksheet.Cells[index, 3].Value = acci.department_name;
+                        excelWorksheet.Cells[index, 4].Value = acci.LyDo;
+                        excelWorksheet.Cells[index, 5].Value = acci.Loai;
+                        excelWorksheet.Cells[index, 6].Value = acci.Ca_Name;
+                        excelWorksheet.Cells[index, 7].Value = acci.stringDate;
+
+
 
                         index++;
                     }
-                    workbook.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/DK/DanhSachTaiNan-download.xlsx")));
-                    
+                    workbook.SaveAs(new FileInfo(HostingEnvironment.MapPath($"/excel/DK/{downloadFilename}")));
+                    string handle = Guid.NewGuid().ToString();
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        workbook.SaveAs(memoryStream);
+                        memoryStream.Position = 0;
+                        TempData[handle] = memoryStream.ToArray();
+                    }
+                    return Json(new
+                    {
+                        success = true,
+                        data = new { FileGuid = handle, FileName = downloadFilename }
+                    }, JsonRequestBehavior.AllowGet);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                e.Message.ToString();
-                
+                return Json(new
+                {
+                    success = false
+                }, JsonRequestBehavior.AllowGet);
             }
 
         }
-        
+
+        [HttpGet]
+        [Route("phong-dieu-khien/bao-cao-tai-nan/downloaddetail")]
+        public virtual ActionResult DownloadDetail(string fileGuid, string fileName)
+        {
+            if (TempData[fileGuid] != null)
+            {
+                byte[] data = TempData[fileGuid] as byte[];
+                return File(data, "application/vnd.ms-excel", fileName);
+            }
+            else
+            {
+                // Problem - Log the error, generate a blank file,
+                //           redirect to another controller action - whatever fits with your application
+                return new EmptyResult();
+            }
+        }
+
         //[Route("phong-dieu-khien/hien-trang-lo")]
         //public ActionResult Index()
         //{
@@ -489,7 +502,7 @@ namespace QUANGHANH2.Controllers.DK
         public string Ten { get; set; }
         public string Ca_Name { get; set; }
         public string department_name { get; set; }
-
+       
     }
     public class dsTainan
     {
