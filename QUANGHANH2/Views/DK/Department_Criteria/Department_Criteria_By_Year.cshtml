@@ -115,6 +115,8 @@
 
 <!--LIST + ADD + UPDATE + DELETE-->
 <script>
+    //check button that user press is "View" or "GetDataLastYear"
+    var checkButton;
     function getInformation() {
         dem = 0;
         if ( $('#yearCalendar').val() == "" || $('#cbx-px').val() == null)
@@ -139,6 +141,8 @@
                 ViewMode();
                 mode = 0;
                 listAspectDepartments = response.listTieuChi;
+                 //Button that user press is View
+                checkButton = 1;
                 $('#pre-load').hide();
             },
             error: function (response) {
@@ -177,6 +181,8 @@
                     currentSelectedValue.push(reponseListPhongBanTieuChi[i].MaTieuChi);
                     
                 }
+                //Button that user press is GetDataLastYear
+                checkButton = 2;
                 $('#pre-load').hide();
             },
             error: function (response) {
@@ -269,7 +275,12 @@
             },
             success: function (response) {
                 successAlert('Thành công', 'Thao tác thành công');
-                getInformation();
+                if (checkButton == 1) {
+                    getInformation();
+                }
+                if (checkButton == 2) {
+                    getBeforeInformation();
+                }
                 $('#pre-load').hide();
             },
             error: function (response) {
