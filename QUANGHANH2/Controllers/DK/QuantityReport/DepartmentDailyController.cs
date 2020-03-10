@@ -43,7 +43,7 @@ namespace QUANGHANH2.Controllers.DK
                     inner join TieuChi on tmp1.MaTieuChi = TieuChi.MaTieuChi
                     order by MaPhongBan,MaTieuChi";
 
-            var querykHDaily = "select MaPhongBan,MaTieuChi,SUM(KeHoach) as KeKhoach from " +
+            var querykHDaily = "select MaPhongBan,MaTieuChi,SUM(KeHoach) as KeHoach from " +
                 "(select MaPhongBan, MaTieuChi, KeHoach from " +
                 "(select * from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @dateEnd) as headerDailyPlan " +
                 "inner join " +
@@ -90,14 +90,17 @@ namespace QUANGHANH2.Controllers.DK
                     listReport[index].KHBD = listKHDC[index].KHBD;
                     listReport[index].KH = listKHDaily[index].KeHoach;
                     listReport[index].BQQHDC = listReport[index].KHDC / listKHDC[index].SoNgayLamViec;
+                    listReport[index].BQQHDC_display = string.Format("{0:0.00}", listReport[index].BQQHDC);
                     listReport[index].chenhlech = listReport[index].TH - listReport[index].KH;
                     if (listReport[index].KH != 0)
                     {
                         listReport[index].percentage = 100 * listReport[index].TH / listReport[index].KH;
+                        listReport[index].percentage_display = string.Format("{0:0.00}", listReport[index].percentage);
                     }
                     if (listReport[index].KHDC != 0 )
                     {
                         listReport[index].percentageDC = 100 * listReport[index].luyke / listReport[index].KHDC; 
+                        listReport[index].percentageDC_display = string.Format("{0:0.00}", listReport[index].percentageDC); 
                     }
                     listReport[index].SUM = listReport[index].KHDC - listReport[index].luyke;
                     if (listReport[index].NgaySanXuat != listKHDC[index].SoNgayLamViec)
@@ -107,6 +110,8 @@ namespace QUANGHANH2.Controllers.DK
                     {
                         listReport[index].perday = listReport[index].SUM;
                     }
+                    listReport[index].perday_display = string.Format("{0:0.00}", listReport[index].perday);
+
                 }
                 var departmentName = new string[] { "Phân xưởng khai thác 1", "Phân xưởng khai thác 2", "Phân xưởng khai thác 3", "Phân xưởng khai thác 4","Phân xưởng khai thác 5",
                                                     "Phân xưởng khai thác 6", "Phân xưởng khai thác 7", "Phân xưởng khai thác 8", "Phân xưởng khai thác 9","Phân xưởng khai thác 10",
