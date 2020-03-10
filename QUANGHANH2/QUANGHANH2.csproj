@@ -188,6 +188,7 @@
     <Compile Include="Controllers\DK\EquipmentIncident\ReportController.cs" />
     <Compile Include="Controllers\DK\Department_Criteria\Department_Criteria_By_MonthController.cs" />
     <Compile Include="Controllers\DK\Department_Criteria\Department_Criteria_By_YearController.cs" />
+    <Compile Include="Controllers\DK\KeHoachDieuHanhChiTieuController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
     <Compile Include="Controllers\AT\ViewAccidentController.cs" />
     <Compile Include="Controllers\BGD\AccidentReportController.cs" />
@@ -7181,12 +7182,10 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-
     <Content Include="excel\DK\Thong-ke-tai-nan.xlsx" />
     <Content Include="excel\DK\Thong-ke-tai-nan-download.xlsx" />
     <Content Include="doc\TCLD\chamdutdow\chamdut-ko-tro-cap-template.docx" />
     <Content Include="doc\TCLD\chamdutzip\chamdut-ko-tro-cap-template.docx" />
-
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7522,6 +7521,7 @@
     <Content Include="Views\DK\EquipmentIncident\Report.cshtml" />
     <Content Include="Views\DK\Department_Criteria\Department_Criteria_By_Month.cshtml" />
     <Content Include="Views\DK\Department_Criteria\Department_Criteria_By_Year.cshtml" />
+    <Content Include="Views\DK\KeHoachDieuHanhChiTieu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7538,6 +7538,7 @@
     <Folder Include="Views\Department_CriteriaController_By_Month\" />
     <Folder Include="Views\Department_CriteriaController_By_Year\" />
     <Folder Include="Views\Department_Criteria_By_Year\" />
+    <Folder Include="Views\KeHoachDieuHanhChiTieu\" />
     <Folder Include="Views\StatisticalAccident\" />
     <Folder Include="Views\TrangChu\" />
   </ItemGroup>
