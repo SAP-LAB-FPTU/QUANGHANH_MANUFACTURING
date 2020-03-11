@@ -44,15 +44,20 @@ namespace QUANGHANH2.Controllers.DK
                     //
                     string sqlPhongBanTieuChi = "select a.MaPhongBan,a.MaTieuChi,b.TenTieuChi from PhongBan_TieuChi a left join TieuChi b on a.MaTieuChi = b.MaTieuChi\n" +
                                                 "where MaPhongBan = @maphongban and Thang = @thang and Nam = @nam";
-                    string sqlTieuChi = "select * from TieuChi";
+                    
                     list = db.Database.SqlQuery<TieuChiABC>(sqlPhongBanTieuChi, new SqlParameter("maphongban", departmentID),
                         new SqlParameter("thang", month),
                         new SqlParameter("nam", year)).ToList<TieuChiABC>();
+                    //If list PhongBan_TieuChi have no record -> take data from PhongBan_TieuChi_TheoNam
                     if (list.Count == 0)
                     {
-
+                        sqlPhongBanTieuChi = @"select a.MaPhongBan,a.MaTieuChi,b.TenTieuChi from PhongBan_TieuChi_TheoNam a left join TieuChi b on a.MaTieuChi = b.MaTieuChi
+                                                where MaPhongBan = @maphongban and Nam = @nam";
+                        list = db.Database.SqlQuery<TieuChiABC>(sqlPhongBanTieuChi, new SqlParameter("maphongban", departmentID),
+                            new SqlParameter("nam", year)).ToList<TieuChiABC>();
                     }
-
+                    //get list TieuChi
+                    string sqlTieuChi = "select * from TieuChi";
                     listTieuChi = db.Database.SqlQuery<TieuChi>(sqlTieuChi).ToList<TieuChi>();
                     return Json(new { listPhongBanTieuChi = list , listTieuChi = listTieuChi});
                 }
