@@ -671,16 +671,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         [Route("phan-xuong/diem-danh")]
         public ActionResult takeAttendanceView()
         {
-            try
-            {
-
-            }
-            catch (Exception e)
-            {
-
-            }
-
-            return View("/Views/PX/PXKT/takeAttendance.cshtml");
+                return View("/Views/PX/PXKT/takeAttendance.cshtml");
         }
 
         public dynamic getAll(int session, string departmentID, DateTime date, string MaNV, string TenNV)
@@ -1041,7 +1032,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         [Route("phan-xuong-doi-song/dang-ky-suat-an/save")]
         public ActionResult RegistrationSave(IList<PxdsModelView> details)
         {
-            var timeHelper = new TimeHelper();
+             var timeHelper = new TimeHelper();
             DateTime mondayOfNextWeek = timeHelper.StartOfNextWeek(DateTime.Now, DayOfWeek.Monday);
             bool success;
             if (_repository.HasMealRegistration(mondayOfNextWeek))
