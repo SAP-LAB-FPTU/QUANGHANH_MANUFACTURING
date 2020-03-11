@@ -565,9 +565,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
         }
     }
 
-    /// <summary>
-    /// Defines the <see cref="NghiVLD" />
-    /// </summary>
     public class NhanLuc
     {
         public string MaDonVi { get; set; }
@@ -609,7 +606,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             HoTen = hoTen;
             TenDonVi = tenDonVi;
         }
-
     }
 
     public class SanLuong

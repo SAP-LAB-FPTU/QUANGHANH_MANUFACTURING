@@ -3,8 +3,6 @@
     Layout = null;
 }
 
-
-
 <!DOCTYPE html>
 
 <html>
@@ -62,13 +60,14 @@
                     <th>C.Lệch</th>
                     <th>%</th>
                     <th>Lũy kế</th>
-                    <th>KHĐC(Tăng 3-5%)</th>
+                    <th>KHĐC</th>
                     <th>% ĐC</th>
                     <th>Tổng</th>
                     <th>1 Ngày</th>
                 </tr>
             </thead>
-            <tbody class="table-content"></tbody>
+            <tbody class="table-content">
+            </tbody>
         </table>
 
     </div>
@@ -89,7 +88,7 @@
                 url: '/ban-giam-doc/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty',
                 data: {
                     'date': changeDateFormat($("#date").text()),
-                    "someData" : ""
+                    "someData": ""
                 },
                 success: function (response) {
                     data = JSON.parse(response.data);
