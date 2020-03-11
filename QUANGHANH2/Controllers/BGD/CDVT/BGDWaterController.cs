@@ -9,7 +9,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
     public class BGDWaterController : Controller
     {
         [Route("ban-giam-doc/bao-cao-thoat-nuoc")]
-        public ActionResult Water()
+        public ActionResult Index()
         {
             return View("/Views/BGD/CDVT/WaterReport.cshtml");
         }
