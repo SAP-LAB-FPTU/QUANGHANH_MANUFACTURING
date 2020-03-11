@@ -37,17 +37,12 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                 var MaPhongBan = Request["MaPhongBan"];
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    //
+                    //Get List Department
                     var query = " select * from Department WHERE department_type = @departmentType order by department_name";
                     List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
                     ViewBag.listDepartments = listDepartments;
-                    //get data's table to paging
-                    int start = Convert.ToInt32(Request["start"]);
-                    int length = Convert.ToInt32(Request["length"]) == 0 ? 10 : Convert.ToInt32(Request["length"]);
-                    string searchValue = Request["search[value]"] == null ? "" : Request["search[value]"];
-                    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"] == null ? "TenTieuChi" : Request["columns[" + Request["order[0][column]"] + "][name]"];
-                    string sortDirection = Request["order[0][dir]"] == null ? "desc" : Request["order[0][dir]"];
 
+                    //Get list KH
                     var sqlGetInfor = @"select pb_tc.MaPhongBan, (case when kh_th.SoNgayLamViec is null then 0 else kh_th.SoNgayLamViec end) as SoNgayLamViec, pb_tc.MaTieuChi, pb_tc.TenTieuChi, pb_tc.DonViDo, ISNULL(kh_th.SanLuong, 0) as SanLuong, kh_th.GhiChu from
                                         ((select a.MaTieuChi, b.TenTieuChi, b.DonViDo, a.MaPhongBan from PhongBan_TieuChi a left outer join TieuChi b on a.MaTieuChi = b.MaTieuChi
                                         where a.Thang = @month and a.Nam = @year and a.MaPhongBan = @departmentID) as pb_tc
@@ -63,12 +58,10 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                                         from header_KeHoachTungThang a join KeHoach_TieuChi_TheoThang b 
                                         on a.HeaderID = b.HeaderID join KeHoachTungThang khtt on a.ThangID = khtt.ThangID) as kh_b
                                         on kh_a.MaTieuChi = kh_b.MaTieuChi and kh_a.MaPhongBan = kh_b.MaPhongBan and kh_a.ThoiGianNhapCuoiCung = kh_b.ThoiGianNhapCuoiCung)) as kh_th
-                                        on pb_tc.MaTieuChi = kh_th.MaTieuChi and pb_tc.MaPhongBan = kh_th.MaPhongBan)
-                                        order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
-
-                    int totalrows = db.NhomCongViecs.Count();
-                    int totalrowsafterfiltering = totalrows;
+                                        on pb_tc.MaTieuChi = kh_th.MaTieuChi and pb_tc.MaPhongBan = kh_th.MaPhongBan)";
                     List<KeHoachSanXuatTheoThang> listKH = db.Database.SqlQuery<KeHoachSanXuatTheoThang>(sqlGetInfor, new SqlParameter("month", Thang), new SqlParameter("year", Nam), new SqlParameter("@departmentID", MaPhongBan)).ToList();
+
+                    //check something by Duy Senpai :)
                     string sqlchecksnlv = @"select *
                                             from KeHoachTungThang where ThangKeHoach = @month and NamKeHoach = @year";
                     KeHoachTungThang khtt = db.Database.SqlQuery<KeHoachTungThang>(sqlchecksnlv, new SqlParameter("month", Thang), new SqlParameter("year", Nam)).FirstOrDefault();
@@ -80,7 +73,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                         ck = "1";
                         num = khtt.SoNgayLamViec.Value;
                     }
-                    return Json(new { SoNgayLamViec = listKH.Count == 0 ? 0 : listKH[0].SoNgayLamViec, listKH = listKH, recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering, check = ck, snlv = num }, JsonRequestBehavior.AllowGet);
+                    return Json(new { SoNgayLamViec = listKH.Count == 0 ? 0 : listKH[0].SoNgayLamViec, listKH = listKH, check = ck, snlv = num }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception e)
@@ -108,7 +101,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                 {
                     try
                     {
-                        
+
                         KeHoachTungThang kh = new KeHoachTungThang();
                         kh.NamKeHoach = nam;
                         kh.ThangKeHoach = thang;
