@@ -108,7 +108,7 @@
                 }
             }
         })
-        dem--;
+
     })
 </script>
 
@@ -169,7 +169,8 @@
                 content = "";
                 let reponseListPhongBanTieuChi = response.listPhongBanTieuChi;
                 for (let i = 0; i < reponseListPhongBanTieuChi.length; i++) {
-                    content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a class='btn red darken-2' onclick='deleteInformation(" + reponseListPhongBanTieuChi[i].HeaderID +","+ reponseListPhongBanTieuChi[i].MaTieuChi +")'>Xóa</a></td><tr>";
+                    content += "<tr  id=\"MaTieuChi" + dem + "\"><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a id='delete-btn' name=\"MaTieuChi" + dem + "\" class='btn red darken-2'>Xóa</a></td><tr>";
+                    dem++;
                 }
                 tableBody.html(content);
                 ViewMode();
