@@ -9,7 +9,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
     public class BGDReportPowerUsageController : Controller
     {
         [Route("ban-giam-doc/bao-cao-dien-nang")]
-        public ActionResult Quarter()
+        public ActionResult Index()
         {
             return View("/Views/BGD/CDVT/QuarterPowerUsage.cshtml");
         }
