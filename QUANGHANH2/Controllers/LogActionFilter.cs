@@ -22,7 +22,7 @@ namespace QUANGHANH2.Controllers
 
         private void Log(string methodName, RouteData routeData)
         {
-            if (HttpContext.Current.Session["userID"] == null || methodName.Equals("OnActionExecuting"))
+            if (HttpContext.Current.Session["userID"] == null || methodName.Equals("OnActionExecuting") || routeData.Values["action"].ToString() != "Index")
                 return;
             var Request = HttpContext.Current.Request;
             List<string> except = new List<string>() { "/Notifi/CDVT", "/" };     //  thêm path loại trừ tại đây
@@ -57,8 +57,8 @@ namespace QUANGHANH2.Controllers
                     log.Method = Controller;
                     log.Url = Request.Url.AbsolutePath;
                     log.Location_IP = ip;
-                    User_Action_Log l = db.User_Action_Log.Where(x => x.AccountID.Equals(AccountID) && x.Browser.Equals(Request.Browser.Browser) && x.Method.Equals(Controller)).OrderByDescending(x => x.Action_Time).FirstOrDefault();
-                    if (l == null || DateTime.Now.Subtract(l.Action_Time).TotalMinutes > 3)
+                    User_Action_Log l = db.User_Action_Log.Where(x => x.AccountID.Equals(AccountID)).OrderByDescending(x => x.Action_Time).FirstOrDefault();
+                    if (l == null || l.Url != log.Url)
                     {
                         db.User_Action_Log.Add(log);
                         db.SaveChanges();
