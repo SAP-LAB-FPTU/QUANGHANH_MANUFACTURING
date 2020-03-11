@@ -94,7 +94,7 @@ namespace QUANGHANHCORE.Controllers.DK
             DateTime timeEnd = Convert.ToDateTime(date);
             var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
 
-            string query = @"select d.MaTieuChi, (case when a.thuchien is null then 0 else a.thuchien end) as 'thuchien', b.LUYKE, (case when c.KH is null then 0 else c.KH end) as 'KH', d.KHDC
+            string query = @"select d.MaTieuChi, (case when a.thuchien is null then 0 else a.thuchien end) as 'thuchien', (case when b.LUYKE is null then 0 else b.LUYKE end) as 'LUYKE', (case when c.KH is null then 0 else c.KH end) as 'KH', d.KHDC
                             from (select a.MaTieuChi, sum(kt.SanLuong) 'KHDC'
 		                            from(select  kt.HeaderID, hkt.MaPhongBan, khtt.ThangKeHoach,kt.MaTieuChi,max(ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung'
 		                            from KeHoach_TieuChi_TheoThang kt inner join header_KeHoachTungThang hkt
@@ -105,7 +105,7 @@ namespace QUANGHANHCORE.Controllers.DK
 		                            ) as a inner join KeHoach_TieuChi_TheoThang kt on a.HeaderID = kt.HeaderID and a.ThoiGianNhapCuoiCung = kt.ThoiGianNhapCuoiCung and a.MaTieuChi = kt.MaTieuChi
 		                            group by a.MaTieuChi) as d
 
-                            join (select MaTieuChi, sum(SanLuong) as 'LUYKE' from ThucHien_TieuChi_TheoNgay as th
+                            left outer join (select MaTieuChi, sum(SanLuong) as 'LUYKE' from ThucHien_TieuChi_TheoNgay as th
 		                            join (select tht.*,hth.MaPhongBan,hth.HeaderID from header_ThucHienTheoNgay hth join ThucHienTheoNgay tht on hth.NgayID = tht.NgayID where Ngay between @dateStart and @dateEnd) as h on th.HeaderID = h.HeaderID
 		                            group by MaTieuChi) as b on d.MaTieuChi = b.MaTieuChi
 

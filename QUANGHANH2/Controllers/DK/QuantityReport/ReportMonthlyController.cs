@@ -180,10 +180,13 @@ namespace QUANGHANH2.Controllers.DK
                 var listKHDC_BD = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("year", year)).ToList();
                 if(listKHDC_BD.Count < listTH.Count)
                 {
-                    string script = @"select distinct h.MaPhongBan,k.MaTieuChi from header_KeHoachTungThang h join KeHoach_TieuChi_TheoThang k on h.HeaderID = k.HeaderID join KeHoachTungThang kh on h.ThangID = kh.ThangID where kh.NamKeHoach = @year
+                    string script = @"select d.department_name, n.TenNhomTieuChi
+                                    from (
+                                    select distinct h.MaPhongBan,t.MaNhomTieuChi from header_KeHoachTungThang h join KeHoach_TieuChi_TheoThang k on h.HeaderID = k.HeaderID join KeHoachTungThang kh on h.ThangID = kh.ThangID join TieuChi t on k.MaTieuChi = t.MaTieuChi where kh.NamKeHoach = @year
                                     except
-                                    select distinct h.MaPhongBan,k.MaTieuChi from header_KeHoach_TieuChi_TheoNam h join KeHoach_TieuChi_TheoNam k on h.HeaderID = k.HeaderID where h.Nam = @year";
-                    var list_thieu = db.Database.SqlQuery<PhongBan_TieuChi>(script, new SqlParameter("year", year)).ToList();
+                                    select distinct h.MaPhongBan,t.MaNhomTieuChi from header_KeHoach_TieuChi_TheoNam h join KeHoach_TieuChi_TheoNam k on h.HeaderID = k.HeaderID join TieuChi t on k.MaTieuChi = t.MaTieuChi where h.Nam = @year
+                                    ) a join Department d on a.MaPhongBan = d.department_id join NhomTieuChi n on a.MaNhomTieuChi = n.MaNhomTieuChi";
+                    var list_thieu = db.Database.SqlQuery<tieuchi_thieu>(script, new SqlParameter("year", year)).ToList();
                     JsonSerializerSettings jss2 = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
                     var result2 = JsonConvert.SerializeObject(list_thieu, Formatting.Indented, jss2);
                     return Json(new { success = false, mess = "chưa nhập kế hoạch năm", thieu = result2 }, JsonRequestBehavior.AllowGet);
@@ -430,5 +433,11 @@ namespace QUANGHANH2.Controllers.DK
     public class yearlyPlan : header_SanLuongTheoThangQuy
     {
         public double SanLuong { get; set; }
+    }
+
+    public class tieuchi_thieu
+    {
+        public string department_name { get; set; }
+        public string TenNhomTieuChi { get; set; }
     }
 }
