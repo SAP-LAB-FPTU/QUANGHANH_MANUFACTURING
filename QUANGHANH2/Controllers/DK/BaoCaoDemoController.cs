@@ -36,10 +36,14 @@ namespace QUANGHANH2.Controllers.DK
 
             var queryKH = @"select department_id,SUM(case when view5.MaTieuChi = 1 then SanLuong else 0 end) as [DAOLO],
                             SUM(case when view5.MaTieuChi = 2 then SanLuong else 0 end) as [KHAITHAC],
-                            SUM(case when view5.MaTieuChi = 7 or view5.MaTieuChi = 9 or view5.MaTieuChi = 19 then SanLuong else 0 end) as [METLO],
+                            SUM(case when view5.MaTieuChi = 7 or view5.MaTieuChi = 9 then SanLuong else 0 end) as [METLO],
+                            SUM(case when view5.MaTieuChi = 19 then SanLuong else 0 end) as [XEN], 
                             SUM(case when view5.MaTieuChi = 3 or view5.MaTieuChi = 4 then SanLuong else 0 end) as [LOTHIEN], 
                             SUM(case when t.MaNhomTieuChi = 9 then SanLuong else 0 end) as [TIEUTHU], 
-                            SUM(case when view5.MaTieuChi = 30 then SanLuong else 0 end) as [DOANHTHU] 
+                            SUM(case when view5.MaTieuChi = 30 then SanLuong else 0 end) as [DOANHTHU],
+                            SUM(case when (view5.MaTieuChi = 7 or view5.MaTieuChi = 9) and isInside = 1 then SanLuong else 0 end) as [TRONG],
+                            SUM(case when (view5.MaTieuChi = 7 or view5.MaTieuChi = 9) and isInside = 0 then SanLuong else 0 end) as [NGOAI],
+                            SUM(case when view5.MaTieuChi = 6 then SanLuong else 0 end) as [DUONGHUY]
                             from(select tmp.* from( 
                             select header.MaPhongBan, kh.MaTieuChi, kh.SanLuong from 
                             (select h.*, kh.SoNgayLamViec from header_KeHoachTungThang h join KeHoachTungThang kh on h.ThangID = kh.ThangID where ThangKeHoach = @month and NamKeHoach = @year) as header 
@@ -53,27 +57,26 @@ namespace QUANGHANH2.Controllers.DK
                             tmp.MaPhongBan = pbtc.MaPhongBan and tmp.MaTieuChi = pbtc.MaTieuChi) as view5
                             inner join TieuChi t on view5.MaTieuChi = t.MaTieuChi							
                             right join Department on MaPhongBan = department_id
-							where department_id in (N'ĐL1',N'ĐL3',N'ĐL4',N'ĐL5',N'ĐL7',N'ĐL8',N'KT1',N'KT2',N'KT3',N'KT4',N'KT5',N'KT6',N'KT7',N'KT8',N'KT9',N'KT10',N'KT11')
+							where department_id in (N'ĐL1',N'ĐL3',N'ĐL5',N'ĐL7',N'ĐL8',N'KT1',N'KT2',N'KT3',N'KT4',N'KT5',N'KT6',N'KT7',N'KT8',N'KT9',N'KT10',N'KT11')
                             group by department_id
 							order by
 								case department_id
 								when N'ĐL1' then 1
 								when N'ĐL3' then 2
-								when N'ĐL4' then 3
-								when N'ĐL5' then 4
-								when N'ĐL7' then 5
-								when N'ĐL8' then 6
-								when N'KT1' then 7
-								when N'KT2' then 8
-								when N'KT3' then 9
-								when N'KT4' then 10
-								when N'KT5' then 11
-								when N'KT6' then 12
-								when N'KT7' then 13
-								when N'KT8' then 14
-								when N'KT9' then 15
-								when N'KT10' then 16
-								when N'KT11' then 17
+								when N'ĐL5' then 3
+								when N'ĐL7' then 4
+								when N'ĐL8' then 5
+								when N'KT1' then 6
+								when N'KT2' then 7
+								when N'KT3' then 8
+								when N'KT4' then 9
+								when N'KT5' then 10
+								when N'KT6' then 11
+								when N'KT7' then 12
+								when N'KT8' then 13
+								when N'KT9' then 14
+								when N'KT10' then 15
+								when N'KT11' then 16
 							end";
             //
             var queryDaily = @"select [date],SUM(case when MaPhongBan = N'ĐL1' and MaTieuChi = 1 and Ngay = [date] then SanLuong else 0 end) as PXDL1_THANTH,
@@ -165,9 +168,13 @@ namespace QUANGHANH2.Controllers.DK
         public double DAOLO { get; set; }
         public double KHAITHAC { get; set; }
         public double METLO { get; set; }
+        public double XEN { get; set; }
         public double LOTHIEN { get; set; }
         public double TIEUTHU { get; set; }
         public double DOANHTHU { get; set; }
+        public double TRONG { get; set; }
+        public double NGOAI { get; set; }
+        public double DUONGHUY { get; set; }
     }
 
     public class DailyEntity

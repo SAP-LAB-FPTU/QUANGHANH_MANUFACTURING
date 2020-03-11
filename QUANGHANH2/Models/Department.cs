@@ -47,6 +47,7 @@ namespace QUANGHANH2.Models
             this.SupplyPlans1 = new HashSet<SupplyPlan>();
             this.Header_DiemDanh_NangSuat_LaoDong = new HashSet<Header_DiemDanh_NangSuat_LaoDong>();
             this.header_ThucHienTheoNgay = new HashSet<header_ThucHienTheoNgay>();
+            this.PhongBan_TieuChi_TheoNam = new HashSet<PhongBan_TieuChi_TheoNam>();
         }
     
         public string department_id { get; set; }
@@ -114,5 +115,7 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Header_DiemDanh_NangSuat_LaoDong> Header_DiemDanh_NangSuat_LaoDong { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<header_ThucHienTheoNgay> header_ThucHienTheoNgay { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhongBan_TieuChi_TheoNam> PhongBan_TieuChi_TheoNam { get; set; }
     }
 }

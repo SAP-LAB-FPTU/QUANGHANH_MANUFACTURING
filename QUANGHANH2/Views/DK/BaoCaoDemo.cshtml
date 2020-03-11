@@ -60,6 +60,14 @@
         border: 1px solid;
     }
 
+    th#odd {
+        background-color: yellow !important
+    }
+
+    th#even {
+        background-color: #99cc00 !important
+    }
+
     .table-bordered th {
         vertical-align: middle !important;
         text-align: center !important;
@@ -178,8 +186,7 @@
             <th colspan="2">PX Khai Thác 9</th>
             <th colspan="2">PX Khai Thác 10</th>
             <th colspan="2">PX Khai Thác 11</th>
-            <th colspan="2">Doanh Thu</th>
-            <th colspan="12">Kế hoạch các chỉ tiêu chủ yếu</th>
+            <th colspan="14">Kế hoạch các chỉ tiêu chủ yếu</th>
         </tr>
         <tr>
             <th colspan="4"> <div class="red-title">Than SX: </div><span></span></th>
@@ -198,10 +205,10 @@
             <th colspan="2"> <div class="red-title">Than SX: </div><span></span></th>
             <th colspan="2"> <div class="red-title">Than SX: </div><span></span></th>
             <th colspan="2"> <div class="red-title">Than SX: </div><span></span></th>
-            <th rowspan="3" colspan="2" id="doanhthu-cell"><span></span> tỷ</th>
             <th colspan="4"><div class="red-title">Than Sản Xuất: </div><span id="sanxuat-cell"></span></th>
-            <th colspan="4"><div class="red-title">Mét Lò: </div><span id="metlo-cell"></span></th>
-            <th colspan="4"><div class="red-title">Mét lò XDCB tự làm: </div><span></span>0</th>
+            <th colspan="3"><div class="red-title">Mét Lò: </div><span class="metlo-cell"></span></th>
+            <th colspan="4"><div class="red-title">Mét lò CBSX tự làm: </div><span id="trong-cell"></span></th>
+            <th colspan="3"><div class="red-title">Tiêu thụ: </div><span id="tieuthu-cell"></span></th>
         </tr>
         <tr>
             <th colspan="4"> <div class="red-title">Mét Lò: </div><span></span></th>
@@ -221,29 +228,31 @@
             <th colspan="2"> <div class="red-title">Mét Lò: </div><span></span></th>
             <th colspan="2"> <div class="red-title">Mét Lò: </div><span></span></th>
             <th colspan="4"><div class="red-title">Than Hầm Lò:  </div><span id="hamlo-cell"></span></th>
-            <th colspan="4"><div class="red-title">Mét Lò XDCB: </div><span></span>0</th>
-            <th colspan="4"><div class="red-title">Mét lò XDCB thuê ngoài: </div><span></span>0</th>
+            <th colspan="3"><div class="red-title">- XDCB: </div><span></span>0</th>
+            <th colspan="4"><div class="red-title">Mét lò CBSX t.ngoài: </div><span id="ngoai-cell"></span></th>
+            <th colspan="3"><div class="red-title">D.Huy: </div><span id="duonghuy-cell"></span></th>
         </tr>
         <tr>
-            <th colspan="4"> <div class="red-title">XDCB: </div><span></span></th>
-            <th colspan="4"> <div class="red-title">XDCB: </div><span></span></th>
-            <th colspan="4"> <div class="red-title">XDCB: </div><span></span></th>
-            <th colspan="4"> <div class="red-title">XDCB: </div><span></span></th>
-            <th colspan="4"> <div class="red-title">XDCB: </div><span></span></th>
-            <th colspan="2"> <div class="red-title">XDCB: </div><span></span></th>
-            <th colspan="2"> <div class="red-title">XDCB: </div><span></span></th>
-            <th colspan="2"> <div class="red-title">XDCB: </div><span></span></th>
-            <th colspan="2"> <div class="red-title">XDCB: </div><span></span></th>
-            <th colspan="2"> <div class="red-title">XDCB: </div><span></span></th>
-            <th colspan="2"> <div class="red-title">XDCB: </div><span></span></th>
-            <th colspan="2"> <div class="red-title">XDCB: </div><span></span></th>
-            <th colspan="2"> <div class="red-title">XDCB: </div><span></span></th>
-            <th colspan="2"> <div class="red-title">XDCB: </div><span></span></th>
-            <th colspan="2"> <div class="red-title">XDCB: </div><span></span></th>
-            <th colspan="2"> <div class="red-title">XDCB: </div><span></span></th>
+            <th colspan="4"> <div class="red-title">Xén: </div><span></span></th>
+            <th colspan="4"> <div class="red-title">Xén: </div><span></span></th>
+            <th colspan="4"> <div class="red-title">Xén: </div><span></span></th>
+            <th colspan="4"> <div class="red-title">Xén: </div><span></span></th>
+            <th colspan="4"> <div class="red-title">Xén: </div><span></span></th>
+            <th colspan="2"> <div class="red-title">Xén: </div><span></span></th>
+            <th colspan="2"> <div class="red-title">Xén: </div><span></span></th>
+            <th colspan="2"> <div class="red-title">Xén: </div><span></span></th>
+            <th colspan="2"> <div class="red-title">Xén: </div><span></span></th>
+            <th colspan="2"> <div class="red-title">Xén: </div><span></span></th>
+            <th colspan="2"> <div class="red-title">Xén: </div><span></span></th>
+            <th colspan="2"> <div class="red-title">Xén: </div><span></span></th>
+            <th colspan="2"> <div class="red-title">Xén: </div><span></span></th>
+            <th colspan="2"> <div class="red-title">Xén: </div><span></span></th>
+            <th colspan="2"> <div class="red-title">Xén: </div><span></span></th>
+            <th colspan="2"> <div class="red-title">Xén: </div><span></span></th>
             <th colspan="4"><div class="red-title">Than Lộ Thiên: </div><span id="lothien-cell"></span></th>
-            <th colspan="4"><div class="red-title">Mét Lò CBSX: </div><span></span>0</th>
-            <th colspan="4"><div class="red-title">Than Tiêu Thụ: </div><span id="tieuthu-cell"></span></th>
+            <th colspan="3"><div class="red-title">- CBSX: </div><span class="metlo-cell"></span></th>
+            <th colspan="4"></th>
+            <th colspan="3"><div class="red-title">D.Thu: </div><span id="doanhthu-cell"></span> tỷ</th>
         </tr>
         <tr>
             <th rowspan="2"> Thực Hiện Ngày</th>
@@ -268,13 +277,13 @@
             <th colspan="2"> Than SX</th>
             <th colspan="2"> Than SX</th>
             <th colspan="2"> Than SX</th>
-            <th colspan="2"> Thực Hiện</th>
-            <th colspan="2"> Than Sản Xuất</th>
-            <th colspan="2"> Than Hầm Lò</th>
-            <th colspan="2"> Than Lộ Thiên</th>
-            <th colspan="2"> Mét Lò</th>
-            <th colspan="2"> Dương Huy</th>
-            <th colspan="2"> Than Tiêu Thụ</th>
+            <th id="odd" colspan="2"> Doanh thu</th>
+            <th id="even" colspan="2"> Than Sản Xuất</th>
+            <th id="odd" colspan="2"> Than Hầm Lò</th>
+            <th id="even" colspan="2"> Than Lộ Thiên</th>
+            <th id="odd" colspan="2"> Mét Lò</th>
+            <th id="even" colspan="2"> Dương Huy</th>
+            <th id="odd" colspan="2"> Than Tiêu Thụ</th>
         </tr>
         <tr>
             <th>Ngày</th>
@@ -378,22 +387,31 @@
                     let lothien = 0;
                     let hamlo = 0;
                     let tieuthu = 0;
+                    let duonghuy = 0;
+                    let trong = 0;
+                    let ngoai = 0;
                     for (var j = 0; j < 16; j++) {
                         $('#mainTable thead tr:eq(1) th:eq(' + j + ') span').text(response.listKH[j].DAOLO + response.listKH[j].KHAITHAC + response.listKH[j].LOTHIEN);
                         $('#mainTable thead tr:eq(2) th:eq(' + j + ') span').text(response.listKH[j].METLO);
-                        $('#mainTable thead tr:eq(3) th:eq(' + j + ') span').text(0);
+                        $('#mainTable thead tr:eq(3) th:eq(' + j + ') span').text(response.listKH[j].XEN);
                         doanhthu += response.listKH[j].DOANHTHU;
                         metlo += response.listKH[j].METLO;
                         lothien += response.listKH[j].LOTHIEN;
                         hamlo += response.listKH[j].DAOLO + response.listKH[j].KHAITHAC;
                         tieuthu += response.listKH[j].TIEUTHU;
+                        duonghuy += response.listKH[j].DUONGHUY;
+                        trong += response.listKH[j].TRONG;
+                        ngoai += response.listKH[j].NGOAI;
                     }
-                    $('#doanhthu-cell span').text(doanhthu);
-                    $('#metlo-cell').text(metlo);
+                    $('#doanhthu-cell').text(doanhthu);
+                    $('.metlo-cell').text(metlo);
                     $('#lothien-cell').text(lothien);
                     $('#hamlo-cell').text(hamlo);
                     $('#sanxuat-cell').text(hamlo + lothien);
-                    $('#tieuthu-cell').text(tieuthu)
+                    $('#tieuthu-cell').text(tieuthu);
+                    $('#duonghuy-cell').text(duonghuy);
+                    $('#trong-cell').text(trong);
+                    $('#ngoai-cell').text(ngoai);
                     $("#month").html(response.month);
                     $("#year").html(response.year);
                     if (temp != 1) {

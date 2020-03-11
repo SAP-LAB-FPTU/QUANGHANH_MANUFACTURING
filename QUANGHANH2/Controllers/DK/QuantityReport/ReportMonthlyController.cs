@@ -126,19 +126,19 @@ namespace QUANGHANH2.Controllers.DK
                             group by MaPhongBan,MaNhomTieuChi
                             order by MaPhongBan";
 
-            var queryKHDC = @"select MaPhongBan,MaTieuChi,KHBD,KHDC from
+            var queryKHDC = @"select MaPhongBan,MaNhomTieuChi,KHBD,KHDC from
                             (select h.* from header_KeHoach_TieuChi_TheoNam h where h.Nam = @year) as headerMonthlyPlan 
                             inner join 
-                            (select HeaderID, MaTieuChi, 
+                            (select HeaderID, MaNhomTieuChi, 
                             SUM(Case when ThoiGianNhapCuoiCung = ThoiGianNhapBanDau then SanLuongKeHoach else 0 end) as [KHBD], 
                             SUM(Case when ThoiGianNhapCuoiCung = ThoiGianNhapCuoiCung_compare then SanLuongKeHoach else 0 end) as [KHDC] 
                             from 
-                            (select monthlyPlan.*, maxTime.ThoiGianNhapBanDau, maxTime.ThoiGianNhapCuoiCung as [ThoiGianNhapCuoiCung_compare] from KeHoach_TieuChi_TheoNam as monthlyPlan 
+                            (select monthlyPlan.*, maxTime.ThoiGianNhapBanDau, maxTime.ThoiGianNhapCuoiCung as [ThoiGianNhapCuoiCung_compare] from (select k.*, t.MaNhomTieuChi from KeHoach_TieuChi_TheoNam k join TieuChi t on k.MaTieuChi = t.MaTieuChi) as monthlyPlan 
                             inner join 
-                            (select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung], Min(ThoiGianNhapCuoiCung) as [ThoiGianNhapBanDau] from KeHoach_TieuChi_TheoNam 
-                            group by HeaderID, MaTieuChi) as maxTime 
-                            on maxTime.HeaderID = monthlyPlan.HeaderID and maxTime.MaTieuChi = monthlyPlan.MaTieuChi and(maxTime.ThoiGianNhapCuoiCung = monthlyPlan.ThoiGianNhapCuoiCung or maxTime.ThoiGianNhapBanDau = monthlyPlan.ThoiGianNhapCuoiCung)) as tmp1 
-                            group by HeaderID,MaTieuChi) as tmp2 
+                            (select HeaderID, MaNhomTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung], Min(ThoiGianNhapCuoiCung) as [ThoiGianNhapBanDau] from KeHoach_TieuChi_TheoNam k join TieuChi t on k.MaTieuChi = t.MaTieuChi
+                            group by HeaderID, MaNhomTieuChi) as maxTime 
+                            on maxTime.HeaderID = monthlyPlan.HeaderID and maxTime.MaNhomTieuChi = monthlyPlan.MaNhomTieuChi and(maxTime.ThoiGianNhapCuoiCung = monthlyPlan.ThoiGianNhapCuoiCung or maxTime.ThoiGianNhapBanDau = monthlyPlan.ThoiGianNhapCuoiCung)) as tmp1 
+                            group by HeaderID,MaNhomTieuChi) as tmp2 
                             on headerMonthlyPlan.HeaderID = tmp2.HeaderID 
                             order by MaPhongBan";
 
@@ -180,7 +180,16 @@ namespace QUANGHANH2.Controllers.DK
                 var listKHDC_BD = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("year", year)).ToList();
                 if(listKHDC_BD.Count < listTH.Count)
                 {
-                    return Json(new { success = false, mess = "chưa nhập kế hoạch năm" }, JsonRequestBehavior.AllowGet);
+                    string script = @"select d.department_name, n.TenNhomTieuChi
+                                    from (
+                                    select distinct h.MaPhongBan,t.MaNhomTieuChi from header_KeHoachTungThang h join KeHoach_TieuChi_TheoThang k on h.HeaderID = k.HeaderID join KeHoachTungThang kh on h.ThangID = kh.ThangID join TieuChi t on k.MaTieuChi = t.MaTieuChi where kh.NamKeHoach = @year
+                                    except
+                                    select distinct h.MaPhongBan,t.MaNhomTieuChi from header_KeHoach_TieuChi_TheoNam h join KeHoach_TieuChi_TheoNam k on h.HeaderID = k.HeaderID join TieuChi t on k.MaTieuChi = t.MaTieuChi where h.Nam = @year
+                                    ) a join Department d on a.MaPhongBan = d.department_id join NhomTieuChi n on a.MaNhomTieuChi = n.MaNhomTieuChi";
+                    var list_thieu = db.Database.SqlQuery<tieuchi_thieu>(script, new SqlParameter("year", year)).ToList();
+                    JsonSerializerSettings jss2 = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+                    var result2 = JsonConvert.SerializeObject(list_thieu, Formatting.Indented, jss2);
+                    return Json(new { success = false, mess = "chưa nhập kế hoạch năm", thieu = result2 }, JsonRequestBehavior.AllowGet);
                 }
                 //Thu Tu In Ra Theo Ten Phong Ban
                 //
@@ -205,6 +214,7 @@ namespace QUANGHANH2.Controllers.DK
                             bc.Feb = listTH[index2].Feb;
                             bc.March = listTH[index2].March;
                             bc.April = listTH[index2].April;
+                            bc.May = listTH[index2].May;
                             bc.June = listTH[index2].June;
                             bc.July = listTH[index2].July;
                             bc.Aug = listTH[index2].Aug;
@@ -223,6 +233,11 @@ namespace QUANGHANH2.Controllers.DK
                             bc.FebKH = listKH[index2].Feb;
                             bc.MarchKH = listKH[index2].March;
                             bc.AprilKH = listKH[index2].April;
+                            bc.MayKH = listKH[index2].May;
+                            bc.JuneKH = listKH[index2].June;
+                            bc.JulyKH = listKH[index2].July;
+                            bc.AugKH = listKH[index2].Aug;
+                            bc.SepKH = listKH[index2].Sep;
                             bc.OctKH = listKH[index2].Oct;
                             bc.NovKH = listKH[index2].Nov;
                             bc.DecKH = listKH[index2].Dec;
@@ -237,67 +252,67 @@ namespace QUANGHANH2.Controllers.DK
                             //
                             if (bc.JanKH != 0 )
                             {
-                                bc.JanPor = 100*bc.Jan / bc.JanKH;
+                                bc.JanPor = string.Format("{0:0.00}", 100 * bc.Jan / bc.JanKH);
                             }
                             if (bc.FebKH != 0)
                             {
-                                bc.FebPor = 100*bc.Feb / bc.FebKH;
+                                bc.FebPor = string.Format("{0:0.00}", 100 * bc.Feb / bc.FebKH);
                             }
                             if (bc.MarchKH != 0)
                             {
-                                bc.MarchPor = 100*bc.March / bc.MarchKH;
+                                bc.MarchPor = string.Format("{0:0.00}", 100 * bc.March / bc.MarchKH);
                             }
                             if (bc.AprilKH != 0)
                             {
-                                bc.AprilPor = 100*bc.Jan / bc.JanKH;
+                                bc.AprilPor = string.Format("{0:0.00}", 100 * bc.Jan / bc.JanKH);
                             }
                             if (bc.MayKH != 0)
                             {
-                                bc.MayPor = 100*bc.May / bc.MayKH;
+                                bc.MayPor = string.Format("{0:0.00}", 100 * bc.May / bc.MayKH);
                             }
                             if (bc.JuneKH != 0)
                             {
-                                bc.JunePor = 100*bc.June / bc.JuneKH;
+                                bc.JunePor = string.Format("{0:0.00}", 100 * bc.June / bc.JuneKH);
                             }
                             if (bc.JulyKH != 0)
                             {
-                                bc.JulyPor = 100*bc.July / bc.JulyKH;
+                                bc.JulyPor = string.Format("{0:0.00}", 100 * bc.July / bc.JulyKH);
                             }
                             if (bc.AugKH != 0)
                             {
-                                bc.AugPor = 100*bc.Aug / bc.AugKH;
+                                bc.AugPor = string.Format("{0:0.00}", 100 * bc.Aug / bc.AugKH);
                             }
                             if (bc.SepKH != 0)
                             {
-                                bc.SepPor = 100*bc.Sep / bc.SepKH;
+                                bc.SepPor = string.Format("{0:0.00}", 100 * bc.Sep / bc.SepKH);
                             }
                             if (bc.OctKH != 0)
                             {
-                                bc.OctPor = 100*bc.Oct / bc.OctKH;
+                                bc.OctPor = string.Format("{0:0.00}", 100 * bc.Oct / bc.OctKH);
                             }
                             if (bc.NovKH != 0)
                             {
-                                bc.NovPor = 100*bc.Nov / bc.NovKH;
+                                bc.NovPor = string.Format("{0:0.00}", 100 * bc.Nov / bc.NovKH);
                             }
                             if (bc.DecKH != 0)
                             {
-                                bc.DecPor = 100*bc.Dec / bc.DecKH;
+                                bc.DecPor = string.Format("{0:0.00}", 100 * bc.Dec / bc.DecKH);
                             }
                             if (bc.Q1KH != 0)
                             {
-                                bc.Q1Por = 100*bc.Q1 / bc.Q1KH;
+                                bc.Q1Por = string.Format("{0:0.00}", 100 * bc.Q1 / bc.Q1KH);
                             }
                             if (bc.Q2KH != 0)
                             {
-                                bc.Q2Por = 100*bc.Q2 / bc.Q1KH;
+                                bc.Q2Por = string.Format("{0:0.00}", 100 * bc.Q2 / bc.Q1KH);
                             }
                             if (bc.Q3KH != 0)
                             {
-                                bc.Q3Por = 100*bc.Q3 / bc.Q1KH;
+                                bc.Q3Por = string.Format("{0:0.00}", 100 * bc.Q3 / bc.Q1KH);
                             }
                             if (bc.totalYearKH != 0)
                             {
-                                bc.totalYearPor = 100*bc.totalYear / bc.totalYearKH;
+                                bc.totalYearPor = string.Format("{0:0.00}", 100 * bc.totalYear / bc.totalYearKH);
                             }
                             listBaoCao.Add(bc);
                         }
@@ -394,22 +409,22 @@ namespace QUANGHANH2.Controllers.DK
         public double Q3KH { get; set; }
         public double totalYear { get; set; }
         public double totalYearKH { get; set; }
-        public double totalYearPor { get; set; }
-        public double JanPor { get; set; }
-        public double FebPor { get; set; }
-        public double MarchPor { get; set; }
-        public double AprilPor { get; set; }
-        public double MayPor { get; set; }
-        public double JunePor { get; set; }
-        public double JulyPor { get; set; }
-        public double AugPor { get; set; }
-        public double SepPor { get; set; }
-        public double OctPor { get; set; }
-        public double NovPor { get; set; }
-        public double DecPor { get; set; }
-        public double Q1Por { get; set; }
-        public double Q2Por { get; set; }
-        public double Q3Por { get; set; }
+        public string totalYearPor { get; set; }
+        public string JanPor { get; set; }
+        public string FebPor { get; set; }
+        public string MarchPor { get; set; }
+        public string AprilPor { get; set; }
+        public string MayPor { get; set; }
+        public string JunePor { get; set; }
+        public string JulyPor { get; set; }
+        public string AugPor { get; set; }
+        public string SepPor { get; set; }
+        public string OctPor { get; set; }
+        public string NovPor { get; set; }
+        public string DecPor { get; set; }
+        public string Q1Por { get; set; }
+        public string Q2Por { get; set; }
+        public string Q3Por { get; set; }
 
         public double firstPlan { get; set; }
         public double adjustedPlan { get; set; }
@@ -418,5 +433,11 @@ namespace QUANGHANH2.Controllers.DK
     public class yearlyPlan : header_SanLuongTheoThangQuy
     {
         public double SanLuong { get; set; }
+    }
+
+    public class tieuchi_thieu
+    {
+        public string department_name { get; set; }
+        public string TenNhomTieuChi { get; set; }
     }
 }

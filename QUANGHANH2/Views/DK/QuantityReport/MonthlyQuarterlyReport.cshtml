@@ -6,19 +6,19 @@
 <link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 <style>
-        #table-container {
-            overflow: scroll;
-        }
+    #table-container {
+        overflow: scroll;
+    }
 
-        #yearCalendar {
-            width: 15% !important;
-            float: right;
-        }
+    #yearCalendar {
+        width: 15% !important;
+        float: right;
+    }
 
-        #view-btn {
-            float: left;
-        }
-        /*.sticky + .table-content {
+    #view-btn {
+        float: left;
+    }
+    /*.sticky + .table-content {
       padding-top: 102px;
     }
         .sticky {
@@ -143,6 +143,25 @@
         </div>
     </div>
 </div>
+<button style="display:none" id="showmodal" class="modal-trigger" data-target="modal_thieu">show</button>
+<div class="modal" id="modal_thieu">
+    <div class="modal-header center">
+        <h4 style="margin-top: 15px">Các tiêu chí còn thiếu</h4>
+    </div>
+    <div class="modal-body card">
+        <div class="card-content">
+            <table class="table-bordered striped" id="thieu_table">
+                <thead>
+                    <tr>
+                        <td>Phòng ban</td>
+                        <td>Tiêu chí còn thiếu</td>
+                    </tr>
+                </thead>
+                <tbody id="modal_tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 <span hidden value="hihi" id="createdHeader"></span>
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
@@ -200,7 +219,18 @@
                     $("#reportTable").children("tbody").html(content);
                 }
                 if (response.success == false) {
-                    errorAlert("", response.mess);
+                    //errorAlert("", response.mess);
+                    $("#modal_tbody").empty();
+                    data = JSON.parse(response.thieu);
+                    content = "";
+                    for (var i = 0; i < data.length; i++) {
+                        content += "<tr>";
+                        content += "<td>" + data[i]["department_name"] + "</td>";
+                        content += "<td>" + data[i]["TenNhomTieuChi"] + "</td>";
+                        content += "</tr>";
+                    }
+                    $("#thieu_table").children("tbody").html(content);
+                    $("#showmodal").click();
                 }
                 $("#pre-load").hide("slow", function () { });
             },
