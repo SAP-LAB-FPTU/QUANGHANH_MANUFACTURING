@@ -414,7 +414,7 @@
                 $("#workedAllCheckbox").hide();
                 $("#notWorkedAllCheckbox").hide();
                 $(".reasonBox").each(function () {
-                    var text = "<select class=\"browser-default \"><option value=\"\" disabled>NGHỈ NGẮN HẠN</option><option value=\"1\">Ốm</option><option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option><option value=\"4\">Khác</option><option value=\"\" disabled>NGHỈ DÀI HẠN</option><option value=\"5\">Tai nạn lao động</option><option value=\"6\">Ốm dài</option><option value=\"7\">Thai sản</option><option value=\"8\">Tạm hoãn lao động</option><option value=\"9\">Vô lý do dài</option></select>";
+                    var text = "<select class=\"browser-default \"><option value=\"\">Chọn lý do</option><option value=\"\" disabled>NGHỈ NGẮN HẠN</option><option value=\"1\">Ốm</option><option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option><option value=\"4\">Khác</option><option value=\"\" disabled>NGHỈ DÀI HẠN</option><option value=\"5\">Tai nạn lao động</option><option value=\"6\">Ốm dài</option><option value=\"7\">Thai sản</option><option value=\"8\">Tạm hoãn lao động</option><option value=\"9\">Vô lý do dài</option></select>";
                     if ($(this).text() != "") {
                         var regex = new RegExp('<option value=\\"[0-9]+\\">' + $(this).text() + '<\/option>');
                         var arr = text.split(regex);

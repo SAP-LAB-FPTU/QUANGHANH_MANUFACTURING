@@ -26,7 +26,7 @@ namespace QUANGHANH2.Repositories
                 var mealRegistrations = Context.Database.SqlQuery<PxdsMealRegistrationModelView>($"" +
                     $"SELECT mr.id Id, mr.department_id DepartmentId, mr.date_regs DateRegistration, mr.num_regs NumOfMealRegistrations, mr.num_regs_plan NumOfMealRegistrationsPlan " +
                     $"FROM MealRegistration mr " +
-                    $"WHERE date_regs BETWEEN '{mondayOfNextWeek.Date}' AND '{mondayOfNextWeek.AddDays(5).Date}'").ToList();
+                    $"WHERE date_regs BETWEEN '{mondayOfNextWeek.Date}' AND '{mondayOfNextWeek.AddDays(7).Date}'").ToList();
                 // convert PxdsMealRegistrationModelView to PxdsModelView
                 foreach (var reg in details)
                 {
@@ -87,31 +87,31 @@ namespace QUANGHANH2.Repositories
                 foreach(var reg in details)
                 {
                     //Monday
-                    string sub_insert = $"INSERT INTO MealRegistration(department_id, date_regs, num_regs, num_regs_plan) VALUES('{reg.DepartmentId}', '{mondayOfNextWeek.Date.ToString()}', {reg.RegMonday}, {reg.RegMondayPlan});";
+                    string sub_insert = $"INSERT INTO MealRegistration(department_id, date_regs, num_regs, num_regs_plan) VALUES(N'{reg.DepartmentId}', '{mondayOfNextWeek.Date.ToString()}', {reg.RegMonday}, {reg.RegMondayPlan});";
                     bulk_insert = string.Concat(bulk_insert, sub_insert);
                     //Tuesday
-                    sub_insert = $"INSERT INTO MealRegistration(department_id, date_regs, num_regs, num_regs_plan) VALUES('{reg.DepartmentId}', '{mondayOfNextWeek.AddDays(1).Date.ToString()}', {reg.RegTuesday}, {reg.RegTuesdayPlan});";
+                    sub_insert = $"INSERT INTO MealRegistration(department_id, date_regs, num_regs, num_regs_plan) VALUES(N'{reg.DepartmentId}', '{mondayOfNextWeek.AddDays(1).Date.ToString()}', {reg.RegTuesday}, {reg.RegTuesdayPlan});";
                     bulk_insert = string.Concat(bulk_insert, sub_insert);
                     //Wednesday
-                    sub_insert = $"INSERT INTO MealRegistration(department_id, date_regs, num_regs, num_regs_plan) VALUES('{reg.DepartmentId}', '{mondayOfNextWeek.AddDays(2).Date.ToString()}', {reg.RegWednesday}, {reg.RegWednesdayPlan});";
+                    sub_insert = $"INSERT INTO MealRegistration(department_id, date_regs, num_regs, num_regs_plan) VALUES(N'{reg.DepartmentId}', '{mondayOfNextWeek.AddDays(2).Date.ToString()}', {reg.RegWednesday}, {reg.RegWednesdayPlan});";
                     bulk_insert = string.Concat(bulk_insert, sub_insert);
                     //Thursday
-                    sub_insert = $"INSERT INTO MealRegistration(department_id, date_regs, num_regs, num_regs_plan) VALUES('{reg.DepartmentId}', '{mondayOfNextWeek.AddDays(3).Date.ToString()}', {reg.RegThursday}, {reg.RegThursdayPlan});";
+                    sub_insert = $"INSERT INTO MealRegistration(department_id, date_regs, num_regs, num_regs_plan) VALUES(N'{reg.DepartmentId}', '{mondayOfNextWeek.AddDays(3).Date.ToString()}', {reg.RegThursday}, {reg.RegThursdayPlan});";
                     bulk_insert = string.Concat(bulk_insert, sub_insert);
                     //Friday
-                    sub_insert = $"INSERT INTO MealRegistration(department_id, date_regs, num_regs, num_regs_plan) VALUES('{reg.DepartmentId}', '{mondayOfNextWeek.AddDays(4).Date.ToString()}', {reg.RegFriday}, {reg.RegFridayPlan});";
+                    sub_insert = $"INSERT INTO MealRegistration(department_id, date_regs, num_regs, num_regs_plan) VALUES(N'{reg.DepartmentId}', '{mondayOfNextWeek.AddDays(4).Date.ToString()}', {reg.RegFriday}, {reg.RegFridayPlan});";
                     bulk_insert = string.Concat(bulk_insert, sub_insert);
                     //Saturday
-                    sub_insert = $"INSERT INTO MealRegistration(department_id, date_regs, num_regs, num_regs_plan) VALUES('{reg.DepartmentId}', '{mondayOfNextWeek.AddDays(5).Date.ToString()}', {reg.RegSaturday}, {reg.RegSaturdayPlan});";
+                    sub_insert = $"INSERT INTO MealRegistration(department_id, date_regs, num_regs, num_regs_plan) VALUES(N'{reg.DepartmentId}', '{mondayOfNextWeek.AddDays(5).Date.ToString()}', {reg.RegSaturday}, {reg.RegSaturdayPlan});";
                     bulk_insert = string.Concat(bulk_insert, sub_insert);
                     //Sunday
-                    sub_insert = $"INSERT INTO MealRegistration(department_id, date_regs, num_regs, num_regs_plan) VALUES('{reg.DepartmentId}', '{mondayOfNextWeek.AddDays(6).Date.ToString()}', {reg.RegSunday}, {reg.RegSundayPlan});";
+                    sub_insert = $"INSERT INTO MealRegistration(department_id, date_regs, num_regs, num_regs_plan) VALUES(N'{reg.DepartmentId}', '{mondayOfNextWeek.AddDays(6).Date.ToString()}', {reg.RegSunday}, {reg.RegSundayPlan});";
                     bulk_insert = string.Concat(bulk_insert, sub_insert);
                 }
                 Context.Database.ExecuteSqlCommand(bulk_insert);
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }
@@ -127,25 +127,25 @@ namespace QUANGHANH2.Repositories
                 foreach (var reg in details)
                 {
                     //Monday
-                    string sub_update = $"UPDATE MealRegistration SET num_regs = {reg.RegMonday}, num_regs_plan = {reg.RegMondayPlan} WHERE department_id = '{reg.DepartmentId}' AND date_regs = '{mondayOfNextWeek.Date.ToString()}';";
+                    string sub_update = $"UPDATE MealRegistration SET num_regs = {reg.RegMonday}, num_regs_plan = {reg.RegMondayPlan} WHERE department_id = N'{reg.DepartmentId}' AND date_regs = '{mondayOfNextWeek.Date.ToString()}';";
                     bulk_update = string.Concat(bulk_update, sub_update);
                     //Tuesday
-                    sub_update = $"UPDATE MealRegistration SET num_regs = {reg.RegTuesday}, num_regs_plan = {reg.RegTuesdayPlan} WHERE department_id = '{reg.DepartmentId}' AND date_regs = '{mondayOfNextWeek.AddDays(1).Date.ToString()}';";
+                    sub_update = $"UPDATE MealRegistration SET num_regs = {reg.RegTuesday}, num_regs_plan = {reg.RegTuesdayPlan} WHERE department_id = N'{reg.DepartmentId}' AND date_regs = '{mondayOfNextWeek.AddDays(1).Date.ToString()}';";
                     bulk_update = string.Concat(bulk_update, sub_update);
                     //Wednesday
-                    sub_update = $"UPDATE MealRegistration SET num_regs = {reg.RegWednesday}, num_regs_plan = {reg.RegWednesdayPlan} WHERE department_id = '{reg.DepartmentId}' AND date_regs = '{mondayOfNextWeek.AddDays(2).Date.ToString()}';";
+                    sub_update = $"UPDATE MealRegistration SET num_regs = {reg.RegWednesday}, num_regs_plan = {reg.RegWednesdayPlan} WHERE department_id = N'{reg.DepartmentId}' AND date_regs = '{mondayOfNextWeek.AddDays(2).Date.ToString()}';";
                     bulk_update = string.Concat(bulk_update, sub_update);
                     //Thursday
-                    sub_update = $"UPDATE MealRegistration SET num_regs = {reg.RegThursday}, num_regs_plan = {reg.RegThursdayPlan} WHERE department_id = '{reg.DepartmentId}' AND date_regs = '{mondayOfNextWeek.AddDays(3).Date.ToString()}';";
+                    sub_update = $"UPDATE MealRegistration SET num_regs = {reg.RegThursday}, num_regs_plan = {reg.RegThursdayPlan} WHERE department_id = N'{reg.DepartmentId}' AND date_regs = '{mondayOfNextWeek.AddDays(3).Date.ToString()}';";
                     bulk_update = string.Concat(bulk_update, sub_update);
                     //Friday
-                    sub_update = $"UPDATE MealRegistration SET num_regs = {reg.RegFriday}, num_regs_plan = {reg.RegFridayPlan} WHERE department_id = '{reg.DepartmentId}' AND date_regs = '{mondayOfNextWeek.AddDays(4).Date.ToString()}';";
+                    sub_update = $"UPDATE MealRegistration SET num_regs = {reg.RegFriday}, num_regs_plan = {reg.RegFridayPlan} WHERE department_id = N'{reg.DepartmentId}' AND date_regs = '{mondayOfNextWeek.AddDays(4).Date.ToString()}';";
                     bulk_update = string.Concat(bulk_update, sub_update);
                     //Saturday
-                    sub_update = $"UPDATE MealRegistration SET num_regs = {reg.RegSaturday}, num_regs_plan = {reg.RegSaturdayPlan} WHERE department_id = '{reg.DepartmentId}' AND date_regs = '{mondayOfNextWeek.AddDays(5).Date.ToString()}';";
+                    sub_update = $"UPDATE MealRegistration SET num_regs = {reg.RegSaturday}, num_regs_plan = {reg.RegSaturdayPlan} WHERE department_id = N'{reg.DepartmentId}' AND date_regs = '{mondayOfNextWeek.AddDays(5).Date.ToString()}';";
                     bulk_update = string.Concat(bulk_update, sub_update);
                     //Sunday
-                    sub_update = $"UPDATE MealRegistration SET num_regs = {reg.RegSunday}, num_regs_plan = {reg.RegSundayPlan} WHERE department_id = '{reg.DepartmentId}' AND date_regs = '{mondayOfNextWeek.AddDays(6).Date.ToString()}';";
+                    sub_update = $"UPDATE MealRegistration SET num_regs = {reg.RegSunday}, num_regs_plan = {reg.RegSundayPlan} WHERE department_id = N'{reg.DepartmentId}' AND date_regs = '{mondayOfNextWeek.AddDays(6).Date.ToString()}';";
                     bulk_update = string.Concat(bulk_update, sub_update);
                 }
                 Context.Database.ExecuteSqlCommand(bulk_update);

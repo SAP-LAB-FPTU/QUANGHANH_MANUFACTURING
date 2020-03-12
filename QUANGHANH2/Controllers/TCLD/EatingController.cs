@@ -61,6 +61,8 @@ namespace QUANGHANH2.Controllers.TCLD
             DateTime Wednesday = dayStart.AddDays(2);
             DateTime Thursday = dayStart.AddDays(3);
             DateTime Friday = dayStart.AddDays(4);
+            DateTime Saturday = dayStart.AddDays(5);
+            DateTime Sunday = dayStart.AddDays(6);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
@@ -126,7 +128,31 @@ namespace QUANGHANH2.Controllers.TCLD
                               t6tt = p1.num_regs
                           }).Distinct().ToList();
 
+                var t7 = (from p in db.Departments
+                          join p1 in db.MealRegistrations on p.department_id equals p1.department_id
+                          where p1.date_regs.Day == Saturday.Day & p1.date_regs.Month == Saturday.Month & p1.date_regs.Year == Saturday.Year
 
+                          select new
+                          {
+                              id = p1.id,
+                              mapb = p.department_id,
+                              tenpb = p.department_name,
+                              t7 = p1.num_regs_plan,
+                              t7tt = p1.num_regs
+                          }).Distinct().ToList();
+
+                var cn = (from p in db.Departments
+                          join p1 in db.MealRegistrations on p.department_id equals p1.department_id
+                          where p1.date_regs.Day == Sunday.Day & p1.date_regs.Month == Sunday.Month & p1.date_regs.Year == Sunday.Year
+
+                          select new
+                          {
+                              id = p1.id,
+                              mapb = p.department_id,
+                              tenpb = p.department_name,
+                              cn = p1.num_regs_plan,
+                              cntt = p1.num_regs
+                          }).Distinct().ToList();
 
 
                 var mydata = (from a in t2
@@ -134,6 +160,8 @@ namespace QUANGHANH2.Controllers.TCLD
                               join a2 in t4 on a1.mapb equals a2.mapb
                               join a3 in t5 on a2.mapb equals a3.mapb
                               join a4 in t6 on a3.mapb equals a4.mapb
+                              join a5 in t7 on a4.mapb equals a5.mapb
+                              join a6 in cn on a5.mapb equals a6.mapb
                               where a.mapb.Contains(mapb1.ToUpper())
                                   & a.tenpb.Contains(tenpb1.ToUpper())
 
@@ -159,8 +187,12 @@ namespace QUANGHANH2.Controllers.TCLD
                                 t6 =
                                 a4.t6,
                                 t6tt = a4.t6tt,
-                                tong = a.t2 + a1.t3 + a2.t4 + a3.t5 + a4.t6,
-                                tongtt = a.t2tt + a1.t3tt + a2.t4tt + a3.t5tt + a4.t6tt,
+                                a5.t7,
+                                t7tt = a5.t7tt,
+                                a6.cn,
+                                cntt = a6.cntt,
+                                tong = a.t2 + a1.t3 + a2.t4 + a3.t5 + a4.t6 + a5.t7 + a6.cn,
+                                tongtt = a.t2tt + a1.t3tt + a2.t4tt + a3.t5tt + a4.t6tt + a5.t7tt + a6.cntt,
                                 ngay = dayStart
                             }
                               ).ToList();
@@ -209,6 +241,8 @@ namespace QUANGHANH2.Controllers.TCLD
             DateTime Wednesday = dayStart.AddDays(2);
             DateTime Thursday = dayStart.AddDays(3);
             DateTime Friday = dayStart.AddDays(4);
+            DateTime Saturday = dayStart.AddDays(5);
+            DateTime Sunday = dayStart.AddDays(6);
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
 
@@ -275,15 +309,39 @@ namespace QUANGHANH2.Controllers.TCLD
                               t6tt = p1.num_regs
                           }).Distinct().ToList();
 
+                var t7 = (from p in db.Departments
+                          join p1 in db.MealRegistrations on p.department_id equals p1.department_id
+                          where p1.date_regs.Day == Saturday.Day & p1.date_regs.Month == Saturday.Month & p1.date_regs.Year == Saturday.Year
 
+                          select new
+                          {
+                              id = p1.id,
+                              mapb = p.department_id,
+                              tenpb = p.department_name,
+                              t7 = p1.num_regs_plan,
+                              t7tt = p1.num_regs
+                          }).Distinct().ToList();
 
+                var cn = (from p in db.Departments
+                          join p1 in db.MealRegistrations on p.department_id equals p1.department_id
+                          where p1.date_regs.Day == Sunday.Day & p1.date_regs.Month == Sunday.Month & p1.date_regs.Year == Sunday.Year
+
+                          select new
+                          {
+                              id = p1.id,
+                              mapb = p.department_id,
+                              tenpb = p.department_name,
+                              cn = p1.num_regs_plan,
+                              cntt = p1.num_regs
+                          }).Distinct().ToList();
 
                 var mydata = (from a in t2
                               join a1 in t3 on a.mapb equals a1.mapb
                               join a2 in t4 on a1.mapb equals a2.mapb
                               join a3 in t5 on a2.mapb equals a3.mapb
                               join a4 in t6 on a3.mapb equals a4.mapb
-
+                              join a5 in t7 on a4.mapb equals a5.mapb
+                              join a6 in cn on a5.mapb equals a6.mapb
 
                               select
                             new
@@ -307,8 +365,12 @@ namespace QUANGHANH2.Controllers.TCLD
                                 t6 =
                                 a4.t6,
                                 t6tt = a4.t6tt,
-                                tong = a.t2 + a1.t3 + a2.t4 + a3.t5 + a4.t6,
-                                tongtt = a.t2tt + a1.t3tt + a2.t4tt + a3.t5tt + a4.t6tt,
+                                a5.t7,
+                                t7tt = a5.t7tt,
+                                a6.cn,
+                                cntt = a6.cntt,
+                                tong = a.t2 + a1.t3 + a2.t4 + a3.t5 + a4.t6 + a5.t7 + a6.cn,
+                                tongtt = a.t2tt + a1.t3tt + a2.t4tt + a3.t5tt + a4.t6tt + a5.t7tt + a6.cntt,
                                 ngay = dayStart
                             }
                               ).ToList();
@@ -359,6 +421,8 @@ namespace QUANGHANH2.Controllers.TCLD
             DateTime Wednesday = dayStart.AddDays(2);
             DateTime Thursday = dayStart.AddDays(3);
             DateTime Friday = dayStart.AddDays(4);
+            DateTime Saturday = dayStart.AddDays(5);
+            DateTime Sunday = dayStart.AddDays(6);
             string path = HostingEnvironment.MapPath("/excel/TCLD/suat-an/suat-an.xlsx");
 
             string saveAsPath = ("/excel/TCLD/download/suat-an.xlsx");
@@ -432,15 +496,39 @@ namespace QUANGHANH2.Controllers.TCLD
                                   t6tt = p1.num_regs
                               }).Distinct().ToList();
 
+                    var t7 = (from p in db.Departments
+                              join p1 in db.MealRegistrations on p.department_id equals p1.department_id
+                              where p1.date_regs.Day == Saturday.Day & p1.date_regs.Month == Saturday.Month & p1.date_regs.Year == Saturday.Year
 
+                              select new
+                              {
+                                  id = p1.id,
+                                  mapb = p.department_id,
+                                  tenpb = p.department_name,
+                                  t7 = p1.num_regs_plan,
+                                  t7tt = p1.num_regs
+                              }).Distinct().ToList();
 
+                    var cn = (from p in db.Departments
+                              join p1 in db.MealRegistrations on p.department_id equals p1.department_id
+                              where p1.date_regs.Day == Sunday.Day & p1.date_regs.Month == Sunday.Month & p1.date_regs.Year == Sunday.Year
+
+                              select new
+                              {
+                                  id = p1.id,
+                                  mapb = p.department_id,
+                                  tenpb = p.department_name,
+                                  cn = p1.num_regs_plan,
+                                  cntt = p1.num_regs
+                              }).Distinct().ToList();
 
                     var mydata = (from a in t2
                                   join a1 in t3 on a.mapb equals a1.mapb
                                   join a2 in t4 on a1.mapb equals a2.mapb
                                   join a3 in t5 on a2.mapb equals a3.mapb
                                   join a4 in t6 on a3.mapb equals a4.mapb
-
+                                  join a5 in t7 on a4.mapb equals a5.mapb
+                                  join a6 in cn on a5.mapb equals a6.mapb
 
                                   select
                                 new
@@ -464,8 +552,12 @@ namespace QUANGHANH2.Controllers.TCLD
                                     t6 =
                                     a4.t6,
                                     t6tt = a4.t6tt,
-                                    tong = a.t2 + a1.t3 + a2.t4 + a3.t5 + a4.t6,
-                                    tongtt = a.t2tt + a1.t3tt + a2.t4tt + a3.t5tt + a4.t6tt,
+                                    a5.t7,
+                                    t7tt = a5.t7tt,
+                                    a6.cn,
+                                    cntt = a6.cntt,
+                                    tong = a.t2 + a1.t3 + a2.t4 + a3.t5 + a4.t6 + a5.t7 + a6.cn,
+                                    tongtt = a.t2tt + a1.t3tt + a2.t4tt + a3.t5tt + a4.t6tt + a5.t7tt + a6.cntt,
                                     ngay = dayStart
                                 }
                                   ).ToList();
@@ -484,8 +576,12 @@ namespace QUANGHANH2.Controllers.TCLD
                         excelWorksheet.Cells[index, 10].Value = item.t5tt;
                         excelWorksheet.Cells[index, 11].Value = item.t6;
                         excelWorksheet.Cells[index, 12].Value = item.t6tt;
-                        excelWorksheet.Cells[index, 13].Value = item.tong;
-                        excelWorksheet.Cells[index, 14].Value = item.tongtt;
+                        excelWorksheet.Cells[index, 13].Value = item.t7;
+                        excelWorksheet.Cells[index, 14].Value = item.t7tt;
+                        excelWorksheet.Cells[index, 15].Value = item.cn;
+                        excelWorksheet.Cells[index, 16].Value = item.cntt;
+                        excelWorksheet.Cells[index, 17].Value = item.tong;
+                        excelWorksheet.Cells[index, 18].Value = item.tongtt;
                         index++;
 
                     }

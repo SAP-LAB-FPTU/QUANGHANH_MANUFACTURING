@@ -101,7 +101,7 @@ namespace QUANGHANH2.Controllers.DK
                             inner join TieuChi on tmp5.MaTieuChi = TieuChi.MaTieuChi) as tmp6 
                             group by MaPhongBan,MaNhomTieuChi
                             order by MaPhongBan";
-                var yearlyPlanQuery = @"Select MaPhongBan,MaNhomTieuChi,SUM(SanLuong) as [SanLuong] from (select MaPhongBan, TieuChi.MaNhomTieuChi, SanLuong from( 
+            var yearlyPlanQuery = @"Select MaPhongBan,MaNhomTieuChi,SUM(SanLuong) as [SanLuong] from (select MaPhongBan, TieuChi.MaNhomTieuChi, SanLuong from( 
                             select tmp3.MaTieuChi, tmp3.MaPhongBan, (Case when SanLuong IS NULL then 0 else SanLuong end) as [SanLuong] from 
                             (select distinct MaTieuChi, MaPhongBan from ThucHien_TieuChi_TheoNgay as a 
                             inner join(select h.* from header_ThucHienTheoNgay h join ThucHienTheoNgay tht on h.NgayID = tht.NgayID where Ngay  between @startJan and @endDec) as b 
@@ -140,6 +140,16 @@ namespace QUANGHANH2.Controllers.DK
                             on maxTime.HeaderID = monthlyPlan.HeaderID and maxTime.MaNhomTieuChi = monthlyPlan.MaNhomTieuChi and(maxTime.ThoiGianNhapCuoiCung = monthlyPlan.ThoiGianNhapCuoiCung or maxTime.ThoiGianNhapBanDau = monthlyPlan.ThoiGianNhapCuoiCung)) as tmp1 
                             group by HeaderID,MaNhomTieuChi) as tmp2 
                             on headerMonthlyPlan.HeaderID = tmp2.HeaderID 
+                            
+                            union
+                            select d.department_id, n.MaNhomTieuChi, 0 as KHBD, 0 as KHDC
+                            from (
+                            select distinct pt.MaPhongBan, nt.MaNhomTieuChi
+							from PhongBan_TieuChi pt join TieuChi t on pt.MaTieuChi = t.MaTieuChi join NhomTieuChi nt on t.MaNhomTieuChi = nt.MaNhomTieuChi
+							where Nam = @year
+							except
+							select distinct h.MaPhongBan,t.MaNhomTieuChi from header_KeHoach_TieuChi_TheoNam h join KeHoach_TieuChi_TheoNam k on h.HeaderID = k.HeaderID join TieuChi t on k.MaTieuChi = t.MaTieuChi where h.Nam = @year
+							) a join Department d on a.MaPhongBan = d.department_id join NhomTieuChi n on a.MaNhomTieuChi = n.MaNhomTieuChi
                             order by MaPhongBan";
 
             var endDays = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
@@ -178,19 +188,45 @@ namespace QUANGHANH2.Controllers.DK
                 var listYearlyPlan = db.Database.SqlQuery<yearlyPlan>(yearlyPlanQuery, new SqlParameter("year", year), new SqlParameter("startJan", startDates[0]), new SqlParameter("endDec", endDates[11])).ToList();
                 //
                 var listKHDC_BD = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("year", year)).ToList();
-                if(listKHDC_BD.Count < listTH.Count)
-                {
-                    string script = @"select d.department_name, n.TenNhomTieuChi
-                                    from (
-                                    select distinct h.MaPhongBan,t.MaNhomTieuChi from header_KeHoachTungThang h join KeHoach_TieuChi_TheoThang k on h.HeaderID = k.HeaderID join KeHoachTungThang kh on h.ThangID = kh.ThangID join TieuChi t on k.MaTieuChi = t.MaTieuChi where kh.NamKeHoach = @year
-                                    except
-                                    select distinct h.MaPhongBan,t.MaNhomTieuChi from header_KeHoach_TieuChi_TheoNam h join KeHoach_TieuChi_TheoNam k on h.HeaderID = k.HeaderID join TieuChi t on k.MaTieuChi = t.MaTieuChi where h.Nam = @year
-                                    ) a join Department d on a.MaPhongBan = d.department_id join NhomTieuChi n on a.MaNhomTieuChi = n.MaNhomTieuChi";
-                    var list_thieu = db.Database.SqlQuery<tieuchi_thieu>(script, new SqlParameter("year", year)).ToList();
-                    JsonSerializerSettings jss2 = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-                    var result2 = JsonConvert.SerializeObject(list_thieu, Formatting.Indented, jss2);
-                    return Json(new { success = false, mess = "chưa nhập kế hoạch năm", thieu = result2 }, JsonRequestBehavior.AllowGet);
-                }
+                //         if(listKHDC_BD.Count < listTH.Count)
+                //         {
+                //             queryKHDC = @"select MaPhongBan,MaNhomTieuChi,KHBD,KHDC from
+                //                     (select h.* from header_KeHoach_TieuChi_TheoNam h where h.Nam = @year) as headerMonthlyPlan 
+                //                     inner join 
+                //                     (select HeaderID, MaNhomTieuChi, 
+                //                     SUM(Case when ThoiGianNhapCuoiCung = ThoiGianNhapBanDau then SanLuongKeHoach else 0 end) as [KHBD], 
+                //                     SUM(Case when ThoiGianNhapCuoiCung = ThoiGianNhapCuoiCung_compare then SanLuongKeHoach else 0 end) as [KHDC] 
+                //                     from 
+                //                     (select monthlyPlan.*, maxTime.ThoiGianNhapBanDau, maxTime.ThoiGianNhapCuoiCung as [ThoiGianNhapCuoiCung_compare] from (select k.*, t.MaNhomTieuChi from KeHoach_TieuChi_TheoNam k join TieuChi t on k.MaTieuChi = t.MaTieuChi) as monthlyPlan 
+                //                     inner join 
+                //                     (select HeaderID, MaNhomTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung], Min(ThoiGianNhapCuoiCung) as [ThoiGianNhapBanDau] from KeHoach_TieuChi_TheoNam k join TieuChi t on k.MaTieuChi = t.MaTieuChi
+                //                     group by HeaderID, MaNhomTieuChi) as maxTime 
+                //                     on maxTime.HeaderID = monthlyPlan.HeaderID and maxTime.MaNhomTieuChi = monthlyPlan.MaNhomTieuChi and(maxTime.ThoiGianNhapCuoiCung = monthlyPlan.ThoiGianNhapCuoiCung or maxTime.ThoiGianNhapBanDau = monthlyPlan.ThoiGianNhapCuoiCung)) as tmp1 
+                //                     group by HeaderID,MaNhomTieuChi) as tmp2 
+                //                     on headerMonthlyPlan.HeaderID = tmp2.HeaderID 
+
+                //                     union
+                //                     select d.department_id, n.MaNhomTieuChi, 0 as KHBD, 0 as KHDC
+                //                     from (
+                //                     select distinct pt.MaPhongBan, nt.MaNhomTieuChi
+                //from PhongBan_TieuChi pt join TieuChi t on pt.MaTieuChi = t.MaTieuChi join NhomTieuChi nt on t.MaNhomTieuChi = nt.MaNhomTieuChi
+                //where Nam = @year
+                //except
+                //select distinct h.MaPhongBan,t.MaNhomTieuChi from header_KeHoach_TieuChi_TheoNam h join KeHoach_TieuChi_TheoNam k on h.HeaderID = k.HeaderID join TieuChi t on k.MaTieuChi = t.MaTieuChi where h.Nam = @year
+                //) a join Department d on a.MaPhongBan = d.department_id join NhomTieuChi n on a.MaNhomTieuChi = n.MaNhomTieuChi
+                //                     order by MaPhongBan";
+                //             listKHDC_BD = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("year", year)).ToList();
+                //             //string script = @"select d.department_name, n.TenNhomTieuChi
+                //             //                from (
+                //             //                select distinct h.MaPhongBan,t.MaNhomTieuChi from header_KeHoachTungThang h join KeHoach_TieuChi_TheoThang k on h.HeaderID = k.HeaderID join KeHoachTungThang kh on h.ThangID = kh.ThangID join TieuChi t on k.MaTieuChi = t.MaTieuChi where kh.NamKeHoach = @year
+                //             //                except
+                //             //                select distinct h.MaPhongBan,t.MaNhomTieuChi from header_KeHoach_TieuChi_TheoNam h join KeHoach_TieuChi_TheoNam k on h.HeaderID = k.HeaderID join TieuChi t on k.MaTieuChi = t.MaTieuChi where h.Nam = @year
+                //             //                ) a join Department d on a.MaPhongBan = d.department_id join NhomTieuChi n on a.MaNhomTieuChi = n.MaNhomTieuChi";
+                //             //var list_thieu = db.Database.SqlQuery<tieuchi_thieu>(script, new SqlParameter("year", year)).ToList();
+                //             //JsonSerializerSettings jss2 = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+                //             //var result2 = JsonConvert.SerializeObject(list_thieu, Formatting.Indented, jss2);
+                //             //return Json(new { success = false, mess = "chưa nhập kế hoạch năm", thieu = result2 }, JsonRequestBehavior.AllowGet);
+                //         }
                 //Thu Tu In Ra Theo Ten Phong Ban
                 //
                 var departmentName = new string[] { "Phân xưởng khai thác 1", "Phân xưởng khai thác 2", "Phân xưởng khai thác 3", "Phân xưởng khai thác 4","Phân xưởng khai thác 5",
@@ -250,7 +286,7 @@ namespace QUANGHANH2.Controllers.DK
                             //
                             bc.totalYearKH = listYearlyPlan[index2].SanLuong;
                             //
-                            if (bc.JanKH != 0 )
+                            if (bc.JanKH != 0)
                             {
                                 bc.JanPor = string.Format("{0:0.00}", 100 * bc.Jan / bc.JanKH);
                             }
