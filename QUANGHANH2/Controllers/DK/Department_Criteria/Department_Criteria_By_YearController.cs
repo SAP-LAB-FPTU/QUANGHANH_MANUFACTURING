@@ -36,8 +36,8 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
                     List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
                     ViewBag.listDepartments = listDepartments;
                     //
-                    string sqlPhongBanTieuChi = "select distinct h.HeaderID,h.MaPhongBan,h.Nam,h.GhiChu,k.MaTieuChi,t.TenTieuChi from header_KeHoach_TieuChi_TheoNam as h,KeHoach_TieuChi_TheoNam as k,TieuChi t " +
-                                                "where h.HeaderID = k.HeaderID and k.MaTieuChi = t.MaTieuChi and h.MaPhongBan = @maphongban and h.Nam = @nam";
+                    string sqlPhongBanTieuChi = "select distinct p.MaPhongBan,p.Nam,p.MaTieuChi,t.TenTieuChi from PhongBan_TieuChi_TheoNam as p,TieuChi t " +
+                                                "where p.MaTieuChi = t.MaTieuChi and p.MaPhongBan = @maphongban and p.Nam = @nam";
                     string sqlTieuChi = "select * from TieuChi";
                     list = db.Database.SqlQuery<header_tieu_chi_nam>(sqlPhongBanTieuChi, new SqlParameter("maphongban", departmentID),
                         new SqlParameter("nam", year)).ToList<header_tieu_chi_nam>();
@@ -67,8 +67,8 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
                     List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
                     ViewBag.listDepartments = listDepartments;
                     //
-                    string sqlPhongBanTieuChi = "select distinct h.HeaderID,h.MaPhongBan,h.Nam,h.GhiChu,k.MaTieuChi,t.TenTieuChi from header_KeHoach_TieuChi_TheoNam as h,KeHoach_TieuChi_TheoNam as k,TieuChi t " +
-                                                "where h.HeaderID = k.HeaderID and k.MaTieuChi = t.MaTieuChi and h.MaPhongBan = @maphongban and h.Nam = @nam";
+                    string sqlPhongBanTieuChi = "select distinct p.MaPhongBan,p.Nam,p.MaTieuChi,t.TenTieuChi from PhongBan_TieuChi_TheoNam as p,TieuChi t " +
+                                                "where p.MaTieuChi = t.MaTieuChi and p.MaPhongBan = @maphongban and p.Nam = @nam";
                     string sqlTieuChi = "select * from TieuChi";
                     list = db.Database.SqlQuery<header_tieu_chi_nam>(sqlPhongBanTieuChi, new SqlParameter("maphongban", departmentID),
                         new SqlParameter("nam", year-1)).ToList<header_tieu_chi_nam>();
@@ -89,8 +89,9 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
             try
             {
                 var maTieuChi = Request["maTieuChi"];
-                var headerID = Request["headerID"];
-                string sqlDelete = "delete KeHoach_TieuChi_TheoNam where HeaderID = " + headerID + " and MaTieuChi = "+maTieuChi;
+                var year = Request["year"];
+                var department = Request["department"];
+                string sqlDelete = "delete PhongBan_TieuChi_TheoNam where MaPhongBan like N'" + department + "' and MaTieuChi = "+maTieuChi+" and Nam = '"+year+"'";
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     db.Database.ExecuteSqlCommand(sqlDelete);
@@ -107,47 +108,71 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
         [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-nam/cap-nhat-thong-tin")]
         public ActionResult InsertInformation()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            try
             {
-                var year = Int32.Parse(Request["year"]);
-                var departmentID = Request["department"];
-                header_KeHoach_TieuChi_TheoNam header_KeHoach_TieuChi_TheoNam = db.header_KeHoach_TieuChi_TheoNam.Where(x => x.MaPhongBan.Equals(departmentID) && x.Nam == year).FirstOrDefault<header_KeHoach_TieuChi_TheoNam>();
-                int headerID;
-                if (header_KeHoach_TieuChi_TheoNam == null)
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    header_KeHoach_TieuChi_TheoNam header_KeHoach_TieuChi_TheoNamAdd = new header_KeHoach_TieuChi_TheoNam();
-                    header_KeHoach_TieuChi_TheoNamAdd.MaPhongBan = departmentID;
-                    header_KeHoach_TieuChi_TheoNamAdd.Nam = year;
-                    db.header_KeHoach_TieuChi_TheoNam.Add(header_KeHoach_TieuChi_TheoNamAdd);
-                    db.SaveChanges();
-                    headerID = header_KeHoach_TieuChi_TheoNamAdd.HeaderID;
-
-                }
-                else
-                {
-                    headerID = header_KeHoach_TieuChi_TheoNam.HeaderID;
-                }
-                JavaScriptSerializer js = new JavaScriptSerializer();
-                var currentSelectedValue = Request["currentSelectedValue"];
-                string[] listCriteria = js.Deserialize<string[]>(currentSelectedValue);
-                KeHoach_TieuChi_TheoNam keHoach_TieuChi_TheoNam = new KeHoach_TieuChi_TheoNam();
-                if(listCriteria.Count() > 0)
-                {
-                    string sqlQuery = "insert into KeHoach_TieuChi_TheoNam (HeaderID,MaTieuChi,SanLuongKeHoach,ThoiGianNhapCuoiCung) values";
-                    for (int i = 0; i < listCriteria.Length; i++)
+                    var year = Int32.Parse(Request["year"]);
+                    var departmentID = Request["department"];
+                    header_KeHoach_TieuChi_TheoNam header_KeHoach_TieuChi_TheoNam = db.header_KeHoach_TieuChi_TheoNam.Where(x => x.MaPhongBan.Equals(departmentID) && x.Nam == year).FirstOrDefault<header_KeHoach_TieuChi_TheoNam>();
+                    int headerID;
+                    if (header_KeHoach_TieuChi_TheoNam == null)
                     {
-                        sqlQuery += " (" + headerID + "," + listCriteria[i] + "," + 0 + ",'" + DateTime.Now + "'),";
+                        header_KeHoach_TieuChi_TheoNam header_KeHoach_TieuChi_TheoNamAdd = new header_KeHoach_TieuChi_TheoNam();
+                        header_KeHoach_TieuChi_TheoNamAdd.MaPhongBan = departmentID;
+                        header_KeHoach_TieuChi_TheoNamAdd.Nam = year;
+                        db.header_KeHoach_TieuChi_TheoNam.Add(header_KeHoach_TieuChi_TheoNamAdd);
+                        db.SaveChanges();
+                        headerID = header_KeHoach_TieuChi_TheoNamAdd.HeaderID;
+
                     }
-                    sqlQuery = sqlQuery.Substring(0, sqlQuery.Length - 1);
-                    db.Database.ExecuteSqlCommand(sqlQuery);
+                    else
+                    {
+                        headerID = header_KeHoach_TieuChi_TheoNam.HeaderID;
+                    }
+                    JavaScriptSerializer js = new JavaScriptSerializer();
+                    var currentSelectedValue = Request["currentSelectedValue"];
+                    string[] listCriteria = js.Deserialize<string[]>(currentSelectedValue);
+                    if (listCriteria.Count() > 0)
+                    {
+                        string sqlQuery = "insert into PhongBan_TieuChi_TheoNam (MaPhongBan,MaTieuChi,Nam) values";
+                        for (int i = 0; i < listCriteria.Length; i++)
+                        {
+                            if (checkDupPbTc(departmentID, listCriteria[i], year) == true)
+                            {
+                                sqlQuery += " (N'" + departmentID + "'," + listCriteria[i] + ",'" + year + "'),";
+                            }
+                        }
+                        sqlQuery = sqlQuery.Substring(0, sqlQuery.Length - 1);
+                        db.Database.ExecuteSqlCommand(sqlQuery);
+                    }
+
+                    db.SaveChanges();
                 }
-                
-                db.SaveChanges();
             }
+            catch (Exception)
+            {
+
+            }
+            
             return null;
         }
+        private Boolean checkDupPbTc(string department,string criteria,int year)
+        {
+            QUANGHANHABCEntities dbContext = new QUANGHANHABCEntities();
+            PhongBan_TieuChi_TheoNam phongBan_TieuChi_TheoNam = dbContext.PhongBan_TieuChi_TheoNam.Where(x =>x.MaPhongBan.Equals(department) && x.MaTieuChi.ToString().Equals(criteria) && x.Nam == year).FirstOrDefault<PhongBan_TieuChi_TheoNam>(); ;
+            
+            if(phongBan_TieuChi_TheoNam == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
-
+   
 
     class header_tieu_chi_nam : header_KeHoach_TieuChi_TheoNam
     {

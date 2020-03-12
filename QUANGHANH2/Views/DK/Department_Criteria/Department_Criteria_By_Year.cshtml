@@ -108,6 +108,15 @@
                 }
             }
         })
+        $("#aspectDetailTable .aspectName").each(function () {
+            var value = $(this).attr("id");
+            console.log(value);
+            if (value != null) {
+                if (value !== -1 || currentSelectedValue.indexOf(value) !== -1) {
+                    currentSelectedValue.push(value);
+                }
+            }
+        })
 
     })
 </script>
@@ -135,14 +144,13 @@
                 content = "";
                 let reponseListPhongBanTieuChi = response.listPhongBanTieuChi;
                 for (let i = 0; i < reponseListPhongBanTieuChi.length; i++) {
-                    content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a class='btn red darken-2' onclick='deleteInformation(" + reponseListPhongBanTieuChi[i].HeaderID +","+ reponseListPhongBanTieuChi[i].MaTieuChi +")'>Xóa</a></td><tr>";
+                    content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a class='btn red darken-2' onclick='deleteInformation(" + reponseListPhongBanTieuChi[i].MaTieuChi +")'>Xóa</a></td><tr>";
                 }
                 tableBody.html(content);
                 ViewMode();
                 mode = 0;
                 listAspectDepartments = response.listTieuChi;
-                 //Button that user press is View
-                checkButton = 1;
+                emptyArr();
                 $('#pre-load').hide();
             },
             error: function (response) {
@@ -182,8 +190,6 @@
                     currentSelectedValue.push(reponseListPhongBanTieuChi[i].MaTieuChi);
                     
                 }
-                //Button that user press is GetDataLastYear
-                checkButton = 2;
                 $('#pre-load').hide();
             },
             error: function (response) {
@@ -248,11 +254,9 @@
                 'currentSelectedValue': JSON.stringify(currentSelectedValue)
             },
             success: function (response) {
-              
                     successAlert('Thành công', 'Thao tác thành công');
                     getInformation();
                     $('#pre-load').hide();
-
             },
             error: function (response) {
                 errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại.');
@@ -261,7 +265,7 @@
         })
     }
 
-    function deleteInformation(headerID,MaTieuChi) {
+    function deleteInformation(MaTieuChi) {
         confirmAlert("Xác nhận xóa?", "", function () {
              setTimeout($('#pre-load').show(), 3000);
         $.ajax({
@@ -271,17 +275,11 @@
             data: {
                 'year': $("#yearCalendar").val().split(" ")[1],
                 'department': $("#cbx-px").val(),
-                'headerID': headerID,
                 'maTieuChi': MaTieuChi
             },
             success: function (response) {
                 successAlert('Thành công', 'Thao tác thành công');
-                if (checkButton == 1) {
                     getInformation();
-                }
-                if (checkButton == 2) {
-                    getBeforeInformation();
-                }
                 $('#pre-load').hide();
             },
             error: function (response) {
