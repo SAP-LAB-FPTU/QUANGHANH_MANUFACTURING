@@ -25,7 +25,7 @@ namespace QUANGHANH2.Controllers.DK
         }
         [Route("phong-dieu-khien/ke-hoach-san-xuat-nam")]
         [HttpPost]
-        public ActionResult Add(string department, string year, string jsonname,string noteNam)
+        public ActionResult Add(string department, string year, string jsonname, string noteNam)
         {
             if (department == null)
             {
@@ -85,7 +85,7 @@ namespace QUANGHANH2.Controllers.DK
                 }
 
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }
@@ -94,7 +94,7 @@ namespace QUANGHANH2.Controllers.DK
 
             return View("/Views/DK/InputPlan/InputPlan_Year.cshtml");
         }
-       
+
         private int parseYear(string year)
         {
             string strYear = year.Split(' ')[1];
@@ -105,14 +105,22 @@ namespace QUANGHANH2.Controllers.DK
         {
             var year = Int32.Parse(Request["year"]);
             var department = Request["department"];
-            string query = "select kh.MaTieuChi, kh.SanLuongKeHoach, kh.GhiChu "+
-                            "from(select hks.MaPhongBan, kh.MaTieuChi, max(kh.ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung' "+
-                            "from header_KeHoach_TieuChi_TheoNam hks inner "+
-                            "join KeHoach_TieuChi_TheoNam kh "+
-                            "on hks.HeaderID = kh.HeaderID "+
-                            "where hks.Nam = "+year+" and hks.MaPhongBan = "+"N'"+department+"' "+
-                            "group by hks.MaPhongBan, kh.MaTieuChi) as a inner join KeHoach_TieuChi_TheoNam kh on a.ThoiGianNhapCuoiCung = kh.ThoiGianNhapCuoiCung "+
-                            "and a.MaTieuChi = kh.MaTieuChi";
+            string query = "select pb_tc.MaPhongBan, pb_tc.MaTieuChi, pb_tc.TenTieuChi, pb_tc.DonViDo, ISNULL(kh_th.SanLuongKeHoach, 0) as SanLuong, kh_th.GhiChu from " +
+                            "((select a.MaTieuChi, b.TenTieuChi, b.DonViDo, a.MaPhongBan from PhongBan_TieuChi_TheoNam a left outer join TieuChi b on a.MaTieuChi = b.MaTieuChi " +
+                            "where a.Nam = '"+year+"' and a.MaPhongBan = N'"+department+"') as pb_tc " +
+                            "left outer join " +
+                            "(select kh_a.MaPhongBan, kh_a.MaTieuChi, kh_b.SanLuongKeHoach, kh_a.ThoiGianNhapCuoiCung, kh_b.GhiChu " +
+                            "from((select a.MaPhongBan, b.MaTieuChi, Max(b.ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung " +
+                            "from header_KeHoach_TieuChi_TheoNam a join KeHoach_TieuChi_TheoNam b " +
+                            "on a.HeaderID = b.HeaderID " +
+                            "where a.MaPhongBan = N'"+department+"' " +
+                            "group by a.MaPhongBan, b.MaTieuChi) as kh_a " +
+                            "left outer join " +
+                            "(select a.MaPhongBan, b.MaTieuChi, b.SanLuongKeHoach, b.ThoiGianNhapCuoiCung, b.GhiChu " +
+                            "from header_KeHoach_TieuChi_TheoNam a join KeHoach_TieuChi_TheoNam b " +
+                            "on a.HeaderID = b.HeaderID ) as kh_b " +
+                            "on kh_a.MaTieuChi = kh_b.MaTieuChi and kh_a.MaPhongBan = kh_b.MaPhongBan and kh_a.ThoiGianNhapCuoiCung = kh_b.ThoiGianNhapCuoiCung)) as kh_th " +
+                            "on pb_tc.MaTieuChi = kh_th.MaTieuChi and pb_tc.MaPhongBan = kh_th.MaPhongBan)";
             List<TieuChiCu> tieuChiCuList = dbContext.Database.SqlQuery<TieuChiCu>(query).ToList<TieuChiCu>();
 
             string quertNote = "select top 1 * " +
@@ -129,14 +137,16 @@ namespace QUANGHANH2.Controllers.DK
             {
                 return Json(new { tieuChiCuList = tieuChiCuList, note = GhiChu.GhiChu });
             }
-           
+
         }
-       
+
     }
     public class TieuChiCu
     {
+        string MaPhongBan { get; set; }
         public int MaTieuChi { get; set; }
-        public double SanLuongKeHoach { get; set; }
+        public string TenTieuChi { get; set; }
+        public double SanLuong { get; set; }
         public string GhiChu { get; set; }
     }
 }

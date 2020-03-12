@@ -183,7 +183,7 @@
                     content = "";
                     let tieuChiCuList = response.tieuChiCuList;
                     for (let i = 0; i < tieuChiCuList.length; i++) {
-                        content += "<tr id=\"MaTieuChi" + dem + "\"><td id='" + tieuChiCuList[i].MaTieuChi + "'>" + getTenTieuChi(tieuChiCuList[i].MaTieuChi) + "</td><td contenteditable='true'>" + tieuChiCuList[i].SanLuongKeHoach + "</td><td contenteditable='true'>" + parseNote(tieuChiCuList[i].GhiChu) + "</td></tr>";
+                        content += "<tr id=\"MaTieuChi" + dem + "\"><td id='" + tieuChiCuList[i].MaTieuChi + "'>" + getTenTieuChi(tieuChiCuList[i].MaTieuChi) + "</td><td contenteditable='true'>" + tieuChiCuList[i].SanLuong + "</td><td contenteditable='true'>" + parseNote(tieuChiCuList[i].GhiChu) + "</td></tr>";
                         dem++;
                     }
                     tableBody.html(content);
