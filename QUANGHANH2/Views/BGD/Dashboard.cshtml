@@ -3,742 +3,819 @@
     Layout = "~/Views/Shared/_Layout_BGD2.cshtml";
 }
 
-<link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
-<link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
-<link href="~/dist/css/style.css" rel="stylesheet">
 <link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid.min.css" />
 <link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid-theme.min.css" />
 <link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
 <link href="~/dist/dashboard_Tuan/customDashboard.css" rel="stylesheet">
-
-<link href="~/dist/css/pages/dashboard1.css" rel="stylesheet">
-
 <link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
-<link href="~/css/Custom css/BGD/dashboard.css" rel="stylesheet" type="text/css">
-<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
-<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
-<script src="~/assets/extra-libs/prism/prism.js"></script>
-<script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
-<script src="../../dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>
-<form id="form" action="/ban-giam-doc" method="post">
-    <input type="text" id="date" name="date" style="display:none !important" />
-</form>
+<style>
+    .jsgrid-grid-body {
+        height: 350px !important;
+    }
+</style>
 <div class="row">
     <div class="col l12 m12 s12">
         <div class="card">
             <div class="card-content">
-                <h3 class="center">
-                    <b>BÁO CÁO NHANH NGÀY </b><i class="fas fa-calendar-alt icon"></i>
-                    <input id="data" type='text' class='datepicker-here center date-click' data-language='vi' />
-                </h3>
-                <!--Date here-->
+                <div class="row">
+                    <div class="center black-text">
+                        <h3><b>BÁO CÁO NHANH NĂNG SUẤT, LAO ĐỘNG</b></h3>
+                        <h5>
+                            <i class="fas fa-calendar-alt icon"></i>
+                            <input type='text' class='datepicker-here center' id="minMaxDate" data-language='vi' />
+                        </h5>
+                    </div>
+                    <hr />
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Báo cáo nhanh -->
+
+<div class="row" id="baocaonhanh">
+    <div class="col l6 m6 s12">
+        <div class="card @(ViewBag.hetHanChungChi==0?"info-gradient":"warning-gradient") card-hover" id="chungchi-container">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div>
+                        @if (@ViewBag.hetHanChungChi == null)
+                        {
+                            <h3 id="chungchi-info" class="white-text m-b-5">Chưa có dữ liệu</h3>
+                        }
+                        else
+                        {
+                            if (@ViewBag.hetHanChungChi == 0)
+                            {
+                                <h3 id="chungchi-info" class="white-text m-b-5">Không có chứng chỉ hết hạn </h3>
+                            }
+                            else
+                            {
+                                <h3 id="chungchi-info" class="white-text m-b-5">@ViewBag.hetHanChungChi nhân viên hêt hạn chứng chỉ</h3>
+                            }
+                        }
+                        <h6 class="white-text op-1">Chứng chỉ</h6>
+                        <h6 class="white-text op-1"></h6>
+                        <br>
+                    </div>
+                    <div class="ml-auto">
+                        <span class="white-text display-6">
+                            <img src="~/images/icons/certificate_icon.png" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 m6 s12">
+        <div class="card info-gradient  info-gradient  card-hover" id="huydong-container">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div>
+                        @if (@ViewBag.soLuotHuyDong == null)
+                        {
+                            <h3 id="huydong-info" class="white-text m-b-5">Chưa có dữ liệu</h3>
+                        }
+                        else
+                        {
+                            if (@ViewBag.soLuotHuyDong == 0)
+                            {
+                                <h3 id="huydong-info" class="white-text m-b-5">Không có lượt huy động nào</h3>
+                            }
+                            else
+                            {
+                                <h3 id="huydong-info" class="white-text m-b-5">@ViewBag.soLuotHuyDong lượt huy động</h3>
+                            }
+                        }
+                        <h6 class="white-text op-1">Huy động</h6>
+                        <h6 class="white-text op-1"></h6>
+                        <br />
+                    </div>
+                    <div class="ml-auto">
+                        <span class="white-text display-6">
+                            <i class="fas fa-users"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 m6 s12">
+        <div class="card @(ViewBag.vuTaiNan==0?"info-gradient":"warning-gradient") card-hover" id="tainan-container">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div>
+                        @if (@ViewBag.vuTaiNan == null)
+                        {
+                            <h3 id="tainan-info" class="white-text m-b-5">Chưa có dữ liệu</h3>
+                        }
+                        else
+                        {
+                            if (@ViewBag.vuTaiNan == 0)
+                            {
+                                <h3 id="tainan-info" class="white-text m-b-5">Không có vụ tai nạn nào</h3>
+                            }
+                            else
+                            {
+                                <h3 id="tainan-info" class="white-text m-b-5">@ViewBag.vuTaiNan vụ tai nạn</h3>
+                            }
+                        }
+                        <h6 class="white-text op-1">An toàn lao động</h6>
+                        <h6 class="white-text op-1"></h6>
+                        <br>
+                    </div>
+                    <div class="ml-auto">
+                        <span class="white-text display-6">
+                            <img src="~/images/icons/accident_icon.png" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 m6 s12">
+        <div class="card @(ViewBag.nghiVLD==0?"info-gradient":"warning-gradient") card-hover" id="vld-container">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div>
+                        @if (@ViewBag.nghiVLD == null)
+                        {
+                            <h3 id="vld-info" class="white-text m-b-5">Chưa có dữ liệu</h3>
+                        }
+                        else
+                        {
+                            if (@ViewBag.nghiVLD == 0)
+                            {
+                                <h3 id="vld-info" class="white-text m-b-5">Không có lượt nghỉ VLD nào</h3>
+                            }
+                            else
+                            {
+                                <h3 id="vld-info" class="white-text m-b-5">@ViewBag.nghiVLD lượt nghỉ VLD</h3>
+                            }
+                        }
+                        <h6 class="white-text op-1">Nghỉ vô lý do</h6>
+                        <h6 class="white-text op-1"></h6>
+                        <br>
+                    </div>
+                    <div class="ml-auto">
+                        <span class="white-text display-6">
+                            <i class="fas fa-blind"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
-    <div class="col l4 m6 s12">
-        <div class="card green darken-1">
-            <div class="card-content info-card">
-                <div class="align-items-center">
-                    <div class="m-t-10">
-                        <h5 class="font-medium info-title">Than hầm lò (Tấn)</h5>
-                    </div>
-                    <div class="ml-auto m-t-15">
-                        <div class="crypto"></div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">Tiến độ kế hoạch (tháng): </h6>
-                    <div class="progress progress-striped active">
-                        <div id="tdlMonth" role="progressbar progress-striped" style=" height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.tdl.percentMonth%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">
-                        Tiến độ kế hoạch (ngày): @{if (ViewBag.tdl.percentDay < 100)
-                            { }
-                        }
-                    </h6>
-                    <div class="progress progress-striped active">
-                        <div id="tdlDay" role="progressbar progress-striped" style="height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.tdl.percentDay%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-center m-t-30">
-
-                    <div class="col s4 center detail-info row">
-                        <span class="font-14 ">Thực hiện</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tdl.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.tdl.Kehoach</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center detail-info">
-                        <span class="font-14">Luỹ kế</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tdl.Luyke </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.tdl.KehoachThang</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center">
-                        <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.tdl.Ton</p>
-                    </div>
-                </div>
+    <div class="col l6 s12 m6">
+        <div class="card">
+            <div class="card-content analytics-info">
+                <h5 class="card-title">Báo cáo tỷ lệ huy động trong ngày </h5>
+                <div id="basic-pie" style="height:400px;"></div>
             </div>
         </div>
     </div>
-    <div class="col l4 m6 s12 extend-height">
-        <div class="card green darken-1">
-            <div class="card-content info-card">
-                <div class="align-items-center">
-                    <div class="m-t-10">
-                        <h5 class="font-medium">Than lộ thiên (Tấn)</h5>
-                    </div>
-                    <div class="ml-auto m-t-15">
-                        <div class="crypto"></div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">Tiến độ kế hoạch (tháng): </h6>
-                    <div class="progress progress-striped active">
-                        <div id="tltMonth" role="progressbar progress-striped" style=" height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.tlt.percentMonth%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">
-                        Tiến độ kế hoạch (ngày): @{if (ViewBag.tlt.percentDay < 100)
-                            { }
-                        }
-                    </h6>
-                    <div class="progress progress-striped active">
-                        <div id="tltDay" role="progressbar progress-striped" style="height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.tlt.percentDay%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-center m-t-30">
-
-                    <div class="col s4 center detail-info row">
-                        <span class="font-14 ">Thực hiện</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tlt.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.tlt.Kehoach</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center detail-info">
-                        <span class="font-14">Luỹ kế</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tlt.Luyke </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.tlt.KehoachThang</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center">
-                        <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.tlt.Ton</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col l4 m6 s12">
-        <div class="card green darken-1">
-            <div class="card-content info-card">
-                <div class="align-items-center">
-                    <div class="m-t-10">
-                        <h5 class="font-medium">Mét lò đào (Mét)</h5>
-                    </div>
-                    <div class="ml-auto m-t-15">
-                        <div class="crypto"></div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">Tiến độ kế hoạch (tháng): </h6>
-                    <div class="progress progress-striped active">
-                        <div id="mldMonth" role="progressbar progress-striped" style=" height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.mld.percentMonth%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">
-                        Tiến độ kế hoạch (ngày): @{if (ViewBag.mld.percentDay < 100)
-                            { }
-                        }
-                    </h6>
-                    <div class="progress progress-striped active">
-                        <div id="mldDay" role="progressbar progress-striped" style="height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.mld.percentDay%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-center m-t-30">
-
-                    <div class="col s4 center detail-info row">
-                        <span class="font-14 ">Thực hiện</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mld.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.mld.Kehoach</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center detail-info">
-                        <span class="font-14">Luỹ kế</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mld.Luyke </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.mld.KehoachThang</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center">
-                        <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.mld.Ton</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col l4 m6 s12 extend-height">
-        <div class="card green darken-1">
-            <div class="card-content info-card">
-                <div class="align-items-center">
-                    <div class="m-t-10">
-                        <h5 class="font-medium">Mét lò neo (Mét)</h5>
-                    </div>
-                    <div class="ml-auto m-t-15">
-                        <div class="crypto"></div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">Tiến độ kế hoạch (tháng): </h6>
-                    <div class="progress progress-striped active">
-                        <div id="mlnMonth" role="progressbar progress-striped" style=" height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.mln.percentMonth%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">
-                        Tiến độ kế hoạch (ngày): @{if (ViewBag.mln.percentDay < 100)
-                            { }
-                        }
-                    </h6>
-                    <div class="progress progress-striped active">
-                        <div id="mlnDay" role="progressbar progress-striped" style="height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.mln.percentDay%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-center m-t-30">
-
-                    <div class="col s4 center detail-info row">
-                        <span class="font-14 ">Thực hiện</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mln.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.mln.Kehoach</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center detail-info">
-                        <span class="font-14">Luỹ kế</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mln.Luyke </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.mln.KehoachThang</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center">
-                        <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.mln.Ton</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col l4 m6 s12">
-        <div class="card green darken-1">
-            <div class="card-content info-card">
-                <div class="align-items-center">
-                    <div class="m-t-10">
-                        <h5 class="font-medium">Mét lò xén (Mét)</h5>
-                    </div>
-                    <div class="ml-auto m-t-15">
-                        <div class="crypto"></div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">Tiến độ kế hoạch (tháng): </h6>
-                    <div class="progress progress-striped active">
-                        <div id="mlxMonth" role="progressbar progress-striped" style=" height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.mlx.percentMonth%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">
-                        Tiến độ kế hoạch (ngày): @{if (ViewBag.mlx.percentDay < 100)
-                            { }
-                        }
-                    </h6>
-                    <div class="progress progress-striped active">
-                        <div id="mlxDay" role="progressbar progress-striped" style="height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.mlx.percentDay%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-center m-t-30">
-
-                    <div class="col s4 center detail-info row">
-                        <span class="font-14 ">Thực hiện</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mlx.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.mlx.Kehoach</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center detail-info">
-                        <span class="font-14">Luỹ kế</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mlx.Luyke </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.mlx.KehoachThang</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center">
-                        <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.mlx.Ton</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col l4 m6 s12 extend-height">
-        <div class="card green darken-1">
-            <div class="card-content info-card">
-                <div class="align-items-center">
-                    <div class="m-t-10">
-                        <h5 class="font-medium">Than tiêu thụ </h5>
-                    </div>
-                    <div class="ml-auto m-t-15">
-                        <div class="crypto"></div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">Tiến độ kế hoạch (tháng): </h6>
-                    <div class="progress progress-striped active">
-                        <div id="tttMonth" role="progressbar progress-striped" style=" height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.ttt.percentMonth%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">
-                        Tiến độ kế hoạch (ngày): @{if (ViewBag.ttt.percentDay < 100)
-                            { }
-                        }
-                    </h6>
-                    <div class="progress progress-striped active">
-                        <div id="tttDay" role="progressbar progress-striped" style="height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.ttt.percentDay%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-center m-t-30">
-
-                    <div class="col s4 center detail-info row">
-                        <span class="font-14 ">Thực hiện</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ttt.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.ttt.Kehoach</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center detail-info">
-                        <span class="font-14">Luỹ kế</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ttt.Luyke </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.ttt.KehoachThang</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center">
-                        <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.ttt.Ton</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col l6 m6 s12 extend-height">
-        <div class="card green darken-1">
-            <div class="card-content info-card">
-                <div class="align-items-center">
-                    <div class="m-t-10">
-                        <h5 class="font-medium">Đá xít kho </h5>
-                    </div>
-                    <div class="ml-auto m-t-15">
-                        <div class="crypto"></div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">Tiến độ kế hoạch (tháng): </h6>
-                    <div class="progress progress-striped active">
-                        <div id="dxkMonth" role="progressbar progress-striped" style=" height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.dxk.percentMonth%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">
-                        Tiến độ kế hoạch (ngày): @{if (ViewBag.dxk.percentDay < 100)
-                            { }
-                        }
-                    </h6>
-                    <div class="progress progress-striped active">
-                        <div id="dxkDay" role="progressbar progress-striped" style="height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.dxk.percentDay%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-center m-t-30">
-
-                    <div class="col s4 center detail-info row">
-                        <span class="font-14 ">Thực hiện</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.dxk.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.dxk.Kehoach</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center detail-info">
-                        <span class="font-14">Luỹ kế</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.dxk.Luyke </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.dxk.KehoachThang</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center">
-                        <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.dxk.Ton</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="col l6 m6 s12 extend-height">
-        <div class="card green darken-1">
-            <div class="card-content info-card">
-                <div class="align-items-center">
-                    <div class="m-t-10">
-                        <h5 class="font-medium">Đất đá bóc tự làm </h5>
-                    </div>
-                    <div class="ml-auto m-t-15">
-                        <div class="crypto"></div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">Tiến độ kế hoạch (tháng): </h6>
-                    <div class="progress progress-striped active">
-                        <div id="ddbMonth" role="progressbar progress-striped" style=" height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.ddb.percentMonth%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="l12">
-                    <h6 class="">
-                        Tiến độ kế hoạch (ngày): @{if (ViewBag.ddb.percentDay < 100)
-                            { }
-                        }
-                    </h6>
-                    <div class="progress progress-striped active">
-                        <div id="ddbDay" role="progressbar progress-striped" style="height:20px" class="progress-bar progress-bar-default center">
-                            <span class="progress-pecentage">@ViewBag.ddb.percentDay%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row text-center m-t-30">
-
-                    <div class="col s4 center detail-info row">
-                        <span class="font-14 ">Thực hiện</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ddb.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.ddb.Kehoach</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center detail-info">
-                        <span class="font-14">Luỹ kế</span>
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ddb.Luyke </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.ddb.KehoachThang</span>
-                        </div>
-                    </div>
-                    <div class="col s4 center">
-                        <span class="font-14">KH còn lại</span>
-                        <p class="font-medium">@ViewBag.ddb.Ton</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ============================================================== -->
-    <!-- Sales -->
-    <!-- ============================================================== -->
     <div class="row">
         <div class="col l6 s12">
-            <div class="card" style="">
-                <div class="card-content">
-                    <h4 class="card-title">Báo cáo sự cố</h4>
-                    <div id="suco" style="overflow-y:auto">
-                        <table class="striped center-align table-bordered" id="myTable">
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Mã thiết bị</th>
-                                    <th>Tên thiết bị</th>
-                                    <th>Phân xưởng sử dụng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    if (ViewBag.listSCCount == 0)
-                                    {
-                                        <tr>
-                                            <td colspan="4">Không có sự cố nào</td>
-                                        </tr>
-                                    }
-                                    else
-                                    {
-                                        foreach (var item in ViewBag.listSC)
-                                        {
-                                            <tr>
-                                                <td></td>
-                                                <td>@item.equipmentId</td>
-                                                <td>@item.equipment_name</td>
-                                                <td>@item.department_id</td>
-                                            </tr>
-                                        }
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <div class="col l6 s12">
-            <div class="card" style="">
-                <div class="card-content">
-                    <h4 class="card-title">Báo cáo tai nạn</h4>
-                    <div id="suco" style="overflow-y:auto">
-                        <table class="striped center-align table-bordered" id="myTable_tainan">
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Mã NV</th>
-                                    <th>Tên NV</th>
-                                    <th>Loại tai nạn</th>
-                                    <th>Lý do</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    if (ViewBag.listTNCount == 0)
-                                    {
-                                        <tr>
-                                            <td colspan="5">Không có tai nạn nào</td>
-                                        </tr>
-                                    }
-                                    else
-                                    {
-                                        foreach (var item in ViewBag.listTN)
-                                        {
-                                            <tr>
-                                                <td></td>
-                                                <td>@item.MaNV</td>
-                                                <td>@item.Ten</td>
-                                                <td>@item.Loai</td>
-                                                <td>@item.LyDo</td>
-                                            </tr>
-                                        }
-                                    }
-
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <div class="row">
-        <div class="col s12 m6 l6">
             <div class="card">
-                <div class="card-content analytics-info">
-                    <h5 class="card-title center">Báo cáo nhân lực đi làm các PX</h5>
-                    <div id="basic-bar2" style="height:400px;"></div>
+                <div class="card-content analytics-info" style="min-height:482px;">
+                    <h5 class="card-title">Lao động nghỉ VLD</h5>
+                    <div id="table_nghidai"></div>
                 </div>
             </div>
         </div>
-        <div class="col s12 m6 l6">
+
+        <div class="col l12 s12">
             <div class="card">
-                <div class="card-content analytics-info">
-                    <h5 class="card-title center">Báo cáo nhân lực nghỉ các PX</h5>
-                    <div id="basic-bar3" style="height:400px;"></div>
+                <div class="card-content">
+                    <h5 class="card-title">Báo cáo sản lượng</h5>
+                    <table id="table_sanluong" class="table-bordered">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Tiêu chí</th>
+                                <th rowspan="2">Đơn vị đo</th>
+                                <th colspan="3">Sản lượng trong tháng</th>
+                            </tr>
+                            <tr>
+                                <th>Kế hoạch</th>
+                                <th>Lũy kế thực hiện</th>
+                                <th>Kế hoạch còn lại</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sanluong-content">
+                            <tr>
+                                <td>Than sản xuất</td>
+                                <td>Tấn</td>
+                                <td id="slkh"></td>
+                                <td id="lksl"></td>
+                                <td id="slcl"></td>
+                            </tr>
+                            <tr>
+                                <td>Mét Lò</td>
+                                <td>Mét</td>
+                                <td id="mlkh"></td>
+                                <td id="lkml"></td>
+                                <td id="mlcl"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        var temp = "@ViewBag.donvi";
-        temp = temp.split("&quot;").join("");
-        temp = temp.split("[").join("");
-        temp = temp.split("]").join("");
-        var donvi = temp.split(",");
+    <div class="row">
+        <div class="col l12 s12">
+            <div class="card">
+                <div class="card-content analytics-info">
+                    <h5 class="card-title">Biểu đồ nhân lực trong ngày </h5>
+                    <div id="basic-bar" style="height:400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-        temp = "@ViewBag.dilam";
-        temp = temp.split("&quot;").join("");
-        temp = temp.split("[").join("");
-        temp = temp.split("]").join("");
-        var dilam = temp.split(",");
+<script>
+    function AddComma(Num) { //function to add commas to textboxes
+        Num += '';
+        Num = Num.replace('.', ''); Num = Num.replace('.', ''); Num = Num.replace('.', '');
+        Num = Num.replace('.', ''); Num = Num.replace('.', ''); Num = Num.replace('.', '');
+        x = Num.split(',');
+        x1 = x[0];
+        x2 = x.length > 1 ? ',' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1))
+            x1 = x1.replace(rgx, '$1' + '.' + '$2');
+        return x1 + x2;
+    }
+</script>
+<script>
+    var tren82 =@ViewBag.tren82;
+    var duoi82 = @ViewBag.duoi82;
+    var listNghiVLD = @Html.Raw(Json.Encode(ViewBag.listNghiVLD));
+    var listNhanLuc =@Html.Raw(Json.Encode(ViewBag.listNhanLuc));
+    var sanluong = @Html.Raw(Json.Encode(ViewBag.sanluong));
+    $("#slkh").text(AddComma(sanluong.SLKH==null?0:sanluong.SLKH));
+    $("#lksl").text(AddComma(sanluong.LKSL==null?0:sanluong.LKSL));
+    $("#slcl").text(AddComma(sanluong.SLKH-sanluong.LKSL));
+    $("#mlkh").text(AddComma(sanluong.MLKH==null?0:sanluong.MLKH));
+    $("#lkml").text(AddComma(sanluong.LKML==null?0:sanluong.LKML));
+    $("#mlcl").text(AddComma(sanluong.MLKH - sanluong.LKML));
 
-        temp = "@ViewBag.nghi";
-        temp = temp.split("&quot;").join("");
-        temp = temp.split("[").join("");
-        temp = temp.split("]").join("");
-        var nghilam = temp.split(",");
-    </script>
-    <script src="~/dist/js/custom.min.js"></script>
-    <!-- ============================================================== -->
-    <!-- This page plugin js -->
-    <!-- ============================================================== -->
-    <script src="~/assets/libs/chartist/dist/chartist.min.js"></script>
-    <script src="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
-    <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
-    <script src="~/dist/dashboard_Tuan/dashBoardChart_tuan.js"></script>
-    <script src="~/dist/dashboard_Tuan/dashBoardChart2_tuan.js"></script>
-    <!-- Editable -->
-    <script src="~/dist/dashboard_Tuan/db_Tuan.js"></script>
-    <script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>
-    <script src="~/dist/dashboard_Tuan/jsgrid-init_Tuan.js"></script>
-    <!--chart-->
-    <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
-    <script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
-    <script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
+</script>
 
-    <script>
-    $(document).ready(function () {
-        //than dao lo
-        var x = @ViewBag.tdl.percentDay; if (x > 100) x = 100;
-        $('#tdlDay').width(x + '%');
-        x = @ViewBag.tdl.percentMonth; if (x > 100) x = 100;
-        $('#tdlMonth').width(x + '%');
+<!-- Editable -->
+<script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>
+<script src="~/dist/dashboard_Tuan/jsgrid-init_Tuan.js"></script>
+<!--chart-->
+<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+<script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
+<script src="~/assets/extra-libs/c3/d3.min.js"></script>
+<script src="~/assets/extra-libs/c3/c3.min.js"></script>
+<!-- line chart -->
+<script src="~/dist/js/pages/c3-chart/bar-pie/c3-pie.js"></script>
+<script src="~/js/tcld_dashboard/bar_chart.js"></script>
+<script src="~/js/tcld_dashboard/line_chart.js"></script>
+<!--Custom js QUANGHANH-->
+<script src="~/js/Custom JS/TCLD/QuickReport.js"></script>
+<script src="~/js/tcld_dashboard/QuickReport_barchart.js"></script>
+<script src="~/js/tcld_dashboard/QuickReport_piechart.js"></script>
+<script src="~/assets/extra-libs/prism/prism.js"></script>
 
-        //than lo thien
-        x = @ViewBag.tlt.percentDay; if (x > 100) x = 100;
-        $('#tltDay').width(x + '%');
-        x = @ViewBag.tlt.percentMonth; if (x > 100) x = 100;
-        $('#tltMonth').width(x + '%');
+<script>
+    (function () {
+        var db = {
+            insertItem: function (insertingClient) {
+                this.clients.push(insertingClient);
+            },
 
-        //met lo dao
-        x = @ViewBag.mld.percentDay; if (x > 100) x = 100;
-        $('#mldDay').width(x + '%');
-        x = @ViewBag.mld.percentMonth; if (x > 100) x = 100;
-        $('#mldMonth').width(x + '%');
+            updateItem: function (updatingClient) { },
 
-        //met lo neo
-        x = @ViewBag.mln.percentDay; if (x > 100) x = 100;
-        $('#mlnDay').width(x + '%');
-        x = @ViewBag.mln.percentMonth; if (x > 100) x = 100;
-        $('#mlnMonth').width(x + '%');
-
-        //met lo xen
-        x = @ViewBag.mlx.percentDay; if (x > 100) x = 100;
-        $('#mlxDay').width(x + '%');
-        x = @ViewBag.mlx.percentMonth; if (x > 100) x = 100;
-        $('#mlxMonth').width(x + '%');
-
-         //than tieu thu
-        x = @ViewBag.ttt.percentDay; if (x > 100) x = 100;
-        $('#tttDay').width(x + '%');
-        x = @ViewBag.ttt.percentMonth; if (x > 100) x = 100;
-        $('#tttMonth').width(x + '%');
-
-         //da xit kho
-        x = @ViewBag.dxk.percentDay; if (x > 100) x = 100;
-        $('#dxkDay').width(x + '%');
-        x = @ViewBag.dxk.percentMonth; if (x > 100) x = 100;
-        $('#dxkMonth').width(x + '%');
-
-         //da dat boc
-        x = @ViewBag.ddb.percentDay; if (x > 100) x = 100;
-        $('#ddbDay').width(x + '%');
-        x = @ViewBag.ddb.percentMonth; if (x > 100) x = 100;
-        $('#ddbMonth').width(x + '%');
-
-        var h = $('#origin').height();
-        h = h - 82;
-        $('#suco').height(h);
-
-        var data = @ViewBag.listSCCount;
-        if (data != 0) {
-            var table = document.getElementById("myTable");
-            var x = document.getElementById("myTable").rows.length;
-            var i = 1;
-            for (i = 1; i < x; i++) {
-                table.rows[i].cells[0].innerHTML = i;
+            deleteItem: function (deletingClient) {
+                var clientIndex = $.inArray(deletingClient, this.clients);
+                this.clients.splice(clientIndex, 1);
             }
+        };
+        window.db = db;
+        db.nghidai = [];
+        for (var i = 0; i < listNghiVLD.length; i++) {
+            var stt = (i + 1);
+            var MaNV = listNghiVLD[i].MaNV;
+            var HoTen = listNghiVLD[i].HoTen;
+            var TenDonVi = listNghiVLD[i].TenDonVi;
+            db.nghidai.push(
+                {
+                    "STT": (i + 1),
+                    "Số thẻ": MaNV,
+                    "Họ và tên": HoTen,
+                    "Đơn vị": TenDonVi
+                });
         }
-        var data = @ViewBag.listTNCount;
-        if (data != 0) {
-            var table = document.getElementById("myTable_tainan");
-            var x = document.getElementById("myTable_tainan").rows.length;
-            var i = 1;
-            for (i = 1; i < x; i++) {
-                table.rows[i].cells[0].innerHTML = i;
-            }
-        }
+        db.sanluong = [
+            {
 
-    });
+            }
+        ];
+    }());
+    ! function (document, window, $) {
+        "use strict";
+        var Site = window.Site;
+        $(document).ready(function ($) {
+
+        }), jsGrid.setDefaults({
+            tableClass: "jsgrid-table table table-striped table-hover"
+        }), jsGrid.setDefaults("text", {
+            _createTextBox: function () {
+                return $("<input>").attr("type", "text").attr("class", "")
+            }
+        }), jsGrid.setDefaults("number", {
+            _createTextBox: function () {
+                return $("<input>").attr("type", "number").attr("class", "")
+            }
+        }), jsGrid.setDefaults("textarea", {
+            _createTextBox: function () {
+                return $("<input>").attr("type", "textarea").attr("class", "materialize-textarea")
+            }
+        }), jsGrid.setDefaults("control", {
+            _createGridButton: function (cls, tooltip, clickHandler) {
+                var grid = this._grid;
+                return $("<button>").addClass(this.buttonClass).addClass(cls).attr({
+                    type: "button",
+                    title: tooltip
+                }).on("click", function (e) {
+                    clickHandler(grid, e)
+                })
+            }
+        }), jsGrid.setDefaults("select", {
+            _createSelect: function () {
+                var $result = $("<select>").attr("class", ""),
+                    valueField = this.valueField,
+                    textField = this.textField,
+                    selectedIndex = this.selectedIndex;
+                return $.each(this.items, function (index, item) {
+                    var value = valueField ? item[valueField] : index,
+                        text = textField ? item[textField] : item,
+                        $option = $("<option>").attr("value", value).text(text).appendTo($result);
+                    $option.prop("selected", selectedIndex === index)
+                }), $result
+            }
+        }),
+            //REPORT SỰ CỐ
+            function () {
+                $("#table_nghidai").jsGrid({
+                    height: "400px",
+                    width: "100%",
+                    sorting: !0,
+                    paging: !0,
+                    data: db.nghidai,
+                    noDataContent: "Không có dữ liệu",
+                    fields: [{
+                        name: "STT",
+                        type: "number",
+                        width: 40
+                    }, {
+                        name: "Số thẻ",
+                        type: "text",
+                        width: 70
+                    }, {
+                        name: "Họ và tên",
+                        type: "text",
+                        width: 150
+                    }, {
+                        name: "Đơn vị",
+                        type: "text",
+                        width: 70
+                    },]
+                })
+            }(),
+
+
+            function () {
+                var MyDateField = function (config) {
+                    jsGrid.Field.call(this, config)
+                };
+                MyDateField.prototype = new jsGrid.Field({
+                    sorter: function (date1, date2) {
+                        return new Date(date1) - new Date(date2)
+                    },
+                    itemTemplate: function (value) {
+                        return new Date(value).toDateString()
+                    },
+                    insertTemplate: function () {
+                        if (!this.inserting) return "";
+                        var $result = this.insertControl = this._createTextBox();
+                        return $result
+                    },
+                    editTemplate: function (value) {
+                        if (!this.editing) return this.itemTemplate(value);
+                        var $result = this.editControl = this._createTextBox();
+                        return $result.val(value), $result
+                    },
+                    insertValue: function () {
+                        return this.insertControl.datepicker("getDate")
+                    },
+                    editValue: function () {
+                        return this.editControl.datepicker("getDate")
+                    },
+                    _createTextBox: function () {
+                        return $("<input>").attr("type", "text").addClass("form-control input-sm").datepicker({
+                            autoclose: !0
+                        })
+                    }
+                })
+            }()
+    }(document, window, jQuery);
+</script>
+
+<script>
     $(document).ready(function () {
         $('.datepicker-inline').remove();
     });
     $(document).ready(function () {
-        var date = new Date();
+        var date = new Date(new Date().setDate(new Date().getDate() - 1));
         var d = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
         $(".datepicker-here").val(d);
     });
-    function change() {
-        var data = document.getElementById("data").value;
-        document.getElementById("date").value = data;
-        document.getElementById("form").submit();
-    }
+</script>
 
-    $(document).ready(function () {
-        //$('#bt').click(function () {
-        //    document.getElementById("form").submit();
-        //});
-        $(".date-click").datepicker({
-            onSelect: function (dateText) {
-                var data = document.getElementById("data").value;
-                document.getElementById("date").value = data;
-                document.getElementById("form").submit();
+<script>
+    var prevDay;
+    $('#minMaxDate').datepicker({
+        language: 'vi',
+        maxDate: new Date(new Date().setDate(new Date().getDate() - 1)), // Now can select only dates, which goes after today
+        onSelect: function (fd, d, picker) {
+            if (!d) return;
+            var day = d.getDay();
+            if (prevDay != undefined && prevDay == day) return;
+            prevDay = day;
+            //alert($('#minMaxDate').val());
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
+            $.ajax({
+                type: 'post',
+                url: '/ban-giam-doc/get-data',
+                data: { date: $('#minMaxDate').val() },
+                success: function (response) {
+                    if (response.success) {
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        ////////////////////////////////////////////////////////////////
+                        if (response.soLuongHuyDong === 0) {
+                            $("#huydong-info").text("Không có lượt huy động nào");
+                        } else {
+                            $("#huydong-info").text(response.soLuongHuyDong + " lượt huy động");
+                        }
+                        if (response.hetHanChungChi === 0) {
+                            $("#chungchi-info").text("Không NV hết hạn chứng chỉ");
+                            $("#chungchi-container").removeClass("warning-gradient");
+                            $("#chungchi-container").addClass("info-gradient");
+                        } else {
+                            $("#chungchi-info").text(response.hetHanChungChi + " NV hết hạn chứng chỉ");
+                            $("#chungchi-container").removeClass("info-gradient");
+                            $("#chungchi-container").addClass("warning-gradient");
+                        }
+                        if (response.vuTaiNan === 0) {
+                            $("#tainan-info").text("Không có vụ tai nạn nào");
+                            $("#tainan-container").removeClass("warning-gradient");
+                            $("#tainan-container").addClass("info-gradient");
+                        } else {
+                            $("#tainan-info").text(response.vuTaiNan + " vụ tai nạn");
+                            $("#tainan-container").removeClass("info-gradient");
+                            $("#tainan-container").addClass("warning-gradient");
+                        }
+                        if (response.nghiVLD === 0) {
+                            $("#vld-info").text("Không có lượt nghỉ VLD nào");
+                            $("#vld-container").removeClass("warning-gradient");
+                            $("#vld-container").addClass("info-gradient");
+                        } else {
+                            $("#vld-info").text(response.nghiVLD + " lượt nghỉ VLD");
+                            $("#vld-container").removeClass("info-gradient");
+                            $("#vld-container").addClass("warning-gradient");
+                        }
+                        ///////////////////////////BIEU DO HUY DONG/////////////////////////////
+                        tren82 = response.tren82;
+                        duoi82 = response.duoi82;
+                        var basicpieChart = echarts.init(document.getElementById('basic-pie'));
+                        option = {
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: "{a} <br/>{b}: {c} ({d}%)",
+                                align: 'center'
+                            },
+                            // Add legend
+                            legend: {
+                                orient: 'vertical',
+                                x: '5%',
+                                y: '88%',
+                                data: ['Huy động dưới 82%', 'Huy động trên 82%']
+                            },
+                            // Add custom colors
+                            color: ['#f62d51', '#2962FF'],
+
+                            // Display toolbox
+                            toolbox: {
+                                show: false,
+                                orient: 'vertical',
+                                feature: {
+                                    mark: {
+                                        show: true,
+                                        title: {
+                                            mark: 'Markline switch',
+                                            markUndo: 'Undo markline',
+                                            markClear: 'Clear markline'
+                                        }
+                                    },
+                                    dataView: {
+                                        show: false,
+                                        readOnly: false,
+                                        title: 'View data',
+                                        lang: ['View chart data', 'Close', 'Update']
+                                    },
+                                    magicType: {
+                                        show: true,
+                                        title: {
+                                            pie: 'Switch to pies',
+                                            funnel: 'Switch to funnel',
+                                        },
+                                        type: ['pie', 'funnel'],
+                                        option: {
+                                            funnel: {
+                                                x: '35%',
+                                                y: '20%',
+                                                width: '50%',
+                                                height: '70%',
+                                                funnelAlign: 'left',
+                                                max: 1548
+                                            }
+                                        }
+                                    },
+                                    restore: {
+                                        show: false,
+                                        title: 'Restore'
+                                    },
+                                    saveAsImage: {
+                                        show: false,
+                                        title: 'Same as image',
+                                        lang: ['Save']
+                                    }
+                                }
+                            },
+
+                            // Enable drag recalculate
+                            calculable: true,
+
+                            // Add series
+                            series: [{
+                                name: 'Các phòng ban',
+                                type: 'pie',
+                                radius: '60%',
+                                center: ['50%', '45.5%'],
+                                label: {
+                                    formatter: "{d}%",
+                                    show: true,
+                                },
+                                data: [{
+                                    value: duoi82,
+                                    name: 'Huy động dưới 82%'
+
+                                },
+                                {
+                                    value: tren82,
+                                    name: 'Huy động trên 82%'
+                                }
+                                ]
+                            }]
+                        };
+                        basicpieChart.setOption(option);
+                        /////////////////////////DANH SACH NGHI VLD//////////////////////////
+                        db.nghidai = [];
+                        for (var i = 0; i < response.listNghiVLD.length; i++) {
+                            var stt = (i + 1);
+                            var MaNV = response.listNghiVLD[i].MaNV;
+                            var HoTen = response.listNghiVLD[i].HoTen;
+                            var TenDonVi = response.listNghiVLD[i].TenDonVi;
+                            db.nghidai.push(
+                                {
+                                    "STT": (i + 1),
+                                    "Số thẻ": MaNV,
+                                    "Họ và tên": HoTen,
+                                    "Đơn vị": TenDonVi
+                                });
+                        }
+                        $("#table_nghidai").jsGrid({
+                            height: "400px",
+                            width: "100%",
+                            sorting: !0,
+                            paging: !0,
+                            data: db.nghidai,
+                            noDataContent: "Không có dữ liệu",
+                            fields: [{
+                                name: "STT",
+                                type: "number",
+                                width: 40
+                            }, {
+                                name: "Số thẻ",
+                                type: "text",
+                                width: 70
+                            }, {
+                                name: "Họ và tên",
+                                type: "text",
+                                width: 150
+                            }, {
+                                name: "Đơn vị",
+                                type: "text",
+                                width: 70
+                            },]
+                        });
+                        /////////////////////////////BAO CAO SAN LUONG//////////////////////////
+                        $("#slkh").text(AddComma(response.sanluong.SLKH == null ? 0 : response.sanluong.SLKH));
+                        $("#lksl").text(AddComma(response.sanluong.LKSL == null ? 0 : response.sanluong.LKSL));
+                        $("#slcl").text(AddComma(response.sanluong.SLKH - response.sanluong.LKSL));
+                        $("#mlkh").text(AddComma(response.sanluong.MLKH == null ? 0 : response.sanluong.MLKH));
+                        $("#lkml").text(AddComma(response.sanluong.LKML == null ? 0 : response.sanluong.LKML));
+                        $("#mlcl").text(AddComma(response.sanluong.MLKH - response.sanluong.LKML));
+                        ///////////////////////////BIEU DO BARCHARRT NHAN LUC/////////////////
+                        var donvi = [];
+                        for (var i = 0; i < response.listNhanLuc.length; i++) {
+                            donvi.push(response.listNhanLuc[i].MaDonVi);
+                        }
+                        var soluong = [];
+                        for (var i = 0; i < response.listNhanLuc.length; i++) {
+                            soluong.push(response.listNhanLuc[i].SoLuong);
+                        }
+                        var myChart = echarts.init(document.getElementById('basic-bar'));
+
+                        // specify chart configuration item and data
+                        var option = {
+                            // Setup grid
+                            grid: {
+                                left: '1%',
+                                right: '2%',
+                                bottom: '3%',
+                                containLabel: true
+                            },
+
+                            // Add Tooltip
+                            tooltip: {
+                                trigger: 'axis'
+                            },
+
+
+                            color: ["#2962FF", "#4fc3f7"],
+                            calculable: true,
+                            xAxis: [
+                                {
+                                    boundaryGap: false,
+                                    data: donvi
+                                }
+                            ],
+                            yAxis: [
+                                {
+                                    type: 'value'
+                                }
+                            ],
+                            series: [
+                                {
+                                    name: 'Tổng',
+                                    type: 'bar',
+                                    data: soluong,
+                                    markPoint: {
+                                        data: [
+                                            { type: 'max', name: 'Max' },
+                                            { type: 'min', name: 'Min' }
+                                        ]
+                                    },
+                                    markLine: {
+                                        data: [
+                                            { type: 'average', name: 'Average' }
+                                        ]
+                                    }
+                                },
+                            ]
+                        };
+                        // use configuration item and data specified to show chart
+                        myChart.setOption(option);
+                        $(function () {
+
+                            // Resize chart on menu width change and window resize
+                            $(window).on('resize', resize);
+                            $(".sidebartoggler").on('click', resize);
+
+                            // Resize function
+                            function resize() {
+                                setTimeout(function () {
+
+                                    // Resize chart
+                                    myChart.resize();
+                                }, 200);
+                            }
+                        });
+                    } else {
+                        errorAlert(response.message);
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    }
+                }
+            });
+        }
+    })
+</script>
+
+<script>
+    var bareaChart = echarts.init(document.getElementById('basic-area'));
+    var option = {
+        // Setup grid
+        grid: {
+            left: '1%',
+            right: '2%',
+            bottom: '3%',
+            containLabel: true
+        },
+
+        // Add Tooltip
+        tooltip: {
+            trigger: 'axis',
+
+        },
+
+        // Add Legend
+        legend: {
+            data: ['Na']
+        },
+
+        // Add custom colors
+        color: ['#2962FF', '#4fc3f7'],
+
+        // Enable drag recalculate
+        calculable: true,
+
+        // Horizontal Axiz
+        xAxis: [
+            {
+                type: 'category',
+                boundaryGap: false,
+                data: ['Ca 1', 'Ca 2', 'Ca 3']
             }
-        });
-    });
+        ],
 
-    $(document).ready(function () {
-        var d = '@ViewBag.d';
-        document.getElementById("data").value = d;
+        // Vertical Axis
+        yAxis: [
+            {
+                type: 'value',
+                max: 10,
+                axisLabel: {
+                    formatter: '{value}'// %'
+                }
+            }
+        ],
+
+        // Add Series
+        series: [
+            {
+                name: '',
+                type: 'line',
+                areaStyle: {},
+                data: [1, 5, 7],
+                markPoint: {
+                    data: [
+                        { type: 'max', name: 'Max' },
+                        { type: 'min', name: 'Min' }
+                    ]
+                },
+                markLine: {
+                    data: [
+                        { type: 'average', name: 'Average' }
+                    ]
+                }
+            },
+        ]
+    };
+    bareaChart.setOption(option);
+    $(function () {
+        $(window).on('resize', resize);
+        $(".sidebartoggler").on('click', resize);
+        function resize() {
+            setTimeout(function () {
+                bareaChart.resize();
+            }, 200);
+        }
+        bareaChart.resize();
     });
-    </script>
+</script>
+
+<script>
+    $("#minMaxDate").datepicker({
+        toggleSelected: false,
+        language: 'vi'
+    });
+</script>
+
+<script>
+    $(function () {
+        $(".datepicker-inline").remove();
+    })
+</script>

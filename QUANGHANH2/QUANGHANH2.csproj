@@ -620,6 +620,9 @@
     <Compile Include="Models\PhongBan_TieuChi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PhongBan_TieuChi_TheoNam.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\QuanHeGiaDinh.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -662,6 +665,9 @@
     </Compile>
     <Compile Include="Models\Supply_Extend.cs" />
     <Compile Include="Models\Supply_tieuhao.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaiNan.cs">
@@ -7175,6 +7181,10 @@
     <Content Include="excel\CDVT\download\baocaohoatdong-2.xlsx" />
     <Content Include="excel\TCLD\Brief\Inside.xlsx" />
     <Content Include="doc\TCLD\chamdut\motnguoi\chamdut-ko-tro-cap-template.docx" />
+    <Content Include="excel\DK\Thong-ke-tai-nan.xlsx" />
+    <Content Include="excel\DK\Thong-ke-tai-nan-download.xlsx" />
+    <Content Include="doc\TCLD\chamdutdow\chamdut-ko-tro-cap-template.docx" />
+    <Content Include="doc\TCLD\chamdutzip\chamdut-ko-tro-cap-template.docx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7182,10 +7192,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="excel\DK\Thong-ke-tai-nan.xlsx" />
-    <Content Include="excel\DK\Thong-ke-tai-nan-download.xlsx" />
-    <Content Include="doc\TCLD\chamdutdow\chamdut-ko-tro-cap-template.docx" />
-    <Content Include="doc\TCLD\chamdutzip\chamdut-ko-tro-cap-template.docx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
