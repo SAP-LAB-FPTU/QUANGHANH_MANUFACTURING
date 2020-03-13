@@ -116,6 +116,15 @@
                 }
             }
         })
+        $("#aspectDetailTable .aspectName").each(function () {
+            var value = $(this).attr("id");
+            console.log(value);
+            if (value != null) {
+                if (value !== -1 || currentSelectedValue.indexOf(value) !== -1) {
+                    currentSelectedValue.push(value);
+                }
+            }
+        })
     })
 </script>
 
