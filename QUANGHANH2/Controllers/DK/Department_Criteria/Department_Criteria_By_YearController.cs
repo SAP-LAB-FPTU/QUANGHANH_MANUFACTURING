@@ -89,11 +89,16 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
             try
             {
                 var maTieuChi = Request["maTieuChi"];
-                var year = Request["year"];
+                var year = Convert.ToInt32(Request["year"]);
                 var department = Request["department"];
                 string sqlDelete = "delete PhongBan_TieuChi_TheoNam where MaPhongBan like N'" + department + "' and MaTieuChi = "+maTieuChi+" and Nam = '"+year+"'";
+                
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
+                    header_KeHoach_TieuChi_TheoNam header_KeHoach_TieuChi_TheoNam = db.header_KeHoach_TieuChi_TheoNam.Where(x => x.MaPhongBan.Equals(department) && x.Nam == year).FirstOrDefault<header_KeHoach_TieuChi_TheoNam>();
+                    
+                    string sqlDeleteKeHoach = "delete KeHoach_TieuChi_TheoNam where headerID = " + header_KeHoach_TieuChi_TheoNam.HeaderID + " and MaTieuChi = " + maTieuChi;
+                    db.Database.ExecuteSqlCommand(sqlDeleteKeHoach);
                     db.Database.ExecuteSqlCommand(sqlDelete);
                     db.SaveChanges();
                 }
