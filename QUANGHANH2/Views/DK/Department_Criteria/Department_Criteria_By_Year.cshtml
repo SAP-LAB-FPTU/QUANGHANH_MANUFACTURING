@@ -266,7 +266,8 @@
     }
 
     function deleteInformation(MaTieuChi) {
-        confirmAlert("Xác nhận xóa?", "", function () {
+        var year = $("#yearCalendar").val().split(" ")[1];
+        confirmAlert("Xác nhận xóa?", "Bạn sẽ xóa hết kế hoạch của tiêu chí này trong năm " + year, function () {
              setTimeout($('#pre-load').show(), 3000);
         $.ajax({
             url: "/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-nam/xoa-tieu-chi-cua-phong-ban",
