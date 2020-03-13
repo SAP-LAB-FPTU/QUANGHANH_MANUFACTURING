@@ -221,14 +221,27 @@
         var date = day + "/" + month + "/" + year;
         return (date);
     }
+
     $(document).ready(function () {
         $("#change").click();
     });
 
+
+    function addDataByCritCategory(response, tableBody) {
+
+    }
+
     function genData(response) {
         tableBody = ''
         for (var j = 0; j < response.listTC.length; j++) {
+            var KH = [0,0,0,0,0,0,0,0,0,0,0,0];
+            var LK = [0,0,0,0,0,0,0,0,0,0,0,0];
+            var BQ = [0,0,0,0,0,0,0,0,0,0,0,0]; 
+
+            //fill data in each row
             tableBody += "<tr>"
+
+            //fil TC data.
             tableBody += "<th>" + response.listTC[j].TT + "</th>"
             if (response.listTC[j].HangTieuChi == 1) {
                 tableBody += "<th><div class=\"red-title\">" + response.listTC[j].NoiDung + "</div></th>"
@@ -238,64 +251,92 @@
                 tableBody += "<td>" + response.listTC[j].NoiDung + "</td>"
             }
 
-            //year
-            var yearIsAdd = false;
+            //Add value of this TC
+            //cal year of this TC
             for (var k1 = 0; k1 < response.listYear.length; k1++) {
                 if (response.listYear[k1].MaTieuChi == response.listTC[j].MaTieuChi) {
-                    tableBody += "<td>" + response.listYear[k1].TongSLKH + "</td>"
-                    tableBody += "<td>" + response.listYear[k1].LKDenThang1 + "</td>"
-                    tableBody += "<td>" + Math.round(response.listYear[k1].BQConLai1Thang / 11) + "</td>"
-                    yearIsAdd = true;
+                    KH[0] += response.listYear[k1].TongSLKH;
+                    LK[0] += response.listYear[k1].LKDenThang1;
+                    BQ[0] += Math.round(response.listYear[k1].BQConLai1Thang / 11);
                     break;
                 }
             }
-
-            //check dataYearAdd
-            if (!yearIsAdd) {
-                tableBody += "<td>" + "-" + "</td>"
-                tableBody += "<td>" + "-" + "</td>"
-                tableBody += "<td>" + "-" + "</td>"
-            }
-
-            //month
-
-            for (var i = 2; i <= 12; i++) {
-                var monthIsAdd = false;
+            //cal month of this TC
+            for (var month = 2; month <= 12; month++) {
                 var dayRemaining = 0;
-
                 for (var k2 = 0; k2 < response.listMonth.length; k2++) {
-                    if (response.listMonth[k2].MaTieuChi == response.listTC[j].MaTieuChi && response.listMonth[k2].ThangKeHoach == i) {
-                        //display att of listMonth[k2]
-                        tableBody += "<td>" + response.listMonth[k2].KeHoachThang + "</td>"
-                        tableBody += "<td>" + response.listMonth[k2].SL + "</td>"
-
+                    if (response.listMonth[k2].MaTieuChi == response.listTC[j].MaTieuChi && response.listMonth[k2].ThangKeHoach == month) {
+                        KH[month-1] += response.listMonth[k2].KeHoachThang
+                        LK[month-1] += response.listMonth[k2].SL
                         //handling average remaining.
                         for (var k3 = 0; k3 < response.listInfo.length; k3++) {
-                            if (response.listInfo[k3].ThangKeHoach == i) {
+                            if (response.listInfo[k3].ThangKeHoach == month) {
                                 dayRemaining = response.listInfo[k3].SoNgayConLai;
                             }
                         }
                         if (dayRemaining == 0) {
-                            tableBody += "<td>" + "-" + "</td>"
+                            BQ[month-1] += 0
                         } else {
-                            tableBody += "<td>" + Math.round(response.listMonth[k2].BQConLai1Ngay / dayRemaining) + "</td>"
+                            BQ[month-1] += Math.round(response.listMonth[k2].BQConLai1Ngay / dayRemaining)
                         }
-                        monthIsAdd = true;
                         break;
                     }
-                }
+                } 
+            }
 
-                //check dataYearAdd
-                if (!monthIsAdd) {
-                    tableBody += "<td>" + "-" + "</td>"
-                    tableBody += "<td>" + "-" + "</td>"
-                    tableBody += "<td>" + "-" + "</td>"
+            //check smallCritCategory in the next TC
+            //counting and cal total value from  small criteria category .
+            for (var count = j; count < response.listTC.length - 1; count++) {
+                //comparing critCategory of this TC to critCategory of the next TC
+                if (response.listTC[j].HangTieuChi < response.listTC[count + 1].HangTieuChi) {
+                    //cal year
+                    for (var k1 = 0; k1 < response.listYear.length; k1++) {
+                        if (response.listYear[k1].MaTieuChi == response.listTC[count + 1].MaTieuChi) {
+                            KH[0] += response.listYear[k1].TongSLKH;
+                            LK[0] += response.listYear[k1].LKDenThang1;
+                            BQ[0] += Math.round(response.listYear[k1].BQConLai1Thang / 11);
+                            break;
+                        }
+                    }
+
+                    //cal month
+                    for (var month = 2; month <= 12; month++) {
+                        var dayRemaining = 0;
+                        for (var k2 = 0; k2 < response.listMonth.length; k2++) {
+                            if (response.listMonth[k2].MaTieuChi == response.listTC[count + 1].MaTieuChi && response.listMonth[k2].ThangKeHoach == month) {
+                                KH[month-1] += response.listMonth[k2].KeHoachThang
+                                LK[month-1] += response.listMonth[k2].SL
+
+                                //handling average remaining.
+                                for (var k3 = 0; k3 < response.listInfo.length; k3++) {
+                                    if (response.listInfo[k3].ThangKeHoach == month) {
+                                        dayRemaining = response.listInfo[k3].SoNgayConLai;
+                                    }
+                                }
+                                if (dayRemaining == 0) {
+                                    BQ[month-1] += 0
+                                } else {
+                                    BQ[month-1] += Math.round(response.listMonth[k2].BQConLai1Ngay / dayRemaining)
+                                }
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    break;
                 }
             }
+
+            //display data
+            for (var i = 0; i < 12; i++) {
+                tableBody += "<td>" + KH[i] + "</td>"
+                tableBody += "<td>" + LK[i] + "</td>"
+                tableBody += "<td>" + BQ[i] + "</td>"
+            }
+
             tableBody += "</tr>"
         }
         $("#mainTable tbody").html(tableBody)
-        $("#year").html(response.year);
     }
 
     function refreshDisplay(response) {
@@ -329,7 +370,7 @@
                     refreshDisplay(response);
                     successAlert("Thành công", "Đổi thành công")
                 } else if (!response.success) {
-                    errorAlert("Có lỗi", "Chưa chọn tháng năm")
+                    errorAlert("Có lỗi", "Đã có lỗi xảy ra")
                 }
             }
         })
