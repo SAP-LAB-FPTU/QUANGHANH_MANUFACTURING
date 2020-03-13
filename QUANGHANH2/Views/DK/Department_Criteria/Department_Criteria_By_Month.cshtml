@@ -116,7 +116,6 @@
                 }
             }
         })
-        dem--;
     })
 </script>
 
@@ -124,7 +123,7 @@
 <!--LIST + ADD + UPDATE + DELETE-->
 <script>
     //check button that user press is "View" or "GetDataLastMonth"
-    var checkButton;
+
     function getInformation() {
         dem = 0;
         if ($('#monthCalendar').val() == "" || $('#yearCalendar').val() == "" || $('#cbx-px').val() == null)
@@ -153,8 +152,7 @@
                 ViewMode();
                 mode = 0;
                 listAspectDepartments = response.listTieuChi;
-                 //Button that user press is View
-                checkButton = 1;
+
                 $('#pre-load').hide();
             },
             error: function (response) {
@@ -185,7 +183,8 @@
                 content = "";
                 let reponseListPhongBanTieuChi = response.listPhongBanTieuChi
                 for (let i = 0; i < reponseListPhongBanTieuChi.length; i++) {
-                    content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a class='btn red darken-2' onclick='deleteInformation(" + reponseListPhongBanTieuChi[i].MaTieuChi + ")'>Xóa</a></td><tr>";
+                    content += "<tr  id=\"MaTieuChi" + dem + "\"><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a id='delete-btn' name=\"MaTieuChi" + dem + "\" class='btn red darken-2'>Xóa</a></td><tr>";
+                    dem++;
                 }
                 tableBody.html(content);
                 ViewMode();
@@ -196,10 +195,7 @@
                 emptyArr();
                 for (var i = 0; i < reponseListPhongBanTieuChi.length; i++) {
                     currentSelectedValue.push(reponseListPhongBanTieuChi[i].MaTieuChi);
-                    
                 }
-                //Button that user press is GetDataLastMonth
-                checkButton = 2;
                 $('#pre-load').hide();
             },
             error: function (response) {
@@ -277,7 +273,9 @@
     }
 
     function deleteInformation(MaTieuChi) {
-        confirmAlert("Xác nhận xóa?", "", function () {
+        let month = $("#monthCalendar").val().split(" ")[1];
+        let year = $("#yearCalendar").val().split(" ")[1];
+        confirmAlert("Xác nhận xóa?", "Bạn sẽ xóa tất cả kế hoạch của tiêu chí này trong tháng " + month + " năm " + year, function () {
              setTimeout($('#pre-load').show(), 3000);
         $.ajax({
             url: "/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-thang/xoa-tieu-chi-cua-phong-ban",
@@ -291,13 +289,7 @@
             },
             success: function (response) {
                 successAlert('Thành công', 'Thao tác thành công');
-                if (checkButton == 1) {
-                    getInformation();
-                }
-                if (checkButton == 2) {
-                     getInformation();
-                }
-               
+                getInformation();
                 $('#pre-load').hide();
             },
             error: function (response) {
