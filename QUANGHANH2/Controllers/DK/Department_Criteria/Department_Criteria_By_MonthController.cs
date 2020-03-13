@@ -159,9 +159,19 @@ namespace QUANGHANH2.Controllers.DK
                 var year = Int32.Parse(Request["year"]);
                 var departmentID = Request["department"];
                 var criteria = Request["criteria"];
-                string sqlDelete = "Delete PhongBan_TieuChi where MaTieuChi = "+ criteria +" and MaPhongBan = N'"+ departmentID +"' and Thang = "+ month +" and Nam = "+ year +"";
+                string sqlDelete = "Delete PhongBan_TieuChi where MaTieuChi = "+ criteria +" and MaPhongBan = N'"+ departmentID +"' and Thang = "+ month +" and Nam = "+ year;
                 using (QUANGHANHABCEntities db =  new QUANGHANHABCEntities())
                 {
+                    KeHoachTungThang keHoachTungThang = db.KeHoachTungThangs.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).FirstOrDefault<KeHoachTungThang>();
+                    header_KeHoachTungThang header_KeHoachTungThang = db.header_KeHoachTungThang.Where(x => x.ThangID == keHoachTungThang.ThangID && x.MaPhongBan.Equals(departmentID)).FirstOrDefault<header_KeHoachTungThang>();
+
+                    string sqlDeleteKHTT = "Delete KeHoachTungThang where ThangKeHoach = " + month + " and NamKeHoach = " + year;
+                    string sqlDeleteHKHTT = "Delete header_KeHoachTungThang  where MaPhongBan = N'" + departmentID + "' and ThangID = " + keHoachTungThang.ThangID;
+                    string sqlDeleteKHTCT = "Delete KeHoach_TieuChi_TheoThang  where headerID = " + header_KeHoachTungThang.HeaderID + " and MaTieuChi = " + criteria;
+
+                    db.Database.ExecuteSqlCommand(sqlDeleteKHTCT);
+                    db.Database.ExecuteSqlCommand(sqlDeleteHKHTT);
+                    db.Database.ExecuteSqlCommand(sqlDeleteKHTT);
                     db.Database.ExecuteSqlCommand(sqlDelete);
                     db.SaveChanges();
                 }
@@ -173,6 +183,7 @@ namespace QUANGHANH2.Controllers.DK
             return null;
         }
     }
+
     public class TieuChiABC : TieuChi
     {
         public string MaPhongBan { get; set; }
