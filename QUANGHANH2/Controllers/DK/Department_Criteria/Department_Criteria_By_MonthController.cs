@@ -163,15 +163,33 @@ namespace QUANGHANH2.Controllers.DK
                 using (QUANGHANHABCEntities db =  new QUANGHANHABCEntities())
                 {
                     KeHoachTungThang keHoachTungThang = db.KeHoachTungThangs.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).FirstOrDefault<KeHoachTungThang>();
-                    header_KeHoachTungThang header_KeHoachTungThang = db.header_KeHoachTungThang.Where(x => x.ThangID == keHoachTungThang.ThangID && x.MaPhongBan.Equals(departmentID)).FirstOrDefault<header_KeHoachTungThang>();
+                    header_KeHoachTungThang header_KeHoachTungThang = null;
+                    if (keHoachTungThang != null)
+                    {
+                        header_KeHoachTungThang = db.header_KeHoachTungThang.Where(x => x.ThangID == keHoachTungThang.ThangID && x.MaPhongBan.Equals(departmentID)).FirstOrDefault<header_KeHoachTungThang>();
+                    }
+                    if (header_KeHoachTungThang != null)
+                    {
+                        string sqlDeleteKHTCT = "Delete KeHoach_TieuChi_TheoThang  where headerID = " + header_KeHoachTungThang.HeaderID + " and MaTieuChi = " + criteria;
+                        db.Database.ExecuteSqlCommand(sqlDeleteKHTCT);
+                        KeHoach_TieuChi_TheoThang keHoach_TieuChi_TheoThang = db.KeHoach_TieuChi_TheoThang.Where(x => x.HeaderID == header_KeHoachTungThang.HeaderID).FirstOrDefault<KeHoach_TieuChi_TheoThang>();
 
-                    string sqlDeleteKHTT = "Delete KeHoachTungThang where ThangKeHoach = " + month + " and NamKeHoach = " + year;
-                    string sqlDeleteHKHTT = "Delete header_KeHoachTungThang  where MaPhongBan = N'" + departmentID + "' and ThangID = " + keHoachTungThang.ThangID;
-                    string sqlDeleteKHTCT = "Delete KeHoach_TieuChi_TheoThang  where headerID = " + header_KeHoachTungThang.HeaderID + " and MaTieuChi = " + criteria;
+                        if(keHoach_TieuChi_TheoThang == null)
+                        {
+                            if (keHoachTungThang != null)
+                            {
+                                string sqlDeleteHKHTT = "Delete header_KeHoachTungThang  where MaPhongBan = N'" + departmentID + "' and ThangID = " + keHoachTungThang.ThangID;
+                                db.Database.ExecuteSqlCommand(sqlDeleteHKHTT);
+                                header_KeHoachTungThang header_KeHoachTungThangCheck = db.header_KeHoachTungThang.Where(x => x.ThangID == keHoachTungThang.ThangID).FirstOrDefault<header_KeHoachTungThang>();
+                                if(header_KeHoachTungThangCheck == null)
+                                {
+                                    string sqlDeleteKHTT = "Delete KeHoachTungThang where ThangKeHoach = " + month + " and NamKeHoach = " + year;
+                                    db.Database.ExecuteSqlCommand(sqlDeleteKHTT);
+                                }
+                            }
+                        }
+                    }
 
-                    db.Database.ExecuteSqlCommand(sqlDeleteKHTCT);
-                    db.Database.ExecuteSqlCommand(sqlDeleteHKHTT);
-                    db.Database.ExecuteSqlCommand(sqlDeleteKHTT);
                     db.Database.ExecuteSqlCommand(sqlDelete);
                     db.SaveChanges();
                 }
