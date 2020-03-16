@@ -27,38 +27,93 @@ namespace QUANGHANH2.Controllers.DK
                 DateTime dateNow = DateTime.Now;
                 //DateTime dateNumberNow = DateTime.Now.Date;
                 string queryTC = @"select t.MaTieuChi,n.MaNhomTieuChi,t.TenTieuChi,n.TenNhomTieuChi from TieuChi t inner join NhomTieuChi n on t.MaNhomTieuChi = n.MaNhomTieuChi order by n.MaNhomTieuChi";
-                string queryYear = @"select table1.MaTieuChi,TenTieuChi,TongSLKH,TongThucHien as LKDenThang1, ROUND((TongSLKH - TongThucHien),0) as BQConLai1Thang  
-                                    from (select a.MaTieuChi,sum(a.SanLuongKeHoach) as TongSLKH from KeHoach_TieuChi_TheoNam as a INNER JOIN
-                                    (select HeaderID, MaTieuChi, max(ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung from KeHoach_TieuChi_TheoNam 
-                                    group by HeaderID, MaTieuChi) b ON a.ThoiGianNhapCuoiCung = b.ThoiGianNhapCuoiCung and a.HeaderID = b.HeaderID 
-                                    and a.MaTieuChi = b.MaTieuChi group by a.MaTieuChi) as table1 INNER JOIN 
-                                    (SELECT dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi,dbo.TieuChi.TenTieuChi, sum(dbo.ThucHien_TieuChi_TheoNgay.SanLuong) as TongThucHien
-                                    FROM dbo.ThucHien_TieuChi_TheoNgay INNER JOIN
-                                    dbo.header_ThucHienTheoNgay ON dbo.ThucHien_TieuChi_TheoNgay.HeaderID = dbo.header_ThucHienTheoNgay.HeaderID INNER JOIN
-                                    dbo.ThucHienTheoNgay ON dbo.header_ThucHienTheoNgay.NgayID = dbo.ThucHienTheoNgay.NgayID INNER JOIN
-                                    dbo.TieuChi ON dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi = dbo.TieuChi.MaTieuChi
-                                    where month(dbo.ThucHienTheoNgay.Ngay) = 1 and year(dbo.ThucHienTheoNgay.Ngay) = @year
-                                    group by dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi,dbo.TieuChi.TenTieuChi) as table2
-                                    on table1.MaTieuChi = table2.MaTieuChi ";
-                string queryMonth = @"select ThangKeHoach,MaTieuChi,TenTieuChi,KeHoachThang,SL, ROUND((KeHoachThang - SL) ,0) as BQConLai1Ngay from
-                                    (SELECT sum(SanLuong) as KeHoachThang ,dbo.KeHoachTungThang.ThangKeHoach,dbo.header_KeHoachTungThang.ThangID
-                                    FROM dbo.KeHoach_TieuChi_TheoThang INNER JOIN
-                                    dbo.header_KeHoachTungThang ON dbo.KeHoach_TieuChi_TheoThang.HeaderID = dbo.header_KeHoachTungThang.HeaderID INNER JOIN
-                                    dbo.KeHoachTungThang ON dbo.header_KeHoachTungThang.ThangID = dbo.KeHoachTungThang.ThangID INNER JOIN
-                                    dbo.TieuChi ON dbo.KeHoach_TieuChi_TheoThang.MaTieuChi = dbo.TieuChi.MaTieuChi INNER JOIN
-                                    dbo.Department ON dbo.header_KeHoachTungThang.MaPhongBan = dbo.Department.department_id
-                                    where dbo.KeHoachTungThang.NamKeHoach = @year
-                                    group by dbo.header_KeHoachTungThang.ThangID,dbo.KeHoachTungThang.ThangKeHoach) as table3
+
+                //string queryYear = @"select TieuChi.MaTieuChi,TieuChi.TenTieuChi, 
+                //                    (case when table3.TongSLKH is NULL then 0 else table3.TongSLKH end) as TongSLKH,
+                //                    (case when table3.LKDenThang1 is NULL then 0 else table3.LKDenThang1 end) as LKDenThang1,
+                //                    (case when table3.BQConLai1Thang is NULL then 0 else table3.BQConLai1Thang end) as BQConLai1Thang from (									
+                //                    select table1.MaTieuChi,TongSLKH,TongThucHien as LKDenThang1, ROUND((TongSLKH - TongThucHien),0) as BQConLai1Thang , table1.Nam
+                //                    from (select a.HeaderID,a.MaTieuChi, b.Nam ,sum(a.SanLuongKeHoach) as TongSLKH from KeHoach_TieuChi_TheoNam as a INNER JOIN
+                //                    (select table1a.HeaderID, table1a.MaTieuChi, table1a.Nam, max(table1a.ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung from
+                //                    (select k.HeaderID, k.MaTieuChi, hk.Nam, k.ThoiGianNhapCuoiCung from header_KeHoach_TieuChi_TheoNam hk inner join KeHoach_TieuChi_TheoNam k
+                //                    on hk.HeaderID = k.HeaderID) table1a group by table1a.HeaderID, table1a.MaTieuChi, table1a.Nam) b ON a.ThoiGianNhapCuoiCung = b.ThoiGianNhapCuoiCung and a.HeaderID = b.HeaderID 
+                //                    and a.MaTieuChi = b.MaTieuChi group by a.MaTieuChi,a.HeaderID,b.Nam) as table1 FULL OUTER JOIN 
+                //                    (SELECT dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi, sum(dbo.ThucHien_TieuChi_TheoNgay.SanLuong) as TongThucHien
+                //                    FROM dbo.ThucHien_TieuChi_TheoNgay INNER JOIN
+                //                    dbo.header_ThucHienTheoNgay ON dbo.ThucHien_TieuChi_TheoNgay.HeaderID = dbo.header_ThucHienTheoNgay.HeaderID INNER JOIN
+                //                    dbo.ThucHienTheoNgay ON dbo.header_ThucHienTheoNgay.NgayID = dbo.ThucHienTheoNgay.NgayID INNER JOIN
+                //                    dbo.TieuChi ON dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi = dbo.TieuChi.MaTieuChi
+                //                    where month(dbo.ThucHienTheoNgay.Ngay) = 1 and year(dbo.ThucHienTheoNgay.Ngay) = @year
+                //                    group by dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi,dbo.TieuChi.TenTieuChi) as table2
+                //                    on table1.MaTieuChi = table2.MaTieuChi) as table3 INNER JOIN TieuChi 
+                //                    on table3.MaTieuChi = TieuChi.MaTieuChi
+                //                    where table3.Nam = @year";
+
+                string queryYear = @"select TieuChi.MaTieuChi,TieuChi.TenTieuChi, table3.Nam,
+                                    (case when table3.TongSLKH is NULL then 0 else table3.TongSLKH end) as TongSLKH,
+                                    (case when table3.LKDenThang1 is NULL then 0 else table3.LKDenThang1 end) as LKDenThang1,
+                                    (case when table3.BQConLai1Thang is NULL then 0 else table3.BQConLai1Thang end) as BQConLai1Thang from (									
+                                    select 
+									(case when table1.MaTieuChi is NULL then table2.MaTieuChi else table1.MaTieuChi end) as MaTieuChi,
+									(case when table1.Nam is NULL then table2.Nam else table1.Nam end) as Nam,
+									TongSLKH,TongThucHien as LKDenThang1, ROUND((TongSLKH - TongThucHien),0) as BQConLai1Thang from (
+									select a.HeaderID,a.MaTieuChi, b.Nam ,sum(a.SanLuongKeHoach) as TongSLKH from KeHoach_TieuChi_TheoNam as a INNER JOIN
+                                    (select table1a.HeaderID, table1a.MaTieuChi, table1a.Nam, max(table1a.ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung from
+                                    (select k.HeaderID, k.MaTieuChi, hk.Nam, k.ThoiGianNhapCuoiCung from header_KeHoach_TieuChi_TheoNam hk inner join KeHoach_TieuChi_TheoNam k
+                                    on hk.HeaderID = k.HeaderID) table1a group by table1a.HeaderID, table1a.MaTieuChi, table1a.Nam) b ON a.ThoiGianNhapCuoiCung = b.ThoiGianNhapCuoiCung and a.HeaderID = b.HeaderID 
+                                    and a.MaTieuChi = b.MaTieuChi group by a.MaTieuChi,a.HeaderID,b.Nam) as table1 
+									FULL OUTER JOIN
+                                    (SELECT dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi, sum(dbo.ThucHien_TieuChi_TheoNgay.SanLuong) as TongThucHien, year(dbo.ThucHienTheoNgay.Ngay) as Nam
+									FROM dbo.ThucHien_TieuChi_TheoNgay INNER JOIN
+									dbo.header_ThucHienTheoNgay ON dbo.ThucHien_TieuChi_TheoNgay.HeaderID = dbo.header_ThucHienTheoNgay.HeaderID INNER JOIN
+									dbo.ThucHienTheoNgay ON dbo.header_ThucHienTheoNgay.NgayID = dbo.ThucHienTheoNgay.NgayID INNER JOIN
+									dbo.TieuChi ON dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi = dbo.TieuChi.MaTieuChi
+									where month(dbo.ThucHienTheoNgay.Ngay) = 1 and year(dbo.ThucHienTheoNgay.Ngay) = @year
+									group by dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi,dbo.TieuChi.TenTieuChi , year(dbo.ThucHienTheoNgay.Ngay)) as table2
+                                    on table1.MaTieuChi = table2.MaTieuChi) as table3 INNER JOIN TieuChi 
+                                    on table3.MaTieuChi = TieuChi.MaTieuChi where table3.Nam = @year ";
+
+                //string queryMonth = @"select ThangKeHoach,MaTieuChi,TenTieuChi,KeHoachThang,SL, ROUND((KeHoachThang - SL) ,0) as BQConLai1Ngay from
+                //                    (SELECT sum(SanLuong) as KeHoachThang ,dbo.KeHoachTungThang.ThangKeHoach,dbo.header_KeHoachTungThang.ThangID
+                //                    FROM dbo.KeHoach_TieuChi_TheoThang INNER JOIN
+                //                    dbo.header_KeHoachTungThang ON dbo.KeHoach_TieuChi_TheoThang.HeaderID = dbo.header_KeHoachTungThang.HeaderID INNER JOIN
+                //                    dbo.KeHoachTungThang ON dbo.header_KeHoachTungThang.ThangID = dbo.KeHoachTungThang.ThangID INNER JOIN
+                //                    dbo.TieuChi ON dbo.KeHoach_TieuChi_TheoThang.MaTieuChi = dbo.TieuChi.MaTieuChi INNER JOIN
+                //                    dbo.Department ON dbo.header_KeHoachTungThang.MaPhongBan = dbo.Department.department_id
+                //                    where dbo.KeHoachTungThang.NamKeHoach = @year
+                //                    group by dbo.header_KeHoachTungThang.ThangID,dbo.KeHoachTungThang.ThangKeHoach) as table3
+                //                    inner join 
+                //                    (SELECT dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi,dbo.TieuChi.TenTieuChi, sum(dbo.ThucHien_TieuChi_TheoNgay.SanLuong) as SL , month(dbo.ThucHienTheoNgay.Ngay) as ThangX
+                //                    FROM dbo.ThucHien_TieuChi_TheoNgay INNER JOIN
+                //                    dbo.header_ThucHienTheoNgay ON dbo.ThucHien_TieuChi_TheoNgay.HeaderID = dbo.header_ThucHienTheoNgay.HeaderID INNER JOIN
+                //                    dbo.ThucHienTheoNgay ON dbo.header_ThucHienTheoNgay.NgayID = dbo.ThucHienTheoNgay.NgayID INNER JOIN
+                //                    dbo.TieuChi ON dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi = dbo.TieuChi.MaTieuChi
+                //                    where dbo.ThucHienTheoNgay.Ngay < @date
+                //                    group by dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi,dbo.TieuChi.TenTieuChi ,month(dbo.ThucHienTheoNgay.Ngay)) as table4
+                //                    on table3.ThangKeHoach = table4.ThangX
+                //                    order by ThangKeHoach";
+                string queryMonth = @"select ThangKeHoach,table3.MaTieuChi,TenTieuChi,KeHoachThang,SL, ROUND((KeHoachThang - SL) ,0) as BQConLai1Ngay from
+                                    (select sum(a.SanLuong) as KeHoachThang, a.ThangKeHoach,a.MaTieuChi from(
+									SELECT DISTINCT SanLuong,t.MaTieuChi,khtt.ThangKeHoach ,
+									FIRST_VALUE(ThoiGianNhapCuoiCung) OVER (PARTITION BY t.MaTieuChi,khtt.ThangKeHoach ORDER BY khtt.ThangKeHoach) as ThoiGianNhapCuoiCung
+									FROM dbo.KeHoach_TieuChi_TheoThang ktt INNER JOIN
+                                    dbo.header_KeHoachTungThang hktt ON ktt.HeaderID = hktt.HeaderID INNER JOIN
+                                    dbo.KeHoachTungThang khtt ON hktt.ThangID = khtt.ThangID INNER JOIN
+                                    dbo.TieuChi t ON ktt.MaTieuChi = t.MaTieuChi
+									where khtt.NamKeHoach = @year) a
+									group by a.ThangKeHoach,a.MaTieuChi) as table3
                                     inner join 
-                                    (SELECT dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi,dbo.TieuChi.TenTieuChi, sum(dbo.ThucHien_TieuChi_TheoNgay.SanLuong) as SL , month(dbo.ThucHienTheoNgay.Ngay) as ThangX
+                                    
+									(SELECT dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi,dbo.TieuChi.TenTieuChi, sum(dbo.ThucHien_TieuChi_TheoNgay.SanLuong) as SL , month(dbo.ThucHienTheoNgay.Ngay) as ThangX
                                     FROM dbo.ThucHien_TieuChi_TheoNgay INNER JOIN
                                     dbo.header_ThucHienTheoNgay ON dbo.ThucHien_TieuChi_TheoNgay.HeaderID = dbo.header_ThucHienTheoNgay.HeaderID INNER JOIN
                                     dbo.ThucHienTheoNgay ON dbo.header_ThucHienTheoNgay.NgayID = dbo.ThucHienTheoNgay.NgayID INNER JOIN
                                     dbo.TieuChi ON dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi = dbo.TieuChi.MaTieuChi
                                     where dbo.ThucHienTheoNgay.Ngay < @date
                                     group by dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi,dbo.TieuChi.TenTieuChi ,month(dbo.ThucHienTheoNgay.Ngay)) as table4
-                                    on table3.ThangKeHoach = table4.ThangX
+                                    on table3.ThangKeHoach = table4.ThangX and table3.MaTieuChi = table4.MaTieuChi
                                     order by ThangKeHoach";
+
                 string queryDateWorkingInfo = @"select ThangKeHoach, (SoNgayLamViec - NgaySanXuat) as SoNgayConLai, NgayCuoi from 
                                             (select ThangKeHoach,SoNgayLamViec from KeHoachTungThang where NamKeHoach = 2020) as tb3
                                             inner join 
