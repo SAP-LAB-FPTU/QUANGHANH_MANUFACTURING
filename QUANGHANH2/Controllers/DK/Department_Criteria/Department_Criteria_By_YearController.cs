@@ -32,7 +32,7 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
                 List<TieuChi> listTieuChi = new List<TieuChi>();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    var query = " select * from Department WHERE department_type =@departmentType order by department_name";
+                    var query = " select * from Department WHERE department_type = @departmentType order by department_name";
                     List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
                     ViewBag.listDepartments = listDepartments;
                     //

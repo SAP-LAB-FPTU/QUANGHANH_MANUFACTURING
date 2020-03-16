@@ -48,6 +48,10 @@ namespace QUANGHANH2.Controllers.DK
                     list = db.Database.SqlQuery<TieuChiABC>(sqlPhongBanTieuChi, new SqlParameter("maphongban", departmentID),
                         new SqlParameter("thang", month),
                         new SqlParameter("nam", year)).ToList<TieuChiABC>();
+
+                    var status = "Month";
+                    var message = "Dữ liệu đang được lấy ra theo tiêu chí của phân xưởng bạn đang chọn.";
+
                     //If list PhongBan_TieuChi have no record -> take data from PhongBan_TieuChi_TheoNam
                     if (list.Count == 0)
                     {
@@ -55,11 +59,14 @@ namespace QUANGHANH2.Controllers.DK
                                                 where MaPhongBan = @maphongban and Nam = @nam";
                         list = db.Database.SqlQuery<TieuChiABC>(sqlPhongBanTieuChi, new SqlParameter("maphongban", departmentID),
                             new SqlParameter("nam", year)).ToList<TieuChiABC>();
+
+                        status = "Year";
+                        message = "Hiện tại đang không có dữ liệu tiêu chí cho phân xưởng bạn đang chọn. Dữ liệu hiển thị dưới sẽ được lấy theo tiêu chí dành cho phân xưởng theo năm.";
                     }
                     //get list TieuChi
                     string sqlTieuChi = "select * from TieuChi";
                     listTieuChi = db.Database.SqlQuery<TieuChi>(sqlTieuChi).ToList<TieuChi>();
-                    return Json(new { listPhongBanTieuChi = list , listTieuChi = listTieuChi});
+                    return Json(new { listPhongBanTieuChi = list , listTieuChi = listTieuChi, status = status, message = message});
                 }
             }
             catch (Exception e)
