@@ -105,23 +105,52 @@ namespace QUANGHANH2.Controllers.DK
         {
             var year = Int32.Parse(Request["year"]);
             var department = Request["department"];
-            string query = "select pb_tc.MaPhongBan, pb_tc.MaTieuChi, pb_tc.TenTieuChi, pb_tc.DonViDo, ISNULL(kh_th.SanLuongKeHoach, 0) as SanLuong, kh_th.GhiChu from " +
-                            "((select a.MaTieuChi, b.TenTieuChi, b.DonViDo, a.MaPhongBan from PhongBan_TieuChi_TheoNam a left outer join TieuChi b on a.MaTieuChi = b.MaTieuChi " +
-                            "where a.Nam = '"+year+"' and a.MaPhongBan = N'"+department+"') as pb_tc " +
-                            "left outer join " +
-                            "(select kh_a.MaPhongBan, kh_a.MaTieuChi, kh_b.SanLuongKeHoach, kh_a.ThoiGianNhapCuoiCung, kh_b.GhiChu " +
-                            "from((select a.MaPhongBan, b.MaTieuChi, Max(b.ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung " +
-                            "from header_KeHoach_TieuChi_TheoNam a join KeHoach_TieuChi_TheoNam b " +
-                            "on a.HeaderID = b.HeaderID " +
-                            "where a.MaPhongBan = N'"+department+"' " +
-                            "group by a.MaPhongBan, b.MaTieuChi) as kh_a " +
-                            "left outer join " +
-                            "(select a.MaPhongBan, b.MaTieuChi, b.SanLuongKeHoach, b.ThoiGianNhapCuoiCung, b.GhiChu " +
-                            "from header_KeHoach_TieuChi_TheoNam a join KeHoach_TieuChi_TheoNam b " +
-                            "on a.HeaderID = b.HeaderID ) as kh_b " +
-                            "on kh_a.MaTieuChi = kh_b.MaTieuChi and kh_a.MaPhongBan = kh_b.MaPhongBan and kh_a.ThoiGianNhapCuoiCung = kh_b.ThoiGianNhapCuoiCung)) as kh_th " +
-                            "on pb_tc.MaTieuChi = kh_th.MaTieuChi and pb_tc.MaPhongBan = kh_th.MaPhongBan)";
-            List<TieuChiCu> tieuChiCuList = dbContext.Database.SqlQuery<TieuChiCu>(query).ToList<TieuChiCu>();
+            string query = @"select
+                            hdkh.MaPhongBan,
+                            hdkh.MaTieuChi,
+                            hdkh.TenTieuChi,
+                            hdkh.DonViDo, 
+                            ISNUll(khtc.SanLuongKeHoach,convert(float,0)) as 'SanLuong',
+                            ISNULL(khtc.GhiChu, '') as 'GhiChu',
+                            ISNULL(khtc.ThoiGianNhapCuoiCung, 0) as 'ThoiGianNhapCuoiCung'
+                            from 
+                            (select hd.*,pbtc.MaTieuChi, tc.TenTieuChi, tc.DonViDo 
+                            from header_KeHoach_TieuChi_TheoNam hd 
+                            join PhongBan_TieuChi_TheoNam pbtc on hd.MaPhongBan = pbtc.MaPhongBan and hd.Nam = pbtc.Nam
+                            join TieuChi tc on tc.MaTieuChi = pbtc.MaTieuChi
+                            where hd.MaPhongBan = @departmentID and hd.Nam = @year) as hdkh 
+                            left join 
+                            (select 
+                            kh.HeaderID, 
+                            kh.MaTieuChi, 
+                            kh.SanLuongKeHoach, 
+                            kh.GhiChu,
+                            max(kh.ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung
+                            from KeHoach_TieuChi_TheoNam kh
+                            join TieuChi tc on tc.MaTieuChi = kh.MaTieuChi
+                            group by kh.HeaderID, kh.MaTieuChi, kh.SanLuongKeHoach, kh.GhiChu) as khtc
+                            on hdkh.HeaderID = khtc.HeaderID and hdkh.MaTieuChi = khtc.MaTieuChi";
+            List<TieuChiCu> tieuChiCuList = dbContext.Database.SqlQuery<TieuChiCu>(query,
+                                            new SqlParameter("departmentID", department),
+                                            new SqlParameter("year", year)).ToList<TieuChiCu>();
+            if (tieuChiCuList.Count == 0)
+            {
+                query = @"select 
+                        hd.MaPhongBan,
+                        tc.MaTieuChi,
+                        tc.TenTieuChi,
+                        tc.DonViDo,
+                        CONVERT(float,0) as SanLuong,
+                        '' as GhiChu
+                        from 
+                        header_KeHoach_TieuChi_TheoNam hd
+                        join PhongBan_TieuChi_TheoNam pbtc on pbtc.MaPhongBan = hd.MaPhongBan and pbtc.Nam = hd.Nam
+                        join TieuChi tc on tc.MaTieuChi = pbtc.MaTieuChi
+                        where hd.MaPhongBan = @departmentID and hd.Nam = @year";
+                tieuChiCuList = dbContext.Database.SqlQuery<TieuChiCu>(query,
+                                                new SqlParameter("departmentID", department),
+                                                new SqlParameter("year", year)).ToList<TieuChiCu>();
+            }
 
             string quertNote = "select top 1 * " +
                                "from header_KeHoach_TieuChi_TheoNam a " +
