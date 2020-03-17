@@ -134,7 +134,7 @@
         </table>
     </div>
     <div class="col l8 m8 s12 center big-title">
-        <h1><b>KẾ HOẠCH ĐIỀU HÀNH CÁC CHỈ TIÊU CHÍNH TOÀN CÔNG TY NĂM <span id='year'>@ViewBag.thisyear</span></b></h1>
+        <h1><b>KẾ HOẠCH ĐIỀU HÀNH CÁC CHỈ TIÊU CHÍNH TOÀN CÔNG TY NĂM <span class='year'>@ViewBag.thisyear</span></b></h1>
     </div>
     <div class="row">
         <div class="col l4 m4 s4">
@@ -147,7 +147,7 @@
 
         </div>
         <div class="col l4 m4 s4">
-            <button id="change" onclick="" class="btn blue modal-close btn-small">Đổi</button>
+            <button id="change" onclick="change()" class="btn blue modal-close btn-small">Đổi</button>
         </div>
     </div>
 </div>
@@ -156,56 +156,57 @@
         <tr>
             <th rowspan="2">TT</th>
             <th rowspan="2">Các danh mục</th>
-            <th colspan="3">Theo dõi kế hoạch năm @ViewBag.thisyear</th>
-            <th colspan="3">Theo dõi kế hoạch tháng 2 năm @ViewBag.thisyear</th>
-            <th colspan="3">Theo dõi kế hoạch tháng 3 năm @ViewBag.thisyear</th>
-            <th colspan="3">Theo dõi kế hoạch tháng 4 năm @ViewBag.thisyear</th>
-            <th colspan="3">Theo dõi kế hoạch tháng 5 năm @ViewBag.thisyear</th>
-            <th colspan="3">Theo dõi kế hoạch tháng 6 năm @ViewBag.thisyear</th>
-            <th colspan="3">Theo dõi kế hoạch tháng 7 năm @ViewBag.thisyear</th>
-            <th colspan="3">Theo dõi kế hoạch tháng 8 năm @ViewBag.thisyear</th>
-            <th colspan="3">Theo dõi kế hoạch tháng 9 năm @ViewBag.thisyear</th>
-            <th colspan="3">Theo dõi kế hoạch tháng 10 năm @ViewBag.thisyear</th>
-            <th colspan="3">Theo dõi kế hoạch tháng 11 năm @ViewBag.thisyear</th>
-            <th colspan="3">Theo dõi kế hoạch tháng 12 năm @ViewBag.thisyear</th>
+            <th colspan="3">Theo dõi kế hoạch năm <span class='year'>@ViewBag.thisyear</span></th>
+            <th colspan="3">Theo dõi kế hoạch tháng 2 năm <span class='year'>@ViewBag.thisyear</span></th>
+            <th colspan="3">Theo dõi kế hoạch tháng 3 năm <span class='year'>@ViewBag.thisyear</span></th>
+            <th colspan="3">Theo dõi kế hoạch tháng 4 năm <span class='year'>@ViewBag.thisyear</span></th>
+            <th colspan="3">Theo dõi kế hoạch tháng 5 năm <span class='year'>@ViewBag.thisyear</span></th>
+            <th colspan="3">Theo dõi kế hoạch tháng 6 năm <span class='year'>@ViewBag.thisyear</span></th>
+            <th colspan="3">Theo dõi kế hoạch tháng 7 năm <span class='year'>@ViewBag.thisyear</span></th>
+            <th colspan="3">Theo dõi kế hoạch tháng 8 năm <span class='year'>@ViewBag.thisyear</span></th>
+            <th colspan="3">Theo dõi kế hoạch tháng 9 năm <span class='year'>@ViewBag.thisyear</span></th>
+            <th colspan="3">Theo dõi kế hoạch tháng 10 năm <span class='year'>@ViewBag.thisyear</span></th>
+            <th colspan="3">Theo dõi kế hoạch tháng 11 năm <span class='year'>@ViewBag.thisyear</span></th>
+            <th colspan="3">Theo dõi kế hoạch tháng 12 năm <span class='year'>@ViewBag.thisyear</span></th>
         </tr>
         <tr>
-            <th style="margin:15px !important">Kế hoạch năm @ViewBag.thisyear</th>
+            <th style="margin:15px !important">Kế hoạch năm <span class='year'>@ViewBag.thisyear</span></th>
             <th>LK đến tháng 1</th>
             <th>BQ C.lại 1 tháng</th>
-            <th>Kế hoạch năm @ViewBag.thisyear</th>
-            <th>LK đến tháng 1</th>
-            <th>BQ C.lại 1 tháng</th>
-            <th>Kế hoạch năm @ViewBag.thisyear</th>
-            <th>LK đến tháng 1</th>
-            <th>BQ C.lại 1 tháng</th>
-            <th>Kế hoạch năm @ViewBag.thisyear</th>
-            <th>LK đến tháng 1</th>
-            <th>BQ C.lại 1 tháng</th>
-            <th>Kế hoạch năm @ViewBag.thisyear</th>
-            <th>LK đến tháng 1</th>
-            <th>BQ C.lại 1 tháng</th>
-            <th>Kế hoạch năm @ViewBag.thisyear</th>
-            <th>LK đến tháng 1</th>
-            <th>BQ C.lại 1 tháng</th>
-            <th>Kế hoạch năm @ViewBag.thisyear</th>
-            <th>LK đến tháng 1</th>
-            <th>BQ C.lại 1 tháng</th>
-            <th>Kế hoạch năm @ViewBag.thisyear</th>
-            <th>LK đến tháng 1</th>
-            <th>BQ C.lại 1 tháng</th>
-            <th>Kế hoạch năm @ViewBag.thisyear</th>
-            <th>LK đến tháng 1</th>
-            <th>BQ C.lại 1 tháng</th>
-            <th>Kế hoạch năm @ViewBag.thisyear</th>
-            <th>LK đến tháng 1</th>
-            <th>BQ C.lại 1 tháng</th>
-            <th>Kế hoạch năm @ViewBag.thisyear</th>
-            <th>LK đến tháng 1</th>
-            <th>BQ C.lại 1 tháng</th>
-            <th>Kế hoạch năm @ViewBag.thisyear</th>
-            <th>LK đến tháng 1</th>
-            <th>BQ C.lại 1 tháng</th>
+            <th>Kế hoạch tháng 2</th>
+            @*<th>Kế hoạch năm <span class='year'>@ViewBag.thisyear</span></th>*@
+            <th>LK đến ngày <span id='month2'></span></th>
+            <th>BQ C.lại 1 ngày</th>
+            <th>Kế hoạch tháng 3</th>
+            <th>LK đến ngày <span id='month3'></span></th>
+            <th>BQ C.lại 1 ngày</th>
+            <th>Kế hoạch tháng 4</th>
+            <th>LK đến ngày <span id='month4'></span></th>
+            <th>BQ C.lại 1 ngày</th>
+            <th>Kế hoạch tháng 5</th>
+            <th>LK đến ngày <span id='month5'></span></th>
+            <th>BQ C.lại 1 ngày</th>
+            <th>Kế hoạch tháng 6</th>
+            <th>LK đến ngày <span id='month6'></span></th>
+            <th>BQ C.lại 1 ngày</th>
+            <th>Kế hoạch tháng 7</th>
+            <th>LK đến ngày <span id='month7'></span></th>
+            <th>BQ C.lại 1 ngày</th>
+            <th>Kế hoạch tháng 8</th>
+            <th>LK đến ngày <span id='month8'></span></th>
+            <th>BQ C.lại 1 ngày</th>
+            <th>Kế hoạch tháng 9</th>
+            <th>LK đến ngày <span id='month9'></span></th>
+            <th>BQ C.lại 1 ngày</th>
+            <th>Kế hoạch tháng 10</th>
+            <th>LK đến ngày <span id='month10'></span></th>
+            <th>BQ C.lại 1 ngày</th>
+            <th>Kế hoạch tháng 11</th>
+            <th>LK đến ngày <span id='month11'></span></th>
+            <th>BQ C.lại 1 ngày</th>
+            <th>Kế hoạch tháng 12</th>
+            <th>LK đến ngày <span id='month12'></span></th>
+            <th>BQ C.lại 1 ngày</th>
         </tr>
     </thead>
     <tbody>
@@ -221,65 +222,160 @@
         var date = day + "/" + month + "/" + year;
         return (date);
     }
+
     $(document).ready(function () {
         $("#change").click();
     });
-    var temp = 1;
-    //function change() {
-    //    $.ajax({
-    //        'url': '/phong-dieu-khien/ke-hoach-dieu-hanh-chi-tieu/lay-du-lieu',
-    //        'type': 'post',
-    //        'data': {
-    //            'month': $("#yearCalendar").val(),
-    //            //'year': $('#year').html()
-    //        },
-    //        'success': function (response) {
-    //            // format date
-    //            if (response.success) {
-    //                tableBody = ''
-    //                response["listTH"].map(elem => {
-    //                    elem["date"] = dateFormat2(elem["date"])
-    //                    tableBody += "<tr>"
-    //                    Object.keys(elem).forEach((key, index) => {
-    //                        tableBody += "<td>" + elem[key] + "</td>"
-    //                    })
-    //                    tableBody += "</tr>"
-    //                })
-    //                $("#mainTable tbody").html(tableBody)
-    //                let doanhthu = 0;
-    //                let metlo = 0;
-    //                let lothien = 0;
-    //                let hamlo = 0;
-    //                let tieuthu = 0;
-    //                for (var j = 0; j < 16; j++) {
-    //                    $('#mainTable thead tr:eq(1) th:eq(' + j + ') span').text(response.listKH[j].DAOLO + response.listKH[j].KHAITHAC + response.listKH[j].LOTHIEN);
-    //                    $('#mainTable thead tr:eq(2) th:eq(' + j + ') span').text(response.listKH[j].METLO);
-    //                    $('#mainTable thead tr:eq(3) th:eq(' + j + ') span').text(0);
-    //                    doanhthu += response.listKH[j].DOANHTHU;
-    //                    metlo += response.listKH[j].METLO;
-    //                    lothien += response.listKH[j].LOTHIEN;
-    //                    hamlo += response.listKH[j].DAOLO + response.listKH[j].KHAITHAC;
-    //                    tieuthu += response.listKH[j].TIEUTHU;
-    //                }
-    //                $('#doanhthu-cell span').text(doanhthu);
-    //                $('#metlo-cell').text(metlo);
-    //                $('#lothien-cell').text(lothien);
-    //                $('#hamlo-cell').text(hamlo);
-    //                $('#sanxuat-cell').text(hamlo + lothien);
-    //                $('#tieuthu-cell').text(tieuthu)
-    //                $("#month").html(response.month);
-    //                $("#year").html(response.year);
-    //                if (temp != 1) {
-    //                    successAlert("Thành công", "Đổi thành công")
-    //                } else {
-    //                    temp = 0;
-    //                }
-    //            } else if (!response.success) {
-    //                errorAlert("Có lỗi", "Chưa chọn tháng năm")
-    //            }
-    //        }
-    //    })
-    //}
+
+
+    function addDataByCritCategory(response, tableBody) {
+
+    }
+
+    function genData(response) {
+        tableBody = ''
+        for (var j = 0; j < response.listTC.length; j++) {
+            var KH = [0,0,0,0,0,0,0,0,0,0,0,0];
+            var LK = [0,0,0,0,0,0,0,0,0,0,0,0];
+            var BQ = [0,0,0,0,0,0,0,0,0,0,0,0]; 
+
+            //fill data in each row
+            tableBody += "<tr>"
+
+            //fil TC data.
+            tableBody += "<th>" + response.listTC[j].TT + "</th>"
+            if (response.listTC[j].HangTieuChi == 1) {
+                tableBody += "<th><div class=\"red-title\">" + response.listTC[j].NoiDung + "</div></th>"
+            } else if (response.listTC[j].HangTieuChi == 2) {
+                tableBody += "<th>" + response.listTC[j].NoiDung + "</th>"
+            } else {
+                tableBody += "<td>" + response.listTC[j].NoiDung + "</td>"
+            }
+
+            //Add value of this TC
+            //cal year of this TC
+            for (var k1 = 0; k1 < response.listYear.length; k1++) {
+                if (response.listYear[k1].MaTieuChi == response.listTC[j].MaTieuChi) {
+                    KH[0] += response.listYear[k1].TongSLKH;
+                    LK[0] += response.listYear[k1].LKDenThang1;
+                    BQ[0] += Math.round(response.listYear[k1].BQConLai1Thang / 11);
+                    break;
+                }
+            }
+            //cal month of this TC
+            for (var month = 2; month <= 12; month++) {
+                var dayRemaining = 0;
+                for (var k2 = 0; k2 < response.listMonth.length; k2++) {
+                    if (response.listMonth[k2].MaTieuChi == response.listTC[j].MaTieuChi && response.listMonth[k2].ThangKeHoach == month) {
+                        KH[month-1] += response.listMonth[k2].KeHoachThang
+                        LK[month-1] += response.listMonth[k2].SL
+                        //handling average remaining.
+                        for (var k3 = 0; k3 < response.listInfo.length; k3++) {
+                            if (response.listInfo[k3].ThangKeHoach == month) {
+                                dayRemaining = response.listInfo[k3].SoNgayConLai;
+                            }
+                        }
+                        if (dayRemaining == 0) {
+                            BQ[month-1] += 0
+                        } else {
+                            BQ[month-1] += Math.round(response.listMonth[k2].BQConLai1Ngay / dayRemaining)
+                        }
+                        break;
+                    }
+                } 
+            }
+
+            //check smallCritCategory in the next TC
+            //counting and cal total value from  small criteria category .
+            for (var count = j; count < response.listTC.length - 1; count++) {
+                //comparing critCategory of this TC to critCategory of the next TC
+                if (response.listTC[j].HangTieuChi < response.listTC[count + 1].HangTieuChi) {
+                    //cal year
+                    for (var k1 = 0; k1 < response.listYear.length; k1++) {
+                        if (response.listYear[k1].MaTieuChi == response.listTC[count + 1].MaTieuChi) {
+                            KH[0] += response.listYear[k1].TongSLKH;
+                            LK[0] += response.listYear[k1].LKDenThang1;
+                            BQ[0] += Math.round(response.listYear[k1].BQConLai1Thang / 11);
+                            break;
+                        }
+                    }
+
+                    //cal month
+                    for (var month = 2; month <= 12; month++) {
+                        var dayRemaining = 0;
+                        for (var k2 = 0; k2 < response.listMonth.length; k2++) {
+                            if (response.listMonth[k2].MaTieuChi == response.listTC[count + 1].MaTieuChi && response.listMonth[k2].ThangKeHoach == month) {
+                                KH[month-1] += response.listMonth[k2].KeHoachThang
+                                LK[month-1] += response.listMonth[k2].SL
+
+                                //handling average remaining.
+                                for (var k3 = 0; k3 < response.listInfo.length; k3++) {
+                                    if (response.listInfo[k3].ThangKeHoach == month) {
+                                        dayRemaining = response.listInfo[k3].SoNgayConLai;
+                                    }
+                                }
+                                if (dayRemaining == 0) {
+                                    BQ[month-1] += 0
+                                } else {
+                                    BQ[month-1] += Math.round(response.listMonth[k2].BQConLai1Ngay / dayRemaining)
+                                }
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    break;
+                }
+            }
+
+            //display data
+            for (var i = 0; i < 12; i++) {
+                tableBody += "<td>" + KH[i] + "</td>"
+                tableBody += "<td>" + LK[i] + "</td>"
+                tableBody += "<td>" + BQ[i] + "</td>"
+            }
+
+            tableBody += "</tr>"
+        }
+        $("#mainTable tbody").html(tableBody)
+    }
+
+    function refreshDisplay(response) {
+        $(".year").html(response.year);
+        for (var i = 2; i <= 12; i++) {
+            var isAdd = false;
+            for (var j = 0; j < response.listInfo.length; j++) {
+                if (response.listInfo[j].ThangKeHoach == i) {
+                    $("#month" + i).html(response.listInfo[j].NgayCuoi);
+                    isAdd = true;
+                    break;
+                }
+            }
+            if (!isAdd) {
+                $("#month" + i).html("");
+            }
+        }
+    }
+
+    function change() {
+        $.ajax({
+            'url': '/phong-dieu-khien/ke-hoach-dieu-hanh-chi-tieu/lay-du-lieu',
+            'type': 'post',
+            'data': {
+                'year': $("#yearCalendar").val()
+            },
+            'success': function (response) {
+                // format date
+                if (response.success) {
+                    genData(response);
+                    refreshDisplay(response);
+                    successAlert("Thành công", "Đổi thành công")
+                } else if (!response.success) {
+                    errorAlert("Có lỗi", "Đã có lỗi xảy ra")
+                }
+            }
+        })
+    }
 
     $(".date-click").datepicker({
         onSelect: function (dateText) {

@@ -41,6 +41,9 @@
                     <div class="input-field col s6 m6 l6" id="process" style="font-size:larger">
                         Kế hoạch còn lại: <span id="ngaySXconlai">@ViewBag.ngaySXconlai</span> ngày - Số ngày SX:<span id="ngaySXhientai">@ViewBag.ngaySXhientai</span>/<span id="tongNgaySX">@ViewBag.tongNgaySX</span> ngày đạt <span id="tiendoNgay">@ViewBag.tiendoNgay</span>%
                     </div>
+                    <div class="input-field col s6 m6 l6" id="process_alert" style="font-size:larger;color:#ff0000">
+                        Chưa nhập ngày sản xuất hôm nay
+                    </div>
                     <div class="input-field col s3 m3 l3"></div>
                 </div>
                 <!--Date here-->
@@ -629,6 +632,10 @@
         var temp = "@ViewBag.ngaySXconlai";
         if (temp == "") {
             $("#process").hide();
+            $("#process_alert").show();
+        } else {
+            $("#process").show();
+            $("#process_alert").hide();
         }
         //than dao lo
         var x = @ViewBag.tdl.percentDay; if (x > 100) x = 100;

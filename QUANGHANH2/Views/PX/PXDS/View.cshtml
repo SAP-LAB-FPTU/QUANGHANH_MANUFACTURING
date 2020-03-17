@@ -51,10 +51,16 @@
                             <th colspan="2">T4</th>
                             <th colspan="2">T5</th>
                             <th colspan="2">T6</th>
+                            <th colspan="2">T7</th>
+                            <th colspan="2">CN</th>
                             <th colspan="2">Tổng</th>
                         </tr>
                         <tr>
-                           
+
+                            <th>Kế hoạch</th>
+                            <th>Thực tế</th>
+                            <th>Kế hoạch</th>
+                            <th>Thực tế</th>
                             <th>Kế hoạch</th>
                             <th>Thực tế</th>
                             <th>Kế hoạch</th>
@@ -71,31 +77,10 @@
 
                     </thead>
                     <tbody>
-                        <tr id="1">
-                            <td>1723</td>
-                            <td>Lại Văn Sâm</td>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                        </tr>
-
                     </tbody>
                 </table>
             </div>
         </div>
-        @*<div class="row">
-                <div class="col s12">
-                    <button class="btn cyan waves-effect waves-light right">Đăng ký</button>
-                </div>
-            </div>*@
     </div>
 </div>
 
@@ -133,7 +118,7 @@
         table=$('#table')
                         .on('preXhr.dt', function (e, settings, data) {
 
-                                   ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+                      ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
       				  $("#pre-load").show("slow", function () {
       				   });
       				  $("#pre-load").css("z-index", "99999");
@@ -149,7 +134,7 @@
                             next: "Trang sau",
                             first: "|<",
                             last: ">|",
-                                                  
+
                         },
                         info: "Đang hiện START đến END của TOTAL bản ghi",
                         infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
@@ -182,6 +167,10 @@
                             { data: 't5tt' },
                             { data: 't6' },
                             { data: 't6tt' },
+                            { data: 't7' },
+                            { data: 't7tt' },
+                            { data: 'cn' },
+                            { data: 'cntt' },
                             { data: 'tong' },
                             { data: 'tongtt' }
 
@@ -219,11 +208,11 @@
      });
 
 
-   
+
     $("#inputTime").datepicker({
-       
+
         onSelect: function (dateText,inst) {
-            
+
              $("#pre-load").show("slow", function () {
       				   });
       				  $("#pre-load").css("z-index", "99999");
@@ -256,7 +245,7 @@
   var monthIndex = date.getMonth();
         var year = date.getFullYear();
         var tuan = 1;
-        
+
         if (Math.floor(parseInt(day) / 7 )== 0) {
             tuan = 1;
         } else if (Math.floor(parseInt(day) / 7 ) == 1) {

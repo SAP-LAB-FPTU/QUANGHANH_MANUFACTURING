@@ -876,6 +876,16 @@
           <Property Name="Thang" Type="int" Nullable="false" />
           <Property Name="Nam" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="PhongBan_TieuChi_TheoNam">
+          <Key>
+            <PropertyRef Name="MaPhongBan" />
+            <PropertyRef Name="MaTieuChi" />
+            <PropertyRef Name="Nam" />
+          </Key>
+          <Property Name="MaPhongBan" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="MaTieuChi" Type="int" Nullable="false" />
+          <Property Name="Nam" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="QuanHeGiaDinh">
           <Key>
             <PropertyRef Name="MaQuanHeGiaDinh" />
@@ -1038,6 +1048,16 @@
           <Property Name="quantity" Type="int" Nullable="false" />
           <Property Name="status" Type="int" />
           <Property Name="quantity_provide" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TaiNan">
           <Key>
@@ -2955,6 +2975,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PhongBan_TieuChi_TheoNam_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="PhongBan_TieuChi_TheoNam" Type="Self.PhongBan_TieuChi_TheoNam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="department_id" />
+            </Principal>
+            <Dependent Role="PhongBan_TieuChi_TheoNam">
+              <PropertyRef Name="MaPhongBan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhongBan_TieuChi_TheoNam_TieuChi">
+          <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
+          <End Role="PhongBan_TieuChi_TheoNam" Type="Self.PhongBan_TieuChi_TheoNam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TieuChi">
+              <PropertyRef Name="MaTieuChi" />
+            </Principal>
+            <Dependent Role="PhongBan_TieuChi_TheoNam">
+              <PropertyRef Name="MaTieuChi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay">
           <End Role="header_ThucHienTheoNgay" Type="Self.header_ThucHienTheoNgay" Multiplicity="1" />
           <End Role="ThucHien_TieuChi_TheoNgay" Type="Self.ThucHien_TieuChi_TheoNgay" Multiplicity="*" />
@@ -3066,6 +3110,7 @@
           <EntitySet Name="NhomTieuChi" EntityType="Self.NhomTieuChi" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PhongBan_TieuChi" EntityType="Self.PhongBan_TieuChi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhongBan_TieuChi_TheoNam" EntityType="Self.PhongBan_TieuChi_TheoNam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuanHeGiaDinh" EntityType="Self.QuanHeGiaDinh" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuaTrinhCongTac" EntityType="Self.QuaTrinhCongTac" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QuyetDinh" EntityType="Self.QuyetDinh" Schema="dbo" store:Type="Tables" />
@@ -3080,6 +3125,7 @@
           <EntitySet Name="Supply_DuPhong" EntityType="Self.Supply_DuPhong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supply_tieuhao" EntityType="Self.Supply_tieuhao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SupplyPlan" EntityType="Self.SupplyPlan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaiNan" EntityType="Self.TaiNan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThangLuong" EntityType="Self.ThangLuong" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThucHien_TieuChi_TheoNgay" EntityType="Self.ThucHien_TieuChi_TheoNgay" Schema="dbo" store:Type="Tables" />
@@ -3694,6 +3740,14 @@
             <End Role="ChungChi" EntitySet="ChungChi" />
             <End Role="NhiemVu" EntitySet="NhiemVu" />
           </AssociationSet>
+          <AssociationSet Name="FK_PhongBan_TieuChi_TheoNam_Department" Association="Self.FK_PhongBan_TieuChi_TheoNam_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="PhongBan_TieuChi_TheoNam" EntitySet="PhongBan_TieuChi_TheoNam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhongBan_TieuChi_TheoNam_TieuChi" Association="Self.FK_PhongBan_TieuChi_TheoNam_TieuChi">
+            <End Role="TieuChi" EntitySet="TieuChi" />
+            <End Role="PhongBan_TieuChi_TheoNam" EntitySet="PhongBan_TieuChi_TheoNam" />
+          </AssociationSet>
           <AssociationSet Name="FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay" Association="Self.FK_ThucHien_TieuChi_TheoNgay_header_ThucHienTheoNgay">
             <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
             <End Role="ThucHien_TieuChi_TheoNgay" EntitySet="ThucHien_TieuChi_TheoNgay" />
@@ -4057,6 +4111,7 @@
           <NavigationProperty Name="SupplyPlans1" Relationship="Self.FK__SupplyPla__depar__0A688BB1" FromRole="Department" ToRole="SupplyPlan" />
           <NavigationProperty Name="Header_DiemDanh_NangSuat_LaoDong" Relationship="Self.FK_Header_DiemDanh_NangSuat_LaoDong_Department" FromRole="Department" ToRole="Header_DiemDanh_NangSuat_LaoDong" />
           <NavigationProperty Name="header_ThucHienTheoNgay" Relationship="Self.FK_header_ThucHienTheoNgay_Department" FromRole="Department" ToRole="header_ThucHienTheoNgay" />
+          <NavigationProperty Name="PhongBan_TieuChi_TheoNam" Relationship="Self.FK_PhongBan_TieuChi_TheoNam_Department" FromRole="Department" ToRole="PhongBan_TieuChi_TheoNam" />
         </EntityType>
         <EntityType Name="DiemDanh_NangSuatLaoDong">
           <Key>
@@ -4830,6 +4885,18 @@
           <NavigationProperty Name="Department" Relationship="Self.FK__PhongBan___MaPho__60FC61CA" FromRole="PhongBan_TieuChi" ToRole="Department" />
           <NavigationProperty Name="TieuChi" Relationship="Self.FK__PhongBan___MaTie__61F08603" FromRole="PhongBan_TieuChi" ToRole="TieuChi" />
         </EntityType>
+        <EntityType Name="PhongBan_TieuChi_TheoNam">
+          <Key>
+            <PropertyRef Name="MaPhongBan" />
+            <PropertyRef Name="MaTieuChi" />
+            <PropertyRef Name="Nam" />
+          </Key>
+          <Property Name="MaPhongBan" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MaTieuChi" Type="Int32" Nullable="false" />
+          <Property Name="Nam" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_PhongBan_TieuChi_TheoNam_Department" FromRole="PhongBan_TieuChi_TheoNam" ToRole="Department" />
+          <NavigationProperty Name="TieuChi" Relationship="Self.FK_PhongBan_TieuChi_TheoNam_TieuChi" FromRole="PhongBan_TieuChi_TheoNam" ToRole="TieuChi" />
+        </EntityType>
         <EntityType Name="QuanHeGiaDinh">
           <Key>
             <PropertyRef Name="MaQuanHeGiaDinh" />
@@ -5034,6 +5101,16 @@
           <NavigationProperty Name="Supply" Relationship="Self.FK__SupplyPla__suppl__75F77EB0" FromRole="SupplyPlan" ToRole="Supply" />
           <NavigationProperty Name="Supply1" Relationship="Self.FK__SupplyPla__suppl__76EBA2E9" FromRole="SupplyPlan" ToRole="Supply" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="TaiNan">
           <Key>
             <PropertyRef Name="MaTaiNan" />
@@ -5090,6 +5167,7 @@
           <NavigationProperty Name="KeHoach_TieuChi_TheoThang" Relationship="Self.FK_KeHoach_TieuChi_TheoThang_TieuChi" FromRole="TieuChi" ToRole="KeHoach_TieuChi_TheoThang" />
           <NavigationProperty Name="NhomTieuChi" Relationship="Self.FK_TieuChi_NhomTieuChi" FromRole="TieuChi" ToRole="NhomTieuChi" />
           <NavigationProperty Name="PhongBan_TieuChi" Relationship="Self.FK__PhongBan___MaTie__61F08603" FromRole="TieuChi" ToRole="PhongBan_TieuChi" />
+          <NavigationProperty Name="PhongBan_TieuChi_TheoNam" Relationship="Self.FK_PhongBan_TieuChi_TheoNam_TieuChi" FromRole="TieuChi" ToRole="PhongBan_TieuChi_TheoNam" />
           <NavigationProperty Name="ThucHien_TieuChi_TheoNgay" Relationship="Self.FK__ThucHien___MaTie__78D3EB5B" FromRole="TieuChi" ToRole="ThucHien_TieuChi_TheoNgay" />
         </EntityType>
         <EntityType Name="TrangThai">
@@ -6044,6 +6122,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PhongBan_TieuChi_TheoNam_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="PhongBan_TieuChi_TheoNam" Type="Self.PhongBan_TieuChi_TheoNam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="department_id" />
+            </Principal>
+            <Dependent Role="PhongBan_TieuChi_TheoNam">
+              <PropertyRef Name="MaPhongBan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__DiemDanh___Heade__0D0FEE32">
           <End Role="Header_DiemDanh_NangSuat_LaoDong" Type="Self.Header_DiemDanh_NangSuat_LaoDong" Multiplicity="1" />
           <End Role="DiemDanh_NangSuatLaoDong" Type="Self.DiemDanh_NangSuatLaoDong" Multiplicity="*" />
@@ -6886,6 +6976,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PhongBan_TieuChi_TheoNam_TieuChi">
+          <End Role="TieuChi" Type="Self.TieuChi" Multiplicity="1" />
+          <End Role="PhongBan_TieuChi_TheoNam" Type="Self.PhongBan_TieuChi_TheoNam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TieuChi">
+              <PropertyRef Name="MaTieuChi" />
+            </Principal>
+            <Dependent Role="PhongBan_TieuChi_TheoNam">
+              <PropertyRef Name="MaTieuChi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__TuyenDung__MaQuy__4D5F7D71">
           <End Role="QuyetDinh" Type="Self.QuyetDinh" Multiplicity="1" />
           <End Role="TuyenDung_NhanVien" Type="Self.TuyenDung_NhanVien" Multiplicity="*" />
@@ -7081,6 +7183,7 @@
           <EntitySet Name="NhomTieuChis" EntityType="Self.NhomTieuChi" />
           <EntitySet Name="Notifications" EntityType="Self.Notification" />
           <EntitySet Name="PhongBan_TieuChi" EntityType="Self.PhongBan_TieuChi" />
+          <EntitySet Name="PhongBan_TieuChi_TheoNam" EntityType="Self.PhongBan_TieuChi_TheoNam" />
           <EntitySet Name="QuanHeGiaDinhs" EntityType="Self.QuanHeGiaDinh" />
           <EntitySet Name="QuaTrinhCongTacs" EntityType="Self.QuaTrinhCongTac" />
           <EntitySet Name="QuyetDinhs" EntityType="Self.QuyetDinh" />
@@ -7095,6 +7198,7 @@
           <EntitySet Name="Supply_DuPhong" EntityType="Self.Supply_DuPhong" />
           <EntitySet Name="Supply_tieuhao" EntityType="Self.Supply_tieuhao" />
           <EntitySet Name="SupplyPlans" EntityType="Self.SupplyPlan" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TaiNans" EntityType="Self.TaiNan" />
           <EntitySet Name="ThangLuongs" EntityType="Self.ThangLuong" />
           <EntitySet Name="ThucHien_TieuChi_TheoNgay" EntityType="Self.ThucHien_TieuChi_TheoNgay" />
@@ -7405,6 +7509,10 @@
             <End Role="Department" EntitySet="Departments" />
             <End Role="header_ThucHienTheoNgay" EntitySet="header_ThucHienTheoNgay" />
           </AssociationSet>
+          <AssociationSet Name="FK_PhongBan_TieuChi_TheoNam_Department" Association="Self.FK_PhongBan_TieuChi_TheoNam_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="PhongBan_TieuChi_TheoNam" EntitySet="PhongBan_TieuChi_TheoNam" />
+          </AssociationSet>
           <AssociationSet Name="FK__DiemDanh___Heade__0D0FEE32" Association="Self.FK__DiemDanh___Heade__0D0FEE32">
             <End Role="Header_DiemDanh_NangSuat_LaoDong" EntitySet="Header_DiemDanh_NangSuat_LaoDong" />
             <End Role="DiemDanh_NangSuatLaoDong" EntitySet="DiemDanh_NangSuatLaoDong" />
@@ -7680,6 +7788,10 @@
           <AssociationSet Name="FK__PhongBan___MaTie__61F08603" Association="Self.FK__PhongBan___MaTie__61F08603">
             <End Role="TieuChi" EntitySet="TieuChis" />
             <End Role="PhongBan_TieuChi" EntitySet="PhongBan_TieuChi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhongBan_TieuChi_TheoNam_TieuChi" Association="Self.FK_PhongBan_TieuChi_TheoNam_TieuChi">
+            <End Role="TieuChi" EntitySet="TieuChis" />
+            <End Role="PhongBan_TieuChi_TheoNam" EntitySet="PhongBan_TieuChi_TheoNam" />
           </AssociationSet>
           <AssociationSet Name="FK__TuyenDung__MaQuy__4D5F7D71" Association="Self.FK__TuyenDung__MaQuy__4D5F7D71">
             <End Role="QuyetDinh" EntitySet="QuyetDinhs" />
@@ -8643,6 +8755,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PhongBan_TieuChi_TheoNam">
+            <EntityTypeMapping TypeName="QUANGHANHABCModel.PhongBan_TieuChi_TheoNam">
+              <MappingFragment StoreEntitySet="PhongBan_TieuChi_TheoNam">
+                <ScalarProperty Name="MaPhongBan" ColumnName="MaPhongBan" />
+                <ScalarProperty Name="MaTieuChi" ColumnName="MaTieuChi" />
+                <ScalarProperty Name="Nam" ColumnName="Nam" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="QuanHeGiaDinhs">
             <EntityTypeMapping TypeName="QUANGHANHABCModel.QuanHeGiaDinh">
               <MappingFragment StoreEntitySet="QuanHeGiaDinh">
@@ -8811,6 +8932,17 @@
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="quantity_provide" ColumnName="quantity_provide" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="QUANGHANHABCModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

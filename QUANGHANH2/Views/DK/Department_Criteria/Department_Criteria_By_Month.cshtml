@@ -54,7 +54,8 @@
             <div class="input-field col l1 m12 s12">
                 <a class="btn blue darken-2 right" onclick="getInformation()">XEM</a>
             </div>
-            <div class="input-field col l1 m12 s12">
+            <div class="input-field col l12 m12 s12">
+                <div class="center" id="message"></div>
             </div>
             <div class="row">
                 <div class="col s12 m12 l12">
@@ -116,7 +117,15 @@
                 }
             }
         })
-        dem--;
+        $("#aspectDetailTable .aspectName").each(function () {
+            var value = $(this).attr("id");
+            console.log(value);
+            if (value != null) {
+                if (value !== -1 || currentSelectedValue.indexOf(value) !== -1) {
+                    currentSelectedValue.push(value);
+                }
+            }
+        })
     })
 </script>
 
@@ -124,7 +133,8 @@
 <!--LIST + ADD + UPDATE + DELETE-->
 <script>
     //check button that user press is "View" or "GetDataLastMonth"
-    var checkButton;
+    var checkBeforeMonthOrYear;
+
     function getInformation() {
         dem = 0;
         if ($('#monthCalendar').val() == "" || $('#yearCalendar').val() == "" || $('#cbx-px').val() == null)
@@ -147,14 +157,34 @@
                 content = "";
                 let reponseListPhongBanTieuChi = response.listPhongBanTieuChi
                 for (let i = 0; i < reponseListPhongBanTieuChi.length; i++) {
-                    content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a class='btn red darken-2' onclick='deleteInformation(" + reponseListPhongBanTieuChi[i].MaTieuChi + ")'>Xóa</a></td><tr>";
+                    if (response.status == 'Month') {
+                        content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a class='btn red darken-2' onclick='deleteInformation(" + reponseListPhongBanTieuChi[i].MaTieuChi + ")'>Xóa</a></td><tr>";
+                    } else if (response.status == 'Year') {
+                        content += "<tr  id=\"MaTieuChi" + dem + "\"><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a id='delete-btn' name=\"MaTieuChi" + dem + "\" class='btn red darken-2'>Xóa</a></td><tr>";
+                        dem++;
+                    }
                 }
                 tableBody.html(content);
                 ViewMode();
                 mode = 0;
                 listAspectDepartments = response.listTieuChi;
-                 //Button that user press is View
-                checkButton = 1;
+
+                //check if data got by before month or year
+                if (response.status == 'Year') {
+                    checkBeforeMonthOrYear = true;
+                } else {
+                    checkBeforeMonthOrYear = false;
+                }
+
+                //Add message
+                $("#message").html(response.message);
+
+                //reset arr to push currentSelectedValue
+                emptyArr();
+                for (var i = 0; i < reponseListPhongBanTieuChi.length; i++) {
+                    currentSelectedValue.push(reponseListPhongBanTieuChi[i].MaTieuChi);
+                }
+
                 $('#pre-load').hide();
             },
             error: function (response) {
@@ -163,7 +193,7 @@
         })
     }
 
-     function getBeforeInformation() {
+    function getBeforeInformation() {
         dem = 0;
         if ($('#monthCalendar').val() == "" || $('#yearCalendar').val() == "" || $('#cbx-px').val() == null)
             return false;
@@ -185,21 +215,23 @@
                 content = "";
                 let reponseListPhongBanTieuChi = response.listPhongBanTieuChi
                 for (let i = 0; i < reponseListPhongBanTieuChi.length; i++) {
-                    content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a class='btn red darken-2' onclick='deleteInformation(" + reponseListPhongBanTieuChi[i].MaTieuChi + ")'>Xóa</a></td><tr>";
+                    content += "<tr  id=\"MaTieuChi" + dem + "\"><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a id='delete-btn' name=\"MaTieuChi" + dem + "\" class='btn red darken-2'>Xóa</a></td><tr>";
+                    dem++;
                 }
                 tableBody.html(content);
                 ViewMode();
                 mode = 0;
                 listAspectDepartments = response.listTieuChi;
 
+
+                //set check before month or year
+                checkBeforeMonthOrYear = true;
+
                 //reset arr to push currentSelectedValue
                 emptyArr();
                 for (var i = 0; i < reponseListPhongBanTieuChi.length; i++) {
                     currentSelectedValue.push(reponseListPhongBanTieuChi[i].MaTieuChi);
-                    
                 }
-                //Button that user press is GetDataLastMonth
-                checkButton = 2;
                 $('#pre-load').hide();
             },
             error: function (response) {
@@ -232,9 +264,9 @@
     function EditOrUpdate() {
         if (mode == 0) {
             //View Mode -> Edit
-           
+
             EditMode();
-            
+
             $('.editableContent').each(function () {
                 content = $(this).text();
                 console.log($(this).attr("id"))
@@ -277,34 +309,30 @@
     }
 
     function deleteInformation(MaTieuChi) {
-        confirmAlert("Xác nhận xóa?", "", function () {
-             setTimeout($('#pre-load').show(), 3000);
-        $.ajax({
-            url: "/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-thang/xoa-tieu-chi-cua-phong-ban",
-            type: "post",
-            //dataType: "json",
-            data: {
-                'month': $("#monthCalendar").val().split(" ")[1],
-                'year': $("#yearCalendar").val().split(" ")[1],
-                'department': $("#cbx-px").val(),
-                'criteria': MaTieuChi
-            },
-            success: function (response) {
-                successAlert('Thành công', 'Thao tác thành công');
-                if (checkButton == 1) {
+        let month = $("#monthCalendar").val().split(" ")[1];
+        let year = $("#yearCalendar").val().split(" ")[1];
+        confirmAlert("Xác nhận xóa?", "Bạn sẽ xóa tất cả kế hoạch của tiêu chí này trong tháng " + month + " năm " + year, function () {
+            setTimeout($('#pre-load').show(), 3000);
+            $.ajax({
+                url: "/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-thang/xoa-tieu-chi-cua-phong-ban",
+                type: "post",
+                //dataType: "json",
+                data: {
+                    'month': $("#monthCalendar").val().split(" ")[1],
+                    'year': $("#yearCalendar").val().split(" ")[1],
+                    'department': $("#cbx-px").val(),
+                    'criteria': MaTieuChi
+                },
+                success: function (response) {
+                    successAlert('Thành công', 'Thao tác thành công');
                     getInformation();
+                    $('#pre-load').hide();
+                },
+                error: function (response) {
+                    errorAlert('Lỗi', 'Có lỗi xảy ra, không thể xóa.');
+                    $('#pre-load').hide();
                 }
-                if (checkButton == 2) {
-                     getInformation();
-                }
-               
-                $('#pre-load').hide();
-            },
-            error: function (response) {
-                errorAlert('Lỗi', 'Có lỗi xảy ra, không thể xóa.');
-                $('#pre-load').hide();
-            }
-        })
+            })
         })
     }
 
@@ -321,7 +349,11 @@
     }
 
     $("#aspectDetailTable").on("click", "select", function () {
-        emptyArr();
+
+        //check if data got by before month or year then not make array empty
+        if (!checkBeforeMonthOrYear) {
+            emptyArr();
+        }
         //////Push to array after empty//////
         $("#aspectDetailTable").find("select").each(function () {
             var value = $(this).val();
