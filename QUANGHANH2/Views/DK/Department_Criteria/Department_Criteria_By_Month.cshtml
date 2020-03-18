@@ -133,7 +133,7 @@
 <!--LIST + ADD + UPDATE + DELETE-->
 <script>
     //check button that user press is "View" or "GetDataLastMonth"
-    var checkBeforeMonthOrYear;
+    var status;
 
     function getInformation() {
         dem = 0;
@@ -169,12 +169,8 @@
                 mode = 0;
                 listAspectDepartments = response.listTieuChi;
 
-                //check if data got by before month or year
-                if (response.status == 'Year') {
-                    checkBeforeMonthOrYear = true;
-                } else {
-                    checkBeforeMonthOrYear = false;
-                }
+                //status
+                status = response.status;
 
                 //Add message
                 $("#message").html(response.message);
@@ -223,9 +219,11 @@
                 mode = 0;
                 listAspectDepartments = response.listTieuChi;
 
+                //status
+                status = response.status;
 
-                //set check before month or year
-                checkBeforeMonthOrYear = true;
+                //Add message
+                $("#message").html(response.message);
 
                 //reset arr to push currentSelectedValue
                 emptyArr();
@@ -350,10 +348,7 @@
 
     $("#aspectDetailTable").on("click", "select", function () {
 
-        //check if data got by before month or year then not make array empty
-        if (!checkBeforeMonthOrYear) {
-            emptyArr();
-        }
+        emptyArr();
         //////Push to array after empty//////
         $("#aspectDetailTable").find("select").each(function () {
             var value = $(this).val();
@@ -368,6 +363,10 @@
             var value = $(this).attr('id');
             if (value != null) {
                 if (value !== -1 || selectedValueTD.indexOf(value) !== -1) {
+                    //check when have data from current selected Month
+                    if (status !== 'Month') {
+                        currentSelectedValue.push(value);
+                    }
                     selectedValueTD.push(value);
                 }
             }

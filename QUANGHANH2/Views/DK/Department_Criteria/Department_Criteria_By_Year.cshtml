@@ -46,6 +46,9 @@
             <div class="input-field col l1 m12 s12">
                 <a class="btn blue darken-2 right" onclick="getInformation()">XEM</a>
             </div>
+            <div class="input-field col l12 m12 s12">
+                <div class="center" id="message"></div>
+            </div>
             <div class="input-field col l1 m12 s12">
             </div>
             <div class="row">
@@ -128,7 +131,7 @@
     var checkButton;
     function getInformation() {
         dem = 0;
-        if ( $('#yearCalendar').val() == "" || $('#cbx-px').val() == null)
+        if ($('#yearCalendar').val() == "" || $('#cbx-px').val() == null)
             return false;
         $('#pre-load').show();
         $.ajax({
@@ -144,13 +147,20 @@
                 content = "";
                 let reponseListPhongBanTieuChi = response.listPhongBanTieuChi;
                 for (let i = 0; i < reponseListPhongBanTieuChi.length; i++) {
-                    content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a class='btn red darken-2' onclick='deleteInformation(" + reponseListPhongBanTieuChi[i].MaTieuChi +")'>Xóa</a></td><tr>";
+                    content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a class='btn red darken-2' onclick='deleteInformation(" + reponseListPhongBanTieuChi[i].MaTieuChi + ")'>Xóa</a></td><tr>";
                 }
                 tableBody.html(content);
                 ViewMode();
                 mode = 0;
                 listAspectDepartments = response.listTieuChi;
                 emptyArr();
+
+                //status
+                status = response.status;
+
+                //Add message
+                $("#message").html(response.message);
+
                 $('#pre-load').hide();
             },
             error: function (response) {
@@ -158,10 +168,10 @@
             }
         })
     }
-  
+
     function getBeforeInformation() {
         dem = 0;
-        if ( $('#yearCalendar').val() == "" || $('#cbx-px').val() == null)
+        if ($('#yearCalendar').val() == "" || $('#cbx-px').val() == null)
             return false;
         $('#pre-load').show();
         $.ajax({
@@ -184,12 +194,18 @@
                 ViewMode();
                 mode = 0;
                 listAspectDepartments = response.listTieuChi;
-                 //reset arr to push currentSelectedValue
+                //reset arr to push currentSelectedValue
                 emptyArr();
                 for (var i = 0; i < reponseListPhongBanTieuChi.length; i++) {
                     currentSelectedValue.push(reponseListPhongBanTieuChi[i].MaTieuChi);
-                    
+
                 }
+
+                //status
+                status = response.status;
+
+                //Add message
+                $("#message").html(response.message);
                 $('#pre-load').hide();
             },
             error: function (response) {
@@ -227,7 +243,7 @@
 
             $('.editableContent').each(function () {
                 content = $(this).text();
-                
+
                 if ($(this).attr("id").includes("amount")) {
                     $(this).html("<input type=\"number\" value=\"" + content + "\">")
                 } else {
@@ -254,9 +270,9 @@
                 'currentSelectedValue': JSON.stringify(currentSelectedValue)
             },
             success: function (response) {
-                    successAlert('Thành công', 'Thao tác thành công');
-                    getInformation();
-                    $('#pre-load').hide();
+                successAlert('Thành công', 'Thao tác thành công');
+                getInformation();
+                $('#pre-load').hide();
             },
             error: function (response) {
                 errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại.');
@@ -268,26 +284,26 @@
     function deleteInformation(MaTieuChi) {
         var year = $("#yearCalendar").val().split(" ")[1];
         confirmAlert("Xác nhận xóa?", "Bạn sẽ xóa tất cả kế hoạch của tiêu chí này trong năm " + year, function () {
-             setTimeout($('#pre-load').show(), 3000);
-        $.ajax({
-            url: "/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-nam/xoa-tieu-chi-cua-phong-ban",
-            type: "post",
-            //dataType: "json",
-            data: {
-                'year': $("#yearCalendar").val().split(" ")[1],
-                'department': $("#cbx-px").val(),
-                'maTieuChi': MaTieuChi
-            },
-            success: function (response) {
-                successAlert('Thành công', 'Thao tác thành công');
+            setTimeout($('#pre-load').show(), 3000);
+            $.ajax({
+                url: "/phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-nam/xoa-tieu-chi-cua-phong-ban",
+                type: "post",
+                //dataType: "json",
+                data: {
+                    'year': $("#yearCalendar").val().split(" ")[1],
+                    'department': $("#cbx-px").val(),
+                    'maTieuChi': MaTieuChi
+                },
+                success: function (response) {
+                    successAlert('Thành công', 'Thao tác thành công');
                     getInformation();
-                $('#pre-load').hide();
-            },
-            error: function (response) {
-                errorAlert('Lỗi', 'Có lỗi xảy ra, không thể xóa.');
-                $('#pre-load').hide();
-            }
-        })
+                    $('#pre-load').hide();
+                },
+                error: function (response) {
+                    errorAlert('Lỗi', 'Có lỗi xảy ra, không thể xóa.');
+                    $('#pre-load').hide();
+                }
+            })
         })
     }
 
@@ -319,6 +335,10 @@
             var value = $(this).attr('id');
             if (value != null) {
                 if (value !== -1 || selectedValueTD.indexOf(value) !== -1) {
+                    //check when data from current selected Year
+                    if (status !== 'CurrentYear') {
+                        currentSelectedValue.push(value);
+                    }
                     selectedValueTD.push(value);
                 }
             }

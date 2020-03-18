@@ -109,7 +109,10 @@ namespace QUANGHANH2.Controllers.DK
                         new SqlParameter("thang", month),
                         new SqlParameter("nam", year)).ToList<TieuChiABC>();
                     listTieuChi = db.Database.SqlQuery<TieuChi>(sqlTieuChi).ToList<TieuChi>();
-                    return Json(new { listPhongBanTieuChi = list, listTieuChi = listTieuChi });
+
+                    var status = "BeforeMonth";
+                    var message = "Hiện tại đang không có dữ liệu tiêu chí cho phân xưởng bạn đang chọn. Dữ liệu hiển thị dưới sẽ được lấy theo tiêu chí dành cho phân xưởng theo tháng trước.";
+                    return Json(new { listPhongBanTieuChi = list, listTieuChi = listTieuChi , status = status, message = message});
                 }
             }
             catch (Exception e)
