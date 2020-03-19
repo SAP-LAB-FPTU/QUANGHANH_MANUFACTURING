@@ -88,7 +88,7 @@ namespace QUANGHANH2.Controllers.DK
                             order by MaTieuChi";
 
             var query_KHDC = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,
-                            (case when table1.MaPhongBan is null then '' else table1.MaPhongBan end) as MaPhongBan,TieuChi.MaTieuChi from (select MaTieuChi, SUM(SanLuong) as SanLuong,header.MaPhongBan from(
+                            TieuChi.MaTieuChi from (select MaTieuChi, SUM(SanLuong) as SanLuong,header.MaPhongBan from(
                             select kehoach.*from(Select HeaderID, MaTieuChi,Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] from KeHoach_TieuChi_TheoThang group by MaTieuChi, HeaderID) as a 
                             inner join KeHoach_TieuChi_TheoThang as kehoach 
                             on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b 
@@ -98,17 +98,17 @@ namespace QUANGHANH2.Controllers.DK
                             right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi 
                             order by MaTieuChi";
 
-            var query_KHDaily = "select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong," +
-                "(case when table1.MaPhongBan is null then '' else table1.MaPhongBan end) as MaPhongBan,TieuChi.MaTieuChi " +
-                "from (select MaTieuChi,SUM(KeHoach) as SanLuong, header.MaPhongBan from (" +
-                "select kehoach.*from(Select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] " +
-                "from KeHoach_TieuChi_TheoNgay group by MaTieuChi, HeaderID) as a " +
-                "inner join KeHoach_TieuChi_TheoNgay as kehoach " +
-                "on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b " +
-                "inner join(select* from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @date) as header on b.HeaderID = header.HeaderID " +
-                "group by MaTieuChi,MaPhongBan)  as table1 " +
-                "right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi " +
-                "order by MaTieuChi";
+            var query_KHDaily = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,
+                            TieuChi.MaTieuChi 
+                            from (select MaTieuChi,SUM(KeHoach) as SanLuong, header.MaPhongBan from (
+                            select kehoach.*from(Select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] 
+                            from KeHoach_TieuChi_TheoNgay group by MaTieuChi, HeaderID) as a 
+                            inner join KeHoach_TieuChi_TheoNgay as kehoach 
+                            on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b 
+                            inner join(select* from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @date) as header on b.HeaderID = header.HeaderID 
+                            group by MaTieuChi,MaPhongBan)  as table1 
+                            right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi 
+                            order by MaTieuChi";
 
             String[] headers = {"Than Sản Xuất","Than Hầm Lò","Than Lộ Thiên","Đất Đá Bóc", "Nhập Dương Huy", "Tổng Mét Lò CBSX", "Mét Lò CBSX Tự Làm",
                 "Mét Lò CBSX Thuê Ngoài", "Mét Lò Xén", "Than Sàng Tuyển", "Than Tiêu Thụ", "Doanh Thu", "Đá Xít Sau Sàng Tuyển"};
@@ -158,8 +158,8 @@ namespace QUANGHANH2.Controllers.DK
                             if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo" || item.TenNhomTieuChi == "Mét Lò Xén")
                             {
                                 //
-                                if (item.MaPhongBan != "PXDL1" && item.MaPhongBan != "PXDL2")
-                                {
+                                //if (item.MaPhongBan != "PXDL1" && item.MaPhongBan != "PXDL2")
+                                //{
                                     if (item.TenNhomTieuChi == "Mét Lò Đào")
                                     {
                                         rp = addUp(rp, item);
@@ -179,7 +179,7 @@ namespace QUANGHANH2.Controllers.DK
                                     {
                                         reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
                                     }
-                                }
+                                //}
                             }
                         }
                     }
@@ -193,8 +193,8 @@ namespace QUANGHANH2.Controllers.DK
                                 if (item.TenNhomTieuChi == "Mét Lò Đào Thuê Ngoài" || item.TenNhomTieuChi == "Mét Lò Neo Thuê Ngoài" || item.TenNhomTieuChi == "Mét Lò Xén Thuê Ngoài")
                                 {
                                     //
-                                    if (item.MaPhongBan == "PXDL1" || item.MaPhongBan == "PXDL2")
-                                    {
+                                    //if (item.MaPhongBan == "PXDL1" || item.MaPhongBan == "PXDL2")
+                                    //{
                                         if (item.TenNhomTieuChi == "Mét Lò Đào Thuê Ngoài")
                                         {
                                             rp = addUp(rp, item);
@@ -214,7 +214,7 @@ namespace QUANGHANH2.Controllers.DK
                                         {
                                             reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
                                         }
-                                    }
+                                    //}
                                 }
                             }
                         }

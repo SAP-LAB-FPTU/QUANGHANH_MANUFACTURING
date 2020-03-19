@@ -243,6 +243,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @{ 
+                        foreach(var item in ViewBag.listcateatrri)
+                        {
+                            <tr>
+                                <td>@item.Equipment_category_attribute_name</td>
+                                <td><input type='number' name='attri' class='form-control' /></td>
+                            </tr>
+                        }
+                    }
                 </tbody>
             </table>
         </div>
