@@ -16,7 +16,7 @@ using QUANGHANH2.SupportClass;
 
 namespace QUANGHANHCORE.Controllers.DK.ReportHuman
 {
-    public class ReportHumanController : Controller
+    public class ReportHuman_DetailController : Controller
     {
         public ActionResult Index()
         {

@@ -189,6 +189,7 @@
     <Compile Include="Controllers\DK\Department_Criteria\Department_Criteria_By_MonthController.cs" />
     <Compile Include="Controllers\DK\Department_Criteria\Department_Criteria_By_YearController.cs" />
     <Compile Include="Controllers\DK\KeHoachDieuHanhChiTieuController.cs" />
+    <Compile Include="Controllers\DK\ReportHuman\ReportHuman_SummaryController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
     <Compile Include="Controllers\AT\ViewAccidentController.cs" />
     <Compile Include="Controllers\BGD\AccidentReportController.cs" />
@@ -312,7 +313,7 @@
     <Compile Include="Controllers\DK\InputPlan\InputPlan_Month_ByMrs_DuyController.cs" />
     <Compile Include="Controllers\DK\QuantityReport\PhanXuongReportController.cs" />
     <Compile Include="Controllers\DK\InputCharcoal\InputController.cs" />
-    <Compile Include="Controllers\DK\ReportHuman\ReportHumanController.cs" />
+    <Compile Include="Controllers\DK\ReportHuman\ReportHuman_DetailController.cs" />
     <Compile Include="Controllers\DK\ReportIncidentController.cs" />
     <Compile Include="Controllers\DK\ReportManuCharcoal\DetailManuReportController.cs" />
     <Compile Include="Controllers\DK\ReportManuCharcoal\ReportManuCharcoalController.cs" />
@@ -7528,6 +7529,8 @@
     <Content Include="Views\DK\Department_Criteria\Department_Criteria_By_Month.cshtml" />
     <Content Include="Views\DK\Department_Criteria\Department_Criteria_By_Year.cshtml" />
     <Content Include="Views\DK\KeHoachDieuHanhChiTieu.cshtml" />
+    <Content Include="Views\DK\ReportHuman\Summary\Human_Daily.cshtml" />
+    <Content Include="Views\DK\ReportHuman\Summary\Human_Department_Daily.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7536,16 +7539,7 @@
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="images\camera\" />
     <Folder Include="Library\" />
-    <Folder Include="Views\CapNhatTrangThai\" />
-    <Folder Include="Views\CapNhat\" />
-    <Folder Include="Views\ChiTiet\" />
-    <Folder Include="Views\ChonThietBi\" />
-    <Folder Include="Views\DaNghiemThu\" />
-    <Folder Include="Views\Department_CriteriaController_By_Month\" />
-    <Folder Include="Views\Department_CriteriaController_By_Year\" />
-    <Folder Include="Views\Department_Criteria_By_Year\" />
-    <Folder Include="Views\KeHoachDieuHanhChiTieu\" />
-    <Folder Include="Views\StatisticalAccident\" />
+    <Folder Include="Views\ReportHuman_Summary\" />
     <Folder Include="Views\TrangChu\" />
   </ItemGroup>
   <ItemGroup>
