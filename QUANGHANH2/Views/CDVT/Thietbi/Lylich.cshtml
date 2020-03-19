@@ -193,9 +193,10 @@
                                     }
                                 </table>
                                 <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
-                                    <li class="tab col s4"><a class="active" href="#VT_DK">Vật tư đi kèm</a></li>
-                                    <li class="tab col s4"><a href="#VT_SCTX">Vật tư SCTX</a></li>
-                                    <li class="tab col s4"><a href="#VT_DP">Vật tư dự phòng</a></li>
+                                    <li class="tab col s3"><a class="active" href="#VT_DK">Vật tư đi kèm</a></li>
+                                    <li class="tab col s3"><a href="#VT_SCTX">Vật tư SCTX</a></li>
+                                    <li class="tab col s3"><a href="#VT_DP">Vật tư dự phòng</a></li>
+                                    <li class="tab col s3"><a href="#VT_TB_DK">Vật tư thiết bị đi kèm</a></li>
                                 </ul>
 
                                 <div id="VT_DK" class="col s12 center" style="margin-top:45px">
@@ -289,6 +290,38 @@
                                                         <td>@item.quantity_duphong</td>
                                                         <td>@item.note</td>
                                                         <td><a class="btnSelectDP btn blue btn-small left modal-trigger" data-target="updateDP">Chỉnh sửa</a></td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="VT_TB_DK" class="col s12 center" style="margin-top:45px">
+                                    <h3>Vật tư thiết bị đi kèm</h3>
+                                    <table id="TB_DK_table" class="striped table-bordered" style="margin-top:10px !important">
+                                        <thead>
+                                            <tr>
+                                                <th>Mã thiết bị</th>
+                                                <th>Tên thiết bị</th>
+                                                <th>Mã vật tư</th>
+                                                <th>Tên vật tư</th>
+                                                <th>Số lượng</th>
+                                                <th>Ghi chú</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="TB_DK_table_body">
+                                            @{
+                                                foreach (var item in ViewBag.sup)
+                                                {
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>@item.equipmentId_dikem</td>
+                                                        <td>@item.equipment_name</td>
+                                                        <td>@item.quantity_duphong</td>
+                                                        <td>@item.note</td>
+                                                        <td><a class="btnSelectTBDP btn blue btn-small left modal-trigger" data-target="updateTBDP">Chỉnh sửa</a></td>
                                                     </tr>
                                                 }
                                             }
