@@ -476,6 +476,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 listDN.Add(new SelectListItem { Text = "Đường kế toán", Value = "Đường kế toán" });
                 listDN.Add(new SelectListItem { Text = "Đường vật tư", Value = "Đường vật tư" });
                 ViewBag.listDN = listDN;
+
+                string script = "select * from Equipment_category_attribute where Equipment_category_id = (select top 1 Equipment_category_id from Equipment_category)";
+                List<Equipment_category_attribute> listcateatrri = db.Database.SqlQuery<Equipment_category_attribute>(script).ToList();
+                ViewBag.listcateatrri = listcateatrri;
             }
             return View(new Equipment());
         }

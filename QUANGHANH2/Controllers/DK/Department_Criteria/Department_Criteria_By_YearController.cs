@@ -42,7 +42,11 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
                     list = db.Database.SqlQuery<header_tieu_chi_nam>(sqlPhongBanTieuChi, new SqlParameter("maphongban", departmentID),
                         new SqlParameter("nam", year)).ToList<header_tieu_chi_nam>();
                     listTieuChi = db.Database.SqlQuery<TieuChi>(sqlTieuChi).ToList<TieuChi>();
-                    return Json(new { listPhongBanTieuChi = list, listTieuChi = listTieuChi });
+
+                    var status = "CurrentYear";
+                    var message = "Dữ liệu đươc lấy tại năm đang chọn.";
+                    
+                    return Json(new { listPhongBanTieuChi = list, listTieuChi = listTieuChi , status = status, message = message});
                 }
             }
             catch (Exception e)
@@ -73,7 +77,10 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
                     list = db.Database.SqlQuery<header_tieu_chi_nam>(sqlPhongBanTieuChi, new SqlParameter("maphongban", departmentID),
                         new SqlParameter("nam", year-1)).ToList<header_tieu_chi_nam>();
                     listTieuChi = db.Database.SqlQuery<TieuChi>(sqlTieuChi).ToList<TieuChi>();
-                    return Json(new { listPhongBanTieuChi = list, listTieuChi = listTieuChi });
+
+                    var status = "BeforeYear";
+                    var message = "Dữ liệu đươc lấy tại năm trước.";
+                    return Json(new { listPhongBanTieuChi = list, listTieuChi = listTieuChi, status = status, message = message });
                 }
             }
             catch (Exception e)
