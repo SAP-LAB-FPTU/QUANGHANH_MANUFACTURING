@@ -15,8 +15,10 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var query = " select * from Department WHERE department_type =@departmentType order by department_name";
-                List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
+                var query = " select * from Department WHERE department_type in (@departmentType_1, @departmentType_2) order by department_name";
+                List<Department> listDepartments = db.Database.SqlQuery<Department>(query,
+                    new SqlParameter("departmentType_1", "Phân xưởng sản xuất chính"),
+                    new SqlParameter("departmentType_2", "Đơn vị sản xuất thuê ngoài")).ToList<Department>();
                 ViewBag.listDepartments = listDepartments;
                 return View("/Views/DK/Department_Criteria/Department_Criteria_By_Year.cshtml");
             }

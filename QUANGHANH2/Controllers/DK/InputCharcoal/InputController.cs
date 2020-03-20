@@ -25,8 +25,10 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             //var ngaySX = db.header_KeHoachTungThang.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
             //ViewBag.SoNgaySX = ngaySX;
             ViewBag.NgayNhap = DateTime.Today.ToString("dd/MM/yyyy");
-            var query = " select * from Department WHERE department_type =@departmentType order by department_name";
-            List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
+            var query = " select * from Department WHERE department_type in (@departmentType_1, @departmentType_2) order by department_name";
+            List<Department> listDepartments = db.Database.SqlQuery<Department>(query,
+                new SqlParameter("departmentType_1", "Phân xưởng sản xuất chính"),
+                new SqlParameter("departmentType_2", "Đơn vị sản xuất thuê ngoài")).ToList<Department>();
             ViewBag.listDepartments = listDepartments;
             var ngaySX = db.KeHoachTungThangs.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
             ViewBag.SoNgaySX = ngaySX;
@@ -50,15 +52,17 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             {
                 string sql = "select case when Max(NgaySanXuat) is null then 0 else Max(NgaySanXuat) end as 'check' from ThucHienTheoNgay where year(Ngay) = @year and month(Ngay) = @month";
                 int check = db.Database.SqlQuery<int>(sql, new SqlParameter("year", temp[2]), new SqlParameter("month", temp[1])).FirstOrDefault();
-                if(check >= nsx)
+                if (check >= nsx)
                 {
                     return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất không thể bé hơn ngày hôm trước." });
-                }else if(nsx - check > 1) {
+                }
+                else if (nsx - check > 1)
+                {
                     return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất không thể nhảy cách hai ngày." });
                 }
                 sql = "select * from ThucHienTheoNgay where Ngay = @day";
                 ThucHienTheoNgay checkadd = db.Database.SqlQuery<ThucHienTheoNgay>(sql, new SqlParameter("day", ngay)).FirstOrDefault();
-                if(checkadd != null)
+                if (checkadd != null)
                 {
                     return Json(new { success = false, title = "Thêm không thành công", message = "Đã có ngày sản xuất." });
                 }
@@ -315,12 +319,12 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         }
                     }
 
-                    
+
 
                 }
             }
 
-            catch (Exception e) 
+            catch (Exception e)
             {
                 e.Message.ToString();
                 return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);
@@ -387,12 +391,22 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 where Ngay = @date";
             ThucHienTheoNgay thtt = db.Database.SqlQuery<ThucHienTheoNgay>(sqltmep, new SqlParameter("date", date_sql)).FirstOrDefault();
             string temp = "0";
-            if (thtt!=null)
+            if (thtt != null)
             {
                 temp = thtt.NgaySanXuat.ToString();
             }
-            return Json(new { success = true, list = tcList, dateSX = ngaySX, NgaySX = temp,
-                luyKe = LK, listSXLoad = listSX, ngaySXnow = ngay_SX_now, thang = date.Split('/')[1], ngay = date.Split('/')[0]}, JsonRequestBehavior.AllowGet);
+            return Json(new
+            {
+                success = true,
+                list = tcList,
+                dateSX = ngaySX,
+                NgaySX = temp,
+                luyKe = LK,
+                listSXLoad = listSX,
+                ngaySXnow = ngay_SX_now,
+                thang = date.Split('/')[1],
+                ngay = date.Split('/')[0]
+            }, JsonRequestBehavior.AllowGet);
         }
         public class MaxKHDate : KeHoach_TieuChi_TheoThang
         {
