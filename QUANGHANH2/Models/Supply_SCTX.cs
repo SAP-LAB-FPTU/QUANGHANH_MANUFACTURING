@@ -12,7 +12,7 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Supply_DuPhong
+    public partial class Supply_SCTX
     {
         public string supply_id { get; set; }
         public string equipmentId { get; set; }
