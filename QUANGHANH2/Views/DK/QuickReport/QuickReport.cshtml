@@ -28,6 +28,7 @@
 <form id="form" action="/phong-dieu-khien" method="post">
     <input type="text" id="date" name="date" style="display:none !important" />
 </form>
+
 <div class="row">
     <div class="col l12 m12 s12">
         <div class="card">
@@ -739,7 +740,20 @@
     $(document).ready(function () {
         var d = '@ViewBag.d';
         document.getElementById("data").value = d;
+
+
     });
+
+
+    $(window).resize(function () {
+        //alert($("#basic-bar2 div"))
+        $("#basic-bar2 div canvas").css( "width", "100%" );
+        $("#basic-bar2 div canvas").parent().css("width", "100%");
+
+        $("#basic-bar3 div canvas").css( "width", "100%" );
+        $("#basic-bar3 div canvas").parent().css( "width", "100%" );
+    });
+
 </script>
 
 <!--chart-->
@@ -748,3 +762,4 @@
 <script src="~/assets/extra-libs/prism/prism.js"></script>
 <script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
 <script src="../../dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>
+<script src="~/js/tuan_js/myChart2.js"></script>
