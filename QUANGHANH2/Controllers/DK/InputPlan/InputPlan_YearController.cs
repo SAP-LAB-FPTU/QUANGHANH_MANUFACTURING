@@ -17,8 +17,10 @@ namespace QUANGHANH2.Controllers.DK
         public ActionResult Index()
         {
             List<TieuChi> listTieuChi = dbContext.Database.SqlQuery<TieuChi>("select * from TieuChi").ToList<TieuChi>();
-            var query = " select * from Department WHERE department_type =@departmentType order by department_name";
-            List<Department> listDepartments = dbContext.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
+            var query = " select * from Department WHERE department_type in (@departmentType_1, @departmentType_2) order by department_name";
+            List<Department> listDepartments = dbContext.Database.SqlQuery<Department>(query,
+                new SqlParameter("departmentType_1", "Phân xưởng sản xuất chính"),
+                new SqlParameter("departmentType_2", "Đơn vị sản xuất thuê ngoài")).ToList<Department>();
             ViewBag.listTC = listTieuChi;
             ViewBag.listDepartments = listDepartments;
             return View("/Views/DK/InputPlan/InputPlan_Year.cshtml");
