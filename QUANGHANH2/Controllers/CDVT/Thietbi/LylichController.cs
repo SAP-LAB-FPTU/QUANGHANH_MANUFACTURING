@@ -32,7 +32,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
         }
 
-        public class Supply_DP : Supply_DuPhong
+        public class Supply_DP : Supply_DuPhong_SCTX
         {
             public string supply_name { get; set; }
         }

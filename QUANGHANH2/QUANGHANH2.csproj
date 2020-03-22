@@ -662,14 +662,14 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supply_Documentary_EquipmentDB.cs" />
-    <Compile Include="Models\Supply_DuPhong.cs">
+    <Compile Include="Models\Supply_DuPhong_SCTX.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supply_Extend.cs" />
-    <Compile Include="Models\Supply_tieuhao.cs">
+    <Compile Include="Models\Supply_SCTX.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagram.cs">
+    <Compile Include="Models\Supply_tieuhao.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaiNan.cs">
