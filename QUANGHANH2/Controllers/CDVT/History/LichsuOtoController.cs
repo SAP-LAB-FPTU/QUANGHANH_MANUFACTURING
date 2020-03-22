@@ -227,7 +227,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         public void EditSupply_duphong(String supplyid, int quantity)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            Supply_DuPhong duphong = db.Supply_DuPhong.Where(x => x.supply_id == supplyid).FirstOrDefault();
+            Supply_SCTX duphong = db.Supply_SCTX.Where(x => x.supply_id == supplyid).FirstOrDefault();
             if (duphong != null)
             {
                 duphong.quantity -= quantity;

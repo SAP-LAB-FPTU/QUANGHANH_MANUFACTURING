@@ -97,8 +97,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                             DBContext.Supply_Documentary_Equipment.Add(s);
                             DBContext.SaveChanges();
                         }
-                        List<Supply_DuPhong> duPhong = DBContext.Supply_DuPhong.Where(x => x.equipmentId.Equals(equipmentId)).ToList();
-                        foreach (Supply_DuPhong supply in duPhong)
+                        List<Supply_SCTX> duPhong = DBContext.Supply_SCTX.Where(x => x.equipmentId.Equals(equipmentId)).ToList();
+                        foreach (Supply_SCTX supply in duPhong)
                         {
                             Supply_Documentary_Equipment s = new Supply_Documentary_Equipment();
                             s.documentary_id = documentary.documentary_id;

@@ -109,13 +109,13 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                     {
                         string sub_insert = $"insert into Equipment_SCTX_Detail(maintain_id, supplyid, used, thuhoi) " +
                               $"VALUES((select top 1 maintain_id from Equipment_SCTX order by maintain_id desc), '{item.supplyid}', {item.used}, {item.thuhoi});" +
-                              " update Supply_DuPhong " +
-                              $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}') - {item.used} " +
+                              " update Supply_SCTX " +
+                              $"set quantity = (select quantity from Supply_SCTX where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}') - {item.used} " +
                               $" where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}'";
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
 
                         //update new supply du phong if it doesn't exist
-                        Supply_DuPhong duphong = db.Supply_DuPhong.Where(x => (x.supply_id == item.supplyid && x.equipmentId == equipmentId)).FirstOrDefault();
+                        Supply_SCTX duphong = db.Supply_SCTX.Where(x => (x.supply_id == item.supplyid && x.equipmentId == equipmentId)).FirstOrDefault();
                         if (duphong == null)
                         {
                             AddSupply_duphong(equipmentId, item.supplyid, item.used);
@@ -150,13 +150,13 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             {
                 try
                 {
-                    Supply_DuPhong sp = new Supply_DuPhong()
+                    Supply_SCTX sp = new Supply_SCTX()
                     {
                         supply_id = newSupplyid,
                         equipmentId = newEquipmentId,
                         quantity = -newQuantity
                     };
-                    db.Supply_DuPhong.Add(sp);
+                    db.Supply_SCTX.Add(sp);
                     db.SaveChanges();
                     transaction.Commit();
                 }
@@ -418,8 +418,8 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                       "begin " +
                      $" insert into Equipment_SCTX_Detail(maintain_id, supplyid, used, thuhoi) VALUES({item.maintain_id}, '{item.supplyid}', {item.used}, {item.thuhoi}) " +
                   "end;  " +
-                    " update Supply_DuPhong " +
-                            $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}') " +
+                    " update Supply_SCTX " +
+                            $"set quantity = (select quantity from Supply_SCTX where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}') " +
                             $" where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}'";
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
 
@@ -459,7 +459,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                     //if equipmentId and supplyId doesn't change after editing.
                     if (oldEquipmentId == newEquipmentId && oldSupplyid == newSupplyid)
                     {
-                        Supply_DuPhong duphong = db.Supply_DuPhong.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
+                        Supply_SCTX duphong = db.Supply_SCTX.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
                         if (duphong != null)
                         {
                             duphong.quantity += oldQuantity;
@@ -470,20 +470,20 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                     else
                     {
                         //update quantity of old and new supplies remaining by each eqID.
-                        Supply_DuPhong oldRecord = db.Supply_DuPhong.Where(x => (x.supply_id == oldSupplyid && x.equipmentId == oldEquipmentId)).FirstOrDefault();
-                        Supply_DuPhong newRecord = db.Supply_DuPhong.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
+                        Supply_SCTX oldRecord = db.Supply_SCTX.Where(x => (x.supply_id == oldSupplyid && x.equipmentId == oldEquipmentId)).FirstOrDefault();
+                        Supply_SCTX newRecord = db.Supply_SCTX.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
                         oldRecord.quantity += oldQuantity;
 
                         // if new doesn't exist => create new with quantity = -newQuantity
                         if (newRecord == null)
                         {
-                            Supply_DuPhong sp = new Supply_DuPhong()
+                            Supply_SCTX sp = new Supply_SCTX()
                             {
                                 supply_id = newSupplyid,
                                 equipmentId = newEquipmentId,
                                 quantity = -newQuantity
                             };
-                            db.Supply_DuPhong.Add(sp);
+                            db.Supply_SCTX.Add(sp);
                         }
                         else
                         {
@@ -507,7 +507,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             try
             {
-                string base_query = "select quantity from Supply_DuPhong where supply_id = @supply_id and equipmentId = @equipmentId";
+                string base_query = "select quantity from Supply_SCTX where supply_id = @supply_id and equipmentId = @equipmentId";
                 List <int> listRemaining = new List<int>();  
                 foreach (Maintain_DetailDB item in maintain)
                 {
@@ -533,7 +533,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             {
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
                 var supply = db.Supplies.Where(x => (x.supply_id == supplyid) && (x.unit != "L" && x.unit != "kWh")).SingleOrDefault();
-                var remaining = db.Supply_DuPhong.Where(x => (x.supply_id == supplyid && x.equipmentId == equipmentId)).FirstOrDefault();
+                var remaining = db.Supply_SCTX.Where(x => (x.supply_id == supplyid && x.equipmentId == equipmentId)).FirstOrDefault();
                 //String item = equipment.supply_name + "^" + equipment.unit;
                 if (remaining == null)
                 {

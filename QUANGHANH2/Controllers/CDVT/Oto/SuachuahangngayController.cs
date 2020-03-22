@@ -68,7 +68,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         public void EditSupply_duphong(String supplyid, int quantity)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            Supply_DuPhong duphong = db.Supply_DuPhong.Where(x => x.supply_id == supplyid).FirstOrDefault();
+            Supply_SCTX duphong = db.Supply_SCTX.Where(x => x.supply_id == supplyid).FirstOrDefault();
             if (duphong != null)
             {
                 duphong.quantity -= quantity;
@@ -109,8 +109,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                     {
                         string sub_insert = $"insert into Maintain_Car_Detail(maintainid, supplyid, used, thuhoi) " +
                             $"VALUES((select top 1 maintainid from Maintain_Car order by maintainid desc), '{item.supplyid}', {item.used}, {item.thuhoi});" +
-                            " update Supply_DuPhong " +
-                            $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}') - {item.used} " +
+                            " update Supply_SCTX " +
+                            $"set quantity = (select quantity from Supply_SCTX where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}') - {item.used} " +
                             $" where supply_id = '{item.supplyid}' and equipmentId='{equipmentId}'";
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
                     }
@@ -338,8 +338,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                       "begin " +
                      $" insert into Maintain_Car_Detail(maintainid, supplyid, used, thuhoi) VALUES({item.maintainid}, '{item.supplyid}', {item.used}, {item.thuhoi}) " +
                   "end;  " +
-                    " update Supply_DuPhong " +
-                            $"set quantity = (select quantity from Supply_DuPhong where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}')-{item.used} " +
+                    " update Supply_SCTX " +
+                            $"set quantity = (select quantity from Supply_SCTX where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}')-{item.used} " +
                             $" where supply_id = '{item.supplyid}' and equipmentId='{equipmentID}'";
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
 
