@@ -217,7 +217,7 @@
                         var indexOfColumnToRowSpan = 1;
                         var $table = $('#summary_tbl');
                         var rowSpanMap = {};
-                        $table.find('tr').each(function () {
+                        $table.find('tbody tr').each(function () {
                             var valueOfTheSpannableCell = $($(this).children('td')[indexOfColumnToRowSpan]).text();
                             $($(this).children('td')[indexOfColumnToRowSpan]).attr('data-original-value', valueOfTheSpannableCell);
                             rowSpanMap[valueOfTheSpannableCell] = true;
