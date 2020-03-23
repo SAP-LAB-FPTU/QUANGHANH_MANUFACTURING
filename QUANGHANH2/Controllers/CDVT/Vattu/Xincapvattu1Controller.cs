@@ -80,7 +80,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
 
                 {
                     List<SupplyPlanDB> m = db.Database.SqlQuery<SupplyPlanDB>("select supp.supplyid, s.supply_name,supp.dinh_muc, s.unit ,supp.quantity_plan,supp.id,(case when su.quantity is null then 0 else su.quantity end) 'quantity'  " +
-                   "from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid left join Supply_SCTX su on supp.equipmentid=su.equipmentId and supp.supplyid=su.supply_id  where supp.equipmentid = @equipmentid and month(date)=month(getdate()) and status=0", new SqlParameter("equipmentid", equipmentId)).ToList();
+                   "from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid left join Supply_Duphong_SCTX su on supp.equipmentid=su.equipmentId and supp.supplyid=su.supply_id  where supp.equipmentid = @equipmentid and month(date)=month(getdate()) and status=0", new SqlParameter("equipmentid", equipmentId)).ToList();
 
                     return Json(m);
                 } }

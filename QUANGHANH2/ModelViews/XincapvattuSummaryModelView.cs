@@ -28,6 +28,7 @@ namespace QUANGHANH2.ModelViews
         public double SupplyAverage { get; set; }
         public int SupplyPlan { get; set; }
         public int SupplyQuantity { get; set; }
+        public int SupplyRemaining { get; set; }
     }
     //public class EquipmentDb
     //{
