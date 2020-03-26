@@ -17,7 +17,12 @@
 <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
-
+<style>
+    .duplicate {
+        border: 1px solid red !important;
+        color: red !important;
+    }
+</style>
 <div class="card">
     <div class="card-content">
         <div class="row">
@@ -82,7 +87,7 @@
                         <div class="modal-footer">
                             <a class="left"><button id="them" type="submit" class="btn light-blue lighten-1"><i class="large material-icons">add</i></button></a>
                             @*<a class="left"><button id="remove" onclick="deleterowedit('supplyMaintain_edit')" class="btn light-blue lighten-1"><i class="large material-icons">remove</i></button></a>*@
-                            <button type="button" id="submitedit" class="btn light-blue lighten-1 modal-close">Lưu</button>
+                            <button type="button" id="submitedit" class="btn light-blue lighten-1">Lưu</button>
                             <button type="button" id="closeForm1" class="btn light-blue lighten-1 modal-close">Thoát</button>
                         </div>
                     </div>
@@ -324,7 +329,14 @@
                     var $supplyid = $(".supplyid");
                     var listsupplyid = [];
                     $supplyid.each(function () {
-                        listsupplyid.push($(this).val())
+                       var value = $(this).val();
+                if (listsupplyid.indexOf(value) == -1) {
+                listsupplyid.push(value);
+                $(this).removeClass("duplicate");
+            }
+            else {
+                $(this).addClass("duplicate");
+            }
                     });
                     var $supplyplanid = $(".supplyplanid");
                     var listsupplyplanid = [];
@@ -341,34 +353,38 @@
                     $xin_cap.each(function () {
                         listxin_cap.push($(this).val())
                     });
+                    if ($(".duplicate").length > 0) {
 
-                    $.ajax({
-                        type: "POST",
-                        url: "/phan-xuong/xin-cap-vat-tu-sctx/editoradd",
-                        data: {
-                            equipmentid: equipmentid,
-                            'supplyid': JSON.stringify(listsupplyid),
-                            'general': JSON.stringify(listgeneral),
-                            'xin_cap': JSON.stringify(listxin_cap),
-                            'supplyplanid': JSON.stringify(listsupplyplanid),
-                        },
-                        success: function (data) {
-                            datatable.ajax.reload();
-                            successAlert('Thành công', data.message);
-                            $('#closeForm1').click();
+                        errorAlert('Lỗi', 'Những vật tư này đã xin cấp');
+                    }
+                    else {
+                        $.ajax({
+                            type: "POST",
+                            url: "/phan-xuong/xin-cap-vat-tu-sctx/editoradd",
+                            data: {
+                                equipmentid: equipmentid,
+                                'supplyid': JSON.stringify(listsupplyid),
+                                'general': JSON.stringify(listgeneral),
+                                'xin_cap': JSON.stringify(listxin_cap),
+                                'supplyplanid': JSON.stringify(listsupplyplanid),
+                            },
+                            success: function (data) {
+                                datatable.ajax.reload();
+                                successAlert('Thành công', data.message);
+                                $('#closeForm1').click();
 
 
-                        },
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            $('#pre-load').hide();
-                            errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
-                            $('#close1').click();
-                        },
-                        cache: false
-                    })
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                $('#pre-load').hide();
+                                errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
+                                $('#close1').click();
+                            },
+                            cache: false
+                        })
 
-                    return false;
-                });
+                        return false;
+                    }});
                 $("#mysupply").on("click", "#remove", function () {
                     $("tr#" + $(this).attr("name")).remove();
                 })

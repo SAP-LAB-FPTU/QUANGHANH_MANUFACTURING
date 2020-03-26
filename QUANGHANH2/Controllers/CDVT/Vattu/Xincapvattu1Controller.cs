@@ -80,7 +80,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
 
                 {
                     List<SupplyPlanDB> m = db.Database.SqlQuery<SupplyPlanDB>("select supp.supplyid, s.supply_name,supp.dinh_muc, s.unit ,supp.quantity_plan,supp.id,(case when su.quantity is null then 0 else su.quantity end) 'quantity'  " +
-                   "from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid left join Supply_DuPhong su on supp.equipmentid=su.equipmentId and supp.supplyid=su.supply_id  where supp.equipmentid = @equipmentid and month(date)=month(getdate()) and status=0", new SqlParameter("equipmentid", equipmentId)).ToList();
+                   "from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid left join Supply_Duphong_SCTX su on supp.equipmentid=su.equipmentId and supp.supplyid=su.supply_id  where supp.equipmentid = @equipmentid and month(date)=month(getdate()) and status=0", new SqlParameter("equipmentid", equipmentId)).ToList();
 
                     return Json(m);
                 } }
@@ -189,7 +189,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                 int quantity;
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
                 var supply = db.Supplies.Where(x => x.supply_id == supplyid).First();
-                var supplyduphong = db.Supply_DuPhong.Where(x => (x.supply_id == supplyid)&&x.equipmentId==equipmentid).SingleOrDefault();
+                var supplyduphong = db.Supply_SCTX.Where(x => (x.supply_id == supplyid)&&x.equipmentId==equipmentid).SingleOrDefault();
                 if (supplyduphong == null) quantity = 0;
                 else quantity = supplyduphong.quantity;
                 
@@ -302,15 +302,15 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                                 }
                             }
                             
-                                string sub_insert = $"  if exists(select * from Supply_DuPhong  where supply_id = '{vattu.supplyid}' and equipmentId = '{vattu.equipmentid}') " +
+                                string sub_insert = $"  if exists(select * from Supply_SCTX  where supply_id = '{vattu.supplyid}' and equipmentId = '{vattu.equipmentid}') " +
                                                 "begin " +
-                                               " update Supply_DuPhong set " +
+                                               " update Supply_SCTX set " +
                                                $"quantity = (select quantity where supply_id='{vattu.supplyid}' and equipmentId='{vattu.equipmentid}')+{newquatity} " +
                                                $"where supply_id = '{vattu.supplyid}' and equipmentId = '{vattu.equipmentid}' " +
                                                "end " +
                                                "else " +
                                                "begin " +
-                                               $"insert into Supply_DuPhong(supply_id, equipmentId, quantity) VALUES('{vattu.supplyid}', '{vattu.equipmentid}', {vattu.quantity}) " +
+                                               $"insert into Supply_SCTX(supply_id, equipmentId, quantity) VALUES('{vattu.supplyid}', '{vattu.equipmentid}', {vattu.quantity}) " +
                                               "end ;" +
                                                $" update Supplyplan set quantity={vattu.quantity}, date=getdate() where id={vattu.id} ;";
                             bulk_insert = string.Concat(bulk_insert, sub_insert);

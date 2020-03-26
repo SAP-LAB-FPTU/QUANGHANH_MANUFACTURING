@@ -306,27 +306,28 @@
                                                 <th>Mã vật tư</th>
                                                 <th>Tên vật tư</th>
                                                 <th>Số lượng</th>
-                                                <th>Ghi chú</th>
+                                                <th></th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody id="TB_DK_table_body">
                                             @{
-                                                foreach (var item in ViewBag.sup)
+                                                foreach (var item in ViewBag.dikemvattu)
                                                 {
                                                     <tr>
-                                                        <td></td>
-                                                        <td></td>
                                                         <td>@item.equipmentId_dikem</td>
                                                         <td>@item.equipment_name</td>
-                                                        <td>@item.quantity_duphong</td>
-                                                        <td>@item.note</td>
-                                                        <td><a class="btnSelectTBDP btn blue btn-small left modal-trigger" data-target="updateTBDP">Chỉnh sửa</a></td>
+                                                        <td>@item.supply_id</td>
+                                                        <td>@item.supply_name</td>
+                                                        <td>@item.quantity</td>
+                                                        <td><button type="button" class="btnSelectTBDK btn blue btn-small center"><i class="large material-icons">remove</i></button></td>
+                                                        <td><a class="btnSelectTBDK2 btn blue btn-small left modal-trigger" data-target="updateTBDK">Chỉnh sửa</a></td>
                                                     </tr>
                                                 }
                                             }
                                         </tbody>
                                     </table>
+                                    <a data-target="addTBDK" id="add3" class="btn blue btn-small center modal-trigger left" style="margin-top:10px"><i class="large material-icons">add</i></a>
                                 </div>
                             </div>
                         </div>
@@ -1019,6 +1020,15 @@
     </div>
 }
 
+<datalist id="Dikemlist">
+    @{
+        foreach (var item in ViewBag.listtbdk)
+        {
+            <option value="@item.equipmentId_dikem">@item.equipment_name</option>
+        }
+
+    }
+</datalist>
 <datalist id="Suplist">
     @{
         foreach (var item in ViewBag.listSup)
@@ -1213,6 +1223,99 @@
     <input type="hidden" id="idSCTX" name="id" />
 }
 
+@using (Html.BeginForm("addTBDK", "Lylich", FormMethod.Post, new
+{
+    id = "DKform",
+    enctype = "multipart/form-data",
+    onSubmit = "return Change3(this);",
+    data_restUrl = Url.Action("addTBDK", "Lylich", new { id = "" })
+}))
+{
+    <div class="modal" id="addTBDK">
+        <div class="modal-header">
+            <h3 class="center">Thêm vật tư thiết bị đi kèm</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col s4">
+                    <label>Tên vật tư</label>
+                    <input list="Suplist" name="nameSup" class="form-control" />
+                </div>
+                <div class="col s4">
+                    <label>Tên thiết bị đi kèm</label>
+                    <input list="Dikemlist" id="idDP_add" name="id" class="form-control" />
+                </div>
+                <div class="col s4">
+                    <label>Số lượng</label>
+                    <input type="number" name="quan" class="form-control" />
+                    <input type="hidden" name="id_e" value="@ViewBag.equipment.equipmentId" class="form-control" />
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue modal-close">Lưu</button>
+        </div>
+    </div>
+
+
+}
+
+@using (Html.BeginForm("updateTBDK", "Lylich", FormMethod.Post, new
+{
+    id = "DKform",
+    enctype = "multipart/form-data",
+    onSubmit = "return Change3(this);",
+    data_restUrl = Url.Action("updateTBDK", "Lylich", new { id = "" })
+}))
+{
+
+    <div class="modal" id="updateTBDK">
+        <div class="modal-header">
+            <h3 class="center">Cập nhật vật tư thiết bị đi kèm</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col s4">
+                    <label>Mã vật tư</label>
+                    <input readonly id="supTBDK_id_update" name="supid" class="form-control" />
+                </div>
+                <div class="col s4">
+                    <label>Mã thiết bị</label>
+                    <input readonly id="idTBDK_update" name="id" class="form-control" />
+                </div>
+                <div class="col s4">
+                    <label>Số lượng</label>
+                    <input type="number" id="quanTBDK_update" name="quan" class="form-control" />
+                    <input type="hidden" name="id_e" value="@ViewBag.equipment.equipmentId" class="form-control" />
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue modal-close">Lưu</button>
+        </div>
+    </div>
+
+
+}
+
+@using (Html.BeginForm("deleteTBDK", "Lylich", FormMethod.Post, new
+{
+    id = "DKform",
+    enctype = "multipart/form-data",
+    onSubmit = "return Change3(this);",
+    data_restUrl = Url.Action("deleteTBDK", "Lylich", new { id = "" })
+}))
+{
+    <input type="hidden" id="supTBDK_id" name="supid" />
+    <input type="hidden" id="idTBDK" name="id" />
+    <input type="hidden" name="id_e" value="@ViewBag.equipment.equipmentId" class="form-control" />
+}
+
+
 <ul id='dropdown1' class='dropdown-content'>
     <li><a href="#!">Danh sách hết bảo hiểm</a></li>
     <li><a href="#!">Danh sách hết khấu hao</a></li>
@@ -1322,11 +1425,34 @@
                 $("#supSCTX_id").closest('form').submit();
             });
 
+            // code to read selected table row cell data (values).
+            $("#TB_DK_table").on('click', '.btnSelectTBDK', function () {
+                // get the current row
+                var currentRow = $(this).closest("tr");
+                var data = currentRow.find("td:eq(2)").text();
+                document.getElementById("supTBDK_id").value = data;
+                data = currentRow.find("td:eq(0)").text();
+                document.getElementById("idTBDK").value = data;
+                $("#supTBDK_id").closest('form').submit();
+            });
+
+            // code to read selected table row cell data (values).
+            $("#TB_DK_table").on('click', '.btnSelectTBDK2', function () {
+                // get the current row
+                var currentRow = $(this).closest("tr");
+                var data = currentRow.find("td:eq(2)").text();
+                document.getElementById("supTBDK_id_update").value = data;
+                data = currentRow.find("td:eq(0)").text();
+                document.getElementById("idTBDK_update").value = data;
+                data = currentRow.find("td:eq(4)").text();
+                document.getElementById("quanTBDK_update").value = data;
+            });
+
 
         });
 
 
-    
+
         function ChangeTT(form) {
              $("#pre-load").show("slow", function () {
                     });
@@ -1424,7 +1550,44 @@
                                 "<td>" + response.data[i].supply_name + "</td>" +
                                 "<td>" + response.data[i].quantity + "</td>" +
                                 "<td><button type='button' class='btnSelectSCTX btn blue btn-small center'><i class='large material-icons'>remove</i></button></td>" +
-                                "<td><a class='btnSelectSCTX2 btn blue btn-small center modal-trigger' data-target='updateDP'>Chỉnh sửa</a></td>" +
+                                "<td><a class='btnSelectSCTX2 btn blue btn-small center modal-trigger' data-target='updateSCTX'>Chỉnh sửa</a></td>" +
+                                "</tr> ");
+                        }
+                        $("#pre-load").hide("slow", function () {
+                        });
+
+                    }
+                });
+            }
+
+
+            return false;
+
+
+        }
+
+        function Change3(form) {
+             $("#pre-load").show("slow", function () {
+                    });
+            $("#pre-load").css("z-index", "99999");
+            $.validator.unobtrusive.parse(form);
+
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (response) {
+                        $("#TB_DK_table_body").empty();
+                        for (i = 0; i < response.data.length; i++) {
+                            $("#TB_DK_table_body").append("<tr>"+
+                                "<td>" + response.data[i].equipmentId_dikem + "</td>" +
+                                "<td>" + response.data[i].equipment_name + "</td>" +
+                                "<td>" + response.data[i].supply_id + "</td>" +
+                                "<td>" + response.data[i].supply_name + "</td>" +
+                                "<td>" + response.data[i].quantity + "</td>" +
+                                "<td><button type='button' class='btnSelectTBDK btn blue btn-small center'><i class='large material-icons'>remove</i></button></td>" +
+                                "<td><a class='btnSelectTBDK2 btn blue btn-small center modal-trigger' data-target='updateTBDK'>Chỉnh sửa</a></td>" +
                                 "</tr> ");
                         }
                         $("#pre-load").hide("slow", function () {

@@ -197,7 +197,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             //List<Supply_DiKem> supply_DiKem = DBContext.Supply_DiKem.Where(s => s.equipmentId == equipmentId).ToList();
-            var supply_DiKem = (from s in DBContext.Supply_DuPhong
+            var supply_DiKem = (from s in DBContext.Supply_SCTX
                                 where s.equipmentId.Equals(equipmentId)
                                 select new
                                 {

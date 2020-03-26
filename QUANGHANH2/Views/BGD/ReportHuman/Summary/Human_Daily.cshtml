@@ -4,5 +4,81 @@
     Layout = "~/Views/Shared/_Layout_DK.cshtml";
 }
 
-<h2>Human_Daily</h2>
+    <div class="card">
+        <div class="card-content">
+            <div class="container-fluid">
+                <h3 class="center"><b>TỔNG NHÂN LỰC THEO NGÀY</b></h3>
+                <hr />
+                <div class="row">
+                    <div class="center col s12" style="margin-bottom: 20px">
+                       
+                        <i class="fas fa-calendar-alt icon"></i>
+                        <input type='text' class='datepicker-here center' id="date" data-language='vi' />
+                     
+
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m12 l12">
+                            <table class="table-bordered" id="aspectDetailTable">
+                                <thead>
+                                    <tr>
+                                        <th>TT</th>
+                                        <th>Nội dung</th>
+                                        <th>Tổng số</th>
+                                        <th>Đi làm</th>
+                                        <th>Nghỉ</th>
+
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Công nhân làm việc trong lò</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <td>Công nhân KT, đào lò</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Công nhân cơ điện lò</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Công nhân làm việctrên MB</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Phòng ban quản lý,NV nghiệp vụ</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="col s12 m12 l12 input-field right row">
+                            <a class="waves-effect waves-light btn btn-small blue darken-2 input-field left" id="export_excel"><i class="fas fa-file-excel"></i>&nbsp;Xuất&nbsp;Ra&nbsp;File&nbsp;Excel</a>
+                        </div>
+
+                    </div>
+                   
+                </div>
+
+            </div>
+        </div>
+    </div>
+   
 

@@ -198,7 +198,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             Documentary_moveline_details documentary_Moveline_Details = db.Database.SqlQuery<Documentary_moveline_details>("SELECT * FROM Documentary_moveline_details WHERE documentary_id = @documentary_id AND equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id),
                                 new SqlParameter("documentary_id", documentary.documentary_id)).First();
-                            db.Database.ExecuteSqlCommand("DELETE FROM Supply_DuPhong WHERE equipmentId = @equipmentId",
+                            db.Database.ExecuteSqlCommand("DELETE FROM Supply_SCTX WHERE equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id));
                             db.Database.ExecuteSqlCommand("update Supply_DiKem set quantity = 0 where equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id));
@@ -225,14 +225,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                 }
                                 else
                                 {
-                                    Supply_DuPhong s = db.Supply_DuPhong.Where(x => x.equipmentId == id && x.supply_id == item.supply_id).FirstOrDefault();
+                                    Supply_SCTX s = db.Supply_SCTX.Where(x => x.equipmentId == id && x.supply_id == item.supply_id).FirstOrDefault();
                                     if (s == null)
                                     {
-                                        s = new Supply_DuPhong();
+                                        s = new Supply_SCTX();
                                         s.equipmentId = id;
                                         s.quantity = item.quantity_in;
                                         s.supply_id = item.supply_id;
-                                        db.Supply_DuPhong.Add(s);
+                                        db.Supply_SCTX.Add(s);
                                     }
                                     else
                                     {
@@ -248,7 +248,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             break;
                         case 5:
                             equipment.current_Status = 15;
-                            db.Database.ExecuteSqlCommand("DELETE FROM Supply_DuPhong WHERE equipmentId = @equipmentId",
+                            db.Database.ExecuteSqlCommand("DELETE FROM Supply_SCTX WHERE equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id));
                             db.Database.ExecuteSqlCommand("DELETE FROM Supply_DiKem WHERE equipmentId = @equipmentId",
                                 new SqlParameter("equipmentId", id));

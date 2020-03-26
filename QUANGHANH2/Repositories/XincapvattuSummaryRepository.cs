@@ -71,8 +71,8 @@ namespace QUANGHANH2.Repositories
                 
                 else
                 vattus = context.Database.SqlQuery<XincapvattuSummaryModelViewVer2>("select supp.id Id,supp.equipmentId Equipmentid,e.equipment_name,supp.supplyid, s.supply_name SupplyName,supp.dinh_muc SupplyAverage, s.unit SupplyUnit ,supp.quantity_plan SupplyPlan,(case when su.quantity is null then 0 else su.quantity end) SupplyRemaining " +
-                    " from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid left join Supply_DuPhong su on supp.equipmentid=su.equipmentId and supp.supplyid=su.supply_id inner join Equipment e on supp.equipmentid = e.equipmentId where" +
-                    " supp.departmentid = @departmentid and month(date) = month(getdate()) and status = 1", new SqlParameter("departmentid", departmentId)).ToList();
+                    " from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid left join Supply_DuPhong_SCTX su on supp.equipmentid=su.equipmentId and supp.supplyid=su.supply_id inner join Equipment e on supp.equipmentid = e.equipmentId where" +
+                    " supp.departmentid = @departmentid and month(date) = month(getdate()) and status = 1 order by equipmentid asc", new SqlParameter("departmentid", departmentId)).ToList();
             }
             return vattus;
         }
@@ -82,7 +82,7 @@ namespace QUANGHANH2.Repositories
         {
 
             return context.Database.SqlQuery<int>($"SELECT COUNT(1) from SupplyPlan WHERE departmentid = '{departmentId}' " +
-          "AND YEAR([date]) = YEAR(GETDATE()) AND MONTH([date]) = MONTH(Getdate())and quantity = 0").First() > 0;
+          "AND YEAR([date]) = YEAR(GETDATE()) AND MONTH([date]) = MONTH(Getdate())and quantity_provide   = 0").First() > 0;
         }
 
     }

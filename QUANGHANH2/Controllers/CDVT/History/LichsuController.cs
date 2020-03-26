@@ -182,7 +182,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     //if equipmentId and supplyId doesn't change after editing.
                     if (oldEquipmentId == newEquipmentId && oldSupplyid == newSupplyid)
                     {
-                        Supply_DuPhong duphong = db.Supply_DuPhong.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
+                        Supply_SCTX duphong = db.Supply_SCTX.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
                         if (duphong != null)
                         {
                             duphong.quantity += oldQuantity;
@@ -192,20 +192,20 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     } else
                     {
                         //update quantity of old and new supplies remaining by each eqID.
-                        Supply_DuPhong oldRecord = db.Supply_DuPhong.Where(x => (x.supply_id == oldSupplyid && x.equipmentId == oldEquipmentId)).FirstOrDefault();
-                        Supply_DuPhong newRecord = db.Supply_DuPhong.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
+                        Supply_SCTX oldRecord = db.Supply_SCTX.Where(x => (x.supply_id == oldSupplyid && x.equipmentId == oldEquipmentId)).FirstOrDefault();
+                        Supply_SCTX newRecord = db.Supply_SCTX.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
                         oldRecord.quantity += oldQuantity;
 
                         // if new doesn't exist => create new with quantity = -newQuantity
                         if (newRecord == null)
                         {
-                            Supply_DuPhong sp = new Supply_DuPhong()
+                            Supply_SCTX sp = new Supply_SCTX()
                             {
                                 supply_id = newSupplyid,
                                 equipmentId = newEquipmentId,
                                 quantity = -newQuantity
                             };
-                            db.Supply_DuPhong.Add(sp);
+                            db.Supply_SCTX.Add(sp);
                         } else
                         {
                             newRecord.quantity -= newQuantity;
@@ -229,7 +229,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             {
                 try
                 {
-                    Supply_DuPhong duphong = db.Supply_DuPhong.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
+                    Supply_SCTX duphong = db.Supply_SCTX.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
                     //if existed
                     if (duphong != null)
                     {
@@ -239,13 +239,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     //if doesn't exist before
                     else
                     {
-                        Supply_DuPhong sp = new Supply_DuPhong()
+                        Supply_SCTX sp = new Supply_SCTX()
                         {
                             supply_id = newSupplyid,
                             equipmentId = newEquipmentId,
                             quantity = -newQuantity
                         };
-                        db.Supply_DuPhong.Add(sp);
+                        db.Supply_SCTX.Add(sp);
                     }
                     db.SaveChanges();
                     transaction.Commit();
@@ -295,7 +295,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
                 fuelDB activity = DBContext.Database.SqlQuery<fuelDB>(
                     "select f.fuelId, f.[date], f.equipmentId, f.fuel_type, e.equipment_name , s.supply_name , f.consumption_value , s.unit ,sd.quantity " +
-                    " from Fuel_activities_consumption f, Equipment e , Supply s , Supply_DuPhong sd" +
+                    " from Fuel_activities_consumption f, Equipment e , Supply s , Supply_SCTX sd" +
                     " where e.equipmentId = f.equipmentId and s.supply_id = f.fuel_type and sd.supply_id = s.supply_id and sd.equipmentId = e.equipmentId and f.fuelId = @fuelid " +
                     " order by f.[date] desc  ", new SqlParameter("fuelid", fuelid)).First();
                 activity.stringDate = activity.date.ToString("dd/MM/yyyy");
@@ -542,7 +542,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     //Last update : 11/2/2020 
                     //check Supply existed in Backup Supplies.
 
-                    var remaining = db.Supply_DuPhong.Where(x => (x.supply_id == fuel_type && x.equipmentId == equipment_id)).SingleOrDefault();
+                    var remaining = db.Supply_SCTX.Where(x => (x.supply_id == fuel_type && x.equipmentId == equipment_id)).SingleOrDefault();
                     string item;
                     //add new if it doesn't exist before.
                     if (remaining == null)
