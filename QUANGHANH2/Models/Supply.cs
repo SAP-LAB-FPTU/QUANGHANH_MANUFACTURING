@@ -22,7 +22,7 @@ namespace QUANGHANH2.Models
             this.Maintain_Car_Detail = new HashSet<Maintain_Car_Detail>();
             this.Supply_Documentary_Camera = new HashSet<Supply_Documentary_Camera>();
             this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
-            this.Supply_DuPhong_SCTX = new HashSet<Supply_DuPhong_SCTX>();
+            this.Supply_Equipment_DiKem = new HashSet<Supply_Equipment_DiKem>();
             this.Supply_SCTX = new HashSet<Supply_SCTX>();
             this.Supply_tieuhao = new HashSet<Supply_tieuhao>();
             this.SupplyPlans = new HashSet<SupplyPlan>();
@@ -45,7 +45,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_DuPhong_SCTX> Supply_DuPhong_SCTX { get; set; }
+        public virtual ICollection<Supply_Equipment_DiKem> Supply_Equipment_DiKem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_SCTX> Supply_SCTX { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

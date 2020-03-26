@@ -111,7 +111,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Supply_DiKem> Supply_DiKem { get; set; }
         public virtual DbSet<Supply_Documentary_Camera> Supply_Documentary_Camera { get; set; }
         public virtual DbSet<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
-        public virtual DbSet<Supply_DuPhong_SCTX> Supply_DuPhong_SCTX { get; set; }
+        public virtual DbSet<Supply_Equipment_DiKem> Supply_Equipment_DiKem { get; set; }
         public virtual DbSet<Supply_SCTX> Supply_SCTX { get; set; }
         public virtual DbSet<Supply_tieuhao> Supply_tieuhao { get; set; }
         public virtual DbSet<SupplyPlan> SupplyPlans { get; set; }

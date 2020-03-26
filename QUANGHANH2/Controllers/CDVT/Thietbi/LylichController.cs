@@ -39,7 +39,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
         }
 
-        public class Supply_DP : Supply_DuPhong_SCTX
+        public class Supply_DP : Supply_SCTX
         {
             public string supply_name { get; set; }
         }
@@ -128,7 +128,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             var sup = DBContext.Database.SqlQuery<Supply_DK>("select s.*,e.equipment_name from Equipment e join Supply_DiKem s on e.equipmentId = s.equipmentId_dikem where s.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
             ViewBag.sup = sup;
             //Vat tu SCTX
-            var supSCTX = DBContext.Database.SqlQuery<Supply_DP>("select s.*,e.supply_name from Supply e join Supply_DuPhong_SCTX s on e.supply_id = s.supply_id where s.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
+            var supSCTX = DBContext.Database.SqlQuery<Supply_DP>("select s.*,e.supply_name from Supply e join Supply_SCTX s on e.supply_id = s.supply_id where s.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
             ViewBag.supSCTX = supSCTX;
             //Vat tu DP
             var supDP = DBContext.Database.SqlQuery<Supply_DK>("select s.*,e.equipment_name from Supply_DiKem s join Equipment e on s.equipmentId_dikem = e.equipmentId where s.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
@@ -532,7 +532,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                 break;
                             }
                         }
-                        string sql_sup = "insert into Supply_SCTX values (@supid, @eid, @quan)";
+                        string sql_sup = "insert into Supply_Equipment_DiKem values (@supid, @eid, @quan)";
                         DBContext.Database.ExecuteSqlCommand(sql_sup
                             , new SqlParameter("@supid", s.supply_id)
                             , new SqlParameter("@eid", id)
@@ -540,7 +540,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                     }
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Dikem_Vattu>("select s.equipmentId_dikem, e.equipment_name, su.supply_id, su.supply_name, ss.quantity from Equipment e join Supply_DiKem s on e.equipmentId = s.equipmentId join Supply_SCTX ss on s.equipmentId_dikem = ss.equipmentId join Supply su on ss.supply_id = su.supply_id where e.equipmentId = @id", new SqlParameter("id", id_e)).ToList();
+                    var sup = DBContext.Database.SqlQuery<Dikem_Vattu>("select s.equipmentId_dikem, e.equipment_name, su.supply_id, su.supply_name, ss.quantity from Equipment e join Supply_DiKem s on e.equipmentId = s.equipmentId join Supply_Equipment_DiKem ss on s.equipmentId_dikem = ss.equipmentId join Supply su on ss.supply_id = su.supply_id where e.equipmentId = @id", new SqlParameter("id", id_e)).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -562,11 +562,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 try
                 {
-                    string sql = "update Supply_SCTX set quantity = @quan where supply_id = @supid and equipmentId = @eid";
+                    string sql = "update Supply_Equipment_DiKem set quantity = @quan where supply_id = @supid and equipmentId = @eid";
                     DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("quan", quan), new SqlParameter("supid", supid), new SqlParameter("eid", id));
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Dikem_Vattu>("select s.equipmentId_dikem, e.equipment_name, su.supply_id, su.supply_name, ss.quantity from Equipment e join Supply_DiKem s on e.equipmentId = s.equipmentId join Supply_SCTX ss on s.equipmentId_dikem = ss.equipmentId join Supply su on ss.supply_id = su.supply_id where e.equipmentId = @id", new SqlParameter("id", id_e)).ToList();
+                    var sup = DBContext.Database.SqlQuery<Dikem_Vattu>("select s.equipmentId_dikem, e.equipment_name, su.supply_id, su.supply_name, ss.quantity from Equipment e join Supply_DiKem s on e.equipmentId = s.equipmentId join Supply_Equipment_DiKem ss on s.equipmentId_dikem = ss.equipmentId join Supply su on ss.supply_id = su.supply_id where e.equipmentId = @id", new SqlParameter("id", id_e)).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -588,11 +588,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 try
                 {
-                    string sql = "delete from Supply_SCTX where supply_id = @supid and equipmentId = @eid";
+                    string sql = "delete from Supply_Equipment_DiKem where supply_id = @supid and equipmentId = @eid";
                     DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("supid", supid), new SqlParameter("eid", id));
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Dikem_Vattu>("select s.equipmentId_dikem, e.equipment_name, su.supply_id, su.supply_name, ss.quantity from Equipment e join Supply_DiKem s on e.equipmentId = s.equipmentId join Supply_SCTX ss on s.equipmentId_dikem = ss.equipmentId join Supply su on ss.supply_id = su.supply_id where e.equipmentId = @id", new SqlParameter("id", id_e)).ToList();
+                    var sup = DBContext.Database.SqlQuery<Dikem_Vattu>("select s.equipmentId_dikem, e.equipment_name, su.supply_id, su.supply_name, ss.quantity from Equipment e join Supply_DiKem s on e.equipmentId = s.equipmentId join Supply_Equipment_DiKem ss on s.equipmentId_dikem = ss.equipmentId join Supply su on ss.supply_id = su.supply_id where e.equipmentId = @id", new SqlParameter("id", id_e)).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -628,7 +628,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                 break;
                             }
                         }
-                        string sql_sup = "insert into Supply_DuPhong_SCTX values (@supid, @eid, @quan)";
+                        string sql_sup = "insert into Supply_SCTX values (@supid, @eid, @quan)";
                         DBContext.Database.ExecuteSqlCommand(sql_sup
                             , new SqlParameter("@supid", s.supply_id)
                             , new SqlParameter("@eid", id)
@@ -636,7 +636,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                     }
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Supply_DP>("select e.*,s.supply_name from Supply_DuPhong_SCTX e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
+                    var sup = DBContext.Database.SqlQuery<Supply_DP>("select e.*,s.supply_name from Supply_SCTX e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -658,11 +658,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 try
                 {
-                    string sql = "update Supply_DuPhong_SCTX set quantity = @quan where supply_id = @supid and equipmentId = @eid";
+                    string sql = "update Supply_SCTX set quantity = @quan where supply_id = @supid and equipmentId = @eid";
                     DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("quan", quan), new SqlParameter("supid", supid), new SqlParameter("eid", id));
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Supply_DP>("select e.*,s.supply_name from Supply_DuPhong_SCTX e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
+                    var sup = DBContext.Database.SqlQuery<Supply_DP>("select e.*,s.supply_name from Supply_SCTX e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -684,11 +684,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 try
                 {
-                    string sql = "delete from Supply_DuPhong_SCTX where supply_id = @supid and equipmentId = @eid";
+                    string sql = "delete from Supply_SCTX where supply_id = @supid and equipmentId = @eid";
                     DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("supid", supid), new SqlParameter("eid", id));
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Supply_DP>("select e.*,s.supply_name from Supply_DuPhong_SCTX e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
+                    var sup = DBContext.Database.SqlQuery<Supply_DP>("select e.*,s.supply_name from Supply_SCTX e join Supply s on e.supply_id = s.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
