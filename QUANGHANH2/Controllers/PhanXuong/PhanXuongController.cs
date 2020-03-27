@@ -412,14 +412,14 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         /// NSLD va Diem Luong
         /// </summary>
         /// <returns></returns>
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        //[Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [Route("phan-xuong/nang-suat-lao-dong")]
         public ActionResult NSLD()
         {
             return View("/Views/PX/PXKT/InputNSLD.cshtml");
         }
 
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        //[Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [HttpPost]
         [Route("phan-xuong/nang-suat-lao-dong/lay-du-lieu")]
         /////////////////////GET DATA///////////////////////
@@ -454,7 +454,8 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                 }
                 else
                 {
-                    convert_date = Convert.ToDateTime(date).ToString("dd/MM/yyyy");
+                    date = date.Split('/')[2] + '/' + date.Split('/')[1] + '/' + date.Split('/')[0];
+                    convert_date = Convert.ToDateTime(date).ToString("MM/dd/yyyy");
                     convert_shift = Convert.ToInt32(shift);
                 }
 
@@ -508,7 +509,9 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                 {
                     //header params
                     var departmentID = Session["departID"].ToString();
-                    var date = DateTime.Parse(Convert.ToDateTime(Request["date"]).ToString("dd/MM/yyyy")).Date;
+                    var date = Request["date"];
+                    date = date.Split('/')[2] + '/' + date.Split('/')[1] + '/' + date.Split('/')[0];
+                    var convert_date = Convert.ToDateTime(date);
                     var shift = Convert.ToInt32(Request["shift"]);
 
                     //list data need to save
@@ -516,7 +519,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                     var arrTB = JArray.Parse(Request["arrTB"]);
 
 
-                    Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(x => x.NgayDiemDanh == date && x.Ca == shift && x.MaPhongBan.Equals(departmentID)).FirstOrDefault();
+                    Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(x => x.NgayDiemDanh == convert_date && x.Ca == shift && x.MaPhongBan.Equals(departmentID)).FirstOrDefault();
                     if (header != null)
                     {
                         //save to Header_DiemDanh_NangSuat_LaoDong
