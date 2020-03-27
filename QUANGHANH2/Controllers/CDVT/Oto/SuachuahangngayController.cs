@@ -15,7 +15,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 {
     public class SuachuahangngayController : Controller
     {
-        [Auther(RightID = "188")]
+        [Auther(RightID = "195")]
         [Route("phong-cdvt/oto/bao-duong-hang-ngay")]
         [HttpGet]
         public ActionResult Index()
