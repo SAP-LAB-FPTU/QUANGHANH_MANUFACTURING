@@ -95,7 +95,7 @@ namespace QUANGHANH2.Controllers.DK
                             inner join(select h.* from header_KeHoachTungThang h join KeHoachTungThang kh on h.ThangID = kh.ThangID where ThangKeHoach = @month and NamKeHoach = @year) as header 
                             on b.HeaderID = header.HeaderID 
                             group by MaTieuChi,MaPhongBan) as table1 
-                            right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi 
+                            right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi
                             order by MaTieuChi";
 
             var query_KHDaily = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,table1.MaPhongBan,
@@ -107,7 +107,7 @@ namespace QUANGHANH2.Controllers.DK
                             on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b 
                             inner join(select* from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @date) as header on b.HeaderID = header.HeaderID 
                             group by MaTieuChi,MaPhongBan)  as table1 
-                            right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi 
+                            right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi
                             order by MaTieuChi";
 
             String[] headers = {"Than Sản Xuất","Than Hầm Lò","Than Lộ Thiên","Đất Đá Bóc", "Nhập Dương Huy", "Tổng Mét Lò CBSX", "Mét Lò CBSX Tự Làm",
@@ -141,6 +141,7 @@ namespace QUANGHANH2.Controllers.DK
                     item.perday = Math.Round(item.SUM / (tongsongay - ngaylam), 2, MidpointRounding.ToEven);
                 }
                 //
+                List<string> listpxchinh = db.Database.SqlQuery<string>("select d.department_id from Department d where d.department_type = N'Phân xưởng sản xuất chính'").ToList();
                 List<reportEntity> reports = new List<reportEntity>();
                 foreach (var header in headers)
                 {
@@ -154,16 +155,18 @@ namespace QUANGHANH2.Controllers.DK
                     {
                         foreach (var item in listReport)
                         {
-                            reportEntity rp2 = new reportEntity();
+                           
                             if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo" || item.TenNhomTieuChi == "Mét Lò Xén")
                             {
+                                reportEntity rp2 = new reportEntity();
                                 //
                                 if (item.MaPhongBan != "ĐL1" && item.MaPhongBan != "ĐL2")
                                 {
-                                    if (item.TenNhomTieuChi == "Mét Lò Đào")
-                                    {
-                                        rp = addUp(rp, item);
-                                    }
+                                    rp = addUp(rp, item);
+                                    //if (item.TenNhomTieuChi == "Mét Lò Đào")
+                                    //{
+                                    //    rp = addUp(rp, item);
+                                    //}
                                     //
                                     if (item.MaTieuChi != previousTieuChi)
                                     {
@@ -180,6 +183,7 @@ namespace QUANGHANH2.Controllers.DK
                                         reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
                                     }
                                 }
+                                Console.WriteLine();
                             }
                         }
                     }
@@ -189,16 +193,19 @@ namespace QUANGHANH2.Controllers.DK
                         {
                             foreach (var item in listReport)
                             {
-                                reportEntity rp2 = new reportEntity();
+                                
                                 if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo" || item.TenNhomTieuChi == "Mét Lò Xén")
                                 {
-
-                                    if (item.MaPhongBan == "ĐL1" || item.MaPhongBan == "ĐL2" || item.MaPhongBan == null)
+                                    reportEntity rp2 = new reportEntity();
+                                    //Boolean b = listpxchinh.Contains(item.MaPhongBan);
+                                    if (item.MaPhongBan == "ĐL1" || item.MaPhongBan == "ĐL2" )
                                     {
-                                        if (item.TenNhomTieuChi == "Mét Lò Đào")
-                                        {
-                                            rp = addUp(rp, item);
-                                        }
+                                        rp = addUp(rp, item);
+                                        //if (item.TenNhomTieuChi == "Mét Lò Đào")
+                                        //{
+                                        //    rp2 = item;
+                                        //    rp = addUp(rp, item);
+                                        //}
                                         //
                                         if (item.MaTieuChi != previousTieuChi)
                                         {
@@ -212,9 +219,15 @@ namespace QUANGHANH2.Controllers.DK
                                         }
                                         else
                                         {
+                                            rp2 = item;
                                             reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
                                         }
+                                    } else
+                                    {
+                                        rp2.TenTieuChi = item.TenTieuChi;
+                                        reports.Add(rp2);
                                     }
+                                    Console.WriteLine();
                                 }
                             }
                         }
