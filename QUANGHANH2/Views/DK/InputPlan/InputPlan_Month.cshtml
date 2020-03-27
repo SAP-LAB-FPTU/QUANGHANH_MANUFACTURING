@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="input-field col s5 m5 l5"></div>
                 <div class="input-field col l2 m2 s2">
-                    <input disabled type="number" class="form-control center" autocomplete="off" placeholder="Số ngày làm việc" id="totalDays" />
+                    <input readonly type="number" class="form-control center" autocomplete="off" placeholder="Số ngày làm việc" id="totalDays" />
                 </div>
                 <div class="input-field col s5 m5 l5"></div>
             </div>
@@ -100,6 +100,7 @@
                 "MaPhongBan": function () { return $("#px").val() }
             },
             success: function (data) {
+                //alert(data.check);
                 if (data.check == "1") {
                     $("#totalDays").val(data.snlv);
                 }
@@ -122,7 +123,7 @@
                         "MaPhongBan": function () { return $("#px").val() }
                     },
                     "dataSrc": function (json) {
-                        $("#totalDays").val(json.SoNgayLamViec);
+                        //$("#totalDays").val(json.SoNgayLamViec);
                         return json["listKH"]
                     }
                 },

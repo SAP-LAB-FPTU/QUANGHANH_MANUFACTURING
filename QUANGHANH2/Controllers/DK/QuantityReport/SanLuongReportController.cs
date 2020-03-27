@@ -54,7 +54,7 @@ namespace QUANGHANH2.Controllers.DK
 
         dynamic getData(DateTime timeStart, DateTime timeEnd)
         {
-            var query = @"select TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,
+            var query = @"select TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,table3.MaPhongBan,
                             SUM(Case when CA1 IS NULL then CONVERT(float, 0) else CA1 end) as [CA1],
                             SUM(Case when CA2 IS NULL then CONVERT(float,0) else CA2 end) as [CA2], 
                             SUM(Case when CA3 IS NULL then CONVERT(float,0) else CA3 end) as [CA3], 
@@ -84,10 +84,10 @@ namespace QUANGHANH2.Controllers.DK
                             INNER JOIN Department as px on px.department_id = header_th.MaPhongBan) as a GROUP BY MaTieuChi,MaPhongBan) as table2 ) 
                             as table3 on table3.MaTieuChi = TieuChi.MaTieuChi 
                             inner join NhomTieuChi on TieuChi.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi 
-                            group by TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi
+                            group by TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,table3.MaPhongBan
                             order by MaTieuChi";
 
-            var query_KHDC = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,
+            var query_KHDC = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,table1.MaPhongBan,
                             TieuChi.MaTieuChi from (select MaTieuChi, SUM(SanLuong) as SanLuong,header.MaPhongBan from(
                             select kehoach.*from(Select HeaderID, MaTieuChi,Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] from KeHoach_TieuChi_TheoThang group by MaTieuChi, HeaderID) as a 
                             inner join KeHoach_TieuChi_TheoThang as kehoach 
@@ -98,7 +98,7 @@ namespace QUANGHANH2.Controllers.DK
                             right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi 
                             order by MaTieuChi";
 
-            var query_KHDaily = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,
+            var query_KHDaily = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,table1.MaPhongBan,
                             TieuChi.MaTieuChi 
                             from (select MaTieuChi,SUM(KeHoach) as SanLuong, header.MaPhongBan from (
                             select kehoach.*from(Select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] 
@@ -158,8 +158,8 @@ namespace QUANGHANH2.Controllers.DK
                             if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo" || item.TenNhomTieuChi == "Mét Lò Xén")
                             {
                                 //
-                                //if (item.MaPhongBan != "PXDL1" && item.MaPhongBan != "PXDL2")
-                                //{
+                                if (item.MaPhongBan != "ĐL1" && item.MaPhongBan != "ĐL2")
+                                {
                                     if (item.TenNhomTieuChi == "Mét Lò Đào")
                                     {
                                         rp = addUp(rp, item);
@@ -179,7 +179,7 @@ namespace QUANGHANH2.Controllers.DK
                                     {
                                         reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
                                     }
-                                //}
+                                }
                             }
                         }
                     }
@@ -190,12 +190,12 @@ namespace QUANGHANH2.Controllers.DK
                             foreach (var item in listReport)
                             {
                                 reportEntity rp2 = new reportEntity();
-                                if (item.TenNhomTieuChi == "Mét Lò Đào Thuê Ngoài" || item.TenNhomTieuChi == "Mét Lò Neo Thuê Ngoài" || item.TenNhomTieuChi == "Mét Lò Xén Thuê Ngoài")
+                                if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo" || item.TenNhomTieuChi == "Mét Lò Xén")
                                 {
-                                    //
-                                    //if (item.MaPhongBan == "PXDL1" || item.MaPhongBan == "PXDL2")
-                                    //{
-                                        if (item.TenNhomTieuChi == "Mét Lò Đào Thuê Ngoài")
+
+                                    if (item.MaPhongBan == "ĐL1" || item.MaPhongBan == "ĐL2" || item.MaPhongBan == null)
+                                    {
+                                        if (item.TenNhomTieuChi == "Mét Lò Đào")
                                         {
                                             rp = addUp(rp, item);
                                         }
@@ -214,7 +214,7 @@ namespace QUANGHANH2.Controllers.DK
                                         {
                                             reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
                                         }
-                                    //}
+                                    }
                                 }
                             }
                         }
@@ -251,8 +251,8 @@ namespace QUANGHANH2.Controllers.DK
                 reports[0] = addUp(reports[0], reports[1]);
                 reports[0] = addUp(reports[0], reports[4]);
                 // Tong met lo CBSX = Met Lo Tu Lam + Met Lo Thue Ngoai
-                reports[11] = addUp(reports[11], reports[12]);
-                reports[11] = addUp(reports[11], reports[15]);
+                reports[9] = addUp(reports[9], reports[10]);
+                reports[9] = addUp(reports[9], reports[14]);
                 return reports;
             }
         }
