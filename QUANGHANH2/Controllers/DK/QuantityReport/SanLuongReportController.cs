@@ -142,6 +142,7 @@ namespace QUANGHANH2.Controllers.DK
                 }
                 //
                 List<string> listpxchinh = db.Database.SqlQuery<string>("select d.department_id from Department d where d.department_type = N'Phân xưởng sản xuất chính'").ToList();
+                List<string> listpxthue = db.Database.SqlQuery<string>("select d.department_id from Department d where d.department_type = N'Đơn vị sản xuất thuê ngoài'").ToList();
                 List<reportEntity> reports = new List<reportEntity>();
                 foreach (var header in headers)
                 {
@@ -160,7 +161,7 @@ namespace QUANGHANH2.Controllers.DK
                             {
                                 reportEntity rp2 = new reportEntity();
                                 //
-                                if (item.MaPhongBan != "ĐL1" && item.MaPhongBan != "ĐL2")
+                                if (listpxchinh.Contains(item.MaPhongBan) || item.MaPhongBan == null)
                                 {
                                     rp = addUp(rp, item);
                                     //if (item.TenNhomTieuChi == "Mét Lò Đào")
@@ -198,7 +199,7 @@ namespace QUANGHANH2.Controllers.DK
                                 {
                                     reportEntity rp2 = new reportEntity();
                                     //Boolean b = listpxchinh.Contains(item.MaPhongBan);
-                                    if (item.MaPhongBan == "ĐL1" || item.MaPhongBan == "ĐL2" )
+                                    if (listpxthue.Contains(item.MaPhongBan) || item.MaPhongBan == null)
                                     {
                                         rp = addUp(rp, item);
                                         //if (item.TenNhomTieuChi == "Mét Lò Đào")
