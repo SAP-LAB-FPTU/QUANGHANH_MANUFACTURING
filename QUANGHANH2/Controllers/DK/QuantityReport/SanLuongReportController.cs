@@ -156,7 +156,7 @@ namespace QUANGHANH2.Controllers.DK
                     {
                         foreach (var item in listReport)
                         {
-                           
+
                             if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo" || item.TenNhomTieuChi == "Mét Lò Xén")
                             {
                                 reportEntity rp2 = new reportEntity();
@@ -194,7 +194,7 @@ namespace QUANGHANH2.Controllers.DK
                         {
                             foreach (var item in listReport)
                             {
-                                
+
                                 if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo" || item.TenNhomTieuChi == "Mét Lò Xén")
                                 {
                                     reportEntity rp2 = new reportEntity();
@@ -223,10 +223,21 @@ namespace QUANGHANH2.Controllers.DK
                                             rp2 = item;
                                             reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
                                         }
-                                    } else
+                                    }
+                                    else
                                     {
-                                        rp2.TenTieuChi = item.TenTieuChi;
-                                        reports.Add(rp2);
+                                        if (item.MaTieuChi != previousTieuChi)
+                                        {
+                                            rp2.TenTieuChi = item.TenTieuChi;
+                                            //
+                                            previousTieuChi = item.MaTieuChi;
+                                            if (rp2.TenTieuChi.ToUpper() != header.ToUpper())
+                                            {
+                                                reports.Add(rp2);
+                                            }
+                                        }
+                                        //rp2.TenTieuChi = item.TenTieuChi;
+                                        //reports.Add(rp2);
                                     }
                                     Console.WriteLine();
                                 }
