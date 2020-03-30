@@ -108,6 +108,28 @@ namespace QUANGHANH2.Controllers.DK
                             inner join(select* from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @date) as header on b.HeaderID = header.HeaderID 
                             group by MaTieuChi,MaPhongBan)  as table1 
                             right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi
+                            union
+                            select 0,addon.MaPhongBan, addon.MaTieuChi
+                            from (select distinct table3.MaPhongBan, TieuChi.MaTieuChi from TieuChi 
+                            left join (select *  from(select MaTieuChi, MaPhongBan from(
+                            select header_th.MaPhongBan, thuchien.HeaderID, thuchien.MaTieuChi, thuchien.SanLuong, header_th.Ca, tht.Ngay, px.department_id, px.isInside 
+                            from ThucHien_TieuChi_TheoNgay as thuchien inner JOIN header_ThucHienTheoNgay as header_th 
+                            on thuchien.HeaderID = header_th.HeaderID 
+                            join ThucHienTheoNgay tht on header_th.NgayID = tht.NgayID and tht.Ngay >= @dateStart and tht.Ngay <= @dateEnd
+                            INNER JOIN Department as px on px.department_id = header_th.MaPhongBan) as a GROUP BY MaTieuChi,MaPhongBan) as table2 ) 
+                            as table3 on table3.MaTieuChi = TieuChi.MaTieuChi 
+                            inner join NhomTieuChi on TieuChi.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi 
+                            except
+                            select distinct table1.MaPhongBan, table1.MaTieuChi
+                            from (select MaTieuChi, header.MaPhongBan from (
+                            select kehoach.*from(Select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] 
+                            from KeHoach_TieuChi_TheoNgay group by MaTieuChi, HeaderID) as a 
+                            inner join KeHoach_TieuChi_TheoNgay as kehoach 
+                            on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b 
+                            inner join(select* from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @dateEnd) as header on b.HeaderID = header.HeaderID 
+                            group by MaTieuChi,MaPhongBan)  as table1 
+                            right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi) as addon
+                            where addon.MaPhongBan is not null
                             order by MaTieuChi";
 
             String[] headers = {"Than Sản Xuất","Than Hầm Lò","Than Lộ Thiên","Đất Đá Bóc", "Nhập Dương Huy", "Tổng Mét Lò CBSX", "Mét Lò CBSX Tự Làm",
@@ -123,7 +145,7 @@ namespace QUANGHANH2.Controllers.DK
                 //
                 var listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
                 var list_KHDC = db.Database.SqlQuery<KHDCEntity>(query_KHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
-                var list_KHDaily = db.Database.SqlQuery<KHDCEntity>(query_KHDaily, new SqlParameter("date", timeEnd)).ToList();
+                var list_KHDaily = db.Database.SqlQuery<KHDCEntity>(query_KHDaily, new SqlParameter("date", timeEnd), new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
                 //
                 for (var index = 0; index < listReport.Count; index++)
                 {
