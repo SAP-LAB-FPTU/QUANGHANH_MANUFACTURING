@@ -108,10 +108,9 @@
                     </table>
                 </form>
             </div>
-            <input type="hidden" id="mathietbi" disabled />
-            <input type="hidden" id="maquyetdinh" disabled />
         </div>
         <div class="modal-footer">
+            <a id="overwrite-detail" class="btn blue">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
         </div>
     </div>
@@ -120,7 +119,7 @@
 @section scripts{
     <script>
         $('#pre-load').show();
-        var Popup, dataTable;
+        var dataTable, equipmentId, documentary_id, isSupply;
         $(document).ready( function () {
             dataTable = $('#docTable').DataTable({
                 "ajax": {
@@ -165,7 +164,7 @@
                     {
                         "data": {}, "render": function (data) {
                             if (data.du_phong)
-                                return "<td><a class='btn blue modal-trigger open-DuPhong' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT dự phòng</a></td>";
+                                return "<td><a class='btn blue modal-trigger open-DuPhong' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT SCTX</a></td>";
                             else
                                 return "";
                         },
@@ -207,10 +206,9 @@
             $('#pre-load').show();
             $("#test").find("tr").remove();
             var documentary_id = $(this).data("code");
-            var equipmentId = $(this).data("equip");
+            equipmentId = $(this).data("equip");
+            isSupply = false;
             $('#mylist h3').text("Thiết bị " + equipmentId)
-            $("#mathietbi").val(equipmentId)
-            $("#maquyetdinh").val(documentary_id)
             $.ajax({
                 type: "POST",
                 url: "/phong-cdvt/cap-nhat/quyet-dinh/GetEquipAttached",
@@ -222,11 +220,11 @@
                         $.each(data, function (i, item) {
                             var temp = item.supplyStatus == null ? "" : item.supplyStatus;
                             var $tr = $('<tr>').append(
-                                $('<td>').html('<input type="text" value="' + item.equipmentId_dikem + '" readonly class="form-control" />'),
-                                $('<td>').html('<input type="text" value="' + item.equipment_name + '" readonly class="form-control" />'),
-                                $('<td>').html('<input type="text" value="' + item.quantity_plan + '" readonly class="form-control" />'),
-                                $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
-                                $('<td>').html("<input readonly class='form-control' type='text' value='" + temp + "' />")
+                                $('<td>').html('<input class="form-control equipmentId_dikem" type="text" value="' + item.equipmentId_dikem + '" readonly />'),
+                                $('<td>').html('<input class="form-control" type="text" value="' + item.equipment_name + '" readonly />'),
+                                $('<td>').html('<input class="form-control quantity_plan" type="number" value="' + item.quantity_plan + '" />'),
+                                $('<td>').html("<input class='form-control quantity_in' type='number' value='" + item.quantity_in + "' />"),
+                                $('<td>').html("<input class='form-control note' type='number' value='" + temp + "' />")
                             );
                             $tr.appendTo('#test tbody');
                         });
@@ -247,11 +245,10 @@
         $(document).on("click", ".open-DuPhong", function () {
             $('#pre-load').show();
             $("#test").find("tr").remove();
-            var documentary_id = $(this).data("code");
-            var equipmentId = $(this).data("equip");
+            documentary_id = $(this).data("code");
+            equipmentId = $(this).data("equip");
+            isSupply = true;
             $('#mylist h3').text("Thiết bị " + equipmentId)
-            $("#mathietbi").val(equipmentId)
-            $("#maquyetdinh").val(documentary_id)
             $.ajax({
                 type: "POST",
                 url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupplyDuPhong",
@@ -262,11 +259,11 @@
                         header.appendTo('#test thead');
                         $.each(data, function (i, item) {
                             var $tr = $('<tr>').append(
-                                $('<td>').html('<input type="text" value="' + item.supply_id + '" readonly class="form-control" />'),
-                                $('<td>').html('<input type="text" value="' + item.quantity_plan + '" readonly class="form-control" />'),
-                                $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
-                                $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_used + "' max='" + item.quantity_plan + "' value='" + item.quantity_used + "' />"),
-                                $('<td>').html("<input readonly class='form-control' type='number' min='" + item.quantity_out + "' max='" + item.quantity_plan + "' value='" + item.quantity_out + "' />")
+                                $('<td>').html('<input class="form-control supply_id" type="text" readonly value="' + item.supply_id + '" />'),
+                                $('<td>').html('<input class="form-control quantity_plan" type="number" value="' + item.quantity_plan + '" />'),
+                                $('<td>').html("<input class='form-control quantity_in' type='number' value='" + item.quantity_in + "' />"),
+                                $('<td>').html("<input class='form-control quantity_used' type='number' value='" + item.quantity_used + "' />"),
+                                $('<td>').html("<input class='form-control quantity_out' type='number' value='" + item.quantity_out + "' />")
                             );
                             $tr.appendTo('#test tbody');
                         });
@@ -279,6 +276,55 @@
                 data: {
                     documentary_id: documentary_id,
                     equipmentId: equipmentId
+                },
+                cache: false
+            })
+        })
+
+        $('#overwrite-detail').click(function () {
+            $('#pre-load').show();
+            let list = []
+            if (isSupply) {
+                for (var i = 0; i < $('#test tbody tr').length; i++) {
+                    let a = {};
+                    a.supply_id = $('#test tbody tr:nth-child(' + (i + 1) + ') .supply_id').val();
+                    a.quantity_plan = $('#test tbody tr:nth-child(' + (i + 1) + ') .quantity_plan').val();
+                    a.quantity_in = $('#test tbody tr:nth-child(' + (i + 1) + ') .quantity_in').val();
+                    a.quantity_used = $('#test tbody tr:nth-child(' + (i + 1) + ') .quantity_used').val();
+                    a.quantity_out = $('#test tbody tr:nth-child(' + (i + 1) + ') .quantity_out').val();
+                    list.push(a);
+                }
+            }
+            else {
+                for (var i = 0; i < $('#test tbody tr').length; i++) {
+                    let a = {};
+                    a.equipmentId_dikem = $('#test tbody tr:nth-child(' + (i + 1) + ') .equipmentId_dikem').val();
+                    a.quantity_plan = $('#test tbody tr:nth-child(' + (i + 1) + ') .quantity_plan').val();
+                    a.quantity_in = $('#test tbody tr:nth-child(' + (i + 1) + ') .quantity_in').val();
+                    list.push(a);
+                }
+            }
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/nghiem-thu/cap-nhat-so-luong",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success) {
+                        $('#exit-button').click()
+                        successAlert(data.message)
+                    }
+                    else
+                        errorAlert(data.message)
+                    $("#pre-load").hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    documentary_id: documentary_id,
+                    equipmentId: equipmentId,
+                    isSupply: isSupply,
+                    list: JSON.stringify(list)
                 },
                 cache: false
             })
