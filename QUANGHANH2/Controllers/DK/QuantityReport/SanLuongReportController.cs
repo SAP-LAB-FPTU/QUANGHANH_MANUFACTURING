@@ -54,7 +54,7 @@ namespace QUANGHANH2.Controllers.DK
 
         dynamic getData(DateTime timeStart, DateTime timeEnd)
         {
-            var query = @"select TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,
+            var query = @"select TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,table3.MaPhongBan,
                             SUM(Case when CA1 IS NULL then CONVERT(float, 0) else CA1 end) as [CA1],
                             SUM(Case when CA2 IS NULL then CONVERT(float,0) else CA2 end) as [CA2], 
                             SUM(Case when CA3 IS NULL then CONVERT(float,0) else CA3 end) as [CA3], 
@@ -84,10 +84,10 @@ namespace QUANGHANH2.Controllers.DK
                             INNER JOIN Department as px on px.department_id = header_th.MaPhongBan) as a GROUP BY MaTieuChi,MaPhongBan) as table2 ) 
                             as table3 on table3.MaTieuChi = TieuChi.MaTieuChi 
                             inner join NhomTieuChi on TieuChi.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi 
-                            group by TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi
+                            group by TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,table3.MaPhongBan
                             order by MaTieuChi";
 
-            var query_KHDC = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,
+            var query_KHDC = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,table1.MaPhongBan,
                             TieuChi.MaTieuChi from (select MaTieuChi, SUM(SanLuong) as SanLuong,header.MaPhongBan from(
                             select kehoach.*from(Select HeaderID, MaTieuChi,Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] from KeHoach_TieuChi_TheoThang group by MaTieuChi, HeaderID) as a 
                             inner join KeHoach_TieuChi_TheoThang as kehoach 
@@ -95,10 +95,10 @@ namespace QUANGHANH2.Controllers.DK
                             inner join(select h.* from header_KeHoachTungThang h join KeHoachTungThang kh on h.ThangID = kh.ThangID where ThangKeHoach = @month and NamKeHoach = @year) as header 
                             on b.HeaderID = header.HeaderID 
                             group by MaTieuChi,MaPhongBan) as table1 
-                            right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi 
+                            right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi
                             order by MaTieuChi";
 
-            var query_KHDaily = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,
+            var query_KHDaily = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,table1.MaPhongBan,
                             TieuChi.MaTieuChi 
                             from (select MaTieuChi,SUM(KeHoach) as SanLuong, header.MaPhongBan from (
                             select kehoach.*from(Select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] 
@@ -107,7 +107,29 @@ namespace QUANGHANH2.Controllers.DK
                             on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b 
                             inner join(select* from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @date) as header on b.HeaderID = header.HeaderID 
                             group by MaTieuChi,MaPhongBan)  as table1 
-                            right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi 
+                            right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi
+                            union
+                            select 0,addon.MaPhongBan, addon.MaTieuChi
+                            from (select distinct table3.MaPhongBan, TieuChi.MaTieuChi from TieuChi 
+                            left join (select *  from(select MaTieuChi, MaPhongBan from(
+                            select header_th.MaPhongBan, thuchien.HeaderID, thuchien.MaTieuChi, thuchien.SanLuong, header_th.Ca, tht.Ngay, px.department_id, px.isInside 
+                            from ThucHien_TieuChi_TheoNgay as thuchien inner JOIN header_ThucHienTheoNgay as header_th 
+                            on thuchien.HeaderID = header_th.HeaderID 
+                            join ThucHienTheoNgay tht on header_th.NgayID = tht.NgayID and tht.Ngay >= @dateStart and tht.Ngay <= @dateEnd
+                            INNER JOIN Department as px on px.department_id = header_th.MaPhongBan) as a GROUP BY MaTieuChi,MaPhongBan) as table2 ) 
+                            as table3 on table3.MaTieuChi = TieuChi.MaTieuChi 
+                            inner join NhomTieuChi on TieuChi.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi 
+                            except
+                            select distinct table1.MaPhongBan, table1.MaTieuChi
+                            from (select MaTieuChi, header.MaPhongBan from (
+                            select kehoach.*from(Select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] 
+                            from KeHoach_TieuChi_TheoNgay group by MaTieuChi, HeaderID) as a 
+                            inner join KeHoach_TieuChi_TheoNgay as kehoach 
+                            on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b 
+                            inner join(select* from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @dateEnd) as header on b.HeaderID = header.HeaderID 
+                            group by MaTieuChi,MaPhongBan)  as table1 
+                            right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi) as addon
+                            where addon.MaPhongBan is not null
                             order by MaTieuChi";
 
             String[] headers = {"Than Sản Xuất","Than Hầm Lò","Than Lộ Thiên","Đất Đá Bóc", "Nhập Dương Huy", "Tổng Mét Lò CBSX", "Mét Lò CBSX Tự Làm",
@@ -123,7 +145,7 @@ namespace QUANGHANH2.Controllers.DK
                 //
                 var listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
                 var list_KHDC = db.Database.SqlQuery<KHDCEntity>(query_KHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
-                var list_KHDaily = db.Database.SqlQuery<KHDCEntity>(query_KHDaily, new SqlParameter("date", timeEnd)).ToList();
+                var list_KHDaily = db.Database.SqlQuery<KHDCEntity>(query_KHDaily, new SqlParameter("date", timeEnd), new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
                 //
                 for (var index = 0; index < listReport.Count; index++)
                 {
@@ -141,6 +163,8 @@ namespace QUANGHANH2.Controllers.DK
                     item.perday = Math.Round(item.SUM / (tongsongay - ngaylam), 2, MidpointRounding.ToEven);
                 }
                 //
+                List<string> listpxchinh = db.Database.SqlQuery<string>("select d.department_id from Department d where d.department_type = N'Phân xưởng sản xuất chính'").ToList();
+                List<string> listpxthue = db.Database.SqlQuery<string>("select d.department_id from Department d where d.department_type = N'Đơn vị sản xuất thuê ngoài'").ToList();
                 List<reportEntity> reports = new List<reportEntity>();
                 foreach (var header in headers)
                 {
@@ -154,16 +178,18 @@ namespace QUANGHANH2.Controllers.DK
                     {
                         foreach (var item in listReport)
                         {
-                            reportEntity rp2 = new reportEntity();
+
                             if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo" || item.TenNhomTieuChi == "Mét Lò Xén")
                             {
+                                reportEntity rp2 = new reportEntity();
                                 //
-                                //if (item.MaPhongBan != "PXDL1" && item.MaPhongBan != "PXDL2")
-                                //{
-                                    if (item.TenNhomTieuChi == "Mét Lò Đào")
-                                    {
-                                        rp = addUp(rp, item);
-                                    }
+                                if (listpxchinh.Contains(item.MaPhongBan) || item.MaPhongBan == null)
+                                {
+                                    rp = addUp(rp, item);
+                                    //if (item.TenNhomTieuChi == "Mét Lò Đào")
+                                    //{
+                                    //    rp = addUp(rp, item);
+                                    //}
                                     //
                                     if (item.MaTieuChi != previousTieuChi)
                                     {
@@ -179,7 +205,8 @@ namespace QUANGHANH2.Controllers.DK
                                     {
                                         reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
                                     }
-                                //}
+                                }
+                                Console.WriteLine();
                             }
                         }
                     }
@@ -189,16 +216,19 @@ namespace QUANGHANH2.Controllers.DK
                         {
                             foreach (var item in listReport)
                             {
-                                reportEntity rp2 = new reportEntity();
-                                if (item.TenNhomTieuChi == "Mét Lò Đào Thuê Ngoài" || item.TenNhomTieuChi == "Mét Lò Neo Thuê Ngoài" || item.TenNhomTieuChi == "Mét Lò Xén Thuê Ngoài")
+
+                                if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo" || item.TenNhomTieuChi == "Mét Lò Xén")
                                 {
-                                    //
-                                    //if (item.MaPhongBan == "PXDL1" || item.MaPhongBan == "PXDL2")
-                                    //{
-                                        if (item.TenNhomTieuChi == "Mét Lò Đào Thuê Ngoài")
-                                        {
-                                            rp = addUp(rp, item);
-                                        }
+                                    reportEntity rp2 = new reportEntity();
+                                    //Boolean b = listpxchinh.Contains(item.MaPhongBan);
+                                    if (listpxthue.Contains(item.MaPhongBan) || item.MaPhongBan == null)
+                                    {
+                                        rp = addUp(rp, item);
+                                        //if (item.TenNhomTieuChi == "Mét Lò Đào")
+                                        //{
+                                        //    rp2 = item;
+                                        //    rp = addUp(rp, item);
+                                        //}
                                         //
                                         if (item.MaTieuChi != previousTieuChi)
                                         {
@@ -212,9 +242,26 @@ namespace QUANGHANH2.Controllers.DK
                                         }
                                         else
                                         {
+                                            rp2 = item;
                                             reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
                                         }
-                                    //}
+                                    }
+                                    else
+                                    {
+                                        if (item.MaTieuChi != previousTieuChi)
+                                        {
+                                            rp2.TenTieuChi = item.TenTieuChi;
+                                            //
+                                            previousTieuChi = item.MaTieuChi;
+                                            if (rp2.TenTieuChi.ToUpper() != header.ToUpper())
+                                            {
+                                                reports.Add(rp2);
+                                            }
+                                        }
+                                        //rp2.TenTieuChi = item.TenTieuChi;
+                                        //reports.Add(rp2);
+                                    }
+                                    Console.WriteLine();
                                 }
                             }
                         }
@@ -251,8 +298,8 @@ namespace QUANGHANH2.Controllers.DK
                 reports[0] = addUp(reports[0], reports[1]);
                 reports[0] = addUp(reports[0], reports[4]);
                 // Tong met lo CBSX = Met Lo Tu Lam + Met Lo Thue Ngoai
-                reports[11] = addUp(reports[11], reports[12]);
-                reports[11] = addUp(reports[11], reports[15]);
+                reports[9] = addUp(reports[9], reports[10]);
+                reports[9] = addUp(reports[9], reports[14]);
                 return reports;
             }
         }
