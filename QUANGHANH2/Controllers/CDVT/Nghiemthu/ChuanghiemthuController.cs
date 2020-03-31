@@ -10,6 +10,7 @@ using System.Linq.Dynamic;
 using System.Data.Entity;
 using QUANGHANH2.SupportClass;
 using System.Data.SqlClient;
+using Newtonsoft.Json.Linq;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 {
@@ -288,6 +289,27 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                         default:
                             break;
                     }
+                    if (documentary.documentary_type == 1 || documentary.documentary_type == 2 || documentary.documentary_type == 6)
+                    {
+                        List<Supply_Documentary_Equipment> list = db.Supply_Documentary_Equipment.Where(x => x.documentary_id == documentary.documentary_id && x.equipmentId == id).ToList();
+                        List<string> supplies_id = list.Select(x => x.supply_id).ToList();
+                        List<Supply_SCTX> s = db.Supply_SCTX.Where(x => x.equipmentId == id && supplies_id.Contains(x.supply_id)).ToList();
+                        foreach (Supply_SCTX item in s)
+                        {
+                            Supply_Documentary_Equipment temp = list.Where(x => x.supply_id.Equals(item.supply_id)).FirstOrDefault();
+                            item.quantity += temp.quantity_in + temp.quantity_out - temp.quantity_used;
+                            supplies_id.Remove(item.supply_id);
+                        }
+                        foreach (string item in supplies_id)
+                        {
+                            Supply_Documentary_Equipment temp = list.Where(x => x.supply_id.Equals(item)).FirstOrDefault();
+                            Supply_SCTX supply = new Supply_SCTX();
+                            supply.equipmentId = id;
+                            supply.supply_id = item;
+                            supply.quantity += temp.quantity_in + temp.quantity_out - temp.quantity_used;
+                            db.Supply_SCTX.Add(supply);
+                        }
+                    }
                     db.SaveChanges();
                     transaction.Commit();
                     return Json(new { success = true, message = "Nghiệm thu thành công" }, JsonRequestBehavior.AllowGet);
@@ -296,6 +318,48 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                 {
                     transaction.Rollback();
                     return Json(new { success = false, message = "Nghiệm thu thất bại" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+
+        [Auther(RightID = "82")]
+        [HttpPost]
+        [Route("phong-cdvt/nghiem-thu/cap-nhat-so-luong")]
+        public ActionResult Update(int documentary_id, string equipmentId, bool isSupply)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            DBContext.Configuration.LazyLoadingEnabled = false;
+            using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    var temp = JArray.Parse(Request["list"]);
+                    List<Supply_Documentary_Equipment> list = DBContext.Supply_Documentary_Equipment.Where(x => x.documentary_id.Equals(documentary_id) && x.equipmentId.Equals(equipmentId)).ToList();
+                    foreach (JObject item in temp)
+                    {
+                        if (isSupply)
+                        {
+                            Supply_Documentary_Equipment s = list.Where(x => x.supply_id.Equals((string)item["supply_id"])).FirstOrDefault();
+                            s.quantity_in = (int)item["quantity_in"];
+                            s.quantity_out = (int)item["quantity_out"];
+                            s.quantity_plan = (int)item["quantity_plan"];
+                            s.quantity_used = (int)item["quantity_used"];
+                        }
+                        else
+                        {
+                            Supply_Documentary_Equipment s = list.Where(x => x.equipmentId_dikem.Equals((string)item["equipmentId_dikem"])).FirstOrDefault();
+                            s.quantity_in = (int)item["quantity_in"];
+                            s.quantity_plan = (int)item["quantity_plan"];
+                        }
+                    }
+                    DBContext.SaveChanges();
+                    transaction.Commit();
+                    return Json(new { success = true, message = "Cập nhật thành công" });
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    return Json(new { success = false, message = "Cập nhật thất bại" });
                 }
             }
         }
