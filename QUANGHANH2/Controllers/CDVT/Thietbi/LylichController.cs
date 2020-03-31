@@ -81,7 +81,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             //list vat tu di kem cua thiet bi
             List<vtdk> listsupdktb = DBContext.Database.SqlQuery<vtdk>("select s.equipmentId_dikem, e.equipment_name from Equipment e join Supply_DiKem s on e.equipmentId = s.equipmentId_dikem where s.equipmentId = @id", new SqlParameter("id", id)).ToList();
             ViewBag.listtbdk = listsupdktb;
-            List<Dikem_Vattu> listdkvt = DBContext.Database.SqlQuery<Dikem_Vattu>("select s.equipmentId_dikem, e.equipment_name, su.supply_id, su.supply_name, ss.quantity from Equipment e join Supply_DiKem s on e.equipmentId = s.equipmentId join Supply_SCTX ss on s.equipmentId_dikem = ss.equipmentId join Supply su on ss.supply_id = su.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
+            List<Dikem_Vattu> listdkvt = DBContext.Database.SqlQuery<Dikem_Vattu>("select s.equipmentId_dikem, e.equipment_name, su.supply_id, su.supply_name, ss.quantity from Equipment e join Supply_DiKem s on e.equipmentId = s.equipmentId join Supply_Equipment_DiKem ss on s.equipmentId_dikem = ss.equipmentId join Supply su on ss.supply_id = su.supply_id where e.equipmentId = @id", new SqlParameter("id", id)).ToList();
             ViewBag.dikemvattu = listdkvt;
             //NK su co
             var years = DBContext.Database.SqlQuery<int>("SELECT distinct year(i.start_time) as years FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d on d.department_id = i.department_id where i.end_time is not null and e.equipmentId = @id order by years desc", new SqlParameter("id", id)).ToList();
@@ -511,32 +511,36 @@ namespace QUANGHANHCORE.Controllers.CDVT
         }
 
         [HttpPost]
-        public ActionResult addTBDK(string id, string nameSup, int quan, string id_e)
+        public ActionResult addTBDK(string id, string[] nameSup, int[] quan, string id_e)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
                 {
-                    if (nameSup != null)
+                    if (nameSup.Count() != 0)
                     {
                         List<Supply> listSup = DBContext.Supplies.ToList();
 
 
-                        Supply s = new Supply();
-                        for (int j = 0; j < listSup.Count(); j++)
+                        string sql_sup = "";
+                        for (int i = 0; i < nameSup.Count(); i++)
                         {
-                            if (listSup.ElementAt(j).supply_name.Equals(nameSup))
+                            Supply s = new Supply();
+                            for (int j = 0; j < listSup.Count(); j++)
                             {
-                                s.supply_id = listSup.ElementAt(j).supply_id;
-                                break;
+                                if (listSup.ElementAt(j).supply_name.Equals(nameSup[i]))
+                                {
+                                    s.supply_id = listSup.ElementAt(j).supply_id;
+                                    sql_sup += "insert into Supply_Equipment_DiKem values ('"+s.supply_id+"', @eid, "+quan[i]+") ";
+                                    break;
+                                }
                             }
                         }
-                        string sql_sup = "insert into Supply_Equipment_DiKem values (@supid, @eid, @quan)";
+                        
+                        
                         DBContext.Database.ExecuteSqlCommand(sql_sup
-                            , new SqlParameter("@supid", s.supply_id)
-                            , new SqlParameter("@eid", id)
-                            , new SqlParameter("@quan", quan));
+                            , new SqlParameter("@eid", id));
                     }
                     DBContext.SaveChanges();
                     dbc.Commit();

@@ -381,7 +381,6 @@
     <input type="hidden" id="ck" name="ck" value="0" />
 }
 
-
 <ul id='dropdown1' class='dropdown-content'>
     <li><a class="dropdown-child" href="#!" name="lothien">Danh sách thiết bị lộ thiên</a></li>
     <li><a class="dropdown-child" href="#!" name="hamlo">Danh sách thiết bị hầm lò</a></li>
@@ -907,7 +906,10 @@
                     data: $(form).serialize(),
                     success: function (data) {
                         dataTable.ajax.reload();
-
+                        var ck = $("#changetype").val();
+                        if (ck == "1") {
+                            window.location.reload(true);
+                        }
                         $("#pre-load").hide("slow", function () {
                         });
                         $("#pre-load").hide();
