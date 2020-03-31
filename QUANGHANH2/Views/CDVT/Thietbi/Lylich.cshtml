@@ -1238,17 +1238,22 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col s4">
-                    <label>Tên vật tư</label>
-                    <input list="Suplist" name="nameSup" class="form-control" />
-                </div>
-                <div class="col s4">
                     <label>Tên thiết bị đi kèm</label>
                     <input list="Dikemlist" id="idDP_add" name="id" class="form-control" />
-                </div>
-                <div class="col s4">
-                    <label>Số lượng</label>
-                    <input type="number" name="quan" class="form-control" />
                     <input type="hidden" name="id_e" value="@ViewBag.equipment.equipmentId" class="form-control" />
+                </div>
+                <div class="col s12">
+                    <table class="table-bordered" id="tabletbdk">
+                        <tr>
+                            <td>Tên vật tư</td>
+                            <td>Số lượng</td>
+                        </tr>
+                        <tr>
+                            <td><input list="Suplist" name="nameSup" class="form-control" /></td>
+                            <td><input type="number" name="quan" class="form-control" /></td>
+                        </tr>
+                    </table>
+                    <a id="addmodaltbdk" class="btn blue btn-small center left" style="margin-top:10px"><i class="large material-icons">add</i></a>
                 </div>
             </div>
 
@@ -1327,6 +1332,12 @@
 <script src="~/js/Briefs_List.js"></script>
 <script src="~/js/Custom JS/CDVT/Report/DetailManu.js"></script>
 <script>
+    $("#addmodaltbdk").click(function () {
+        $("#tabletbdk").append("<tr>"+
+            "<td><input list='Suplist' name='nameSup' class='form-control' /></td>" +
+            "<td><input type='number' name='quan' class='form-control' /></td>" +
+        "</tr> ");
+    });
         function deleteLS(form) {
             $.validator.unobtrusive.parse(form);
 
