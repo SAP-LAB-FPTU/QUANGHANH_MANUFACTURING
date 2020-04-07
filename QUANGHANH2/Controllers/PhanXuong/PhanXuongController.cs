@@ -941,8 +941,6 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             string manv = Request["MaNV"];
             string tennv = Request["TenNV"];
             DateTime realTimeNow = DateTime.Now;
-            dynamic listAttendance;
-            SoLuongDiLam_Vang listAtten_NotAtten;
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -971,11 +969,21 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                             var listHaveNotAdded = getUnExistItemList(dataReceived.data, headerIDMin);
                             List<DiemDanh_NangSuatLaoDong> attendanceList = new List<DiemDanh_NangSuatLaoDong>();
 
-                            //fix bug duplicate MaNV
+                            //check invalid data API
+                            bool valid;
                             string oldMaNV = "";
                             foreach (var item in listHaveNotAdded)
                             {
-                                if (!oldMaNV.Equals(item.MaNhanVien))
+                                valid = true;
+
+                                string sqlCheckEmployeeExisted = $"select MaNV from NhanVien where MaNV = @MaNV";
+                                string result = db.Database.SqlQuery<string>(sqlCheckEmployeeExisted,new SqlParameter("MaNV",item.MaNhanVien)).FirstOrDefault();
+                                if (result == null || oldMaNV.Equals(item.MaNhanVien))
+                                {
+                                    valid = false;
+                                }
+
+                                if (valid)
                                 {
                                     DiemDanh_NangSuatLaoDong ddEntity = new DiemDanh_NangSuatLaoDong();
                                     ddEntity.HeaderID = headerIDMin;
@@ -988,6 +996,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                     ddEntity.ThoiGianLenLo = item.endTime;
                                     attendanceList.Add(ddEntity);
                                 }
+                                
                                 oldMaNV = item.MaNhanVien;
                             }
                             InsertAttendanceAPI(attendanceList);
@@ -1000,33 +1009,8 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                     }
                 }
             }
-            listAttendance = getAll(session, departmentID, dateAtt, manv, tennv);
-            listAtten_NotAtten = getAttendance_NotAttendance(session, departmentID, dateAtt);
-            JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-            var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
-            return Json(new { success = true, data = result, listAtten_NotAtten = listAtten_NotAtten }, JsonRequestBehavior.AllowGet);
-            //return View();
+            return View();
         }
-
-        //public int getHeaderListAtt(DateTime date, int session, string departmentID)
-        //{
-        //    using (var db = new QUANGHANHABCEntities())
-        //    {
-        //        try
-        //        {
-        //            string sqlQuery = @"select h.HeaderID from Header_DiemDanh_NangSuat_LaoDong h
-        //                                inner join Header_DiemDanh_NangSuat_LaoDong_Detail hd
-        //                                on h.HeaderID = hd.HeaderID
-        //                                where (h.NgayDiemDanh = @date and h.Ca = @session and hd.MaPhongBan = @departmentID)";
-        //            var headerID = db.Database.SqlQuery<int>(sqlQuery, new SqlParameter("date", date), new SqlParameter("session", session), new SqlParameter("departmentID", departmentID)).FirstOrDefault();
-        //            return headerID;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw ex;
-        //        }
-        //    }
-        //}
 
         private void InsertAttendanceAPI(List<DiemDanh_NangSuatLaoDong> listAttendance)
         {
