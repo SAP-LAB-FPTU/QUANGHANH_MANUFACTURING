@@ -207,7 +207,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                              from NhanVien n left outer join DiemDanh_NangSuatLaoDong d on n.MaNV = d.MaNV 
                              left outer join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID 
                              where h.NgayDiemDanh = @day 
-                             group by n.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan"
+                             group by n.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan";
             List<report> list = db.Database.SqlQuery<report>(sql, new SqlParameter("@day", d)).ToList();
             foreach (var item in list)
             {

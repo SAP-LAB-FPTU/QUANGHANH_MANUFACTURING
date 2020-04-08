@@ -731,53 +731,60 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                 {
                     //take sum attendance and not attendance
                     var mysql = @"select
-                        (case when TongDilam is NULL then 0 else TongDilam end ) as 'TongDiLam',
-                        (case when DiLam_CNKT is NULL  then 0 else DiLam_CNKT end) as 'DiLam_CNKT',
-                        (case when DiLam_CNCD is NULL then 0 else DiLam_CNCD end) as 'DiLam_CNCD',
-                        (case when DiLam_CBQL is NULL then 0 else DiLam_CBQL end) as 'DiLam_CBQL',
-                        (case when TongNghi is NULL then 0 else TongNghi end) as 'TongNghi',
-                        (case when Om is NULL then 0 else Om end) as 'Om',
-                        (case when Phep is NULL then 0 else Phep end) as 'Phep',
-                        (case when VoLyDo is NULL then 0 else VoLyDo end) as 'VoLyDo',
-                        (case when Khac is NULL then 0 else Khac end) as 'Khac',
-                        (case when TaiNanLaoDong is NULL then 0 else TaiNanLaoDong end) as 'TaiNanLaoDong',
-                        (case when OmDai is NULL then 0 else OmDai end) as 'OmDai',
-                        (case when ThaiSan is NULL then 0 else ThaiSan end) as 'ThaiSan',
-                        (case when TamHoanLaoDong is NULL then 0 else TamHoanLaoDong end) as 'TamHoanLaoDong',
-                        (case when VoLyDoDai is NULL then 0 else VoLyDoDai end) as 'VoLyDoDai'
-                        from
-                        (select
-                        (select count(MaNV)  from Header_DiemDanh_NangSuat_LaoDong a left join 
-                        Header_DiemDanh_NangSuat_LaoDong_Detail b  on a.HeaderID = b.HeaderID left join 
-                        DiemDanh_NangSuatLaoDong c on b.HeaderID = c.HeaderID) as 'TongDilam',
-                        sum(case when (d.DiLam = 1 and ncv.LoaiNhomCongViec = N'CNKT') then 1 else 0 end) as 'DiLam_CNKT',
-                        sum(case when (d.DiLam = 1 and ncv.LoaiNhomCongViec = N'CNCĐ') then 1 else 0 end) as 'DiLam_CNCD',
-                        sum(case when (d.DiLam = 1 and ncv.LoaiNhomCongViec = N'CBQL') then 1 else 0 end) as 'DiLam_CBQL' 
-                        from (select hd1.HeaderID from Header_DiemDanh_NangSuat_LaoDong h
-                        left join Header_DiemDanh_NangSuat_LaoDong_Detail hd1 on 
-                        hd1.HeaderID = h.HeaderID where MaPhongBan = @departmentID and NgayDiemDanh = @date and Ca = @session) as hd 
-                        left join DiemDanh_NangSuatLaoDong as d on hd.HeaderID = d.HeaderID
-                        left join NhanVien as nv on nv.MaNV = d.MaNV
-                        left join CongViec_NhomCongViec cv_ncv on cv_ncv.MaCongViec = nv.MaCongViec
-                        left join NhomCongViec ncv on ncv.MaNhomCongViec = cv_ncv.MaNhomCongViec) as dilam,
-                        (select
-                        sum(case when (d.DiLam = 0 and (d.LyDoVangMat = N'Ốm' or d.LyDoVangMat = N'Nghỉ phép' or d.LyDoVangMat = N'Vô lý do'
-                        or d.LyDoVangMat = N'Khác' or d.LyDoVangMat = N'Tai nạn lao động' or d.LyDoVangMat = N'Ốm dài'
-                        or d.LyDoVangMat = N'Thai sản' or d.LyDoVangMat = N'Tạm hoãn lao động'
-                        or d.LyDoVangMat = N'Vô lý do dài')) then 1 else 0 end) as 'TongNghi',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Ốm') then 1 else 0 end) as 'Om',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Nghỉ phép') then 1 else 0 end) as 'Phep',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Vô lý do') then 1 else 0 end) as 'VoLyDo',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Khác') then 1 else 0 end) as 'Khac',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Tai nạn lao động') then 1 else 0 end) as 'TaiNanLaoDong',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Ốm dài') then 1 else 0 end) as 'OmDai',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Thai sản') then 1 else 0 end) as 'ThaiSan',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Tạm hoãn lao động') then 1 else 0 end) as 'TamHoanLaoDong',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Vô lý do dài') then 1 else 0 end) as 'VoLyDoDai'
-                        from Header_DiemDanh_NangSuat_LaoDong as hd1 left join 
-                        Header_DiemDanh_NangSuat_LaoDong_Detail hd  on hd1.HeaderID = hd.HeaderID left join 
-                        DiemDanh_NangSuatLaoDong d on hd.HeaderID = d.HeaderID
-                        where MaPhongBan = @departmentID and NgayDiemDanh = @date and Ca = @session) as nghi";
+                                (case when TongDilam is NULL then 0 else TongDilam end ) as 'TongDiLam',
+                                (case when DiLam_CNKT is NULL  then 0 else DiLam_CNKT end) as 'DiLam_CNKT',
+                                (case when DiLam_CNCD is NULL then 0 else DiLam_CNCD end) as 'DiLam_CNCD',
+                                (case when DiLam_CBQL is NULL then 0 else DiLam_CBQL end) as 'DiLam_CBQL',
+                                (case when TongNghi is NULL then 0 else TongNghi end) as 'TongNghi',
+                                (case when Om is NULL then 0 else Om end) as 'Om',
+                                (case when Phep is NULL then 0 else Phep end) as 'Phep',
+                                (case when VoLyDo is NULL then 0 else VoLyDo end) as 'VoLyDo',
+                                (case when Khac is NULL then 0 else Khac end) as 'Khac',
+                                (case when TaiNanLaoDong is NULL then 0 else TaiNanLaoDong end) as 'TaiNanLaoDong',
+                                (case when OmDai is NULL then 0 else OmDai end) as 'OmDai',
+                                (case when ThaiSan is NULL then 0 else ThaiSan end) as 'ThaiSan',
+                                (case when TamHoanLaoDong is NULL then 0 else TamHoanLaoDong end) as 'TamHoanLaoDong',
+                                (case when VoLyDoDai is NULL then 0 else VoLyDoDai end) as 'VoLyDoDai'
+                                from
+                                (select
+                                (case when hd.TongDilam is null then 0 else hd.TongDilam end) as 'TongDiLam',
+                                hd.DiLam_CNKT,
+                                hd.DiLam_CNCD,
+                                hd.DiLam_CBQL
+                                from (select 
+                                a.HeaderID,
+                                sum(case when (d.MaPhongBan = @departmentID and c.DiLam = 1) then 1 else 0 end) as 'TongDilam',
+                                sum(case when (ncv.LoaiNhomCongViec = N'CNKT') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CNKT',
+                                sum(case when (ncv.LoaiNhomCongViec = N'CNCĐ') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CNCD',
+                                sum(case when (ncv.LoaiNhomCongViec = N'CBQL') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CBQL',
+                                a.FetchDataTime
+                                from
+                                (select h.HeaderID, MIN(h.FetchDataTime) as 'FetchDataTime' from Header_DiemDanh_NangSuat_LaoDong h
+                                where NgayDiemDanh = @date and Ca = @session and h.Status = 1
+                                group by h.HeaderID) as a 
+                                left join DiemDanh_NangSuatLaoDong c on c.HeaderID = a.HeaderID
+                                left join NhanVien d on c.MaNV = d.MaNV
+                                left join CongViec_NhomCongViec cv_ncv on cv_ncv.MaCongViec = d.MaCongViec
+                                left join NhomCongViec ncv on ncv.MaNhomCongViec = cv_ncv.MaNhomCongViec
+                                group by a.HeaderID, a.FetchDataTime) as hd) as dilam,
+                                (select
+                                sum(case when (d.DiLam = 0 and (d.LyDoVangMat = N'Ốm' or d.LyDoVangMat = N'Nghỉ phép' or d.LyDoVangMat = N'Vô lý do'
+                                or d.LyDoVangMat = N'Khác' or d.LyDoVangMat = N'Tai nạn lao động' or d.LyDoVangMat = N'Ốm dài'
+                                or d.LyDoVangMat = N'Thai sản' or d.LyDoVangMat = N'Tạm hoãn lao động'
+                                or d.LyDoVangMat = N'Vô lý do dài')) then 1 else 0 end) as 'TongNghi',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Ốm') then 1 else 0 end) as 'Om',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Nghỉ phép') then 1 else 0 end) as 'Phep',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Vô lý do') then 1 else 0 end) as 'VoLyDo',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Khác') then 1 else 0 end) as 'Khac',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Tai nạn lao động') then 1 else 0 end) as 'TaiNanLaoDong',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Ốm dài') then 1 else 0 end) as 'OmDai',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Thai sản') then 1 else 0 end) as 'ThaiSan',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Tạm hoãn lao động') then 1 else 0 end) as 'TamHoanLaoDong',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Vô lý do dài') then 1 else 0 end) as 'VoLyDoDai'
+                                from Header_DiemDanh_NangSuat_LaoDong as hd1 left join 
+                                Header_DiemDanh_NangSuat_LaoDong_Detail hd  on hd1.HeaderID = hd.HeaderID left join 
+                                DiemDanh_NangSuatLaoDong d on hd.HeaderID = d.HeaderID
+                                where MaPhongBan = @departmentID and NgayDiemDanh = @date and Ca = @session) as nghi";
                     var listSum = db.Database.SqlQuery<SoLuongDiLam_Vang>(mysql,
                                                                         new SqlParameter("departmentID", departmentID.ToString()),
                                                                         new SqlParameter("date", date.ToString("yyyy-MM-dd")),
