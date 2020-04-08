@@ -109,7 +109,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                              join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec
                             join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec
                              where h.NgayDiemDanh = @day
-                             group by n.MaPhongBan) a full join
+                             group by n.MaPhongBan) a left join
 	                            (select n.MaPhongBan, SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'vld1'
                                , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'om1'
                                , SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'p1'
@@ -190,7 +190,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                              join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec 
                             join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec 
                              where h.NgayDiemDanh = @day 
-                             group by n.MaPhongBan) a full join 
+                             group by n.MaPhongBan) a left join 
 	                            (select n.MaPhongBan, SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'vld1' 
                                , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'om1' 
                                , SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'p1' 
@@ -278,7 +278,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                                  join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec 
                                 join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec 
                                  where h.NgayDiemDanh = @day 
-                                 group by n.MaPhongBan) a full join 
+                                 group by n.MaPhongBan) a left join 
 	                                (select n.MaPhongBan, SUM(case when d.LyDoVangMat like N'Vô lý do' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'vld1' 
                                    , sum(case when d.LyDoVangMat like N'Ốm'  and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'om1' 
                                    , SUM(case when d.LyDoVangMat like N'Nghỉ phép' and h.Ca = '1' and d.DiLam = '0' then 1 else 0 end) as 'p1' 
