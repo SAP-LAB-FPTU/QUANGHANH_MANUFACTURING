@@ -1,0 +1,436 @@
+﻿
+@{
+    //Layout = "~/Views/Shared/_Layout_DK.cshtml";
+    if (Session["departID"].ToString().Contains("CV"))
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_DK.cshtml";
+    }
+}
+
+@*<link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+    <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+    <link href="~/dist/css/style.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid-theme.min.css" />
+    <link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
+    <link href="~/dist/dashboard_Tuan/customDashboard.css" rel="stylesheet">*@
+
+@*<link href="~/dist/css/pages/dashboard1.css" rel="stylesheet">*@
+
+<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/css/Custom css/BGD/dashboard.css" rel="stylesheet" type="text/css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" rel="stylesheet" type="text/css" />
+
+<form id="form" action="/phong-dieu-khien" method="post">
+    <input type="text" id="date" name="date" style="display:none !important" />
+</form>
+<style>
+    .new-title {
+        font-weight: bold;
+        text-align: center;
+        padding: 10px;
+        background: #3db7fe;
+        color: white;
+    }
+
+    .main-number {
+        text-align: center
+    }
+
+    .chart-icon {
+        /* position: relative; */
+        float: right;
+        margin-right: 10px;
+        /* padding-bottom: 60px; */
+        margin-top: -40px;
+        color: #86d3ff;
+        cursor: pointer;
+        user-select: none;
+    }
+
+        .chart-icon:hover {
+            color: #3db7fe;
+        }
+
+        .chart-icon:active {
+            color: #3db7fe;
+        }
+</style>
+<div class="row">
+    <div class="col l12 m12 s12">
+        <div class="card">
+            <div class="card-content">
+                <h3 class="center">
+                    <b>BÁO CÁO NHANH NGÀY </b><i class="fas fa-calendar-alt icon"></i>
+                    <input id="data" type='text' class='datepicker-here center date-click' data-language='vi' />
+                </h3>
+                <div class="row center">
+                    <div class="input-field col s3 m3 l3"></div>
+                    <div class="input-field col s6 m6 l6" id="process" style="font-size:larger">
+                        Kế hoạch còn lại: <span id="ngaySXconlai">@ViewBag.ngaySXconlai</span> ngày - Số ngày SX:<span id="ngaySXhientai">@ViewBag.ngaySXhientai</span>/<span id="tongNgaySX">@ViewBag.tongNgaySX</span> ngày đạt <span id="tiendoNgay">@ViewBag.tiendoNgay</span>%
+                    </div>
+                    <div class="input-field col s6 m6 l6" id="process_alert" style="font-size:larger;color:#ff0000">
+                        Chưa nhập ngày sản xuất hôm nay
+                    </div>
+                    <div class="input-field col s3 m3 l3"></div>
+                </div>
+                <!--Date here-->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <span class="new badge left red" data-badge-caption="">Báo cáo lũy kế</span>
+</div>
+<div class="row">
+    <div class="col l6 m6 s12">
+        <div class="row">
+            <div class="col l3 m12 s12">
+                <div class="card">
+                    <div class="new-title">
+                        Than hầm lò (Tấn)
+                    </div>
+                    <div class="main-number">
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tdl.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.tdl.KehoachThang</span>
+                        </div>
+                        <div class="chart-icon modal-trigger" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col l3 m12 s12">
+                <div class="card">
+                    <div class="new-title">
+                        Than lộ thiên (Tấn)
+                    </div>
+                    <div class="main-number">
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tlt.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.tlt.KehoachThang</span>
+                        </div>
+                        <div class="chart-icon"><i class="small material-icons">insert_chart</i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col l3 m12 s12">
+                <div class="card">
+                    <div class="card">
+                        <div class="new-title">
+                            Mét lò đào (Mét)
+                        </div>
+                        <div class="main-number">
+                            <div>
+                                <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mld.Luyke </span><br />
+                                <span class="font-medium" style="color:orange">@ViewBag.mld.KehoachThang</span>
+                            </div>
+                            <div class="chart-icon"><i class="small material-icons">insert_chart</i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col l3 m12 s12">
+                <div class="card">
+                    <div class="new-title">
+                        Mét lò neo (Mét)
+                    </div>
+                    <div class="main-number">
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mln.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.mln.KehoachThang</span>
+                        </div>
+                        <div class="chart-icon"><i class="small material-icons">insert_chart</i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 m6 s12">
+        <div class="row">
+            <div class="col l3 m12 s12">
+                <div class="card">
+                    <div class="new-title">
+                        Mét lò xén (Mét)
+                    </div>
+                    <div class="main-number">
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mlx.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.mlx.KehoachThang</span>
+                        </div>
+                        <div class="chart-icon"><i class="small material-icons">insert_chart</i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col l3 m12 s12">
+                <div class="card">
+                    <div class="new-title">
+                        Than tiêu thụ
+                    </div>
+                    <div class="main-number">
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ttt.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.ttt.KehoachThang</span>
+                        </div>
+                        <div class="chart-icon"><i class="small material-icons">insert_chart</i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col l3 m12 s12">
+                <div class="card">
+                    <div class="new-title">
+                        Đá xít kho
+                    </div>
+                    <div class="main-number">
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.dxk.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.dxk.KehoachThang</span>
+                        </div>
+                        <div class="chart-icon"><i class="small material-icons">insert_chart</i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col l3 m12 s12">
+                <div class="card">
+                    <div class="new-title">
+                        Đất đá bóc tự làm
+                    </div>
+                    <div class="main-number">
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ddb.Luyke </span><br />
+                            <span class="font-medium" style="color:orange">@ViewBag.ddb.KehoachThang</span>
+                        </div>
+                        <div class="chart-icon"><i class="small material-icons">insert_chart</i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4><b>CHI TIẾT BÁO CÁO SẢN LƯỢNG THAN HẦM LÒ</b></h4>
+        <div class="row">
+            <div class="card">
+                <div class="card-content">
+                    <h5 class="card-title"></h5>
+                    <canvas id="myChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
+    </div>
+</div>
+
+@*<script src="~/dist/dashboard_Tuan/dashBoardChart_tuan.js"></script>*@
+<!-- This page plugin js -->
+<!-- ============================================================== -->
+@*<script src="../../assets/libs/chartist/dist/chartist.min.js"></script>
+<script src="../../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script src="../../assets/extra-libs/prism/prism.js"></script>
+@*<script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
+    <script src="../../dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>*@
+@*<script src="~/js/tuan_js/myChart2.js"></script>*@
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['1/4', '2/4', '3/4', '4/4', '5/4', '6/4'],
+            datasets: [{
+                label: 'Sản lượng',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+<script>
+        var temp = "@ViewBag.donvi";
+        temp = temp.split("&quot;").join("");
+        temp = temp.split("[").join("");
+        temp = temp.split("]").join("");
+        var donvi = temp.split(",");
+
+        temp = "@ViewBag.dilam";
+        temp = temp.split("&quot;").join("");
+        temp = temp.split("[").join("");
+        temp = temp.split("]").join("");
+        var dilam = temp.split(",");
+
+        temp = "@ViewBag.nghi";
+        temp = temp.split("&quot;").join("");
+        temp = temp.split("[").join("");
+        temp = temp.split("]").join("");
+        var nghilam = temp.split(",");
+</script>
+<script>
+    $(document).ready(function () {
+        var temp = "@ViewBag.ngaySXconlai";
+        if (temp == "") {
+            $("#process").hide();
+            $("#process_alert").show();
+        } else {
+            $("#process").show();
+            $("#process_alert").hide();
+        }
+        //than dao lo
+        var x = @ViewBag.tdl.percentDay; if (x > 100) x = 100;
+        $('#tdlDay').width(x + '%');
+        x = @ViewBag.tdl.percentMonth; if (x > 100) x = 100;
+        $('#tdlMonth').width(x + '%');
+
+        //than lo thien
+        x = @ViewBag.tlt.percentDay; if (x > 100) x = 100;
+        $('#tltDay').width(x + '%');
+        x = @ViewBag.tlt.percentMonth; if (x > 100) x = 100;
+        $('#tltMonth').width(x + '%');
+
+        //met lo dao
+        x = @ViewBag.mld.percentDay; if (x > 100) x = 100;
+        $('#mldDay').width(x + '%');
+        x = @ViewBag.mld.percentMonth; if (x > 100) x = 100;
+        $('#mldMonth').width(x + '%');
+
+        //met lo neo
+        x = @ViewBag.mln.percentDay; if (x > 100) x = 100;
+        $('#mlnDay').width(x + '%');
+        x = @ViewBag.mln.percentMonth; if (x > 100) x = 100;
+        $('#mlnMonth').width(x + '%');
+
+        //met lo xen
+        x = @ViewBag.mlx.percentDay; if (x > 100) x = 100;
+        $('#mlxDay').width(x + '%');
+        x = @ViewBag.mlx.percentMonth; if (x > 100) x = 100;
+        $('#mlxMonth').width(x + '%');
+
+         //than tieu thu
+        x = @ViewBag.ttt.percentDay; if (x > 100) x = 100;
+        $('#tttDay').width(x + '%');
+        x = @ViewBag.ttt.percentMonth; if (x > 100) x = 100;
+        $('#tttMonth').width(x + '%');
+
+         //da xit kho
+        x = @ViewBag.dxk.percentDay; if (x > 100) x = 100;
+        $('#dxkDay').width(x + '%');
+        x = @ViewBag.dxk.percentMonth; if (x > 100) x = 100;
+        $('#dxkMonth').width(x + '%');
+
+         //da dat boc
+        x = @ViewBag.ddb.percentDay; if (x > 100) x = 100;
+        $('#ddbDay').width(x + '%');
+        x = @ViewBag.ddb.percentMonth; if (x > 100) x = 100;
+        $('#ddbMonth').width(x + '%');
+
+        var h = $('#origin').height();
+        h = h - 82;
+        $('#suco').height(h);
+
+        var data = @ViewBag.listSCCount;
+        if (data != 0) {
+            var table = document.getElementById("myTable");
+            var x = document.getElementById("myTable").rows.length;
+            var i = 1;
+            for (i = 1; i < x; i++) {
+                table.rows[i].cells[0].innerHTML = i;
+            }
+        }
+        var data = @ViewBag.listTNCount;
+        if (data != 0) {
+            var table = document.getElementById("myTable_tainan");
+            var x = document.getElementById("myTable_tainan").rows.length;
+            var i = 1;
+            for (i = 1; i < x; i++) {
+                table.rows[i].cells[0].innerHTML = i;
+            }
+        }
+
+    });
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
+    });
+    $(document).ready(function () {
+        var date = new Date();
+        var d = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+        $(".datepicker-here").val(d);
+    });
+    function change() {
+        var data = document.getElementById("data").value;
+        document.getElementById("date").value = data;
+        document.getElementById("form").submit();
+    }
+
+    $(document).ready(function () {
+        //$('#bt').click(function () {
+        //    document.getElementById("form").submit();
+        //});
+        $(".date-click").datepicker({
+            onSelect: function (dateText) {
+                var data = document.getElementById("data").value;
+                document.getElementById("date").value = data;
+                document.getElementById("form").submit();
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        var d = '@ViewBag.d';
+        document.getElementById("data").value = d;
+
+
+    });
+
+
+    $(window).resize(function () {
+        //alert($("#basic-bar2 div"))
+        $("#basic-bar2 div canvas").css( "width", "100%" );
+        $("#basic-bar2 div canvas").parent().css("width", "100%");
+
+        $("#basic-bar3 div canvas").css( "width", "100%" );
+        $("#basic-bar3 div canvas").parent().css( "width", "100%" );
+    });
+
+</script>
+
+<!--chart-->
+@*<script src="~/assets/extra-libs/c3/d3.min.js"></script>
+    <script src="~/assets/extra-libs/c3/c3.min.js"></script>
+    <script src="~/dist/js/pages/c3-chart/line/c3-line.js"></script>*@
+
