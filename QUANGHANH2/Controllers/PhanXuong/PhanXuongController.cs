@@ -431,34 +431,34 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             string shift = Request["shift"];
             string departmentID = (String)Session["departID"];
             string convert_date;
-            int convert_shift = 0;
+            int convert_shift = 1;
             try
             {
                 if (date.Equals("") || shift.Equals(""))
                 {
                     convert_date = DateTime.Now.ToString("MM/dd/yyyy");
-                    var curr_hour = DateTime.Now.Hour;
-                    if (curr_hour >= 8 && curr_hour < 16)
-                    {
-                        //Shift 1
-                        convert_shift = 1;
-                    }
-                    if (16 <= curr_hour && curr_hour < 24)
-                    {
-                        //shift 2
-                        convert_shift = 2;
-                    }
-                    else if (0 <= curr_hour && curr_hour < 16)
-                    {
-                        //shift 3
-                        convert_shift = 3;
-                    }
+                    //var curr_hour = DateTime.Now.Hour;
+                    //if (curr_hour >= 8 && curr_hour < 16)
+                    //{
+                    //    //Shift 1
+                    //    convert_shift = 1;
+                    //}
+                    //if (16 <= curr_hour && curr_hour < 24)
+                    //{
+                    //    //shift 2
+                    //    convert_shift = 2;
+                    //}
+                    //else if (0 <= curr_hour && curr_hour < 16)
+                    //{
+                    //    //shift 3
+                    //    convert_shift = 3;
+                    //}
                 }
                 else
                 {
                     date = date.Split('/')[2] + '/' + date.Split('/')[1] + '/' + date.Split('/')[0];
                     convert_date = Convert.ToDateTime(date).ToString("MM/dd/yyyy");
-                    convert_shift = Convert.ToInt32(shift);
+                    //convert_shift = Convert.ToInt32(shift);
                 }
 
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -471,9 +471,9 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 (case when nv.Ten is NULL then '' else nv.Ten end) as 'Ten', 
                                 (case when dd.DiemLuong is NULL then 0 else dd.DiemLuong end) as 'DiemLuong' 
                                 from 
-                                (select HeaderID, NgayDiemDanh, Ca, MaPhongBan from Header_DiemDanh_NangSuat_LaoDong where NgayDiemDanh = @date 
-                                                    and Ca = @shift 
-                                                    and  MaPhongBan = @departmentID) as hd 
+                                (select hd.HeaderID, hd.NgayDiemDanh, hdd.MaPhongBan, Ca from Header_DiemDanh_NangSuat_LaoDong hd 
+                                join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+                                where hd.NgayDiemDanh = @date and Ca = @shift and  MaPhongBan = @departmentID) as hd 
                                 join (select * from DiemDanh_NangSuatLaoDong where DiLam = 1) as dd on hd.HeaderID = dd.HeaderID
                                 join NhanVien nv on nv.MaNV = dd.MaNV";
                     List<NangSuatLaoDong_TungCongNhan> list_nsld = db.Database.SqlQuery<NangSuatLaoDong_TungCongNhan>(mysql,
@@ -482,8 +482,10 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                         new SqlParameter("departmentID", departmentID)).ToList();
 
                     //get list_sum_effort
-                    var mysql_sum = @"select TotalEffort,ThanThucHien, MetLoThucHien, XenThucHien from Header_DiemDanh_NangSuat_LaoDong 
-                                    where NgayDiemDanh = @date and Ca = @shift and MaPhongBan = @departmentID";
+                    var mysql_sum = @"select hdd.TotalEffort,hdd.ThanThucHien, hdd.MetLoThucHien, hdd.XenThucHien 
+                                    from Header_DiemDanh_NangSuat_LaoDong hd 
+                                    join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+                                    where hd.NgayDiemDanh = @date and hd.Ca = @shift and hdd.MaPhongBan = @departmentID";
                     List<Sum_DiemLuong_Than_MetLo_Xen> list_sum = db.Database.SqlQuery<Sum_DiemLuong_Than_MetLo_Xen>(mysql_sum,
                         new SqlParameter("date", convert_date),
                         new SqlParameter("shift", convert_shift),
@@ -520,18 +522,28 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                     var arrES = JArray.Parse(Request["arrES"]);
                     var arrTB = JArray.Parse(Request["arrTB"]);
 
-
-                    Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(x => x.NgayDiemDanh == convert_date && x.Ca == shift && x.MaPhongBan.Equals(departmentID)).FirstOrDefault();
-                    if (header != null)
+                    //when have header with corresponds NgayDiemDanh and Ca and MaPhongBan -> insertonvert_date && x.Ca == shift && x.MaPhongBan.Equals
+                    var myCheck = @"select 
+                                    hd.*
+                                    from Header_DiemDanh_NangSuat_LaoDong hd
+                                    join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+                                    where hd.NgayDiemDanh = @date and hd.Ca = @shift and hdd.MaPhongBan = @departmentID";
+                    var checkHeader = db.Database.SqlQuery<Header_DiemDanh_NangSuat_LaoDong>(myCheck,
+                                                                                        new SqlParameter("@date", date),
+                                                                                        new SqlParameter("@shift", shift),
+                                                                                        new SqlParameter("@departmentID", departmentID)).FirstOrDefault();
+                    //Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(x => x.NgayDiemDanh == c(departmentID)).FirstOrDefault();
+                    if (checkHeader != null)
                     {
                         //save to Header_DiemDanh_NangSuat_LaoDong
-                        header.TotalEffort = Convert.ToDouble(arrES[0]["TongDiemLuong"]);
-                        header.ThanThucHien = Convert.ToDouble(arrES[0]["TongThan"]);
-                        header.MetLoThucHien = Convert.ToDouble(arrES[0]["TongMetLo"]);
-                        header.XenThucHien = Convert.ToDouble(arrES[0]["TongXen"]);
+                        var header_detail = db.Header_DiemDanh_NangSuat_LaoDong_Detail.Find(checkHeader.HeaderID, departmentID);
+                        header_detail.TotalEffort = Convert.ToDouble(arrES[0]["TongDiemLuong"]);
+                        header_detail.ThanThucHien = Convert.ToDouble(arrES[0]["TongThan"]);
+                        header_detail.MetLoThucHien = Convert.ToDouble(arrES[0]["TongMetLo"]);
+                        header_detail.XenThucHien = Convert.ToDouble(arrES[0]["TongXen"]);
 
                         //save to DiemDanh_NangSuat_LaoDong
-                        var headerID = Convert.ToInt32(header.HeaderID);
+                        var headerID = Convert.ToInt32(checkHeader.HeaderID);
                         foreach (var row in arrTB)
                         {
                             string nhanvien_id = (String)row["mathe"];
