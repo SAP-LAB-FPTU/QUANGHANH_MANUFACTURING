@@ -18,21 +18,21 @@ namespace QUANGHANH2.Models
         public Header_DiemDanh_NangSuat_LaoDong()
         {
             this.DiemDanh_NangSuatLaoDong = new HashSet<DiemDanh_NangSuatLaoDong>();
+            this.Header_DiemDanh_NangSuat_LaoDong_Detail = new HashSet<Header_DiemDanh_NangSuat_LaoDong_Detail>();
         }
     
         public int HeaderID { get; set; }
-        public int Ca { get; set; }
         public System.DateTime NgayDiemDanh { get; set; }
-        public double TotalEffort { get; set; }
-        public double ThanThucHien { get; set; }
-        public double MetLoThucHien { get; set; }
-        public double XenThucHien { get; set; }
-        public string GhiChu { get; set; }
-        public bool isFilledFromAPI { get; set; }
-        public string MaPhongBan { get; set; }
+        public int Ca { get; set; }
+        public bool isCreatedManually { get; set; }
+        public bool Status { get; set; }
+        public string Message { get; set; }
+        public System.DateTime FetchDataTime { get; set; }
+        public string VERSION { get; set; }
     
-        public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DiemDanh_NangSuatLaoDong> DiemDanh_NangSuatLaoDong { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Header_DiemDanh_NangSuat_LaoDong_Detail> Header_DiemDanh_NangSuat_LaoDong_Detail { get; set; }
     }
 }
