@@ -843,34 +843,34 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
                     foreach (var item in listUpdate)
                     {
-                        DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
-                        dn.MaNV = item.maNV;
-                        dn.DiLam = item.status;
-                        dn.LyDoVangMat = item.reason;
-                        dn.ThoiGianThucTeDiemDanh = item.timeAttendance != "" ? (DateTime?)Convert.ToDateTime(item.timeAttendance) : null;
-                        dn.GhiChu = item.description;
-                        dn.isFilledFromAPI = false;
-                        dn.isChangedManually = true;
-                        if (item.isEnvolved)
+                        if (item.isEnvolved) //check updating manually.
                         {
-                            dn.ActualHeaderFetched = headerIDmin;
-                            dn.HeaderID = headerIDmin;
-                            if (item.headerID == null)
+                            if (item.headerID == null) // Dilam : 0 => 1
                             {
+                                DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
+                                dn.HeaderID = headerIDmin;
+                                dn.MaNV = item.maNV;
+                                dn.DiLam = item.status;
+                                dn.LyDoVangMat = item.reason;
+                                dn.ThoiGianThucTeDiemDanh = item.timeAttendance != "" ? (DateTime?)Convert.ToDateTime(item.timeAttendance) : null;
+                                dn.GhiChu = item.description;
+                                dn.isChangedManually = true;
+                                dn.isFilledFromAPI = false;
+                                dn.ActualHeaderFetched = headerIDmin;
                                 db.DiemDanh_NangSuatLaoDong.Add(dn);
                             }
-                            else
+                            else //Dilam :  1 => 0
                             {
-                                db.Entry(dn).State = EntityState.Modified;
-                            }
-                        }
-                        else
-                        {
-                            if (item.headerID != null)
-                            {
-                                db.DiemDanh_NangSuatLaoDong.Remove(db.DiemDanh_NangSuatLaoDong.Find(item.maNV, item.headerID));
-                                //dn.HeaderID = headerID;
-                                //db.Entry(dn).State = EntityState.Modified;
+                                if (item.headerID != null)
+                                {
+                                    DiemDanh_NangSuatLaoDong oldDN = db.DiemDanh_NangSuatLaoDong.Find(item.maNV, item.headerID);
+                                    oldDN.DiLam = item.status;
+                                    oldDN.LyDoVangMat = item.reason;
+                                    oldDN.ThoiGianThucTeDiemDanh = item.timeAttendance != "" ? (DateTime?)Convert.ToDateTime(item.timeAttendance) : null;
+                                    oldDN.GhiChu = item.description;
+                                    oldDN.isChangedManually = true;
+                                    db.Entry(oldDN).State = EntityState.Modified;
+                                }
                             }
                         }
                     }
@@ -884,6 +884,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
             return Json(new { success = true, data = result, listAtten_NotAtten = listAtten_NotAtten }, JsonRequestBehavior.AllowGet);
+            
         }
         [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [HttpPost]
@@ -931,15 +932,11 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         }
         [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [HttpPost]
-
         [Route("phan-xuong/diem-danh/lay-thong-tin")]
-        public async Task<ActionResult> fetchAPIAsync()
+        public async Task<ActionResult> fetchAPIAsync(int session, string date)
         {
-            var dateAtt = Convert.ToDateTime(Request["date"]);
-            int session = Int32.Parse(Request["session"]);
-            var departmentID = Request["department"];
-            string manv = Request["MaNV"];
-            string tennv = Request["TenNV"];
+            var dateAtt = Convert.ToDateTime(date);
+
             DateTime realTimeNow = DateTime.Now;
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -949,15 +946,16 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                     try
                     {
                         // FETCH API
-                        Result dataReceived = await FetchDataAsync();
+                        Result dataReceived = await FetchDataAsync(date , session);
                         // 
                         int headerIDMin = getFirstSuccessfullyFetch(dataReceived.dateFetching, dataReceived.Session);
                         //update Header
                         InsertHeaderAPI(dataReceived);
-                        
+
                         //getAPI successfully =>  update DiemDanh
                         if (dataReceived.success)
                         {
+                            ViewBag.time = dataReceived.dateFetching;
                             int currenHeaderID = getHeader(dataReceived.dateFetching, dataReceived.Session, dataReceived.actualTimeFetching);
                             if (headerIDMin == -1)
                             {
@@ -977,12 +975,11 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 valid = true;
 
                                 string sqlCheckEmployeeExisted = $"select MaNV from NhanVien where MaNV = @MaNV";
-                                string result = db.Database.SqlQuery<string>(sqlCheckEmployeeExisted,new SqlParameter("MaNV",item.MaNhanVien)).FirstOrDefault();
-                                if (result == null || oldMaNV.Equals(item.MaNhanVien))
+                                string existed = db.Database.SqlQuery<string>(sqlCheckEmployeeExisted, new SqlParameter("MaNV", item.MaNhanVien)).FirstOrDefault();
+                                if (existed == null || oldMaNV.Equals(item.MaNhanVien))
                                 {
                                     valid = false;
                                 }
-
                                 if (valid)
                                 {
                                     DiemDanh_NangSuatLaoDong ddEntity = new DiemDanh_NangSuatLaoDong();
@@ -996,20 +993,28 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                     ddEntity.ThoiGianLenLo = item.endTime;
                                     attendanceList.Add(ddEntity);
                                 }
-                                
+
                                 oldMaNV = item.MaNhanVien;
                             }
-                            InsertAttendanceAPI(attendanceList);
+                            if (attendanceList.Count > 0)
+                            {
+                                InsertAttendanceAPI(attendanceList);
+                            }
+                            transaction.Commit();
+                            return Json(dataReceived.dateFetching.ToString("dd/MM/yyyy-HH:mm:ss"), JsonRequestBehavior.AllowGet);
                         }
-                        transaction.Commit();
+                        else 
+                        {
+                            return new HttpStatusCodeResult(400);
+                        }
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
+                        return new HttpStatusCodeResult(400);
                     }
                 }
             }
-            return View();
         }
 
         private void InsertAttendanceAPI(List<DiemDanh_NangSuatLaoDong> listAttendance)
@@ -1025,6 +1030,30 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                 {
                     throw ex;
                 }
+            }
+        }
+
+        [HttpPost]
+        [Route("phan-xuong/diem-danh/cap-nhat-thoi-gian")]
+        public ActionResult updateTimeFetchSuccessfully()
+        {
+            try
+            {
+                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                string query = "select max(FetchDataTime) from Header_DiemDanh_NangSuat_LaoDong where isCreatedManually = 0 and Status = 1";
+                DateTime timeFetch = db.Database.SqlQuery<DateTime>(query).FirstOrDefault();
+                if (timeFetch != null)
+                {
+                    return Json(timeFetch.ToString("dd/MM/yyyy-HH:mm:ss"), JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -1080,11 +1109,11 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             return index;
         }
 
-        private async Task<Result> FetchDataAsync()
+        private async Task<Result> FetchDataAsync(string date, int session)
         {
             DateTime timeFetchData = DateTime.Now;
-            var dateFetchData = Convert.ToDateTime(Request["date"]);
-            int sessionFetchData = Int32.Parse(Request["session"]);
+            var dateFetchData = Convert.ToDateTime(date);
+            int sessionFetchData = session;
 
             // start fetching data
             var sentRequest = new RequestParams();
