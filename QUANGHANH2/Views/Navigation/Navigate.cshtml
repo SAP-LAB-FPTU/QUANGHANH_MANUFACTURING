@@ -4,19 +4,7 @@
     string version = string.Concat("v", typeof(QUANGHANH2.MvcApplication).Assembly.GetName().Version);
 }
 <style>
-
-    .check-box {
-        width: 20px;
-        height: 20px;
-        background: white;
-        border-radius: 10px;
-        border: 1px solid #555;
-    }
-
-    .text-font__normal {
-        font-family: Poppins-Regular;
-        font-size: 16px;
-    }
+ 
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,11 +21,11 @@
     <link rel="icon" type="image/png" href="/images/login/icons/favicon.ico" />
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="css/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-
+    <link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet">
     <!--===============================================================================================-->
     <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
     <link href="~/css/preloader/css.css" rel="stylesheet" />
-
+    <link href="~/css/navpage.css" rel="stylesheet" />
 </head>
 <body>
     <div class="limiter">
@@ -63,35 +51,42 @@
                 </div>
                 <div class="login100-form validate-form">
                     <span class="login100-form-title" style="padding-bottom: 0 !important;">
-                        <h3><b>CỔNG CHUYỂN ĐỔI HỆ THỐNG</b></h3>
+                        <b><h4 id="page-title">ĐIỀU HƯỚNG HỆ THỐNG</h4></b>
                     </span>
-                    <div class="text-center">
-                        <p>
+                    <ul class="text-center">
+                        <li class="nav-container">
                             @using (Html.BeginForm("Index", "LogIn", FormMethod.Get, new { @class = "login100-form validate-form" }))
                             {
-                                <button class="btn btn-link" type="submit">
+                                <button class="btn btn-link navigator-link" type="submit">
                                     <span class="text-font__normal">Hệ thống quản lý và điều độ sản xuất</span>
                                 </button>
+                                <img class="nav-icon" src="~/assets/images/nav/next-icon.png"/>
                             }
-                        </p>
-                        <p>
-                            <a class="text-font__normal" href="http://113.162.60.102:6868/">
-                                Hệ thống quản lý nhân sự - suất ăn - văn phòng
+
+                        </li>
+                        <li class="nav-container" onclick="window.location.href='http://113.162.60.102:6868/'">
+                            <a class="text-font__normal navigator-link">
+                                Hệ thống quản lý nhân sự/suất ăn/văn phòng 
                             </a>
-                        </p>
-                        <p>
-                            <a class="text-font__normal" href="https://quanghanh.tacnghiep.net/">
+                            <img class="nav-icon" src="~/assets/images/nav/next-icon.png" />
+                        </li>
+                        <li class="nav-container" onclick="window.location.href='https://quanghanh.tacnghiep.net/'">
+                            <a class="text-font__normal navigator-link">
                                 Hệ thống tác nghiệp & Quản lý công văn
                             </a>
-                        </p>
-                    </div>
+                            <img class="nav-icon" src="~/assets/images/nav/next-icon.png" />
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 
     <!--===============================================================================================-->
+    <script src="~/assets/extra-libs/prism/prism.js"></script>
+    <script src="~/dist/js/custom.min.js"></script>
     <script src="/js/login/main.js"></script>
+    <script src="~/js/anime.min.js"></script>
     <script>
         $(".loading").css("z-index", 99999);
         $('body').css('overflow', '');
@@ -99,6 +94,7 @@
 
             $('#pre-load').show();
         }
+
     </script>
 </body>
 </html>
