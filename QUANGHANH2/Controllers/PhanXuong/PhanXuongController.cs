@@ -850,14 +850,30 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             {
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    //var headerID = getHeaderListAtt(dateAtt,session, departmentID);
                     var headerIDmin = getFirstSuccessfullyFetch(dateAtt, session);
 
                     foreach (var item in listUpdate)
                     {
-                        if (item.isEnvolved) //check updating manually.
+                        if (item.headerID != null) //Past : isEnvolved.
                         {
-                            if (item.headerID == null) // Dilam : 0 => 1
+                            if (item.isEnvolved) //isEnvolved => isEnvolved
+                            {
+                                DiemDanh_NangSuatLaoDong oldDN = db.DiemDanh_NangSuatLaoDong.Find(item.maNV, item.headerID);
+                                oldDN.DiLam = item.status;
+                                oldDN.LyDoVangMat = item.reason;
+                                oldDN.ThoiGianThucTeDiemDanh = item.timeAttendance != "" ? (DateTime?)Convert.ToDateTime(item.timeAttendance) : null;
+                                oldDN.GhiChu = item.description;
+                                oldDN.isChangedManually = true;
+                                db.Entry(oldDN).State = EntityState.Modified;
+                            }
+                            else //isEnvolved => isNotEnvolved
+                            {
+                                db.DiemDanh_NangSuatLaoDong.Remove(db.DiemDanh_NangSuatLaoDong.Find(item.maNV, item.headerID));
+                            }
+                        }
+                        else //Past : isNotEnvolved.
+                        {
+                            if (item.isEnvolved) //isNotEnvolved => isEnvolved
                             {
                                 DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
                                 dn.HeaderID = headerIDmin;
@@ -871,22 +887,8 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 dn.ActualHeaderFetched = headerIDmin;
                                 db.DiemDanh_NangSuatLaoDong.Add(dn);
                             }
-                            else //Dilam :  1 => 0
-                            {
-                                if (item.headerID != null)
-                                {
-                                    DiemDanh_NangSuatLaoDong oldDN = db.DiemDanh_NangSuatLaoDong.Find(item.maNV, item.headerID);
-                                    oldDN.DiLam = item.status;
-                                    oldDN.LyDoVangMat = item.reason;
-                                    oldDN.ThoiGianThucTeDiemDanh = item.timeAttendance != "" ? (DateTime?)Convert.ToDateTime(item.timeAttendance) : null;
-                                    oldDN.GhiChu = item.description;
-                                    oldDN.isChangedManually = true;
-                                    db.Entry(oldDN).State = EntityState.Modified;
-                                }
-                            }
                         }
                     }
-
                     db.SaveChanges();
                     transaction.Complete();
                 }
@@ -967,11 +969,17 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                         //getAPI successfully =>  update DiemDanh
                         if (dataReceived.success)
                         {
-                            ViewBag.time = dataReceived.dateFetching;
-                            int currenHeaderID = getHeader(dataReceived.dateFetching, dataReceived.Session, dataReceived.actualTimeFetching);
+                            int currentHeaderID = getHeader(dataReceived.dateFetching, dataReceived.Session, dataReceived.actualTimeFetching);
+
+                            //Fix bug : check currentHeaderID
+                            if (currentHeaderID == 0)
+                            {
+                                return new HttpStatusCodeResult(400);
+                            }
+
                             if (headerIDMin == -1)
                             {
-                                headerIDMin = currenHeaderID;
+                                headerIDMin = currentHeaderID;
                                 //update Header_Detail.
                                 InsertHeaderDetailAPI(headerIDMin);
                             }
@@ -997,7 +1005,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                     DiemDanh_NangSuatLaoDong ddEntity = new DiemDanh_NangSuatLaoDong();
                                     ddEntity.HeaderID = headerIDMin;
                                     ddEntity.MaNV = item.MaNhanVien;
-                                    ddEntity.ActualHeaderFetched = currenHeaderID;
+                                    ddEntity.ActualHeaderFetched = currentHeaderID;
                                     ddEntity.DiLam = true;
                                     ddEntity.isFilledFromAPI = true;
                                     ddEntity.isChangedManually = false;
@@ -1006,7 +1014,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                     attendanceList.Add(ddEntity);
                                 }
 
-                                oldMaNV = item.MaNhanVien;
+                                oldMaNV = item.MaNhanVien;                   
                             }
                             if (attendanceList.Count > 0)
                             {
@@ -1290,9 +1298,18 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             {
                 try
                 {
+                    int headerID;
                     string sqlQuery = @"select headerId from Header_DiemDanh_NangSuat_LaoDong where (NgayDiemDanh = @date and Ca = @session and FetchDataTime = @fetchDataTime)";
-                    var headerID = db.Database.SqlQuery<int>(sqlQuery, new SqlParameter("date", date), new SqlParameter("session", session), new SqlParameter("fetchDataTime", timefetching)).FirstOrDefault();
-                    return headerID;
+                    headerID = db.Database.SqlQuery<int>(sqlQuery, new SqlParameter("date", date), new SqlParameter("session", session), new SqlParameter("fetchDataTime", timefetching)).FirstOrDefault();
+
+                    //Fix bug headerID = 0;
+                    if (headerID == 0)
+                    {
+                        string sqlQueryFix = @"select max(headerId) as headerId from Header_DiemDanh_NangSuat_LaoDong";
+                        headerID = db.Database.SqlQuery<int>(sqlQueryFix).FirstOrDefault();
+                    }
+                    
+                    return headerID; 
                 }
                 catch (Exception ex)
                 {

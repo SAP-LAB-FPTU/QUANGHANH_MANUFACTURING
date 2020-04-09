@@ -578,6 +578,7 @@
             //    data.department = $("#phanxuong").val();
             //    data.date = convertToSQLDate($("#inputdate").val());
             //})
+            $("#pre-load").show();
             var data = {
                 session: $("#ca").text().split(" ")[1],
                 date: convertToSQLDate($("#inputdate").val())
@@ -589,15 +590,16 @@
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    $("#timeFetchSuccessfully").html(data);
+                    $("#pre-load").hide();
+                    updateTimeFetchSuccessfully();
                     $("#attendanceTable").DataTable().ajax.url("/phan-xuong/diem-danh").load();
                     successAlert('Cập nhật thành công', '');
                 },
                 error: function () {
+                    $("#pre-load").hide();
                     errorAlert('Đã có lỗi xảy ra', '');
                 }
             });
-            //loadDatatableWith("/phan-xuong/diem-danh/lay-thong-tin");
         }
 
         $(document).ready(function () {
