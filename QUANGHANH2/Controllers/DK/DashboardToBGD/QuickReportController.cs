@@ -424,7 +424,7 @@ namespace QUANGHANHCORE.Controllers.DK
                 ViewBag.tiendoNgay = "";
             }
 
-            return View("/Views/DK/QuickReport/QuickReport.cshtml");
+            return View("/Views/DK/QuickReport/QuickReportNew.cshtml");
         }
 
         public class QuickReport
