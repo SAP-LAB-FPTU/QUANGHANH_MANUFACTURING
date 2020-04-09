@@ -328,6 +328,7 @@
     <Compile Include="Controllers\LogActionFilter.cs" />
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\ManagementUserController.cs" />
+    <Compile Include="Controllers\Navigation\NavigateController.cs" />
     <Compile Include="Controllers\NotifiController.cs" />
     <Compile Include="Controllers\PhanXuong\PhanXuongController.cs" />
     <Compile Include="Controllers\TCLD\BonusAnDesciplineController.cs" />
@@ -7545,6 +7546,7 @@
     <Content Include="Views\BGD\ReportHuman\Summary\Human_Daily.cshtml" />
     <Content Include="Views\BGD\ReportHuman\Summary\Human_Department_Daily.cshtml" />
     <Content Include="Views\DK\QuickReport\QuickReportNew.cshtml" />
+    <Content Include="Views\Navigation\Navigate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7553,8 +7555,6 @@
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="images\camera\" />
     <Folder Include="Library\" />
-    <Folder Include="Views\Human_Department_Daily\" />
-    <Folder Include="Views\ReportHuman_Summary\" />
     <Folder Include="Views\TrangChu\" />
   </ItemGroup>
   <ItemGroup>

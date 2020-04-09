@@ -12,6 +12,11 @@
         border-radius: 10px;
         border: 1px solid #555;
     }
+
+    .text-font__normal {
+        font-family: Poppins-Regular;
+        font-size: 16px;
+    }
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,56 +58,34 @@
         </div>
         <div class="container-login100">
             <div class="wrap-login100">
-                <div class="login100-pic js-tilt" data-tilt>
+                <div class="login100-pic js-tilt" data-tilt style="padding-bottom: 120px;">
                     <img src="/images/login/quanghanh.png" alt="IMG">
                 </div>
-                @using (Html.BeginForm("Index", "LogIn", FormMethod.Post, new { id = "login-form", @class = "login100-form validate-form" }))
-                {
-
-
-                    <span class="login100-form-title">
-                        <h3><b>PHẦN MỀM QUẢN LÝ SẢN XUẤT</b></h3>
+                <div class="login100-form validate-form">
+                    <span class="login100-form-title" style="padding-bottom: 0 !important;">
+                        <h3><b>CỔNG CHUYỂN ĐỔI HỆ THỐNG</b></h3>
                     </span>
-
-                    <div class="wrap-input100 validate-input" data-validate="">
-                        @{
-                            var username = "";
-                            var password = "";
-                            if (ViewBag.login != null)
+                    <div class="text-center">
+                        <p>
+                            @using (Html.BeginForm("Index", "LogIn", FormMethod.Get, new { @class = "login100-form validate-form" }))
                             {
-                                username = ViewBag.login.username;
-                                password = ViewBag.login.password;
+                                <button class="btn btn-link" type="submit">
+                                    <span class="text-font__normal">Hệ thống quản lý và điều độ sản xuất</span>
+                                </button>
                             }
-                        }
-                        <input type="text" list="accounts" class="input100" name="username" placeholder="Tên đăng nhập" value="@username" required />
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <i class="fa fa-user-circle" aria-hidden="true"></i>
-                        </span>
+                        </p>
+                        <p>
+                            <a class="text-font__normal" href="http://113.162.60.102:6868/">
+                                Hệ thống quản lý nhân sự - suất ăn - văn phòng
+                            </a>
+                        </p>
+                        <p>
+                            <a class="text-font__normal" href="https://quanghanh.tacnghiep.net/">
+                                Hệ thống tác nghiệp & Quản lý công văn
+                            </a>
+                        </p>
                     </div>
-                    <div class="wrap-input100 validate-input" data-validate="Password is required">
-                        <input class="input100" type="password" name="password" value="@password" placeholder="Mật khẩu" required>
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <i class="fa fa-lock" aria-hidden="true"></i>
-                        </span>
-                    </div>
-                    <div>
-                        <input type="checkbox" class="check-box" name="rm" />
-                        <label style="font-size:16px">Ghi nhớ mật khẩu</label>
-                    </div>
-                    <div class="center-align"><h3 style="color: red;" class="h4 mb-4 font-weight-normal" id="Notification">@ViewData["Notification"]</h3></div>
-                    <div class="container-login100-form-btn">
-                        <button class="login100-form-btn" type="submit" onsubmit="showPreLoad();">
-                            Đăng nhập
-                        </button>
-                    </div>
-                    <div class="text-center p-t-136">
-                        <a class="txt2" href="#">
-                            <i class="" aria-hidden="true">@version</i>
-                        </a>
-                    </div>
-                }
+                </div>
             </div>
         </div>
     </div>

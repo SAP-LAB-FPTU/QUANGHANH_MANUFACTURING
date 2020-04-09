@@ -431,34 +431,34 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             string shift = Request["shift"];
             string departmentID = (String)Session["departID"];
             string convert_date;
-            int convert_shift = 0;
+            int convert_shift = 1;
             try
             {
                 if (date.Equals("") || shift.Equals(""))
                 {
                     convert_date = DateTime.Now.ToString("MM/dd/yyyy");
-                    var curr_hour = DateTime.Now.Hour;
-                    if (curr_hour >= 8 && curr_hour < 16)
-                    {
-                        //Shift 1
-                        convert_shift = 1;
-                    }
-                    if (16 <= curr_hour && curr_hour < 24)
-                    {
-                        //shift 2
-                        convert_shift = 2;
-                    }
-                    else if (0 <= curr_hour && curr_hour < 16)
-                    {
-                        //shift 3
-                        convert_shift = 3;
-                    }
+                    //var curr_hour = DateTime.Now.Hour;
+                    //if (curr_hour >= 8 && curr_hour < 16)
+                    //{
+                    //    //Shift 1
+                    //    convert_shift = 1;
+                    //}
+                    //if (16 <= curr_hour && curr_hour < 24)
+                    //{
+                    //    //shift 2
+                    //    convert_shift = 2;
+                    //}
+                    //else if (0 <= curr_hour && curr_hour < 16)
+                    //{
+                    //    //shift 3
+                    //    convert_shift = 3;
+                    //}
                 }
                 else
                 {
                     date = date.Split('/')[2] + '/' + date.Split('/')[1] + '/' + date.Split('/')[0];
                     convert_date = Convert.ToDateTime(date).ToString("MM/dd/yyyy");
-                    convert_shift = Convert.ToInt32(shift);
+                    //convert_shift = Convert.ToInt32(shift);
                 }
 
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -471,9 +471,9 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 (case when nv.Ten is NULL then '' else nv.Ten end) as 'Ten', 
                                 (case when dd.DiemLuong is NULL then 0 else dd.DiemLuong end) as 'DiemLuong' 
                                 from 
-                                (select HeaderID, NgayDiemDanh, Ca, MaPhongBan from Header_DiemDanh_NangSuat_LaoDong where NgayDiemDanh = @date 
-                                                    and Ca = @shift 
-                                                    and  MaPhongBan = @departmentID) as hd 
+                                (select hd.HeaderID, hd.NgayDiemDanh, hdd.MaPhongBan, Ca from Header_DiemDanh_NangSuat_LaoDong hd 
+                                join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+                                where hd.NgayDiemDanh = @date and Ca = @shift and  MaPhongBan = @departmentID) as hd 
                                 join (select * from DiemDanh_NangSuatLaoDong where DiLam = 1) as dd on hd.HeaderID = dd.HeaderID
                                 join NhanVien nv on nv.MaNV = dd.MaNV";
                     List<NangSuatLaoDong_TungCongNhan> list_nsld = db.Database.SqlQuery<NangSuatLaoDong_TungCongNhan>(mysql,
@@ -482,8 +482,10 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                         new SqlParameter("departmentID", departmentID)).ToList();
 
                     //get list_sum_effort
-                    var mysql_sum = @"select TotalEffort,ThanThucHien, MetLoThucHien, XenThucHien from Header_DiemDanh_NangSuat_LaoDong 
-                                    where NgayDiemDanh = @date and Ca = @shift and MaPhongBan = @departmentID";
+                    var mysql_sum = @"select hdd.TotalEffort,hdd.ThanThucHien, hdd.MetLoThucHien, hdd.XenThucHien 
+                                    from Header_DiemDanh_NangSuat_LaoDong hd 
+                                    join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+                                    where hd.NgayDiemDanh = @date and hd.Ca = @shift and hdd.MaPhongBan = @departmentID";
                     List<Sum_DiemLuong_Than_MetLo_Xen> list_sum = db.Database.SqlQuery<Sum_DiemLuong_Than_MetLo_Xen>(mysql_sum,
                         new SqlParameter("date", convert_date),
                         new SqlParameter("shift", convert_shift),
@@ -520,18 +522,28 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                     var arrES = JArray.Parse(Request["arrES"]);
                     var arrTB = JArray.Parse(Request["arrTB"]);
 
-
-                    Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(x => x.NgayDiemDanh == convert_date && x.Ca == shift && x.MaPhongBan.Equals(departmentID)).FirstOrDefault();
-                    if (header != null)
+                    //when have header with corresponds NgayDiemDanh and Ca and MaPhongBan -> insertonvert_date && x.Ca == shift && x.MaPhongBan.Equals
+                    var myCheck = @"select 
+                                    hd.*
+                                    from Header_DiemDanh_NangSuat_LaoDong hd
+                                    join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+                                    where hd.NgayDiemDanh = @date and hd.Ca = @shift and hdd.MaPhongBan = @departmentID";
+                    var checkHeader = db.Database.SqlQuery<Header_DiemDanh_NangSuat_LaoDong>(myCheck,
+                                                                                        new SqlParameter("@date", date),
+                                                                                        new SqlParameter("@shift", shift),
+                                                                                        new SqlParameter("@departmentID", departmentID)).FirstOrDefault();
+                    //Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(x => x.NgayDiemDanh == c(departmentID)).FirstOrDefault();
+                    if (checkHeader != null)
                     {
                         //save to Header_DiemDanh_NangSuat_LaoDong
-                        header.TotalEffort = Convert.ToDouble(arrES[0]["TongDiemLuong"]);
-                        header.ThanThucHien = Convert.ToDouble(arrES[0]["TongThan"]);
-                        header.MetLoThucHien = Convert.ToDouble(arrES[0]["TongMetLo"]);
-                        header.XenThucHien = Convert.ToDouble(arrES[0]["TongXen"]);
+                        var header_detail = db.Header_DiemDanh_NangSuat_LaoDong_Detail.Find(checkHeader.HeaderID, departmentID);
+                        header_detail.TotalEffort = Convert.ToDouble(arrES[0]["TongDiemLuong"]);
+                        header_detail.ThanThucHien = Convert.ToDouble(arrES[0]["TongThan"]);
+                        header_detail.MetLoThucHien = Convert.ToDouble(arrES[0]["TongMetLo"]);
+                        header_detail.XenThucHien = Convert.ToDouble(arrES[0]["TongXen"]);
 
                         //save to DiemDanh_NangSuat_LaoDong
-                        var headerID = Convert.ToInt32(header.HeaderID);
+                        var headerID = Convert.ToInt32(checkHeader.HeaderID);
                         foreach (var row in arrTB)
                         {
                             string nhanvien_id = (String)row["mathe"];
@@ -719,53 +731,60 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                 {
                     //take sum attendance and not attendance
                     var mysql = @"select
-                        (case when TongDilam is NULL then 0 else TongDilam end ) as 'TongDiLam',
-                        (case when DiLam_CNKT is NULL  then 0 else DiLam_CNKT end) as 'DiLam_CNKT',
-                        (case when DiLam_CNCD is NULL then 0 else DiLam_CNCD end) as 'DiLam_CNCD',
-                        (case when DiLam_CBQL is NULL then 0 else DiLam_CBQL end) as 'DiLam_CBQL',
-                        (case when TongNghi is NULL then 0 else TongNghi end) as 'TongNghi',
-                        (case when Om is NULL then 0 else Om end) as 'Om',
-                        (case when Phep is NULL then 0 else Phep end) as 'Phep',
-                        (case when VoLyDo is NULL then 0 else VoLyDo end) as 'VoLyDo',
-                        (case when Khac is NULL then 0 else Khac end) as 'Khac',
-                        (case when TaiNanLaoDong is NULL then 0 else TaiNanLaoDong end) as 'TaiNanLaoDong',
-                        (case when OmDai is NULL then 0 else OmDai end) as 'OmDai',
-                        (case when ThaiSan is NULL then 0 else ThaiSan end) as 'ThaiSan',
-                        (case when TamHoanLaoDong is NULL then 0 else TamHoanLaoDong end) as 'TamHoanLaoDong',
-                        (case when VoLyDoDai is NULL then 0 else VoLyDoDai end) as 'VoLyDoDai'
-                        from
-                        (select
-                        (select count(MaNV)  from Header_DiemDanh_NangSuat_LaoDong a left join 
-                        Header_DiemDanh_NangSuat_LaoDong_Detail b  on a.HeaderID = b.HeaderID left join 
-                        DiemDanh_NangSuatLaoDong c on b.HeaderID = c.HeaderID) as 'TongDilam',
-                        sum(case when (d.DiLam = 1 and ncv.LoaiNhomCongViec = N'CNKT') then 1 else 0 end) as 'DiLam_CNKT',
-                        sum(case when (d.DiLam = 1 and ncv.LoaiNhomCongViec = N'CNCĐ') then 1 else 0 end) as 'DiLam_CNCD',
-                        sum(case when (d.DiLam = 1 and ncv.LoaiNhomCongViec = N'CBQL') then 1 else 0 end) as 'DiLam_CBQL' 
-                        from (select hd1.HeaderID from Header_DiemDanh_NangSuat_LaoDong h
-                        left join Header_DiemDanh_NangSuat_LaoDong_Detail hd1 on 
-                        hd1.HeaderID = h.HeaderID where MaPhongBan = @departmentID and NgayDiemDanh = @date and Ca = @session) as hd 
-                        left join DiemDanh_NangSuatLaoDong as d on hd.HeaderID = d.HeaderID
-                        left join NhanVien as nv on nv.MaNV = d.MaNV
-                        left join CongViec_NhomCongViec cv_ncv on cv_ncv.MaCongViec = nv.MaCongViec
-                        left join NhomCongViec ncv on ncv.MaNhomCongViec = cv_ncv.MaNhomCongViec) as dilam,
-                        (select
-                        sum(case when (d.DiLam = 0 and (d.LyDoVangMat = N'Ốm' or d.LyDoVangMat = N'Nghỉ phép' or d.LyDoVangMat = N'Vô lý do'
-                        or d.LyDoVangMat = N'Khác' or d.LyDoVangMat = N'Tai nạn lao động' or d.LyDoVangMat = N'Ốm dài'
-                        or d.LyDoVangMat = N'Thai sản' or d.LyDoVangMat = N'Tạm hoãn lao động'
-                        or d.LyDoVangMat = N'Vô lý do dài')) then 1 else 0 end) as 'TongNghi',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Ốm') then 1 else 0 end) as 'Om',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Nghỉ phép') then 1 else 0 end) as 'Phep',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Vô lý do') then 1 else 0 end) as 'VoLyDo',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Khác') then 1 else 0 end) as 'Khac',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Tai nạn lao động') then 1 else 0 end) as 'TaiNanLaoDong',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Ốm dài') then 1 else 0 end) as 'OmDai',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Thai sản') then 1 else 0 end) as 'ThaiSan',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Tạm hoãn lao động') then 1 else 0 end) as 'TamHoanLaoDong',
-                        sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Vô lý do dài') then 1 else 0 end) as 'VoLyDoDai'
-                        from Header_DiemDanh_NangSuat_LaoDong as hd1 left join 
-                        Header_DiemDanh_NangSuat_LaoDong_Detail hd  on hd1.HeaderID = hd.HeaderID left join 
-                        DiemDanh_NangSuatLaoDong d on hd.HeaderID = d.HeaderID
-                        where MaPhongBan = @departmentID and NgayDiemDanh = @date and Ca = @session) as nghi";
+                                (case when TongDilam is NULL then 0 else TongDilam end ) as 'TongDiLam',
+                                (case when DiLam_CNKT is NULL  then 0 else DiLam_CNKT end) as 'DiLam_CNKT',
+                                (case when DiLam_CNCD is NULL then 0 else DiLam_CNCD end) as 'DiLam_CNCD',
+                                (case when DiLam_CBQL is NULL then 0 else DiLam_CBQL end) as 'DiLam_CBQL',
+                                (case when TongNghi is NULL then 0 else TongNghi end) as 'TongNghi',
+                                (case when Om is NULL then 0 else Om end) as 'Om',
+                                (case when Phep is NULL then 0 else Phep end) as 'Phep',
+                                (case when VoLyDo is NULL then 0 else VoLyDo end) as 'VoLyDo',
+                                (case when Khac is NULL then 0 else Khac end) as 'Khac',
+                                (case when TaiNanLaoDong is NULL then 0 else TaiNanLaoDong end) as 'TaiNanLaoDong',
+                                (case when OmDai is NULL then 0 else OmDai end) as 'OmDai',
+                                (case when ThaiSan is NULL then 0 else ThaiSan end) as 'ThaiSan',
+                                (case when TamHoanLaoDong is NULL then 0 else TamHoanLaoDong end) as 'TamHoanLaoDong',
+                                (case when VoLyDoDai is NULL then 0 else VoLyDoDai end) as 'VoLyDoDai'
+                                from
+                                (select
+                                (case when hd.TongDilam is null then 0 else hd.TongDilam end) as 'TongDiLam',
+                                hd.DiLam_CNKT,
+                                hd.DiLam_CNCD,
+                                hd.DiLam_CBQL
+                                from (select 
+                                a.HeaderID,
+                                sum(case when (d.MaPhongBan = @departmentID and c.DiLam = 1) then 1 else 0 end) as 'TongDilam',
+                                sum(case when (ncv.LoaiNhomCongViec = N'CNKT') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CNKT',
+                                sum(case when (ncv.LoaiNhomCongViec = N'CNCĐ') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CNCD',
+                                sum(case when (ncv.LoaiNhomCongViec = N'CBQL') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CBQL',
+                                a.FetchDataTime
+                                from
+                                (select h.HeaderID, MIN(h.FetchDataTime) as 'FetchDataTime' from Header_DiemDanh_NangSuat_LaoDong h
+                                where NgayDiemDanh = @date and Ca = @session and h.Status = 1
+                                group by h.HeaderID) as a 
+                                left join DiemDanh_NangSuatLaoDong c on c.HeaderID = a.HeaderID
+                                left join NhanVien d on c.MaNV = d.MaNV
+                                left join CongViec_NhomCongViec cv_ncv on cv_ncv.MaCongViec = d.MaCongViec
+                                left join NhomCongViec ncv on ncv.MaNhomCongViec = cv_ncv.MaNhomCongViec
+                                group by a.HeaderID, a.FetchDataTime) as hd) as dilam,
+                                (select
+                                sum(case when (d.DiLam = 0 and (d.LyDoVangMat = N'Ốm' or d.LyDoVangMat = N'Nghỉ phép' or d.LyDoVangMat = N'Vô lý do'
+                                or d.LyDoVangMat = N'Khác' or d.LyDoVangMat = N'Tai nạn lao động' or d.LyDoVangMat = N'Ốm dài'
+                                or d.LyDoVangMat = N'Thai sản' or d.LyDoVangMat = N'Tạm hoãn lao động'
+                                or d.LyDoVangMat = N'Vô lý do dài')) then 1 else 0 end) as 'TongNghi',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Ốm') then 1 else 0 end) as 'Om',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Nghỉ phép') then 1 else 0 end) as 'Phep',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Vô lý do') then 1 else 0 end) as 'VoLyDo',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Khác') then 1 else 0 end) as 'Khac',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Tai nạn lao động') then 1 else 0 end) as 'TaiNanLaoDong',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Ốm dài') then 1 else 0 end) as 'OmDai',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Thai sản') then 1 else 0 end) as 'ThaiSan',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Tạm hoãn lao động') then 1 else 0 end) as 'TamHoanLaoDong',
+                                sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Vô lý do dài') then 1 else 0 end) as 'VoLyDoDai'
+                                from Header_DiemDanh_NangSuat_LaoDong as hd1 left join 
+                                Header_DiemDanh_NangSuat_LaoDong_Detail hd  on hd1.HeaderID = hd.HeaderID left join 
+                                DiemDanh_NangSuatLaoDong d on hd.HeaderID = d.HeaderID
+                                where MaPhongBan = @departmentID and NgayDiemDanh = @date and Ca = @session) as nghi";
                     var listSum = db.Database.SqlQuery<SoLuongDiLam_Vang>(mysql,
                                                                         new SqlParameter("departmentID", departmentID.ToString()),
                                                                         new SqlParameter("date", date.ToString("yyyy-MM-dd")),
@@ -843,34 +862,34 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
                     foreach (var item in listUpdate)
                     {
-                        DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
-                        dn.MaNV = item.maNV;
-                        dn.DiLam = item.status;
-                        dn.LyDoVangMat = item.reason;
-                        dn.ThoiGianThucTeDiemDanh = item.timeAttendance != "" ? (DateTime?)Convert.ToDateTime(item.timeAttendance) : null;
-                        dn.GhiChu = item.description;
-                        dn.isFilledFromAPI = false;
-                        dn.isChangedManually = true;
-                        if (item.isEnvolved)
+                        if (item.isEnvolved) //check updating manually.
                         {
-                            dn.ActualHeaderFetched = headerIDmin;
-                            dn.HeaderID = headerIDmin;
-                            if (item.headerID == null)
+                            if (item.headerID == null) // Dilam : 0 => 1
                             {
+                                DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
+                                dn.HeaderID = headerIDmin;
+                                dn.MaNV = item.maNV;
+                                dn.DiLam = item.status;
+                                dn.LyDoVangMat = item.reason;
+                                dn.ThoiGianThucTeDiemDanh = item.timeAttendance != "" ? (DateTime?)Convert.ToDateTime(item.timeAttendance) : null;
+                                dn.GhiChu = item.description;
+                                dn.isChangedManually = true;
+                                dn.isFilledFromAPI = false;
+                                dn.ActualHeaderFetched = headerIDmin;
                                 db.DiemDanh_NangSuatLaoDong.Add(dn);
                             }
-                            else
+                            else //Dilam :  1 => 0
                             {
-                                db.Entry(dn).State = EntityState.Modified;
-                            }
-                        }
-                        else
-                        {
-                            if (item.headerID != null)
-                            {
-                                db.DiemDanh_NangSuatLaoDong.Remove(db.DiemDanh_NangSuatLaoDong.Find(item.maNV, item.headerID));
-                                //dn.HeaderID = headerID;
-                                //db.Entry(dn).State = EntityState.Modified;
+                                if (item.headerID != null)
+                                {
+                                    DiemDanh_NangSuatLaoDong oldDN = db.DiemDanh_NangSuatLaoDong.Find(item.maNV, item.headerID);
+                                    oldDN.DiLam = item.status;
+                                    oldDN.LyDoVangMat = item.reason;
+                                    oldDN.ThoiGianThucTeDiemDanh = item.timeAttendance != "" ? (DateTime?)Convert.ToDateTime(item.timeAttendance) : null;
+                                    oldDN.GhiChu = item.description;
+                                    oldDN.isChangedManually = true;
+                                    db.Entry(oldDN).State = EntityState.Modified;
+                                }
                             }
                         }
                     }
@@ -884,6 +903,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);
             return Json(new { success = true, data = result, listAtten_NotAtten = listAtten_NotAtten }, JsonRequestBehavior.AllowGet);
+            
         }
         [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [HttpPost]
@@ -931,15 +951,11 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         }
         [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [HttpPost]
-
         [Route("phan-xuong/diem-danh/lay-thong-tin")]
-        public async Task<ActionResult> fetchAPIAsync()
+        public async Task<ActionResult> fetchAPIAsync(int session, string date)
         {
-            var dateAtt = Convert.ToDateTime(Request["date"]);
-            int session = Int32.Parse(Request["session"]);
-            var departmentID = Request["department"];
-            string manv = Request["MaNV"];
-            string tennv = Request["TenNV"];
+            var dateAtt = Convert.ToDateTime(date);
+
             DateTime realTimeNow = DateTime.Now;
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -949,15 +965,16 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                     try
                     {
                         // FETCH API
-                        Result dataReceived = await FetchDataAsync();
+                        Result dataReceived = await FetchDataAsync(date , session);
                         // 
                         int headerIDMin = getFirstSuccessfullyFetch(dataReceived.dateFetching, dataReceived.Session);
                         //update Header
                         InsertHeaderAPI(dataReceived);
-                        
+
                         //getAPI successfully =>  update DiemDanh
                         if (dataReceived.success)
                         {
+                            ViewBag.time = dataReceived.dateFetching;
                             int currenHeaderID = getHeader(dataReceived.dateFetching, dataReceived.Session, dataReceived.actualTimeFetching);
                             if (headerIDMin == -1)
                             {
@@ -977,12 +994,11 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 valid = true;
 
                                 string sqlCheckEmployeeExisted = $"select MaNV from NhanVien where MaNV = @MaNV";
-                                string result = db.Database.SqlQuery<string>(sqlCheckEmployeeExisted,new SqlParameter("MaNV",item.MaNhanVien)).FirstOrDefault();
-                                if (result == null || oldMaNV.Equals(item.MaNhanVien))
+                                string existed = db.Database.SqlQuery<string>(sqlCheckEmployeeExisted, new SqlParameter("MaNV", item.MaNhanVien)).FirstOrDefault();
+                                if (existed == null || oldMaNV.Equals(item.MaNhanVien))
                                 {
                                     valid = false;
                                 }
-
                                 if (valid)
                                 {
                                     DiemDanh_NangSuatLaoDong ddEntity = new DiemDanh_NangSuatLaoDong();
@@ -996,20 +1012,28 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                     ddEntity.ThoiGianLenLo = item.endTime;
                                     attendanceList.Add(ddEntity);
                                 }
-                                
+
                                 oldMaNV = item.MaNhanVien;
                             }
-                            InsertAttendanceAPI(attendanceList);
+                            if (attendanceList.Count > 0)
+                            {
+                                InsertAttendanceAPI(attendanceList);
+                            }
+                            transaction.Commit();
+                            return Json(dataReceived.dateFetching.ToString("dd/MM/yyyy-HH:mm:ss"), JsonRequestBehavior.AllowGet);
                         }
-                        transaction.Commit();
+                        else 
+                        {
+                            return new HttpStatusCodeResult(400);
+                        }
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
+                        return new HttpStatusCodeResult(400);
                     }
                 }
             }
-            return View();
         }
 
         private void InsertAttendanceAPI(List<DiemDanh_NangSuatLaoDong> listAttendance)
@@ -1025,6 +1049,30 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                 {
                     throw ex;
                 }
+            }
+        }
+
+        [HttpPost]
+        [Route("phan-xuong/diem-danh/cap-nhat-thoi-gian")]
+        public ActionResult updateTimeFetchSuccessfully()
+        {
+            try
+            {
+                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                string query = "select max(FetchDataTime) from Header_DiemDanh_NangSuat_LaoDong where isCreatedManually = 0 and Status = 1";
+                DateTime timeFetch = db.Database.SqlQuery<DateTime>(query).FirstOrDefault();
+                if (timeFetch != null)
+                {
+                    return Json(timeFetch.ToString("dd/MM/yyyy-HH:mm:ss"), JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -1080,11 +1128,11 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             return index;
         }
 
-        private async Task<Result> FetchDataAsync()
+        private async Task<Result> FetchDataAsync(string date, int session)
         {
             DateTime timeFetchData = DateTime.Now;
-            var dateFetchData = Convert.ToDateTime(Request["date"]);
-            int sessionFetchData = Int32.Parse(Request["session"]);
+            var dateFetchData = Convert.ToDateTime(date);
+            int sessionFetchData = session;
 
             // start fetching data
             var sentRequest = new RequestParams();
