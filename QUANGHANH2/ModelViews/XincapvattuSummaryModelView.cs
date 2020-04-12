@@ -21,6 +21,8 @@ namespace QUANGHANH2.ModelViews
         public int Id { get; set; }
         public string Equipmentid { get; set; }
         public string equipment_name { get; set; }
+        public string equipmentId_dikem { get; set; }
+        public string equipmentId_dikem_name { get; set; }
         public string DepartmentId { get; set; }
         public string SupplyId { get; set; }
         public string SupplyName { get; set; }

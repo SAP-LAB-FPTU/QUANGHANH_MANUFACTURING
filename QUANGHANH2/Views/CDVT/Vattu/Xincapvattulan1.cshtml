@@ -40,7 +40,7 @@
                     <div class="center">
 
                         <h3><b>XIN CẤP VẬT TƯ SỬA CHỮA THƯỜNG XUYÊN</b></h3>
-                  
+
 
 
                     </div>
@@ -51,14 +51,17 @@
                                 <tr>
                                     <th class="center-align">Mã Thiết Bị</th>
                                     <th class="center-align">Tên Thiết Bị</th>
+                                    <th class="center-align">Mã Thiết Bị</th>
+                                    <th class="center-align">Tên Thiết Bị</th>
                                     <th class="center-align">Vật tư SCTX</th>
                                 </tr>
                             </thead>
+                            <tbody></tbody>
                         </table>
 
                     </div>
                     <div class="modal-footer">
-                        <a href="#myaleart" class="btn blue darken-2  save-category modal-trigger"> XIN CẤP</a>
+                        <a href="#myaleart" id ="summitsupply" class="btn blue darken-2  save-category modal-trigger"> XIN CẤP</a>
                     </div>
 
 
@@ -107,60 +110,65 @@
                         </div>
                     </div>
                 </div>
-                @*duyệt cấp*@
-            <div id="duyetcap">
+                @*@//////////////////
+                duyệt cấp
+                ///////////////////////*@
+                <div id="duyetcap">
 
-                <div class="center">
+                    <div class="center">
 
-                    <h3><b>Duyệt Cấp</b></h3>
-               </div>
+                        <h3><b>Duyệt Cấp</b></h3>
+                    </div>
 
-                <div id="table-wrapper2" class="col s12 table_container">
-                    <table id="myequipmentconfirm" class="striped table-responsive centered table-bordered mytable">
-                        <thead>
-                            <tr>
-                                <th class="center-align">Mã Thiết Bị</th>
-                                <th class="center-align">Tên Thiết Bị</th>
-                                <th class="center-align">Vật tư SCTX</th>
-                            </tr>
-                        </thead>
-                    </table>
-
-                </div>
-               
-
-
-
-
-                <div class="modal fade" style="width: 950px" id="listvattuconfirm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 class="modal-title">Danh Sách Vật Tư </h3>
-                        </div>
-                        <table id="mysupplyconfirm" class="centered striped table-bordered">
+                    <div id="table-wrapper2" class="col s12 table_container">
+                        <table id="myequipmentconfirm" class="striped table-responsive centered table-bordered mytable">
                             <thead>
                                 <tr>
-
-                                    <th>Mã thiết bi vật tư</th>
-                                    <th>Tên thiết bị vật tư (Mã hiệu - quy cách)</th>
-                                    <th>ĐVT</th>
-                                    <th>Số lượng xin cấp</th>
-                                    <th>Số lượng cấp</th>
-                                    <th>Số lượng thực lĩnh</th>
+                                    <th class="center-align">Mã Thiết Bị</th>
+                                    <th class="center-align">Tên Thiết Bị</th>
+                                    <th class="center-align">Mã Thiết Bị</th>
+                                    <th class="center-align">Tên Thiết Bị</th>
+                                    <th class="center-align">Vật tư SCTX</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
-                    </div>
-                    <div class="modal-footer">
-                       
-                        <button type="button" id="submiteditconfirm" class="btn light-blue lighten-1 modal-close">Lưu</button>
-                        <button type="button" id="closeForm1confirm" class="btn light-blue lighten-1 modal-close">Thoát</button>
-                    </div>
-                </div>
 
-            </div>
+                    </div>
+
+
+
+
+
+                    <div class="modal fade" style="width: 950px" id="listvattuconfirm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Danh Sách Vật Tư </h3>
+                            </div>
+                            <table id="mysupplyconfirm" class="centered striped table-bordered">
+                                <thead>
+                                    <tr>
+
+                                        <th>Mã thiết bi vật tư</th>
+                                        <th>Tên thiết bị vật tư (Mã hiệu - quy cách)</th>
+                                        <th>ĐVT</th>
+                                        <th>Số lượng xin cấp</th>
+                                        <th>Số lượng cấp</th>
+                                        <th>Số lượng thực lĩnh</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+
+                            <button type="button" id="submiteditconfirm" class="btn light-blue lighten-1 modal-close">Lưu</button>
+                            <button type="button" id="closeForm1confirm" class="btn light-blue lighten-1 modal-close">Thoát</button>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -219,63 +227,63 @@
             <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
             <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
             <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+            <script src="~/js/Rowspan/jquery.rowspanizer.js"></script>
+            <script src="~/js/Rowspan/jquery.rowspanizer.min.js"></script>
             <script>
                 
                 $(document).ready(function () {
 
-                    datatable = $('#myequipment').DataTable({
-                        "ajax": {
-                            "url": "/phan-xuong/xin-cap-vat-tu-sctx/getinformation",
-                            "type": "POST",
-                            "datatype": "json",
-
-                            "cache": "false"
-                        },
-                        "drawCallback": function (settings) {
-                            ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
-                            $("#pre-load").hide("slow", function () {
-                            });
-                            ////////////////////////////////////////////////
-                        },
-                        "columns": [
-                            { "data": "equipmentId", "name": "equipmentId" },
-                            { "data": "equipment_name", "name": "equipment_name" },
-
-                            {
-                                "data": "equipmentId", "render": function (data) {
-                                    return "<a href=\"#listvattu\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\"onclick=setEquipmentID(" + data + ") data-equipmentId=\"" + data + "\">Danh&nbsp;Sách&nbsp;Vật&nbsp;Tư </a>";
-                                },
-                                "orderable": false,
-                                "lengthChange": false,
-                                "searchable": false,
-                                "width": "150px"
-                            }
-                        ],
-                        "language": {
-                            "emptyTable": "Không có dữ liệu",
-
-                        },
-                        "serverSide": true,
-                        "rowId": "activityid",
-                        "bLengthChange": false,
-                        "bFilter": false,
-                        "bInfo": false,
-                        "bPaginate": false,
-                        "bAutoWidth": false,
-                        "order": [0, "asc"],
-                        "initComplete": function (settings, json) {
-                            ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
-                            $("#pre-load").hide("slow", function () {
-                            });
-                            //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
-                        }
-                    });
+                    drawTable();
 
                 });
+                function drawTable() {
+            $("#pre-load").show();
+            
+            $.ajax({
+                url: "/phan-xuong/xin-cap-vat-tu-sctx/getinformation",
+                type: "POST",
+               
+                datatype: "json",
+                cache: false,
+                success: function (response) {
+                    resultArray = response.data;
+                    var tbData = "";
+                    if (resultArray.length == 0) {
+                        $("#myequipment").find("tbody").append("<tr><td colspan=\"5\"><i>Không có dữ liệu</i></td></tr>")
+                    } else {
+                        for (var i = 0; i < resultArray.length; i++) {
+                            tbData += "<tr>" +
+                                
+                                "<td>" + resultArray[i].equipmentId+ "</td>" +
+                                "<td>" + resultArray[i].equipment_name + "</td>" +
+                                "<td>" + resultArray[i].equipmentId_dikem + "</td>" +
+                                "<td>" + resultArray[i].equipmentId_dikem_name + "</td>" +
+                                
+                                "<td><a href=\"#listvattu\"  name='action' onclick='OpenEdit(\""+resultArray[i].equipmentId_dikem+"\")' class=\"btn blue darken-2  save-category modal-trigger\">Danh&nbsp;Sách&nbsp;Vật&nbsp;Tư </a></td>" +
+                               
+                                "</tr>";
+                            
+                        }
+                        $("#myequipment").find("tbody").append(tbData);
+                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                       
+                        $('#myequipment').rowspanizer({
+                                 columns: [0,1]
+                          });                  
+                         $('.rowspan-combine').css({
+                'vertical-align':'middle'
+            })
+                    }
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    $("#pre-load").hide();
+                }
+            });
+        }
+
                 var equipmentid;
-                $(document).on("click", ".open-EditModal", function () {
+                 function OpenEdit(equipment_id) {
                     $("#mysupply").find("tr:gt(0)").remove();
-                    equipmentid = $(this).data('equipmentid');
+                    equipmentid = equipment_id;
 
                     $.ajax({
                         type: "POST",
@@ -320,7 +328,7 @@
                         },
                         cache: false
                     })
-                });
+                }
 
 
 
@@ -369,9 +377,9 @@
                                 'supplyplanid': JSON.stringify(listsupplyplanid),
                             },
                             success: function (data) {
-                                datatable.ajax.reload();
+                                
                                 successAlert('Thành công', data.message);
-                                $('#closeForm1').click();
+                              $('#listvattu').modal('close');
 
 
                             },
@@ -418,9 +426,9 @@
                         url: "/phan-xuong/xin-cap-vat-tu-sctx/xincap",
 
                         success: function () {
-                            datatable.ajax.reload();
+                          $("#summitsupply").attr("disabled", true);
                             successAlert('Thành công', 'Xin cấp thành công');
-                            //$('#closeForm1').click();
+                             
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
                             $('#pre-load').hide();
@@ -437,66 +445,62 @@
 
                     return false;
                 });
+                ///////////////////
                 //Duyệt Cấp
+                ///////////////////////
                 $(document).ready(function () {
-
-                    dataTableConfirm = $('#myequipmentconfirm').DataTable({
-                        "ajax": {
-                            "url": "/phan-xuong/xin-cap-vat-tu-sctx/duyet-cap/getinformation",
-                            "type": "POST",
-                            "datatype": "json",
-
-                            "cache": "false"
-                        },
-                        "drawCallback": function (settings) {
-                            ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
-                            $("#pre-load").hide("slow", function () {
-                            });
-                            ////////////////////////////////////////////////
-                        },
-                        "columns": [
-                            { "data": "equipmentId", "name": "equipmentId" },
-                            { "data": "equipment_name", "name": "equipment_name" },
-
-                            {
-                                "data": "equipmentId", "render": function (data) {
-                                    return "<a href=\"#listvattuconfirm\" data-toggle=\"modal\" class=\"open-EditModalConfirm waves-effect waves-light btn blue darken-1 modal-trigger\" data-equipmentId=\"" + data + "\">Danh&nbsp;Sách&nbsp;Vật&nbsp;Tư </a>";
-                                },
-                                "orderable": false,
-                                "lengthChange": false,
-                                "searchable": false,
-                                "width": "150px"
-                            }
-                        ],
-                        "language": {
-                            "emptyTable": "Không có dữ liệu",
-
-                        },
-                        "serverSide": true,
-                        "rowId": "activityid",
-                        "bLengthChange": false,
-                        "bFilter": false,
-                        "bInfo": false,
-                        "bPaginate": false,
-                        "bAutoWidth": false,
-                        "order": [0, "asc"],
-                        "initComplete": function (settings, json) {
-                            ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
-                            $("#pre-load").hide("slow", function () {
-                            });
-                            //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
-                        }
-                    });
-
+                    drawTableDuyetCap();
                 });
-
-                var equipmentId;
+                function drawTableDuyetCap() {
+            $("#pre-load").show();
+            
+            $.ajax({
+                url: "/phan-xuong/xin-cap-vat-tu-sctx/duyet-cap/getinformation",
+                type: "POST",
+               
+                datatype: "json",
+                cache: false,
+                success: function (response) {
+                    resultArray = response.data;
+                    var tbData = "";
+                    if (resultArray.length == 0) {
+                        $("#myequipmentconfirm").find("tbody").append("<tr><td colspan=\"5\"><i>Không có dữ liệu</i></td></tr>")
+                    } else {
+                        for (var i = 0; i < resultArray.length; i++) {
+                            tbData += "<tr>" +
+                                
+                                "<td>" + resultArray[i].equipmentId+ "</td>" +
+                                "<td>" + resultArray[i].equipment_name + "</td>" +
+                                "<td>" + resultArray[i].equipmentId_dikem + "</td>" +
+                                "<td>" + resultArray[i].equipmentId_dikem_name + "</td>" +
+                                
+                                "<td><a href=\"#listvattuconfirm\"  name='action' onclick='OpenEditConfirm(\""+resultArray[i].equipmentId_dikem+"\")' class=\"btn blue darken-2  save-category modal-trigger\">Danh&nbsp;Sách&nbsp;Vật&nbsp;Tư </a></td>" +
+                               
+                                "</tr>";
+                            
+                        }
+                        $("#myequipmentconfirm").find("tbody").append(tbData);
+                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                       
+                        $('#myequipmentconfirm').rowspanizer({
+                                 columns: [0,1]
+                          });                  
+                         $('.rowspan-combine').css({
+                'vertical-align':'middle'
+            })
+                    }
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    $("#pre-load").hide();
+                }
+            });
+        }
+                var equipmentId_duyetcap;
                 var lists = [];
-                $(document).on("click", ".open-EditModalConfirm", function () {
+                function OpenEditConfirm(equipment_id) {
                      lists=[];
                     $("#mysupplyconfirm").find("tr:gt(0)").remove();
                    
-                    equipmentId = $(this).data('equipmentid');
+                    equipmentId_duyetcap = equipment_id;
 
                     $.ajax({
                         type: "POST",
@@ -533,11 +537,11 @@
                             errorAlert('Lỗi', 'Có lỗi xảy ra');
                         },
                         data: {
-                            equipmentId: equipmentId
+                            equipmentId: equipmentId_duyetcap
                         },
                         cache: false
                     })
-                });
+                }
                 $("#submiteditconfirm").click(function () {
                 for (var i = 0; i < lists.length; i++) {
                     lists[i].quantity = $("#quantity-" + lists[i].equipmentid + "-" + lists[i].supplyid).val()
@@ -559,6 +563,7 @@
                            successAlert('Thành công', 'Chỉnh sửa thành công');
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            $("#pre-load").hide();
                             errorAlert('Lỗi', 'Có lỗi xảy ra');
                         },
                     });
