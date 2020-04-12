@@ -70,9 +70,24 @@ namespace QUANGHANH2.Repositories
            supp.departmentid = 'cdvt' and month(date) = month(getdate()) and status = 1").ToList();
                 
                 else
-                vattus = context.Database.SqlQuery<XincapvattuSummaryModelViewVer2>("select supp.id Id,supp.equipmentId Equipmentid,e.equipment_name,supp.supplyid, s.supply_name SupplyName,supp.dinh_muc SupplyAverage, s.unit SupplyUnit ,supp.quantity_plan SupplyPlan,(case when su.quantity is null then 0 else su.quantity end) SupplyRemaining " +
-                    " from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid left join Supply_Equipment_SCTX su on supp.equipmentid=su.equipmentId and supp.supplyid=su.supply_id inner join Equipment e on supp.equipmentid = e.equipmentId where" +
-                    " supp.departmentid = @departmentid and month(date) = month(getdate()) and status = 1 order by equipmentid asc", new SqlParameter("departmentid", departmentId)).ToList();
+                vattus = context.Database.SqlQuery<XincapvattuSummaryModelViewVer2>(@"select supp.id Id, sdk.equipmentId,  eq.equipment_name , supp.equipmentid as equipmentId_dikem,e.equipment_name as equipmentId_dikem_name,
+supp.supplyid, s.supply_name SupplyName, supp.dinh_muc SupplyAverage, s.unit SupplyUnit, supp.quantity_plan SupplyPlan,
+(case when su.quantity is null then 0 else su.quantity end) SupplyRemaining
+                     from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid
+
+                     left join Supply_SCTX su on supp.equipmentid = su.equipmentId
+
+                      and supp.supplyid = su.supply_id
+
+                      inner join Supply_DiKem sdk on supp.equipmentId = sdk.equipmentId_dikem
+
+                      inner join Equipment e on supp.equipmentid = e.equipmentId
+
+
+                     inner join Equipment eq on sdk.equipmentId = eq.equipmentId where
+                     supp.departmentid = @departmentid
+
+                     and month(date) = month(getdate()) and status = 1 order by e.equipmentid asc", new SqlParameter("departmentid", departmentId)).ToList();
             }
             return vattus;
         }
@@ -81,8 +96,8 @@ namespace QUANGHANH2.Repositories
         public bool HasProvided(string departmentId)
         {
 
-            return context.Database.SqlQuery<int>($"SELECT COUNT(1) from SupplyPlan WHERE departmentid = '{departmentId}' " +
-          "AND YEAR([date]) = YEAR(GETDATE()) AND MONTH([date]) = MONTH(Getdate())and quantity_provide   = 0").First() > 0;
+            return context.Database.SqlQuery<int>($"SELECT COUNT(1) from SupplyPlan WHERE departmentid = @departmentid " +
+          "AND YEAR([date]) = YEAR(GETDATE()) AND MONTH([date]) = MONTH(Getdate())and quantity_provide is null",new SqlParameter("departmentid",departmentId)).First() > 0;
         }
 
     }
