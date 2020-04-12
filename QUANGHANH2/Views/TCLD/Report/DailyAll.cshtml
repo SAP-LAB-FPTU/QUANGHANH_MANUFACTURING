@@ -16,7 +16,7 @@
         })
     });
     $(document).ready(function () {
-        $("#dateforsearch").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now.AddDays(-1))");
+        $("#dateforsearch").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
         $("#ngayreport").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
         var url_string = window.location.href;
         var url = new URL(url_string);
@@ -48,74 +48,6 @@
             <hr />
         </div>
         <div class="row">
-            @*<div class="col m12 l12 s12">
-                    <ul class="tabs">
-                        <li class="tab col m6 l6 s6"><a class="active" href="#bieudo">BIỂU ĐỒ</a></li>
-                        <li class="tab col l6 m6 s6"><a href="#bangchitiet">BẢNG BÁO CÁO CHI TIẾT</a></li>
-                    </ul>
-                </div>*@
-            @*<div id="bieudo" class="col s12">
-                    <div class="chart_container">
-                        <div class="row">
-                            <div class="col l4 m12 s12  center">
-                                <div class="card">
-                                    <div class="card-content analytics-info">
-                                        <h5 class="card-title">Tổng số lao động</h5>
-                                        <br> <br />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col l4 m12 s12  center">
-                                <div class="card">
-                                    <div class="card-content analytics-info">
-                                        <h5 class="card-title">Tỉ lệ huy động trung bình</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col l4 m12 s12 center">
-                                <div class="card">
-                                    <div class="card-content analytics-info">
-                                        <h5 class="card-title">Tổng số lao động nghỉ ốm dài</h5>
-                                        <br> <br />
-                                        <div class="summary_number"><h3><b></b></h3></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col l12 s12">
-                                <div class="card">
-                                    <div class="card-content analytics-info">
-                                        <h5 class="card-title center">Lao động theo danh sách và số lao động tham gia sản xuất theo từng đơn vị</h5>
-                                        <div id="bar-basic" style="height:600px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col l12">
-                                <div class="card">
-                                    <div class="card-content analytics-info">
-                                        <h5 class="card-title center">Lao động bình quân theo từng đơn vị</h5>
-                                        <div id="basic-bar" style="height:400px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col l12">
-                                <div class="card">
-                                    <div class="card-content analytics-info">
-                                        <h5 class="card-title center">Phần trăm huy động bình quân theo từng đơn vị</h5>
-                                        <div id="basic-bar2" style="height:400px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col l12">
-                                <div class="card">
-                                    <div class="card-content analytics-info">
-                                        <h5 class="card-title center">Lao động nghỉ dài theo từng đơn vị</h5>
-                                        <div id="basic-bar3" style="height:400px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>*@
             <div id="bangchitiet" class="col s12">
                 <div class="report_container">
                     <div class="row">
@@ -309,216 +241,92 @@
             </div>
         </div>
     </div>
-    @*<div id="modal1" class="modal">
-            <div class="modal-content">
-                <h4 class="modal_title"></h4>
-                <div>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col s12">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <div class="row">
-                                            <div class="col s12">
-                                                <table class="striped responsive-table" id="data">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="text-align: center">Số thứ tự</th>
-                                                            <th style="text-align: center">Mã nhân viên</th>
-                                                            <th style="text-align: center">Tên</th>
-                                                            <th style="text-align: center">Năm sinh</th>
-                                                            <th style="text-align: center">Giới tính</th>
-                                                            <th style="text-align: center">Số điện thoại</th>
-                                                            <th style="text-align: center">Phân xưởng</th>
-                                                            <th style="text-align: center"></th>
-                                                            <th style="text-align: center"></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td style="text-align: center">1</td>
-                                                            <td style="text-align: center"><a href="/">2179</a></td>
-                                                            <td style="text-align: center">
-                                                                <a href="/">
-                                                                    Nguyễn Xuân
-                                                                    Thoàng
-                                                                </a>
-                                                            </td>
-                                                            <td style="text-align: center">19/07/1987</td>
-                                                            <td style="text-align: center">Nam</td>
-                                                            <td style="text-align: center">091346578</td>
-                                                            <td style="text-align: center">Phân xưởng cơ khí</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="text-align: center">2</td>
-                                                            <td style="text-align: center"><a href="/">7751</a></td>
-                                                            <td style="text-align: center">
-                                                                <a href="/">
-                                                                    Nguyễn Văn
-                                                                    Hùng
-                                                                </a>
-                                                            </td>
-                                                            <td style="text-align: center">19/05/1984</td>
-                                                            <td style="text-align: center">Nam</td>
-                                                            <td style="text-align: center">094234658</td>
-                                                            <td style="text-align: center">Phân xưởng cơ khí</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="text-align: center">3</td>
-                                                            <td style="text-align: center"><a href="/">3506</a></td>
-                                                            <td style="text-align: center">
-                                                                <a href="/">
-                                                                    Nguyễn Văn
-                                                                    Hùng
-                                                                </a>
-                                                            </td>
-                                                            <td style="text-align: center">19/07/1991</td>
-                                                            <td style="text-align: center">Nam</td>
-                                                            <td style="text-align: center">091758725</td>
-                                                            <td style="text-align: center">Phân xưởng cơ khí</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="text-align: center">4</td>
-                                                            <td style="text-align: center"><a href="/">2041</a></td>
-                                                            <td style="text-align: center">
-                                                                <a href="/">
-                                                                    Nguyễn Văn
-                                                                    Hưng
-                                                                </a>
-                                                            </td>
-                                                            <td style="text-align: center">19/07/1976</td>
-                                                            <td style="text-align: center">Nam</td>
-                                                            <td style="text-align: center">098765243</td>
-                                                            <td style="text-align: center">Phân xưởng xây dựng</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="text-align: center">5</td>
-                                                            <td style="text-align: center"><a href="/">4472</a></td>
-                                                            <td style="text-align: center">
-                                                                <a href="/">
-                                                                    Nguyễn Văn
-                                                                    Hoa
-                                                                </a>
-                                                            </td>
-                                                            <td style="text-align: center">19/07/1976</td>
-                                                            <td style="text-align: center">Nữ</td>
-                                                            <td style="text-align: center">091874526</td>
-                                                            <td style="text-align: center">Phân xưởng cơ khí</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="text-align: center">6</td>
-                                                            <td style="text-align: center"><a href="/">7430</a></td>
-                                                            <td style="text-align: center">
-                                                                <a href="/">Đông Văn Đai</a>
-                                                            </td>
-                                                            <td style="text-align: center">19/07/1985</td>
-                                                            <td style="text-align: center">Nam</td>
-                                                            <td style="text-align: center">098645724</td>
-                                                            <td style="text-align: center">Phân xưởng cơ khí</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
-            </div>
-        </div>*@
-    <!---------------------------------------------------------------------------------->
-    @*<input type="text" value="@ViewBag.TenDonVi" id="valueforchart" hidden />
-        <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
-        <script src="~/js/tuan_js/myChart.js"></script>*@
-    <script>
-        $('.clickable_cell').click(function () {
-            var idName = $(this).attr('id');
-            switch (idName) {
-                case 'ldtdd_kt':
-                    $('.modal_title').html('LAO ĐỘNG KHAI THÁC THỰC TẾ THEO DANH SÁCH');
-                    break;
-                case 'ldtdd_cd':
-                    $('.modal_title').html('LAO ĐỘNG CƠ ĐIỆN THỰC TẾ THEO DANH SÁCH');
-                    break;
-                case 'ldtdd_hstt':
-                    $('.modal_title').html('LAO ĐỘNG HSTT THỰC TẾ THEO DANH SÁCH');
-                    break;
-                case 'ldtdd_tong':
-                    $('.modal_title').html('TỔNG LAO ĐỘNG THỰC TẾ THEO DANH SÁCH');
-                    break;
-                case 'ldnghidai_vld':
-                    $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI VÔ LÝ DO');
-                    break;
-                case 'ldnghidai_thhd':
-                    $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI THHĐ');
-                    break;
-                case 'ldnghidai_om':
-                    $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI ỐM, TNLĐ');
-                    break;
-                case 'ldnghidai_tong':
-                    $('.modal_title').html('TỔNG LAO ĐỘNG NGHỈ DÀI');
-                    break;
-                case 'tonglaodong':
-                    $('.modal_title').html('TỔNG LAO ĐỘNG SAU KHI TRỪ');
-                    break;
-                case 'ldbq_tong':
-                    $('.modal_title').html('TỔNG LAO ĐỘNG THỰC HIỆN BQ');
-                    break;
-                case 'ldbq_dilam':
-                    $('.modal_title').html('DANH SÁCH LAO ĐỘNG BQ ĐI LÀM');
-                    break;
-                case 'ldbq_ldvang_vld':
-                    $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ VÔ LÝ DO');
-                    break;
-                case 'ldbq_ldvang_om':
-                    $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ ỐM');
-                    break;
-                case 'ldbq_ldvang_khac':
-                    $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ VỚI LÝ DO KHÁC');
-                    break;
-                case 'ldbq_ldvang_tong':
-                    $('.modal_title').html('DANH SÁCH TỔNG HỢP LAO ĐỘNG THỰC HIỆN BQ NGHỈ');
-                    break;
-                default:
-                    break;
-            }
-        });
-        var elem = document.querySelector('.modal');
-        var instance = M.Modal.init(elem, options);
-    </script>
-    <script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
-    <script src="~/assets/extra-libs/prism/prism.js"></script>
-    <!-- This page plugin js -->
-    <!-- ============================================================== -->
-    <script src="~/assets/extra-libs/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
-    <script src="~/assets/extra-libs/jquery.easy-pie-chart/easy-pie-chart.init.js"></script>
-    <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
-    <script src="~/dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>
-    <script>
-        $("#export-button").click(function () {
-            var date = document.getElementById("dateforsearch").value;
-            $("#pre-load").show();
-            $.ajax({
-                type: 'Post',
-                url: '/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay/excel?date=' + date,
-            }).done(function () {
-                window.location.href = '/excel/TCLD/download/Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx';
-                $("#pre-load").hide("slow", function () {
-                });
+</div>
+
+<script>
+    $('.clickable_cell').click(function () {
+        var idName = $(this).attr('id');
+        switch (idName) {
+            case 'ldtdd_kt':
+                $('.modal_title').html('LAO ĐỘNG KHAI THÁC THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldtdd_cd':
+                $('.modal_title').html('LAO ĐỘNG CƠ ĐIỆN THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldtdd_hstt':
+                $('.modal_title').html('LAO ĐỘNG HSTT THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldtdd_tong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldnghidai_vld':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI VÔ LÝ DO');
+                break;
+            case 'ldnghidai_thhd':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI THHĐ');
+                break;
+            case 'ldnghidai_om':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI ỐM, TNLĐ');
+                break;
+            case 'ldnghidai_tong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG NGHỈ DÀI');
+                break;
+            case 'tonglaodong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG SAU KHI TRỪ');
+                break;
+            case 'ldbq_tong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG THỰC HIỆN BQ');
+                break;
+            case 'ldbq_dilam':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG BQ ĐI LÀM');
+                break;
+            case 'ldbq_ldvang_vld':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ VÔ LÝ DO');
+                break;
+            case 'ldbq_ldvang_om':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ ỐM');
+                break;
+            case 'ldbq_ldvang_khac':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ VỚI LÝ DO KHÁC');
+                break;
+            case 'ldbq_ldvang_tong':
+                $('.modal_title').html('DANH SÁCH TỔNG HỢP LAO ĐỘNG THỰC HIỆN BQ NGHỈ');
+                break;
+            default:
+                break;
+        }
+    });
+    var elem = document.querySelector('.modal');
+    var instance = M.Modal.init(elem, options);
+</script>
+<script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
+<script src="~/assets/extra-libs/prism/prism.js"></script>
+<!-- This page plugin js -->
+<!-- ============================================================== -->
+<script src="~/assets/extra-libs/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+<script src="~/assets/extra-libs/jquery.easy-pie-chart/easy-pie-chart.init.js"></script>
+<script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
+<script src="~/dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>
+<script>
+    $("#export-button").click(function () {
+        var date = document.getElementById("dateforsearch").value;
+        $("#pre-load").show();
+        $.ajax({
+            type: 'Post',
+            url: '/phong-tcld/nang-suat-lao-dong-va-tien-luong/nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay/excel?date=' + date,
+        }).done(function () {
+            window.location.href = '/excel/TCLD/download/Báo cáo năng suất lao động và tiền lương theo các phân xưởng theo ngày.xlsx';
+            $("#pre-load").hide("slow", function () {
             });
         });
-    </script>
-    <script>
-        $('#dateforsearch').datepicker({
-            language: 'vi',
-            maxDate: new Date()-1 // Now can select only dates, which goes after today
-        })
-        $(document).ready(function () {
-            $('.datepicker-inline').remove();
-        });
-    </script>
+    });
+</script>
+<script>
+    $('#dateforsearch').datepicker({
+        language: 'vi',
+        maxDate: new Date() - 1 // Now can select only dates, which goes after today
+    })
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
+    });
+</script>

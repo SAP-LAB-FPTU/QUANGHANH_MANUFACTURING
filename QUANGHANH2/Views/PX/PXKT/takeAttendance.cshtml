@@ -42,7 +42,7 @@
                 </h3>
             </div>
             <div class="col l3 center">
-                <button disabled class="waves-effect waves-light btn-large" onclick="fetchAPI()">Cập nhật điểm danh</button>
+                <button class="waves-effect waves-light btn-large" onclick="fetchAPI()">Cập nhật điểm danh</button>
             </div>
         </div>
 
@@ -377,6 +377,7 @@
             loadDatatableWith("/phan-xuong/diem-danh")
                 .then((status) => {
                 })
+            updateTimeFetchSuccessfully();
         }
 
         function convertToSQLDate(dateInput) {
@@ -399,6 +400,7 @@
                 });
                 //console.log("1");
                 resolve("successfully");
+                reject("fail");
             })
         }
 
@@ -571,14 +573,57 @@
         }
 
         function fetchAPI() {
-            $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
-                data.session = $("#ca").text().split(" ")[1];
-                data.department = $("#phanxuong").val();
-                data.date = convertToSQLDate($("#inputdate").val());
-            })
-            $("#attendanceTable").DataTable().ajax.url("/phan-xuong/diem-danh/lay-thong-tin")
-                .load()
-            $("#timeFetchSuccessfully").html("@ViewBag.time")
+            //$("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
+            //    data.session = $("#ca").text().split(" ")[1];
+            //    data.department = $("#phanxuong").val();
+            //    data.date = convertToSQLDate($("#inputdate").val());
+            //})
+            $("#pre-load").show();
+            var data = {
+                session: $("#ca").text().split(" ")[1],
+                date: convertToSQLDate($("#inputdate").val())
+            }
+            $.ajax({
+                url: "/phan-xuong/diem-danh/lay-thong-tin",
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#pre-load").hide();
+                    updateTimeFetchSuccessfully();
+                    $("#attendanceTable").DataTable().ajax.url("/phan-xuong/diem-danh").load();
+                    successAlert('Cập nhật thành công', '');
+                },
+                error: function () {
+                    $("#pre-load").hide();
+                    errorAlert('Đã có lỗi xảy ra', '');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            updateTimeFetchSuccessfully();
+        });
+
+        function loadingAfterFetchingAPI() {
+            loadDatatableWith("/phan-xuong/diem-danh/lay-thong-tin");
+        }
+
+        function updateTimeFetchSuccessfully() {
+            $.ajax({
+                url: "/phan-xuong/diem-danh/cap-nhat-thoi-gian",
+                type: "POST",
+                data: JSON.stringify(),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#timeFetchSuccessfully").html(data);
+                },
+                error: function () {
+                    errorAlert();
+                }
+            });
         }
 
         function searchEmployee() {
@@ -597,6 +642,7 @@
     <script>
         $("#searchButton").click(function () {
             $("#attendanceTable").DataTable().ajax.url("/phan-xuong/diem-danh").load();
+            updateTimeFetchSuccessfully();
         });
     </script>
 }
