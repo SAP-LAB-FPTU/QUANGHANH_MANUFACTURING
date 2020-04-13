@@ -741,7 +741,7 @@
         for (let i = 0; i < kind.length; i++) {
             let milli = kind[i]["Ngay"].replace(/\/Date\((-?\d+)\)\//, '$1');
             let da = new Date(parseInt(milli));
-            labels.push(da.getDay() + "/" + (da.getMonth()+1) + "/" + da.getFullYear());
+            labels.push(da.getDate() + "/" + (da.getMonth() + 1) + "/" + da.getFullYear());
             data.push(kind[i]["SanLuong"]);
             console.log(kind.length)
         }
