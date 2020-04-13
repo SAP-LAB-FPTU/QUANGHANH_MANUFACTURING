@@ -79,8 +79,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                           "when DATEADD(MONTH, cc.ThoiHan, cn.NgayCap) <= GETDATE()\n" +
                           "then 1 else 0 end) as st\n" +
                           "from ChungChi_NhanVien cn join ChungChi cc on cn.MaChungChi = cc.MaChungChi) as th";
-
-
                 try
                 {
                     temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
@@ -418,8 +416,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     {
 
                     }
-
-
                     //////////////////////////////////////////////////////////////////////////////
 
                     //////////////////////////////////////GET TI LE HUY DONG////////////////////////////////////////
@@ -611,12 +607,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             convert(float, sum(case when hdd.MetLoThucHien is NULL then 0 else hdd.MetLoThucHien end),2) as 'LKML'
                             from
                             (select Min(HeaderID) 'HeaderID'
-
                             from Header_DiemDanh_NangSuat_LaoDong
-
                             where NgayDiemDanh = @NgayDiemDanh
                             group by NgayDiemDanh, Ca) as hd
-
                             join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID";
 
                     try
