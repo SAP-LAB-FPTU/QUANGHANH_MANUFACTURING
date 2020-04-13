@@ -431,12 +431,13 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             string shift = Request["shift"];
             string departmentID = (String)Session["departID"];
             string convert_date;
-            int convert_shift = 1;
+            int convert_shift;
             try
             {
                 if (date.Equals("") || shift.Equals(""))
                 {
                     convert_date = DateTime.Now.ToString("MM/dd/yyyy");
+                    convert_shift = 1;
                     //var curr_hour = DateTime.Now.Hour;
                     //if (curr_hour >= 8 && curr_hour < 16)
                     //{
@@ -458,7 +459,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                 {
                     date = date.Split('/')[2] + '/' + date.Split('/')[1] + '/' + date.Split('/')[0];
                     convert_date = Convert.ToDateTime(date).ToString("MM/dd/yyyy");
-                    //convert_shift = Convert.ToInt32(shift);
+                    convert_shift = Convert.ToInt32(shift);
                 }
 
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -468,14 +469,21 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 (case when hd.NgayDiemDanh is NULL then '0-0-0' else hd.NgayDiemDanh end) as 'NgayDiemDanh', 
                                 (case when hd.Ca is NULL then '0' else hd.Ca end) as 'Ca', 
                                 (case when dd.MaNV is NULL then '0' else dd.MaNV end) as 'MaNV', 
-                                (case when nv.Ten is NULL then '' else nv.Ten end) as 'Ten', 
+                                (case when dd.Ten is NULL then '' else dd.Ten end) as 'Ten', 
                                 (case when dd.DiemLuong is NULL then 0 else dd.DiemLuong end) as 'DiemLuong' 
                                 from 
-                                (select hd.HeaderID, hd.NgayDiemDanh, hdd.MaPhongBan, Ca from Header_DiemDanh_NangSuat_LaoDong hd 
+                                (select hd.HeaderID, hd.NgayDiemDanh, hdd.MaPhongBan, Ca 
+                                from 
+                                (select  Min(HeaderID) 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
+                                where NgayDiemDanh = @date and Ca = @shift
+                                group by NgayDiemDanh, Ca) as hd 
                                 join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
-                                where hd.NgayDiemDanh = @date and Ca = @shift and  MaPhongBan = @departmentID) as hd 
-                                join (select * from DiemDanh_NangSuatLaoDong where DiLam = 1) as dd on hd.HeaderID = dd.HeaderID
-                                join NhanVien nv on nv.MaNV = dd.MaNV";
+                                where hdd.MaPhongBan = @departmentID) as hd 
+                                join 
+	                                (select dd.*, nv.Ten ,nv.MaPhongBan  
+	                                from DiemDanh_NangSuatLaoDong dd
+	                                left join NhanVien nv on dd.MaNV = nv.MaNV
+	                                where DiLam = 1) as dd on hd.HeaderID = dd.HeaderID and hd.MaPhongBan = dd.MaPhongBan";
                     List<NangSuatLaoDong_TungCongNhan> list_nsld = db.Database.SqlQuery<NangSuatLaoDong_TungCongNhan>(mysql,
                         new SqlParameter("date", convert_date),
                         new SqlParameter("shift", convert_shift),
@@ -483,9 +491,12 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
                     //get list_sum_effort
                     var mysql_sum = @"select hdd.TotalEffort,hdd.ThanThucHien, hdd.MetLoThucHien, hdd.XenThucHien 
-                                    from Header_DiemDanh_NangSuat_LaoDong hd 
+                                    from 
+									(select Min(HeaderID) 'HeaderID' 
+									from Header_DiemDanh_NangSuat_LaoDong
+									where NgayDiemDanh = @date and Ca = @shift) as hd 
                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
-                                    where hd.NgayDiemDanh = @date and hd.Ca = @shift and hdd.MaPhongBan = @departmentID";
+                                    where hdd.MaPhongBan = @departmentID";
                     List<Sum_DiemLuong_Than_MetLo_Xen> list_sum = db.Database.SqlQuery<Sum_DiemLuong_Than_MetLo_Xen>(mysql_sum,
                         new SqlParameter("date", convert_date),
                         new SqlParameter("shift", convert_shift),
@@ -752,21 +763,28 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 hd.DiLam_CNCD,
                                 hd.DiLam_CBQL
                                 from (select 
-                                a.HeaderID,
-                                sum(case when (d.MaPhongBan = @departmentID and c.DiLam = 1) then 1 else 0 end) as 'TongDilam',
+                                (select 
+								sum(case when nv_dd.DiLam = 1 then 1 else 0 end) as 'TongDiLam'
+								from
+								(select Min(HeaderID) as 'HeaderID', NgayDiemDanh from Header_DiemDanh_NangSuat_LaoDong 
+								where NgayDiemDanh = @date and Status = 1 and Ca = @session
+								group by NgayDiemDanh) as hd 
+								join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+								join 
+								(select dd.*, nv.MaPhongBan
+								from DiemDanh_NangSuatLaoDong dd
+								join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
+								where nv_dd.MaPhongBan = @departmentID) as 'TongDiLam',
                                 sum(case when (ncv.LoaiNhomCongViec = N'CNKT') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CNKT',
                                 sum(case when (ncv.LoaiNhomCongViec = N'CNCĐ') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CNCD',
-                                sum(case when (ncv.LoaiNhomCongViec = N'CBQL') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CBQL',
-                                a.FetchDataTime
+                                sum(case when (ncv.LoaiNhomCongViec = N'CBQL') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CBQL'
                                 from
-                                (select h.HeaderID, MIN(h.FetchDataTime) as 'FetchDataTime' from Header_DiemDanh_NangSuat_LaoDong h
-                                where NgayDiemDanh = @date and Ca = @session and h.Status = 1
-                                group by h.HeaderID) as a 
+                                (select Min(h.HeaderID) as 'HeaderID' from Header_DiemDanh_NangSuat_LaoDong h
+                                where NgayDiemDanh = @date and Ca = @session and h.Status = 1) as a 
                                 left join DiemDanh_NangSuatLaoDong c on c.HeaderID = a.HeaderID
                                 left join NhanVien d on c.MaNV = d.MaNV
                                 left join CongViec_NhomCongViec cv_ncv on cv_ncv.MaCongViec = d.MaCongViec
-                                left join NhomCongViec ncv on ncv.MaNhomCongViec = cv_ncv.MaNhomCongViec
-                                group by a.HeaderID, a.FetchDataTime) as hd) as dilam,
+                                left join NhomCongViec ncv on ncv.MaNhomCongViec = cv_ncv.MaNhomCongViec) as hd) as dilam,
                                 (select
                                 sum(case when (d.DiLam = 0 and (d.LyDoVangMat = N'Ốm' or d.LyDoVangMat = N'Nghỉ phép' or d.LyDoVangMat = N'Vô lý do'
                                 or d.LyDoVangMat = N'Khác' or d.LyDoVangMat = N'Tai nạn lao động' or d.LyDoVangMat = N'Ốm dài'
@@ -781,10 +799,13 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Thai sản') then 1 else 0 end) as 'ThaiSan',
                                 sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Tạm hoãn lao động') then 1 else 0 end) as 'TamHoanLaoDong',
                                 sum(case when (d.DiLam = 0 and d.LyDoVangMat = N'Vô lý do dài') then 1 else 0 end) as 'VoLyDoDai'
-                                from Header_DiemDanh_NangSuat_LaoDong as hd1 left join 
-                                Header_DiemDanh_NangSuat_LaoDong_Detail hd  on hd1.HeaderID = hd.HeaderID left join 
-                                DiemDanh_NangSuatLaoDong d on hd.HeaderID = d.HeaderID
-                                where MaPhongBan = @departmentID and NgayDiemDanh = @date and Ca = @session) as nghi";
+                                from 
+								(select Min(h.HeaderID) as 'HeaderID' from Header_DiemDanh_NangSuat_LaoDong h
+                                where NgayDiemDanh = @date and Ca = @session and h.Status = 1) as hd 
+								left join 
+								(select dd.* from DiemDanh_NangSuatLaoDong dd 
+								left join NhanVien nv on dd.MaNV = nv.MaNV
+								where MaPhongBan = @departmentID) as d on hd.HeaderID = d.HeaderID) as nghi";
                     var listSum = db.Database.SqlQuery<SoLuongDiLam_Vang>(mysql,
                                                                         new SqlParameter("departmentID", departmentID.ToString()),
                                                                         new SqlParameter("date", date.ToString("yyyy-MM-dd")),

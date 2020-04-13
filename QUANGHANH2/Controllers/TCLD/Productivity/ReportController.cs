@@ -51,55 +51,117 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 dateTime = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             }
             String varname1 = @"select a.department_id, a.QL, (a.KT + a.CD) as 'Tong', a.KT, a.CD, 0 as 'HSTT',
-                                a.dilam, 
-                                (a.vld + a.om + a.khac + a.phep) as 'vang',
-                                a.vld ,a.om ,a.phep ,a.khac,
-                                (case when (a.KT+ a.CD) = 0 then 0 else round(Convert(float, a.dilam)/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as 'tile',
-                                b.than, b.metlo, b.xen,b.diemluong,
-                                (case when a.dilam = 0 then 0 else round(Convert(float,(b.diemluong / a.dilam)),1) end) as 'tlbq_diemluong',
-								                                (case when a.dilam = 0 then 0 else round(Convert(float,(b.than / a.dilam)),1) end) as 'nsld_thuchien',
-								                                (case when a.dilam = 0 then 0 else round(Convert(float,0),1) end) as 'nsld_kehoach',
-                                a.tong_nghidai,a.nghidai_om_tnld,a.nghidai_thhd,a.nghidai_vld
-                                from
-                                (select a.department_id, a.QL, a.KT, a.CD,
-                                sum(case when d.DiLam = 1 and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'dilam',  
-                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Vô lý do' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'vld',
-                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Ốm' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'om',
-                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Nghỉ phép' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'phep',
-                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Khác' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'khac',
-                                SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Tạm hoãn lao động',N'Vô lý do dài') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'tong_nghidai',
-                                SUM(case when d.LyDoVangMat in (N'Vô lý do dài') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'nghidai_vld',
-                                SUM(case when d.LyDoVangMat in (N'Tạm hoãn lao động') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'nghidai_thhd',
-                                SUM(case when d.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'nghidai_om_tnld'
-                                 from(select a.department_id,
-                                sum(case when ncv.LoaiNhomCongViec = N'CBQL' then  1 else 0 end) as QL,
-                                sum(case when ncv.LoaiNhomCongViec = N'CNKT' then  1 else 0 end) as KT,
-                                sum(case when ncv.LoaiNhomCongViec = N'CNCĐ' then  1 else 0 end) as CD
-                                from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id
-                                join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec
-                                join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec
-                                where a.department_type like N'%chính%' and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%')
-                                group by a.department_id) as a 
-                                 left outer join 
-                                 (select hd.HeaderID, hd.NgayDiemDanh, hdd.MaPhongBan
-                                 from Header_DiemDanh_NangSuat_LaoDong hd 
-                                 join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID ) as h
-                                on a.department_id = h.MaPhongBan left outer join DiemDanh_NangSuatLaoDong d
-                                on h.HeaderID = d.HeaderID
-                                group by a.department_id, a.QL, a.KT, a.CD) as a inner join
-                                ( select a.department_id,
-                                sum(case when h.ThanThucHien is not null and h.NgayDiemDanh = @NgayDiemDanh then h.ThanThucHien else 0 end) as 'than',
-                                sum(case when h.MetLoThucHien is not null and h.NgayDiemDanh = @NgayDiemDanh then h.MetLoThucHien else 0 end) as 'metlo',
-                                sum(case when h.XenThucHien is not null and h.NgayDiemDanh = @NgayDiemDanh then h.XenThucHien else 0 end) as 'xen',
-                                sum(case when h.TotalEffort is not null and h.NgayDiemDanh = @NgayDiemDanh then h.TotalEffort else 0 end) as 'diemluong'
-                                from Department a 
-                                left outer join 
-                                (select hd.NgayDiemDanh, hdd.MaPhongBan, hdd.ThanThucHien, hdd.MetLoThucHien, hdd.XenThucHien, hdd.TotalEffort
-                                 from Header_DiemDanh_NangSuat_LaoDong hd 
-                                 join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID ) as h
-                                on a.department_id = h.MaPhongBan
-                                group by a.department_id
-                                ) as b on a.department_id = b.department_id";
+                                    a.dilam, 
+                                    (a.vld + a.om + a.khac + a.phep) as 'vang',
+                                    a.vld ,a.om ,a.phep ,a.khac,
+                                    (case when (a.KT+ a.CD) = 0 then 0 else round(Convert(float, a.dilam)/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as 'tile',
+                                    b.than, b.metlo, b.xen,b.diemluong,
+                                    (case when a.dilam = 0 then 0 else round(Convert(float,(b.diemluong / a.dilam)),1) end) as 'tlbq_diemluong',
+								                                    (case when a.dilam = 0 then 0 else round(Convert(float,(b.than / a.dilam)),1) end) as 'nsld_thuchien',
+								                                    (case when a.dilam = 0 then 0 else round(Convert(float,0),1) end) as 'nsld_kehoach',
+                                    a.tong_nghidai,a.nghidai_om_tnld,a.nghidai_thhd,a.nghidai_vld
+                                    from
+                                    (select								
+                                    a.department_id, 
+                                    (case when a.QL is null then 0 else a.QL end) as 'QL', 
+                                    (case when a.KT is null then 0 else a.KT end) as 'KT', 
+                                    (case when a.CD is null then 0 else a.CD end) as 'CD',
+                                    (case when b.dilam is null then 0 else b.dilam end) as 'dilam',
+                                    (case when b.vld is null then 0 else b.vld end) as 'vld',
+                                    (case when b.om is null then 0 else b.om end) as 'om',
+                                    (case when b.phep is null then 0 else b.phep end) as 'phep',
+                                    (case when b.khac is null then 0 else b.khac end) as 'khac',
+                                    (case when b.tong_nghidai is null then 0 else b.tong_nghidai end) as 'tong_nghidai',
+                                    (case when b.nghidai_vld is null then 0 else b.nghidai_vld end) as 'nghidai_vld',
+                                    (case when b.nghidai_thhd is null then 0 else b.nghidai_thhd end) as 'nghidai_thhd',
+                                    (case when b.nghidai_om_tnld is null then 0 else b.nghidai_om_tnld end) as 'nghidai_om_tnld'
+                                    from
+                                    (select a.department_id,
+                                    sum(case when ncv.LoaiNhomCongViec = N'CBQL' then  1 else 0 end) as QL,
+                                    sum(case when ncv.LoaiNhomCongViec = N'CNKT' then  1 else 0 end) as KT,
+                                    sum(case when ncv.LoaiNhomCongViec = N'CNCĐ' then  1 else 0 end) as CD
+                                    from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id
+                                    join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec
+                                    join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec
+                                    where a.department_type like N'%chính%' and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%')
+                                    group by a.department_id) as a 
+                                    left outer join 
+                                    (select 
+                                    dilam.MaPhongBan,
+                                    (case when dilam.dilam is null then 0 else dilam.dilam end) as 'dilam',
+                                    (case when nghi.vld is null then 0 else nghi.vld end) as 'vld',
+                                    (case when nghi.om is null then 0 else nghi.om end) as 'om',
+                                    (case when nghi.phep is null then 0 else nghi.phep end) as 'phep',
+                                    (case when nghi.khac is null then 0 else nghi.khac end) as 'khac',
+                                    (case when nghi.tong_nghidai is null then 0 else nghi.tong_nghidai end) as 'tong_nghidai',
+                                    (case when nghi.nghidai_vld is null then 0 else nghi.nghidai_vld end) as 'nghidai_vld',
+                                    (case when nghi.nghidai_thhd is null then 0 else nghi.nghidai_thhd end) as 'nghidai_thhd',
+                                    (case when nghi.nghidai_om_tnld is null then 0 else nghi.nghidai_om_tnld end) as 'nghidai_om_tnld'
+                                    from
+                                    (select
+                                    dilam.MaPhongBan,
+                                    count(dilam.MaNV) as 'dilam'
+                                    from
+                                    (select
+                                    hdd.MaPhongBan,
+                                    nv_dd.MaNV
+                                    from
+                                    (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
+                                     where NgayDiemDanh = @NgayDiemDanh and Status = 1
+                                     group by NgayDiemDanh, Ca) as hd 
+                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+                                     join 
+	                                    (select dd.*, nv.MaPhongBan
+	                                    from DiemDanh_NangSuatLaoDong dd
+	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
+	                                    where nv_dd.DiLam = 1
+	                                    group by hdd.MaPhongBan, nv_dd.MaNV) as dilam
+	                                    group by dilam.MaPhongBan) as dilam
+                                    left outer join
+                                    (select
+                                    nghi.MaPhongBan,
+                                    sum(case when nghi.LyDoVangMat like N'Vô lý do' then 1 else 0 end) as 'vld',
+                                    sum(case when nghi.LyDoVangMat like N'Ốm' then 1 else 0 end) as 'om',
+                                    sum(case when nghi.LyDoVangMat like N'Nghỉ phép' then 1 else 0 end) as 'phep',
+                                    sum(case when nghi.LyDoVangMat like N'Khác' then 1 else 0 end) as 'khac',
+                                    sum(case when nghi.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai',
+                                    sum(case when nghi.LyDoVangMat in (N'Vô lý do dài') then 1 else 0 end) as 'nghidai_vld',
+                                    sum(case when nghi.LyDoVangMat in (N'Tạm hoãn lao động') then 1 else 0 end) as 'nghidai_thhd',
+                                    sum(case when nghi.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') then 1 else 0 end) as 'nghidai_om_tnld'
+                                    from
+                                    (select
+                                    hdd.MaPhongBan,
+                                    nv_dd.MaNV,
+                                    nv_dd.LyDoVangMat
+                                    from
+                                    (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
+                                     where NgayDiemDanh = @NgayDiemDanh and Status = 1
+                                     group by NgayDiemDanh, Ca) as hd 
+                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+                                     join 
+	                                    (select dd.*, nv.MaPhongBan
+	                                    from DiemDanh_NangSuatLaoDong dd
+	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
+	                                    where nv_dd.DiLam = 0
+	                                    group by hdd.MaPhongBan, nv_dd.MaNV, nv_dd.LyDoVangMat) as nghi
+                                    group by nghi.MaPhongBan) as nghi on dilam.MaPhongBan = nghi.MaPhongBan) as b
+                                    on a.department_id = b.MaPhongBan) as a 
+                                    inner join
+                                    (select a.department_id,
+                                    sum(case when h.ThanThucHien is not null and h.NgayDiemDanh = @NgayDiemDanh then h.ThanThucHien else 0 end) as 'than',
+                                    sum(case when h.MetLoThucHien is not null and h.NgayDiemDanh = @NgayDiemDanh then h.MetLoThucHien else 0 end) as 'metlo',
+                                    sum(case when h.XenThucHien is not null and h.NgayDiemDanh = @NgayDiemDanh then h.XenThucHien else 0 end) as 'xen',
+                                    sum(case when h.TotalEffort is not null and h.NgayDiemDanh = @NgayDiemDanh then h.TotalEffort else 0 end) as 'diemluong'
+                                    from Department a 
+                                    left outer join 
+                                    (select hd.NgayDiemDanh, hdd.MaPhongBan, hdd.ThanThucHien, hdd.MetLoThucHien, hdd.XenThucHien, hdd.TotalEffort
+                                     from 
+                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh from Header_DiemDanh_NangSuat_LaoDong 
+                                     where NgayDiemDanh = @NgayDiemDanh
+                                     group by NgayDiemDanh) as hd 
+                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID ) as h
+                                    on a.department_id = h.MaPhongBan
+                                    group by a.department_id) as b on a.department_id = b.department_id";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 List<BaoCaoNgayDB> all = db.Database.SqlQuery<BaoCaoNgayDB>(varname1, new SqlParameter("NgayDiemDanh", dateTime)).ToList();
@@ -154,17 +216,22 @@ namespace QUANGHANHCORE.Controllers.TCLD
 								                                    (case when a.dilam = 0 then 0 else round(Convert(float,0),1) end) as 'nsld_kehoach',
                                     a.tong_nghidai,a.nghidai_om_tnld,a.nghidai_thhd,a.nghidai_vld
                                     from
-                                    (select a.department_id, a.QL, a.KT, a.CD,
-                                    sum(case when d.DiLam = 1 and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'dilam',  
-                                    sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Vô lý do' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'vld',
-                                    sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Ốm' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'om',
-                                    sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Nghỉ phép' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'phep',
-                                    sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Khác' and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'khac',
-                                    SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Tạm hoãn lao động',N'Vô lý do dài') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'tong_nghidai',
-                                    SUM(case when d.LyDoVangMat in (N'Vô lý do dài') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'nghidai_vld',
-                                    SUM(case when d.LyDoVangMat in (N'Tạm hoãn lao động') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'nghidai_thhd',
-                                    SUM(case when d.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') and h.NgayDiemDanh = @NgayDiemDanh then 1 else 0 end) as 'nghidai_om_tnld'
-                                     from(select a.department_id,
+                                    (select								
+                                    a.department_id, 
+                                    (case when a.QL is null then 0 else a.QL end) as 'QL', 
+                                    (case when a.KT is null then 0 else a.KT end) as 'KT', 
+                                    (case when a.CD is null then 0 else a.CD end) as 'CD',
+                                    (case when b.dilam is null then 0 else b.dilam end) as 'dilam',
+                                    (case when b.vld is null then 0 else b.vld end) as 'vld',
+                                    (case when b.om is null then 0 else b.om end) as 'om',
+                                    (case when b.phep is null then 0 else b.phep end) as 'phep',
+                                    (case when b.khac is null then 0 else b.khac end) as 'khac',
+                                    (case when b.tong_nghidai is null then 0 else b.tong_nghidai end) as 'tong_nghidai',
+                                    (case when b.nghidai_vld is null then 0 else b.nghidai_vld end) as 'nghidai_vld',
+                                    (case when b.nghidai_thhd is null then 0 else b.nghidai_thhd end) as 'nghidai_thhd',
+                                    (case when b.nghidai_om_tnld is null then 0 else b.nghidai_om_tnld end) as 'nghidai_om_tnld'
+                                    from
+                                    (select a.department_id,
                                     sum(case when ncv.LoaiNhomCongViec = N'CBQL' then  1 else 0 end) as QL,
                                     sum(case when ncv.LoaiNhomCongViec = N'CNKT' then  1 else 0 end) as KT,
                                     sum(case when ncv.LoaiNhomCongViec = N'CNCĐ' then  1 else 0 end) as CD
@@ -173,14 +240,69 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec
                                     where a.department_type like N'%chính%' and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%')
                                     group by a.department_id) as a 
-                                     left outer join 
-                                     (select hd.HeaderID, hd.NgayDiemDanh, hdd.MaPhongBan
-                                     from Header_DiemDanh_NangSuat_LaoDong hd 
-                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID ) as h
-                                    on a.department_id = h.MaPhongBan left outer join DiemDanh_NangSuatLaoDong d
-                                    on h.HeaderID = d.HeaderID
-                                    group by a.department_id, a.QL, a.KT, a.CD) as a inner join
-                                    ( select a.department_id,
+                                    left outer join 
+                                    (select 
+                                    dilam.MaPhongBan,
+                                    (case when dilam.dilam is null then 0 else dilam.dilam end) as 'dilam',
+                                    (case when nghi.vld is null then 0 else nghi.vld end) as 'vld',
+                                    (case when nghi.om is null then 0 else nghi.om end) as 'om',
+                                    (case when nghi.phep is null then 0 else nghi.phep end) as 'phep',
+                                    (case when nghi.khac is null then 0 else nghi.khac end) as 'khac',
+                                    (case when nghi.tong_nghidai is null then 0 else nghi.tong_nghidai end) as 'tong_nghidai',
+                                    (case when nghi.nghidai_vld is null then 0 else nghi.nghidai_vld end) as 'nghidai_vld',
+                                    (case when nghi.nghidai_thhd is null then 0 else nghi.nghidai_thhd end) as 'nghidai_thhd',
+                                    (case when nghi.nghidai_om_tnld is null then 0 else nghi.nghidai_om_tnld end) as 'nghidai_om_tnld'
+                                    from
+                                    (select
+                                    dilam.MaPhongBan,
+                                    count(dilam.MaNV) as 'dilam'
+                                    from
+                                    (select
+                                    hdd.MaPhongBan,
+                                    nv_dd.MaNV
+                                    from
+                                    (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
+                                     where NgayDiemDanh = @NgayDiemDanh and Status = 1
+                                     group by NgayDiemDanh, Ca) as hd 
+                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+                                     join 
+	                                    (select dd.*, nv.MaPhongBan
+	                                    from DiemDanh_NangSuatLaoDong dd
+	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
+	                                    where nv_dd.DiLam = 1
+	                                    group by hdd.MaPhongBan, nv_dd.MaNV) as dilam
+	                                    group by dilam.MaPhongBan) as dilam
+                                    left outer join
+                                    (select
+                                    nghi.MaPhongBan,
+                                    sum(case when nghi.LyDoVangMat like N'Vô lý do' then 1 else 0 end) as 'vld',
+                                    sum(case when nghi.LyDoVangMat like N'Ốm' then 1 else 0 end) as 'om',
+                                    sum(case when nghi.LyDoVangMat like N'Nghỉ phép' then 1 else 0 end) as 'phep',
+                                    sum(case when nghi.LyDoVangMat like N'Khác' then 1 else 0 end) as 'khac',
+                                    sum(case when nghi.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai',
+                                    sum(case when nghi.LyDoVangMat in (N'Vô lý do dài') then 1 else 0 end) as 'nghidai_vld',
+                                    sum(case when nghi.LyDoVangMat in (N'Tạm hoãn lao động') then 1 else 0 end) as 'nghidai_thhd',
+                                    sum(case when nghi.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') then 1 else 0 end) as 'nghidai_om_tnld'
+                                    from
+                                    (select
+                                    hdd.MaPhongBan,
+                                    nv_dd.MaNV,
+                                    nv_dd.LyDoVangMat
+                                    from
+                                    (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
+                                     where NgayDiemDanh = @NgayDiemDanh and Status = 1
+                                     group by NgayDiemDanh, Ca) as hd 
+                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+                                     join 
+	                                    (select dd.*, nv.MaPhongBan
+	                                    from DiemDanh_NangSuatLaoDong dd
+	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
+	                                    where nv_dd.DiLam = 0
+	                                    group by hdd.MaPhongBan, nv_dd.MaNV, nv_dd.LyDoVangMat) as nghi
+                                    group by nghi.MaPhongBan) as nghi on dilam.MaPhongBan = nghi.MaPhongBan) as b
+                                    on a.department_id = b.MaPhongBan) as a 
+                                    inner join
+                                    (select a.department_id,
                                     sum(case when h.ThanThucHien is not null and h.NgayDiemDanh = @NgayDiemDanh then h.ThanThucHien else 0 end) as 'than',
                                     sum(case when h.MetLoThucHien is not null and h.NgayDiemDanh = @NgayDiemDanh then h.MetLoThucHien else 0 end) as 'metlo',
                                     sum(case when h.XenThucHien is not null and h.NgayDiemDanh = @NgayDiemDanh then h.XenThucHien else 0 end) as 'xen',
@@ -188,11 +310,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     from Department a 
                                     left outer join 
                                     (select hd.NgayDiemDanh, hdd.MaPhongBan, hdd.ThanThucHien, hdd.MetLoThucHien, hdd.XenThucHien, hdd.TotalEffort
-                                     from Header_DiemDanh_NangSuat_LaoDong hd 
+                                     from 
+                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh from Header_DiemDanh_NangSuat_LaoDong 
+                                     where NgayDiemDanh = @NgayDiemDanh
+                                     group by NgayDiemDanh) as hd 
                                      join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID ) as h
                                     on a.department_id = h.MaPhongBan
-                                    group by a.department_id
-                                    ) as b on a.department_id = b.department_id";
+                                    group by a.department_id) as b on a.department_id = b.department_id";
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     ViewBag.TatCaDonVi = db.Database.SqlQuery<BaoCaoNgayDB>(tatcadonvi, new SqlParameter("NgayDiemDanh", dateTime)).ToList();
@@ -393,59 +517,118 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 month = DateTime.Now.Month + "";
                 year = DateTime.Now.Year + "";
             }
-            String varname1 = @"select a.department_id, a.QL, (a.KT + a.CD + a.HSTT) as 'Tong', 
-                                a.KT, a.CD, a.HSTT,
-                                a.tong_nghidai,a.nghidai_vld,a.nghidai_thhd,a.nghidai_om_tnld,
-                                ((a.KT + a.CD + a.HSTT)-a.tong_nghidai) as 'tong_ldtt_sau_tru_dai',
-                                a.dilam,
-                                (a.vld + a.om + a.khac + a.phep) as vang, 
-                                a.vld, a.om, a.phep, a.khac,
-                                (case when (a.KT+ a.CD + a.HSTT) = 0 then 0 
-                                else round(Convert(float,a.dilam)/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as 'tile', 
-                                b.than, b.metlo, b.xen,b.diemluong,
-                                (case when a.dilam = 0 then 0 else round(Convert(float,(b.diemluong / a.dilam)),1) end) as 'tlbq_diemluong',
-								                                (case when a.dilam = 0 then 0 else round(Convert(float,(b.than / a.dilam)),1) end) as 'nsld_thuchien',
-								                                (case when a.dilam = 0 then 0 else round(Convert(float,0),1) end) as 'nsld_kehoach'
-                                from 
-                                (select a.department_id, a.QL, a.KT, a.CD, a.HSTT,
-                                sum(case when d.DiLam = 1 and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) / day(eomonth(@year + '-' + @month + '-' + '01')) as 'dilam',
-                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Vô lý do' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'vld', 
-                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Ốm' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'om', 
-                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Nghỉ phép' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'phep', 
-                                sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Khác' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'khac', 
-                                SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Tạm hoãn lao động',N'Vô lý do dài') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'tong_nghidai', 
-                                SUM(case when d.LyDoVangMat in (N'Vô lý do dài') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'nghidai_vld', 
-                                SUM(case when d.LyDoVangMat in (N'Tạm hoãn lao động') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'nghidai_thhd', 
-                                SUM(case when d.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'nghidai_om_tnld' 
-                                 from(select a.department_id, 
-                                sum(case when ncv.LoaiNhomCongViec = N'CBQL' then  1 else 0 end) as QL, 
-                                sum(case when ncv.LoaiNhomCongViec = N'CNKT' then  1 else 0 end) as KT, 
-                                sum(case when ncv.LoaiNhomCongViec = N'CNCĐ' then  1 else 0 end) as CD, 
-                                sum(case when ncv.LoaiNhomCongViec like '%HSTT%' then  1 else 0 end) as HSTT 
-                                from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id 
-                                join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec 
-                                join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec 
-                                where a.department_type like N'%chính%' and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%') 
-                                group by a.department_id) 
-                                 as a left outer join 
-                                 (select hd.HeaderID, hd.NgayDiemDanh, hdd.MaPhongBan
-                                  from Header_DiemDanh_NangSuat_LaoDong hd 
-                                  join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID ) as h 
-                                on a.department_id = h.MaPhongBan left outer join DiemDanh_NangSuatLaoDong d 
-                                on h.HeaderID = d.HeaderID 
-                                group by a.department_id, a.QL, a.KT, a.CD,a.HSTT) as a inner join 
-                                ( select a.department_id, 
-                                sum(case when h.ThanThucHien is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.ThanThucHien else 0 end) as 'than', 
-                                sum(case when h.MetLoThucHien is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.MetLoThucHien else 0 end) as 'metlo', 
-                                sum(case when h.XenThucHien is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.XenThucHien else 0 end) as 'xen', 
-                                sum(case when h.TotalEffort is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.TotalEffort else 0 end) as 'diemluong' 
-                                from Department a left outer join 
-                                (select hd.NgayDiemDanh, hdd.MaPhongBan, hdd.ThanThucHien, hdd.MetLoThucHien, hdd.XenThucHien, hdd.TotalEffort
-                                 from Header_DiemDanh_NangSuat_LaoDong hd 
-                                 join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID ) as h 
-                                on a.department_id = h.MaPhongBan 
-                                group by a.department_id 
-                                ) as b on a.department_id = b.department_id";
+            String varname1 = @"select a.department_id, a.QL, (a.KT + a.CD) as 'Tong', a.KT, a.CD, 0 as 'HSTT',
+                                    a.dilam, 
+                                    (a.vld + a.om + a.khac + a.phep) as 'vang',
+                                    a.vld ,a.om ,a.phep ,a.khac,
+                                    (case when (a.KT+ a.CD) = 0 then 0 else round(Convert(float, a.dilam)/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as 'tile',
+                                    b.than, b.metlo, b.xen,b.diemluong,
+                                    (case when a.dilam = 0 then 0 else round(Convert(float,(b.diemluong / a.dilam)),1) end) as 'tlbq_diemluong',
+								                                    (case when a.dilam = 0 then 0 else round(Convert(float,(b.than / a.dilam)),1) end) as 'nsld_thuchien',
+								                                    (case when a.dilam = 0 then 0 else round(Convert(float,0),1) end) as 'nsld_kehoach',
+                                    a.tong_nghidai,a.nghidai_om_tnld,a.nghidai_thhd,a.nghidai_vld
+                                    from
+                                    (select								
+                                    a.department_id, 
+                                    (case when a.QL is null then 0 else a.QL end) as 'QL', 
+                                    (case when a.KT is null then 0 else a.KT end) as 'KT', 
+                                    (case when a.CD is null then 0 else a.CD end) as 'CD',
+                                    (case when b.dilam is null then 0 else b.dilam end) as 'dilam',
+                                    (case when b.vld is null then 0 else b.vld end) as 'vld',
+                                    (case when b.om is null then 0 else b.om end) as 'om',
+                                    (case when b.phep is null then 0 else b.phep end) as 'phep',
+                                    (case when b.khac is null then 0 else b.khac end) as 'khac',
+                                    (case when b.tong_nghidai is null then 0 else b.tong_nghidai end) as 'tong_nghidai',
+                                    (case when b.nghidai_vld is null then 0 else b.nghidai_vld end) as 'nghidai_vld',
+                                    (case when b.nghidai_thhd is null then 0 else b.nghidai_thhd end) as 'nghidai_thhd',
+                                    (case when b.nghidai_om_tnld is null then 0 else b.nghidai_om_tnld end) as 'nghidai_om_tnld'
+                                    from
+                                    (select a.department_id,
+                                    sum(case when ncv.LoaiNhomCongViec = N'CBQL' then  1 else 0 end) as QL,
+                                    sum(case when ncv.LoaiNhomCongViec = N'CNKT' then  1 else 0 end) as KT,
+                                    sum(case when ncv.LoaiNhomCongViec = N'CNCĐ' then  1 else 0 end) as CD
+                                    from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id
+                                    join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec
+                                    join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec
+                                    where a.department_type like N'%chính%' and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%')
+                                    group by a.department_id) as a 
+                                    left outer join 
+                                    (select 
+                                    dilam.MaPhongBan,
+                                    (case when dilam.dilam is null then 0 else dilam.dilam end) as 'dilam',
+                                    (case when nghi.vld is null then 0 else nghi.vld end) as 'vld',
+                                    (case when nghi.om is null then 0 else nghi.om end) as 'om',
+                                    (case when nghi.phep is null then 0 else nghi.phep end) as 'phep',
+                                    (case when nghi.khac is null then 0 else nghi.khac end) as 'khac',
+                                    (case when nghi.tong_nghidai is null then 0 else nghi.tong_nghidai end) as 'tong_nghidai',
+                                    (case when nghi.nghidai_vld is null then 0 else nghi.nghidai_vld end) as 'nghidai_vld',
+                                    (case when nghi.nghidai_thhd is null then 0 else nghi.nghidai_thhd end) as 'nghidai_thhd',
+                                    (case when nghi.nghidai_om_tnld is null then 0 else nghi.nghidai_om_tnld end) as 'nghidai_om_tnld'
+                                    from
+                                    (select
+                                    dilam.MaPhongBan,
+                                    count(dilam.MaNV) as 'dilam'
+                                    from
+                                    (select
+                                    hdd.MaPhongBan,
+                                    nv_dd.MaNV
+                                    from
+                                    (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
+                                     where MONTH(NgayDiemDanh) = @month AND YEAR(NgayDiemDanh) = @year AND Status = 1
+                                     group by NgayDiemDanh, Ca) as hd 
+                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+                                     join 
+	                                    (select dd.*, nv.MaPhongBan
+	                                    from DiemDanh_NangSuatLaoDong dd
+	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
+	                                    where nv_dd.DiLam = 1
+	                                    group by hdd.MaPhongBan, nv_dd.MaNV) as dilam
+	                                    group by dilam.MaPhongBan) as dilam
+                                    left outer join
+                                    (select
+                                    nghi.MaPhongBan,
+                                    sum(case when nghi.LyDoVangMat like N'Vô lý do' then 1 else 0 end) as 'vld',
+                                    sum(case when nghi.LyDoVangMat like N'Ốm' then 1 else 0 end) as 'om',
+                                    sum(case when nghi.LyDoVangMat like N'Nghỉ phép' then 1 else 0 end) as 'phep',
+                                    sum(case when nghi.LyDoVangMat like N'Khác' then 1 else 0 end) as 'khac',
+                                    sum(case when nghi.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai',
+                                    sum(case when nghi.LyDoVangMat in (N'Vô lý do dài') then 1 else 0 end) as 'nghidai_vld',
+                                    sum(case when nghi.LyDoVangMat in (N'Tạm hoãn lao động') then 1 else 0 end) as 'nghidai_thhd',
+                                    sum(case when nghi.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') then 1 else 0 end) as 'nghidai_om_tnld'
+                                    from
+                                    (select
+                                    hdd.MaPhongBan,
+                                    nv_dd.MaNV,
+                                    nv_dd.LyDoVangMat
+                                    from
+                                    (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
+                                     where MONTH(NgayDiemDanh) = @month AND YEAR(NgayDiemDanh) = @year AND Status = 1
+                                     group by NgayDiemDanh, Ca) as hd 
+                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+                                     join 
+	                                    (select dd.*, nv.MaPhongBan
+	                                    from DiemDanh_NangSuatLaoDong dd
+	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
+	                                    where nv_dd.DiLam = 0
+	                                    group by hdd.MaPhongBan, nv_dd.MaNV, nv_dd.LyDoVangMat) as nghi
+                                    group by nghi.MaPhongBan) as nghi on dilam.MaPhongBan = nghi.MaPhongBan) as b
+                                    on a.department_id = b.MaPhongBan) as a 
+                                    inner join
+                                    (select a.department_id,
+                                    sum(case when h.ThanThucHien is not null then h.ThanThucHien else 0 end) as 'than',
+                                    sum(case when h.MetLoThucHien is not null then h.MetLoThucHien else 0 end) as 'metlo',
+                                    sum(case when h.XenThucHien is not null then h.XenThucHien else 0 end) as 'xen',
+                                    sum(case when h.TotalEffort is not null then h.TotalEffort else 0 end) as 'diemluong'
+                                    from Department a 
+                                    left outer join 
+                                    (select hd.NgayDiemDanh, hdd.MaPhongBan, hdd.ThanThucHien, hdd.MetLoThucHien, hdd.XenThucHien, hdd.TotalEffort
+                                     from 
+                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh from Header_DiemDanh_NangSuat_LaoDong 
+                                     where MONTH(NgayDiemDanh) = @month AND YEAR(NgayDiemDanh) = @year
+                                     group by NgayDiemDanh) as hd 
+                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID ) as h
+                                    on a.department_id = h.MaPhongBan
+                                    group by a.department_id) as b on a.department_id = b.department_id";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 List<BaoCaoNgayDB> all = db.Database.SqlQuery<BaoCaoNgayDB>(varname1,
@@ -508,59 +691,118 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     ExcelWorksheet excelWorksheet_Month = excelWorkbook_Month.Worksheets.First();
                     //int month = thang == null ? DateTime.Now.Month : Convert.ToInt32(thang);
                     //int year = nam == null ? DateTime.Now.Year : Convert.ToInt32(nam);
-                    var sqlMonth = @"select a.department_id, a.QL, (a.KT + a.CD + a.HSTT) as 'Tong', 
-                                    a.KT, a.CD, a.HSTT,
-                                    a.tong_nghidai,a.nghidai_vld,a.nghidai_thhd,a.nghidai_om_tnld,
-                                    ((a.KT + a.CD + a.HSTT)-a.tong_nghidai) as 'tong_ldtt_sau_tru_dai',
-                                    a.dilam,
-                                    (a.vld + a.om + a.khac + a.phep) as vang, 
-                                    a.vld, a.om, a.phep, a.khac,
-                                    (case when (a.KT+ a.CD + a.HSTT) = 0 then 0 
-                                    else round(Convert(float,a.dilam)/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as 'tile', 
+                    var sqlMonth = @"select a.department_id, a.QL, (a.KT + a.CD) as 'Tong', a.KT, a.CD, 0 as 'HSTT',
+                                    a.dilam, 
+                                    (a.vld + a.om + a.khac + a.phep) as 'vang',
+                                    a.vld ,a.om ,a.phep ,a.khac,
+                                    (case when (a.KT+ a.CD) = 0 then 0 else round(Convert(float, a.dilam)/(a.KT + a.CD - a.tong_nghidai)*100,1) end) as 'tile',
                                     b.than, b.metlo, b.xen,b.diemluong,
                                     (case when a.dilam = 0 then 0 else round(Convert(float,(b.diemluong / a.dilam)),1) end) as 'tlbq_diemluong',
 								                                    (case when a.dilam = 0 then 0 else round(Convert(float,(b.than / a.dilam)),1) end) as 'nsld_thuchien',
-								                                    (case when a.dilam = 0 then 0 else round(Convert(float,0),1) end) as 'nsld_kehoach'
-                                    from 
-                                    (select a.department_id, a.QL, a.KT, a.CD, a.HSTT,
-                                    sum(case when d.DiLam = 1 and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) / day(eomonth(@year + '-' + @month + '-' + '01')) as 'dilam',
-                                    sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Vô lý do' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'vld', 
-                                    sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Ốm' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'om', 
-                                    sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Nghỉ phép' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'phep', 
-                                    sum(case when d.DiLam = 0  and d.LyDoVangMat like N'Khác' and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'khac', 
-                                    SUM(case when d.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Tạm hoãn lao động',N'Vô lý do dài') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'tong_nghidai', 
-                                    SUM(case when d.LyDoVangMat in (N'Vô lý do dài') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'nghidai_vld', 
-                                    SUM(case when d.LyDoVangMat in (N'Tạm hoãn lao động') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'nghidai_thhd', 
-                                    SUM(case when d.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then 1 else 0 end) as 'nghidai_om_tnld' 
-                                     from(select a.department_id, 
-                                    sum(case when ncv.LoaiNhomCongViec = N'CBQL' then  1 else 0 end) as QL, 
-                                    sum(case when ncv.LoaiNhomCongViec = N'CNKT' then  1 else 0 end) as KT, 
-                                    sum(case when ncv.LoaiNhomCongViec = N'CNCĐ' then  1 else 0 end) as CD, 
-                                    sum(case when ncv.LoaiNhomCongViec like '%HSTT%' then  1 else 0 end) as HSTT 
-                                    from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id 
-                                    join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec 
-                                    join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec 
-                                    where a.department_type like N'%chính%' and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%') 
-                                    group by a.department_id) 
-                                     as a left outer join 
-                                     (select hd.HeaderID, hd.NgayDiemDanh, hdd.MaPhongBan
-                                      from Header_DiemDanh_NangSuat_LaoDong hd 
-                                      join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID ) as h 
-                                    on a.department_id = h.MaPhongBan left outer join DiemDanh_NangSuatLaoDong d 
-                                    on h.HeaderID = d.HeaderID 
-                                    group by a.department_id, a.QL, a.KT, a.CD,a.HSTT) as a inner join 
-                                    ( select a.department_id, 
-                                    sum(case when h.ThanThucHien is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.ThanThucHien else 0 end) as 'than', 
-                                    sum(case when h.MetLoThucHien is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.MetLoThucHien else 0 end) as 'metlo', 
-                                    sum(case when h.XenThucHien is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.XenThucHien else 0 end) as 'xen', 
-                                    sum(case when h.TotalEffort is not null and MONTH(h.NgayDiemDanh) = @month AND YEAR(h.NgayDiemDanh) = @year then h.TotalEffort else 0 end) as 'diemluong' 
-                                    from Department a left outer join 
+								                                    (case when a.dilam = 0 then 0 else round(Convert(float,0),1) end) as 'nsld_kehoach',
+                                    a.tong_nghidai,a.nghidai_om_tnld,a.nghidai_thhd,a.nghidai_vld
+                                    from
+                                    (select								
+                                    a.department_id, 
+                                    (case when a.QL is null then 0 else a.QL end) as 'QL', 
+                                    (case when a.KT is null then 0 else a.KT end) as 'KT', 
+                                    (case when a.CD is null then 0 else a.CD end) as 'CD',
+                                    (case when b.dilam is null then 0 else b.dilam end) as 'dilam',
+                                    (case when b.vld is null then 0 else b.vld end) as 'vld',
+                                    (case when b.om is null then 0 else b.om end) as 'om',
+                                    (case when b.phep is null then 0 else b.phep end) as 'phep',
+                                    (case when b.khac is null then 0 else b.khac end) as 'khac',
+                                    (case when b.tong_nghidai is null then 0 else b.tong_nghidai end) as 'tong_nghidai',
+                                    (case when b.nghidai_vld is null then 0 else b.nghidai_vld end) as 'nghidai_vld',
+                                    (case when b.nghidai_thhd is null then 0 else b.nghidai_thhd end) as 'nghidai_thhd',
+                                    (case when b.nghidai_om_tnld is null then 0 else b.nghidai_om_tnld end) as 'nghidai_om_tnld'
+                                    from
+                                    (select a.department_id,
+                                    sum(case when ncv.LoaiNhomCongViec = N'CBQL' then  1 else 0 end) as QL,
+                                    sum(case when ncv.LoaiNhomCongViec = N'CNKT' then  1 else 0 end) as KT,
+                                    sum(case when ncv.LoaiNhomCongViec = N'CNCĐ' then  1 else 0 end) as CD
+                                    from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id
+                                    join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec
+                                    join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec
+                                    where a.department_type like N'%chính%' and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%')
+                                    group by a.department_id) as a 
+                                    left outer join 
+                                    (select 
+                                    dilam.MaPhongBan,
+                                    (case when dilam.dilam is null then 0 else dilam.dilam end) as 'dilam',
+                                    (case when nghi.vld is null then 0 else nghi.vld end) as 'vld',
+                                    (case when nghi.om is null then 0 else nghi.om end) as 'om',
+                                    (case when nghi.phep is null then 0 else nghi.phep end) as 'phep',
+                                    (case when nghi.khac is null then 0 else nghi.khac end) as 'khac',
+                                    (case when nghi.tong_nghidai is null then 0 else nghi.tong_nghidai end) as 'tong_nghidai',
+                                    (case when nghi.nghidai_vld is null then 0 else nghi.nghidai_vld end) as 'nghidai_vld',
+                                    (case when nghi.nghidai_thhd is null then 0 else nghi.nghidai_thhd end) as 'nghidai_thhd',
+                                    (case when nghi.nghidai_om_tnld is null then 0 else nghi.nghidai_om_tnld end) as 'nghidai_om_tnld'
+                                    from
+                                    (select
+                                    dilam.MaPhongBan,
+                                    count(dilam.MaNV) as 'dilam'
+                                    from
+                                    (select
+                                    hdd.MaPhongBan,
+                                    nv_dd.MaNV
+                                    from
+                                    (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
+                                     where MONTH(NgayDiemDanh) = @month AND YEAR(NgayDiemDanh) = @year AND Status = 1
+                                     group by NgayDiemDanh, Ca) as hd 
+                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+                                     join 
+	                                    (select dd.*, nv.MaPhongBan
+	                                    from DiemDanh_NangSuatLaoDong dd
+	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
+	                                    where nv_dd.DiLam = 1
+	                                    group by hdd.MaPhongBan, nv_dd.MaNV) as dilam
+	                                    group by dilam.MaPhongBan) as dilam
+                                    left outer join
+                                    (select
+                                    nghi.MaPhongBan,
+                                    sum(case when nghi.LyDoVangMat like N'Vô lý do' then 1 else 0 end) as 'vld',
+                                    sum(case when nghi.LyDoVangMat like N'Ốm' then 1 else 0 end) as 'om',
+                                    sum(case when nghi.LyDoVangMat like N'Nghỉ phép' then 1 else 0 end) as 'phep',
+                                    sum(case when nghi.LyDoVangMat like N'Khác' then 1 else 0 end) as 'khac',
+                                    sum(case when nghi.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai',
+                                    sum(case when nghi.LyDoVangMat in (N'Vô lý do dài') then 1 else 0 end) as 'nghidai_vld',
+                                    sum(case when nghi.LyDoVangMat in (N'Tạm hoãn lao động') then 1 else 0 end) as 'nghidai_thhd',
+                                    sum(case when nghi.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') then 1 else 0 end) as 'nghidai_om_tnld'
+                                    from
+                                    (select
+                                    hdd.MaPhongBan,
+                                    nv_dd.MaNV,
+                                    nv_dd.LyDoVangMat
+                                    from
+                                    (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
+                                     where MONTH(NgayDiemDanh) = @month AND YEAR(NgayDiemDanh) = @year AND Status = 1
+                                     group by NgayDiemDanh, Ca) as hd 
+                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+                                     join 
+	                                    (select dd.*, nv.MaPhongBan
+	                                    from DiemDanh_NangSuatLaoDong dd
+	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
+	                                    where nv_dd.DiLam = 0
+	                                    group by hdd.MaPhongBan, nv_dd.MaNV, nv_dd.LyDoVangMat) as nghi
+                                    group by nghi.MaPhongBan) as nghi on dilam.MaPhongBan = nghi.MaPhongBan) as b
+                                    on a.department_id = b.MaPhongBan) as a 
+                                    inner join
+                                    (select a.department_id,
+                                    sum(case when h.ThanThucHien is not null then h.ThanThucHien else 0 end) as 'than',
+                                    sum(case when h.MetLoThucHien is not null then h.MetLoThucHien else 0 end) as 'metlo',
+                                    sum(case when h.XenThucHien is not null then h.XenThucHien else 0 end) as 'xen',
+                                    sum(case when h.TotalEffort is not null then h.TotalEffort else 0 end) as 'diemluong'
+                                    from Department a 
+                                    left outer join 
                                     (select hd.NgayDiemDanh, hdd.MaPhongBan, hdd.ThanThucHien, hdd.MetLoThucHien, hdd.XenThucHien, hdd.TotalEffort
-                                     from Header_DiemDanh_NangSuat_LaoDong hd 
-                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID ) as h 
-                                    on a.department_id = h.MaPhongBan 
-                                    group by a.department_id 
-                                    ) as b on a.department_id = b.department_id";
+                                     from 
+                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh from Header_DiemDanh_NangSuat_LaoDong 
+                                     where MONTH(NgayDiemDanh) = @month AND YEAR(NgayDiemDanh) = @year
+                                     group by NgayDiemDanh) as hd 
+                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID ) as h
+                                    on a.department_id = h.MaPhongBan
+                                    group by a.department_id) as b on a.department_id = b.department_id";
                     using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                     {
                         List<BaoCaoNgayDB> listMonth = db.Database.SqlQuery<BaoCaoNgayDB>(sqlMonth,
@@ -753,62 +995,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
             }
         }
-
-        //private string Wherecondition(string date, string donvi, string ca)
-        //{
-        //    var ngay = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        //    string query = "select distinct NhanVien.LoaiNhanVien, ISNULL(b.LDTheoDS,0) as LDTheoDS, ISNULL(b.LĐSX,0) as LDSX, " +
-        //        "ISNULL(b.Phep,0) as Phep, ISNULL(b.Om,0) as Om, ISNULL(b.Bu,0) as Bu, ISNULL(b.TT,0) as TT, " +
-        //        "ISNULL(b.VLD,0) as VLD, ISNULL(b.H,0) as H, ISNULL(b.TongNghi,0) as TongNghi" +
-        //        "from NhanVien  left join  (select *, (Phep+Om+Bu+TT+VLD+H)as " +
-        //        "TongNghi from  (select  n.LoaiNhanVien, COUNT(d.CaDiemDanh) as LDTheoDS, " +
-        //        "Sum(CASE WHEN LyDoVangMat is null THEN 1 ELSE 0 END)  as LĐSX, " +
-        //        "Sum(CASE WHEN LyDoVangMat like N'Phép' THEN 1 ELSE 0 END) AS Phep , " +
-        //        "Sum(CASE WHEN LyDoVangMat like N'Ốm' THEN 1 ELSE 0 END) AS Om , " +
-        //        "Sum(CASE WHEN LyDoVangMat like N'Bù' THEN 1 ELSE 0 END) AS Bu , " +
-        //        "Sum(CASE WHEN LyDoVangMat like N'TT' THEN 1 ELSE 0 END) AS TT , " +
-        //        "Sum(CASE WHEN LyDoVangMat like N'VLD' THEN 1 ELSE 0 END) AS VLD , " +
-        //        "Sum(CASE WHEN LyDoVangMat like N'H' THEN 1 ELSE 0 END) AS H" +
-        //        "NhanVien n, DiemDanh_NangSuatLaoDong d, " +
-        //        "Department de, Header_DiemDanh_NangSuat_LaoDong h " +
-        //        "where n.MaNV = d.MaNV and de.department_id = h.MaPhongBan and d.HeaderID = h.HeaderID" +
-        //        "h.Ca = " + ca + "  and h.NgayDiemDanh = '" + ngay + "' and h.MaPhongBan like " +
-        //        "'" + donvi + "' group by   n.LoaiNhanVien) a) b on NhanVien.LoaiNhanVien= b.LoaiNhanVien   where NhanVien.LoaiNhanVien iS not NULL";
-        //    return query;
-        //}
-
-        //private string getHeader(string date, string donvi, string ca)
-        //{
-        //    var ngay = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        //    string query = "select 'CA " + ca + "' as LoaiNhanVien, *, (Phep+Om+Bu+TT+VLD+H) as TongNghi " +
-        //        "from (select  COUNT(d.CaDiemDanh) as LDTheoDS, Isnull( Sum(CASE WHEN LyDoVangMat " +
-        //        "is null THEN 1 ELSE Null END),0)  as LDSX, Isnull( Sum(CASE WHEN LyDoVangMat " +
-        //        "like N'Phép' THEN 1 ELSE 0 END),0) AS Phep , Isnull(Sum(CASE WHEN LyDoVangMat " +
-        //        "like N'Ốm' THEN 1 ELSE 0 END),0) AS Om ,  Isnull(Sum(CASE WHEN LyDoVangMat " +
-        //        "like N'Bù' THEN 1 ELSE 0 END),0) AS Bu ,Isnull(Sum(CASE WHEN LyDoVangMat " +
-        //        "like N'TT' THEN 1 ELSE 0 END),0) AS TT , Isnull(Sum(CASE WHEN LyDoVangMat " +
-        //        "like N'VLD' THEN 1 ELSE 0 END),0) AS VLD , Isnull(Sum(CASE WHEN LyDoVangMat " +
-        //        "like N'H' THEN 1 ELSE 0 END),0) AS H" +
-        //        "from  NhanVien n, DiemDanh_NangSuatLaoDong d,Department de where " +
-        //        "n.MaNV = d.MaNV and de.department_id = d.MaDonVi and  CaDiemDanh = " + ca + "  and " +
-        //        "NgayDiemDanh = '" + ngay + "' and department_id like '" + donvi + "' ) a";
-
-        //    return query;
-        //}
     }
-    //public class Ngay
-    //{
-    //    public string LoaiNhanVien { get; set; }
-    //    public int LDTheoDS { get; set; }
-    //    public int LDSX { get; set; }
-    //    public int Phep { get; set; }
-    //    public int Om { get; set; }
-    //    public int Bu { get; set; }
-    //    public int TT { get; set; }
-    //    public int VLD { get; set; }
-    //    public int H { get; set; }
-    //    public int TongNghi { get; set; }
-    //}
 
     public class Footer_SUM
     {

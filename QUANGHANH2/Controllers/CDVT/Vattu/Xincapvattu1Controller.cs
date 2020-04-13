@@ -38,32 +38,28 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                 {
                     // only taken by each department.
                     string department_id = Session["departID"].ToString();
-                    List<Eq> listequipment;
-                    int count = DBContext.SupplyPlans.Where(x => x.departmentid == department_id && x.date.Month == DateTime.Now.Month && x.status == 1).Count();
-                    if (count > 0)
-                    {
-                        string query = "select equipmentId,equipment_name from Equipment inner join Department on Equipment.department_id=Department.department_id " +
-                   " where Department.department_id='' ";
-                        listequipment = DBContext.Database.SqlQuery<Eq>(query,
-                          new SqlParameter("department_id", department_id)
-                           ).ToList();
-                    }
-                    else
-                    {
+                   
+                    var listequipment = new List<Eq>();
+                    Boolean count = DBContext.SupplyPlans.Where(x => x.departmentid == department_id && x.date.Month == DateTime.Now.Month && x.status == 1).Count()>=1;
+                    if (!count) { 
 
 
-                        string query = "select equipmentId,equipment_name from Equipment inner join Department on Equipment.department_id=Department.department_id " +
-                               " where Department.department_id=@department_id ";
+                        string query = @"Select e.equipmentId, e.equipment_name, s.equipmentId_dikem, eq.equipment_name as equipmentId_dikem_name
+From Equipment e inner join Supply_DiKem s on e.equipmentId = s.equipmentId inner join Equipment eq on s.equipmentId_dikem = eq.equipmentId
+where e.department_id = @departmentid1 and eq.department_id = @departmentid2 order by e.equipmentId asc ";
                         listequipment = DBContext.Database.SqlQuery<Eq>(query,
-                          new SqlParameter("department_id", department_id)
+                          new SqlParameter("departmentid1", department_id), new SqlParameter("departmentid2", department_id)
                            ).ToList();
                     }
 
-                    int totalrows = listequipment.Count;
-                    int totalrowsafterfiltering = listequipment.Count;
 
 
-                    return Json(new { success = true, data = listequipment, draw = Request["draw"], recordsTotal = totalrows/*, recordsFiltered = totalrowsafterfiltering*/ }, JsonRequestBehavior.AllowGet);
+
+                    return Json(new
+                    {
+                        success = true,
+                        data = listequipment,
+                    }, JsonRequestBehavior.AllowGet)  ;
                 } }
             catch (Exception)
             {
@@ -71,6 +67,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                 return new HttpStatusCodeResult(400);
             } 
         }
+
         [Route("phan-xuong/xin-cap-vat-tu-sctx/getListSupply")]
         [HttpPost]
         public JsonResult getListSupply(String equipmentId)
@@ -80,7 +77,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
 
                 {
                     List<SupplyPlanDB> m = db.Database.SqlQuery<SupplyPlanDB>("select supp.supplyid, s.supply_name,supp.dinh_muc, s.unit ,supp.quantity_plan,supp.id,(case when su.quantity is null then 0 else su.quantity end) 'quantity'  " +
-                   "from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid left join Supply_Equipment_SCTX su on supp.equipmentid=su.equipmentId and supp.supplyid=su.supply_id  where supp.equipmentid = @equipmentid and month(date)=month(getdate()) and status=0", new SqlParameter("equipmentid", equipmentId)).ToList();
+                   "from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid left join Supply_SCTX su on supp.equipmentid=su.equipmentId and supp.supplyid=su.supply_id  where supp.equipmentid = @equipmentid and month(date)=month(getdate()) and status=0", new SqlParameter("equipmentid", equipmentId)).ToList();
 
                     return Json(m);
                 } }
@@ -118,12 +115,12 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                         string sub_insert = $"if exists (select * from SupplyPlan  where id='{listsupplyplanid[i]}')  " +
                                             " begin " +
                                            " update SupplyPlan set " +
-                                           $" supplyid = '{listsupplyid[i]}' , date = getdate(),quantity_plan = {Int32.Parse(listxin_cap[i])},dinh_muc={double.Parse(listgeneral[i])} " +
+                                           $" supplyid = N'{listsupplyid[i]}' , date = getdate(),quantity_plan = {Int32.Parse(listxin_cap[i])},dinh_muc={double.Parse(listgeneral[i])} " +
                                           $" where id = '{listsupplyplanid[i]}'" +
                                           " end " +
                                           " else " +
                                          " begin  " +
-                                         $" insert into Supplyplan(supplyid, departmentid,equipmentid, [date],dinh_muc, quantity_plan,quantity, [status]) VALUES('{listsupplyid[i]}', '{department_id}','{equipmentid}', getdate(),{double.Parse(listgeneral[i])} ,{Int32.Parse(listxin_cap[i])},0, 0) " +
+                                         $" insert into Supplyplan(supplyid, departmentid,equipmentid, [date],dinh_muc, quantity_plan,quantity, [status]) VALUES(N'{listsupplyid[i]}', N'{department_id}',N'{equipmentid}', getdate(),{double.Parse(listgeneral[i])} ,{Int32.Parse(listxin_cap[i])},0, 0) " +
                                          " end;  ";
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
                     }
@@ -210,7 +207,11 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             }
 
         }
-        //Duyệt Cấp
+        /// <summary>
+        /// Phần duyệt cấp
+        /// </summary>
+        /// <returns></returns>
+        
         [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx/duyet-cap/getinformation")]
         [HttpPost]
@@ -227,18 +228,23 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
 
                     if (HasProvided())
                     {
-                        string query = @"select distinct SupplyPlan.equipmentId,equipment_name from Equipment inner join SupplyPlan on Equipment.equipmentId=SupplyPlan.equipmentid
-                                where SupplyPlan.departmentid = @department_id  and month(date)=month(getdate()) and quantity_provide is not null";
+                        string query = @"select  distinct sdk.equipmentId,  eq.equipment_name , supp.equipmentid as equipmentId_dikem,e.equipment_name as equipmentId_dikem_name
+                      from  SupplyPlan supp
+                     inner join Supply_DiKem sdk on supp.equipmentId = sdk.equipmentId_dikem
+                     inner join Equipment e on supp.equipmentid = e.equipmentId
+                      inner join Equipment eq on sdk.equipmentId = eq.equipmentId where
+                     supp.departmentid = @department_id and month(date) = month(getdate())  
+					 and quantity_provide is not null ";
                         listequipment = DBContext.Database.SqlQuery<Eq>(query,
                           new SqlParameter("department_id", department_id)
                            ).ToList();
                     
                       }
-                    int totalrows = listequipment.Count;
-                    int totalrowsafterfiltering = listequipment.Count;
-
-
-                    return Json(new { success = true, data = listequipment, draw = Request["draw"], recordsTotal = totalrows/*, recordsFiltered = totalrowsafterfiltering*/ }, JsonRequestBehavior.AllowGet);
+                    return Json(new
+                    {
+                        success = true,
+                        data = listequipment,
+                    }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception)
@@ -302,15 +308,15 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                                 }
                             }
                             
-                                string sub_insert = $"  if exists(select * from Supply_SCTX  where supply_id = '{vattu.supplyid}' and equipmentId = '{vattu.equipmentid}') " +
+                                string sub_insert = $"  if exists(select * from Supply_SCTX  where supply_id = N'{vattu.supplyid}' and equipmentId = N'{vattu.equipmentid}') " +
                                                 "begin " +
                                                " update Supply_SCTX set " +
-                                               $"quantity = (select quantity where supply_id='{vattu.supplyid}' and equipmentId='{vattu.equipmentid}')+{newquatity} " +
-                                               $"where supply_id = '{vattu.supplyid}' and equipmentId = '{vattu.equipmentid}' " +
+                                               $"quantity = (select quantity where supply_id=N'{vattu.supplyid}' and equipmentId=N'{vattu.equipmentid}')+{newquatity} " +
+                                               $"where supply_id = N'{vattu.supplyid}' and equipmentId = N'{vattu.equipmentid}' " +
                                                "end " +
                                                "else " +
                                                "begin " +
-                                               $"insert into Supply_SCTX(supply_id, equipmentId, quantity) VALUES('{vattu.supplyid}', '{vattu.equipmentid}', {vattu.quantity}) " +
+                                               $"insert into Supply_SCTX(supply_id, equipmentId, quantity) VALUES(N'{vattu.supplyid}', N'{vattu.equipmentid}', {vattu.quantity}) " +
                                               "end ;" +
                                                $" update Supplyplan set quantity={vattu.quantity}, date=getdate() where id={vattu.id} ;";
                             bulk_insert = string.Concat(bulk_insert, sub_insert);
@@ -335,6 +341,9 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
     {
         public string equipmentId { get; set; }
         public string equipment_name { get; set; }
+        public string equipmentId_dikem { get; set; }
+        public string equipmentId_dikem_name { get; set; }
+
     }
     public class SupplyPlanDB : SupplyPlan
     {

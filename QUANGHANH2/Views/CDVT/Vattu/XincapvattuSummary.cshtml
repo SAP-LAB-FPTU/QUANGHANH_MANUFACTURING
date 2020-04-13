@@ -46,6 +46,8 @@
                                             <th>STT</th>
                                             <th>Mã thiết bị</th>
                                             <th>Tên thiết bị</th>
+                                            <th>Mã thiết bị</th>
+                                            <th>Tên thiết bị</th>
                                             <th>Mã vật tư</th>
                                             <th>Tên vật tư</th>
                                             <th>Định mức</th>
@@ -79,10 +81,13 @@
     </div>
 </div>
 @section scripts{
-
+    <script src="~/js/Rowspan/jquery.rowspanizer.js"></script>
+    <script src="~/js/Rowspan/jquery.rowspanizer.min.js"></script>
  <script src="~/assets/libs/jquery.rowspanizer.js"></script>
     <script>
         var lists = [];
+        
+       
 
         var datatable;
         $(document).ready(function () {
@@ -94,11 +99,15 @@
                 drawTable();
             });
             $("#submit").click(function () {
+                var xincap = [];
                 for (var i = 0; i < lists.length; i++) {
-                    lists[i].SupplyQuantity = $("#quantity-" + lists[i].Equipmentid + "-" + lists[i].SupplyId).val()
+                   var newData = {}
+                    newData.SupplyQuantity = $("#quantity-" + lists[i].Equipmentid + "-" + lists[i].SupplyId).val();
+                    newData.Id = lists[i].Id;
+                    xincap.push(newData);
                 }
                 var data = {
-                values:lists,
+                values:xincap,
                 departmentid: getCurrDepId(),
 
 
@@ -190,49 +199,38 @@
                     resultArray = response.data;
                     var tbData = "";
                     if (resultArray.length == 0) {
-                        $("#summary_tbl").find("tbody").append("<tr><td colspan=\"10\"><i>Không có dữ liệu</i></td></tr>")
+                        $("#summary_tbl").find("tbody").append("<tr><td colspan=\"12\"><i>Không có dữ liệu</i></td></tr>")
                     } else {
                         for (var i = 0; i < resultArray.length; i++) {
                             tbData += "<tr>" +
                                 "<td>" + (i + 1) + "</td>" +
-                                "<td class=\"row-auto-span\">" + resultArray[i].Equipmentid + "</td>" +
+                                "<td>" + resultArray[i].Equipmentid + "</td>" +
                                 "<td>" + resultArray[i].equipment_name + "</td>" +
+                                "<td>" + resultArray[i].equipmentId_dikem + "</td>" +
+                                "<td>" + resultArray[i].equipmentId_dikem_name+ "</td>" +
                                 "<td>" + resultArray[i].SupplyId + "</td>" +
                                 "<td>" + resultArray[i].SupplyName + "</td>" +
                                 "<td>" + resultArray[i].SupplyAverage + "</td>" +
                                 "<td>" + resultArray[i].SupplyPlan + "</td>" +
                                 "<td>" + resultArray[i].SupplyRemaining + "</td>" +
-                                "<td><input type='text' id='quantity-" + resultArray[i].Equipmentid + "-" + resultArray[i].SupplyId + "'class='form-control'><input type='hidden' id='Id-" + resultArray[i].Id + "' value='" + resultArray[i].Id + "' class='form-control'> </td>" +
+                                "<td><input type='number' id='quantity-" + resultArray[i].equipmentId_dikem + "-" + resultArray[i].SupplyId + "'class='form-control'></td>" +
                                 "<td>" + resultArray[i].SupplyUnit + "</td>" +
                                 "</tr>";
                             lists.push({
-                                "id": resultArray[i].Id,
-                                "Equipmentid": resultArray[i].Equipmentid,
+                                "Id": resultArray[i].Id,
+                                "Equipmentid": resultArray[i].equipmentId_dikem,
                                 "SupplyId": resultArray[i].SupplyId,
-                                "quantity": ""
+                               
                             });
                         }
                         $("#summary_tbl").find("tbody").append(tbData);
                         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        var indexOfColumnToRowSpan = 1;
-                        var $table = $('#summary_tbl');
-                        var rowSpanMap = {};
-                        $table.find('tbody tr').each(function () {
-                            var valueOfTheSpannableCell = $($(this).children('td')[indexOfColumnToRowSpan]).text();
-                            $($(this).children('td')[indexOfColumnToRowSpan]).attr('data-original-value', valueOfTheSpannableCell);
-                            rowSpanMap[valueOfTheSpannableCell] = true;
-                        });
-                        for (var rowGroup in rowSpanMap) {
-                            var $cellsToSpan = $('td[data-original-value="' + rowGroup + '"]');
-                            var numberOfRowsToSpan = $cellsToSpan.length;
-                            $cellsToSpan.each(function (index) {
-                                if (index == 0) {
-                                    $(this).attr('rowspan', numberOfRowsToSpan);
-                                } else {
-                                    $(this).hide();
-                                }
-                            });
-                        }
+                        $('#summary_tbl').rowspanizer({
+                                 columns: [1,2,3,4]
+                          });                  
+                         $('.rowspan-combine').css({
+                'vertical-align':'middle'
+            })
                     }
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     $("#pre-load").hide();
