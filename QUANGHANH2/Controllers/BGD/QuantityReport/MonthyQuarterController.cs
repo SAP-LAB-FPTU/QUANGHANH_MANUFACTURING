@@ -301,7 +301,7 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                             }
                             if (bc.AprilKH != 0)
                             {
-                                bc.AprilPor = string.Format("{0:0.00}", 100 * bc.Jan / bc.JanKH);
+                                bc.AprilPor = string.Format("{0:0.00}", 100 * bc.April / bc.AprilKH);
                             }
                             if (bc.MayKH != 0)
                             {
