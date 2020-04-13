@@ -67,8 +67,8 @@
                         </table>
                     </div>
                     @*<div class="col s12 m12 l12 input-field right row">
-                        <a class="waves-effect waves-light btn btn-small blue darken-2 input-field left" id="export_excel"><i class="fas fa-file-excel"></i>&nbsp;Xuất&nbsp;Ra&nbsp;File&nbsp;Excel</a>
-                    </div>*@
+                            <a class="waves-effect waves-light btn btn-small blue darken-2 input-field left" id="export_excel"><i class="fas fa-file-excel"></i>&nbsp;Xuất&nbsp;Ra&nbsp;File&nbsp;Excel</a>
+                        </div>*@
                 </div>
             </div>
         </div>
@@ -88,7 +88,8 @@
     $("#date").datepicker({
         onSelect: function () {
             takeData();
-        }
+        },
+        autoClose: true
     });
 
     function takeData() {
