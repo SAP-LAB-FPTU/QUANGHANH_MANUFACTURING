@@ -281,10 +281,10 @@
                                                     {
                                                         thansx_thuchien += row.SanLuongThucHienNgay;
                                                     }
-                                                    
+
                                                 }
                                             }
-                                         <h3>@thansx_thuchien</h3>
+                                            <h3>@thansx_thuchien</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -536,7 +536,95 @@
 
 </div>
 
+<div class="row">
+    <div class="col l6 s12">
+        <div class="card" style="">
+            <div class="card-content">
+                <h4 class="card-title">Báo cáo sự cố</h4>
+                <div id="suco" style="overflow-y:auto">
+                    <table class="striped center-align table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã thiết bị</th>
+                                <th>Tên thiết bị</th>
+                                <th>Phân xưởng sử dụng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (ViewBag.listSCCount == 0)
+                                {
+                                    <tr>
+                                        <td colspan="4">Không có sự cố nào</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    foreach (var item in ViewBag.listSC)
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>@item.equipmentId</td>
+                                            <td>@item.equipment_name</td>
+                                            <td>@item.department_id</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
 
+            </div>
+        </div>
+    </div>
+    <div class="col l6 s12">
+        <div class="card" style="">
+            <div class="card-content">
+                <h4 class="card-title">Báo cáo tai nạn</h4>
+                <div id="suco" style="overflow-y:auto">
+                    <table class="striped center-align table-bordered" id="myTable_tainan">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã NV</th>
+                                <th>Tên NV</th>
+                                <th>Loại tai nạn</th>
+                                <th>Lý do</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (ViewBag.listTNCount == 0)
+                                {
+                                    <tr>
+                                        <td colspan="5">Không có tai nạn nào</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    foreach (var item in ViewBag.listTN)
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>@item.MaNV</td>
+                                            <td>@item.Ten</td>
+                                            <td>@item.Loai</td>
+                                            <td>@item.LyDo</td>
+                                        </tr>
+                                    }
+                                }
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 <!-- Modal Structure -->
 <div id="modal1" class="modal">
     <div class="modal-content">
@@ -579,8 +667,8 @@
             "ordering": false,
             "responsive": true,
             "language": {
-      "emptyTable": "Chưa có dữ liệu"
-    }
+                "emptyTable": "Chưa có dữ liệu"
+            }
 
         });
         $('a[href="#test2"]').one('click', function () {
@@ -596,8 +684,8 @@
                     "ordering": false,
                     "responsive": true,
                     "language": {
-      "emptyTable": "Chưa có dữ liệu"
-    }
+                        "emptyTable": "Chưa có dữ liệu"
+                    }
 
                 });
             }, 0);
@@ -615,8 +703,8 @@
                     "ordering": false,
                     "responsive": true,
                     "language": {
-      "emptyTable": "Chưa có dữ liệu"
-    }
+                        "emptyTable": "Chưa có dữ liệu"
+                    }
                 });
             }, 0);
         });
