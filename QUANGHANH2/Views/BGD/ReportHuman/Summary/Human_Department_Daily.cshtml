@@ -5,276 +5,223 @@
 }
 
 
-<link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+@*<link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
 <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
-<link href="~/dist/css/style.css" rel="stylesheet">
+<link href="~/dist/css/style.css" rel="stylesheet">*@
 <link href="~/css/preloader/css.css" rel="stylesheet" />
-<!-- This page CSS -->
+
+@*This page CSS*@
 <link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/assets/Custom css/floating-action-btn.css" rel="stylesheet">
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet">
-<!--Custom Datepicker CSS-->
+
+@*Custom Datepicker CSS*@
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+
 <link href="~/css/preloader/css.css" rel="stylesheet" />
-<!--Font css-->
+@*Font css*@
 <link href="~/assets/Custom css/font-family.css" rel="stylesheet" />
-<!-- ============================================================== -->
-<!-- All Required js -->
-<!-- ============================================================== -->
-<script src="~/assets/libs/jquery/dist/jquery.min.js"></script>
+
+@*All Required js*@
+
+@*<script src="~/assets/libs/jquery/dist/jquery.min.js"></script>
 <script src="~/dist/js/materialize.min.js"></script>
-<script src="~/assets/libs/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js"></script>
-<!-- ============================================================== -->
-<!-- Apps -->
-<!-- ============================================================== -->
-<script src="~/dist/js/app.js"></script>
+<script src="~/assets/libs/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js"></script>*@
+
+@*Apps*@
+
+@*<script src="~/dist/js/app.js"></script>
 <script src="~/dist/js/app.init.js"></script>
-<script src="~/dist/js/app-style-switcher.js"></script>
-<!-- ============================================================== -->
-<!-- Custom js -->
-<!-- ============================================================== -->
-<script src="~/dist/js/custom.min.js"></script>
-<!-- ============================================================== -->
-<!--Custom Datepicker CSS-->
+<script src="~/dist/js/app-style-switcher.js"></script>*@
+
+@*Custom js*@
+
+@*<script src="~/dist/js/custom.min.js"></script>*@
+
+@*Custom Datepicker CSS*@
 <link href="/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
 <link href="/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
 <link href="/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
 
-<!--QuangHanh Alert-->
+@*QuangHanh Alert*@
 <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
 <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
 <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
 <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
 
-<!--Custom Datepicker JS-->
+@*Custom Datepicker JS*@
 <script src="/lib/datepicker_src/dist/js/datepicker.js"></script>
 <script src="/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
-<!-- This page plugin js -->
+@*This page plugin js*@
+
 <style>
-    body {
-        background-color: #ffff
+    #table-container {
+        overflow: scroll;
     }
-
-    th, td {
-        border: 1px solid;
-       
-    }
-
-        th#odd {
-            background-color: yellow !important
-        }
-
-        th#even {
-            background-color: #99cc00 !important
-        }
-
-    .table-bordered th {
-        vertical-align: middle !important;
-        text-align: center !important;
-        background-color: #f8f8f8 !important;
-        padding: 5px;
-    }
-
-    table {
-        background-color: white;
-        
-    }
-
-    img {
-        width: 80px;
-    }
-
-    #line1 {
-        font-size: 20px;
-    }
-
-    #line2 {
-        font-size: 25px;
-    }
-
-    .title-name {
-        font-weight: 600;
-        font-family: 'Times New Roman', Times, serif;
-    }
-
-    table td {
-        vertical-align: middle;
-        text-align: center;
-    }
-
-    .big-title {
-        font-weight: 600;
-        vertical-align: middle;
-        margin-top: 35px;
-    }
-
-    th#doanhthu-cell {
-        background-color: #ff9191 !important;
-        font-size: 25px;
-    }
-
-    .red-title {
-        color: red;
-    }
-
-    table th * {
-        display: inline;
-    }
-
-    #header-of-page table td {
-        border: 1px solid #ffff;
-    }
-
-    .input-date {
-        margin-left: 40% !important;
-    }
-    .rowspanxx{
-        width:10% !important;
-    }
-    
 </style>
-<div class="row" id="header-of-page">
-    <div class="col l4 m4 s12">
-        <table>
-            <tr>
-                <td rowspan="2" id="tkv-logo">
-                    <img src="~/assets/images/logo-tkv.png" />
-                </td>
-                <td id="line1" class="title-name">TẬP ĐOÀN CÔNG NGHIỆP THAN - KHOÁNG SẢN VIỆT NAM</td>
-                <td rowspan="2" id="qh-logo">
-                    <img src="~/assets/images/logo-qh.jpg" />
-                </td>
-            </tr>
-            <tr>
-                <td id="line2" class="title-name">CÔNG TY THAN QUANG HANH - TKV</td>
-            </tr>
-        </table>
-    </div>
-    <div class="col l8 m8 s12 center big-title">
-        @*<table>
-            <tr>
-                <td rowspan="2">*@
-        <h1>BẢNG TỔNG NHÂN LỰC-PX-NGÀY</h1>
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="center"><b>TỔNG NHÂN LỰC PX - THEO NGÀY</b></h3>
+        <hr />
         <div class="row">
-            <div class="col l4 m4 s4 input-date ">
+            <div class="center col s12" style="margin-bottom: 20px">
+
                 <i class="fas fa-calendar-alt icon"></i>
-                <input type='text' class='datepicker-here' id="date" data-language='vi' />
-
+                <input type='text' class='datepicker-here center date-click' id="yearCalendar" data-language='vi' />
             </div>
-
         </div>
+        <div class="row" id="table-container">
+            <div class="col s12 m12 l12">
+                <table class="table striped table-responsive table-bordered" id="mainTable">
+                    <thead>
+                        <tr id="header-table">
+                            <th rowspan="2">TT</th>
+                            <th rowspan="2">Nội dung</th>
+                        </tr>
+                        <tr id="header-table-row2">
 
-
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="row1">
+                            <td>1</td>
+                            <td>Công nhân làm việc trong lò</td>
+                        </tr>
+                        <tr id="row1a">
+                            <td></td>
+                            <td>Công nhân KT, đào lò</td>
+                        </tr>
+                        <tr id="row1b">
+                            <td></td>
+                            <td>Công nhân cơ điện lò</td>
+                        </tr>
+                        <tr id="row2">
+                            <td>2</td>
+                            <td>Công nhân làm việc trên MB</td>
+                        </tr>
+                        <tr id="row3">
+                            <td>3</td>
+                            <td>Phòng ban quản lý,NV nghiệp vụ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col s12 m12 l12 input-field right row">
+                <a class="waves-effect waves-light btn btn-small blue darken-2 input-field left" id="export_excel"><i class="fas fa-file-excel"></i>&nbsp;Xuất&nbsp;Ra&nbsp;File&nbsp;Excel</a>
+            </div>
+        </div>
     </div>
-
 </div>
-<table class="table striped table-responsive table-bordered" id="mainTable">
-  
-    <thead>
-        <tr>
-            <th rowspan="2">TT</th>
-            <th rowspan="2">Nội dung xxxxxxxxxxxxxx </th>
-            <th rowspan="1" colspan="3">PX Đào Lò 1</th>
-            <th rowspan="1" colspan="3">PX Đào Lò 3</th>
-            <th rowspan="1" colspan="3">PX Đào Lò 5</th>
-            <th rowspan="1" colspan="3">PX Đào Lò 7</th>
-            <th rowspan="1" colspan="3">PX Đào Lò 8</th>
-            <th rowspan="1" colspan="3">PX Khai Thác 1</th>
-            <th rowspan="1" colspan="3">PX Khai Thác 2</th>
-            <th rowspan="1" colspan="3">PX Khai Thác 3</th>
-            <th rowspan="1" colspan="3">PX Khai Thác 4</th>
-            <th rowspan="1" colspan="3">PX Khai Thác 5</th>
-            <th rowspan="1" colspan="3">PX Khai Thác 6</th>
-            <th rowspan="1" colspan="3">PX Khai Thác 7</th>
-            <th rowspan="1" colspan="3">PX Khai Thác 8</th>
-            <th rowspan="1" colspan="3">PX Khai Thác 9</th>
-            <th rowspan="1" colspan="3">PX Khai Thác 10</th>
-            <th rowspan="1" colspan="3">PX Khai Thác 11</th>
 
-        </tr>
-        <tr>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-            <th>Tổng số</th>
-            <th>Đi làm</th>
-            <th>Nghỉ</th>
-        </tr>
+<script>
 
-        <tr>
-            <td>1</td>
-            <td>Công nhân làm việc trong lò</td>
 
-        </tr>
+    $(document).ready(function () {
+        var date = new Date(new Date().setDate(new Date().getDate()));
+        var d = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+        $(".datepicker-here").val(d);
+    });
 
-        <tr>
-            <td></td>
-            <td>Công nhân KT, đào lò</td>
+    $(document).ready(function () {
+        change();
+    });
 
-        </tr>
-        <tr>
-            <td></td>
-            <td>Công nhân cơ điện lò</td>
+    function change() {
+        $("#pre-load").show();
+        $.ajax({
+            'url': '/ban-giam-doc/bao-cao-nhan-luc/bao-cao-tong-hop-nhan-theo-phan-xuong-theo-ngay/lay-du-lieu',
+            'type': 'post',
+            'data': {
+                'year': $("#yearCalendar").val()
+            },
+            'success': function (response) {
+                $("#pre-load").hide();
+                if (response.success) {
+                    genData(response);
+                    refreshDisplay(response.date);
+                } else if (!response.success) {
+                    errorAlert("Có lỗi", "Đã có lỗi xảy ra")
+                }
+            }
+        })
+    }
 
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Công nhân làm việctrên MB</td>
+    function refreshDisplay(newDate) {
+        $("#yearCalendar").val(newDate);
+    }
 
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Phòng ban quản lý,NV nghiệp vụ</td>
+    function genData(response) {
+        $('.added').remove();
+        addHeader(response);
+        addBodyInput(response);
+    }
 
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
-<div class="col s12 m12 l12 input-field left row">
-    <a class="waves-effect waves-light btn btn-small blue darken-2 input-field " id="export_excel"><i class="fas fa-file-excel"></i>&nbsp;Xuất&nbsp;Ra&nbsp;File&nbsp;Excel</a>
-</div>
+    function addHeader(response) {
+        var content1 = "";
+        var content2 = "";
+        for (var i = 0; i < response.listDepartment.length; i++) {
+            content1 += '<th colspan="3" class ="added">';
+            content1 += response.listDepartment[i].Department_Name;
+            content1 += '</th>';
+
+            content2 += '<th class ="added">Tổng số</th>';
+            content2 += '<th class ="added">Đi làm</th>';
+            content2 += '<th class ="added">Nghỉ</th>';
+        }
+        $("#header-table").append(content1);
+        $("#header-table-row2").append(content2);
+    }
+
+    function addBodyInput(response) {
+        var content1 = "";
+        var content1a = "";
+        var content1b = "";
+        var content2 = "";
+        var content3 = "";
+        for (var i = 0; i < response.listDepartment.length; i++) {
+            //total
+            //present
+            //absent
+            content1 += '<td class ="added">';
+            content1 += (response.listDepartment[i].Nghi_KT + response.listDepartment[i].Dilam_KT + response.listDepartment[i].Nghi_CD + response.listDepartment[i].Dilam_CD);
+            content1 += '</td>';
+            content1 += '<td class ="added">' + (response.listDepartment[i].Dilam_KT + response.listDepartment[i].Dilam_CD) + '</td>';
+            content1 += '<td class ="added">' + (response.listDepartment[i].Nghi_KT + response.listDepartment[i].Nghi_CD) + '</td>';
+
+            content1a += '<td class ="added">' + (response.listDepartment[i].Nghi_KT + response.listDepartment[i].Dilam_KT) + '</td>';
+            content1a += '<td class ="added">' + response.listDepartment[i].Dilam_KT + '</td>';
+            content1a += '<td class ="added">' + response.listDepartment[i].Nghi_KT + '</td>';
+
+            content1b += '<td class ="added">' + (response.listDepartment[i].Nghi_CD + response.listDepartment[i].Dilam_CD) + '</td>';
+            content1b += '<td class ="added">' + response.listDepartment[i].Dilam_CD + '</td>';
+            content1b += '<td class ="added">' + response.listDepartment[i].Nghi_CD + '</td>';
+
+            content2 += '<td class ="added">' + (response.listDepartment[i].Nghi_MB + response.listDepartment[i].Dilam_MB) + '</td>';
+            content2 += '<td class ="added">' + response.listDepartment[i].Dilam_MB + '</td>';
+            content2 += '<td class ="added">' + response.listDepartment[i].Nghi_MB + '</td>';
+
+            content3 += '<td class ="added">' + (response.listDepartment[i].Nghi_QLPB + response.listDepartment[i].Dilam_QLPB) + '</td>';
+            content3 += '<td class ="added">' + response.listDepartment[i].Dilam_QLPB + '</td>';
+            content3 += '<td class ="added">' + response.listDepartment[i].Nghi_QLPB + '</td>';
+
+        }
+
+        $("#row1").append(content1);
+        $("#row1a").append(content1a);
+        $("#row1b").append(content1b);
+        $("#row2").append(content2);
+        $("#row3").append(content3);
+    }
+
+    $(document).ready(function () {
+        $(".date-click").datepicker({
+            onSelect: function () {
+                change();
+            }
+        });
+    });
+
+</script>
