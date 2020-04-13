@@ -1,13 +1,7 @@
 ﻿
 @{
-    if (Session["departID"].ToString().Contains("CV"))
-    {
-        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
-    }
-    else
-    {
-        Layout = "~/Views/Shared/_Layout_DK.cshtml";
-    }
+    ViewBag.Title = "Manufacturing";
+    Layout = "~/Views/Shared/_Layout_BGD2.cshtml";
 }
 
 <link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
@@ -16,7 +10,7 @@
 <link href="~/css/Custom css/BGD/dashboard.css" rel="stylesheet" type="text/css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" rel="stylesheet" type="text/css" />
 
-<form id="form" action="/phong-dieu-khien" method="post">
+<form id="form" action="/ban-giam-doc/bao-cao-nhanh-san-xuat" method="post">
     <input type="text" id="date" name="date" style="display:none !important" />
 </form>
 <style>
@@ -966,4 +960,5 @@
 @*<script src="~/assets/extra-libs/c3/d3.min.js"></script>
     <script src="~/assets/extra-libs/c3/c3.min.js"></script>
     <script src="~/dist/js/pages/c3-chart/line/c3-line.js"></script>*@
+
 
