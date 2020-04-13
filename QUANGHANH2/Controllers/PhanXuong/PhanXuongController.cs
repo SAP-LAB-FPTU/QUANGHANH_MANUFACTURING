@@ -752,21 +752,28 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 hd.DiLam_CNCD,
                                 hd.DiLam_CBQL
                                 from (select 
-                                a.HeaderID,
-                                sum(case when (d.MaPhongBan = @departmentID and c.DiLam = 1) then 1 else 0 end) as 'TongDilam',
+                                (select 
+								sum(case when nv_dd.DiLam = 1 then 1 else 0 end) as 'TongDiLam'
+								from
+								(select Min(HeaderID) as 'HeaderID', NgayDiemDanh from Header_DiemDanh_NangSuat_LaoDong 
+								where NgayDiemDanh = @date and Status = 1 and Ca = @session
+								group by NgayDiemDanh) as hd 
+								join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
+								join 
+								(select dd.*, nv.MaPhongBan
+								from DiemDanh_NangSuatLaoDong dd
+								join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
+								where nv_dd.MaPhongBan = @departmentID) as 'TongDiLam',
                                 sum(case when (ncv.LoaiNhomCongViec = N'CNKT') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CNKT',
                                 sum(case when (ncv.LoaiNhomCongViec = N'CNCĐ') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CNCD',
-                                sum(case when (ncv.LoaiNhomCongViec = N'CBQL') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CBQL',
-                                a.FetchDataTime
+                                sum(case when (ncv.LoaiNhomCongViec = N'CBQL') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CBQL'
                                 from
-                                (select h.HeaderID, MIN(h.FetchDataTime) as 'FetchDataTime' from Header_DiemDanh_NangSuat_LaoDong h
-                                where NgayDiemDanh = @date and Ca = @session and h.Status = 1
-                                group by h.HeaderID) as a 
+                                (select Min(h.HeaderID) as 'HeaderID' from Header_DiemDanh_NangSuat_LaoDong h
+                                where NgayDiemDanh = @date and Ca = @session and h.Status = 1) as a 
                                 left join DiemDanh_NangSuatLaoDong c on c.HeaderID = a.HeaderID
                                 left join NhanVien d on c.MaNV = d.MaNV
                                 left join CongViec_NhomCongViec cv_ncv on cv_ncv.MaCongViec = d.MaCongViec
-                                left join NhomCongViec ncv on ncv.MaNhomCongViec = cv_ncv.MaNhomCongViec
-                                group by a.HeaderID, a.FetchDataTime) as hd) as dilam,
+                                left join NhomCongViec ncv on ncv.MaNhomCongViec = cv_ncv.MaNhomCongViec) as hd) as dilam,
                                 (select
                                 sum(case when (d.DiLam = 0 and (d.LyDoVangMat = N'Ốm' or d.LyDoVangMat = N'Nghỉ phép' or d.LyDoVangMat = N'Vô lý do'
                                 or d.LyDoVangMat = N'Khác' or d.LyDoVangMat = N'Tai nạn lao động' or d.LyDoVangMat = N'Ốm dài'
