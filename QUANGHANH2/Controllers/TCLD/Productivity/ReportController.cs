@@ -517,7 +517,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 month = DateTime.Now.Month + "";
                 year = DateTime.Now.Year + "";
             }
-            String varname1 = @"sselect a.department_id, a.QL, (a.KT + a.CD) as 'Tong', a.KT, a.CD, 0 as 'HSTT',
+            String varname1 = @"select a.department_id, a.QL, (a.KT + a.CD) as 'Tong', a.KT, a.CD, 0 as 'HSTT',
                                     a.dilam, 
                                     (a.vld + a.om + a.khac + a.phep) as 'vang',
                                     a.vld ,a.om ,a.phep ,a.khac,
