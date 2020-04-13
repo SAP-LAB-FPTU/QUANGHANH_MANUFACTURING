@@ -294,14 +294,17 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 sql = @"select 
                         convert(float,0,2) as 'SLKH',
                         convert(float,0,2) as 'MLKH',
-                        convert(float,sum(case when hd.ThanThucHien is NULL then 0 else hd.ThanThucHien end),2) as 'LKSL', 
-                        convert(float,sum(case when hd.MetLoThucHien is NULL then 0 else hd.MetLoThucHien end),2) as 'LKML' 
-                        from Header_DiemDanh_NangSuat_LaoDong hd join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
-                        where MONTH(hd.NgayDiemDanh) = @ThangDiemDanh and hd.NgayDiemDanh = @NgayDiemDanh";
+                        convert(float,sum(case when hdd.ThanThucHien is NULL then 0 else hdd.ThanThucHien end),2) as 'LKSL', 
+                        convert(float,sum(case when hdd.MetLoThucHien is NULL then 0 else hdd.MetLoThucHien end),2) as 'LKML' 
+                        from 
+						(select Min(HeaderID) 'HeaderID' 
+						from Header_DiemDanh_NangSuat_LaoDong
+						where NgayDiemDanh = @NgayDiemDanh
+						group by NgayDiemDanh, Ca) as hd 
+						join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID";
                 try
                 {
                     sanluong = db.Database.SqlQuery<SanLuong>(sql, 
-                        new SqlParameter("ThangDiemDanh",currentMonth),
                         new SqlParameter("NgayDiemDanh",currentDate)).FirstOrDefault();
                 }
                 catch (Exception e)
@@ -601,23 +604,25 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                     }
                     ///////////////////////////////////////GET DATA SAN LUONG///////////////////////////////////////////////
-                    sql = "select (select (case when sum(tc_kh.SanLuongKeHoach) is null then 0 else sum(tc_kh.SanLuongKeHoach) end) from (select tc.MaTieuChi, tc.DonViDo, kh.SanLuongKeHoach, kh.ThangKeHoach, kh.NamKeHoach from KeHoach_TieuChi kh join TieuChi tc on kh.MaTieuChi = tc.MaTieuChi) as tc_kh where tc_kh.MaTieuChi in (1,2,3,4) and  tc_kh.ThangKeHoach = @Thang1 and tc_kh.NamKeHoach = @Nam1) 'SLKH',\n" +
-                        "(select(case when sum(tc_kh.SanLuongKeHoach) is null then 0 else sum(tc_kh.SanLuongKeHoach) end) from(select tc.MaTieuChi, tc.DonViDo, kh.SanLuongKeHoach, kh.ThangKeHoach, kh.NamKeHoach from KeHoach_TieuChi kh join TieuChi tc on kh.MaTieuChi = tc.MaTieuChi) as tc_kh where tc_kh.MaTieuChi in (7, 8) and tc_kh.ThangKeHoach = @Thang2 and tc_kh.NamKeHoach = @Nam2) 'MLKH',\n" +
-                        "(select(case when sum(tc_th.SanLuongThucHien) is null then 0 else sum(tc_th.SanLuongThucHien) end) from(select tc.MaTieuChi, tc.DonViDo, th.SanLuongThucHien, th.NgayThucHien from ThucHien_TieuChi th join TieuChi tc on th.MaTieuChi = tc.MaTieuChi) as tc_th where tc_th.MaTieuChi in (1, 2, 3, 4) and MONTH(tc_th.NgayThucHien) = @Thang3  and YEAR(tc_th.NgayThucHien) = @Nam3) 'LKSL',\n" +
-                        "(select(case when sum(tc_th.SanLuongThucHien) is null then 0 else sum(tc_th.SanLuongThucHien) end) from(select tc.MaTieuChi, tc.DonViDo, th.SanLuongThucHien, th.NgayThucHien from ThucHien_TieuChi th join TieuChi tc on th.MaTieuChi = tc.MaTieuChi) as tc_th where tc_th.MaTieuChi in (7, 8) and MONTH(tc_th.NgayThucHien) = @Thang4  and YEAR(tc_th.NgayThucHien) = @Nam4) 'LKML'";
+                    sql = @"select 
+                            convert(float, 0, 2) as 'SLKH',
+                            convert(float, 0, 2) as 'MLKH',
+                            convert(float, sum(case when hdd.ThanThucHien is NULL then 0 else hdd.ThanThucHien end),2) as 'LKSL', 
+                            convert(float, sum(case when hdd.MetLoThucHien is NULL then 0 else hdd.MetLoThucHien end),2) as 'LKML'
+                            from
+                            (select Min(HeaderID) 'HeaderID'
+
+                            from Header_DiemDanh_NangSuat_LaoDong
+
+                            where NgayDiemDanh = @NgayDiemDanh
+                            group by NgayDiemDanh, Ca) as hd
+
+                            join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID";
 
                     try
                     {
                         sanluong = db.Database.SqlQuery<SanLuong>(sql,
-                                                new SqlParameter("Thang1", date.Split('/')[1]),
-                                                new SqlParameter("Thang2", date.Split('/')[1]),
-                                                new SqlParameter("Thang3", date.Split('/')[1]),
-                                                new SqlParameter("Thang4", date.Split('/')[1]),
-                                                new SqlParameter("Nam1", date.Split('/')[0]),
-                                                new SqlParameter("Nam2", date.Split('/')[0]),
-                                                new SqlParameter("Nam3", date.Split('/')[0]),
-                                                new SqlParameter("Nam4", date.Split('/')[0])
-                                                ).ToList<SanLuong>()[0];
+                                                new SqlParameter("NgayDiemDanh",selectedDate)).FirstOrDefault();
                     }
                     catch (Exception e)
                     {
