@@ -295,6 +295,10 @@
                         </li>
                         @{
                             List<string> rights = (List<string>)Session["RightIDs"];
+                            if (rights == null)
+                            {
+                                rights = new List<string>();
+                            }
                             if (rights.Contains("6"))
                             {
                                 <li>
