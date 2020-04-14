@@ -543,7 +543,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string sk, string sm, string gps, string attype)
+        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string sk, string sm, string gps, string attype, string NL, string yearSX)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -603,6 +603,18 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             {
                                 ca.GPS = false;
                             }
+                            if (NL.Equals("1"))
+                            {
+                                ca.nhienlieu = true;
+                            } else
+                            {
+                                ca.nhienlieu = false;
+                            }
+                            if(yearSX != "")
+                            {
+                                ca.namsanxuat = Convert.ToInt32(yearSX);
+                            }
+                            
                             db.Cars.Add(ca);
                         }
                         if (attri != null)
@@ -669,7 +681,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Edit(Equipment emp, string import, string inspec, string insua, string used, string main, string sk, string sm, CarDB cdb)
+        public ActionResult Edit(Equipment emp, string import, string inspec, string insua, string used, string main, string sk, string sm, CarDB cdb, string yearSX)
         {
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -701,6 +713,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             ca.sokhung = sk;
                             ca.somay = sm;
                             ca.GPS = cdb.GPS;
+                            if(yearSX != "")
+                            {
+                                ca.namsanxuat = Convert.ToInt32(yearSX);
+                            }
+                            ca.nhienlieu = cdb.nhienlieu;
                             db.Entry(ca).State = EntityState.Modified;
                         }
 
@@ -776,7 +793,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 listDN.Add(new SelectListItem { Text = "Đường kế toán", Value = "Đường kế toán" });
                 listDN.Add(new SelectListItem { Text = "Đường vật tư", Value = "Đường vật tư" });
                 ViewBag.listDN = listDN;
-                string query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name,a.sokhung, a.somay, a.GPS " +
+                string query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name,a.sokhung, a.somay, a.GPS, a.nhienlieu, a.namsanxuat " +
                 "from Equipment e left outer join Car a on a.equipmentId = e.equipmentId, Department d, Equipment_category ec,Status s " +
                 " where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND e.equipmentId LIKE @equipmentId";
 
@@ -786,6 +803,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 t = false;
                 listGPS.Add(new SelectListItem { Text = t.ToString(), Value = "Mất tín hiệu" });
                 ViewBag.listGPS = listGPS;
+
+                List<SelectListItem> listNL = new List<SelectListItem>();
+                t = true;
+                listNL.Add(new SelectListItem { Text = t.ToString(), Value = "Có nhiên liệu" });
+                t = false;
+                listNL.Add(new SelectListItem { Text = t.ToString(), Value = "Hết nhiên liêu" });
+                ViewBag.listNL = listNL;
 
                 Car ca = db.Database.SqlQuery<Car>("select * from Car where equipmentId = @id", new SqlParameter("id", id + "")).FirstOrDefault();
                 if (ca == null)
