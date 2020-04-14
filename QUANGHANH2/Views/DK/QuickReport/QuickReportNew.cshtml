@@ -1,6 +1,5 @@
 ﻿
 @{
-    //Layout = "~/Views/Shared/_Layout_DK.cshtml";
     if (Session["departID"].ToString().Contains("CV"))
     {
         Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
@@ -10,16 +9,6 @@
         Layout = "~/Views/Shared/_Layout_DK.cshtml";
     }
 }
-
-@*<link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
-    <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
-    <link href="~/dist/css/style.css" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid.min.css" />
-    <link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid-theme.min.css" />
-    <link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
-    <link href="~/dist/dashboard_Tuan/customDashboard.css" rel="stylesheet">*@
-
-@*<link href="~/dist/css/pages/dashboard1.css" rel="stylesheet">*@
 
 <link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
@@ -37,6 +26,7 @@
         padding: 10px;
         background: #3db7fe;
         color: white;
+        font-size: 13px;
     }
 
     .main-number {
@@ -107,7 +97,7 @@
                             <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tdl.Thuchien </span><br />
                             <span class="font-medium" style="color:orange">@ViewBag.tdl.Kehoach</span>
                         </div>
-                        <div class="chart-icon modal-trigger" onclick="drawChart(kh_sl_thanhamlo,'Sản lượng (Tấn)','kh_sl_thanhamlo')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                        <div class="chart-icon modal-trigger" onclick="drawChart(thl,kh_sl_thanhamlo,'Sản lượng (Tấn)','kh_sl_thanhamlo')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                     </div>
                 </div>
             </div>
@@ -121,7 +111,7 @@
                             <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tlt.Thuchien </span><br />
                             <span class="font-medium" style="color:orange">@ViewBag.tlt.Kehoach</span>
                         </div>
-                        <div class="chart-icon modal-trigger" onclick="drawChart(kh_sl_thanlothien,'Sản lượng (Tấn)','kh_sl_thanlothien')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                        <div class="chart-icon modal-trigger" onclick="drawChart(tlt, kh_sl_thanlothien,'Sản lượng (Tấn)','kh_sl_thanlothien')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                     </div>
                 </div>
             </div>
@@ -136,7 +126,7 @@
                                 <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mld.Thuchien </span><br />
                                 <span class="font-medium" style="color:orange">@ViewBag.mld.Kehoach</span>
                             </div>
-                            <div class="chart-icon modal-trigger" onclick="drawChart(kh_sl_metlodao,'Sản lượng (Mét)','kh_sl_metlodao')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                            <div class="chart-icon modal-trigger" onclick="drawChart(mld, kh_sl_metlodao,'Sản lượng (Mét)','kh_sl_metlodao')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                         </div>
                     </div>
                 </div>
@@ -151,7 +141,7 @@
                             <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mln.Thuchien </span><br />
                             <span class="font-medium" style="color:orange">@ViewBag.mln.Kehoach</span>
                         </div>
-                        <div class="chart-icon modal-trigger" onclick="drawChart(kh_sl_metloneo,'Sản lượng (Mét)','kh_sl_metloneo')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                        <div class="chart-icon modal-trigger" onclick="drawChart(mln, kh_sl_metloneo,'Sản lượng (Mét)','kh_sl_metloneo')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                     </div>
                 </div>
             </div>
@@ -169,7 +159,7 @@
                             <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mlx.Thuchien </span><br />
                             <span class="font-medium" style="color:orange">@ViewBag.mlx.Kehoach</span>
                         </div>
-                        <div class="chart-icon modal-trigger" onclick="drawChart(kh_sl_metloxen,'Sản lượng (Mét)','kh_sl_metloxen')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                        <div class="chart-icon modal-trigger" onclick="drawChart(mlx, kh_sl_metloxen,'Sản lượng (Mét)','kh_sl_metloxen')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                     </div>
                 </div>
             </div>
@@ -183,7 +173,7 @@
                             <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ttt.Thuchien </span><br />
                             <span class="font-medium" style="color:orange">@ViewBag.ttt.Kehoach</span>
                         </div>
-                        <div class="chart-icon modal-trigger" onclick="drawChart(kh_sl_thantieuthu,'Sản lượng (Tấn)','kh_sl_thantieuthu')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                        <div class="chart-icon modal-trigger" onclick="drawChart(ttt, kh_sl_thantieuthu,'Sản lượng (Tấn)','kh_sl_thantieuthu')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                     </div>
                 </div>
             </div>
@@ -197,7 +187,7 @@
                             <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.dxk.Thuchien </span><br />
                             <span class="font-medium" style="color:orange">@ViewBag.dxk.Kehoach</span>
                         </div>
-                        <div class="chart-icon modal-trigger" onclick="drawChart(kh_sl_daxitkho,'Sản lượng (Tấn)','kh_sl_daxitkho')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                        <div class="chart-icon modal-trigger" onclick="drawChart(dxk, kh_sl_daxitkho,'Sản lượng (Tấn)','kh_sl_daxitkho')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                     </div>
                 </div>
             </div>
@@ -211,7 +201,7 @@
                             <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ddb.Thuchien </span><br />
                             <span class="font-medium" style="color:orange">@ViewBag.ddb.Kehoach</span>
                         </div>
-                        <div class="chart-icon modal-trigger" onclick="drawChart(kh_sl_datdaboc,'Sản lượng (Tấn)','kh_sl_datdaboc')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                        <div class="chart-icon modal-trigger" onclick="drawChart(ddb, kh_sl_datdaboc,'Sản lượng (Tấn)','kh_sl_datdaboc')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                     </div>
                 </div>
             </div>
@@ -281,10 +271,10 @@
                                                     {
                                                         thansx_thuchien += row.SanLuongThucHienNgay;
                                                     }
-                                                    
+
                                                 }
                                             }
-                                         <h3>@thansx_thuchien</h3>
+                                            <h3>@thansx_thuchien</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -536,16 +526,122 @@
 
 </div>
 
+<div class="row">
+    <div class="col l6 s12">
+        <div class="card" style="">
+            <div class="card-content">
+                <h4 class="card-title">Báo cáo sự cố</h4>
+                <div id="suco" style="overflow-y:auto">
+                    <table class="striped center-align table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã thiết bị</th>
+                                <th>Tên thiết bị</th>
+                                <th>Phân xưởng sử dụng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (ViewBag.listSCCount == 0)
+                                {
+                                    <tr>
+                                        <td colspan="4">Không có sự cố nào</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    foreach (var item in ViewBag.listSC)
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>@item.equipmentId</td>
+                                            <td>@item.equipment_name</td>
+                                            <td>@item.department_id</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
 
+            </div>
+        </div>
+    </div>
+    <div class="col l6 s12">
+        <div class="card" style="">
+            <div class="card-content">
+                <h4 class="card-title">Báo cáo tai nạn</h4>
+                <div id="suco" style="overflow-y:auto">
+                    <table class="striped center-align table-bordered" id="myTable_tainan">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã NV</th>
+                                <th>Tên NV</th>
+                                <th>Loại tai nạn</th>
+                                <th>Lý do</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (ViewBag.listTNCount == 0)
+                                {
+                                    <tr>
+                                        <td colspan="5">Không có tai nạn nào</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    foreach (var item in ViewBag.listTN)
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>@item.MaNV</td>
+                                            <td>@item.Ten</td>
+                                            <td>@item.Loai</td>
+                                            <td>@item.LyDo</td>
+                                        </tr>
+                                    }
+                                }
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 <!-- Modal Structure -->
 <div id="modal1" class="modal">
     <div class="modal-content">
         <h4><b id="sanluong_title"></b></h4>
         <div class="row">
-            <div class="card">
+            <div class="card" id="card-container">
                 <div class="card-content" id="chart-container" style="height:500px">
                     <h5 class="card-title"></h5>
                     <canvas id="chartSanLuong" width="400" height="200"></canvas>
+                </div>
+                <div id="tableSanLuong">
+                    <table class='table table-bordered table-center'>
+                        <thead>
+                            <tr>
+                                <th>Sản lượng thực hiện lũy kế</th>
+                                <th>Sản lượng kế hoạch tháng</th>
+                                <th>Phần trăm so sánh</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -579,8 +675,8 @@
             "ordering": false,
             "responsive": true,
             "language": {
-      "emptyTable": "Chưa có dữ liệu"
-    }
+                "emptyTable": "Chưa có dữ liệu"
+            }
 
         });
         $('a[href="#test2"]').one('click', function () {
@@ -596,8 +692,8 @@
                     "ordering": false,
                     "responsive": true,
                     "language": {
-      "emptyTable": "Chưa có dữ liệu"
-    }
+                        "emptyTable": "Chưa có dữ liệu"
+                    }
 
                 });
             }, 0);
@@ -615,8 +711,8 @@
                     "ordering": false,
                     "responsive": true,
                     "language": {
-      "emptyTable": "Chưa có dữ liệu"
-    }
+                        "emptyTable": "Chưa có dữ liệu"
+                    }
                 });
             }, 0);
         });
@@ -635,6 +731,8 @@
         ['kh_sl_daxitkho', 'CHI TIẾT BÁO CÁO SẢN LƯỢNG ĐÁ XÍT KHO'],
         ['kh_sl_datdaboc', 'CHI TIẾT BÁO CÁO SẢN LƯỢNG ĐẤT ĐÁ BÓC TỰ LÀM'],
     ]);
+
+    //data for chart
     var kh_sl_thanhamlo = @Html.Raw(Json.Encode(ViewBag.kh_sl_thanhamlo));
     var kh_sl_thanlothien = @Html.Raw(Json.Encode(ViewBag.kh_sl_thanlothien));
     var kh_sl_metlodao = @Html.Raw(Json.Encode(ViewBag.kh_sl_metlodao));
@@ -643,7 +741,18 @@
     var kh_sl_thantieuthu = @Html.Raw(Json.Encode(ViewBag.kh_sl_thantieuthu));
     var kh_sl_daxitkho = @Html.Raw(Json.Encode(ViewBag.kh_sl_daxitkho));
     var kh_sl_datdaboc = @Html.Raw(Json.Encode(ViewBag.kh_sl_datdaboc));
-    function drawChart(kind, donvi,title) {
+
+    //data for table
+    var thl = @Html.Raw(Json.Encode(ViewBag.tdl));
+    var tlt = @Html.Raw(Json.Encode(ViewBag.tlt));
+    var mld = @Html.Raw(Json.Encode(ViewBag.mld));
+    var mln = @Html.Raw(Json.Encode(ViewBag.mln));
+    var mlx = @Html.Raw(Json.Encode(ViewBag.mlx));
+    var ttt = @Html.Raw(Json.Encode(ViewBag.ttt));
+    var dxk = @Html.Raw(Json.Encode(ViewBag.dxk));
+    var ddb = @Html.Raw(Json.Encode(ViewBag.ddb));
+
+    function drawChart(dtTable , kind, donvi,title) {
         $("#sanluong_title").text(titleMap.get(title));
         $('#chartSanLuong').remove(); // this is my <canvas> element
         $('#chart-container').append('<canvas id="chartSanLuong"><canvas>');
@@ -653,7 +762,7 @@
         for (let i = 0; i < kind.length; i++) {
             let milli = kind[i]["Ngay"].replace(/\/Date\((-?\d+)\)\//, '$1');
             let da = new Date(parseInt(milli));
-            labels.push(da.getDay() + "/" + (da.getMonth()+1) + "/" + da.getFullYear());
+            labels.push(da.getDate() + "/" + (da.getMonth() + 1) + "/" + da.getFullYear());
             data.push(kind[i]["SanLuong"]);
             console.log(kind.length)
         }
@@ -688,6 +797,29 @@
                  maintainAspectRatio: false
             }
         });
+
+        //draw table
+        $("#tableSanLuong").remove();
+        $("#card-container").append(`
+                                    <div id="tableSanLuong">
+                                        <table class='table-bordered table-center'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Sản lượng thực hiện lũy kế</th>
+                                                    <th>Sản lượng kế hoạch tháng</th>
+                                                    <th>Phần trăm so sánh</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>`+ dtTable['Luyke'] + `</td>
+                                                    <td>`+ dtTable['KehoachThang'] + `</td>
+                                                    <td>`+ Math.round( (dtTable['Luyke'] / dtTable['KehoachThang']) * 100 ) +`%</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    `);
 
     }
 

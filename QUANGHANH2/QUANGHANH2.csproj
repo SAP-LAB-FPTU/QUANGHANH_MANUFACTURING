@@ -173,6 +173,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Controllers\BGD\DK\ManufacturingController.cs" />
     <Compile Include="Controllers\BGD\ReportHuman\Summary\Human_Department_DailyController.cs" />
     <Compile Include="Controllers\Camera\CapNhatTheoCaController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\DaNghiemThuController.cs" />
@@ -7553,6 +7554,7 @@
     <Content Include="Views\DK\QuickReport\QuickReportNew.cshtml" />
     <Content Include="Views\Navigation\Navigate.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\DieuDong\ChiTiet.cshtml" />
+    <Content Include="Views\BGD\DK\Manufacturing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7561,6 +7563,7 @@
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="images\camera\" />
     <Folder Include="Library\" />
+    <Folder Include="Views\Manufacturing\" />
     <Folder Include="Views\TrangChu\" />
   </ItemGroup>
   <ItemGroup>
