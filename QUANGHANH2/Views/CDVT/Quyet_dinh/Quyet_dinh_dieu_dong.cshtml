@@ -226,8 +226,8 @@
 
                     },
                     {
-                        "data": "tempId", "render": function (data) {
-                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" onclick=GetData('@Url.Action("LoadPage","ChiTietQuyetDInh")?id=" + data.split("^")[0] + "')>Chi&nbsp;tiết</a>";
+                        "data": {}, "render": function (data) {
+                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" href='/phong-cdvt/quyet-dinh/dieu-dong/chi-tiet?id=" + data.documentary_id + "'>Chi&nbsp;tiết</a>";
                      },
                         "orderable": false,
                         "searchable":false,

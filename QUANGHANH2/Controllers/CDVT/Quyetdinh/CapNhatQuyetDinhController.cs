@@ -15,92 +15,102 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
         [HttpPost]
         public ActionResult Update()
         {
-            try
+            int documentary_id = int.Parse(Request["documentary_id"]);
+            string documentary_code = Request["documentary_code"];
+            string reason = Request["reason"];
+            string out_in_come = Request["out_in_come"];
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                int documentary_id = int.Parse(Request["documentary_id"]);
-                string documentary_code = Request["documentary_code"];
-                string reason = Request["reason"];
-                string out_in_come = Request["out_in_come"];
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (DbContextTransaction trans = db.Database.BeginTransaction())
                 {
-                    Documentary doc = db.Documentaries.Find(documentary_id);
-                    if (doc == null)
-                        return Json(new { success = false, message = "Quyết định không tồn tại" });
-                    doc.documentary_code = documentary_code == "" ? null : documentary_code;
-                    doc.reason = reason;
-                    doc.out_in_come = out_in_come;
-
-                    if (doc.documentary_code != null)
+                    try
                     {
-                        int affected = 0;
-                        Notification noti = new Notification();
-                        noti.description = "";
-                        switch (doc.documentary_type)
+
+                        if (db.Documentaries.Where(x => x.documentary_code == documentary_code).FirstOrDefault() != null)
+                            return Json(new { success = false, message = "Số quyết định đã tồn tại" });
+                        Documentary doc = db.Documentaries.Find(documentary_id);
+                        if (doc == null)
+                            return Json(new { success = false, message = "Quyết định không tồn tại" });
+                        doc.documentary_code = documentary_code == "" ? null : documentary_code;
+                        doc.reason = reason;
+                        doc.out_in_come = out_in_come;
+
+                        if (doc.documentary_code != null)
                         {
-                            case 1:
-                                affected = db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 3
+                            Notification noti = new Notification();
+                            noti.description = "";
+                            switch (doc.documentary_type)
+                            {
+                                case 1:
+                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 3
 where equipmentId in
 (select equipmentId from Documentary_repair_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
-                                noti.description = "sua chua";
-                                break;
-                            case 2:
-                                affected = db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 5
+                                    noti.description = "sua chua";
+                                    break;
+                                case 2:
+                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 5
 where equipmentId in
 (select equipmentId from Documentary_maintain_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
-                                noti.description = "bao duong";
-                                break;
-                            case 3:
-                                var temp = db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 6
+                                    noti.description = "bao duong";
+                                    break;
+                                case 3:
+                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 6
 where equipmentId in
 (select equipmentId from Documentary_moveline_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
-                                noti.description = "dieu dong";
-                                break;
-                            case 4:
-                                affected = db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 7
+                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 6
+where equipmentId in
+(select distinct equipmentId_dikem from Supply_Documentary_Equipment where documentary_id = @documentary_id and equipmentId_dikem is not null)", new SqlParameter("documentary_id", documentary_id));
+                                    noti.description = "dieu dong";
+                                    break;
+                                case 4:
+                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 7
 where equipmentId in
 (select equipmentId from Documentary_revoke_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
-                                break;
-                            case 5:
-                                affected = db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 8
+                                    break;
+                                case 5:
+                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 8
 where equipmentId in
 (select equipmentId from Documentary_liquidation_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
-                                break;
-                            case 6:
-                                affected = db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 9
+                                    break;
+                                case 6:
+                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 9
 where equipmentId in 
 (select equipmentId from Documentary_big_maintain_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
-                                noti.description = "trung dai tu";
-                                break;
-                            case 7:
-                                affected = db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 16
+                                    noti.description = "trung dai tu";
+                                    break;
+                                case 7:
+                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 16
 where equipmentId in
 (select equipmentId from Documentary_Improve_Detail where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
-                                noti.description = "cai tien";
-                                break;
-                            case 8:
-                                break;
-                            default:
-                                return Json(new { success = false, message = "Loại quyết định không tồn tại" });
+                                    noti.description = "cai tien";
+                                    break;
+                                case 8:
+                                    break;
+                                default:
+                                    return Json(new { success = false, message = "Loại quyết định không tồn tại" });
+                            }
+                            if (!noti.description.Equals(""))
+                            {
+                                noti.date = DateTime.Now.Date;
+                                noti.department_id = doc.department_id_to;
+                                noti.id_problem = doc.documentary_id;
+                                noti.isread = false;
+                                db.Notifications.Add(noti);
+                                db.SaveChanges();
+                            }
                         }
-                        if (!noti.description.Equals(""))
-                        {
-                            noti.date = DateTime.Now.Date;
-                            noti.department_id = doc.department_id_to;
-                            noti.id_problem = doc.documentary_id;
-                            noti.isread = false;
-                            db.Notifications.Add(noti);
-                            db.SaveChanges();
-                        }
-                    }
 
-                    db.SaveChanges();
+                        db.SaveChanges();
+                        trans.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        trans.Rollback();
+                        return Json(new { success = false, message = "Có lỗi xảy ra" });
+                    }
                 }
-                return Json(new { success = true, message = "Cập nhật thành công" });
             }
-            catch (Exception e)
-            {
-                return Json(new { success = false, message = "Có lỗi xảy ra" });
-            }
+            return Json(new { success = true, message = "Cập nhật thành công" });
         }
 
         [Route("phong-cdvt/quyet-dinh/delete")]

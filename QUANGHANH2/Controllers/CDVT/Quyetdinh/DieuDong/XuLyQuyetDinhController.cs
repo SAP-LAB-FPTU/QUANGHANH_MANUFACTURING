@@ -9,7 +9,7 @@ using System.Linq.Dynamic;
 using QUANGHANH2.SupportClass;
 using System.Data.SqlClient;
 
-namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
+namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
 {
     public class DieudongController : Controller
     {

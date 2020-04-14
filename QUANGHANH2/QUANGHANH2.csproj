@@ -7211,6 +7211,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include=".editorconfig" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7551,6 +7552,7 @@
     <Content Include="Views\BGD\ReportHuman\Summary\Human_Department_Daily.cshtml" />
     <Content Include="Views\DK\QuickReport\QuickReportNew.cshtml" />
     <Content Include="Views\Navigation\Navigate.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\DieuDong\ChiTiet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

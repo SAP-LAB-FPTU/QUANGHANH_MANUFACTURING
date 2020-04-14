@@ -8,62 +8,59 @@
         <div class="row">
             <div class="col m12">
                 <h3 class="center"><b>CHI TIẾT ĐIỀU ĐỘNG</b></h3>
-                <form method="post" id="myform">
-                    <div class="col s3 m3">
-                        <textarea name="data" hidden value="" id="json"></textarea>
-                        <label for="department_id_to">Điều động đến <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
-                        <input id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
-                    </div>
-                    <div class="col s3 m3">
+                <div class="col s3 m3">
+                    <label for="department_id_to">Điều động đến <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                    <input id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
+                </div>
+                @*<div class="col s3 m3">
                         <label for="out_in_come">Nguồn vốn</label>
                         <input readonly id="out_in_come" name="out_in_come" class="form-control" type="text" />
-                    </div>
-                    <div class="col s3 m3">
-                        <label for="reason">Nội dung <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
-                        <input id="reason" name="reason" class="form-control" type="text" required />
-                    </div>
-                    <div class="col s12 table_container">
-                        <table id="mytablevattu" class="striped table-responsive centered table-bordered">
-                            <thead>
-                                <tr>
-                                    <th class="center-align">Mã thiết bị</th>
-                                    <th class="center-align">Tên thiết bị</th>
-                                    <th class="center-align">Tình trạng thiết bị</th>
-                                    <th class="center-align">Vị trí lắp đặt chi tiết <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></th>
-                                    <th class="center-align">Đến ngày <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></th>
-                                    <th class="center-align">Lý do điều động</th>
-                                    <th></th>
-                                    <th></th>
+                    </div>*@
+                <div class="col s3 m3">
+                    <label for="reason">Nội dung <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                    <input id="reason" name="reason" class="form-control" type="text" required />
+                </div>
+                <div class="col s12 table_container">
+                    <table id="mytablevattu" class="striped table-responsive centered table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="center-align">Mã thiết bị</th>
+                                <th class="center-align">Tên thiết bị</th>
+                                <th class="center-align">Tình trạng thiết bị</th>
+                                <th class="center-align">Vị trí lắp đặt chi tiết <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></th>
+                                <th class="center-align">Đến ngày <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></th>
+                                <th class="center-align">Lý do điều động</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < ViewBag.DataThietBi.Count; i++)
+                            {
+                                <tr id="@i">
+                                    <td>@ViewBag.DataThietBi[i].equipmentId</td>
+                                    <td>@ViewBag.DataThietBi[i].equipment_name</td>
+                                    <td>@ViewBag.DataThietBi[i].statusname</td>
+                                    <td>
+                                        <input type='text' required class='form-control' />
+                                    </td>
+                                    <td>
+                                        <input type='text' required class='center datepicker-here form-control minDate' data-language='vi' />
+                                    </td>
+                                    <td>
+                                        <input type='text' class='form-control' />
+                                    </td>
+                                    <td>
+                                        <a class="btn blue darken-2 modal-trigger dikem-duphong" data-id="@i" href="#thietbicon">Chi tiết TB con</a>
+                                    </td>
+                                    <td>
+                                        <a class="btn blue darken-2 modal-trigger SCTX" data-id="@i" href="#sctx">VT SCTX</a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @for (int i = 0; i < ViewBag.DataThietBi.Count; i++)
-                                {
-                                    <tr id="@i">
-                                        <td>@ViewBag.DataThietBi[i].equipmentId</td>
-                                        <td>@ViewBag.DataThietBi[i].equipment_name</td>
-                                        <td>@ViewBag.DataThietBi[i].statusname</td>
-                                        <td>
-                                            <input type='text' required class='form-control' />
-                                        </td>
-                                        <td>
-                                            <input type='text' required class='center datepicker-here form-control minDate' data-language='vi' />
-                                        </td>
-                                        <td>
-                                            <input type='text' class='form-control' />
-                                        </td>
-                                        <td>
-                                            <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">VT đi kèm</a>
-                                        </td>
-                                        <td>
-                                            <a class="btn blue darken-2 modal-trigger open-Modal-DuPhong" data-id="@i" href="#mylist">VT SCTX</a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
+                            }
+                        </tbody>
+                    </table>
+                </div>
                 <div class="col l12 m12 s12 center">
                     <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
                     <a id="submit" class="btn blue darken-2 modal-trigger">Tạo điều động thiết bị</a>
@@ -74,7 +71,7 @@
     </div>
 </div>
 
-<div class="modal" id="mylist">
+<div class="modal" id="sctx">
     <div class="modal-content">
         <div class="modal-header">
             <h3 class="modal-title" id="listId"></h3>
@@ -82,17 +79,56 @@
         <div class="modal-body">
             <div class="row">
                 <form>
-                    <table id="test" class="striped table-responsive center table-bordered mytable">
+                    <table class="striped table-responsive center table-bordered">
                         <thead>
                             <tr>
                                 <th>Mã vật tư</th>
                                 <th>Số lượng</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><input type='text' list='supplyID' class='form-control required' /></td>
                                 <td><input type='number' min='1' value='1' class='form-control' /></td>
+                                <td><a class="btn light-blue lighten-1">Xóa</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="addrow" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
+            <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-close">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="thietbicon">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title"></h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <form>
+                    <table class="striped table-responsive center table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Mã thiết bị con</th>
+                                <th>Số lượng đi kèm</th>
+                                <th>Số lượng dự phòng</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type='text' list='equipAttached' class='form-control required' /></td>
+                                <td><input type='number' min='1' value='1' class='form-control' /></td>
+                                <td><input type='number' min='0' value='0' class='form-control' /></td>
+                                <td><a class="btn light-blue lighten-1">Xóa</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -153,74 +189,99 @@
         })
     })
 
-    $("#addrow").click(function () {
-        if (equipAttached == 0)
-            var $tr = $('<tr>').append(
-                $('<td>').html("<input type='text' list='supplyID' class='form-control required' />"),
-                $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
-            );
-        else
-            var $tr = $('<tr>').append(
-                $('<td>').html("<input type='text' list='equipAttached' class='form-control required' />"),
-                $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
-            );
-        $tr.appendTo('#test tbody');
+    $("#sctx #addrow").click(function () {
+        var $tr = $('<tr>').append(
+            $('<td>').html("<input type='text' list='supplyID' class='form-control required' />"),
+            $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
+            $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
+        );
+        $tr.appendTo('#sctx tbody');
     });
+
+    $("#thietbicon #addrow").click(function () {
+        var $tr = $('<tr>').append(
+            $('<td>').html("<input type='text' list='equipAttached' class='form-control required' />"),
+            $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
+            $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
+            $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
+        );
+        $tr.appendTo('#thietbicon tbody');
+    });
+
+    $(document).on("click", "#sctx table a, #thietbicon table a", function () {
+        $(this).closest("tr").remove();
+    })
     //tạo json cho thiết bị khi nhập submit vật tư
-    $("#submitvattu").click(function () {
+    $("#sctx #submitvattu, #thietbicon #submitvattu").click(function () {
+        convertToJson();
+    })
+
+    function convertToJson() {
         var arr = [];
-        for (var i = 1; i < $('#test tbody tr').length + 1; i++) {
-            if ($('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val() != "" &&
-                $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(2).val() != "") {
-                var dikem = {};
-                dikem.supply_id = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(0).val();
-                dikem.quantity = $('#mylist #test tbody tr:nth-child(' + i + ') input').eq(1).val();
-                dikem.supplyStatus = null;
-                arr.push(dikem);
-            }
-        }
         if (equipAttached == 1) {
-            output[equipId].dikem = arr;
+            for (var i = 1; i < $('#thietbicon tbody tr').length + 1; i++) {
+                if ($('#thietbicon tbody tr:nth-child(' + i + ') input').eq(0).val() != "") {
+                    var thietbi = {};
+                    thietbi.equipmentId = $('#thietbicon tbody tr:nth-child(' + i + ') input').eq(0).val();
+                    thietbi.quantity_dikem = $('#thietbicon tbody tr:nth-child(' + i + ') input').eq(1).val();
+                    thietbi.quantity_duphong = $('#thietbicon tbody tr:nth-child(' + i + ') input').eq(2).val();
+                    arr.push(thietbi);
+                }
+            }
+            output[equipId].thietbi = arr;
         }
         else {
-            output[equipId].duphong = arr;
+            for (var i = 1; i < $('#sctx tbody tr').length + 1; i++) {
+                if ($('#sctx tbody tr:nth-child(' + i + ') input').eq(0).val() != "") {
+                    var vattu = {};
+                    vattu.supply_id = $('#sctx tbody tr:nth-child(' + i + ') input').eq(0).val();
+                    vattu.quantity = $('#sctx tbody tr:nth-child(' + i + ') input').eq(1).val();
+                    arr.push(vattu);
+                }
+            }
+            output[equipId].vattu = arr;
         }
-        $('#json').val(JSON.stringify(output))
-    })
+    }
 
     $(document).ready(function () {
         for (var i = 0; i < $('#mytablevattu tbody tr').length; i++) {
             var thietbi = {};
             thietbi.id = $('#mytablevattu tbody tr:nth-child(' + (i + 1) + ') td').eq(0).text();
-            thietbi.dikem = [];
-            thietbi.duphong = [];
+            thietbi.thietbi = [];
+            thietbi.vattu = [];
+            thietbi.getequip = false;
+            thietbi.getsupply = false;
             output[i] = thietbi;
         }
-        $('#json').val(JSON.stringify(output))
     })
 </script>
 @section scripts{
     <script>
-        $(document).on("click", ".open-Modal", function () {
+        $(document).on("click", ".dikem-duphong", function () {
             equipAttached = 1;
             $('#pre-load').show();
             equipId = $(this).data('id');
-            $("#test").find("tr:gt(0)").remove();
+            $("#thietbicon").find("tr:gt(0)").remove();
             var equipmentId = $('#' + equipId + ' td:first-child').text();
-            $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + equipmentId)
-            if (output[equipId].dikem.length == 0) {
+            $('#thietbicon h3').text("Danh sách thiết bị con của thiết bị " + equipmentId)
+            if (output[equipId].getequip == false) {
                 $.ajax({
                     type: "POST",
-                    url: "/phong-cdvt/thiet-bi/get-attached-equipment",
+                    url: "/phong-cdvt/dieu-dong-chon/getdata",
                     dataType: "json",
                     success: function (data) {
+                        output[equipId].getequip = true;
                         $.each(data, function (i, item) {
+                            let duphong = item.quantity_duphong == null ? 0 : item.quantity_duphong;
                             var $tr = $('<tr>').append(
                                 $('<td>').html("<input type='text' list='equipAttached' class='form-control required' value='" + item.equipmentId_dikem + "' /> "),
-                                $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity_dikem + "' /> ")
+                                $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> "),
+                                $('<td>').html("<input type='number' min='1' class='form-control' value='" + duphong + "' /> "),
+                                $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
                             );
-                            $tr.appendTo('#test tbody');
+                            $tr.appendTo('#thietbicon tbody');
                         });
+                        convertToJson();
                         $('#pre-load').hide();
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -233,38 +294,43 @@
                 })
             }
             else {
-                for (var i = 0; i < output[equipId].dikem.length; i++) {
-                    var item = output[equipId].dikem[i];
+                for (var i = 0; i < output[equipId].thietbi.length; i++) {
+                    var item = output[equipId].thietbi[i];
                     var $tr = $('<tr>').append(
-                        $('<td>').html("<input type='text' list='equipAttached' class='form-control required' value='" + item.supply_id + "' /> "),
-                        $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
+                        $('<td>').html("<input type='text' list='equipAttached' class='form-control required' value='" + item.equipmentId + "' /> "),
+                        $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity_dikem + "' /> "),
+                        $('<td>').html("<input type='number' min='0' class='form-control' value='" + item.quantity_duphong + "' /> "),
+                        $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
                     );
-                    $tr.appendTo('#test tbody');
+                    $tr.appendTo('#thietbicon tbody');
                 }
                 $('#pre-load').hide();
             }
         })
 
-        $(document).on("click", ".open-Modal-DuPhong", function () {
+        $(document).on("click", ".SCTX", function () {
             equipAttached = 0;
             $('#pre-load').show();
             equipId = $(this).data('id');
-            $("#test").find("tr:gt(0)").remove();
+            $("#sctx").find("tr:gt(0)").remove();
             var equipmentId = $('#' + equipId + ' td:first-child').text();
-            $('#listId').text("Danh sách vật tư dự phòng của thiết bị " + equipmentId)
-            if (output[equipId].duphong.length == 0) {
+            $('#listId').text("Danh sách vật tư SCTX của thiết bị " + equipmentId)
+            if (output[equipId].getsupply == false) {
                 $.ajax({
                     type: "POST",
                     url: "/phong-cdvt/thiet-bi/get-supply2",
                     dataType: "json",
                     success: function (data) {
+                        output[equipId].getsupply = true;
                         $.each(data, function (i, item) {
                             var $tr = $('<tr>').append(
                                 $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
-                                $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
+                                $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> "),
+                                $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
                             );
-                            $tr.appendTo('#test tbody');
+                            $tr.appendTo('#sctx tbody');
                         });
+                        convertToJson();
                         $('#pre-load').hide();
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -277,13 +343,14 @@
                 })
             }
             else {
-                for (var i = 0; i < output[equipId].duphong.length; i++) {
-                    var item = output[equipId].duphong[i];
+                for (var i = 0; i < output[equipId].vattu.length; i++) {
+                    var item = output[equipId].vattu[i];
                     var $tr = $('<tr>').append(
                         $('<td>').html("<input type='text' list='supplyID' class='form-control required' value='" + item.supply_id + "' /> "),
-                        $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> ")
+                        $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> "),
+                        $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
                     );
-                    $tr.appendTo('#test tbody');
+                    $tr.appendTo('#sctx tbody');
                 }
                 $('#pre-load').hide();
             }
@@ -304,18 +371,44 @@
                     output[key].date_to = $('#' + key + ' input').eq(1).val();
                     output[key].equipment_moveline_reason = $('#' + key + ' input').eq(2).val();
                 }
-                $('#json').val(JSON.stringify(output))
                 $('#confirm').modal("open");
             } else
                 errorAlert("Các ô đánh dấu * không được bỏ trống")
         })
 
         $('#create').click(function () {
-            $('#myform').submit();
+            $('#pre-load').show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/dieu-dong-chon",
+                dataType: "json",
+                success: function (data) {
+                    $('#pre-load').hide();
+                    if (data.success) {
+                        successAlert(data.message);
+                        setTimeout(function () {
+                            window.location.href = "/phong-cdvt/quyet-dinh/dieu-dong";
+                        }, 2000);
+
+                    } else {
+                        errorAlert(data.message);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                },
+                data: {
+                    out_in_come: null,
+                    data: JSON.stringify(output),
+                    reason: $('#reason').val(),
+                    department_id_to: $('#department_id_to').val()
+                },
+                cache: false
+            })
         })
 
         $("#export-button").click(function () {
-            window.location = '/phong-cdvt/quyet-dinh/export-word?data=' + $('#json').val()
+            window.location = '/phong-cdvt/dieu-dong-chon/export?data=' + JSON.stringify(output)
                 + '&title=' + $('input[name = "reason"]').val() + '&department_id='
                 + $('#department_id_to').val() + '&documentary_type=' + 3
                 + '&fileName=Quyết định điều động.docx' + '&resource=' + $('input[name = "out_in_come"]').val()

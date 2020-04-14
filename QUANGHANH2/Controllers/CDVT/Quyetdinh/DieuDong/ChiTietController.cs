@@ -1,93 +1,71 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Threading.Tasks;
-using System.Web.Mvc;using System.Web.Routing;
+using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.Script.Serialization;
 
-namespace QUANGHANHCORE.Controllers.CDVT
+namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
 {
-    public class ChiTietQuyetDInhController : Controller
+    public class ChiTietController : Controller
     {
-        [Route("phong-cdvt/quyet-dinh/dieu-dong-chi-tiet")]      
-        public ActionResult LoadPage(String id)
+        [Auther(RightID = "30")]
+        [Route("phong-cdvt/quyet-dinh/dieu-dong/chi-tiet")]
+        public ActionResult Index(int id)
         {
-            ViewBag.id = id.ToString().Split('^')[0];
-           
-            return View("/Views/CDVT/Quyet_dinh/Chi_tiet_Quyet_dinh.cshtml");
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            db.Configuration.LazyLoadingEnabled = false;
+            List<Detail> details = (from e in db.Equipments
+                                  join s in db.Status on e.current_Status equals s.statusid
+                                  join d in db.Documentary_moveline_details on e.equipmentId equals d.equipmentId
+                                  where d.documentary_id == id
+                                  select new Detail
+                                  {
+                                      equipmentId = e.equipmentId,
+                                      equipment_name = e.equipment_name,
+                                      current_Status = s.statusname,
+                                      department_detail = d.department_detail,
+                                      date_to = d.date_to,
+                                      equipment_moveline_reason = d.equipment_moveline_reason
+                                  }).ToList();
+
+            List<SupplyEquip> supplyEquip = db.Database.SqlQuery<SupplyEquip>(@"select a.equipmentId, a.equipmentId_dikem,
+                c.equipment_name, a.supply_id, b.supply_name, a.quantity_plan, a.supplyStatus 
+                from Supply_Documentary_Equipment a 
+                left join Supply b on a.supply_id = b.supply_id
+                left join Equipment c on a.equipmentId_dikem = c.equipmentId
+                where a.documentary_id = @documentary_id", new SqlParameter("documentary_id", id)).ToList();
+
+            ViewBag.details = details;
+            ViewBag.supplyEquip = new JavaScriptSerializer().Serialize(supplyEquip);
+
+            return View("/Views/CDVT/Quyetdinh/DieuDong/ChiTiet.cshtml");
         }
 
-        [HttpPost]
-        public ActionResult Detail()
+        public class Detail
         {
-            string requestID = Request["sessionId"];
-            int id = Int32.Parse(requestID);
-            int start = Convert.ToInt32(Request["start"]);
-            int length = 10;
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
+            public string equipmentId { get; set; }
+            public string equipment_name { get; set; }
+            public string current_Status { get; set; }
+            public string department_detail { get; set; }
+            public DateTime date_to { get; set; }
+            public string equipment_moveline_reason { get; set; }
+        }
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                db.Configuration.LazyLoadingEnabled = false;
-                int count = 1;
-                List<Documentary_moveline_detailsDB> documentariesList = (from a in db.Documentary_moveline_details
-                                                                       
-                                                                        join b in db.Documentaries on a.documentary_id equals b.documentary_id
-                                                                        join c in db.Equipments on a.equipmentId equals c.equipmentId
-                                                                        join d in db.Departments on c.department_id equals d.department_id
-                                                                          where (b.documentary_id == id)
-                                                                          select new
-                                                                        {
-                                                                              documentary_id = b.documentary_id,
-                                                                              documentary_code = b.documentary_code,
-                                                                              equipmentId = c.equipmentId,
-                                                                              equipment_moveline_status = a.equipment_moveline_status,
-                                                                              department_detail = a.department_detail,
-                                                                              date_to = a.date_to,
-                                                                              equipment_name = c.equipment_name,
-                                                                            department_name = d.department_name,
-                                                                            department_id = c.department_id,
-                                                                            reason = b.reason,
-
-                                                                        }).ToList().Select(p => new Documentary_moveline_detailsDB
-                                                                        {
-                                                                            equipment_moveline_status = p.equipment_moveline_status,
-                                                                            department_detail = p.department_detail,
-                                                                            date_to = p.date_to,
-                                                                            documentary_id = p.documentary_id,
-                                                                            documentary_code = p.documentary_code,
-                                                                            equipmentId = p.equipmentId,
-                                                                            equipment_name = p.equipment_name,
-                                                                            department_name = p.department_name,
-                                                                            department_id = p.department_id,
-                                                                            reason = p.reason,
-                                                                        }).ToList();
-                foreach (var el in documentariesList)
-                {
-                    el.order_number = count++;
-                    el.idAndEquip = el.documentary_id + "^" + el.equipmentId;
-
-                }
-                int totalrows = documentariesList.Count;
-                int totalrowsafterfiltering = documentariesList.Count;
-
-                //sorting
-                documentariesList = documentariesList.OrderBy(sortColumnName + " " + sortDirection).ToList<Documentary_moveline_detailsDB>();
-                //paging
-
-                documentariesList = documentariesList.Skip(start).Take(length).ToList<Documentary_moveline_detailsDB>();
-                Console.WriteLine(Json(new { success = true, data = documentariesList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet));
-
-                var js = Json(new { success = true, data = documentariesList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-
-                var result = new JavaScriptSerializer().Serialize(js.Data);
-                ViewBag.count = 0;
-                return js;
-            }
+        public class SupplyEquip
+        {
+            public string equipmentId { get; set; }
+            public string equipmentId_dikem { get; set; }
+            public string equipment_name { get; set; }
+            public string supply_id { get; set; }
+            public string supply_name { get; set; }
+            public int quantity_plan { get; set; }
+            public string supplyStatus { get; set; }
         }
     }
 }

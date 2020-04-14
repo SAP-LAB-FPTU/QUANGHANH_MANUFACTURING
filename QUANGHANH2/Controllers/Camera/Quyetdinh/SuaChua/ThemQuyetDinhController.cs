@@ -111,7 +111,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                     transaction.Commit();
                     return Json(new { success = true });
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     transaction.Rollback();
                     return Json(new { success = false });
