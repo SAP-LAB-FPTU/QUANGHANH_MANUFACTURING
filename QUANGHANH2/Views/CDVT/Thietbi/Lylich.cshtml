@@ -145,7 +145,15 @@
                                         <td>Khấu hao hiện tại</td>
                                         <td>@ViewBag.equipment.depreciation_present</td>
                                     </tr>
-
+                                    @{
+                                        foreach (var item in ViewBag.plus)
+                                        {
+                                            <tr>
+                                                <td>@item.ten</td>
+                                                <td>@item.value</td>
+                                            </tr>
+                                        }
+                                    }
                                 </table>
                                 <h4 class="center-align" style="font-weight:bold">Thuộc tính thiết bị</h4>
                                 <table class="striped table-bordered" style="margin-top:30px !important" id="thuoctinh">
