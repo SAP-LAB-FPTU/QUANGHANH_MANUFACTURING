@@ -15,9 +15,11 @@ namespace QUANGHANH2.Models
     public partial class Car
     {
         public string equipmentId { get; set; }
+        public Nullable<int> namsanxuat { get; set; }
         public string sokhung { get; set; }
         public string somay { get; set; }
         public Nullable<bool> GPS { get; set; }
+        public Nullable<bool> nhienlieu { get; set; }
     
         public virtual Equipment Equipment { get; set; }
     }
