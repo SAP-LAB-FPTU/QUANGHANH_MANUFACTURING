@@ -15,6 +15,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
     public class LylichController : Controller
     {
+        public class ddplus
+        {
+            public string ten { get; set; }
+            public string value { get; set; }
+        }
         public class dactinh : Equipment_category_attribute
         {
             public int Value { get; set; }
@@ -114,6 +119,24 @@ namespace QUANGHANHCORE.Controllers.CDVT
             //DD thiet bi
             var equipment = DBContext.Database.SqlQuery<EquipWithName>("SELECT e.*,d.department_name,s.statusname FROM Equipment e,Status s,Department d WHERE d.department_id = e.department_id and e.current_Status = s.statusid and e.equipmentId = @id", new SqlParameter("id", id)).First();
             ViewBag.equipment = equipment;
+            List<ddplus> listddplus = new List<ddplus>();
+            var car = DBContext.Database.SqlQuery<Car>("select * from Car where equipmentId = @id", new SqlParameter("id", id)).First();
+            if(car != null)
+            {
+                ddplus dd = new ddplus();
+                dd.ten = "Số khung"; dd.value = car.sokhung; listddplus.Add(dd); dd = new ddplus();
+                dd.ten = "Số máy"; dd.value = car.somay; listddplus.Add(dd); dd = new ddplus();
+                dd.ten = "Năm sản xuất"; dd.value = car.namsanxuat.ToString(); listddplus.Add(dd); dd = new ddplus();
+                dd.ten = "GPS";
+                if (car.GPS == true) dd.value = "Có tín hiệu";
+                else dd.value = "Mất tín hiệu";
+                listddplus.Add(dd); dd = new ddplus();
+                dd.ten = "Nhiên liệu";
+                if (car.nhienlieu == true) dd.value = "Có nhiên liệu";
+                else dd.value = "Hết nhiên liệu";
+                listddplus.Add(dd);
+            }
+            ViewBag.plus = listddplus;
             string mysql = @"select ec.Equipment_category_attribute_id, ec.Equipment_category_attribute_name, c.Value, ec.unit
                         from Equipment_category_attribute ec join Category_attribute_value c on ec.Equipment_category_attribute_id = c.Equipment_category_attribute_id
                         where c.equipmentId = @id";

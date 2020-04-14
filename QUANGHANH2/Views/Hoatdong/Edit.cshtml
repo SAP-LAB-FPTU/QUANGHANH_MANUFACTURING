@@ -119,8 +119,16 @@
                     <div class="form-group">
                         <label class="control-label col-md-2">GPS</label>
                         <div class="col-md-10">
-                             @Html.DropDownList("GPS", new SelectList(ViewBag.listGPS, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
+                            @Html.DropDownList("GPS", new SelectList(ViewBag.listGPS, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.GPS, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Nhiên liệu</label>
+                        <div class="col-md-10">
+                            @Html.DropDownList("nhienlieu", new SelectList(ViewBag.listNL, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.nhienlieu, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -209,6 +217,19 @@
                         </div>
                     </div>
 
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Năm sản xuất</label>
+                        <div class="col-md-10">
+                            <input type="number" name="yearSX" id="yearSX" class="form-control datepicker-here datepicker-add center"
+                                   data-language='vi'
+                                   data-min-view="years"
+                                   data-view="years"
+                                   data-date-format="yyyy" />
+                            @Html.EditorFor(model => model.namsanxuat, new { htmlAttributes = new { @style = "display: none !important" } })
+                            @Html.ValidationMessageFor(model => model.namsanxuat, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -299,6 +320,9 @@
 
         data = document.getElementById("somay").value;
         document.getElementById("editsm").value = data;
+
+        data = document.getElementById("namsanxuat").value;
+        document.getElementById("yearSX").value = data;
 
         $(".datepicker-here").keydown(function (e) {
             e.preventDefault();
