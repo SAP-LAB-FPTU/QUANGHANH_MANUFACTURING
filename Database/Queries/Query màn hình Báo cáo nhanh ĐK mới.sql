@@ -387,3 +387,23 @@ select
 						where ntc.MaNhomTieuChi in (3,11) and kht.ThangKeHoach = MONTH(@Ngay) and kht.NamKeHoach = YEAR(@Ngay)
 						group by hd.MaPhongBan, tc.MaTieuChi, kh.SanLuong, ntc.TenNhomTieuChi) as kht
 						group by MaPhongBan) as kht on kht.MaPhongBan = pb.MaPhongBan
+
+---------------------------------------------------------------------------------------------------------------------------------
+--Lũy kế tháng trong năm / kế hoạch năm
+select
+kh.MaTieuChi,
+(case when lk.LUYKE is null then 0 else lk.LUYKE end) as 'LUYKE', 
+(case when kh.KH is null then 0 else kh.KH end) as 'KH'
+from
+(select MaTieuChi, sum(SanLuong) as 'LUYKE' from ThucHien_TieuChi_TheoNgay as th
+join (select tht.*,hth.MaPhongBan,hth.HeaderID from header_ThucHienTheoNgay hth 
+join ThucHienTheoNgay tht on hth.NgayID = tht.NgayID and Month(Ngay) between 1  and Month('2020-04-01')) as h on th.HeaderID = h.HeaderID
+group by MaTieuChi) as lk
+LEFT OUTER JOIN
+(select a.MaTieuChi, sum(kt.SanLuongKeHoach) 'KH'
+from(select  kt.HeaderID, hkt.MaPhongBan, hkt.Nam,kt.MaTieuChi,max(ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung'
+from KeHoach_TieuChi_TheoNam kt inner join header_KeHoach_TieuChi_TheoNam hkt on kt.HeaderID = hkt.HeaderID
+where hkt.Nam = Year('2020-04-01')
+group by kt.HeaderID, hkt.MaPhongBan, hkt.Nam, kt.MaTieuChi) as a 
+inner join KeHoach_TieuChi_TheoNam kt on a.HeaderID = kt.HeaderID and a.ThoiGianNhapCuoiCung = kt.ThoiGianNhapCuoiCung and a.MaTieuChi = kt.MaTieuChi
+group by a.MaTieuChi) as kh on lk.MaTieuChi = kh.MaTieuChi
