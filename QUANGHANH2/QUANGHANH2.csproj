@@ -7411,7 +7411,7 @@
     <Content Include="Views\nghiemthu\Edit.cshtml" />
     <Content Include="Views\CDVT\Report\FuelConsumption.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Baoduong.cshtml" />
-    <Content Include="Views\CDVT\Cap_nhat\Chitiet\Dieudong.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\DieuDong\XuLyQuyetDinh.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Suachua.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Thanhly.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Thuhoi.cshtml" />

@@ -39,7 +39,8 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
                 from Supply_Documentary_Equipment a 
                 left join Supply b on a.supply_id = b.supply_id
                 left join Equipment c on a.equipmentId_dikem = c.equipmentId
-                where a.documentary_id = @documentary_id", new SqlParameter("documentary_id", id)).ToList();
+                where a.documentary_id = @documentary_id
+                order by a.supplyDocumentaryEquipmentId asc", new SqlParameter("documentary_id", id)).ToList();
 
             ViewBag.details = details;
             ViewBag.supplyEquip = new JavaScriptSerializer().Serialize(supplyEquip);
