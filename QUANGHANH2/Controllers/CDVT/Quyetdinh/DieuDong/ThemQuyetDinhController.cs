@@ -134,18 +134,15 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
                                 supplyStatus = "dikem"
                             };
                             db.Supply_Documentary_Equipment.Add(sde1);
-                            if (quantity_duphong != 0)
+                            Supply_Documentary_Equipment sde2 = new Supply_Documentary_Equipment
                             {
-                                Supply_Documentary_Equipment sde2 = new Supply_Documentary_Equipment
-                                {
-                                    documentary_id = documentary.documentary_id,
-                                    equipmentId = equipmentId,
-                                    equipmentId_dikem = equipmentId_dikem,
-                                    quantity_plan = quantity_duphong,
-                                    supplyStatus = "duphong"
-                                };
-                                db.Supply_Documentary_Equipment.Add(sde2);
-                            }
+                                documentary_id = documentary.documentary_id,
+                                equipmentId = equipmentId,
+                                equipmentId_dikem = equipmentId_dikem,
+                                quantity_plan = quantity_duphong,
+                                supplyStatus = "duphong"
+                            };
+                            db.Supply_Documentary_Equipment.Add(sde2);
                             db.SaveChanges();
                         }
                         JArray vattu = (JArray)item.Value.SelectToken("vattu");
