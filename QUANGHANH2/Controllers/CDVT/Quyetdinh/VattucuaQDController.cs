@@ -113,6 +113,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
             return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
         }
 
+        //Dùng để chỉnh sửa số lượng vật tư, thiết bị con của thiết bị trong quyết định
         [Route("phong-cdvt/cap-nhat/quyet-dinh/AddSupply")]
         [HttpPost]
         public ActionResult AddSupply(string list, int documentary_id, string equipmentId)
@@ -123,7 +124,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
                 try
                 {
                     JObject json = JObject.Parse(list);
-                    JArray arr = (JArray)json.SelectToken("list");  //list của thiết bị con đi kèm và vật tư dự phòng
+                    JArray arr = (JArray)json.SelectToken("list");  //list của thiết bị con đi kèm, dự phòng và vật tư sctx
                     foreach (JObject item in arr)
                     {
                         bool IsSupply = true;
@@ -140,14 +141,16 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
                         }
                         if (temp == null)
                         {
-                            temp = new Supply_Documentary_Equipment();
-                            temp.documentary_id = documentary_id;
-                            temp.equipmentId = equipmentId;
-                            temp.quantity_in = (int)item["quantity_in"];
-                            temp.quantity_out = (int)item["quantity_out"];
-                            temp.quantity_plan = item["quantity_plan"] == null ? 0 : (int)item["quantity_plan"];
-                            temp.quantity_used = (int)item["quantity_used"];
-                            temp.supplyStatus = (string)item["supplyStatus"];
+                            temp = new Supply_Documentary_Equipment
+                            {
+                                documentary_id = documentary_id,
+                                equipmentId = equipmentId,
+                                quantity_in = (int)item["quantity_in"],
+                                quantity_out = (int)item["quantity_out"],
+                                quantity_plan = item["quantity_plan"] == null ? 0 : (int)item["quantity_plan"],
+                                quantity_used = (int)item["quantity_used"],
+                                supplyStatus = (string)item["supplyStatus"]
+                            };
                             if (IsSupply)
                                 temp.supply_id = supply_id;
                             else
@@ -156,9 +159,9 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
                         }
                         else
                         {
-                            temp.quantity_in = (int)item["quantity_in"];
-                            temp.quantity_out = item["quantity_out"] == null ? 0 : (int)item["quantity_out"];
-                            temp.quantity_used = item["quantity_used"] == null ? 0 : (int)item["quantity_used"];
+                            temp.quantity_in = (int)item["quantity_in"] < temp.quantity_in ? temp.quantity_in : (int)item["quantity_in"];
+                            temp.quantity_out = item["quantity_out"] != null && (int)item["quantity_out"] < temp.quantity_out ? temp.quantity_out : (int)item["quantity_out"];
+                            temp.quantity_used = item["quantity_used"] != null && (int)item["quantity_used"] < temp.quantity_used ? temp.quantity_used : (int)item["quantity_used"];
                             temp.supplyStatus = (string)item["supplyStatus"];
                         }
                         DBContext.SaveChanges();
@@ -186,7 +189,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
                                 select new
                                 {
                                     supply_id = s.equipmentId_dikem,
-                                    quantity = s.quantity
+                                    s.quantity
                                 }).ToList();
             return Json(supply_DiKem);
         }
@@ -201,8 +204,8 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
                                 where s.equipmentId.Equals(equipmentId)
                                 select new
                                 {
-                                    supply_id = s.supply_id,
-                                    quantity = s.quantity
+                                    s.supply_id,
+                                    s.quantity
                                 }).ToList();
             return Json(supply_DiKem);
         }
