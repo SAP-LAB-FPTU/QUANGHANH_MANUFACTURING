@@ -16,6 +16,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 {
     public class nghiemthuController : Controller
     {
+        QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+
         [Auther(RightID = "25")]
         [Route("phong-cdvt/nghiem-thu")]
         public ActionResult Index()
@@ -115,15 +117,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                  }).Count();
                 }
 
-                foreach (Documentary_Extend item in docList)
-                {
-                    item.temp = item.documentary_id + "^" + item.documentary_code;
-                }
-
-
                 foreach (Documentary_Extend items in docList)
                 {
-                    items.idAndid = items.equipmentId + "^" + items.documentary_id;
                     items.linkIdCode = new LinkIdCode2();
                     switch (items.documentary_type)
                     {
@@ -155,11 +150,30 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         }
 
         [Auther(RightID = "82")]
+        [Route("phong-cdvt/nghiem-thu/detail")]
+        [HttpPost]
+        public ActionResult Detail(int documentary_id)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            var doc = (from a in db.Documentaries
+                       join b in db.Departments on a.department_id_to equals b.department_id
+                       where a.documentary_id == documentary_id
+                       select new
+                       {
+                           b.department_name,
+                           a.date_created,
+                           a.person_created,
+                           a.reason,
+                           a.out_in_come
+                       }).FirstOrDefault();
+            return Json(doc);
+        }
+
+        [Auther(RightID = "82")]
         [HttpPost]
         [Route("phong-cdvt/nghiem-thu/Edit")]
         public ActionResult Edit(string id, string documentary_code, string documentary_id)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 try
@@ -211,11 +225,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                     Supply_DiKem s = db.Supply_DiKem.Where(x => x.equipmentId == id && x.equipmentId_dikem == item.equipmentId_dikem).FirstOrDefault();
                                     if (s == null)
                                     {
-                                        s = new Supply_DiKem();
-                                        s.equipmentId = id;
-                                        s.note = item.supplyStatus;
-                                        s.quantity = item.quantity_in;
-                                        s.equipmentId_dikem = item.equipmentId_dikem;
+                                        s = new Supply_DiKem
+                                        {
+                                            equipmentId = id,
+                                            note = item.supplyStatus,
+                                            quantity = item.quantity_in,
+                                            equipmentId_dikem = item.equipmentId_dikem
+                                        };
                                         db.Supply_DiKem.Add(s);
                                     }
                                     else
@@ -229,10 +245,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                     Supply_SCTX s = db.Supply_SCTX.Where(x => x.equipmentId == id && x.supply_id == item.supply_id).FirstOrDefault();
                                     if (s == null)
                                     {
-                                        s = new Supply_SCTX();
-                                        s.equipmentId = id;
-                                        s.quantity = item.quantity_in;
-                                        s.supply_id = item.supply_id;
+                                        s = new Supply_SCTX
+                                        {
+                                            equipmentId = id,
+                                            quantity = item.quantity_in,
+                                            supply_id = item.supply_id
+                                        };
                                         db.Supply_SCTX.Add(s);
                                     }
                                     else
@@ -270,11 +288,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                 Supply_DiKem s = db.Supply_DiKem.Where(x => x.equipmentId == id && x.equipmentId_dikem == item.equipmentId_dikem).FirstOrDefault();
                                 if (s == null)
                                 {
-                                    s = new Supply_DiKem();
-                                    s.equipmentId = id;
-                                    s.note = item.supplyStatus;
-                                    s.quantity = item.quantity_used;
-                                    s.equipmentId_dikem = item.equipmentId_dikem;
+                                    s = new Supply_DiKem
+                                    {
+                                        equipmentId = id,
+                                        note = item.supplyStatus,
+                                        quantity = item.quantity_used,
+                                        equipmentId_dikem = item.equipmentId_dikem
+                                    };
                                     db.Supply_DiKem.Add(s);
                                 }
                                 else
@@ -303,9 +323,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                         foreach (string item in supplies_id)
                         {
                             Supply_Documentary_Equipment temp = list.Where(x => x.supply_id.Equals(item)).FirstOrDefault();
-                            Supply_SCTX supply = new Supply_SCTX();
-                            supply.equipmentId = id;
-                            supply.supply_id = item;
+                            Supply_SCTX supply = new Supply_SCTX
+                            {
+                                equipmentId = id,
+                                supply_id = item
+                            };
                             supply.quantity += temp.quantity_in + temp.quantity_out - temp.quantity_used;
                             db.Supply_SCTX.Add(supply);
                         }
@@ -314,7 +336,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                     transaction.Commit();
                     return Json(new { success = true, message = "Nghiệm thu thành công" }, JsonRequestBehavior.AllowGet);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     transaction.Rollback();
                     return Json(new { success = false, message = "Nghiệm thu thất bại" }, JsonRequestBehavior.AllowGet);
@@ -327,14 +349,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         [Route("phong-cdvt/nghiem-thu/cap-nhat-so-luong")]
         public ActionResult Update(int documentary_id, string equipmentId, bool isSupply)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            DBContext.Configuration.LazyLoadingEnabled = false;
-            using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
+            db.Configuration.LazyLoadingEnabled = false;
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 try
                 {
                     var temp = JArray.Parse(Request["list"]);
-                    List<Supply_Documentary_Equipment> list = DBContext.Supply_Documentary_Equipment.Where(x => x.documentary_id.Equals(documentary_id) && x.equipmentId.Equals(equipmentId)).ToList();
+                    List<Supply_Documentary_Equipment> list = db.Supply_Documentary_Equipment.Where(x => x.documentary_id.Equals(documentary_id) && x.equipmentId.Equals(equipmentId)).ToList();
                     foreach (JObject item in temp)
                     {
                         if (isSupply)
@@ -352,16 +373,74 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             s.quantity_plan = (int)item["quantity_plan"];
                         }
                     }
-                    DBContext.SaveChanges();
+                    db.SaveChanges();
                     transaction.Commit();
                     return Json(new { success = true, message = "Cập nhật thành công" });
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     transaction.Rollback();
                     return Json(new { success = false, message = "Cập nhật thất bại" });
                 }
             }
+        }
+
+        [Auther(RightID = "82")]
+        [Route("phong-cdvt/nghiem-thu/cap-nhat-so-luong-dieu-dong")]
+        [HttpPost]
+        public ActionResult UpdateQuantity(string list, int documentary_id, string equipmentId, bool type)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    JObject json = JObject.Parse(list);
+                    JArray arr = (JArray)json.SelectToken("list");  //list của thiết bị con đi kèm, dự phòng và vật tư sctx
+                    foreach (JObject item in arr)
+                    {
+                        if (!type)
+                        {
+                            string equipmentId_dikem = (string)item["equipmentId_dikem"];
+                            List<Supply_Documentary_Equipment> listTemp = db.Supply_Documentary_Equipment
+                                .Where(a => a.documentary_id == documentary_id && a.equipmentId == equipmentId && a.equipmentId_dikem == equipmentId_dikem)
+                                .OrderBy(a => a.supplyDocumentaryEquipmentId).ToList();
+                            listTemp.First().quantity_in = (int)item["quantity_dikem"];
+                            if (listTemp.Count == 2)
+                            {
+                                listTemp.Last().quantity_in = (int)item["quantity_duphong"];
+                            }
+                        }
+                        else
+                        {
+                            string supply_id = (string)item["supply_id"];
+                            Supply_Documentary_Equipment temp = db.Supply_Documentary_Equipment.Where(a => a.documentary_id == documentary_id && a.equipmentId == equipmentId && a.supply_id == supply_id).FirstOrDefault();
+                            temp.quantity_in = (int)item["quantity_in"] < temp.quantity_in ? temp.quantity_in : (int)item["quantity_in"];
+                        }
+                        db.SaveChanges();
+                    }
+                    db.SaveChanges();
+                    transaction.Commit();
+                    return Json(new { success = true, message = "Cập nhật thành công" });
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    return Json(new { success = false, message = "Có lỗi xảy ra" });
+                }
+            }
+        }
+
+        public class SupplyEquip
+        {
+            public string equipmentId { get; set; }
+            public string equipmentId_dikem { get; set; }
+            public string equipment_name { get; set; }
+            public string supply_id { get; set; }
+            public string supply_name { get; set; }
+            public int quantity_plan { get; set; }
+            public int quantity_in { get; set; }
+            public string supplyStatus { get; set; }
         }
 
         private class Document
