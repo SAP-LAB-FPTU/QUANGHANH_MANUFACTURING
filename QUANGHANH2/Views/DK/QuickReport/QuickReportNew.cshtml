@@ -626,6 +626,12 @@
                     <canvas id="chartSanLuong" width="400" height="200"></canvas>
                 </div>
                 <div id="tableSanLuong">
+                    <hr />
+                    <div class="text-center">
+                        <span class="black-text">
+                            SẢN LƯỢNG LŨY KẾ
+                        </span>
+                    </div>
                     <table class='table table-bordered table-center'>
                         <thead>
                             <tr>
@@ -774,8 +780,8 @@
                 datasets: [{
                     label: donvi,
                     data: data,
-                    backgroundColor:'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor:'rgba(32, 166, 255, 0.2)',
+                    borderColor: 'rgba(32, 166, 255, 1)',
                     borderWidth: 1
                 }]
             },
@@ -790,7 +796,7 @@
                 legend: {
                 display: true,
                 labels: {
-                fontColor: 'rgb(255, 99, 132)'
+                fontColor: 'rgb(0, 0, 0)'
                 }
                 },
                 responsive: true,
@@ -801,7 +807,13 @@
         //draw table
         $("#tableSanLuong").remove();
         $("#card-container").append(`
-                                    <div id="tableSanLuong">
+                                    <div class='row' id="tableSanLuong">
+                                        <hr />
+                                        <div class='center'>
+                                            <span class='black-text'>
+                                                SẢN LƯỢNG LŨY KẾ
+                                            </span>
+                                        </div>
                                         <table class='table-bordered table-center'>
                                             <thead>
                                                 <tr>

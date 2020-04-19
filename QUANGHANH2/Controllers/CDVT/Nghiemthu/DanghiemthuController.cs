@@ -63,7 +63,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 on d.documentary_type = dt.documentary_type
 inner join Acceptance a on a.documentary_id = d.documentary_id
 inner join Equipment e on e.equipmentId = a.equipmentId
-where d.documentary_code like @documentary_code and a.equipmentId like @equipmentId
+where a.equipmentStatus = 3 and d.documentary_code like @documentary_code and a.equipmentId like @equipmentId
 and e.equipment_name like @equipment_name and a.acceptance_date between @dstart and @dend";
                 docList = db.Database.SqlQuery<Documentary_Extend>(@"select d.date_created, d.person_created, d.documentary_id, a.equipmentId, e.equipment_name, a.acceptance_date, d.documentary_code, d.documentary_type, dt.documentary_name, dt.du_phong, dt.di_kem, dt.can
 " + basesql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
