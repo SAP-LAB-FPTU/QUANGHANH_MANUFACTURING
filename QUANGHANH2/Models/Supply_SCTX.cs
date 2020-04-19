@@ -17,8 +17,10 @@ namespace QUANGHANH2.Models
         public string supply_id { get; set; }
         public string equipmentId { get; set; }
         public int quantity { get; set; }
+        public string equipmentId_dikem { get; set; }
     
         public virtual Equipment Equipment { get; set; }
+        public virtual Equipment Equipment1 { get; set; }
         public virtual Supply Supply { get; set; }
     }
 }

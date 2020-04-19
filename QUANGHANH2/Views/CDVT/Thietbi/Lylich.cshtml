@@ -200,15 +200,32 @@
                                         }
                                     }
                                 </table>
-                                <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
-                                    <li class="tab col s3"><a class="active" href="#VT_DK">Vật tư đi kèm</a></li>
-                                    <li class="tab col s3"><a href="#VT_SCTX">Vật tư SCTX</a></li>
-                                    <li class="tab col s3"><a href="#VT_DP">Vật tư dự phòng</a></li>
-                                    <li class="tab col s3"><a href="#VT_TB_DK">Vật tư thiết bị đi kèm</a></li>
-                                </ul>
+                                @{
+                                    if (ViewBag.equipment.isAttach == false)
+                                    {
+                                        <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
+                                            <li class="tab col s3"><a class="active" href="#VT_DK">Thiết bị đi kèm</a></li>
+                                            <li class="tab col s2"><a href="#Vattu_DK">Vật tư đi kèm</a></li>
+                                            <li class="tab col s2"><a href="#VT_SCTX">Vật tư SCTX</a></li>
+                                            <li class="tab col s2"><a href="#VT_DP">Vật tư dự phòng</a></li>
+                                            <li class="tab col s3"><a href="#VT_TB_DK">Vật tư thiết bị đi kèm</a></li>
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
+                                            <li class="tab col s3"><a class="active" href="#VT_DK">Vật tư đi kèm</a></li>
+                                            <li class="tab col s3"><a href="#VT_SCTX">Vật tư SCTX</a></li>
+                                            <li class="tab col s3"><a href="#VT_DP">Vật tư dự phòng</a></li>
+                                            <li class="tab col s3"><a href="#VT_TB_DK">Vật tư thiết bị đi kèm</a></li>
+                                        </ul>
+                                    }
+                                }
+
+
 
                                 <div id="VT_DK" class="col s12 center" style="margin-top:45px">
-                                    <h3>Vật tư đi kèm</h3>
+                                    <h3>Thiết bị đi kèm</h3>
                                     <table id="DK_table" class="striped table-bordered" style="margin-top:10px !important">
                                         <thead>
                                             <tr>
@@ -239,6 +256,39 @@
                                     @{ if (rights.Contains("10") || rights.Contains("6"))
                                         {
                                             <a data-target="addDK" id="add" class="btn blue btn-small center modal-trigger left" style="margin-top:10px"><i class="large material-icons">add</i></a>
+                                        }
+                                    }
+                                </div>
+                                <div id="Vattu_DK" class="col s12 center" style="margin-top:45px">
+                                    <h3>Vật tư đi kèm</h3>
+                                    <table id="VTDK_table" class="striped table-bordered" style="margin-top:10px !important">
+                                        <thead>
+                                            <tr>
+                                                <th>Mã vật tư</th>
+                                                <th>Tên vật tư</th>
+                                                <th>Số lượng</th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="VTDK_table_body">
+                                            @{
+                                                foreach (var item in ViewBag.supVTDK)
+                                                {
+                                                    <tr>
+                                                        <td>@item.supply_id</td>
+                                                        <td>@item.supply_name</td>
+                                                        <td>@item.quantity</td>
+                                                        <td><button type="button" class="btnSelect0 btn blue btn-small center"><i class="large material-icons">remove</i></button></td>
+                                                        <td><a class="btnSelect02 btn blue btn-small left modal-trigger" data-target="updateVTDK">Chỉnh sửa</a></td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                    @{ if (rights.Contains("10") || rights.Contains("6"))
+                                        {
+                                            <a data-target="addVTDK" id="add" class="btn blue btn-small center modal-trigger left" style="margin-top:10px"><i class="large material-icons">add</i></a>
                                         }
                                     }
                                 </div>
@@ -1046,6 +1096,15 @@
 
     }
 </datalist>
+<datalist id="Suplist2">
+    @{
+        foreach (var item in ViewBag.listSup)
+        {
+            <option value="@item.supply_id">@item.supply_name</option>
+        }
+
+    }
+</datalist>
 <datalist id="Supdk">
     @{
         foreach (var item in ViewBag.listsupdk)
@@ -1140,6 +1199,96 @@
     </div>
 
 
+}
+
+
+@using (Html.BeginForm("addVTDK", "Lylich", FormMethod.Post, new
+{
+    id = "DKform",
+    enctype = "multipart/form-data",
+    onSubmit = "return Change0(this);",
+    data_restUrl = Url.Action("addVTDK", "Lylich", new { id = "" })
+}))
+{
+    <div class="modal" id="addVTDK">
+        <div class="modal-header">
+            <h3 class="center">Thêm vật tư đi kèm</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col s4">
+                    <label>Tên vật tư</label>
+                    <input list="Suplist" name="nameSup" class="form-control" />
+                </div>
+                <div class="col s4">
+                    <label>Mã thiết bị</label>
+                    <input readonly id="idVTDK_add" name="id" class="form-control" />
+                </div>
+                <div class="col s4">
+                    <label>Số lượng</label>
+                    <input type="number" name="quan" class="form-control" />
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue modal-close">Lưu</button>
+        </div>
+    </div>
+
+
+}
+
+@using (Html.BeginForm("updateVTDK", "Lylich", FormMethod.Post, new
+{
+    id = "DKform",
+    enctype = "multipart/form-data",
+    onSubmit = "return Change0(this);",
+    data_restUrl = Url.Action("updateVTDK", "Lylich", new { id = "" })
+}))
+{
+
+    <div class="modal" id="updateVTDK">
+        <div class="modal-header">
+            <h3 class="center">Cập nhật vật tư vật tư đi kèm</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col s4">
+                    <label>Mã vật tư</label>
+                    <input readonly id="supVTDK_id_update" name="supid" class="form-control" />
+                </div>
+                <div class="col s4">
+                    <label>Mã thiết bị</label>
+                    <input readonly id="idVTDK_update" name="id" class="form-control" />
+                </div>
+                <div class="col s4">
+                    <label>Số lượng</label>
+                    <input type="number" id="quanVTDK_update" name="quan" class="form-control" />
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue modal-close">Lưu</button>
+        </div>
+    </div>
+
+
+}
+
+@using (Html.BeginForm("deleteVTDK", "Lylich", FormMethod.Post, new
+{
+    id = "DKform",
+    enctype = "multipart/form-data",
+    onSubmit = "return Change0(this);",
+    data_restUrl = Url.Action("deleteVTDK", "Lylich", new { id = "" })
+}))
+{
+    <input type="hidden" id="supVTDK_id" name="supid" />
+    <input type="hidden" id="idVTDK" name="id" />
 }
 
 @using (Html.BeginForm("addSCTX", "Lylich", FormMethod.Post, new
@@ -1423,6 +1572,32 @@
                 document.getElementById("idDP_add").value = '@ViewBag.equipment.equipmentId';
             });
 
+            $("#addVTDK").click(function () {
+                document.getElementById("idVTDK_add").value = '@ViewBag.equipment.equipmentId';
+            });
+
+            // code to read selected table row cell data (values).
+            $("#VTDK_table").on('click', '.btnSelect0', function () {
+                // get the current row
+                var currentRow = $(this).closest("tr");
+                var data = currentRow.find("td:eq(0)").text();
+                document.getElementById("supVTDK_id").value = data;
+                document.getElementById("idVTDK").value = '@ViewBag.equipment.equipmentId';
+                $("#supVTDK_id").closest('form').submit();
+            });
+
+            
+            // code to read selected table row cell data (values).
+            $("#VTDK_table").on('click', '.btnSelect02', function () {
+                // get the current row
+                var currentRow = $(this).closest("tr");
+                var data = currentRow.find("td:eq(0)").text();
+                document.getElementById("supVTDK_id_update").value = data;
+                document.getElementById("idVTDK_update").value = '@ViewBag.equipment.equipmentId';
+                data = currentRow.find("td:eq(2)").text();
+                document.getElementById("quanVTDK_update").value = data;
+            });
+
             // code to read selected table row cell data (values).
             $("#SCTX_table").on('click', '.btnSelectSCTX2', function () {
                 // get the current row
@@ -1570,6 +1745,41 @@
                                 "<td>" + response.data[i].quantity + "</td>" +
                                 "<td><button type='button' class='btnSelectSCTX btn blue btn-small center'><i class='large material-icons'>remove</i></button></td>" +
                                 "<td><a class='btnSelectSCTX2 btn blue btn-small center modal-trigger' data-target='updateSCTX'>Chỉnh sửa</a></td>" +
+                                "</tr> ");
+                        }
+                        $("#pre-load").hide("slow", function () {
+                        });
+
+                    }
+                });
+            }
+
+
+            return false;
+
+
+        }
+
+    function Change0(form) {
+             $("#pre-load").show("slow", function () {
+                    });
+            $("#pre-load").css("z-index", "99999");
+            $.validator.unobtrusive.parse(form);
+
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (response) {
+                        $("#VTDK_table_body").empty();
+                        for (i = 0; i < response.data.length; i++) {
+                            $("#VTDK_table_body").append("<tr>"+
+                                "<td>" + response.data[i].supply_id + "</td>" +
+                                "<td>" + response.data[i].supply_name + "</td>" +
+                                "<td>" + response.data[i].quantity + "</td>" +
+                                "<td><button type='button' class='btnSelect0 btn blue btn-small center'><i class='large material-icons'>remove</i></button></td>" +
+                                "<td><a class='btnSelect02 btn blue btn-small center modal-trigger' data-target='updateVTDK'>Chỉnh sửa</a></td>" +
                                 "</tr> ");
                         }
                         $("#pre-load").hide("slow", function () {
