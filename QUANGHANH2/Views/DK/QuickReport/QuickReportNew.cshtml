@@ -13,7 +13,6 @@
 <link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
 <link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
 <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
-<link href="~/css/Custom css/BGD/dashboard.css" rel="stylesheet" type="text/css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" rel="stylesheet" type="text/css" />
 
 <form id="form" action="/phong-dieu-khien" method="post">
@@ -87,35 +86,45 @@
 <div class="row">
     <div class="col l6 m6 s12">
         <div class="row">
-            <div class="col l3 m12 s12">
+            <div class="col l4 m12 s12">
                 <div class="card">
                     <div class="new-title">
                         Than hầm lò (Tấn)
                     </div>
                     <div class="main-number">
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tdl.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.tdl.Kehoach</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">
+                                TH: @ViewBag.tdl.Thuchien
+                            </span>
+                            <br />
+                            <span class="font-medium" style="color:orange">
+                                KH: @ViewBag.tdl.Kehoach
+                            </span>
                         </div>
                         <div class="chart-icon modal-trigger" onclick="drawChart(thl,kh_sl_thanhamlo,'Sản lượng (Tấn)','kh_sl_thanhamlo')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                     </div>
                 </div>
             </div>
-            <div class="col l3 m12 s12">
+            <div class="col l4 m12 s12">
                 <div class="card">
                     <div class="new-title">
                         Than lộ thiên (Tấn)
                     </div>
                     <div class="main-number">
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.tlt.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.tlt.Kehoach</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">
+                                TH: @ViewBag.tlt.Thuchien
+                            </span>
+                            <br />
+                            <span class="font-medium" style="color:orange">
+                                KH: @ViewBag.tlt.Kehoach
+                            </span>
                         </div>
                         <div class="chart-icon modal-trigger" onclick="drawChart(tlt, kh_sl_thanlothien,'Sản lượng (Tấn)','kh_sl_thanlothien')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                     </div>
                 </div>
             </div>
-            <div class="col l3 m12 s12">
+            <div class="col l4 m12 s12">
                 <div class="card">
                     <div class="card">
                         <div class="new-title">
@@ -123,25 +132,16 @@
                         </div>
                         <div class="main-number">
                             <div>
-                                <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mld.Thuchien </span><br />
-                                <span class="font-medium" style="color:orange">@ViewBag.mld.Kehoach</span>
+                                <span class="font-medium" style="border-bottom: 1px dashed">
+                                    TH: @ViewBag.mld.Thuchien
+                                </span>
+                                <br />
+                                <span class="font-medium" style="color:orange">
+                                    KH: @ViewBag.mld.Kehoach
+                                </span>
                             </div>
                             <div class="chart-icon modal-trigger" onclick="drawChart(mld, kh_sl_metlodao,'Sản lượng (Mét)','kh_sl_metlodao')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col l3 m12 s12">
-                <div class="card">
-                    <div class="new-title">
-                        Mét lò neo (Mét)
-                    </div>
-                    <div class="main-number">
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mln.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.mln.Kehoach</span>
-                        </div>
-                        <div class="chart-icon modal-trigger" onclick="drawChart(mln, kh_sl_metloneo,'Sản lượng (Mét)','kh_sl_metloneo')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                     </div>
                 </div>
             </div>
@@ -149,65 +149,93 @@
     </div>
     <div class="col l6 m6 s12">
         <div class="row">
-            <div class="col l3 m12 s12">
+            <div class="col l4 m12 s12">
+                <div class="card">
+                    <div class="new-title">
+                        Mét lò neo (Mét)
+                    </div>
+                    <div class="main-number">
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">
+                                TH: @ViewBag.mln.Thuchien
+                            </span>
+                            <br />
+                            <span class="font-medium" style="color:orange">
+                                KH: @ViewBag.mln.Kehoach
+                            </span>
+                        </div>
+                        <div class="chart-icon modal-trigger" onclick="drawChart(mln, kh_sl_metloneo,'Sản lượng (Mét)','kh_sl_metloneo')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col l4 m12 s12">
                 <div class="card">
                     <div class="new-title">
                         Mét lò xén (Mét)
                     </div>
                     <div class="main-number">
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.mlx.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.mlx.Kehoach</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">
+                                TH: @ViewBag.mlx.Thuchien
+                            </span><br />
+                            <span class="font-medium" style="color:orange">
+                                KH: @ViewBag.mlx.Kehoach
+                            </span>
                         </div>
                         <div class="chart-icon modal-trigger" onclick="drawChart(mlx, kh_sl_metloxen,'Sản lượng (Mét)','kh_sl_metloxen')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                     </div>
                 </div>
             </div>
-            <div class="col l3 m12 s12">
+            <div class="col l4 m12 s12">
                 <div class="card">
                     <div class="new-title">
                         Than tiêu thụ
                     </div>
                     <div class="main-number">
                         <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ttt.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.ttt.Kehoach</span>
+                            <span class="font-medium" style="border-bottom: 1px dashed">
+                                TH: @ViewBag.ttt.Thuchien
+                            </span><br />
+                            <span class="font-medium" style="color:orange">
+                                KH: @ViewBag.ttt.Kehoach
+                            </span>
                         </div>
                         <div class="chart-icon modal-trigger" onclick="drawChart(ttt, kh_sl_thantieuthu,'Sản lượng (Tấn)','kh_sl_thantieuthu')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                     </div>
                 </div>
             </div>
-            <div class="col l3 m12 s12">
-                <div class="card">
-                    <div class="new-title">
-                        Đá xít kho
-                    </div>
-                    <div class="main-number">
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.dxk.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.dxk.Kehoach</span>
+            @*<div class="col l3 m12 s12">
+                    <div class="card">
+                        <div class="new-title">
+                            Đá xít kho
                         </div>
-                        <div class="chart-icon modal-trigger" onclick="drawChart(dxk, kh_sl_daxitkho,'Sản lượng (Tấn)','kh_sl_daxitkho')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col l3 m12 s12">
-                <div class="card">
-                    <div class="new-title">
-                        Đất đá bóc tự làm
-                    </div>
-                    <div class="main-number">
-                        <div>
-                            <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ddb.Thuchien </span><br />
-                            <span class="font-medium" style="color:orange">@ViewBag.ddb.Kehoach</span>
+                        <div class="main-number">
+                            <div>
+                                <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.dxk.Thuchien </span><br />
+                                <span class="font-medium" style="color:orange">@ViewBag.dxk.Kehoach</span>
+                            </div>
+                            <div class="chart-icon modal-trigger" onclick="drawChart(dxk, kh_sl_daxitkho,'Sản lượng (Tấn)','kh_sl_daxitkho')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                         </div>
-                        <div class="chart-icon modal-trigger" onclick="drawChart(ddb, kh_sl_datdaboc,'Sản lượng (Tấn)','kh_sl_datdaboc')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
                     </div>
-                </div>
-            </div>
+                </div>*@
+            @*<div class="col l3 m12 s12">
+                    <div class="card">
+                        <div class="new-title">
+                            Đất đá bóc tự làm
+                        </div>
+                        <div class="main-number">
+                            <div>
+                                <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ddb.Thuchien </span><br />
+                                <span class="font-medium" style="color:orange">@ViewBag.ddb.Kehoach</span>
+                            </div>
+                            <div class="chart-icon modal-trigger" onclick="drawChart(ddb, kh_sl_datdaboc,'Sản lượng (Tấn)','kh_sl_datdaboc')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                        </div>
+                    </div>
+                </div>*@
         </div>
     </div>
 </div>
+
 <div class="row">
     <span class="new badge left red" data-badge-caption="">Sản lượng than sản xuất</span>
 </div>
