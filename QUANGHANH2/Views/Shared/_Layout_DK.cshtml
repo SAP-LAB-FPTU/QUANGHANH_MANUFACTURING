@@ -492,8 +492,12 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="center collapsible-header" style="cursor: default">
-                                    <span class="font-medium" style="color: wheat">Còn lại @Session["restDayOfYear"] ngày</span>
+                                <a class="center collapsible-header hide-menu" style="cursor: default;
+                                                                                    background-image: -webkit-linear-gradient(left, #11d7e4 0%, #48eaa1 100%);
+                                                                                    border-radius: 5px;">
+                                    <span class="white-text">SỐ NGÀY SẢN XUẤT CÒN LẠI</span>
+                                    <br />
+                                    <span style="color: snow; font-size: 32px !important; font-weight: bold">@Session["restDayOfYear"]</span>
                                 </a>
                             </li>
                         </ul>
@@ -843,20 +847,21 @@
             <!-- Right Sidebar -->
             <!-- ============================================================== -->
         </div>
-        <script src="~/Scripts/jquery.validate.min.js"></script>
-        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-        <script src="~/Scripts/notify.min.js"></script>
-        <script src="~/js/jquery.dataTables.min.js"></script>
-        @RenderSection("scripts", required: false)
-        <script>
-            $(".loading").css("z-index", 99999);
-            $('body').css('overflow', '');
-        </script>
-        <script>
-            $(".datepicker-here").keydown(function (e) {
-                e.preventDefault();
-            });
-        </script>
+    </div>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/notify.min.js"></script>
+    @*<script src="~/js/jquery.dataTables.min.js"></script>*@
+    @RenderSection("scripts", required: false)
+    <script>
+        $(".loading").css("z-index", 99999);
+        $('body').css('overflow', '');
+    </script>
+    <script>
+        $(".datepicker-here").keydown(function (e) {
+            e.preventDefault();
+        });
+    </script>
 </body>
 
 </html>

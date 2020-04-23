@@ -12,30 +12,36 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png">
     <title>Ban Giám Đốc</title>
     <!-- chartist CSS -->
-    <link href="/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
-    <link href="/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
-    <link href="/dist/css/style.css" rel="stylesheet">
-    @*<link href="/dist/css/custom.css" rel="stylesheet">*@
+    <link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+    <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+    <link href="~/dist/css/style.css" rel="stylesheet">
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
     <!-- This page CSS -->
-    <link href="/dist/css/pages/dashboard1.css" rel="stylesheet" />
+    <link href="~/dist/css/pages/dashboard1.css" rel="stylesheet" />
     <!--Wizard and Editable CSS-->
     <!--Wizard-->
-    <link href="~/assets/libs/jquery-steps/jquery.steps.css" rel="stylesheet">
-    <link href="~/assets/libs/jquery-steps/steps.css" rel="stylesheet">
+    @*<link href="~/assets/libs/jquery-steps/jquery.steps.css" rel="stylesheet">
+        <link href="~/assets/libs/jquery-steps/steps.css" rel="stylesheet">*@
     <!--Editable-->
-    <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
+    @*<link href="~/dist/css/pages/data-table.css" rel="stylesheet">*@
 
     <!--Custom css QUANG HANH-->
     <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
     <link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
-
     <!--Custom Datepicker CSS-->
     <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
     <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
 
+    <!--QuangHanh Alert-->
+    <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+
     <!--BÁO CÁO NHANH ĐK,BGĐ-->
     <link href="~/css/Custom css/BGD/dashboard.css" rel="stylesheet" type="text/css">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -63,7 +69,6 @@
     <!-- This page plugin js -->
     <!-- ============================================================== -->
     <script src="~/assets/libs/chartist/dist/chartist.min.js"></script>
-    <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
     <script src="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
     <script src="~/dist/js/pages/dashboards/dashboard1.js"></script>
@@ -71,15 +76,7 @@
     <!--Custom Datepicker JS-->
     <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
     <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
-    <link href="~/css/preloader/css.css" rel="stylesheet" />
     <script src="~/js/Custom JS/Flexible_user_icon.js"></script>
-    <link href="~/css/side_bar_text_fixing.css" rel="stylesheet" type="text/css">
-
-    <!--Quang Hanh Alert-->
-    <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
-    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
-    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
-    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
 </head>
 
 <body>
@@ -360,39 +357,43 @@
                             </div>
                         </li>
                         <li>
-                            <a class="center collapsible-header" style="cursor: default">
-                                <span class="font-medium" style="color: wheat">Còn lại @Session["restDayOfYear"] ngày</span>
+                            <a class="center collapsible-header hide-menu" style="cursor: default; 
+                                                                                    background-image: -webkit-linear-gradient(left, #11d7e4 0%, #48eaa1 100%);
+                                                                                    border-radius: 5px;">
+                                <span class="white-text">SỐ NGÀY SẢN XUẤT CÒN LẠI</span>
+                                <br />
+                                <span style="color: snow; font-size: 32px !important; font-weight: bold">@Session["restDayOfYear"]</span>
                             </a>
                         </li>
 
                         @*<li>
-            <a href="javascript: void(0);" class="collapsible-header has-arrow">
-                <i class="material-icons">assignment</i><span class="hide-menu">Chi tiết phòng điều khiển</span>
-            </a>
-            <div class="collapsible-body">
-                <ul>
-                    <li>
-                        <a href="/ban-giam-doc/bao-cao-chi-tiet-san-xuat">
-                            <i class="material-icons">adjust</i><span class="hide-menu">
-                                Chi tiết sản xuất
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/ban-giam-doc/bao-cao-nhan-luc-tham-gia-san-xuat">
-                            <i class="material-icons">adjust</i><span class="hide-menu">
-                                Nhân lực tham gia sản xuất
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-        <li>
-            <a href="/ban-giam-doc/bao-cao-su-co">
-                <i class="material-icons">error</i><span class="hide-menu">Báo cáo sự cố</span>
-            </a>
-        </li*@>
+                                <a href="javascript: void(0);" class="collapsible-header has-arrow">
+                                    <i class="material-icons">assignment</i><span class="hide-menu">Chi tiết phòng điều khiển</span>
+                                </a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li>
+                                            <a href="/ban-giam-doc/bao-cao-chi-tiet-san-xuat">
+                                                <i class="material-icons">adjust</i><span class="hide-menu">
+                                                    Chi tiết sản xuất
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/ban-giam-doc/bao-cao-nhan-luc-tham-gia-san-xuat">
+                                                <i class="material-icons">adjust</i><span class="hide-menu">
+                                                    Nhân lực tham gia sản xuất
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="/ban-giam-doc/bao-cao-su-co">
+                                    <i class="material-icons">error</i><span class="hide-menu">Báo cáo sự cố</span>
+                                </a>
+                            </li*@>
                     </ul>
                 </li>
             </ul>
@@ -740,9 +741,19 @@
         <!-- Right Sidebar -->
         <!-- ============================================================== -->
     </div>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/notify.min.js"></script>
+    @*<script src="~/js/jquery.dataTables.min.js"></script>*@
+    @RenderSection("scripts", required: false)
     <script>
         $(".loading").css("z-index", 99999);
         $('body').css('overflow', '');
+    </script>
+    <script>
+        $(".datepicker-here").keydown(function (e) {
+            e.preventDefault();
+        });
     </script>
 </body>
 
