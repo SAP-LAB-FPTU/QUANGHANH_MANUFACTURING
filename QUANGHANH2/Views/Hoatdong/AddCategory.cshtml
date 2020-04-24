@@ -76,6 +76,14 @@
         </div>
 
 
+        <datalist id="Suplist2">
+            @{
+                foreach (var item in ViewBag.listSup)
+                {
+                    <option value="@item.supply_id">@item.supply_name</option>
+                }
+            }
+        </datalist>
         <datalist id="Suplist">
             @{
                 foreach (var item in ViewBag.listSup)
