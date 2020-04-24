@@ -69,7 +69,6 @@ namespace QUANGHANHCORE.Controllers.DK
         public ActionResult GetData(string date)
         {
             return Index(date);
-
         }
 
         [Auther(RightID = "004,192")]
@@ -851,6 +850,12 @@ namespace QUANGHANHCORE.Controllers.DK
             List<SanLuong_LuyKe> sl_lk_datda = db.Database.SqlQuery<SanLuong_LuyKe>(new_query,
                 new SqlParameter("@Ngay", timeEnd)).ToList<SanLuong_LuyKe>();
             ViewBag.sl_lk_datda = sl_lk_datda;
+
+            //get the rest days in year
+            int totalDayOfYear = new DateTime(DateTime.Now.Year,12,31).DayOfYear;
+            int currentDayOfYear = DateTime.Now.DayOfYear;
+            int restDayOfYear = totalDayOfYear - currentDayOfYear;
+            Session["restDayOfYear"] = restDayOfYear;
             return View("/Views/DK/QuickReport/QuickReportNew.cshtml");
         }
 
