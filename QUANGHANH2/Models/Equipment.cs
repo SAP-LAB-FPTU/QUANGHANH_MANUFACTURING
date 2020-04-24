@@ -41,6 +41,7 @@ namespace QUANGHANH2.Models
             this.Supply_Documentary_Equipment1 = new HashSet<Supply_Documentary_Equipment>();
             this.Supply_Equipment_DiKem = new HashSet<Supply_Equipment_DiKem>();
             this.Supply_SCTX = new HashSet<Supply_SCTX>();
+            this.Supply_SCTX1 = new HashSet<Supply_SCTX>();
             this.SupplyPlans = new HashSet<SupplyPlan>();
         }
     
@@ -116,6 +117,8 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Supply_Equipment_DiKem> Supply_Equipment_DiKem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_SCTX> Supply_SCTX { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Supply_SCTX> Supply_SCTX1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SupplyPlan> SupplyPlans { get; set; }
     }

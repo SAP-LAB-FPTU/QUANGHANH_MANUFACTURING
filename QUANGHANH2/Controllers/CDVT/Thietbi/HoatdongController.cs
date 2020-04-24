@@ -543,7 +543,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string sk, string sm, string gps, string attype, string NL, string yearSX)
+        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string[] nameVTDK, int[] quantityVTDK, string sk, string sm, string gps, string attype, string NL, string yearSX)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -561,7 +561,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             emp.date_import = DateTime.ParseExact(import, "dd/MM/yyyy", null);
                         //durationOfInspection
                         //if (duraInspec != "")
-                            emp.durationOfInspection = DateTime.ParseExact(duraInspec, "dd/MM/yyyy", null);
+                        emp.durationOfInspection = DateTime.ParseExact(duraInspec, "dd/MM/yyyy", null);
                         //usedDay
                         if (used != "")
                             emp.usedDay = DateTime.ParseExact(used, "dd/MM/yyyy", null);
@@ -606,15 +606,16 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             if (NL.Equals("1"))
                             {
                                 ca.nhienlieu = true;
-                            } else
+                            }
+                            else
                             {
                                 ca.nhienlieu = false;
                             }
-                            if(yearSX != "")
+                            if (yearSX != "")
                             {
                                 ca.namsanxuat = Convert.ToInt32(yearSX);
                             }
-                            
+
                             db.Cars.Add(ca);
                         }
                         if (attri != null)
@@ -660,6 +661,43 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                         , new SqlParameter("@note", ""));
                                 }
 
+                            }
+                        }
+
+                        db.SaveChanges();
+
+                        if (nameVTDK != null)
+                        {
+                            if (emp.isAttach == false)
+                            {
+                                for (int i = 0; i < nameVTDK.Count(); i++)
+                                {
+                                    if (!nameVTDK[i].Equals(""))
+                                    {
+
+                                        string sql_sup = "insert into Vattu_Dikem values (@supid, @eid, @quan)";
+                                        db.Database.ExecuteSqlCommand(sql_sup
+                                            , new SqlParameter("@supid", nameVTDK[i])
+                                            , new SqlParameter("@eid", emp.equipmentId)
+                                            , new SqlParameter("@quan", quantity[i]));
+                                    }
+
+                                }
+                            } else
+                            {
+                                for (int i = 0; i < nameVTDK.Count(); i++)
+                                {
+                                    if (!nameVTDK[i].Equals(""))
+                                    {
+
+                                        string sql_sup = "insert into Supply_Equipment_DiKem values (@supid, @eid, @quan)";
+                                        db.Database.ExecuteSqlCommand(sql_sup
+                                            , new SqlParameter("@supid", nameVTDK[i])
+                                            , new SqlParameter("@eid", emp.equipmentId)
+                                            , new SqlParameter("@quan", quantity[i]));
+                                    }
+
+                                }
                             }
                         }
 
@@ -713,7 +751,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             ca.sokhung = sk;
                             ca.somay = sm;
                             ca.GPS = cdb.GPS;
-                            if(yearSX != "")
+                            if (yearSX != "")
                             {
                                 ca.namsanxuat = Convert.ToInt32(yearSX);
                             }
