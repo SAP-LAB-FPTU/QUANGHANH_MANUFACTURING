@@ -120,7 +120,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             var equipment = DBContext.Database.SqlQuery<EquipWithName>("SELECT e.*,d.department_name,s.statusname FROM Equipment e,Status s,Department d WHERE d.department_id = e.department_id and e.current_Status = s.statusid and e.equipmentId = @id", new SqlParameter("id", id)).First();
             ViewBag.equipment = equipment;
             List<ddplus> listddplus = new List<ddplus>();
-            var car = DBContext.Database.SqlQuery<Car>("select * from Car where equipmentId = @id", new SqlParameter("id", id)).First();
+            var car = DBContext.Database.SqlQuery<Car>("select * from Car where equipmentId = @id", new SqlParameter("id", id)).FirstOrDefault();
             if(car != null)
             {
                 ddplus dd = new ddplus();

@@ -185,6 +185,7 @@
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\DanhSachController.cs" />
     <Compile Include="Controllers\Camera\SuCoController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\DSQDChuaxulyController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\MethodChungController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\CDVTXinCapVatTuController.cs" />
     <Compile Include="Controllers\DK\Accident\StatisticalAccidentController.cs" />
     <Compile Include="Controllers\DK\EquipmentIncident\ReportController.cs" />
@@ -218,7 +219,6 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\XuLyQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\XuLyQuyetDinhController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\CapNhatQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ChonThietBiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\DanhSachController.cs" />
@@ -250,7 +250,6 @@
     <Compile Include="Controllers\CDVT\Oto\SuachuahangngayController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\DanhSachController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\SuaChua\ChiTietController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\ExportWordController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ProcessDetailsController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\SuaChua\DanhSachController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ThanhLy\ChiTietController.cs" />
@@ -7428,7 +7427,7 @@
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_bao_duong.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_dieu_dong.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_kiem_dinh.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_sua_chua.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\SuaChua\DanhSach.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_thanh_ly.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_thu_hoi.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_trung_dai_tu.cshtml" />
@@ -7438,7 +7437,7 @@
     <Content Include="Views\CDVT\Work\dieu_dong_va_chon.cshtml" />
     <Content Include="Views\CDVT\Work\sctx.cshtml" />
     <Content Include="Views\CDVT\Work\sctx_va_chon.cshtml" />
-    <Content Include="Views\CDVT\Work\suachua.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\SuaChua\ChonThietBi.cshtml" />
     <Content Include="Views\CDVT\Work\suachuachon.cshtml" />
     <Content Include="Views\CDVT\Work\thanhly.cshtml" />
     <Content Include="Views\CDVT\Work\thanhly_va_chon.cshtml" />
@@ -7556,6 +7555,7 @@
     <Folder Include="images\camera\" />
     <Folder Include="Library\" />
     <Folder Include="Views\Manufacturing\" />
+    <Folder Include="Views\MethodChung\" />
     <Folder Include="Views\TrangChu\" />
   </ItemGroup>
   <ItemGroup>
