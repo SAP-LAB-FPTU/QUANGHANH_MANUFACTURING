@@ -14,6 +14,7 @@ namespace QUANGHANH2.Models
     
     public partial class Supply_SCTX
     {
+        public int supply_sctx_id { get; set; }
         public string supply_id { get; set; }
         public string equipmentId { get; set; }
         public int quantity { get; set; }
@@ -21,6 +22,7 @@ namespace QUANGHANH2.Models
     
         public virtual Equipment Equipment { get; set; }
         public virtual Equipment Equipment1 { get; set; }
+        public virtual Equipment Equipment2 { get; set; }
         public virtual Supply Supply { get; set; }
     }
 }

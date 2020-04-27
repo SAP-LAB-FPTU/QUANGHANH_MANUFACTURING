@@ -14,14 +14,17 @@ namespace QUANGHANH2.Models
     
     public partial class Documentary_revoke_details
     {
+        public int documentary_revoke_id { get; set; }
         public int equipment_revoke_status { get; set; }
         public int documentary_id { get; set; }
         public string equipmentId { get; set; }
+        public string equipmentId_dikem { get; set; }
         public string equipment_revoke_reason { get; set; }
         public string department_id_from { get; set; }
     
         public virtual Department Department { get; set; }
         public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }
+        public virtual Equipment Equipment1 { get; set; }
     }
 }
