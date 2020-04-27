@@ -118,9 +118,28 @@
                                         <td>@ViewBag.equipment.durationOfMaintainance.ToString("dd/MM/yyyy")</td>
                                     </tr>
                                     <tr>
-                                        <td>Ngày kiểm định tiếp theo</td>
+                                        @{
+                                            if (ViewBag.plus != null)
+                                            {
+                                                <td>Ngày hết hạn đăng kiểm</td>
+                                            }
+                                            else
+                                            {
+                                                <td>Ngày kiểm định tiếp theo</td>
+                                            }
+                                        }
+
                                         <td>@ViewBag.equipment.durationOfInspection.ToString("dd/MM/yyyy")</td>
                                     </tr>
+                                    @{
+                                        if (ViewBag.plus != null)
+                                        {
+                                            <tr>
+                                                <td>Ngày hết hạn bảo hiểm</td>
+                                                <td>@ViewBag.equipment.durationOfInsurance.ToString("dd/MM/yyyy")</td>
+                                            </tr>
+                                        }
+                                    }
                                     <tr>
                                         <td>Tổng giờ hoạt động</td>
                                         <td>@ViewBag.equipment.total_operating_hours</td>
@@ -1586,7 +1605,7 @@
                 $("#supVTDK_id").closest('form').submit();
             });
 
-            
+
             // code to read selected table row cell data (values).
             $("#VTDK_table").on('click', '.btnSelect02', function () {
                 // get the current row
