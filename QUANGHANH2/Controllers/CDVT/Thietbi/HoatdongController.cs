@@ -543,7 +543,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string[] nameVTDK, int[] quantityVTDK, string sk, string sm, string gps, string attype, string NL, string yearSX)
+        public ActionResult Add(Equipment emp, string import, string duraInspec, string Insua, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string[] nameVTDK, int[] quantityVTDK, string sk, string sm, string gps, string attype, string NL, string yearSX)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -562,6 +562,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         //durationOfInspection
                         //if (duraInspec != "")
                         emp.durationOfInspection = DateTime.ParseExact(duraInspec, "dd/MM/yyyy", null);
+                        if(Insua != "")
+                        {
+                            emp.durationOfInsurance = DateTime.ParseExact(Insua, "dd/MM/yyyy", null);
+                        }
                         //usedDay
                         if (used != "")
                             emp.usedDay = DateTime.ParseExact(used, "dd/MM/yyyy", null);
@@ -719,7 +723,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Edit(Equipment emp, string import, string inspec, string insua, string used, string main, string sk, string sm, CarDB cdb, string yearSX)
+        public ActionResult Edit(Equipment emp, string import, string inspec, string Insua, string used, string main, string sk, string sm, CarDB cdb, string yearSX)
         {
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -736,6 +740,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         date = inspec.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
                         emp.durationOfInspection = Convert.ToDateTime(date_fix);
+                        //durationOfInsurance
+                        date = Insua.Split('/');
+                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.durationOfInsurance = Convert.ToDateTime(date_fix);
                         //usedDay
                         date = used.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
