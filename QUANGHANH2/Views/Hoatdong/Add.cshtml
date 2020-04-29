@@ -100,6 +100,16 @@
                         </div>
                     </div>
                     <div id="plus2">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Ngày mua đăng kiểm</label>
+                            <div class="col-md-10">
+                                <input name="BuyInspec" type="text" class="form-control datepicker-here maxDate" />
+                                @Html.EditorFor(model => model.inspect_date, new { htmlAttributes = new { @style = "display: none !important" } })
+                                @Html.ValidationMessageFor(model => model.inspect_date, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="control-label col-md-2">GPS</label>
                             <div class="col-md-10">
@@ -197,6 +207,15 @@
                                 <input name="Insua" type="text" class="form-control datepicker-here maxDate" />
                                 @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @style = "display: none !important" } })
                                 @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Ngày mua bảo hiểm</label>
+                            <div class="col-md-10">
+                                <input name="BuyInsua" type="text" class="form-control datepicker-here maxDate" />
+                                @Html.EditorFor(model => model.insurance_date, new { htmlAttributes = new { @style = "display: none !important" } })
+                                @Html.ValidationMessageFor(model => model.insurance_date, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
