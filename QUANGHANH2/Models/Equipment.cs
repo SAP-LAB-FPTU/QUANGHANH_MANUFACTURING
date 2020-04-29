@@ -25,17 +25,13 @@ namespace QUANGHANH2.Models
             this.Documentary_big_maintain_details = new HashSet<Documentary_big_maintain_details>();
             this.Documentary_big_maintain_details1 = new HashSet<Documentary_big_maintain_details>();
             this.Documentary_Improve_Detail = new HashSet<Documentary_Improve_Detail>();
-            this.Documentary_Improve_Detail1 = new HashSet<Documentary_Improve_Detail>();
             this.Documentary_liquidation_details = new HashSet<Documentary_liquidation_details>();
-            this.Documentary_liquidation_details1 = new HashSet<Documentary_liquidation_details>();
             this.Documentary_maintain_details = new HashSet<Documentary_maintain_details>();
             this.Documentary_maintain_details1 = new HashSet<Documentary_maintain_details>();
             this.Documentary_moveline_details = new HashSet<Documentary_moveline_details>();
-            this.Documentary_moveline_details1 = new HashSet<Documentary_moveline_details>();
             this.Documentary_repair_details = new HashSet<Documentary_repair_details>();
             this.Documentary_repair_details1 = new HashSet<Documentary_repair_details>();
             this.Documentary_revoke_details = new HashSet<Documentary_revoke_details>();
-            this.Documentary_revoke_details1 = new HashSet<Documentary_revoke_details>();
             this.Equipment_attribute = new HashSet<Equipment_attribute>();
             this.Equipment_Inspection = new HashSet<Equipment_Inspection>();
             this.Equipment_Insurance = new HashSet<Equipment_Insurance>();
@@ -63,6 +59,8 @@ namespace QUANGHANH2.Models
         public Nullable<double> depreciation_present { get; set; }
         public Nullable<System.DateTime> durationOfInspection { get; set; }
         public Nullable<System.DateTime> durationOfInsurance { get; set; }
+        public Nullable<System.DateTime> inspect_date { get; set; }
+        public Nullable<System.DateTime> insurance_date { get; set; }
         public Nullable<System.DateTime> usedDay { get; set; }
         public Nullable<System.DateTime> durationOfMaintainance { get; set; }
         public Nullable<int> total_operating_hours { get; set; }
@@ -94,11 +92,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_Improve_Detail> Documentary_Improve_Detail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_Improve_Detail> Documentary_Improve_Detail1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_liquidation_details> Documentary_liquidation_details { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_liquidation_details> Documentary_liquidation_details1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_maintain_details> Documentary_maintain_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -106,15 +100,11 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_moveline_details> Documentary_moveline_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_moveline_details> Documentary_moveline_details1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_repair_details> Documentary_repair_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_repair_details> Documentary_repair_details1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary_revoke_details> Documentary_revoke_details { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_revoke_details> Documentary_revoke_details1 { get; set; }
         public virtual Status Status { get; set; }
         public virtual Equipment_category Equipment_category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
