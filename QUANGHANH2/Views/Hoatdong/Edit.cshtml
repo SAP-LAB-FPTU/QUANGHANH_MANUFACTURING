@@ -116,6 +116,16 @@
                     </div>
                 </div>
                 <div id="pluse2">
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Ngày mua đăng kiểm</label>
+                        <div class="col-md-10">
+                            <input id="BuyInspec_fix" name="BuyInspec" type="text" class="form-control datepicker-here maxDate" />
+                            @Html.EditorFor(model => model.inspect_date, new { htmlAttributes = new { @style = "display: none !important" } })
+                            @Html.ValidationMessageFor(model => model.inspect_date, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label class="control-label col-md-2">GPS</label>
                         <div class="col-md-10">
@@ -200,12 +210,21 @@
                 </div>
                 <div id="pluse">
                     <div class="form-group">
-                        <label>Thời hạn bảo hiểm</label>
+                        <label>Ngày hết hạn bảo hiểm</label>
                         @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             <input id="Insua_fix" name="Insua" type="text" class="form-control datepicker-here maxDate" />
                             @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @style = "display: none !important" } })
                             @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Ngày mua bảo hiểm</label>
+                        <div class="col-md-10">
+                            <input id="BuyInsua_fix" name="BuyInsua" type="text" class="form-control datepicker-here maxDate" />
+                            @Html.EditorFor(model => model.insurance_date, new { htmlAttributes = new { @style = "display: none !important" } })
+                            @Html.ValidationMessageFor(model => model.insurance_date, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -319,6 +338,20 @@
         arr1 = arr[2].split(" ");
         data = arr[1] + "/" + arr[0] + "/" + arr1[0];
         document.getElementById("Insua_fix").value = data;
+
+        elms = document.querySelectorAll("[id='inspect_date']");
+        temp = elms[1].value;
+        arr = temp.split("/");
+        arr1 = arr[2].split(" ");
+        data = arr[1] + "/" + arr[0] + "/" + arr1[0];
+        document.getElementById("BuyInspec_fix").value = data;
+
+        elms = document.querySelectorAll("[id='insurance_date']");
+        temp = elms[1].value;
+        arr = temp.split("/");
+        arr1 = arr[2].split(" ");
+        data = arr[1] + "/" + arr[0] + "/" + arr1[0];
+        document.getElementById("BuyInsua_fix").value = data;
 
         elms = document.querySelectorAll("[id='usedDay']");
         temp = elms[1].value;
