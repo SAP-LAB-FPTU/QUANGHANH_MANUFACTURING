@@ -543,7 +543,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Add(Equipment emp, string import, string duraInspec, string Insua, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string[] nameVTDK, int[] quantityVTDK, string sk, string sm, string gps, string attype, string NL, string yearSX)
+        public ActionResult Add(Equipment emp, string import, string duraInspec, string Insua, string BuyInspec, string BuyInsua, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string[] nameVTDK, int[] quantityVTDK, string sk, string sm, string gps, string attype, string NL, string yearSX)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -565,6 +565,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         if(Insua != "")
                         {
                             emp.durationOfInsurance = DateTime.ParseExact(Insua, "dd/MM/yyyy", null);
+                        }
+                        if (BuyInsua != "")
+                        {
+                            emp.insurance_date = DateTime.ParseExact(BuyInsua, "dd/MM/yyyy", null);
+                        }
+                        if (BuyInspec != "")
+                        {
+                            emp.inspect_date = DateTime.ParseExact(BuyInspec, "dd/MM/yyyy", null);
                         }
                         //usedDay
                         if (used != "")
@@ -723,7 +731,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Edit(Equipment emp, string import, string inspec, string Insua, string used, string main, string sk, string sm, CarDB cdb, string yearSX)
+        public ActionResult Edit(Equipment emp, string import, string inspec, string Insua, string BuyInspec, string BuyInsua, string used, string main, string sk, string sm, CarDB cdb, string yearSX)
         {
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -741,6 +749,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
                         emp.durationOfInspection = Convert.ToDateTime(date_fix);
                         //durationOfInsurance
+                        date = BuyInsua.Split('/');
+                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.insurance_date = Convert.ToDateTime(date_fix);
+                        //BuyOfInspection
+                        date = BuyInspec.Split('/');
+                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.inspect_date = Convert.ToDateTime(date_fix);
+                        //BuyOfInsurance
                         date = Insua.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
                         emp.durationOfInsurance = Convert.ToDateTime(date_fix);
@@ -839,7 +855,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 listDN.Add(new SelectListItem { Text = "Đường kế toán", Value = "Đường kế toán" });
                 listDN.Add(new SelectListItem { Text = "Đường vật tư", Value = "Đường vật tư" });
                 ViewBag.listDN = listDN;
-                string query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name,a.sokhung, a.somay, a.GPS, a.nhienlieu, a.namsanxuat " +
+                string query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.insurance_date,e.inspect_date,e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name,a.sokhung, a.somay, a.GPS, a.nhienlieu, a.namsanxuat " +
                 "from Equipment e left outer join Car a on a.equipmentId = e.equipmentId, Department d, Equipment_category ec,Status s " +
                 " where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND e.equipmentId LIKE @equipmentId";
 
@@ -860,7 +876,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 Car ca = db.Database.SqlQuery<Car>("select * from Car where equipmentId = @id", new SqlParameter("id", id + "")).FirstOrDefault();
                 if (ca == null)
                 {
-                    query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
+                    query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.insurance_date,e.inspect_date,e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                         "from Equipment e, Department d, Equipment_category ec,Status s " +
                         " where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND e.equipmentId LIKE @equipmentId";
                     Equipment e = db.Database.SqlQuery<CarDB>(query, new SqlParameter("equipmentId", '%' + id + '%')).FirstOrDefault();
