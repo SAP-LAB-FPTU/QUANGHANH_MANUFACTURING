@@ -74,7 +74,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh.SuaChua
             }
             catch (Exception ex)
             {
-                LogError
+                new MyError().AddError(ex, selected);
                 return Redirect("/phong-cdvt/quyet-dinh/sua-chua/chon-thiet-bi");
             }
         }
