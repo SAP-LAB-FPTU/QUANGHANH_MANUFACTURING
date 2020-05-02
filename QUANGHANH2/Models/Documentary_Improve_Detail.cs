@@ -14,6 +14,7 @@ namespace QUANGHANH2.Models
     
     public partial class Documentary_Improve_Detail
     {
+        public int documentary_improve_id { get; set; }
         public int equipment_Improve_status { get; set; }
         public string equipmentId { get; set; }
         public int documentary_id { get; set; }

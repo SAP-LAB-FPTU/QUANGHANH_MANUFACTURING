@@ -14,6 +14,7 @@ namespace QUANGHANH2.Models
     
     public partial class Documentary_moveline_details
     {
+        public int documentary_moveline_id { get; set; }
         public int equipment_moveline_status { get; set; }
         public string department_detail { get; set; }
         public System.DateTime date_to { get; set; }
