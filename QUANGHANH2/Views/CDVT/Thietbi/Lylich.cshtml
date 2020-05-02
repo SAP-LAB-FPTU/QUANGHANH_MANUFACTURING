@@ -298,6 +298,20 @@
                                                 <th></th>
                                             </tr>
                                         </thead>
+                                        <tbody id="VTDK_table_body">
+                                            @{
+                                                foreach (var item in ViewBag.supVTDK)
+                                                {
+                                                    <tr>
+                                                        <td>@item.supply_id</td>
+                                                        <td>@item.supply_name</td>
+                                                        <td>@item.quantity</td>
+                                                        <td><button type="button" class="btnSelect0 btn blue btn-small center"><i class="large material-icons">remove</i></button></td>
+                                                        <td><a class="btnSelect02 btn blue btn-small left modal-trigger" data-target="updateVTDK">Chỉnh sửa</a></td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
                                     </table>
                                     @{ if (rights.Contains("10") || rights.Contains("6"))
                                         {
