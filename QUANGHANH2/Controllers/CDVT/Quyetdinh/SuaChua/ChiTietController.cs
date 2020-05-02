@@ -8,9 +8,9 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
 
-namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
+namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh.SuaChua
 {
-    public class ChitietSuachuaController : Controller
+    public class ChiTietController : Controller
     {
         [HttpGet]
         [Route("phong-cdvt/quyet-dinh/sua-chua-chi-tiet/")]

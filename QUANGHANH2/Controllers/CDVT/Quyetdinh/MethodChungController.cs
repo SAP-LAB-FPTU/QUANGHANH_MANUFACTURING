@@ -43,6 +43,58 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
             }
         }
 
+        [HttpPost]
+        public ActionResult GetSupplyBigEquip(string equipmentId)
+        {
+            try
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    db.Configuration.LazyLoadingEnabled = false;
+                    var data = (from a in db.Supplies
+                                join b in db.Vattu_Dikem on a.supply_id equals b.supply_id
+                                where b.equipmentId.Equals(equipmentId)
+                                select new
+                                {
+                                    a.supply_id,
+                                    a.supply_name,
+                                    b.quantity,
+                                }).ToList();
+                    return Json(new { success = true, data });
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetSupplySmallEquip(string equipmentId)
+        {
+            try
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    db.Configuration.LazyLoadingEnabled = false;
+                    var data = (from a in db.Supplies
+                                join b in db.Supply_Equipment_DiKem on a.supply_id equals b.supply_id
+                                where b.equipmentId.Equals(equipmentId)
+                                select new
+                                {
+                                    a.supply_id,
+                                    a.supply_name,
+                                    b.quantity,
+                                }).ToList();
+                    return Json(new { success = true, data });
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false });
+            }
+        }
+
         [Route("phong-cdvt/quyet-dinh/update")]
         [HttpPost]
         public ActionResult Update()

@@ -38,7 +38,7 @@
                 <a class="waves-effect waves-light btn blue darken-2" id="searchButton1">Tìm kiếm</a>
             </div>
             <div class="col l12 m12 s12 input-field left">
-                <a class="waves-effect waves-light btn blue modal-trigger listSelected" href="#listSelected">Danh sách đã chọn</a>
+                <a class="waves-effect waves-light btn blue modal-trigger modal-selected" href="#listSelected">Danh sách đã chọn</a>
             </div>
             <div class="col s12 table_container">
                 <table id="equipmentTable" class="table-bordered striped table-responsive centered">
@@ -55,8 +55,11 @@
                 </table>
             </div>
             <div class="col">
-                <a href="#" id="tienhanh" class="btn blue darken-2">Tiến hành sửa chữa</a>
-                <a class="btn blue darken-2" id="drop">Bỏ Chọn</a>
+                <form method="post" action="/phong-cdvt/quyet-dinh/sua-chua/them">
+                    <input hidden name="selected" />
+                    <button type="submit" id="tienhanh" class="btn blue darken-2">Tiến hành sửa chữa</button>
+                    <a class="btn blue darken-2" id="drop">Bỏ Chọn</a>
+                </form>
             </div>
         </div>
     </div>
@@ -69,7 +72,7 @@
     <div class="modal-body">
         <div class="row">
             <div class="col s12 table_container">
-                <table class="striped centered table-responsive mytable table-bordered">
+                <table class="striped centered table-responsive table-bordered">
                     <thead>
                         <tr>
                             <th>Mã thiết bị</th>
@@ -96,7 +99,19 @@
     <div class="modal-body">
         <div class="row">
             <div class="col s12 table_container">
-                <table class="striped centered table-responsive mytable table-bordered">
+                <h5>Thiết bị to</h5>
+                <table class="striped centered table-responsive table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Mã thiết bị</th>
+                            <th>Tên thiết bị</th>
+                        </tr>
+                    </thead>
+                    <tbody id="to"></tbody>
+                </table>
+                <br />
+                <h5>Thiết bị con đi kèm</h5>
+                <table class="striped centered table-responsive table-bordered">
                     <thead>
                         <tr>
                             <th>Mã thiết bị</th>
@@ -105,14 +120,13 @@
                             <th>Số lượng sửa chữa</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody id="nho"></tbody>
                 </table>
             </div>
         </div>
     </div>
     <div class="modal-footer">
-        <a id="add-small-equip" class="btn blue modal-close">Lưu</a>
-        <button id="close-modal" type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        <a class="btn light-blue lighten-1 modal-close">Thoát</a>
     </div>
 </div>
 
@@ -125,7 +139,8 @@
     <script>
         $("#pre-load").show();
         var dataTable, equipmentId;
-        var selected = {};
+        var selected = @Html.Raw(ViewBag.selected);
+        var dump = {};  //Chứa tên thiết bị, submit selected sẽ bớt cồng kềnh hơn
 
         $(document).ready(function () {
             dataTable = $('#equipmentTable').DataTable({
@@ -163,10 +178,8 @@
                     },
                     {
                         "data": "equipmentId", "render": function (data) {
-                            for (let i = 0; i < selected.length; i++) {
-                                if (selected[data]) {
-                                    return "<label><input class='my_checkbox' value='" + data + "' type ='checkbox' checked><span></span></label>";
-                                }
+                            if (selected[data] !== undefined && Object.keys(selected[data]).length == 0) {
+                                return "<label><input class='my_checkbox' value='" + data + "' type ='checkbox' checked><span></span></label>";
                             }
                             return "<label><input class='my_checkbox' value='" + data + "' type ='checkbox'><span></span></label>";
                         },
@@ -198,35 +211,64 @@
             })
 
             $("#drop").click(function () {
-                $(".my_checkbox").each(function () {
-                    if ($(this).is(":checked")) $(this).click();
-                })
-                selected = [];
+                selected = {};
+                dataTable.ajax.reload();
             })
 
             $(document).on("click", '.my_checkbox', function () {
                 equipmentId = $(this).val();
-                if ($(this).is(":checked"))
-                    selected[equipmentId] = [];
+                if ($(this).is(":checked")) {
+                    selected[equipmentId] = {};
+                    dump[equipmentId] = $(this).closest("tr").children().eq(1).text();
+                }
                 else
                     delete selected[equipmentId];
             })
 
-            $('.listSelected').click(function () {
-                for (var i = 0; i < length; i++) {
-
-                }
+            $('.modal-selected').click(function () {
+                $('#to').empty();
+                $('#nho').empty();
+                $.each(selected, function (key, value) {
+                    if (Object.keys(value).length == 0) {
+                        let $tr = $('<tr>').append(
+                            $('<td>').text(key),
+                            $('<td>').text(dump[key])
+                        )
+                        $tr.appendTo('#to')
+                    }
+                    else {
+                        $.each(value, function (k, v) {
+                            let $tr = $('<tr>').append(
+                                $('<td>').text(k),
+                                $('<td>').text(dump[k]),
+                                $('<td>').text(key),
+                                $('<td>').text(v)
+                            )
+                            $tr.appendTo('#nho')
+                        })
+                    }
+                })
             })
 
             $('#add-small-equip').click(function () {
-                var x = [];
+                var x = {};
+                let change = false;
                 for (var i = 0; i < $('#thietbicon tbody tr').length; i++) {
-                    var temp = {};
-                    temp.equipmentId_dikem = $('#thietbicon tbody tr:eq(' + i + ') td:eq(0)').text();
-                    temp.quantity = $('#thietbicon tbody tr:eq(' + i + ') #quantity').val();
-                    x.push(temp);
+                    if ($('#thietbicon tbody tr:eq(' + i + ') #quantity').val() == 0)
+                        continue;
+                    change = true;
+                    let equipmentId_dikem = $('#thietbicon tbody tr:eq(' + i + ') td:eq(0)').text();
+                    x[equipmentId_dikem] = $('#thietbicon tbody tr:eq(' + i + ') #quantity').val();
+                    dump[equipmentId_dikem] = $('#thietbicon tbody tr:eq(' + i + ') td:eq(1)').text();
                 }
-                selected[equipmentId] = x;
+                if (change) {
+                    selected[equipmentId] = x;
+                    dataTable.ajax.reload();
+                }
+            })
+
+            $('#tienhanh').click(function () {
+                $('input[name="selected"]').val(JSON.stringify(selected));
             })
         });
 
@@ -247,11 +289,14 @@
                     if (output.success) {
                         for (var i = 0; i < output.data.length; i++) {
                             let $tr = $('<tr>');
+                            let quantity_selected = 0;
+                            if (selected[equipmentId] !== undefined && selected[equipmentId][output.data[i].equipmentId] !== undefined)
+                                quantity_selected = selected[equipmentId][output.data[i].equipmentId];
                             $tr.append(
                                 $('<td>').text(output.data[i].equipmentId),
                                 $('<td>').text(output.data[i].equipment_name),
                                 $('<td>').html(output.data[i].quantity),
-                                $('<td>').html("<input type=\"number\" class='form-control' id=\"quantity\" value=0 min=0 max=" + output.data[i].quantity + " />"),
+                                $('<td>').html("<input type=\"number\" class='form-control' id=\"quantity\" value=" + quantity_selected + " min=0 max=" + output.data[i].quantity + " />"),
                             )
                             $tr.appendTo($("#thietbicon tbody"));
                         }

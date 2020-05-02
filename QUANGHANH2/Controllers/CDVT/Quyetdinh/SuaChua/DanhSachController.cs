@@ -14,9 +14,9 @@ using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
+namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh.SuaChua
 {
-    public class suachuaQDController : Controller
+    public class DanhSachController : Controller
     {
         [Auther(RightID = "30")]
         [Route("phong-cdvt/quyet-dinh/sua-chua")]

@@ -9,78 +9,82 @@ using QUANGHANH2.SupportClass;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 using System.Data.Entity;
+using System.IO;
+using System.Web.Hosting;
 
-namespace QUANGHANHCORE.Controllers.CDVT.Work
+namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh.SuaChua
 {
-    public class suachuachonController : Controller
+    public class ThemController : Controller
     {
         [Auther(RightID = "83")]
-        [Route("phong-cdvt/sua-chua-chon")]
-        [HttpGet]
-        public ActionResult Index(String selectListJson)
+        [Route("phong-cdvt/quyet-dinh/sua-chua/them")]
+        [HttpPost]
+        public ActionResult Index(string selected)
         {
-            var listSelected = selectListJson;
-            var listConvert = listSelected;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            try
             {
-                db.Configuration.LazyLoadingEnabled = false;
+                ViewBag.selected = selected;
 
-                var result = (from e in db.Equipments
-                              where listConvert.Contains(e.equipmentId)
-                              join d in db.Departments on e.department_id equals d.department_id
-                              join c in db.Status on e.current_Status equals c.statusid
-                              select new
-                              {
-                                  equipmentId = e.equipmentId,
-                                  equipment_name = e.equipment_name,
-                                  department_name = d.department_name,
-                                  department_id = e.department_id,
-                                  current_Status = e.current_Status,
-                                  statusname = c.statusname,
-                              }).ToList().Select(s => new equipmentExtend
-                              {
-                                  equipmentId = s.equipmentId,
-                                  equipment_name = s.equipment_name,
-                                  department_name = s.department_name,
-                                  department_id = s.department_id,
-                                  current_Status = s.current_Status,
-                                  statusname = s.statusname,
+                JObject convertedJson = JObject.Parse(selected);
 
-                              }).ToList();
-                ViewBag.DataThietBi = result;
+                List<_Equipment> listEquip = new List<_Equipment>();
 
-                List<Supply> supplies = db.Supplies.ToList();
-                List<Department> departments = db.Departments.ToList();
-                
-                try
+                foreach (var item in convertedJson)
                 {
-                    int validate = 1;
-                    var department_id = result[0].department_id;
-                    foreach (var item in result)
-                    {
-                        if (!item.department_id.Equals(department_id))
+                    if (item.Value.HasValues)
+                        foreach (var i in (JObject)item.Value)
                         {
-                            validate = 0;
-                            break;
+                            listEquip.Add(new _Equipment
+                            {
+                                attachTo = item.Key,
+                                equipmentId = i.Key,
+                                quantity = int.Parse(i.Value.ToString())
+                            });
                         }
-                    }
-                    Department department = db.Departments.Find(department_id);
-                    ViewBag.validate = validate;
-                    ViewBag.department_name = department.department_name;
-                    ViewBag.department_id = department.department_id;
-                    ViewBag.Supplies = supplies;
+                    else
+                        listEquip.Add(new _Equipment
+                        {
+                            attachTo = null,
+                            equipmentId = item.Key,
+                            quantity = 1
+                        });
+                }
+
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    db.Configuration.LazyLoadingEnabled = false;
+                    List<string> listId = listEquip.Select(x => x.equipmentId).Distinct().ToList();
+
+                    var dict = db
+                        .Equipments
+                        .Where(x => listId.Contains(x.equipmentId))
+                        .Select(x => new { x.equipmentId, x.equipment_name })
+                        .AsEnumerable()
+                        .ToDictionary(d => d.equipmentId, d => d.equipment_name);
+
+                    listEquip.ForEach(x => x.equipment_name = dict[x.equipmentId]);
+
+                    ViewBag.DataThietBi = listEquip;
+
+                    List<Department> departments = db.Departments.ToList();
+
                     ViewBag.Departments = departments;
                 }
-                catch(Exception e)
-                {
-                    ViewBag.alert = true;
-                    TempData["shortMessage"] = true;
-                    return Redirect("sua-chua");
-                    throw e;
-                }
-               
+                return View("/Views/CDVT/Quyetdinh/SuaChua/Them.cshtml");
             }
-            return View("/Views/CDVT/Work/suachuachon.cshtml");
+            catch (Exception ex)
+            {
+                LogError
+                return Redirect("/phong-cdvt/quyet-dinh/sua-chua/chon-thiet-bi");
+            }
+        }
+
+        public class _Equipment
+        {
+            public string equipmentId { get; set; }
+            public string equipment_name { get; set; }
+            public string attachTo { get; set; }
+            public int quantity { get; set; }
         }
 
         [Auther(RightID = "83")]
@@ -98,7 +102,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     documentary.documentary_type = 1;
                     documentary.department_id_to = department_id_to;
                     documentary.date_created = DateTime.Now;
-                    documentary.person_created = Session["Name"]+"";
+                    documentary.person_created = Session["Name"] + "";
                     documentary.reason = reason;
                     documentary.out_in_come = out_in_come;
                     documentary.documentary_status = 1;

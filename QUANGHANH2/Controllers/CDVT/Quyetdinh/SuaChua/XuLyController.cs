@@ -9,13 +9,12 @@ using System.Linq.Dynamic;
 using QUANGHANH2.SupportClass;
 using System.Data.SqlClient;
 
-namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
+namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh.SuaChua
 {
-    public class SuachuaController : Controller
+    public class XuLyController : Controller
     {
         [Auther(RightID = "84,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/sua-chua")]
-        [HttpGet]
         public ActionResult Index(string id)
         {
             try

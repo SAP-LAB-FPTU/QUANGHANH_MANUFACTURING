@@ -10,15 +10,16 @@ using System.Web.SessionState;
 using QUANGHANH2.SupportClass;
 using System.Data.SqlClient;
 
-namespace QUANGHANHCORE.Controllers.CDVT.Work
+namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh.SuaChua
 {
     [SessionState(SessionStateBehavior.Default)]
-    public class SuachuaController : Controller
+    public class ChonThietBiController : Controller
     {
         [Auther(RightID = "83")]
         [Route("phong-cdvt/quyet-dinh/sua-chua/chon-thiet-bi")]
         public ActionResult Index()
         {
+            ViewBag.selected = Request["selected"] ?? "{}";
             return View("/Views/CDVT/Quyetdinh/SuaChua/ChonThietBi.cshtml");
         }
 

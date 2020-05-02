@@ -155,8 +155,8 @@ namespace QUANGHANHCORE.Controllers.CDVT
             var sup = DBContext.Database.SqlQuery<Supply_DK>("select s.*,e.equipment_name from Equipment e join Supply_DiKem s on e.equipmentId = s.equipmentId_dikem where s.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
             ViewBag.sup = sup;
             //vat tu di kem
-            var supVTDK = DBContext.Database.SqlQuery<VT_DK>("select s.*,e.equipment_name,sp.supply_name from Equipment e join Vattu_Dikem s on e.equipmentId = s.equipmentId join Supply sp on sp.supply_id = s.supply_id where s.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
-            ViewBag.supVTDK = supVTDK;
+            //var supVTDK = DBContext.Database.SqlQuery<VT_DK>("select s.*,e.equipment_name,sp.supply_name from Equipment e join Vattu_Dikem s on e.equipmentId = s.equipmentId join Supply sp on sp.supply_id = s.supply_id where s.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
+            //ViewBag.supVTDK = supVTDK;
             //Vat tu SCTX
             var supSCTX = DBContext.Database.SqlQuery<Supply_DP>("select s.*,e.supply_name from Supply e join Supply_SCTX s on e.supply_id = s.supply_id where s.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
             ViewBag.supSCTX = supSCTX;
