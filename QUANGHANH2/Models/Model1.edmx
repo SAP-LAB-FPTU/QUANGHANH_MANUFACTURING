@@ -1020,7 +1020,7 @@
           <Property Name="quantity_in" Type="int" Nullable="false" />
           <Property Name="quantity_used" Type="int" Nullable="false" />
           <Property Name="quantity_out" Type="int" Nullable="false" />
-          <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="equipmentId" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="Supply_Documentary_Camera">
           <Key>
@@ -1062,7 +1062,7 @@
           <Property Name="quantity_in" Type="int" Nullable="false" />
           <Property Name="quantity_used" Type="int" Nullable="false" />
           <Property Name="quantity_out" Type="int" Nullable="false" />
-          <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="equipmentId" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="Supply_Documentary_Repair_Equipment">
           <Key>
@@ -1075,7 +1075,7 @@
           <Property Name="quantity_in" Type="int" Nullable="false" />
           <Property Name="quantity_used" Type="int" Nullable="false" />
           <Property Name="quantity_out" Type="int" Nullable="false" />
-          <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="equipmentId" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="Supply_Equipment_DiKem">
           <Key>
@@ -2690,7 +2690,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Supply_Do__equip__0A338187">
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
           <End Role="Supply_Documentary_Big_Maintain_Equipment" Type="Self.Supply_Documentary_Big_Maintain_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Equipment">
@@ -2726,7 +2726,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Supply_Do__equip__13BCEBC1">
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
           <End Role="Supply_Documentary_Maintain_Equipment" Type="Self.Supply_Documentary_Maintain_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Equipment">
@@ -2738,7 +2738,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Supply_Do__equip__1699586C">
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
           <End Role="Supply_Documentary_Repair_Equipment" Type="Self.Supply_Documentary_Repair_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Equipment">
@@ -5480,7 +5480,7 @@
           <Property Name="quantity_in" Type="Int32" Nullable="false" />
           <Property Name="quantity_used" Type="Int32" Nullable="false" />
           <Property Name="quantity_out" Type="Int32" Nullable="false" />
-          <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Documentary_big_maintain_details" Relationship="Self.FK__Supply_Do__docum__093F5D4E" FromRole="Supply_Documentary_Big_Maintain_Equipment" ToRole="Documentary_big_maintain_details" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Do__equip__0A338187" FromRole="Supply_Documentary_Big_Maintain_Equipment" ToRole="Equipment" />
           <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Do__suppl__0B27A5C0" FromRole="Supply_Documentary_Big_Maintain_Equipment" ToRole="Supply" />
@@ -5532,7 +5532,7 @@
           <Property Name="quantity_in" Type="Int32" Nullable="false" />
           <Property Name="quantity_used" Type="Int32" Nullable="false" />
           <Property Name="quantity_out" Type="Int32" Nullable="false" />
-          <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Documentary_maintain_details" Relationship="Self.FK__Supply_Do__docum__12C8C788" FromRole="Supply_Documentary_Maintain_Equipment" ToRole="Documentary_maintain_details" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Do__equip__13BCEBC1" FromRole="Supply_Documentary_Maintain_Equipment" ToRole="Equipment" />
           <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Do__suppl__14B10FFA" FromRole="Supply_Documentary_Maintain_Equipment" ToRole="Supply" />
@@ -5548,7 +5548,7 @@
           <Property Name="quantity_in" Type="Int32" Nullable="false" />
           <Property Name="quantity_used" Type="Int32" Nullable="false" />
           <Property Name="quantity_out" Type="Int32" Nullable="false" />
-          <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Documentary_repair_details" Relationship="Self.FK__Supply_Do__docum__15A53433" FromRole="Supply_Documentary_Repair_Equipment" ToRole="Documentary_repair_details" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Do__equip__1699586C" FromRole="Supply_Documentary_Repair_Equipment" ToRole="Equipment" />
           <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Do__suppl__178D7CA5" FromRole="Supply_Documentary_Repair_Equipment" ToRole="Supply" />
@@ -7178,7 +7178,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Supply_Do__equip__0A338187">
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
           <End Role="Supply_Documentary_Big_Maintain_Equipment" Type="Self.Supply_Documentary_Big_Maintain_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Equipment">
@@ -7214,7 +7214,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Supply_Do__equip__13BCEBC1">
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
           <End Role="Supply_Documentary_Maintain_Equipment" Type="Self.Supply_Documentary_Maintain_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Equipment">
@@ -7226,7 +7226,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Supply_Do__equip__1699586C">
-          <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
           <End Role="Supply_Documentary_Repair_Equipment" Type="Self.Supply_Documentary_Repair_Equipment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Equipment">
