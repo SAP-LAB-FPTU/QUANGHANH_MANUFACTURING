@@ -191,6 +191,7 @@
     <Compile Include="Controllers\DK\EquipmentIncident\ReportController.cs" />
     <Compile Include="Controllers\DK\Department_Criteria\Department_Criteria_By_MonthController.cs" />
     <Compile Include="Controllers\DK\Department_Criteria\Department_Criteria_By_YearController.cs" />
+    <Compile Include="Controllers\DK\Factory\FactoryController.cs" />
     <Compile Include="Controllers\DK\KeHoachDieuHanhChiTieuController.cs" />
     <Compile Include="Controllers\BGD\ReportHuman\Summary\Human_DailyController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
@@ -7557,6 +7558,7 @@
     <Content Include="Views\CDVT\Quyetdinh\DieuDong\ChiTiet.cshtml" />
     <Content Include="Views\BGD\DK\Manufacturing.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\SuaChua\ChiTiet.cshtml" />
+    <Content Include="Views\DK\Factory\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7565,6 +7567,7 @@
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="images\camera\" />
     <Folder Include="Library\" />
+    <Folder Include="Views\Factory\" />
     <Folder Include="Views\TrangChu\" />
   </ItemGroup>
   <ItemGroup>
