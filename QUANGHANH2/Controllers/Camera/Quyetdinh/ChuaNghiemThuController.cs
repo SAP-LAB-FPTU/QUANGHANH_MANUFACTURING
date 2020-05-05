@@ -77,7 +77,7 @@ namespace QUANGHANH2.Controllers.Camera
         [Auther(RightID = "193")]
         [HttpPost]
         [Route("camera/nghiem-thu/Edit")]
-        public ActionResult Edit(int room_id, int documentary_id)
+        public ActionResult Edit(string room_id, int documentary_id)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
