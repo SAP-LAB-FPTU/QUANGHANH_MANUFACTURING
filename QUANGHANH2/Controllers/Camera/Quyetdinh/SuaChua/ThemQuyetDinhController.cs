@@ -79,7 +79,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                     JObject json = JObject.Parse(data);
                     foreach (var item in json)
                     {
-                        int room_id = (int)item.Value["id"];
+                        string room_id = item.Value["id"].ToString();
                         string repair_requirement = (string)item.Value["repair_requirement"];
                         string datestring = (string)item.Value["finish_date_plan"];
 

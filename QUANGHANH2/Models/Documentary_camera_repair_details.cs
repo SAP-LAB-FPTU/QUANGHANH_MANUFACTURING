@@ -15,7 +15,7 @@ namespace QUANGHANH2.Models
     public partial class Documentary_camera_repair_details
     {
         public int documentary_id { get; set; }
-        public int room_id { get; set; }
+        public string room_id { get; set; }
         public int broken_camera_quantity { get; set; }
         public string repair_requirement { get; set; }
         public string note { get; set; }

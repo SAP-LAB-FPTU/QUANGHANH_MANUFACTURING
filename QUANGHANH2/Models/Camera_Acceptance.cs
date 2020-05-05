@@ -14,7 +14,7 @@ namespace QUANGHANH2.Models
     
     public partial class Camera_Acceptance
     {
-        public int room_id { get; set; }
+        public string room_id { get; set; }
         public int acceptance_camera_quantity { get; set; }
         public int documentary_id { get; set; }
         public Nullable<System.DateTime> acceptance_date { get; set; }

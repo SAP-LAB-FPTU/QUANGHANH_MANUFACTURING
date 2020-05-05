@@ -14,7 +14,7 @@ namespace QUANGHANH2.Models
     
     public partial class Room_Status
     {
-        public int room_id { get; set; }
+        public string room_id { get; set; }
         public System.DateTime date { get; set; }
         public int session { get; set; }
         public bool fully_function { get; set; }

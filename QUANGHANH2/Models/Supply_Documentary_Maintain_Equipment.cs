@@ -12,14 +12,19 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Equipment_attribute
+    public partial class Supply_Documentary_Maintain_Equipment
     {
-        public string Equipment_attribute_id { get; set; }
-        public string Equipment_attribute_name { get; set; }
-        public string value { get; set; }
-        public string unit { get; set; }
+        public int supplyDocumentaryEquipmentId { get; set; }
+        public int documentary_maintain_id { get; set; }
+        public string supply_id { get; set; }
+        public int quantity_plan { get; set; }
+        public int quantity_in { get; set; }
+        public int quantity_used { get; set; }
+        public int quantity_out { get; set; }
         public string equipmentId { get; set; }
     
+        public virtual Documentary_maintain_details Documentary_maintain_details { get; set; }
         public virtual Equipment Equipment { get; set; }
+        public virtual Supply Supply { get; set; }
     }
 }

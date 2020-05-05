@@ -25,7 +25,7 @@ namespace QUANGHANH2.Models
         }
     
         public string department_id { get; set; }
-        public int room_id { get; set; }
+        public string room_id { get; set; }
         public string room_name { get; set; }
         public int camera_quantity { get; set; }
         public int camera_available { get; set; }
