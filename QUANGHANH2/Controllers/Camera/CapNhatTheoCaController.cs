@@ -99,7 +99,7 @@ namespace QUANGHANH2.Controllers.Camera
                         //Ca 1: 6h-14h
                         //Ca 2: 14h-22h
                         //Ca 3: 22h-6h
-                        int equipmentId = (int)item["equipmentId"];
+                        string equipmentId = item["equipmentId"].ToString();
                         int ca = (int)item["ca"];
 
                         if (thisCa != ca)

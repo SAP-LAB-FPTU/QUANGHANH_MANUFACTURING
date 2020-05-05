@@ -90,13 +90,15 @@ namespace QUANGHANH2.Controllers.Camera
                            StringSplitOptions.RemoveEmptyEntries);
                         foreach (var item in list)
                         {
-                            Documentary_camera_repair_details temp = DBContext.Documentary_camera_repair_details.Where(x => x.documentary_id == id && x.room_id.ToString() == item).FirstOrDefault();
+                            Documentary_camera_repair_details temp = DBContext.Documentary_camera_repair_details.Where(x => x.documentary_id == id && x.room_id == item).FirstOrDefault();
                             temp.Documentary_camera_repair_status = 1;
-                            Camera_Acceptance a = new Camera_Acceptance();
-                            a.acceptance_date = DateTime.Now;
-                            a.documentary_id = id;
-                            a.room_id = int.Parse(item);
-                            a.isAcceptance = false;
+                            Camera_Acceptance a = new Camera_Acceptance
+                            {
+                                acceptance_date = DateTime.Now,
+                                documentary_id = id,
+                                room_id = item,
+                                isAcceptance = false
+                            };
                             DBContext.Camera_Acceptance.Add(a);
                             DBContext.SaveChanges();
                         }
@@ -137,7 +139,7 @@ namespace QUANGHANH2.Controllers.Camera
         [Auther(RightID = "193")]
         [Route("cap-nhat/camera/quyet-dinh/AddSupply")]
         [HttpPost]
-        public ActionResult AddSupply(string list, int documentary_id, int room_id, string type)
+        public ActionResult AddSupply(string list, int documentary_id, string room_id)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
