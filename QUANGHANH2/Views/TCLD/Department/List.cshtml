@@ -101,8 +101,8 @@
 
         </div>
         <div class="modal-footer">
-            <a class="btn blue darken-2" onclick="xacNhanThemMoi()">Thêm mới</a>
-            <a class="btn red modal-close">Hủy</a>
+            <button class="btn blue darken-2" onclick="xacNhanThemMoi()">Thêm mới</button>
+            <button class="btn red modal-close" id="btnClose_AddDepartment">Hủy</button>
         </div>
     </div>
 </div>
@@ -145,8 +145,8 @@
 
         </div>
         <div class="modal-footer">
-            <a class="btn blue darken-2" onclick="xacNhanChinhSua()">Chỉnh sửa</a>
-            <a class="btn red modal-close">Hủy</a>
+            <button class="btn blue darken-2" onclick="xacNhanChinhSua()">Chỉnh sửa</button>
+            <button class="btn red modal-close" id="btnClose_EditDepartment">Hủy</button>
         </div>
     </div>
 </div>
@@ -203,11 +203,17 @@
                     {
                         "data": "department_id", "render": function (data) {
                             return "<a class='waves-effect waves-light btn-small blue darken-2 modal-trigger' data-target='editDerpartment' style='margin-left:5px' onclick=getEditIdDepartment('" + data + "') ><i class='far fa-edit'></i>Sửa</a>";
+                        },
+                        "orderable": false,
+                        "searchable": false
                     },
-                    "orderable": false,
-                    "searchable": false,
-                    },
-
+                    {
+                        "data": "department_id", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn-small red darken-2' style='margin-left:5px' onclick=confirmDeleteDepartment('" + data + "') ><i class='far fa-edit'></i>Xóa</a>";
+                        },
+                        "orderable": false,
+                        "searchable": false
+                    }
                 ],
                 "language": {
                     emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
@@ -290,10 +296,10 @@
                 datatype: "json",
                 success: (response) => {
                     if (response.success == true) {
+                        $("#btnClose_AddDepartment").click();
                         $("#pre-load").hide()
                         successAlert('Thành công','Thêm mới phòng ban thành công');
                         dataTable.ajax.reload();
-                        $("#addDerpartment").modal('hide');
                         $("body").css("overflow", "");
                     } else {
                         $("#pre-load").hide()
@@ -343,6 +349,7 @@
                 datatype: "json",
                 success: (response) => {
                     if (response.success == true) {
+                        $("#btnClose_EditDepartment").click();
                         $("#pre-load").hide()
                         successAlert('Thành công', 'Chỉnh sửa phòng ban thành công');
                         dataTable.ajax.reload();
@@ -358,7 +365,6 @@
             })
 
         }
-
 
         function getEditIdDepartment(data) {
             editId = data;
@@ -385,6 +391,42 @@
             })
 
         }
+
+        function confirmDeleteDepartment(data) {
+            confirmAlert("Xác nhận xóa?", "Xóa phân xưởng",
+                function () {
+                    deleteDepartment(data);
+                }
+            )
+        }
+
+        function deleteDepartment(department_id) {
+            $('#pre-load').show();
+            $.ajax({
+            url: '@Url.Action("DeleteDepartment", "Department")',
+            type: "POST",
+            datatype: "json",
+            data: {
+                "department_id": department_id
+            },
+            success: function (response) {
+                if (response.success) {
+                    successAlert("Thành công", response.message);
+                    dataTable.ajax.reload();
+                    $('#pre-load').hide();
+                }
+                else {
+                    errorAlert("Có lỗi", response.message);
+                    $("#pre-load").hide();
+                }
+            },
+            error: function (response) {
+
+            }
+
+        });
+        }
+
 
         //searching bang nut search
         $("#searchEmpBtn").click(function () {
