@@ -11,20 +11,19 @@
                     <h3><b>CHI TIẾT SỬA CHỮA</b></h3>
                 </div>
                 <div class="col s3 m3">
-                    <textarea name="data" hidden value="" id="json"></textarea>
                     <label for="department_id_to">Sửa chữa tại <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
-                    <input id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
+                    <input id="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
                 </div>
                 <div class="col s3 m3">
                     <label for="out_in_come">Nguồn vốn <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
-                    <input id="out_in_come" name="out_in_come" class="form-control" type="text" />
+                    <input id="out_in_come" class="form-control" type="text" />
                 </div>
                 <div class="col s3 m3">
                     <label for="reason">Nội dung <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
-                    <input id="reason" name="reason" class="form-control" type="text" required />
+                    <input id="reason" class="form-control" type="text" required />
                 </div>
                 <div class="col s12 table_container">
-                    <table id="mytablevattu" class="striped table-responsive center table-bordered">
+                    <table id="mytable" class="striped table-responsive center table-bordered">
                         <thead>
                             <tr>
                                 <th class="center-align">Mã thiết bị</th>
@@ -38,17 +37,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (QUANGHANHCORE.Controllers.CDVT.Quyetdinh.SuaChua.ThemController._Equipment item in ViewBag.DataThietBi)
+                            @foreach (QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua.ThemController._Equipment item in ViewBag.DataThietBi)
                             {
                                 <tr>
                                     <td>@(item.equipmentId + (item.attachTo == null ? "" : ($" ({item.attachTo})")))</td>
                                     <td>@item.equipment_name</td>
                                     <td>@item.quantity</td>
                                     <td>
-                                        <select class='form-control'><option>Thường xuyên</option><option>Sự cố</option></select>
+                                        <select class='form-control type'><option>Thường xuyên</option><option>Sự cố</option></select>
                                     </td>
                                     <td>
-                                        <input type='text' required class='form-control' />
+                                        <input type='text' required class='form-control reason' />
                                     </td>
                                     <td>
                                         <input type='text' required class='center datepicker-here form-control minDate' data-language='vi' />
@@ -72,7 +71,7 @@
                     <form action="/phong-cdvt/quyet-dinh/sua-chua/chon-thiet-bi" method="get">
                         <input name="selected" value='@Html.Raw(ViewBag.selected)' hidden />
                         <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
-                        <a id="submit" class="btn blue darken-2 modal-trigger">Tạo quyết định sửa chữa</a>
+                        <a id="submit" href="#confirm" class="btn blue darken-2 modal-trigger">Tạo quyết định sửa chữa</a>
                         <button type="submit" class="btn blue darken-2 ">Quay lại</button>
                     </form>
                 </div>
@@ -103,7 +102,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <a id="addrow" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
+            @*<a id="addrow" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>*@
             <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-close">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
         </div>
@@ -132,7 +131,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <a class="waves-effect waves-light btn blue darken-2 modal-close">Lưu</a>
+            <a id="submitthietbi" class="waves-effect waves-light btn blue darken-2 modal-close">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
         </div>
     </div>
@@ -159,8 +158,8 @@
 
 <script src="~/js/Custom JS/CDVT/QuyetDinh/datePicker.js"></script>
 <script>
-    var output = {};
-    var equipmentId, attachTo;
+    var output = @Html.Raw(ViewBag.output);
+    var equipmentId, attachTo, index;
 
     $(document).ready(function () {
         $('input[required]').each(function myfunction() {
@@ -171,6 +170,7 @@
         $('.vattu').click(function () {
             equipmentId = $(this).data("equipmentid");
             attachTo = $(this).data("attachto");
+            index = $(this).closest("tr").index();
             let url = "@Url.Action("GetSupplyBigEquip", "MethodChung")";
             if (attachTo)
                 url = "@Url.Action("GetSupplySmallEquip", "MethodChung")";
@@ -187,10 +187,13 @@
                 success: function (response) {
                     if (response.success) {
                         for (let i = 0; i < response.data.length; i++) {
+                            let quantity = 0;
+                            if (output[index].supply && output[index].supply[response.data[i].supply_id])
+                                quantity = output[index].supply[response.data[i].supply_id];
                             let $tr = $('<tr>').append(
                                 $('<td>').text(response.data[i].supply_id),
                                 $('<td>').text(response.data[i].supply_name),
-                                $('<td>').html("<input type='number' class='form-control' />")
+                                $('<td>').html("<input min=0 type='number' class='form-control' value=" + quantity + " />")
                             )
                             $tr.appendTo('#vattu tbody');
                         }
@@ -203,8 +206,21 @@
             })
         })
 
+        $('#submitvattu').click(function () {
+            let supply = {};
+            for (var i = 0; i < $("#vattu tbody tr").length; i++) {
+                let SoLuong = $("#vattu tbody tr:eq(" + i + ") td:eq(2) input").val();
+                if (SoLuong == "0")
+                    continue;
+                let MaVatTu = $("#vattu tbody tr:eq(" + i + ") td:eq(0)").text();
+                supply[MaVatTu] = SoLuong;
+            }
+            output[index].supply = supply;
+        })
+
         $('.thietbi').click(function () {
             equipmentId = $(this).data("equipmentid");
+            index = $(this).closest("tr").index();
             $('#thietbi tbody').empty();
             $('#pre-load').show();
             $.ajax({
@@ -218,10 +234,13 @@
                 success: function (response) {
                     if (response.success) {
                         for (let i = 0; i < response.data.length; i++) {
+                            let quantity = 0;
+                            if (output[index].equipment && output[index].equipment[response.data[i].equipmentId])
+                                quantity = output[index].equipment[response.data[i].equipmentId];
                             let $tr = $('<tr>').append(
                                 $('<td>').text(response.data[i].equipmentId),
                                 $('<td>').text(response.data[i].equipment_name),
-                                $('<td>').html("<input type='number' class='form-control' />")
+                                $('<td>').html("<input min=0 type='number' class='form-control' value=" + quantity + " />")
                             )
                             $tr.appendTo('#thietbi tbody');
                         }
@@ -229,6 +248,76 @@
                     $('#pre-load').hide();
                 },
                 error: function () {
+                    $('#pre-load').hide();
+                }
+            })
+        })
+
+        $('#submitthietbi').click(function () {
+            let equipment = {};
+            for (var i = 0; i < $("#thietbi tbody tr").length; i++) {
+                let SoLuong = $("#thietbi tbody tr:eq(" + i + ") td:eq(2) input").val();
+                if (SoLuong == "0")
+                    continue;
+                let MaThietBi = $("#thietbi tbody tr:eq(" + i + ") td:eq(0)").text();
+                equipment[MaThietBi] = SoLuong;
+            }
+            output[index].equipment = equipment;
+        })
+
+        $('#create').click(function () {
+            if ($('#reason').val() == "") {
+                errorAlert("Không được bỏ trống sữa chữa tại");
+                return;
+            }
+            if ($('#out_in_come').val() == "") {
+                errorAlert("Không được bỏ trống nguồn vốn");
+                return;
+            }
+            if ($('#department_id_to').val() == "") {
+                errorAlert("Không được bỏ trống nội dung");
+                return;
+            }
+            for (var i = 0; i < $('#mytable tbody tr').length; i++) {
+                output[i].type = $('#mytable tbody tr:eq(' + i + ') .type').val();
+                output[i].reason = $('#mytable tbody tr:eq(' + i + ') .reason').val();
+                output[i].date = $('#mytable tbody tr:eq(' + i + ') .minDate').val();
+                if (output[i].reason == "") {
+                    errorAlert("Không được bỏ trống lý do sửa chữa");
+                    return;
+                }
+                if (output[i].type == "") {
+                    errorAlert("Không được bỏ trống ngày dự kiến xong");
+                    return;
+                }
+            }
+            $('#pre-load').show();
+            $.ajax({
+                url: "/phong-cdvt/quyet-dinh/sua-chua/them",
+                method: "post",
+                dataType: "json",
+                cache: false,
+                data: {
+                    data: JSON.stringify(output),
+                    out_in_come: $('#out_in_come').val(),
+                    reason: $('#reason').val(),
+                    department_id_to: $('#department_id_to').val(),
+                },
+                success: function (response) {
+                    if (response.success) {
+                        successAlert("Tạo quyết định thành công", "Đang chuyển trang");
+                        $('#pre-load').hide();
+                        setTimeout(function () {
+                            window.location.href = "/phong-cdvt/quyet-dinh/sua-chua"; //will redirect to your blog page (an ex: blog.html)
+                        }, 2000);
+                    }
+                    else {
+                        errorAlert(response.message);
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
                     $('#pre-load').hide();
                 }
             })

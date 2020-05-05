@@ -205,16 +205,11 @@
                         },
                     },
                     {
-                        "data": "tempId", "name": "tempId", "render": function (data) {
-                            if (data.split("^")[1] == "true") {
-                                return "<a  onclick=GetData('@Url.Action("LoadPage","ChitietSuachua")?id=" + data + "')> " + data.split("^")[2] + "</a>";
-                            }
-                            else {
-                                return "<a></a>";
-                            }
+                        "data": "documentary_id", "name": "documentary_id", "render": function (data) {
+                            return "";
 
                      },
-                        "orderable": true,
+                        "orderable": false,
                         "searchable":false,
                     },
                     { "data": "person_created", "name": "person_created" },
@@ -222,16 +217,16 @@
                     { "data": "reason" , "name" : "reason"},
                     { "data": "out_in_come" , "name" :"out_in_come" },
                  {
-                        "data": "tempId", "render": function (data) {
-                            return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-documentary-id=\"" + data.split("^")[0] + "\">Cập&nbsp;nhật</a>";
+                        "data": "documentary_id", "render": function (data) {
+                            return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-documentary-id=\"" + data + "\">Cập&nbsp;nhật</a>";
                                     },
                         "orderable": false,
                         "searchable":false,
 
                     },
                     {
-                        "data": "tempId", "render": function (data) {
-                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" onclick=GetData('@Url.Action("LoadPage","ChitietSuachua")?id=" + data.split("^")[0] + "')>Chi&nbsp;tiết</a>";
+                        "data": "documentary_id", "render": function (data) {
+                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" href='/phong-cdvt/quyet-dinh/sua-chua/chi-tiet?id=" + data + "'>Chi&nbsp;tiết</a>";
                      },
                         "orderable": false,
                         "searchable":false,
@@ -239,7 +234,7 @@
                     }
                 ],
                 "serverSide": "true",
-                "order": [1, "desc"],
+                "order": [0, "desc"],
                 "lengthChange": false,
                 "searching": false,
                 "initComplete": function () {

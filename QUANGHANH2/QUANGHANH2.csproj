@@ -7320,7 +7320,6 @@
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_bao_duong.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_Quyet_dinh.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_SCTX.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_sua_chua.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_thanh_li.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_thu_hoi.cshtml" />
     <Content Include="Views\CDVT\Suco\SucoThietbi.cshtml" />
@@ -7548,6 +7547,7 @@
     <Content Include="Views\Navigation\Navigate.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\DieuDong\ChiTiet.cshtml" />
     <Content Include="Views\BGD\DK\Manufacturing.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\SuaChua\ChiTiet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

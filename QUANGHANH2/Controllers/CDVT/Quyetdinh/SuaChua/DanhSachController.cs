@@ -14,7 +14,7 @@ using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh.SuaChua
+namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
 {
     public class DanhSachController : Controller
     {

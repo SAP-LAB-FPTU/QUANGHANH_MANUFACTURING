@@ -9,7 +9,7 @@ using System.Linq.Dynamic;
 using QUANGHANH2.SupportClass;
 using System.Data.SqlClient;
 
-namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh.SuaChua
+namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
 {
     public class XuLyController : Controller
     {

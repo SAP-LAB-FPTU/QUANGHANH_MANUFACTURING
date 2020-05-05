@@ -339,6 +339,7 @@
           <Property Name="equipmentId_dikem" Type="nvarchar" MaxLength="150" />
           <Property Name="equipment_big_maintain_reason" Type="nvarchar" MaxLength="150" />
           <Property Name="department_id_from" Type="nvarchar" MaxLength="150" />
+          <Property Name="quantity" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Documentary_camera_repair_details">
           <Key>
@@ -388,6 +389,7 @@
           <Property Name="equipmentId_dikem" Type="nvarchar" MaxLength="150" />
           <Property Name="equipment_maintain_reason" Type="nvarchar" MaxLength="150" />
           <Property Name="department_id_from" Type="nvarchar" MaxLength="150" />
+          <Property Name="quantity" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Documentary_moveline_details">
           <Key>
@@ -416,6 +418,7 @@
           <Property Name="equipmentId_dikem" Type="nvarchar" MaxLength="150" />
           <Property Name="department_id_from" Type="nvarchar" MaxLength="150" />
           <Property Name="isVisible" Type="bit" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Documentary_revoke_details">
           <Key>
@@ -4422,6 +4425,7 @@
           <Property Name="equipmentId_dikem" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="equipment_big_maintain_reason" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="department_id_from" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Department" Relationship="Self.FK__Documenta__depar__361203C5" FromRole="Documentary_big_maintain_details" ToRole="Department" />
           <NavigationProperty Name="Documentary" Relationship="Self.FK__Documenta__docum__40F9A68C" FromRole="Documentary_big_maintain_details" ToRole="Documentary" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK__Documenta__equip__37FA4C37" FromRole="Documentary_big_maintain_details" ToRole="Equipment" />
@@ -4484,6 +4488,7 @@
           <Property Name="equipmentId_dikem" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="equipment_maintain_reason" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="department_id_from" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Department" Relationship="Self.FK__Documenta__depar__4277DAAA" FromRole="Documentary_maintain_details" ToRole="Department" />
           <NavigationProperty Name="Documentary" Relationship="Self.FK__Documenta__docum__44CA3770" FromRole="Documentary_maintain_details" ToRole="Documentary" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK__Documenta__equip__4460231C" FromRole="Documentary_maintain_details" ToRole="Equipment" />
@@ -4519,6 +4524,7 @@
           <Property Name="equipmentId_dikem" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="department_id_from" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="isVisible" Type="Boolean" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Department" Relationship="Self.FK__Documenta__depar__4924D839" FromRole="Documentary_repair_details" ToRole="Department" />
           <NavigationProperty Name="Documentary" Relationship="Self.FK__Documenta__docum__489AC854" FromRole="Documentary_repair_details" ToRole="Documentary" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK__Documenta__equip__498EEC82" FromRole="Documentary_repair_details" ToRole="Equipment" />
@@ -8634,6 +8640,7 @@
                 <ScalarProperty Name="equipmentId_dikem" ColumnName="equipmentId_dikem" />
                 <ScalarProperty Name="equipment_big_maintain_reason" ColumnName="equipment_big_maintain_reason" />
                 <ScalarProperty Name="department_id_from" ColumnName="department_id_from" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8686,6 +8693,7 @@
                 <ScalarProperty Name="equipmentId_dikem" ColumnName="equipmentId_dikem" />
                 <ScalarProperty Name="equipment_maintain_reason" ColumnName="equipment_maintain_reason" />
                 <ScalarProperty Name="department_id_from" ColumnName="department_id_from" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -8716,6 +8724,7 @@
                 <ScalarProperty Name="equipmentId_dikem" ColumnName="equipmentId_dikem" />
                 <ScalarProperty Name="department_id_from" ColumnName="department_id_from" />
                 <ScalarProperty Name="isVisible" ColumnName="isVisible" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

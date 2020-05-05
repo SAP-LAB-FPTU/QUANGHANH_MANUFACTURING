@@ -10,7 +10,7 @@ using System.Web.SessionState;
 using QUANGHANH2.SupportClass;
 using System.Data.SqlClient;
 
-namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh.SuaChua
+namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
 {
     [SessionState(SessionStateBehavior.Default)]
     public class ChonThietBiController : Controller
