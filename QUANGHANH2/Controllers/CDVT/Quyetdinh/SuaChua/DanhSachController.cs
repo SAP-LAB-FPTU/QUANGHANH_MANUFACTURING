@@ -14,16 +14,15 @@ using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
+namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
 {
-    public class suachuaQDController : Controller
+    public class DanhSachController : Controller
     {
         [Auther(RightID = "30")]
         [Route("phong-cdvt/quyet-dinh/sua-chua")]
         public ActionResult Index()
         {
-            ViewBag.count = 1;
-            return View("/Views/CDVT/Quyet_dinh/Quyet_dinh_sua_chua.cshtml");
+            return View("/Views/CDVT/Quyetdinh/SuaChua/DanhSach.cshtml");
         }
 
         [Route("phong-cdvt/quyet-dinh/sua-chua")]

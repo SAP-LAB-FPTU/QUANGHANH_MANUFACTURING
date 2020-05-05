@@ -53,7 +53,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 try
                 {
                     temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
-                    soLuotHuyDong = temp != null ? temp : 0;
+                    soLuotHuyDong = temp;
                 }
                 catch (Exception e)
                 {
@@ -67,7 +67,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 try
                 {
                     temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
-                    vuTaiNan = temp != null ? temp : 0;
+                    vuTaiNan = temp;
                 }
                 catch (Exception e)
                 {
@@ -82,7 +82,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 try
                 {
                     temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
-                    hetHanChungChi = temp != null ? temp : 0;
+                    hetHanChungChi = temp;
                 }
                 catch (Exception e)
                 {

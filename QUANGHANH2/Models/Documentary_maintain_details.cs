@@ -23,6 +23,7 @@ namespace QUANGHANH2.Models
         public string equipmentId_dikem { get; set; }
         public string equipment_maintain_reason { get; set; }
         public string department_id_from { get; set; }
+        public int quantity { get; set; }
     
         public virtual Department Department { get; set; }
         public virtual Documentary Documentary { get; set; }

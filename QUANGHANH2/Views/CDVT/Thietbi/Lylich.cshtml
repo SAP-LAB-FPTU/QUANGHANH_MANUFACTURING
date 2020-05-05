@@ -136,15 +136,15 @@
                                         {
                                             <tr>
                                                 <td>Ngày hết hạn bảo hiểm</td>
-                                                <td>@ViewBag.equipment.durationOfInsurance.ToString("dd/MM/yyyy")</td>
+                                                <td>@(ViewBag.equipment.durationOfInsurance == null ? "" : ViewBag.equipment.durationOfInsurance.ToString("dd/MM/yyyy"))</td>
                                             </tr>
                                             <tr>
                                                 <td>Ngày mua đăng kiểm</td>
-                                                <td>@ViewBag.equipment.inspect_date.ToString("dd/MM/yyyy")</td>
+                                                <td>@(ViewBag.equipment.inspect_date == null ? "" : ViewBag.equipment.inspect_date.ToString("dd/MM/yyyy"))</td>
                                             </tr>
                                             <tr>
                                                 <td>Ngày mua bảo hiểm</td>
-                                                <td>@ViewBag.equipment.insurance_date.ToString("dd/MM/yyyy")</td>
+                                                <td>@(ViewBag.equipment.insurance_date == null ? "" : ViewBag.equipment.insurance_date.ToString("dd/MM/yyyy"))</td>
                                             </tr>
                                         }
                                     }
@@ -232,18 +232,18 @@
                                     {
                                         <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
                                             <li class="tab col s3"><a class="active" href="#VT_DK">Thiết bị đi kèm</a></li>
+                                            <li class="tab col s2"><a href="#VT_DP">Thiết bị dự phòng</a></li>
                                             <li class="tab col s2"><a href="#Vattu_DK">Vật tư đi kèm</a></li>
                                             <li class="tab col s2"><a href="#VT_SCTX">Vật tư SCTX</a></li>
-                                            <li class="tab col s2"><a href="#VT_DP">Vật tư dự phòng</a></li>
                                             <li class="tab col s3"><a href="#VT_TB_DK">Vật tư thiết bị đi kèm</a></li>
                                         </ul>
                                     }
                                     else
                                     {
                                         <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
-                                            <li class="tab col s3"><a class="active" href="#VT_DK">Vật tư đi kèm</a></li>
+                                            <li class="tab col s3"><a class="active" href="#VT_DK">Thiết bị đi kèm</a></li>
+                                            <li class="tab col s3"><a href="#VT_DP">Thiết bị dự phòng</a></li>
                                             <li class="tab col s3"><a href="#VT_SCTX">Vật tư SCTX</a></li>
-                                            <li class="tab col s3"><a href="#VT_DP">Vật tư dự phòng</a></li>
                                             <li class="tab col s3"><a href="#VT_TB_DK">Vật tư thiết bị đi kèm</a></li>
                                         </ul>
                                     }
@@ -354,7 +354,7 @@
                                     }
                                 </div>
                                 <div id="VT_DP" class="col s12 center" style="margin-top:45px">
-                                    <h3>Vật tư dự phòng</h3>
+                                    <h3>Thiết bị dự phòng</h3>
                                     <table id="DP_table" class="striped table-bordered" style="margin-top:10px !important">
                                         <thead>
                                             <tr>
