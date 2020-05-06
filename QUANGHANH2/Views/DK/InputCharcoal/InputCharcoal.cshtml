@@ -108,7 +108,7 @@
                                     <th>Phần trăm<br />hoàn thành</th>
                                     <th>Lũy kế</th>
                                     @*<th>Ké hoạch<br />ban đầu</th>*@
-                                    <th>Ké hoạch<br />điều chỉnh</th>
+                                    <th>Ké hoạch</th>
                                     <th>Phần trăm<br />tiến độ</th>
                                     <th>Tổng</th>
                                     <th>1 ngày</th>
@@ -321,7 +321,7 @@
         } else {
             KH = document.getElementById("keHoach" + i).value;
         }
-        document.getElementById("chenhLech" + i).value = TH - KH;
+        document.getElementById("chenhLech" + i).value = (TH - KH).toFixed(2);
         if (KH != 0) {
             document.getElementById("phanTramHT" + i).value = ((TH / KH) * 100).toFixed(2);
         }
@@ -345,7 +345,7 @@
     function KHOnchange(i) {
         var TH = document.getElementById("thucHien" + i).value;
         var KH = document.getElementById("keHoach" + i).value;
-        document.getElementById("chenhLech" + i).value = TH - KH;
+        document.getElementById("chenhLech" + i).value = (TH - KH).toFixed(2);
         if (KH != 0) {
             document.getElementById("phanTramHT" + i).value = ((TH / KH) * 100).toFixed(2);
         }
