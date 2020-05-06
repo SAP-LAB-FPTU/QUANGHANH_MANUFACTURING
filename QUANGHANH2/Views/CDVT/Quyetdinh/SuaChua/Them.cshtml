@@ -112,7 +112,7 @@
 <div class="modal" id="thietbi">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 class="modal-title">Danh sách thiết bị đi kèm cần sửa chữa của <span></span></h3>
+            <h3 class="modal-title">Danh sách thiết bị đi kèm cần thay thế <span></span></h3>
         </div>
         <div class="modal-body">
             <div class="row">
@@ -314,6 +314,30 @@
                     else {
                         errorAlert(response.message);
                     }
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $('#pre-load').hide();
+                }
+            })
+        })
+
+        $('#export-button').click(function () {
+            $('#pre-load').show();
+            $.ajax({
+                url: "/phong-cdvt/quyet-dinh/sua-chua/them/export",
+                method: "get",
+                cache: false,
+                data: {
+                    data: JSON.stringify(output),
+                    out_in_come: $('#out_in_come').val(),
+                    reason: $('#reason').val(),
+                    department_id_to: $('#department_id_to').val(),
+                },
+                success: function (data) {
+                    window.location = '/phong-cdvt/quyet-dinh/sua-chua/them/export?data=' + JSON.stringify(output) 
+                        + '&out_in_come=' + $('#out_in_come').val() + '&reason=' + $('#reason').val() + '&department_id_to=' + $('#department_id_to').val();
                     $('#pre-load').hide();
                 },
                 error: function () {

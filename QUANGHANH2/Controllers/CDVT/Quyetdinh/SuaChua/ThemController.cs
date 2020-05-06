@@ -6,7 +6,6 @@ using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
@@ -164,37 +163,47 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                         };
                         DBContext.Documentary_repair_details.Add(drd);
                         DBContext.SaveChanges();
+                        bool used = false;
 
                         JObject vattu = (JObject)item["supply"];
-                        foreach (var jObject in vattu)
+                        if (vattu != null)
                         {
-                            Supply_Documentary_Equipment sde = new Supply_Documentary_Equipment
+                            foreach (var jObject in vattu)
                             {
-                                documentary_id = documentary.documentary_id,
-                                equipmentId = equipmentId,
-                                equipmentId_dikem = equipmentId_dikem,
-                                supply_id = jObject.Key,
-                                quantity_plan = int.Parse(jObject.Value.ToString()),
-                            };
-                            DBContext.Supply_Documentary_Equipment.Add(sde);
+                                Supply_Documentary_Repair_Equipment sde = new Supply_Documentary_Repair_Equipment
+                                {
+                                    documentary_repair_id = drd.documentary_repair_id,
+                                    supply_id = jObject.Key,
+                                    quantity_plan = int.Parse(jObject.Value.ToString()),
+                                };
+                                used = true;
+                                DBContext.Supply_Documentary_Repair_Equipment.Add(sde);
+                            }
+                            DBContext.SaveChanges();
                         }
-                        DBContext.SaveChanges();
 
                         JObject thietbi = (JObject)item["equipment"];
                         if (thietbi != null)
                         {
                             foreach (var jObject in thietbi)
                             {
-                                Supply_Documentary_Equipment sde = new Supply_Documentary_Equipment
+                                Supply_Documentary_Repair_Equipment sde = new Supply_Documentary_Repair_Equipment
                                 {
-                                    documentary_id = documentary.documentary_id,
-                                    equipmentId = equipmentId,
-                                    equipmentId_dikem = equipmentId_dikem ?? jObject.Key,
+                                    documentary_repair_id = drd.documentary_repair_id,
+                                    equipmentId = jObject.Key,
                                     quantity_plan = int.Parse(jObject.Value.ToString()),
                                 };
-                                DBContext.Supply_Documentary_Equipment.Add(sde);
+                                used = true;
+                                DBContext.Supply_Documentary_Repair_Equipment.Add(sde);
                             }
                             DBContext.SaveChanges();
+                        }
+
+                        if (!used)
+                        {
+                            transaction.Rollback();
+                            string message = "Thiết bị " + (equipmentId_dikem == null ? (equipmentId + " chưa được chọn thiết bị con hoặc vật tư") : (equipmentId_dikem + $" ({equipmentId}) chưa được chọn vật tư"));
+                            return Json(new { success = false, message = "Thiết bị chưa được chọn" });
                         }
                     }
 
@@ -216,31 +225,18 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
         }
 
         [Auther(RightID = "83")]
-        [Route("phong-cdvt/quyet-dinh/sua-chua/export")]
+        [Route("phong-cdvt/quyet-dinh/sua-chua/them/export")]
         [HttpGet]
-        public ActionResult ExportQuyetDinh()
+        public ActionResult ExportQuyetDinh(string out_in_come, string data, string department_id_to, string reason)
         {
-            string data = Request["data"];
-            string title = Request["title"];
-            string department_id = Request["department_id"];
-            string documentary_type = Request["documentary_type"];
-            string name = Request["fileName"];
-            string resource = Request["resource"];
-
             using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
             {
                 try
                 {
-                    Department department = DBContext.Departments.Find(department_id);
+                    Department department = DBContext.Departments.Find(department_id_to);
                     if (department == null)
                     {
                         return Json(new { success = false, message = "Mã phòng ban không tồn tại" }, JsonRequestBehavior.AllowGet);
-                    }
-
-                    DocumentaryType type = DBContext.DocumentaryTypes.Find(int.Parse(documentary_type));
-                    if (type == null)
-                    {
-                        return Json(new { success = true, message = "Loại quyết định không tồn tại" }, JsonRequestBehavior.AllowGet);
                     }
 
                     //string Flocation = "/doc/CDVT/QD/quyetdinh.docx";
@@ -268,39 +264,36 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                             docText = regexText.Replace(docText, DateTime.Now.Year.ToString());
 
                             regexText = new Regex("%noidung%");
-                            docText = regexText.Replace(docText, title);
+                            docText = regexText.Replace(docText, reason);
 
                             regexText = new Regex("%px%");
                             docText = regexText.Replace(docText, department.department_id.Contains("PX") ? department.department_name.Substring(11) : department.department_name);
 
                             regexText = new Regex("%loaiquyetdinh%");
-                            docText = regexText.Replace(docText, type.documentary_name.Substring(11, type.documentary_name.Length - 19));
+                            docText = regexText.Replace(docText, "quyết định sửa chữa");
 
                             regexText = new Regex("%nguon%");
-                            docText = regexText.Replace(docText, resource);
+                            docText = regexText.Replace(docText, out_in_come);
 
                             using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
                             {
                                 sw.Write(docText);
                             }
                             /////////////////////////////////////////////////////////////////////
-                            JObject json = JObject.Parse(data);
+                            JArray json = JArray.Parse(data);
                             Table table =
                             doc.MainDocumentPart.Document.Body.Elements<Table>().ElementAt(1);
-                            foreach (var item in json)
+                            foreach (JObject item in json)
                             {
-                                string equipmentId = (string)item.Value["id"];
-                                if (item.Value["vattu"] != null)
+                                string equipmentId = item["attachTo"].Type == JTokenType.Null ? item["equipmentId"].ToString() : item["equipmentId"].ToString() + $" ({item["attachTo"]})";
+
+                                if (item["supply"] != null)
                                 {
-                                    AppendRow((JArray)item.Value.SelectToken("vattu"), equipmentId, table);
+                                    AppendRow((JObject)item["supply"], equipmentId, table, true);
                                 }
-                                if (item.Value["duphong"] != null)
+                                if (item["equipment"] != null)
                                 {
-                                    AppendRow((JArray)item.Value.SelectToken("duphong"), equipmentId, table);
-                                }
-                                if (item.Value["dikem"] != null)
-                                {
-                                    AppendRow((JArray)item.Value.SelectToken("dikem"), equipmentId, table);
+                                    AppendRow((JObject)item["equipment"], equipmentId, table, false);
                                 }
                                 doc.MainDocumentPart.Document.Save();
                             }
@@ -311,11 +304,11 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                             if (TempData[handle] != null)
                             {
                                 byte[] output = TempData[handle] as byte[];
-                                return File(output, "application/vnd.ms-excel", name);
+                                return File(output, "application/vnd.ms-excel", "Quyết định sửa chữa.docx");
                             }
                             else
                             {
-                                return new EmptyResult();
+                                return new HttpStatusCodeResult(400);
                             }
                         }
 
@@ -323,21 +316,32 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                 }
                 catch (Exception e)
                 {
-                    if (e is FormatException)
-                        return Json(new { success = false, message = "Loại quyết định không tồn tại" }, JsonRequestBehavior.AllowGet);
-                    return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);
+                    return new HttpStatusCodeResult(400);
                 }
             }
         }
 
-        private void AppendRow(JArray vattu, string equipmentId, Table table)
+        private void AppendRow(JObject vattu, string equipmentId, Table table, bool isSupply)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            foreach (JObject jObject in vattu)
+            foreach (var jObject in vattu)
             {
-                string supply_id = (string)jObject["supply_id"];
-                int quantity = (int)jObject["quantity"];
-                Supply s = DBContext.Supplies.Find(supply_id);
+                string id = jObject.Key;
+                int quantity = int.Parse(jObject.Value.ToString());
+                string name, unit;
+
+                if (isSupply)
+                {
+                    Supply s = DBContext.Supplies.Find(id);
+                    name = s.supply_name;
+                    unit = s.unit;
+                }
+                else
+                {
+                    Equipment e = DBContext.Equipments.Find(id);
+                    name = e.equipment_name;
+                    unit = "Cái";
+                }
                 TableRow tr = new TableRow();
 
                 TableCell tc1 = new TableCell();
@@ -349,11 +353,11 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                 tr.Append(tc2);
 
                 TableCell tc3 = new TableCell();
-                tc3.Append(new Paragraph(new Run(new Text(s.supply_name))));
+                tc3.Append(new Paragraph(new Run(new Text(name))));
                 tr.Append(tc3);
 
                 TableCell tc4 = new TableCell();
-                tc4.Append(new Paragraph(new Run(new Text(s.unit))));
+                tc4.Append(new Paragraph(new Run(new Text(unit))));
                 tr.Append(tc4);
 
                 TableCell tc5 = new TableCell();
