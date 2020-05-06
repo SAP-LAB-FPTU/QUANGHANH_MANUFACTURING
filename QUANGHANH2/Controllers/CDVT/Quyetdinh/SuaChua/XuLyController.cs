@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Web.Mvc;
 using System.Web.Routing;
 using QUANGHANH2.Models;
 using System.Data.Entity;
-using System.Linq.Dynamic;
 using QUANGHANH2.SupportClass;
 using System.Data.SqlClient;
+using Newtonsoft.Json.Linq;
 
 namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
 {
@@ -15,21 +16,22 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
     {
         [Auther(RightID = "84,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/sua-chua")]
-        public ActionResult Index(string id)
+        public ActionResult Index(int id)
         {
             try
             {
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
                 string departid = Session["departID"].ToString();
-                Documentary documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_repair_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id AND docu.department_id_to = @departid",
-                    new SqlParameter("documentary_id", id), new SqlParameter("departid", departid)).First();
-                List<Supply> supplies = DBContext.Supplies.ToList();
-                ViewBag.Supplies = supplies;
+                Documentary documentary = DBContext.Documentaries.Where(x => x.documentary_id == id && x.department_id_to == departid).FirstOrDefault();
+                if (documentary == null)
+                    Redirect("/phong-cdvt/cap-nhat/quyet-dinh");
+
                 if (documentary.documentary_status == 1) ViewBag.AddAble = true;
                 else ViewBag.AddAble = false;
-                ViewBag.id = documentary.documentary_id;
-                ViewBag.code = documentary.documentary_code as string;
-                return View("/Views/CDVT/Cap_nhat/Chitiet/Suachua.cshtml");
+
+                ViewBag.documentary_id = documentary.documentary_id;
+                ViewBag.documentary_code = documentary.documentary_code as string;
+                return View("/Views/CDVT/Quyetdinh/SuaChua/XuLy.cshtml");
             }
             catch (Exception)
             {
@@ -38,38 +40,74 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
             }
         }
 
-        [Route("phong-cdvt/cap-nhat/quyet-dinh/sua-chua/GetData")]
+        [Route("phong-cdvt/quyet-dinh/sua-chua/xu-ly/GetData")]
         [HttpPost]
-        public ActionResult GetData(string id)
+        public ActionResult GetData(int id)
         {
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            string departid = Session["departID"].ToString();
-            List<Documentary_repair_detailsDB> equips = DBContext.Database.SqlQuery<Documentary_repair_detailsDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.* from Department depa inner join Documentary docu on depa.department_id = docu.department_id_to inner join Documentary_repair_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 1 and details.documentary_id = @documentary_id and docu.department_id_to = @departid",
-                new SqlParameter("documentary_id", id), new SqlParameter("departid", departid)).ToList();
-            foreach (Documentary_repair_detailsDB item in equips)
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                item.stringDate = item.finish_date_plan.ToString("dd/MM/yyyy");
-                item.statusAndEquip = item.equipment_repair_status + "^" + item.equipmentId;
-                item.idAndEquip = id + "^" + item.equipmentId;
+                db.Configuration.LazyLoadingEnabled = false;
+                List<string> equipmentId = new List<string>();
+
+                List<Detail> details = (from a in db.Documentary_repair_details
+                                        join b in db.Documentaries on a.documentary_id equals b.documentary_id
+                                        where (b.documentary_id == id)
+                                        select new Detail
+                                        {
+                                            documentary_repair_id = a.documentary_repair_id,
+                                            equipmentId = a.equipmentId_dikem == null ? a.equipmentId : (a.equipmentId_dikem + "  (" + a.equipmentId + ")"),
+                                            equipmentId_dikem = a.equipmentId_dikem,
+                                            repair_reason = a.repair_reason,
+                                            repair_type = a.repair_type,
+                                            finish_date_plan = a.finish_date_plan + "",
+                                            quantity = a.quantity,
+                                            equipment_repair_status = a.equipment_repair_status
+                                        }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
+
+                foreach (Detail item in details)
+                {
+                    if (item.equipmentId_dikem == null)
+                    {
+                        equipmentId.Add(item.equipmentId);
+                    }
+                    else
+                    {
+                        equipmentId.Add(item.equipmentId_dikem);
+                    }
+                    item.finish_date_plan = DateTime.Parse(item.finish_date_plan).ToString("dd/MM/yyyy");
+                }
+
+                var dict = db.Equipments
+                    .Where(x => equipmentId.Contains(x.equipmentId))
+                    .Select(x => new { x.equipmentId, x.equipment_name })
+                    .AsEnumerable()
+                    .ToDictionary(x => x.equipmentId, x => x.equipment_name);
+
+                details.ForEach(x => x.equipment_name = x.equipmentId_dikem == null ? dict[x.equipmentId] : dict[x.equipmentId_dikem]);
+                return Json(new { success = true, data = details, draw = Request["draw"], recordsTotal = details.Count, recordsFiltered = details.Count }, JsonRequestBehavior.AllowGet);
             }
-            int totalrows = equips.Count;
-            int totalrowsafterfiltering = equips.Count;
-            ViewBag.List = equips.Count;
-            //sorting
-            equips = equips.OrderBy(sortColumnName + " " + sortDirection).ToList<Documentary_repair_detailsDB>();
-            //paging
-            equips = equips.Skip(start).Take(length).ToList<Documentary_repair_detailsDB>();
-            return Json(new { success = true, data = equips, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+        }
+
+        public class Detail
+        {
+            public int documentary_repair_id { get; set; }
+            public string equipmentId { get; set; }
+            public string equipmentId_dikem { get; set; }
+            public string equipment_name { get; set; }
+            public string repair_reason { get; set; }
+            public string repair_type { get; set; }
+            public string finish_date_plan { get; set; }
+            public int quantity { get; set; }
+            public int equipment_repair_status { get; set; }
         }
 
         [Auther(RightID = "84,179,180,181,183,184,185,186,187,189,195")]
-        [Route("phong-cdvt/cap-nhat/quyet-dinh/sua-chua/edit")]
+        [Route("phong-cdvt/quyet-dinh/sua-chua/xu-ly")]
         [HttpPost]
         public ActionResult editpost(string edit, string id)
         {
@@ -81,19 +119,19 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                     try
                     {
                         int idnumber = int.Parse(id);
-                        edit = edit.Substring(0, edit.Length - 1);
-                        char[] spearator = { '^' };
-                        String[] list = edit.Split(spearator,
-                           StringSplitOptions.RemoveEmptyEntries);
-                        foreach (var item in list)
+                        JArray array = JArray.Parse(edit);
+                        foreach (var item in array)
                         {
-                            Documentary_repair_details temp = DBContext.Documentary_repair_details.Find(idnumber, item);
+                            Documentary_repair_details temp = DBContext.Documentary_repair_details.Find(item.Value<int>());
                             temp.equipment_repair_status = 1;
-                            Acceptance a = new Acceptance();
-                            a.acceptance_date = DateTime.Now;
-                            a.documentary_id = idnumber;
-                            a.equipmentId = item;
-                            a.equipmentStatus = 2;
+                            Acceptance a = new Acceptance
+                            {
+                                acceptance_date = DateTime.Now,
+                                documentary_id = idnumber,
+                                equipmentId = temp.equipmentId,
+                                equipmentId_dikem = temp.equipmentId_dikem,
+                                equipmentStatus = 2
+                            };
                             DBContext.Acceptances.Add(a);
                             DBContext.SaveChanges();
                         }
@@ -102,12 +140,14 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                             Documentary docu = DBContext.Documentaries.Find(idnumber);
                             docu.documentary_status = 2;
 
-                            Notification noti = new Notification();
-                            noti.date = DateTime.Now.Date;
-                            noti.department_id = docu.department_id_to;
-                            noti.description = "sua chua 2";
-                            noti.id_problem = docu.documentary_id;
-                            noti.isread = false;
+                            Notification noti = new Notification
+                            {
+                                date = DateTime.Now.Date,
+                                department_id = docu.department_id_to,
+                                description = "sua chua 2",
+                                id_problem = docu.documentary_id,
+                                isread = false
+                            };
                             DBContext.Notifications.Add(noti);
                             DBContext.SaveChanges();
                         }
@@ -124,6 +164,59 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                 }
             }
             return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Auther(RightID = "84,179,180,181,183,184,185,186,187,189,195")]
+        [Route("phong-cdvt/quyet-dinh/sua-chua/xu-ly/edit")]
+        [HttpPost]
+        public ActionResult EditDetails(string data)
+        {
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        JObject input = JObject.Parse(data);
+                        List<int> supplyDocumentaryEquipmentId = input.Properties().Select(x => int.Parse(x.Name)).ToList();
+                        List<Supply_Documentary_Repair_Equipment> list = db.Supply_Documentary_Repair_Equipment.Where(x => supplyDocumentaryEquipmentId.Contains(x.supplyDocumentaryEquipmentId)).ToList();
+                        if (list.Select(x => x.documentary_repair_id).Distinct().Count() != 1)
+                        {
+                            return Json(new { success = false, message = "Dữ liệu truyền vào không đúng" });
+                        }
+                        if (db.Documentary_repair_details.Find(list[0].documentary_repair_id).equipment_repair_status == 1)
+                        {
+                            return Json(new { success = false, message = "Thiết bị đã được xử lý xong" });
+                        }
+
+                        foreach (var item in list)
+                        {
+                            int quantity_in = int.Parse(input[item.supplyDocumentaryEquipmentId.ToString()]["quantity_in"].ToString());
+                            int quantity_out = int.Parse(input[item.supplyDocumentaryEquipmentId.ToString()]["quantity_out"].ToString());
+                            int quantity_used = int.Parse(input[item.supplyDocumentaryEquipmentId.ToString()]["quantity_used"].ToString());
+
+                            if (quantity_in < item.quantity_in || quantity_out < item.quantity_out || quantity_used < item.quantity_used)
+                            {
+                                transaction.Rollback();
+                                return Json(new { success = false, message = "Không được nhập giá trị nhỏ hơn ban đầu" });
+                            }
+
+                            item.quantity_in = quantity_in;
+                            item.quantity_out = quantity_out;
+                            item.quantity_used = quantity_used;
+                        }
+                        db.SaveChanges();
+                        transaction.Commit();
+                        return Json(new { success = true });
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        return Json(new { success = false, message = "Có lỗi xảy ra" });
+                    }
+                }
+            }
         }
     }
 }
