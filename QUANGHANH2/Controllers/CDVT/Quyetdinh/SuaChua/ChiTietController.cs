@@ -61,7 +61,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
             return View("/Views/CDVT/Quyetdinh/SuaChua/ChiTiet.cshtml");
         }
 
-        [Auther(RightID = "30")]
+        [Auther(RightID = "30,84,179,180,181,183,184,185,186,187,189,195")]
         [HttpPost]
         [Route("phong-cdvt/quyet-dinh/sua-chua/chi-tiet")]
         public ActionResult GetDetail(int documentary_repair_id, bool isSupply)
@@ -79,7 +79,11 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                                     {
                                         a.supply_id,
                                         a.supply_name,
-                                        b.quantity_plan
+                                        b.quantity_plan,
+                                        b.quantity_in,
+                                        b.quantity_out,
+                                        b.quantity_used,
+                                        b.supplyDocumentaryEquipmentId
                                     }).ToList();
                         return Json(new { success = true, data = list });
                     }
@@ -92,7 +96,11 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                                     {
                                         a.equipmentId,
                                         a.equipment_name,
-                                        b.quantity_plan
+                                        b.quantity_plan,
+                                        b.quantity_in,
+                                        b.quantity_out,
+                                        b.quantity_used,
+                                        b.supplyDocumentaryEquipmentId
                                     }).ToList();
                         return Json(new { success = true, data = list });
                     }

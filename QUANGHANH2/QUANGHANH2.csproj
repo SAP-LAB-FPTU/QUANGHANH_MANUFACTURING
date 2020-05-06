@@ -7420,7 +7420,6 @@
     <Content Include="Views\CDVT\Report\FuelConsumption.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Baoduong.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\DieuDong\XuLyQuyetDinh.cshtml" />
-    <Content Include="Views\CDVT\Cap_nhat\Chitiet\Suachua.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Thanhly.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Thuhoi.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Trungdaitu.cshtml" />
@@ -7559,6 +7558,7 @@
     <Content Include="Views\BGD\DK\Manufacturing.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\SuaChua\ChiTiet.cshtml" />
     <Content Include="Views\DK\Factory\List.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\SuaChua\XuLy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
