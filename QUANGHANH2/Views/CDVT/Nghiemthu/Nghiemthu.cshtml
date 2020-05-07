@@ -246,7 +246,9 @@
                     { "data": "equipment_name", "name": "equipment_name" },
                     {
                         "data": {}, "render": function (data) {
-                            if (data.documentary_type == '3')
+                            if (data.documentary_type == '1' || data.documentary_type == '2' || data.documentary_type == '6')
+                                return "<a class=\"vattu btn blue darken-2 modal-trigger\" data-id=" + data + " href=\"#vattu\">Vật tư cần</a>";
+                            else if (data.documentary_type == '3')
                                 return "<a data-id=\"" + data.documentary_id + "\" data-equipmentId=\"" + data.equipmentId + "\" class=\"waves-effect waves-light btn-small blue modal-trigger dikem-duphong\" href=\"#thietbicon\">Chi tiết TB con</a>";
                             else if (data.di_kem || data.can)
                                 return "<td><a class='btn blue modal-trigger open-DuPhong' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>Chi tiết VT</a></td>";
@@ -258,7 +260,11 @@
                     },
                     {
                         "data": {}, "render": function (data) {
-                            if (data.documentary_type == "3")
+                            if ((data.documentary_type == '1' || data.documentary_type == '2' || data.documentary_type == '6') && data.equipmentId_dikem == null)
+                                return "<a class=\"thietbi btn blue darken-2 modal-trigger\" data-id=" + data.documentary_repair_id + " href=\"#thietbi\">Thiết&nbsp;bị&nbsp;con&nbsp;cần</a>";
+                            else if ((data.documentary_type == '1' || data.documentary_type == '2' || data.documentary_type == '6') && data.equipmentId_dikem != null)
+                                return "";
+                            else if (data.documentary_type == "3")
                                 return "<a data-id=\"" + data.documentary_id + "\" data-equipmentId=\"" + data.equipmentId + "\" class=\"waves-effect waves-light btn-small blue modal-trigger sctx\" href=\"#sctx\">VT SCTX</a>";
                             else if (data.du_phong)
                                 return "<td><a class='btn blue modal-trigger open-DuPhong' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT SCTX</a></td>";
