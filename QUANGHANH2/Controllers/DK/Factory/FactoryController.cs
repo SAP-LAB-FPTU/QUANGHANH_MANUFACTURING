@@ -36,7 +36,10 @@ namespace QUANGHANH2.Controllers.DK.Factory
         {
             var department_id = Request["department_id"].ToString();
             var department_name = Request["department_name"].ToString();
-            var department_type = Request["department_type"].ToString();
+            //string[] department_type = new string[] { "Phân xưởng", "Đơn vị sản xuất thuê ngoài" };
+            string department_type1 = "Phân xưởng";
+            string department_type2 = "Đơn vị sản xuất thuê ngoài";
+            //var department_type = Request["department_type"].ToString();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
@@ -47,10 +50,10 @@ namespace QUANGHANH2.Controllers.DK.Factory
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
                 //List<Department> hs_nv = new List<Department>();
-                var hs_nv = db.Departments.Where(x => x.department_id.Contains(department_id) && x.department_name.Contains(department_name) && x.department_type.Contains(department_type))
+                var hs_nv = db.Departments.Where(x => x.department_id.Contains(department_id) && x.department_name.Contains(department_name) && (x.department_type.Contains(department_type1) || x.department_type.Contains(department_type2)))
                     .OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
 
-                int totalrows = db.Departments.Where(x => x.department_id.Contains(department_id) && x.department_name.Contains(department_name) && x.department_type.Contains(department_type)).Count();
+                int totalrows = db.Departments.Where(x => x.department_id.Contains(department_id) && x.department_name.Contains(department_name) && (x.department_type.Contains(department_type1) || x.department_type.Contains(department_type2))).Count();
                 var dataJson = Json(new { success = true, data = hs_nv, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
 
                 //string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
