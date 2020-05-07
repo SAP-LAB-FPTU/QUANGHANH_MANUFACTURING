@@ -21,7 +21,7 @@ namespace QUANGHANH2.Controllers.DK.Factory
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var arr_department_type = db.Departments.DistinctBy(d => d.department_type).ToList();
+                var arr_department_type = db.Departments.DistinctBy(d => d.department_type).Where(x => x.department_type.Contains("Phân xưởng") || x.department_type.Contains("Đơn vị sản xuất thuê ngoài")).ToList();
 
                 ViewBag.arr_department_type = arr_department_type;
                 return View("/Views/DK/Factory/List.cshtml");
