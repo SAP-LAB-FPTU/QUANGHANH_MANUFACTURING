@@ -109,7 +109,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
         [Auther(RightID = "84,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/quyet-dinh/sua-chua/xu-ly")]
         [HttpPost]
-        public ActionResult editpost(string edit, string id)
+        public ActionResult editpost(string edit, int id)
         {
             if (edit != "")
             {
@@ -118,7 +118,6 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                 {
                     try
                     {
-                        int idnumber = int.Parse(id);
                         JArray array = JArray.Parse(edit);
                         foreach (var item in array)
                         {
@@ -127,17 +126,21 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                             Acceptance a = new Acceptance
                             {
                                 acceptance_date = DateTime.Now,
-                                documentary_id = idnumber,
-                                equipmentId = temp.equipmentId,
-                                equipmentId_dikem = temp.equipmentId_dikem,
+                                documentary_id = id,
+                                equipmentId = temp.equipmentId_dikem,
+                                attach_to = temp.equipmentId,
                                 equipmentStatus = 2
                             };
                             DBContext.Acceptances.Add(a);
                             DBContext.SaveChanges();
                         }
-                        if (DBContext.Database.SqlQuery<Documentary_repair_detailsDB>("select details.equipment_repair_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id_to inner join Documentary_repair_details details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 1 and details.documentary_id = @documentary_id and equipment_repair_status = '0'", new SqlParameter("documentary_id", id)).Count() == 0)
+                        int NotDone = (from a in DBContext.Documentary_repair_details
+                                       join b in DBContext.Documentaries on a.documentary_id equals b.documentary_id
+                                       where b.documentary_id == id && b.documentary_type == 1 && a.equipment_repair_status == 0
+                                       select a).Count();
+                        if (NotDone == 0)
                         {
-                            Documentary docu = DBContext.Documentaries.Find(idnumber);
+                            Documentary docu = DBContext.Documentaries.Find(id);
                             docu.documentary_status = 2;
 
                             Notification noti = new Notification
