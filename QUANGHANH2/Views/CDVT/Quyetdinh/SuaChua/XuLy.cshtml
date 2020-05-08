@@ -280,7 +280,7 @@
     $(document).on("click", "#savechange", function myfunction() {
         var equipments = [];
         for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
-            if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
+            if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý" && !$('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').prop("disabled"))
                 equipments.push($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val());
         }
         if (equipments.length == 0)
@@ -332,7 +332,8 @@
             dataType: "json",
             cache: false,
             data: {
-                data: JSON.stringify(input)
+                data: JSON.stringify(input),
+                documentary_type: 1
             },
             success: function (response) {
                 if (response.success)
