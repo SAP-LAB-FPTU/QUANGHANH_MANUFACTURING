@@ -34,7 +34,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-            List<Documentary_Extend> docList = new List<Documentary_Extend>();
+            List<MyDoc> docList = new List<MyDoc>();
             DateTime dstart;
             DateTime dend;
             try
@@ -59,37 +59,85 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                 account = db.Accounts.Where(x => x.Username.Equals(username)).FirstOrDefault<Account>();
 
                 db.Configuration.LazyLoadingEnabled = false;
-                string basesql = @"from Documentary d inner join DocumentaryType dt
-on d.documentary_type = dt.documentary_type
-inner join Acceptance a on a.documentary_id = d.documentary_id
-inner join Equipment e on e.equipmentId = a.equipmentId
-where a.equipmentStatus = 3 and d.documentary_code like @documentary_code and a.equipmentId like @equipmentId
-and e.equipment_name like @equipment_name and a.acceptance_date between @dstart and @dend";
-                docList = db.Database.SqlQuery<Documentary_Extend>(@"select d.date_created, d.person_created, d.documentary_id, a.equipmentId, e.equipment_name, a.acceptance_date, d.documentary_code, d.documentary_type, dt.documentary_name, dt.du_phong, dt.di_kem, dt.can
-" + basesql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
-new SqlParameter("documentary_code", "%" + document_code + "%"),
-new SqlParameter("equipmentId", "%" + equimentid + "%"),
-new SqlParameter("equipment_name", "%" + equimentname + "%"),
-new SqlParameter("dstart", dstart),
-new SqlParameter("dend", dend)).ToList();
-                foreach (Documentary_Extend items in docList)
-                {
-                    items.QDQT = checkQDQT(items.documentary_id,account.ID);
-                }
-                //docList = db.Documentaries.ToList<Documentary>();
-                int totalrows = db.Database.SqlQuery<int>(@"select count(d.documentary_id) " + basesql,
-new SqlParameter("documentary_code", document_code),
-new SqlParameter("equipmentId", equimentid),
-new SqlParameter("equipment_name", equimentname),
-new SqlParameter("dstart", dstart),
-new SqlParameter("dend", dend)).FirstOrDefault();
+
+                docList = (from a in db.Acceptances
+                           join b in db.Equipments on a.equipmentId equals b.equipmentId
+                           join c in db.Documentaries on a.documentary_id equals c.documentary_id
+                           where (a.equipmentStatus == 3) && (c.documentary_code.Contains(document_code)) && (a.equipmentId.Contains(equimentid)) && (b.equipment_name.Contains(equimentname))
+                           join d in db.DocumentaryTypes on c.documentary_type equals d.documentary_type
+                           join e in db.Important_Documentary.Where(x => x.AccountID == account.ID) on a.documentary_id equals e.documentary_id into f
+                           from g in f.DefaultIfEmpty()
+                           select new MyDoc
+                           {
+                               documentary_id = a.documentary_id,
+                               equipmentId = b.equipmentId,
+                               equipment_name = b.equipment_name,
+                               attach_to = a.attach_to,
+                               documentary_code = c.documentary_code,
+                               documentary_type = c.documentary_type,
+                               documentary_name = d.documentary_name,
+                               du_phong = d.du_phong,
+                               di_kem = d.di_kem,
+                               can = d.can,
+                               acceptance_id = a.acceptance_id,
+                               date_created = c.date_created,
+                               acceptance_date = a.acceptance_date.Value,
+                               person_created = c.person_created,
+                               QDQT = !Equals(g, default(Important_Documentary))
+                           }).ToList().OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
+                int totalrows = (from a in db.Acceptances
+                                 join b in db.Equipments on a.equipmentId equals b.equipmentId
+                                 join c in db.Documentaries on a.documentary_id equals c.documentary_id
+                                 where (a.equipmentStatus == 3) && (c.documentary_code.Contains(document_code))
+                                 && (a.equipmentId.Contains(equimentid)) && (b.equipment_name.Contains(equimentname))
+                                 && a.acceptance_date >= dstart && a.acceptance_date <= dend
+                                 join d in db.DocumentaryTypes on c.documentary_type equals d.documentary_type
+                                 join e in db.Important_Documentary.Where(x => x.AccountID == account.ID) on a.documentary_id equals e.documentary_id into f
+                                 from g in f.DefaultIfEmpty()
+                                 select new MyDoc
+                                 {
+                                     documentary_id = a.documentary_id,
+                                     equipmentId = b.equipmentId,
+                                     equipment_name = b.equipment_name,
+                                     attach_to = a.attach_to,
+                                     documentary_code = c.documentary_code,
+                                     documentary_type = c.documentary_type,
+                                     documentary_name = d.documentary_name,
+                                     du_phong = d.du_phong,
+                                     di_kem = d.di_kem,
+                                     can = d.can,
+                                     acceptance_id = a.acceptance_id,
+                                     date_created = c.date_created,
+                                     acceptance_date = a.acceptance_date.Value,
+                                     person_created = c.person_created,
+                                     QDQT = !Equals(g, default(Important_Documentary))
+                                 }).Count();
                 return Json(new { success = true, data = docList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
         }
 
+        public class MyDoc
+        {
+            public int documentary_id { get; set; }
+            public string documentary_code { get; set; }
+            public string documentary_name { get; set; }
+            public string equipmentId { get; set; }
+            public string equipment_name { get; set; }
+            public string attach_to { get; set; }
+            public int documentary_type { get; set; }
+            public bool du_phong { get; set; }
+            public bool di_kem { get; set; }
+            public bool can { get; set; }
+            public int acceptance_id { get; set; }
+            public bool QDQT { get; set; }
+            public DateTime date_created { get; set; }
+            public DateTime acceptance_date { get; set; }
+            public string person_created { get; set; }
+        }
+
         [Route("phong-cdvt/da-nghiem-thu/quyet-dinh-quan-trong")]
         [HttpGet]
-        public ActionResult AddQDQT(string docID)
+        public ActionResult AddQDQT()
         {
             QUANGHANHABCEntities dbContext = new QUANGHANHABCEntities();
             int id = Int32.Parse(Request["documentory_id"]);
@@ -100,9 +148,11 @@ new SqlParameter("dend", dend)).FirstOrDefault();
             checkDoc = dbContext.Important_Documentary.Where(x => x.documentary_id == id && x.AccountID == account.ID).FirstOrDefault<Important_Documentary>();
             if (checkDoc == null)
             {
-                Important_Documentary important_Documentary = new Important_Documentary();
-                important_Documentary.documentary_id = id;
-                important_Documentary.AccountID = account.ID;
+                Important_Documentary important_Documentary = new Important_Documentary
+                {
+                    documentary_id = id,
+                    AccountID = account.ID
+                };
                 dbContext.Important_Documentary.Add(important_Documentary);
                 dbContext.SaveChanges();
             }
@@ -112,21 +162,6 @@ new SqlParameter("dend", dend)).FirstOrDefault();
                 dbContext.SaveChanges();
             }
             return Json(new { message = "Success" }, JsonRequestBehavior.AllowGet);
-        }
-
-        public Boolean checkQDQT(int QDId,int accountID)
-        {
-            QUANGHANHABCEntities dbContext = new QUANGHANHABCEntities();
-            Important_Documentary important_Documentary = new Important_Documentary();
-            important_Documentary = dbContext.Important_Documentary.Where(x => x.documentary_id == QDId && x.AccountID == accountID).FirstOrDefault<Important_Documentary>();
-            if (important_Documentary == null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
         }
     }
 }

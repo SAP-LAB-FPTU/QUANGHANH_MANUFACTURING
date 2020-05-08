@@ -106,21 +106,67 @@
     </div>
 </div>
 
-<div id="vattu" class="modal">
-    <div class="modal-header center card">
-        <h3><b>Nghiệm thu</b></h3>
+@*Modal chỉnh sửa số lượng vật tư của quyết định sửa chữa, bảo dưỡng, trung đại tu*@
+<div class="modal" id="vattu">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Danh sách vật tư dùng để sửa chữa <span></span></h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <form>
+                    <table id="test" class="striped table-responsive center table-bordered mytable">
+                        <thead>
+                            <tr>
+                                <th>Mã vật tư</th>
+                                <th>Tên vật tư</th>
+                                <th>Số lượng xin cấp</th>
+                                <th>Số lượng đã nhận</th>
+                                <th>Số lượng sử dụng</th>
+                                <th>Số lượng thu hồi</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger modal-close">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
     </div>
-    <div class="modal-body">
-        <table id="Table" class="centered striped table-bordered">
-            <tr>
-                <td>Ngày nghiệm thu</td>
-                <td type="datetime-local" id="datetime"></td>
-            </tr>
-        </table>
-    </div>
-    <div class="modal-footer">
-        <a class="btn modal-close blue">Lưu</a>
-        <a class="btn modal-close blue darken-2">Đóng</a>
+</div>
+
+@*Modal chỉnh sửa số lượng thiết bị con của quyết định sửa chữa, bảo dưỡng, trung đại tu*@
+<div class="modal" id="thietbi">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Danh sách thiết bị đi kèm cần thay thế <span></span></h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <form>
+                    <table id="test" class="striped table-responsive center table-bordered mytable">
+                        <thead>
+                            <tr>
+                                <th>Mã thiết bị con</th>
+                                <th>Tên thiết bị con</th>
+                                <th>Số lượng xin cấp</th>
+                                <th>Số lượng đã nhận</th>
+                                <th>Số lượng sử dụng</th>
+                                <th>Số lượng thu hồi</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger modal-close">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
     </div>
 </div>
 
@@ -216,7 +262,57 @@
 @section scripts{
     <script>
         $('#pre-load').show();
-        var dataTable, equipmentId, documentary_id, isSupply;
+        var dataTable, equipmentId, documentary_id, isSupply, attach_to, documentary_type;
+
+        function ajaxEdit(selector) {
+            let url;
+            switch (documentary_type) {
+                case 1:
+                    url = "/phong-cdvt/quyet-dinh/sua-chua/xu-ly/edit";
+                    break;
+                case 2:
+                    url = "/phong-cdvt/quyet-dinh/bao-duong/xu-ly/edit";
+                    break;
+                case 6:
+                    url = "/phong-cdvt/quyet-dinh/trung-dai-tu/xu-ly/edit";
+                    break;
+                default:
+                    return false;
+            }
+
+            $('#pre-load').show();
+            let input = {};
+            for (var i = 0; i < $(selector).length; i++) {
+                let $tr = $(selector).eq(i);
+                let a = {};
+                a.quantity_in = $tr.find(".quantity_in").val();
+                a.quantity_used = $tr.find(".quantity_used").val();
+                a.quantity_out = $tr.find(".quantity_out").val();
+                input[$tr.data("id")] = a;
+            }
+
+            $.ajax({
+                url: url,
+                method: "post",
+                dataType: "json",
+                cache: false,
+                data: {
+                    data: JSON.stringify(input)
+                },
+                success: function (response) {
+                    if (response.success)
+                        successAlert("Cập nhật thành công");
+                    else
+                        errorAlert(response.message);
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $('#pre-load').hide();
+                }
+            });
+        }
+
         $(document).ready(function () {
             dataTable = $('#docTable').DataTable({
                 "ajax": {
@@ -247,7 +343,7 @@
                     {
                         "data": {}, "render": function (data) {
                             if (data.documentary_type == '1' || data.documentary_type == '2' || data.documentary_type == '6')
-                                return "<a class=\"vattu btn blue darken-2 modal-trigger\" data-id=" + data + " href=\"#vattu\">Vật tư cần</a>";
+                                return "<a class=\"vattu btn blue darken-2 modal-trigger\" data-type=" + data.documentary_type + " data-equipment=\"" + data.equipmentId + "\" data-attach=\"" + data.attach_to + "\" href=\"#vattu\">Vật tư cần</a>";
                             else if (data.documentary_type == '3')
                                 return "<a data-id=\"" + data.documentary_id + "\" data-equipmentId=\"" + data.equipmentId + "\" class=\"waves-effect waves-light btn-small blue modal-trigger dikem-duphong\" href=\"#thietbicon\">Chi tiết TB con</a>";
                             else if (data.di_kem || data.can)
@@ -260,9 +356,9 @@
                     },
                     {
                         "data": {}, "render": function (data) {
-                            if ((data.documentary_type == '1' || data.documentary_type == '2' || data.documentary_type == '6') && data.equipmentId_dikem == null)
-                                return "<a class=\"thietbi btn blue darken-2 modal-trigger\" data-id=" + data.documentary_repair_id + " href=\"#thietbi\">Thiết&nbsp;bị&nbsp;con&nbsp;cần</a>";
-                            else if ((data.documentary_type == '1' || data.documentary_type == '2' || data.documentary_type == '6') && data.equipmentId_dikem != null)
+                            if ((data.documentary_type == '1' || data.documentary_type == '2' || data.documentary_type == '6') && data.attach_to == null)
+                                return "<a class=\"thietbi btn blue darken-2 modal-trigger\" data-type=" + data.documentary_type + " data-equipment=\"" + data.equipmentId + "\" data-attach=\"" + data.attach_to + "\" href=\"#thietbi\">Thiết&nbsp;bị&nbsp;con&nbsp;cần</a>";
+                            else if ((data.documentary_type == '1' || data.documentary_type == '2' || data.documentary_type == '6') && data.attach_to != null)
                                 return "";
                             else if (data.documentary_type == "3")
                                 return "<a data-id=\"" + data.documentary_id + "\" data-equipmentId=\"" + data.equipmentId + "\" class=\"waves-effect waves-light btn-small blue modal-trigger sctx\" href=\"#sctx\">VT SCTX</a>";
@@ -276,7 +372,7 @@
                     },
                     {
                         "data": {}, "render": function (data) {
-                            return "<td><a class='btn blue darken-2 modal-trigger open-UpdateModal' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' >Nghiệm&nbsp;thu</a></td>";
+                            return "<td><a class='btn blue darken-2 modal-trigger open-UpdateModal' data-id=" + data.acceptance_id + " >Nghiệm&nbsp;thu</a></td>";
                         },
                         "orderable": false,
                         "searchable": false
@@ -335,6 +431,92 @@
                     $('#pre-load').show();
                 },
             })
+        })
+
+        $(document).on('click', '.vattu', function () {
+            $('#vattu tbody').empty();
+            $('#pre-load').show();
+            equipmentId = $(this).data("equipment");
+            documentary_type = $(this).data("type");
+            attach_to = $(this).data("attach");
+            $.ajax({
+                url: "/phong-cdvt/quyet-dinh/sua-chua/nghiem-thu/GetData",
+                method: "post",
+                dataType: "json",
+                cache: false,
+                data: {
+                    equipmentId: equipmentId,
+                    documentary_type: documentary_type,
+                    attach_to: attach_to,
+                    isSupply: true
+                },
+                success: function (response) {
+                    if (response.success) {
+                        for (let i = 0; i < response.data.length; i++) {
+                            let $tr = $('<tr>').append(
+                                $('<td>').text(response.data[i].supply_id),
+                                $('<td>').text(response.data[i].supply_name),
+                                $('<td>').html(response.data[i].quantity_plan),
+                                $('<td>').html("<input type='number' min='1' value=" + response.data[i].quantity_in + " max=" + response.data[i].quantity_plan + " class='form-control quantity_in' />"),
+                                $('<td>').html("<input type='number' min='1' value=" + response.data[i].quantity_used + " max=" + response.data[i].quantity_plan + " class='form-control quantity_used' />"),
+                                $('<td>').html("<input type='number' min='1' value=" + response.data[i].quantity_out + " max=" + response.data[i].quantity_plan + " class='form-control quantity_out' />"),
+                            ).data("id", response.data[i].supplyDocumentaryEquipmentId);
+                            $tr.appendTo('#vattu tbody');
+                        }
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    $('#pre-load').hide();
+                }
+            })
+        })
+
+        $(document).on('click', '.thietbi', function () {
+            $('#thietbi tbody').empty();
+            $('#pre-load').show();
+            equipmentId = $(this).data("equipment");
+            documentary_type = $(this).data("type");
+            attach_to = $(this).data("attach");
+            $.ajax({
+                url: "/phong-cdvt/quyet-dinh/sua-chua/nghiem-thu/GetData",
+                method: "post",
+                dataType: "json",
+                cache: false,
+                data: {
+                    equipmentId: equipmentId,
+                    documentary_type: documentary_type,
+                    attach_to: attach_to,
+                    isSupply: false
+                },
+                success: function (response) {
+                    if (response.success) {
+                        for (let i = 0; i < response.data.length; i++) {
+                            let $tr = $('<tr>').append(
+                                $('<td>').text(response.data[i].equipmentId),
+                                $('<td>').text(response.data[i].equipment_name),
+                                $('<td>').html(response.data[i].quantity_plan),
+                                $('<td>').html("<input type='number' min='1' value=" + response.data[i].quantity_in + " max=" + response.data[i].quantity_plan + " class='form-control quantity_in' />"),
+                                $('<td>').html("<input type='number' min='1' value=" + response.data[i].quantity_used + " max=" + response.data[i].quantity_plan + " class='form-control quantity_used' />"),
+                                $('<td>').html("<input type='number' min='1' value=" + response.data[i].quantity_out + " max=" + response.data[i].quantity_plan + " class='form-control quantity_out' />"),
+                            ).data("id", response.data[i].supplyDocumentaryEquipmentId);
+                            $tr.appendTo('#thietbi tbody');
+                        }
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    $('#pre-load').hide();
+                }
+            })
+        })
+
+        $('#vattu #submit').click(function () {
+            ajaxEdit("#vattu tbody tr");
+        })
+
+        $('#thietbi #submit').click(function () {
+            ajaxEdit("#thietbi tbody tr");
         })
 
         $(document).on("click", ".open-DiKem", function () {
@@ -466,9 +648,7 @@
         })
 
         $(document).on("click", ".open-UpdateModal", function () {
-            var equipmentId = $(this).data('equip');
-            var documentary_id = $(this).data('code');
-            var documentary_code = $(this).parent().parent().children().eq(0).text();
+            let acceptance_id = $(this).data("id");
             confirmAlert(
                 'Bạn có chắc chắn muốn nghiệm thu không?',
                 '',
@@ -488,9 +668,7 @@
                             errorAlert('Lỗi', 'Có lỗi xảy ra');
                         },
                         data: {
-                            id: equipmentId,
-                            documentary_code: documentary_code,
-                            documentary_id: documentary_id
+                            acceptance_id: acceptance_id,
                         },
                         cache: false
                     })
@@ -499,30 +677,7 @@
 
         $("#searchButton").click(function () {
             $("#pre-load").show();
-            dataTable.ajax.reload(function () {
-                $.notify("Tìm kiếm thành công", {
-                    globalPosition: "top center",
-                    className: "success"
-                })
-            });
-        });
-        $("#doccumentid").keyup(function (event) {
-            if (event.keyCode === 13) {
-                $("#searchButton").click();
-                $("#doccumentid").blur();
-            }
-        });
-        $("#equimentid").keyup(function (event) {
-            if (event.keyCode === 13) {
-                $("#searchButton").click();
-                $("#equimentid").blur();
-            }
-        });
-        $("#equimentname").keyup(function (event) {
-            if (event.keyCode === 13) {
-                $("#searchButton").click();
-                $("#equimentname").blur();
-            }
+            dataTable.ajax.reload();
         });
 
         $(document).on("click", ".dikem-duphong", function () {

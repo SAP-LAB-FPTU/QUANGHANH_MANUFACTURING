@@ -127,8 +127,8 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                             {
                                 acceptance_date = DateTime.Now,
                                 documentary_id = id,
-                                equipmentId = temp.equipmentId_dikem,
-                                attach_to = temp.equipmentId,
+                                equipmentId = temp.equipmentId_dikem ?? temp.equipmentId,
+                                attach_to = temp.equipmentId_dikem == null ? null : temp.equipmentId,
                                 equipmentStatus = 2
                             };
                             DBContext.Acceptances.Add(a);
@@ -169,7 +169,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
             return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "84,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "82,84,179,180,181,183,184,185,186,187,189,195")]
         [Route("phong-cdvt/quyet-dinh/sua-chua/xu-ly/edit")]
         [HttpPost]
         public ActionResult EditDetails(string data)
@@ -188,7 +188,10 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                         {
                             return Json(new { success = false, message = "Dữ liệu truyền vào không đúng" });
                         }
-                        if (db.Documentary_repair_details.Find(list[0].documentary_repair_id).equipment_repair_status == 1)
+
+                        List<string> RightIDs = (List<string>)HttpContext.Session["RightIDs"];
+
+                        if (!RightIDs.Contains("82") && db.Documentary_repair_details.Find(list[0].documentary_repair_id).equipment_repair_status == 1)
                         {
                             return Json(new { success = false, message = "Thiết bị đã được xử lý xong" });
                         }

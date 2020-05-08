@@ -1,14 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
-using QUANGHANH2.Models;
+﻿using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.Script.Serialization;
 
 namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
 {
@@ -124,5 +121,4 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
             public int quantity { get; set; }
         }
     }
-
 }
