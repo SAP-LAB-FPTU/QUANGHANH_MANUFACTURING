@@ -103,7 +103,7 @@
                                     </tr>
                                     <tr>
                                         <td>Ngày nhập</td>
-                                        <td>@ViewBag.equipment.date_import.ToString("dd/MM/yyyy")</td>
+                                        <td>@(ViewBag.equipment.date_import == null ? "" : ViewBag.equipment.date_import.ToString("dd/MM/yyyy"))</td>
                                     </tr>
                                     <tr>
                                         <td>Khấu hao ước tính</td>
@@ -111,11 +111,11 @@
                                     </tr>
                                     <tr>
                                         <td>Ngày đưa vào sử dụng</td>
-                                        <td>@ViewBag.equipment.usedDay.ToString("dd/MM/yyyy")</td>
+                                        <td>@(ViewBag.equipment.usedDay == null ? "" : ViewBag.equipment.usedDay.ToString("dd/MM/yyyy"))</td>
                                     </tr>
                                     <tr>
                                         <td>Ngày bảo dưỡng tiếp theo</td>
-                                        <td>@ViewBag.equipment.durationOfMaintainance.ToString("dd/MM/yyyy")</td>
+                                        <td>@(ViewBag.equipment.durationOfMaintainance == null ? "" : ViewBag.equipment.durationOfMaintainance.ToString("dd/MM/yyyy"))</td>
                                     </tr>
                                     <tr>
                                         @{
@@ -129,7 +129,7 @@
                                             }
                                         }
 
-                                        <td>@ViewBag.equipment.durationOfInspection.ToString("dd/MM/yyyy")</td>
+                                        <td>@(ViewBag.equipment.durationOfInspection == null ? "" : ViewBag.equipment.durationOfInspection.ToString("dd/MM/yyyy"))</td>
                                     </tr>
                                     @{
                                         if (ViewBag.plus != null)
