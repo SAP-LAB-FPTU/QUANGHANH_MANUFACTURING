@@ -229,21 +229,19 @@ namespace QUANGHANH2.Controllers.DK
                 //         }
                 //Thu Tu In Ra Theo Ten Phong Ban
                 //
-                var departmentName = new string[] { "Phân xưởng khai thác 1", "Phân xưởng khai thác 2", "Phân xưởng khai thác 3", "Phân xưởng khai thác 4","Phân xưởng khai thác 5",
-                                                    "Phân xưởng khai thác 6", "Phân xưởng khai thác 7", "Phân xưởng khai thác 8", "Phân xưởng khai thác 9","Phân xưởng khai thác 10",
-                                                    "Phân xưởng khai thác 11", "Phân xưởng đào lò 3", "Phân xưởng đào lò 5", "Phân xưởng đào lò 7","Phân xưởng đào lò 8",
-                                                    "Phân xưởng chế biến than","Phân xưởng vận tải lò 1","Phân xưởng vận tải lò 2"};
+
+                var departmentName = db.Departments.Where(x => x.department_type.Contains("Phân xưởng sản xuất chính") || x.department_type.Contains("Đơn vị sản xuất thuê ngoài")).OrderBy(x => x.department_name).ToList();
                 //
                 List<ChiTietBaoCao_Object> listBaoCao = new List<ChiTietBaoCao_Object>();
-                for (var index = 0; index < departmentName.Length; index++)
+                for (var index = 0; index < departmentName.Count; index++)
                 {
                     ChiTietBaoCao_Object bcHeader = new ChiTietBaoCao_Object();
-                    bcHeader.TenPhongBan = departmentName[index];
+                    bcHeader.TenPhongBan = departmentName[index].department_name;
                     bcHeader.isHeader = true;
                     listBaoCao.Add(bcHeader);
                     for (var index2 = 0; index2 < listTH.Count; index2++)
                     {
-                        if (listTH[index2].TenPhongBan == departmentName[index])
+                        if (listTH[index2].TenPhongBan == departmentName[index].department_name)
                         {
                             ChiTietBaoCao_Object bc = new ChiTietBaoCao_Object();
                             bc.Jan = listTH[index2].Jan;

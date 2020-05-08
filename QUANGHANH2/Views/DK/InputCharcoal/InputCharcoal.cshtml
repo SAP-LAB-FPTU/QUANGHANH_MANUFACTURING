@@ -26,7 +26,7 @@
                     <div class="input-field col s3 m3 l1"></div>
                     <div class="input-field col s3 m3 l2">
                         <button class="modal-trigger btn btn-small darken-2 blue" data-target="addsnlv" id="butsnlv">Nhập ngày sản xuất</button>
-                        <button class="modal-trigger btn btn-small darken-2 blue" data-target="editsnlv" id="butsnlvedit">chỉnh sửa ngày sản xuất</button>
+                        <button class="modal-trigger btn btn-small darken-2 blue" data-target="editsnlv" id="butsnlvedit">Sửa ngày sản xuất</button>
                     </div>
                     <div class="input-field col l2 m2 s2">
                         <input readonly id="ngaySanXuat" name="ngaySX" value="@ViewBag.NgaySX" required autocomplete="off" class="form-control center" onchange="percentOnchange()" placeholder="NgàySX" onchange="onChangeAll()" />
@@ -108,8 +108,7 @@
                                     <th>Chênh lệch</th>
                                     <th>Phần trăm<br />hoàn thành</th>
                                     <th>Lũy kế</th>
-                                    @*<th>Ké hoạch<br />ban đầu</th>*@
-                                    <th>Ké hoạch</th>
+                                    <th>Kế hoạch</th>
                                     <th>Phần trăm<br />tiến độ</th>
                                     <th>Tổng</th>
                                     <th>1 ngày</th>
@@ -374,9 +373,9 @@
         } else {
             KH = document.getElementById("keHoach" + i).value;
         }
-        document.getElementById("chenhLech" + i).value = (TH - KH).toFixed(2);
+        document.getElementById("chenhLech" + i).value = (TH - KH).toFixed(1);
         if (KH != 0) {
-            document.getElementById("phanTramHT" + i).value = ((TH / KH) * 100).toFixed(2);
+            document.getElementById("phanTramHT" + i).value = ((TH / KH) * 100).toFixed(1);
         }
 
         var LK = parseInt(document.getElementById("luyKeHidden" + i).value);
@@ -385,12 +384,12 @@
         var KHDC = document.getElementById("KHDC" + i).value;
         var LK = parseInt(document.getElementById("luyKe" + i).value);
         if (KHDC != 0) {
-            document.getElementById("phanTramTD" + i).value = ((LK / KHDC) * 100).toFixed(2);
+            document.getElementById("phanTramTD" + i).value = ((LK / KHDC) * 100).toFixed(1);
         }
 
         document.getElementById("tong" + i).value = KHDC - LK;
 
-        document.getElementById("motNgay" + i).value = ((KHDC - LK) / (tongNgaySX - ngaySX)).toFixed(2);
+        document.getElementById("motNgay" + i).value = ((KHDC - LK) / (tongNgaySX - ngaySX)).toFixed(1);
 
 
     }
@@ -398,9 +397,9 @@
     function KHOnchange(i) {
         var TH = document.getElementById("thucHien" + i).value;
         var KH = document.getElementById("keHoach" + i).value;
-        document.getElementById("chenhLech" + i).value = (TH - KH).toFixed(2);
+        document.getElementById("chenhLech" + i).value = (TH - KH).toFixed(1);
         if (KH != 0) {
-            document.getElementById("phanTramHT" + i).value = ((TH / KH) * 100).toFixed(2);
+            document.getElementById("phanTramHT" + i).value = ((TH / KH) * 100).toFixed(1);
         }
     }
 
@@ -410,10 +409,10 @@
         var KHDC = document.getElementById("KHDC" + i).value;
         var LK = parseInt(document.getElementById("luyKe" + i).value);
         if (KHDC != 0) {
-            document.getElementById("phanTramTD" + i).value = ((LK / KHDC) * 100).toFixed(2);
+            document.getElementById("phanTramTD" + i).value = ((LK / KHDC) * 100).toFixed(1);
         }
         document.getElementById("tong" + i).value = KHDC - LK;
-        document.getElementById("motNgay" + i).value = ((KHDC - LK) / (tongNgaySX - ngaySX)).toFixed(2);
+        document.getElementById("motNgay" + i).value = ((KHDC - LK) / (tongNgaySX - ngaySX)).toFixed(1);
 
     }
 
