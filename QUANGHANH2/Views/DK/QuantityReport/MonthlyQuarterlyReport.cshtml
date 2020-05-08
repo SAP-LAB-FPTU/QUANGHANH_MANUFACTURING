@@ -7,8 +7,17 @@
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 <style>
     #table-container {
-        overflow: scroll;
+        transform: rotateX(180deg);
+        overflow: auto;
     }
+
+    #table-container > table {
+        transform: rotateX(180deg);
+    }
+
+    /*#table-container > table > #tableHeader {
+        position: fixed;
+    }*/
 
     #yearCalendar {
         width: 15% !important;
@@ -18,14 +27,6 @@
     #view-btn {
         float: left;
     }
-    /*.sticky + .table-content {
-      padding-top: 102px;
-    }
-        .sticky {
-      position: fixed;
-      top: 0;
-      width: 100%;
-    }*/
 </style>
 
 <div class="card">
@@ -204,7 +205,13 @@
                         for (let i = 0; i < tieuchiName.length; i++) {
                             if (!data[index]["isHeader"]) {
                                 if (data[index][tieuchiName[i]] != null) {
-                                    content += "<td>" + data[index][tieuchiName[i]] + "</td>"
+                                    var value = data[index][tieuchiName[i]];
+                                    if (Math.floor(value) != value) {
+                                        value = parseFloat(value).toFixed(2)
+                                    } else {
+                                        value = parseFloat(value).toFixed(0)
+                                    }
+                                    content += "<td>" + value + "</td>"
                                 } else {
                                     if (tieuchiName[i] != "GhiChu") {
                                         content += "<td>" + 0 + "</td>"
