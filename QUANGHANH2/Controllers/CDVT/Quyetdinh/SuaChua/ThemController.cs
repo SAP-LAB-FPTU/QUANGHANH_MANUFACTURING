@@ -145,8 +145,8 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                     foreach (JObject item in json)
                     {
                         DateTime finish_date_plan = DateTime.ParseExact((string)item["date"], "dd/MM/yyyy", null);
-                        string equipmentId = item["attachTo"].Type == JTokenType.Null ? item["equipmentId"].ToString() : item["attachTo"].ToString();
-                        string equipmentId_dikem = item["attachTo"].Type == JTokenType.Null ? null : item["equipmentId"].ToString();
+                        string equipmentId = item["equipmentId"].ToString();
+                        string attach_to = item["attachTo"].Type == JTokenType.Null ? null : item["attachTo"].ToString();
 
                         Documentary_repair_details drd = new Documentary_repair_details
                         {
@@ -157,7 +157,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                             finish_date_plan = finish_date_plan,
                             documentary_id = documentary.documentary_id,
                             equipmentId = equipmentId,
-                            equipmentId_dikem = equipmentId_dikem,
+                            attach_to = attach_to,
                             isVisible = true,
                             quantity = int.Parse(item["quantity"].ToString())
                         };
@@ -202,7 +202,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                         if (!used)
                         {
                             transaction.Rollback();
-                            string message = "Thiết bị " + (equipmentId_dikem == null ? (equipmentId + " chưa được chọn thiết bị con hoặc vật tư") : (equipmentId_dikem + $" ({equipmentId}) chưa được chọn vật tư"));
+                            string message = "Thiết bị " + (attach_to == null ? (equipmentId + " chưa được chọn thiết bị con hoặc vật tư") : (attach_to + $" ({equipmentId}) chưa được chọn vật tư"));
                             return Json(new { success = false, message = "Thiết bị chưa được chọn" });
                         }
                     }
@@ -210,7 +210,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                     transaction.Commit();
                     return Json(new { success = true });
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     transaction.Rollback();
                     return Json(new { success = false, message = "Có lỗi xảy ra" });

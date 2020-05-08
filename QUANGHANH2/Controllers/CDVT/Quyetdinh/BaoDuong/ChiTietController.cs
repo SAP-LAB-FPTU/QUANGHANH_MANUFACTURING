@@ -18,7 +18,6 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.BaoDuong
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                List<string> equipmentId = new List<string>();
 
                 List<Detail> details = (from a in db.Documentary_maintain_details
                                         join b in db.Documentaries on a.documentary_id equals b.documentary_id
@@ -26,25 +25,14 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.BaoDuong
                                         select new Detail
                                         {
                                             documentary_maintain_id = a.documentary_maintain_id,
-                                            equipmentId = a.equipmentId_dikem == null ? a.equipmentId : (a.equipmentId_dikem + "  (" + a.equipmentId + ")"),
-                                            equipmentId_dikem = a.equipmentId_dikem,
+                                            equipmentId = a.attach_to == null ? a.equipmentId : (a.equipmentId + "  (" + a.attach_to + ")"),
+                                            attach_to = a.attach_to,
                                             maintain_type = a.maintain_type,
                                             equipment_maintain_reason = a.equipment_maintain_reason,
                                             finish_date_plan = a.finish_date_plan,
                                             quantity = a.quantity
                                         }).ToList();
-
-                foreach (Detail item in details)
-                {
-                    if (item.equipmentId_dikem == null)
-                    {
-                        equipmentId.Add(item.equipmentId);
-                    }
-                    else
-                    {
-                        equipmentId.Add(item.equipmentId_dikem);
-                    }
-                }
+                List<string> equipmentId = details.Select(x => x.equipmentId).ToList();
 
                 var dict = db.Equipments
                     .Where(x => equipmentId.Contains(x.equipmentId))
@@ -52,7 +40,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.BaoDuong
                     .AsEnumerable()
                     .ToDictionary(x => x.equipmentId, x => x.equipment_name);
 
-                details.ForEach(x => x.equipment_name = x.equipmentId_dikem == null ? dict[x.equipmentId] : dict[x.equipmentId_dikem]);
+                details.ForEach(x => x.equipment_name = dict[x.equipmentId]);
                 ViewBag.details = details;
             }
             return View("/Views/CDVT/Quyetdinh/SuaChua/ChiTiet.cshtml");
@@ -113,7 +101,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.BaoDuong
         {
             public int documentary_maintain_id { get; set; }
             public string equipmentId { get; set; }
-            public string equipmentId_dikem { get; set; }
+            public string attach_to { get; set; }
             public string equipment_name { get; set; }
             public string maintain_type { get; set; }
             public string equipment_maintain_reason { get; set; }

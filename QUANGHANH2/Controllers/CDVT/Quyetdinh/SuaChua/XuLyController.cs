@@ -60,8 +60,8 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                                         select new Detail
                                         {
                                             documentary_repair_id = a.documentary_repair_id,
-                                            equipmentId = a.equipmentId_dikem == null ? a.equipmentId : (a.equipmentId_dikem + "  (" + a.equipmentId + ")"),
-                                            equipmentId_dikem = a.equipmentId_dikem,
+                                            equipmentId = a.attach_to == null ? a.equipmentId : (a.equipmentId + "  (" + a.attach_to + ")"),
+                                            attach_to = a.attach_to,
                                             repair_reason = a.repair_reason,
                                             repair_type = a.repair_type,
                                             finish_date_plan = a.finish_date_plan + "",
@@ -71,14 +71,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
 
                 foreach (Detail item in details)
                 {
-                    if (item.equipmentId_dikem == null)
-                    {
-                        equipmentId.Add(item.equipmentId);
-                    }
-                    else
-                    {
-                        equipmentId.Add(item.equipmentId_dikem);
-                    }
+                    equipmentId.Add(item.equipmentId);
                     item.finish_date_plan = DateTime.Parse(item.finish_date_plan).ToString("dd/MM/yyyy");
                 }
 
@@ -88,7 +81,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                     .AsEnumerable()
                     .ToDictionary(x => x.equipmentId, x => x.equipment_name);
 
-                details.ForEach(x => x.equipment_name = x.equipmentId_dikem == null ? dict[x.equipmentId] : dict[x.equipmentId_dikem]);
+                details.ForEach(x => x.equipment_name = dict[x.equipmentId]);
                 return Json(new { success = true, data = details, draw = Request["draw"], recordsTotal = details.Count, recordsFiltered = details.Count }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -97,7 +90,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
         {
             public int documentary_repair_id { get; set; }
             public string equipmentId { get; set; }
-            public string equipmentId_dikem { get; set; }
+            public string attach_to { get; set; }
             public string equipment_name { get; set; }
             public string repair_reason { get; set; }
             public string repair_type { get; set; }
@@ -127,8 +120,8 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                             {
                                 acceptance_date = DateTime.Now,
                                 documentary_id = id,
-                                equipmentId = temp.equipmentId_dikem ?? temp.equipmentId,
-                                attach_to = temp.equipmentId_dikem == null ? null : temp.equipmentId,
+                                equipmentId = temp.equipmentId,
+                                attach_to = temp.attach_to,
                                 equipmentStatus = 2
                             };
                             DBContext.Acceptances.Add(a);

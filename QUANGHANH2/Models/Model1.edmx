@@ -336,7 +336,7 @@
           <Property Name="next_end_time" Type="float" Nullable="false" />
           <Property Name="documentary_id" Type="int" Nullable="false" />
           <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="equipmentId_dikem" Type="nvarchar" MaxLength="150" />
+          <Property Name="attach_to" Type="nvarchar" MaxLength="150" />
           <Property Name="quantity" Type="int" Nullable="false" />
           <Property Name="equipment_big_maintain_reason" Type="nvarchar" MaxLength="150" />
           <Property Name="department_id_from" Type="nvarchar" MaxLength="150" />
@@ -386,7 +386,7 @@
           <Property Name="finish_date_plan" Type="date" Nullable="false" />
           <Property Name="documentary_id" Type="int" Nullable="false" />
           <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="equipmentId_dikem" Type="nvarchar" MaxLength="150" />
+          <Property Name="attach_to" Type="nvarchar" MaxLength="150" />
           <Property Name="quantity" Type="int" Nullable="false" />
           <Property Name="equipment_maintain_reason" Type="nvarchar" MaxLength="150" />
           <Property Name="department_id_from" Type="nvarchar" MaxLength="150" />
@@ -415,7 +415,7 @@
           <Property Name="finish_date_plan" Type="date" Nullable="false" />
           <Property Name="documentary_id" Type="int" Nullable="false" />
           <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="equipmentId_dikem" Type="nvarchar" MaxLength="150" />
+          <Property Name="attach_to" Type="nvarchar" MaxLength="150" />
           <Property Name="quantity" Type="int" Nullable="false" />
           <Property Name="department_id_from" Type="nvarchar" MaxLength="150" />
           <Property Name="isVisible" Type="bit" Nullable="false" />
@@ -1855,7 +1855,7 @@
               <PropertyRef Name="equipmentId" />
             </Principal>
             <Dependent Role="Documentary_big_maintain_details">
-              <PropertyRef Name="equipmentId_dikem" />
+              <PropertyRef Name="attach_to" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1951,7 +1951,7 @@
               <PropertyRef Name="equipmentId" />
             </Principal>
             <Dependent Role="Documentary_maintain_details">
-              <PropertyRef Name="equipmentId_dikem" />
+              <PropertyRef Name="attach_to" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1963,7 +1963,7 @@
               <PropertyRef Name="equipmentId" />
             </Principal>
             <Dependent Role="Documentary_repair_details">
-              <PropertyRef Name="equipmentId_dikem" />
+              <PropertyRef Name="attach_to" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4608,7 +4608,7 @@
           <Property Name="next_end_time" Type="Double" Nullable="false" />
           <Property Name="documentary_id" Type="Int32" Nullable="false" />
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="equipmentId_dikem" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="attach_to" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
           <Property Name="equipment_big_maintain_reason" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="department_id_from" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -4672,7 +4672,7 @@
           <Property Name="finish_date_plan" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="documentary_id" Type="Int32" Nullable="false" />
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="equipmentId_dikem" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="attach_to" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
           <Property Name="equipment_maintain_reason" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="department_id_from" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -4709,7 +4709,7 @@
           <Property Name="finish_date_plan" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="documentary_id" Type="Int32" Nullable="false" />
           <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="equipmentId_dikem" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="attach_to" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
           <Property Name="department_id_from" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="isVisible" Type="Boolean" Nullable="false" />
@@ -6885,7 +6885,7 @@
               <PropertyRef Name="equipmentId" />
             </Principal>
             <Dependent Role="Documentary_big_maintain_details">
-              <PropertyRef Name="equipmentId_dikem" />
+              <PropertyRef Name="attach_to" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6969,7 +6969,7 @@
               <PropertyRef Name="equipmentId" />
             </Principal>
             <Dependent Role="Documentary_maintain_details">
-              <PropertyRef Name="equipmentId_dikem" />
+              <PropertyRef Name="attach_to" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -7017,7 +7017,7 @@
               <PropertyRef Name="equipmentId" />
             </Principal>
             <Dependent Role="Documentary_repair_details">
-              <PropertyRef Name="equipmentId_dikem" />
+              <PropertyRef Name="attach_to" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9027,7 +9027,7 @@
                 <ScalarProperty Name="next_end_time" ColumnName="next_end_time" />
                 <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
                 <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
-                <ScalarProperty Name="equipmentId_dikem" ColumnName="equipmentId_dikem" />
+                <ScalarProperty Name="attach_to" ColumnName="attach_to" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="equipment_big_maintain_reason" ColumnName="equipment_big_maintain_reason" />
                 <ScalarProperty Name="department_id_from" ColumnName="department_id_from" />
@@ -9080,7 +9080,7 @@
                 <ScalarProperty Name="finish_date_plan" ColumnName="finish_date_plan" />
                 <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
                 <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
-                <ScalarProperty Name="equipmentId_dikem" ColumnName="equipmentId_dikem" />
+                <ScalarProperty Name="attach_to" ColumnName="attach_to" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="equipment_maintain_reason" ColumnName="equipment_maintain_reason" />
                 <ScalarProperty Name="department_id_from" ColumnName="department_id_from" />
@@ -9111,7 +9111,7 @@
                 <ScalarProperty Name="finish_date_plan" ColumnName="finish_date_plan" />
                 <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
                 <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
-                <ScalarProperty Name="equipmentId_dikem" ColumnName="equipmentId_dikem" />
+                <ScalarProperty Name="attach_to" ColumnName="attach_to" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="department_id_from" ColumnName="department_id_from" />
                 <ScalarProperty Name="isVisible" ColumnName="isVisible" />
