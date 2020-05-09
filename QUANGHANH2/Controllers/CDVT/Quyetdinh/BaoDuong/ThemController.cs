@@ -14,12 +14,12 @@ using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
+namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.BaoDuong
 {
     public class ThemController : Controller
     {
-        [Auther(RightID = "83")]
-        [Route("phong-cdvt/quyet-dinh/sua-chua/them")]
+        [Auther(RightID = "85")]
+        [Route("phong-cdvt/quyet-dinh/bao-duong/them")]
         public ActionResult Index(string selected)
         {
             try
@@ -82,12 +82,12 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
 
                     ViewBag.Departments = departments;
                 }
-                return View("/Views/CDVT/Quyetdinh/SuaChua/Them.cshtml");
+                return View("/Views/CDVT/Quyetdinh/BaoDuong/Them.cshtml");
             }
             catch (Exception ex)
             {
                 new MyError().AddError(ex, selected);
-                return Redirect("/phong-cdvt/quyet-dinh/sua-chua/chon-thiet-bi");
+                return Redirect("/phong-cdvt/quyet-dinh/bao-duong/chon-thiet-bi");
             }
         }
 
@@ -98,9 +98,9 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
             public string attachTo { get; set; }
             public int quantity { get; set; }
         }
-
-        [Auther(RightID = "83")]
-        [Route("phong-cdvt/quyet-dinh/sua-chua/them")]
+        
+        [Auther(RightID = "85")]
+        [Route("phong-cdvt/quyet-dinh/bao-duong/them")]
         [HttpPost]
         public ActionResult Add(string out_in_come, string data, string department_id_to, string reason)
         {
@@ -112,7 +112,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                 {
                     Documentary documentary = new Documentary
                     {
-                        documentary_type = 1,
+                        documentary_type = 2,
                         department_id_to = department_id_to,
                         date_created = DateTime.Now,
                         person_created = Session["Name"] + "",
@@ -144,24 +144,22 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
 
                     foreach (JObject item in json)
                     {
-                        DateTime finish_date_plan = DateTime.ParseExact((string)item["date"], "dd/MM/yyyy", null);
                         string equipmentId = item["equipmentId"].ToString();
                         string attach_to = item["attachTo"].Type == JTokenType.Null ? null : item["attachTo"].ToString();
 
-                        Documentary_repair_details drd = new Documentary_repair_details
+                        Documentary_maintain_details drd = new Documentary_maintain_details
                         {
                             department_id_from = attach_to == null ? dict[equipmentId] : dict[attach_to],
-                            equipment_repair_status = 0,
-                            repair_type = item["type"].ToString(),
-                            repair_reason = item["reason"].ToString(),
-                            finish_date_plan = finish_date_plan,
+                            equipment_maintain_status = 0,
+                            maintain_type = item["type"].ToString(),
+                            finish_date_plan = DateTime.ParseExact(item["date"].ToString(), "dd/MM/yyyy", null),
                             documentary_id = documentary.documentary_id,
                             equipmentId = equipmentId,
                             attach_to = attach_to,
-                            isVisible = true,
-                            quantity = int.Parse(item["quantity"].ToString())
+                            quantity = int.Parse(item["quantity"].ToString()),
+                            equipment_maintain_reason = item["reason"].ToString()
                         };
-                        DBContext.Documentary_repair_details.Add(drd);
+                        DBContext.Documentary_maintain_details.Add(drd);
                         DBContext.SaveChanges();
                         bool used = false;
 
@@ -170,14 +168,14 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                         {
                             foreach (var jObject in vattu)
                             {
-                                Supply_Documentary_Repair_Equipment sde = new Supply_Documentary_Repair_Equipment
+                                Supply_Documentary_Maintain_Equipment sde = new Supply_Documentary_Maintain_Equipment
                                 {
-                                    documentary_repair_id = drd.documentary_repair_id,
+                                    documentary_maintain_id = drd.documentary_maintain_id,
                                     supply_id = jObject.Key,
                                     quantity_plan = int.Parse(jObject.Value.ToString()),
                                 };
                                 used = true;
-                                DBContext.Supply_Documentary_Repair_Equipment.Add(sde);
+                                DBContext.Supply_Documentary_Maintain_Equipment.Add(sde);
                             }
                             DBContext.SaveChanges();
                         }
@@ -187,14 +185,14 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                         {
                             foreach (var jObject in thietbi)
                             {
-                                Supply_Documentary_Repair_Equipment sde = new Supply_Documentary_Repair_Equipment
+                                Supply_Documentary_Maintain_Equipment sde = new Supply_Documentary_Maintain_Equipment
                                 {
-                                    documentary_repair_id = drd.documentary_repair_id,
+                                    documentary_maintain_id = drd.documentary_maintain_id,
                                     equipmentId = jObject.Key,
                                     quantity_plan = int.Parse(jObject.Value.ToString()),
                                 };
                                 used = true;
-                                DBContext.Supply_Documentary_Repair_Equipment.Add(sde);
+                                DBContext.Supply_Documentary_Maintain_Equipment.Add(sde);
                             }
                             DBContext.SaveChanges();
                         }
@@ -224,8 +222,8 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
             public string department_id { get; set; }
         }
 
-        [Auther(RightID = "83")]
-        [Route("phong-cdvt/quyet-dinh/sua-chua/them/export")]
+        [Auther(RightID = "85")]
+        [Route("phong-cdvt/quyet-dinh/bao-duong/them/export")]
         [HttpGet]
         public ActionResult ExportQuyetDinh(string out_in_come, string data, string department_id_to, string reason)
         {

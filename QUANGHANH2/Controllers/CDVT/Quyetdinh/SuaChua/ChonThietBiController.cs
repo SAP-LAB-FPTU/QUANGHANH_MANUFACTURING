@@ -1,18 +1,14 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Linq.Dynamic;
-using System.Web;
-using System.Web.SessionState;
-using QUANGHANH2.SupportClass;
-using System.Data.SqlClient;
 
 namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
 {
-    [SessionState(SessionStateBehavior.Default)]
     public class ChonThietBiController : Controller
     {
         [Auther(RightID = "83")]
@@ -55,8 +51,6 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                 return Json(new { success = true, data = equipList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
         }
-
-
 
         private class BigEquip
         {
