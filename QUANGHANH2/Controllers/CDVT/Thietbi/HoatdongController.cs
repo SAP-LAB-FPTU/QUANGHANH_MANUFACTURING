@@ -330,7 +330,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
@@ -339,44 +338,63 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             if (sortDirection == null) sortDirection = "asc";
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            DateTime dtStart = Convert.ToDateTime("01/01/2000");
+            DateTime dtStart = DateTime.Parse("1800-1-1");
             DateTime dtEnd = DateTime.MaxValue;
             if (!dateStart.Equals(""))
             {
-                string[] date = dateStart.Split('/');
-                string date_fix = date[2] + "/" + date[1] + "/" + date[0];
-                dtStart = DateTime.ParseExact(date_fix, "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            }
-            else
-            {
-                dateStart = dtStart.ToString("yyyy-MM-dd");
+                dtStart = DateTime.ParseExact(dateStart, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             }
             if (!dateEnd.Equals(""))
             {
-                string[] date = dateEnd.Split('/');
-                string date_fix = date[2] + "/" + date[1] + "/" + date[0];
-                dtEnd = DateTime.ParseExact(date_fix, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                dtEnd = DateTime.ParseExact(dateEnd, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             }
-            else
-            {
-                dateEnd = dtEnd.ToString("yyyy-MM-dd");
-            }
+            //Hầu như tất cả các trường đều chuyển thành allow NULL, nếu để like sẽ không thể hiện ra
             string query = "SELECT e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
-                "FROM [Equipment] e, Status s, Department d, Equipment_category ec " +
-                "where d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid " +
-                "and e.usedDay between @start_time1 and @start_time2  and e.isAttach like @att and e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name " +
-                "AND d.department_id LIKE @department_name AND e.quality_type LIKE @quality AND ec.Equipment_category_name LIKE @cate AND e.supplier LIKE @sup and e.isAttach = 0 " +
-                " except " +
+                "FROM [Equipment] e LEFT JOIN Department d ON e.department_id = d.department_id LEFT JOIN Equipment_category ec ON e.Equipment_category_id = ec.Equipment_category_id LEFT JOIN Status s on e.current_Status = s.statusid " +
+                "where e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name ";
+
+            if (department != "" || quality != "" || dateStart != "" || dateEnd != "" || category != "" || sup != "" || att != "")
+            {
+                if (department != "")
+                    query += "AND d.department_id LIKE @department_name ";
+                if (quality != "")
+                    query += "AND e.quality_type LIKE @quality ";
+                if (dateStart != "" || dateEnd != "")
+                    query += "AND e.usedDay between @start_time1 and @start_time2 ";
+                if (category != "")
+                    query += "AND ec.Equipment_category_name LIKE @cate ";
+                if (sup != "")
+                    query += "AND e.supplier LIKE @sup ";
+                if (att != "")
+                    query += "AND e.isAttach like @att ";
+            }
+            query += " except " +
                 "select e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
-                "from Equipment e inner join Car c on e.equipmentId = c.equipmentId, Status s, Department d, Equipment_category ec " +
-                "where d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid";
+                "from Equipment e inner join Car c on e.equipmentId = c.equipmentId LEFT JOIN Department d ON e.department_id = d.department_id LEFT JOIN Equipment_category ec ON e.Equipment_category_id = ec.Equipment_category_id LEFT JOIN Status s on e.current_Status = s.statusid " +
+                "where e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name ";
+            if (department != "" || quality != "" || dateStart != "" || dateEnd != "" || category != "" || sup != "" || att != "")
+            {
+                if (department != "")
+                    query += "AND d.department_id LIKE @department_name ";
+                if (quality != "")
+                    query += "AND e.quality_type LIKE @quality ";
+                if (dateStart != "" || dateEnd != "")
+                    query += "AND e.usedDay between @start_time1 and @start_time2 ";
+                if (category != "")
+                    query += "AND ec.Equipment_category_name LIKE @cate ";
+                if (sup != "")
+                    query += "AND e.supplier LIKE @sup ";
+                if (att != "")
+                    query += "AND e.isAttach like @att ";
+            }
+
             List<EquipWithName> equiplist = DBContext.Database.SqlQuery<EquipWithName>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                 new SqlParameter("department_name", '%' + department + '%'),
                 new SqlParameter("quality", '%' + quality + '%'),
-                new SqlParameter("start_time1", dateStart),
-                new SqlParameter("start_time2", dateEnd),
+                new SqlParameter("start_time1", dtStart),
+                new SqlParameter("start_time2", dtEnd),
                 new SqlParameter("cate", '%' + category + '%'),
                 new SqlParameter("sup", '%' + sup + '%'),
                 new SqlParameter("att", '%' + att + '%')
@@ -386,8 +404,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                 new SqlParameter("department_name", '%' + department + '%'),
                 new SqlParameter("quality", '%' + quality + '%'),
-                new SqlParameter("start_time1", dateStart),
-                new SqlParameter("start_time2", dateEnd),
+                new SqlParameter("start_time1", dtStart),
+                new SqlParameter("start_time2", dtEnd),
                 new SqlParameter("cate", '%' + category + '%'),
                 new SqlParameter("sup", '%' + sup + '%'),
                 new SqlParameter("att", '%' + att + '%')
