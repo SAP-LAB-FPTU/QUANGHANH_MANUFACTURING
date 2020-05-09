@@ -60,7 +60,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                                         select new Detail
                                         {
                                             documentary_repair_id = a.documentary_repair_id,
-                                            equipmentId = a.attach_to == null ? a.equipmentId : (a.equipmentId + "  (" + a.attach_to + ")"),
+                                            equipmentId = a.equipmentId,
                                             attach_to = a.attach_to,
                                             repair_reason = a.repair_reason,
                                             repair_type = a.repair_type,

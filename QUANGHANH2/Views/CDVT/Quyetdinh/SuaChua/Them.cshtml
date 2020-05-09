@@ -102,7 +102,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            @*<a id="addrow" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>*@
+            <a id="addrow" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
             <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-close">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
         </div>
@@ -156,10 +156,17 @@
     }
 </datalist>
 
+<datalist id="supply_inverse">
+</datalist>
+
+<datalist id="supply_reverse">
+</datalist>
+
 <script src="~/js/Custom JS/CDVT/QuyetDinh/datePicker.js"></script>
 <script>
     var output = @Html.Raw(ViewBag.output);
     var equipmentId, attachTo, index;
+    var dict = {};
 
     $(document).ready(function () {
         $('input[required]').each(function myfunction() {
@@ -176,34 +183,47 @@
                 url = "@Url.Action("GetSupplySmallEquip", "MethodChung")";
             $('#vattu tbody').empty();
             $('#pre-load').show();
-            $.ajax({
-                url: url,
-                method: "post",
-                dataType: "json",
-                cache: false,
-                data: {
-                    equipmentId: equipmentId
-                },
-                success: function (response) {
-                    if (response.success) {
-                        for (let i = 0; i < response.data.length; i++) {
-                            let quantity = 0;
-                            if (output[index].supply && output[index].supply[response.data[i].supply_id])
-                                quantity = output[index].supply[response.data[i].supply_id];
-                            let $tr = $('<tr>').append(
-                                $('<td>').text(response.data[i].supply_id),
-                                $('<td>').text(response.data[i].supply_name),
-                                $('<td>').html("<input min=0 type='number' class='form-control' value=" + quantity + " />")
-                            )
-                            $tr.appendTo('#vattu tbody');
+            if (!output[index].supply)
+                $.ajax({
+                    url: url,
+                    method: "post",
+                    dataType: "json",
+                    cache: false,
+                    data: {
+                        equipmentId: equipmentId
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            for (let i = 0; i < response.data.length; i++) {
+                                let quantity = 0;
+                                if (output[index].supply && output[index].supply[response.data[i].supply_id]) {
+                                    quantity = output[index].supply[response.data[i].supply_id];
+                                }
+                                let $tr = $('<tr>').append(
+                                    $('<td>').text(response.data[i].supply_id),
+                                    $('<td>').text(response.data[i].supply_name),
+                                    $('<td>').html("<input min=0 type='number' class='form-control' value=" + quantity + " />")
+                                )
+                                $tr.appendTo('#vattu tbody');
+                            }
                         }
+                        $('#pre-load').hide();
+                    },
+                    error: function () {
+                        $('#pre-load').hide();
                     }
-                    $('#pre-load').hide();
-                },
-                error: function () {
-                    $('#pre-load').hide();
-                }
-            })
+                });
+            else {
+                $.each(output[index].supply, function (supply_id, quantity) {
+                    let $tr = $('<tr>').append(
+                        $('<td>').text(supply_id),
+                        $('<td>').text(dict[supply_id]),
+                        $('<td>').html("<input min=0 type='number' class='form-control' value=" + quantity + " />")
+                    )
+                    $tr.appendTo('#vattu tbody');
+                })
+                $('#pre-load').hide();
+            }
         })
 
         $('#submitvattu').click(function () {
@@ -213,6 +233,12 @@
                 if (SoLuong == "0")
                     continue;
                 let MaVatTu = $("#vattu tbody tr:eq(" + i + ") td:eq(0)").text();
+                if (MaVatTu == "")
+                    MaVatTu = $("#vattu tbody tr:eq(" + i + ") td:eq(0) input").val();
+                let TenVatTu = $("#vattu tbody tr:eq(" + i + ") td:eq(1)").text();
+                if (TenVatTu == "")
+                    TenVatTu = $("#vattu tbody tr:eq(" + i + ") td:eq(1) input").val();
+                dict[MaVatTu] = TenVatTu;
                 supply[MaVatTu] = SoLuong;
             }
             output[index].supply = supply;
@@ -336,7 +362,7 @@
                     department_id_to: $('#department_id_to').val(),
                 },
                 success: function (data) {
-                    window.location = '/phong-cdvt/quyet-dinh/sua-chua/them/export?data=' + JSON.stringify(output) 
+                    window.location = '/phong-cdvt/quyet-dinh/sua-chua/them/export?data=' + JSON.stringify(output)
                         + '&out_in_come=' + $('#out_in_come').val() + '&reason=' + $('#reason').val() + '&department_id_to=' + $('#department_id_to').val();
                     $('#pre-load').hide();
                 },
@@ -346,5 +372,88 @@
                 }
             })
         })
+
+        $("#addrow").click(function () {
+            if (attachTo != "")
+                errorAlert("Thiết bị con không thể thay đổi vật tư");
+            else {
+                let $tr = $('<tr>').append(
+                    $('<td>').html("<input list='supply_inverse' type='text' class='form-control' />"),
+                    $('<td>').html("<input list='supply_reverse' type='text' class='form-control' />"),
+                    $('<td>').html("<input min=0 type='number' class='form-control' value=0 />")
+                )
+                $tr.appendTo("#vattu tbody")
+            }
+        })
+    })
+
+    $(document).on("change", "input[list='supply_inverse']", function () {
+        if ($("#supply_inverse option[value='" + $(this).val() + "']").length == 1) {
+            let a = $("#supply_inverse option[value='" + $(this).val() + "']").text();
+            $(this).closest("tr").find("input[list='supply_reverse']").val(a);
+        }
+        else {
+            $('#pre-load').show();
+            $.ajax({
+                url: "@Url.Action("GetSupplyWithID" , "MethodChung")",
+                method: "post",
+                cache: false,
+                data: {
+                    supply_id: $(this).val()
+                },
+                success: function (data) {
+                    if (data.success) {
+                        for (var i = 0; i < data.supply.length; i++) {
+                            if ($("#supply_inverse option[value='" + data.supply[i].supply_id + "']").length == 0) {
+                                $("#supply_inverse").append("<option value='" + data.supply[i].supply_id + "'>" + data.supply[i].supply_name + "</option>");
+                                $("#supply_reverse").append("<option value='" + data.supply[i].supply_name + "'>" + data.supply[i].supply_id + "</option>");
+                            }
+                        }
+                    }
+                    else
+                        errorAlert("Có lỗi xảy ra")
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $('#pre-load').hide();
+                }
+            });
+        }
+    })
+
+    $(document).on("change", "input[list='supply_reverse']", function () {
+        if ($("#supply_reverse option[value='" + $(this).val() + "']").length == 1) {
+            let a = $("#supply_reverse option[value='" + $(this).val() + "']").text();
+            $(this).closest("tr").find("input[list='supply_inverse']").val(a);
+        }
+        else {
+            $('#pre-load').show();
+            $.ajax({
+                url: "@Url.Action("GetSupplyWithName" , "MethodChung")",
+                method: "post",
+                cache: false,
+                data: {
+                    supply_name: $(this).val()
+                },
+                success: function (data) {
+                    if (data.success) {
+                        for (var i = 0; i < data.supply.length; i++) {
+                            if ($("#supply_reverse option[value='" + data.supply[i].supply_name + "']").length == 0) {
+                                $("#supply_inverse").append("<option value='" + data.supply[i].supply_id + "'>" + data.supply[i].supply_name + "</option>");
+                                $("#supply_reverse").append("<option value='" + data.supply[i].supply_name + "'>" + data.supply[i].supply_id + "</option>");
+                            }
+                        }
+                    }
+                    else
+                        errorAlert("Có lỗi xảy ra")
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $('#pre-load').hide();
+                }
+            });
+        }
     })
 </script>
