@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Quyet_dinh_bao_duong";
+    ViewData["Title"] = "quyet-dinh-sua-chua";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 @{
@@ -9,10 +9,11 @@
     <div class="card-content">
         <div class="row center">
             <div class="col s12">
-                <h3><b>DANH SÁCH QUYẾT ĐỊNH BẢO DƯỠNG</b></h3>
+                <h3><b>DANH SÁCH QUYẾT ĐỊNH TRUNG ĐẠI TU</b></h3>
                 <div class="col l4 m4 s12">
                     <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo tên người lập quyết định" class='form-control' id="person_created-search" />
+                        <input type="text" placeholder="Tên người lập quyết định" class='form-control' id="person_created-search"
+                               multiple />
                     </div>
                 </div>
                 <div class="col l4 m4 s12">
@@ -36,7 +37,7 @@
                         {
                             if (item.Equals("83"))
                             {
-                                <a href="/phong-cdvt/bao-duong" class="waves-effect waves-light btn blue darken-1 blue">Thêm</a>
+                                <a href="/phong-cdvt/quyet-dinh/trung-dai-tu/chon-thiet-bi" class="waves-effect waves-light btn blue darken-1 blue">Thêm</a>
 
                             }
                         }
@@ -120,7 +121,7 @@
     }
 }
 <script>
-    var DocumentaryType = 2
+    var DocumentaryType = 1
     $("#documentary_code-search").keyup(function (e) {
         if (e.which == 13) {
             $("#searchButton1").click();
@@ -156,14 +157,14 @@
             var Popup, dataTable;
 
  //--------------Get Data--------------------
-     $(document).ready(function () {
+        $(document).ready(function () {
             dataTable = $('#DocumnetaryTable').on('preXhr.dt', function (e, settings, data) {
 
                     $("#pre-load").show();
                     $("#pre-load").css("z-index", "9999");
                 })
                 .DataTable({
-                "language": {
+                       "language": {
                 "emptyTable": "Không tìm thấy dữ liệu",
                 "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
                 "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
@@ -175,10 +176,11 @@
                 }
             },
                 "ajax": {
-                    "url": "/phong-cdvt/quyet-dinh/bao-duong/search",
+
+                    "url": "/phong-cdvt/quyet-dinh/trung-dai-tu",
                     "type": "POST",
                     "datatype": "json",
-                    "error": function (XMLHttpRequest, textStatus, errorThrown) {
+            "error": function (XMLHttpRequest, textStatus, errorThrown) {
                         $("#pre-load").hide();
                         $.notify(XMLHttpRequest.responseText, {
                         globalPosition: "top center",
@@ -186,7 +188,7 @@
                     });
                      },
                      "data": {
-                        "documentary_code": function() { return $('#documentary_code-search').val() },
+                         "documentary_code": function() { return $('#documentary_code-search').val() },
                          "person_created": function() { return $('#person_created-search').val() },
                          "dateStart": function() { return $('#date-start-search').val() },
                          "dateEnd": function() { return $('#date-end-search').val() }
@@ -203,47 +205,44 @@
                         },
                     },
                     {
-                       "data": "documentary_id", "name": "documentary_id", "render": function (data) {
-                                return "<a></a>";
+                        "data": "documentary_id", "name": "documentary_id", "render": function (data) {
+                            return "";
 
                      },
-                        "orderable": true,
+                        "orderable": false,
                         "searchable":false,
                     },
                     { "data": "person_created", "name": "person_created" },
                     { "data": "count", "name": "count" },
                     { "data": "reason" , "name" : "reason"},
                     { "data": "out_in_come" , "name" :"out_in_come" },
-                    {
-                        "data": "tempId", "render": function (data) {
-                            return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-documentary-id=\"" + data.split("^")[0] + "\">Cập&nbsp;nhật</a>";
+                 {
+                        "data": "documentary_id", "render": function (data) {
+                            return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-documentary-id=\"" + data + "\">Cập&nbsp;nhật</a>";
                                     },
                         "orderable": false,
                         "searchable":false,
 
                     },
                     {
-                        "data": "tempId", "render": function (data) {
-                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" onclick=GetData('@Url.Action("LoadPage","ChitietBaoduong")?id=" + data.split("^")[0] + "')>Chi&nbsp;tiết</a>";
+                        "data": "documentary_id", "render": function (data) {
+                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" href='/phong-cdvt/quyet-dinh/trung-dai-tu/chi-tiet?id=" + data + "'>Chi&nbsp;tiết</a>";
                      },
                         "orderable": false,
                         "searchable":false,
 
                     }
-
                 ],
                 "serverSide": "true",
-                "order": [1, "desc"],
+                "order": [0, "desc"],
                 "lengthChange": false,
-                    "searching": false,
-                 "initComplete": function () {
+                "searching": false,
+                "initComplete": function () {
                     $("#pre-load").hide();
-                    }
-
+                }
             });
 
         });
-
 
             function GetData(url) {
             window.location.href = url;
@@ -271,11 +270,11 @@
             $("#pre-load").show();
             $("#pre-load").css("z-index", "9999");
             $.ajax({
-                url: '@Url.Action("ExportExcel","BaoDuongQD")',
+                url: '@Url.Action("ExportExcel","SuachuaQD")',
                 type: 'POST',
 
             }).done(function () {
-                window.location.href = "/excel/CDVT/download/BaoDuongThietBi.xlsx";
+                window.location.href = "/excel/CDVT/download/SuaChuaThietBi.xlsx";
                  $("#pre-load").hide();
             })
         });

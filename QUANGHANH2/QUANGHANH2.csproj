@@ -216,8 +216,8 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\ChonThietBiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\DanhSachController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\ThemQuyetDinhController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\XuLyQuyetDinhController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\ThemController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\XuLyController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\CaiTien\XuLyQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ChiTietController.cs" />
@@ -266,8 +266,8 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\TrungDaiTu\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\TrungDaiTu\ChonThietBiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\TrungDaiTu\DanhSachController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\TrungDaiTu\ThemQuyetDinhController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\TrungDaiTu\XuLyQuyetDinhController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\TrungDaiTu\ThemController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\TrungDaiTu\XuLyController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\VattucuaQDController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\VatTuQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Report\TangGiamController.cs" />
@@ -7327,7 +7327,6 @@
     <Content Include="Views\CDVT\NewFolder\Maintenance.cshtml" />
     <Content Include="Views\CDVT\Nghiemthu\Danghiemthu.cshtml" />
     <Content Include="Views\CDVT\Nghiemthu\Nghiemthu.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_bao_duong.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_Quyet_dinh.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_SCTX.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_thanh_li.cshtml" />
@@ -7434,18 +7433,13 @@
     <Content Include="Views\PX\PXDS\Input.cshtml" />
     <Content Include="Views\Brief\EditLichSuBoSung.cshtml" />
     <Content Include="Views\PX\PXKT\registerEmployee.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_bao_duong.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_dieu_dong.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_kiem_dinh.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\SuaChua\DanhSach.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_thanh_ly.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_thu_hoi.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_trung_dai_tu.cshtml" />
-    <Content Include="Views\CDVT\Work\baoduong.cshtml" />
-    <Content Include="Views\CDVT\Work\baoduong_va_chon.cshtml" />
     <Content Include="Views\CDVT\Work\dieu_dong.cshtml" />
     <Content Include="Views\CDVT\Work\dieu_dong_va_chon.cshtml" />
-    <Content Include="Views\CDVT\Work\sctx.cshtml" />
     <Content Include="Views\CDVT\Work\sctx_va_chon.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\SuaChua\ChonThietBi.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\SuaChua\Them.cshtml" />
@@ -7559,6 +7553,16 @@
     <Content Include="Views\CDVT\Quyetdinh\SuaChua\ChiTiet.cshtml" />
     <Content Include="Views\DK\Factory\List.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\SuaChua\XuLy.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\BaoDuong\ChiTiet.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\BaoDuong\ChonThietBi.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\BaoDuong\DanhSach.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\BaoDuong\Them.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\BaoDuong\XuLy.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\TrungDaiTu\ChiTiet.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\TrungDaiTu\ChonThietBi.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\TrungDaiTu\DanhSach.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\TrungDaiTu\Them.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\TrungDaiTu\XuLy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

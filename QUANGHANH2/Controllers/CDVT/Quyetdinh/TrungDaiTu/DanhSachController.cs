@@ -4,226 +4,36 @@ using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
-using System.Threading.Tasks;
 using System.Web.Hosting;
-using System.Web.Mvc;using System.Web.Routing;
+using System.Web.Mvc;
+using System.Web.Routing;
 
-namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
+namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.TrungDaiTu
 {
-    public class danhsachtrungdaituController : Controller
+    public class DanhSachController : Controller
     {
-        [Auther(RightID = "30")]
+        [Auther(RightID = "42")]
         [Route("phong-cdvt/quyet-dinh/trung-dai-tu")]
         public ActionResult Index()
         {
-            return View("/Views/CDVT/Quyet_dinh/Quyet_dinh_trung_dai_tu.cshtml");
+            return View("/Views/CDVT/Quyetdinh/TrungDaiTu/DanhSach.cshtml");
         }
 
-        [Route("phong-cdvt/quyet-dinh/trung-dai-tu/edit")]
+        [Route("phong-cdvt/quyet-dinh/trung-dai-tu")]
         [HttpPost]
-        public ActionResult Update(int documentary_id, string date_created, string person_created, string reason, string out_in_come)
+        public ActionResult Search(string person_created, string dateStart, string dateEnd)
         {
-
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-
-            if (String.IsNullOrEmpty(date_created) || String.IsNullOrEmpty(person_created) || String.IsNullOrEmpty(out_in_come) || String.IsNullOrEmpty(reason))
-            {
-                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
-                return new HttpStatusCodeResult(400);
-            }
-            else
-            {
-                try
-                {
-                    Documentary documentary = DBContext.Documentaries.Where(a => a.documentary_id == documentary_id).First();
-                    if (documentary != null)
-                    {
-                        documentary.date_created = DateTime.Parse(date_created);
-                        documentary.person_created = person_created;
-                        documentary.reason = reason;
-                        documentary.out_in_come = out_in_come;
-
-                    }
-                    DBContext.SaveChanges();
-                    return new HttpStatusCodeResult(201);
-                }
-                catch
-                {
-                    Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
-                    return new HttpStatusCodeResult(400);
-                }
-            }
-
-
-
-        }
-
-        [Route("phong-cdvt/quyet-dinh/trung-dai-tu/update")]
-        public ActionResult UpdateID(int documentary_id, string documentary_code, string date_created, string person_created, string reason, string out_in_come)
-        {
-
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-
-            Documentary i = DBContext.Documentaries.Find(documentary_id);
-
-
-            if (String.IsNullOrEmpty(documentary_code))
-            {
-                return Json(new
-                {
-                    success = false,
-                    message = "Trường mã quyết định là trường bắt buộc có"
-                }, JsonRequestBehavior.AllowGet);
-            }
-            else
-
-                  if (String.IsNullOrEmpty(date_created))
-            {
-                return Json(new
-                {
-                    success = false,
-                    message = "Trường mã quyết định là trường bắt buộc có"
-                }, JsonRequestBehavior.AllowGet);
-            }
-            else
-
-                  if (String.IsNullOrEmpty(person_created))
-            {
-                return Json(new
-                {
-                    success = false,
-                    message = "Trường người lập quyết định là trường bắt buộc có"
-                }, JsonRequestBehavior.AllowGet);
-            }
-            else
-
-                  if (String.IsNullOrEmpty(reason))
-            {
-                return Json(new
-                {
-                    success = false,
-                    message = "Trường lý do quyết định là trường bắt buộc có"
-                }, JsonRequestBehavior.AllowGet);
-            }
-
-            if (String.IsNullOrEmpty(out_in_come))
-            {
-                return Json(new
-                {
-                    success = false,
-                    message = "Trường nguồn vốn là trường bắt buộc có"
-                }, JsonRequestBehavior.AllowGet);
-            }
-
-            else
-            {
-                try
-                {
-                    var query = (from x in DBContext.Documentaries
-                                 where x.documentary_code == documentary_code
-                                 select x).First();
-                    return Json(new
-                    {
-                        success = false,
-                        message = "Mã số quyết định đã tồn tại"
-                    }, JsonRequestBehavior.AllowGet);
-                }
-                catch
-                {
-                    using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
-                    {
-                        try
-                        {
-                            List<Documentary_big_maintain_details> details = DBContext.Documentary_big_maintain_details.Where(x => x.documentary_id == documentary_id).ToList();
-                            foreach (Documentary_big_maintain_details item in details)
-                            {
-                                Equipment e = DBContext.Equipments.Find(item.equipmentId);
-                                e.current_Status = 9;
-                            }
-                            documentary_code = documentary_code.Replace(" ", String.Empty);
-                            i.documentary_code = documentary_code;
-                            i.date_created = DateTime.Parse(date_created);
-                            i.person_created = person_created;
-                            i.reason = reason;
-                            i.out_in_come = out_in_come;
-                            DBContext.SaveChanges();
-                            transaction.Commit();
-                            return Json(new
-                            {
-                                success = true,
-                            }, JsonRequestBehavior.AllowGet);
-                        }
-                        catch (Exception)
-                        {
-                            transaction.Rollback();
-                            return Json(new
-                            {
-                                success = false,
-                                message = "Có lỗi xảy ra"
-                            }, JsonRequestBehavior.AllowGet);
-                        }
-                    }
-                }
-            }
-
-        }
-
-
-
-
-        [HttpPost]
-        public ActionResult GetById(List<String> docID)
-        {
-            string id = docID[0];
-
-            try
-            {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                Documentary_Extend documentaryList = DBContext.Database.SqlQuery<Documentary_Extend>("Select documentary_id,documentary_code,department_id,person_created,date_created,reason, [out/in_come] as out_in_come from Documentary where documentary_id = @documentary_id", new SqlParameter("documentary_id", id)).First();
-                documentaryList.tempId = id;
-                ViewBag.ID = id;
-                documentaryList.date_created = DateTime.Now;
-                return Json(documentaryList);
-            }
-            catch (Exception)
-            {
-                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
-                return new HttpStatusCodeResult(400);
-            }
-        }
-
-        [HttpPost]
-        public ActionResult DeleteDoc(int docID)
-        {
-
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                Documentary doc = db.Documentaries.Where(x => x.documentary_id == docID).FirstOrDefault<Documentary>();
-                db.Documentaries.Remove(doc);
-                db.SaveChanges();
-                Response.Write("Xóa thành công!");
-                return new HttpStatusCodeResult(201);
-            }
-
-        }
-
-
-        [Route("phong-cdvt/quyet-dinh/trung-dai-tu/search")]
-        [HttpPost]
-        public ActionResult Search(string documentary_code, string person_created, string dateStart, string dateEnd)
-        {
+            //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             List<Documentary_Extend> documentaryList = new List<Documentary_Extend>();
-            if (dateStart == "") dateStart = "01/01/1900";
             DateTime dtEnd;
             DateTime dtStart;
             try
@@ -241,55 +51,35 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                 return new HttpStatusCodeResult(400);
             }
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-        
-                documentaryList = (from document in db.Documentaries
-                             where document.documentary_type.Equals(6) && (document.documentary_code =="" || document.documentary_code == null) && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
+
+            documentaryList = (from document in db.Documentaries
+                               where document.documentary_type.Equals(6) && (document.documentary_code == null || document.documentary_code == "") && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
+                               join detail in db.Documentary_big_maintain_details on document.documentary_id equals detail.documentary_id
+                               into temporary
+                               select new Documentary_Extend
+                               {
+                                   documentary_id = document.documentary_id,
+                                   date_created = document.date_created,
+                                   person_created = document.person_created,
+                                   reason = document.reason,
+                                   out_in_come = document.out_in_come,
+                                   count = temporary.Select(x => new { x.equipmentId }).Count()
+                               }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
+            int totalrows = (from document in db.Documentaries
+                             where document.documentary_type.Equals(1) && (document.documentary_code == null || document.documentary_code == "") && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
                              join detail in db.Documentary_big_maintain_details on document.documentary_id equals detail.documentary_id
                              into temporary
-                             select new
+                             select new Documentary_Extend
                              {
                                  documentary_id = document.documentary_id,
-                                 documentary_code = document.documentary_code,
                                  date_created = document.date_created,
                                  person_created = document.person_created,
                                  reason = document.reason,
                                  out_in_come = document.out_in_come,
                                  count = temporary.Select(x => new { x.equipmentId }).Count()
-                             }).ToList().Select(p => new Documentary_Extend
-                             {
-                                 documentary_id = p.documentary_id,
-                                 documentary_code = p.documentary_code,
-                                 date_created = p.date_created,
-                                 person_created = p.person_created,
-                                 reason = p.reason,
-                                 out_in_come = p.out_in_come,
-                                 count = p.count
-                             }).ToList();
-  
-     
-                foreach (var el in documentaryList)
-                {
-                    if (el.documentary_code == null || el.documentary_code.Equals(""))
-                    {
-                        el.tempId = el.documentary_id + "^false";
-                    }
-                    else
-                    {
-                        el.tempId = el.documentary_id + "^true^" + el.documentary_code;
-                    }
+                             }).Count();
 
-                }
-            
-
-
-            int totalrows = documentaryList.Count;
-            int totalrowsafterfiltering = documentaryList.Count;
-            //sorting
-            documentaryList = documentaryList.OrderBy(sortColumnName + " " + sortDirection).ToList<Documentary_Extend>();
-            //paging
-            documentaryList = documentaryList.Skip(start).Take(length).ToList<Documentary_Extend>();
-
-            return Json(new { success = true, data = documentaryList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, data = documentaryList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -306,28 +96,18 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     List<Documentary_Extend> documentaryList = (from document in db.Documentaries
-                                                      where (document.documentary_type.Equals(6) && (document.documentary_code == "" || document.documentary_code == null))
-                                                      join detail in db.Documentary_big_maintain_details on document.documentary_id equals detail.documentary_id
-                                                      into temporary
-                                                      select new
-                                                      {
-                                                         
-                                                          date_created = document.date_created,
-                                                          documentary_code = document.documentary_code,
-                                                          person_created = document.person_created,
-                                                          reason = document.reason,
-                                                          out_in_come = document.out_in_come,
-                                                          count = temporary.Select(x => new { x.equipmentId }).Count()
-                                                      }).ToList().Select(p => new Documentary_Extend
-                                                      {
-                                                          
-                                                          date_created = p.date_created,
-                                                          documentary_code = p.documentary_code,
-                                                          person_created = p.person_created,
-                                                          reason = p.reason,
-                                                          out_in_come = p.out_in_come,
-                                                          count = p.count
-                                                      }).ToList();
+                                                                where (document.documentary_type.Equals(1) && (document.documentary_code == "" || document.documentary_code == null))
+                                                                join detail in db.Documentary_big_maintain_details on document.documentary_id equals detail.documentary_id
+                                                                into temporary
+                                                                select new Documentary_Extend
+                                                                {
+                                                                    date_created = document.date_created,
+                                                                    documentary_code = document.documentary_code,
+                                                                    person_created = document.person_created,
+                                                                    reason = document.reason,
+                                                                    out_in_come = document.out_in_come,
+                                                                    count = temporary.Select(x => new { x.equipmentId }).Count()
+                                                                }).ToList();
                     int k = 0;
                     for (int i = 2; i < documentaryList.Count + 2; i++)
                     {
@@ -341,14 +121,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                         k++;
                     }
                     string location = HostingEnvironment.MapPath("/excel/CDVT/download");
-                    excelPackage.SaveAs(new FileInfo(location + "/TrungTuThietBi.xlsx"));
+                    excelPackage.SaveAs(new FileInfo(location + "/SuaChuaThietBi.xlsx"));
                 }
-
             }
-
         }
-
-
-
     }
 }
