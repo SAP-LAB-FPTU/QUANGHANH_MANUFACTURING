@@ -403,9 +403,15 @@ namespace QUANGHANHCORE.Controllers.DK
             ViewBag.dilam = dilam_result;
             ViewBag.nghi = nghi_result;
 
-            string mysql = @"select th.NgaySanXuat, kh.SoNgayLamViec
-                            from ThucHienTheoNgay th , KeHoachTungThang kh 
-                            where th.Ngay = @day";
+            string mysql = @"select 
+                            th.NgaySanXuat, 
+                            kh.SoNgayLamViec
+                            from 
+                            (select NgaySanXuat from ThucHienTheoNgay where Ngay = @day) as th,
+                            (select khtt.SoNgayLamViec from KeHoachTungThang khtt join header_KeHoachTungThang hdkht on khtt.ThangID = hdkht.ThangID
+                            where khtt.ThangKeHoach = Month(@day) and khtt.NamKeHoach = Year(@day)
+                            group by SoNgayLamViec) as kh";
+
             QuickReport qr = db.Database.SqlQuery<QuickReport>(mysql, new SqlParameter("day", date)).FirstOrDefault();
             if(qr != null)
             {
