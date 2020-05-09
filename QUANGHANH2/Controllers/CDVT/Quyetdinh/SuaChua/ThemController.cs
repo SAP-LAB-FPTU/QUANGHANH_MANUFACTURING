@@ -150,7 +150,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
 
                         Documentary_repair_details drd = new Documentary_repair_details
                         {
-                            department_id_from = dict[equipmentId],
+                            department_id_from = attach_to == null ? dict[equipmentId] : dict[attach_to],
                             equipment_repair_status = 0,
                             repair_type = item["type"].ToString(),
                             repair_reason = item["reason"].ToString(),
@@ -210,7 +210,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                     transaction.Commit();
                     return Json(new { success = true });
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     transaction.Rollback();
                     return Json(new { success = false, message = "Có lỗi xảy ra" });

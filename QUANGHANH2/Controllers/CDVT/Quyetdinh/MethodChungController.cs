@@ -95,6 +95,56 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
             }
         }
 
+        [HttpPost]
+        public ActionResult GetSupplyWithID(string supply_id)
+        {
+            try
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    db.Configuration.LazyLoadingEnabled = false;
+                    var supply = db.Supplies
+                        .Where(x => x.supply_id.Contains(supply_id))
+                        .Take(10)
+                        .Select(x => new {
+                            x.supply_id,
+                            x.supply_name
+                        })
+                        .ToList();
+                    return Json(new { success = true, supply });
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetSupplyWithName(string supply_name)
+        {
+            try
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    db.Configuration.LazyLoadingEnabled = false;
+                    var supply = db.Supplies
+                        .Where(x => x.supply_name.Contains(supply_name))
+                        .Take(10)
+                        .Select(x => new {
+                            x.supply_id,
+                            x.supply_name
+                        })
+                        .ToList();
+                    return Json(new { success = true, supply });
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false });
+            }
+        }
+
         [Route("phong-cdvt/quyet-dinh/update")]
         [HttpPost]
         public ActionResult Update()

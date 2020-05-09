@@ -121,7 +121,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
             ViewBag.incidents = listbyyear;
             //DD thiet bi
-            var equipment = DBContext.Database.SqlQuery<EquipWithName>("SELECT e.*,d.department_name,s.statusname FROM Equipment e,Status s,Department d WHERE d.department_id = e.department_id and e.current_Status = s.statusid and e.equipmentId = @id", new SqlParameter("id", id)).FirstOrDefault();
+            var equipment = DBContext.Database.SqlQuery<EquipWithName>("SELECT e.*,d.department_name,s.statusname FROM Equipment e LEFT JOIN Status s on e.current_Status = s.statusid LEFT JOIN Department d ON d.department_id = e.department_id WHERE e.equipmentId = @id", new SqlParameter("id", id)).FirstOrDefault();
             ViewBag.equipment = equipment;
             List<ddplus> listddplus = new List<ddplus>();
             var car = DBContext.Database.SqlQuery<Car>("select * from Car where equipmentId = @id", new SqlParameter("id", id)).FirstOrDefault();

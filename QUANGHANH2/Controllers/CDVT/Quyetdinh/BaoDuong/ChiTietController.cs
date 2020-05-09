@@ -48,7 +48,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.BaoDuong
 
         [Auther(RightID = "30,84,179,180,181,183,184,185,186,187,189,195")]
         [HttpPost]
-        [Route("phong-cdvt/quyet-dinh/sua-chua/chi-tiet")]
+        [Route("phong-cdvt/quyet-dinh/bao-duong/chi-tiet")]
         public ActionResult GetDetail(int documentary_repair_id, bool isSupply)
         {
             try
