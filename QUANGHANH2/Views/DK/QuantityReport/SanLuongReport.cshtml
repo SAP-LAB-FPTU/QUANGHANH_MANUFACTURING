@@ -156,6 +156,8 @@
                     }
                     $("#reportTable").children("tbody").html(content);
                     $("#pre-load").hide("slow", function () { });
+                    document.getElementById("reportTable").deleteRow(13);
+                    document.getElementById("reportTable").deleteRow(16);
                 },
                 error: function (response) {
                 }
