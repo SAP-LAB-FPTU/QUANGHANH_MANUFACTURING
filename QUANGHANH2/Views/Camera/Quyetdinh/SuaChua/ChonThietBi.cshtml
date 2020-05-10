@@ -69,7 +69,7 @@
     <script>
         //$("#pre-load").show();
         var dataTable;
-        var arr = $('input[name*="abc"]').val().split(",");
+        var arr = [];
 
         $(document).ready(function () {
             dataTable = $('#equipmentTable').DataTable({
@@ -141,13 +141,13 @@
                 arr.push(val);
             else
                 arr.splice(arr.indexOf(val), 1);
-            $('input[name*="abc"]').val(arr)
+            $('input[name*="abc"]').val(JSON.stringify(arr))
         })
 
         $('#drop').click(function () {
             arr = [];
             dataTable.ajax.reload();
-            $('input[name*="abc"]').val(arr)
+            $('input[name*="abc"]').val(JSON.stringify(arr))
         })
     </script>
 }

@@ -7506,7 +7506,7 @@
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\ChiTiet.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\DanhSach.cshtml" />
-    <Content Include="Views\Camera\Sua_chua_camera.cshtml" />
+    <Content Include="Views\Camera\Quyetdinh\SuaChua\ChonThietBi.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\ThemQuyetDinh.cshtml" />
     <Content Include="Views\Camera\SuCo.cshtml" />
     <Content Include="Views\TCLD\Occupation\Occupation.cshtml" />
