@@ -219,7 +219,7 @@ namespace QUANGHANH2.Controllers.DK
                 for (var index = 0; index < listReport.Count; index++)
                 {
                     listReport[index].KHDC = list_KHDC[index].SanLuong;
-                    listReport[index].BQQHDC = Math.Round(listReport[index].KHDC / (tongsongay), 2, MidpointRounding.ToEven) * 100;
+                    listReport[index].BQQHDC = Math.Round(listReport[index].KHDC / (tongsongay), 2, MidpointRounding.ToEven) ;
                     listReport[index].KH = list_KHDaily[index].SanLuong;
                 }
                 //
@@ -229,7 +229,7 @@ namespace QUANGHANH2.Controllers.DK
                     item.percentage = item.KH == 0 ? 100 : Math.Round(item.TH / item.KH, 2, MidpointRounding.ToEven) * 100;
                     item.percentageDC = item.KHDC == 0 ? 100 : Math.Round(item.luyke / item.KHDC, 2, MidpointRounding.ToEven) * 100;
                     item.SUM = item.KHDC - item.luyke;
-                    item.perday = Math.Round(item.SUM / (tongsongay - ngaylam), 2, MidpointRounding.ToEven) * 100;
+                    item.perday = Math.Round(item.SUM / (tongsongay - ngaylam), 2, MidpointRounding.ToEven) ;
                 }
                 //
                 List<string> listpxchinh = db.Database.SqlQuery<string>("select d.department_id from Department d where d.department_type = N'Phân xưởng sản xuất chính'").ToList();
