@@ -325,30 +325,11 @@ namespace QUANGHANH2.Controllers.DK
                     }
                     else if (header == "Mét Lò Xén")
                     {
-                        foreach (var item in listReport)
-                        {
-                            reportEntity rp2 = new reportEntity();
-                            if (item.TenNhomTieuChi == header)
-                            {
-                                //
-                                rp = addUp(rp, item);
-                                //
-                                if (item.MaTieuChi != previousTieuChi)
-                                {
-                                    rp2 = item;
-                                    //
-                                    previousTieuChi = item.MaTieuChi;
-                                    if (rp2.TenTieuChi.ToUpper() != header.ToUpper())
-                                    {
-                                        reports.Add(rp2);
-                                    }
-                                }
-                                else
-                                {
-                                    reports[reports.Count - 1] = rp;
-                                }
-                            }
-                        }
+                        reportEntity rp2 = new reportEntity();
+                        rp2 = reports.ElementAt(reports.Count() - 2);
+                        reports.Add(rp2);
+                        rp2 = reports[reports.Count() - 7];
+                        reports.Add(rp2);
                     }
                     else
                     {
@@ -385,6 +366,9 @@ namespace QUANGHANH2.Controllers.DK
                 // Tong met lo CBSX = Met Lo Tu Lam + Met Lo Thue Ngoai
                 reports[9] = addUp(reports[9], reports[10]);
                 reports[9] = addUp(reports[9], reports[14]);
+                //met lo xen
+                reports[18] = addUp(reports[18], reports[19]);
+                reports[18] = addUp(reports[18], reports[20]);
                 return reports;
             }
         }
