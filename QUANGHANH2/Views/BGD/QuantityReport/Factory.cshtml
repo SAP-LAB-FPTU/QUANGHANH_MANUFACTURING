@@ -144,7 +144,7 @@
                 for (let index = 0; index < data.length; index++) {
                     content += "<tr>"
                     if (data[index]["isHeader"]) {
-                        content += "<td colspan=\"16\"><b>" + data[index]["TenPhongBan"] + "</b></td>"
+                        content += "<td colspan=\"17\"><b>" + data[index]["TenPhongBan"] + "</b></td>"
                         count = 1;
                     }
                     //
@@ -152,11 +152,22 @@
                         content += "<td>" + count + "</td>";
                         for (let i = 0; i < tieuchiName.length; i++) {
                             if (data[index][tieuchiName[i]] != null) {
-                                if (tieuchiName[i] == "chenhlech") {
-                                    if (data[index][tieuchiName[i]] > 0) {
-                                        content += "<td><b><span class=\"green-text\">" + data[index][tieuchiName[i]] + "</span></b></td>"
+
+                                if (typeof (data[index][tieuchiName[i]]) === 'number') {
+                                    var value = data[index][tieuchiName[i]];
+                                    if (Math.floor(value) != value) {
+                                        value = parseFloat(value).toFixed(1)
                                     } else {
-                                        content += "<td><b><span class=\"red-text\">" + data[index][tieuchiName[i]] + "</span></b></td>"
+                                        value = parseFloat(value).toFixed(0)
+                                    }
+                                    if (tieuchiName[i] == "chenhlech") {
+                                        if (data[index][tieuchiName[i]] > 0) {
+                                            content += "<td><b><span class=\"green-text\">" + value + "</span></b></td>"
+                                        } else {
+                                            content += "<td><b><span class=\"red-text\">" + value + "</span></b></td>"
+                                        }
+                                    } else {
+                                        content += "<td>" + value + "</td>"
                                     }
                                 } else {
                                     content += "<td>" + data[index][tieuchiName[i]] + "</td>"

@@ -22,39 +22,62 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
         [Route("ban-giam-doc/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-phan-xuong")]
         public ActionResult Index()
         {
-            return View("/Views/BGD/QuantityReport/Factory.cshtml");
+            return View("/Views/DK/QuantityReport/DepartmentDaily.cshtml");
         }
         //
         dynamic getListReport(DateTime timeStart, DateTime timeEnd)
         {
-            var query =
-                @"select tmp1.*,TenTieuChi from (
-                    select department_name as [TenPhongBan], tmp2.* from(select MaPhongBan, MaTieuChi,
-                    SUM(Case when Ca = 1 and Ngay = @dateStart then SanLuong else 0 end) as [Ca1], 
-                    SUM(Case when Ca = 2 and Ngay = @dateStart then SanLuong else 0 end) as [Ca2], 
-                    SUM(Case when Ca = 3 and Ngay = @dateStart then SanLuong else 0 end) as [Ca3], 
-                    SUM(Case when(Ca = 3 or Ca = 2 or Ca = 1)and Ngay = @dateEnd then SanLuong else 0 end) as [TH], 
-                    SUM(Case when Ngay = @dateEnd then NgaySanXuat else 0 end) as [NgaySanXuat], 
-                    SUM(SanLuong) as [LuyKe] from
-                    (select MaPhongBan, MaTieuChi, Ca, Ngay, SanLuong, NgaySanXuat from
-                    (select h.*, t.NgaySanXuat, t.Ngay from header_ThucHienTheoNgay h join ThucHienTheoNgay t on h.NgayID = t.NgayID where Ngay between @dateStart and @dateEnd) as headerDaily
-                    inner join ThucHien_TieuChi_TheoNgay as th on headerDaily.HeaderID = th.HeaderID
-                    ) as tmp1
-                    Group by MaPhongBan,MaTieuChi) as tmp2 inner join Department on tmp2.MaPhongBan = Department.department_id) as tmp1
-                    inner join TieuChi on tmp1.MaTieuChi = TieuChi.MaTieuChi
-                    order by MaPhongBan,MaTieuChi";
+            var query = @"select tmp1.*,TenTieuChi 
+					    from 
+					    (select department_name as [TenPhongBan], tmp2.* 
+					    from
+					    (select kht.MaPhongBan, kht.MaTieuChi,
+                        SUM(Case when Ca = 1 and Ngay = @dateEnd then SanLuong else 0 end) as [Ca1], 
+                        SUM(Case when Ca = 2 and Ngay = @dateEnd then SanLuong else 0 end) as [Ca2], 
+                        SUM(Case when Ca = 3 and Ngay = @dateEnd then SanLuong else 0 end) as [Ca3], 
+                        SUM(Case when(Ca = 3 or Ca = 2 or Ca = 1)and Ngay = @dateEnd then SanLuong else 0 end) as [TH], 
+                        SUM(Case when Ngay = @dateEnd then NgaySanXuat else 0 end) as [NgaySanXuat], 
+                        ISNULL(SUM(SanLuong),0) as [LuyKe] 
+					    from
+					    (select kht.MaPhongBan, khtctt.MaTieuChi, MAX(ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung' 
+					    from 
+					    (select hd.HeaderID, hd.MaPhongBan from header_KeHoachTungThang hd join KeHoachTungThang khtt on hd.ThangID = khtt.ThangID
+					    where khtt.ThangKeHoach = Month(@dateEnd) and khtt.NamKeHoach = Year(@dateEnd)
+					    group by hd.HeaderID, hd.MaPhongBan) as kht 
+					    join KeHoach_TieuChi_TheoThang khtctt on khtctt.HeaderID = kht.HeaderID
+					    group by kht.MaPhongBan, khtctt.MaTieuChi) as kht
+					    LEFT JOIN
+                        (select MaPhongBan, MaTieuChi, Ca, Ngay, SanLuong, NgaySanXuat from
+                        (select h.*, t.NgaySanXuat, t.Ngay from header_ThucHienTheoNgay h join ThucHienTheoNgay t on h.NgayID = t.NgayID where Ngay between @dateStart and @dateEnd) as headerDaily
+                        inner join ThucHien_TieuChi_TheoNgay as th on headerDaily.HeaderID = th.HeaderID) as tmp1 on tmp1.MaTieuChi = kht.MaTieuChi and tmp1.MaPhongBan = kht.MaPhongBan
+                        Group by kht.MaPhongBan, kht.MaTieuChi) as tmp2
+					    inner join Department on tmp2.MaPhongBan = Department.department_id) as tmp1
+                        inner join TieuChi on tmp1.MaTieuChi = TieuChi.MaTieuChi
+                        order by MaPhongBan,MaTieuChi";
 
-            var querykHDaily = "select MaPhongBan,MaTieuChi,SUM(KeHoach) as KeHoach from " +
-                "(select MaPhongBan, MaTieuChi, KeHoach from " +
-                "(select * from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @dateEnd) as headerDailyPlan " +
-                "inner join " +
-                "(select dailyPlan.* from KeHoach_TieuChi_TheoNgay as dailyPlan " +
-                "inner join " +
-                "(select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] from KeHoach_TieuChi_TheoNgay " +
-                "group by HeaderID, MaTieuChi) as maxTime on maxTime.HeaderID = dailyPlan.HeaderID and maxTime.MaTieuChi = dailyPlan.MaTieuChi and maxTime.ThoiGianNhapCuoiCung = dailyPlan.ThoiGianNhapCuoiCung) as dailyPlan " +
-                "on headerDailyPlan.HeaderID = dailyPlan.HeaderID) as tmp1 " +
-                "group by MaPhongBan,MaTieuChi " +
-                "order by MaPhongBan, MaTieuChi";
+            var querykHDaily = @"select 
+                                kht.MaPhongBan, 
+                                kht.MaTieuChi, 
+                                ISNULL(SUM(KeHoach), 0) as KeHoach
+                                from
+                                (select kht.MaPhongBan, khtctt.MaTieuChi, MAX(ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung'
+                                from
+                                (select hd.HeaderID, hd.MaPhongBan from header_KeHoachTungThang hd join KeHoachTungThang khtt on hd.ThangID = khtt.ThangID
+                                where khtt.ThangKeHoach = Month(@dateEnd) and khtt.NamKeHoach = Year(@dateEnd)
+                                group by hd.HeaderID, hd.MaPhongBan) as kht
+                                join KeHoach_TieuChi_TheoThang khtctt on khtctt.HeaderID = kht.HeaderID
+                                group by kht.MaPhongBan, khtctt.MaTieuChi) as kht
+                                LEFT JOIN
+                                (select MaPhongBan, MaTieuChi, KeHoach from
+                                (select* from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @dateEnd) as headerDailyPlan
+                                inner join
+                                (select dailyPlan.*from KeHoach_TieuChi_TheoNgay as dailyPlan
+                                inner join
+                                (select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] from KeHoach_TieuChi_TheoNgay
+                                group by HeaderID, MaTieuChi) as maxTime on maxTime.HeaderID = dailyPlan.HeaderID and maxTime.MaTieuChi = dailyPlan.MaTieuChi and maxTime.ThoiGianNhapCuoiCung = dailyPlan.ThoiGianNhapCuoiCung) as dailyPlan
+                                on headerDailyPlan.HeaderID = dailyPlan.HeaderID) as tmp1 on kht.MaPhongBan = tmp1.MaPhongBan and tmp1.MaTieuChi = kht.MaTieuChi
+                                group by kht.MaPhongBan, kht.MaTieuChi
+                                order by MaPhongBan, MaTieuChi";
 
             var queryKHDC = @"select MaPhongBan,MaTieuChi,KHBD,KHDC,SoNgayLamViec from
                             (select h.*, k.SoNgayLamViec from header_KeHoachTungThang h join KeHoachTungThang k on h.ThangID = k.ThangID where ThangKeHoach = @month and NamKeHoach = @year) as headerMonthlyPlan 
@@ -77,9 +100,7 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 var listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
-                // var listKHDC = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
                 var listKHDC = db.Database.SqlQuery<KHDCDepartmentEntity>(queryKHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
-                // var listKHDaily = db.Database.SqlQuery<KHDCDepartmentEntity>(querykHDaily, new SqlParameter("date", timeEnd), new SqlParameter("month", timeEnd.Month)).ToList();
                 var listKHDaily = db.Database.SqlQuery<DailyPlanEntity>(querykHDaily, new SqlParameter("date", timeEnd), new SqlParameter("month", timeEnd.Month), new SqlParameter("dateEnd", timeEnd)).ToList();
                 if (listKHDaily.Count == 0)
                 {
@@ -115,20 +136,16 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                     listReport[index].perday_display = string.Format("{0:0.00}", listReport[index].perday);
 
                 }
-                var departmentName = new string[] { "Phân xưởng khai thác 1", "Phân xưởng khai thác 2", "Phân xưởng khai thác 3", "Phân xưởng khai thác 4","Phân xưởng khai thác 5",
-                                                    "Phân xưởng khai thác 6", "Phân xưởng khai thác 7", "Phân xưởng khai thác 8", "Phân xưởng khai thác 9","Phân xưởng khai thác 10",
-                                                    "Phân xưởng khai thác 11", "Phân xưởng đào lò 3", "Phân xưởng đào lò 5", "Phân xưởng đào lò 7","Phân xưởng đào lò 8",
-                                                    "Phân xưởng chế biến than","Phân xưởng vận tải lò 1","Phân xưởng vận tải lò 2"};
-
+                var departmentName = db.Departments.Where(x => x.department_type.Contains("Phân xưởng sản xuất chính") || x.department_type.Contains("Đơn vị sản xuất thuê ngoài")).OrderBy(x => x.department_name).ToList();
                 foreach (var name in departmentName)
                 {
                     reportEntity rp = new reportEntity();
-                    rp.TenPhongBan = name;
+                    rp.TenPhongBan = name.department_name;
                     rp.isHeader = true;
                     reports.Add(rp);
                     foreach (var report in listReport)
                     {
-                        if (report.TenPhongBan == name)
+                        if (report.TenPhongBan == name.department_name)
                         {
                             report.isHeader = false;
                             reports.Add(report);
