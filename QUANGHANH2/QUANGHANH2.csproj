@@ -6583,6 +6583,13 @@
     <Content Include="js\Custom JS\DK\ReportHuman\ReportChart_Monthly.js" />
     <Content Include="js\Custom JS\Flexible_user_icon.js" />
     <Content Include="js\Custom JS\form-input-border.js" />
+    <Content Include="js\Custom JS\jquery-freeze-table-master\dist\js\freeze-table.js" />
+    <Content Include="js\Custom JS\jquery-freeze-table-master\dist\js\freeze-table.min.js" />
+    <Content Include="js\Custom JS\jquery-freeze-table-master\docs\dist\js\freeze-table.js" />
+    <Content Include="js\Custom JS\jquery-freeze-table-master\docs\index.html" />
+    <Content Include="js\Custom JS\jquery-freeze-table-master\docs\narrow-jumbotron.css" />
+    <Content Include="js\Custom JS\jquery-freeze-table-master\img\demonstration.png" />
+    <Content Include="js\Custom JS\jquery-freeze-table-master\src\js\freeze-table.js" />
     <Content Include="js\Custom JS\PX\PXKT\add_product_report.js" />
     <Content Include="js\Rowspan\jquery.rowspanizer.js" />
     <Content Include="js\Rowspan\jquery.rowspanizer.min.js" />
@@ -7218,6 +7225,11 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="js\Custom JS\jquery-freeze-table-master\bower.json" />
+    <Content Include="js\Custom JS\jquery-freeze-table-master\LICENSE" />
+    <Content Include="js\Custom JS\jquery-freeze-table-master\package.json" />
+    <Content Include="js\Custom JS\jquery-freeze-table-master\README.md" />
+    <Content Include="js\Custom JS\jquery-freeze-table-master\RECOMMENDATIONS.md" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
