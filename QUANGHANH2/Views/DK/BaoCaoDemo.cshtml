@@ -367,7 +367,8 @@
                         elem["date"] = dateFormat2(elem["date"])
                         tableBody += "<tr>"
                         Object.keys(elem).forEach((key, index) => {
-                            tableBody += "<td>" + elem[key] + "</td>"
+                            var value = Math.floor(elem[key]) === elem[key] ? elem[key] : parseFloat(elem[key]).toFixed(1);
+                            tableBody += "<td>" + value + "</td>"
                         })
                         tableBody += "</tr>"
                     })
