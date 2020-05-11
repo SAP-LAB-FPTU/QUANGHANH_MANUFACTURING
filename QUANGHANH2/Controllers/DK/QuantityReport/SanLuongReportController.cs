@@ -131,7 +131,7 @@ namespace QUANGHANH2.Controllers.DK
 							GROUP BY kht.MaTieuChi, kht.MaPhongBan) as table2 ) as table3 on table3.MaTieuChi = TieuChi.MaTieuChi 
                             LEFT JOIN NhomTieuChi on TieuChi.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi 
                             group by TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,table3.MaPhongBan
-                            order by MaTieuChi, MaPhongBan desc";
+                            order by MaTieuChi, MaPhongBan";
 
             var query_KHDC = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,table1.MaPhongBan,
                             TieuChi.MaTieuChi from (select MaTieuChi, SUM(SanLuong) as SanLuong,header.MaPhongBan from(
@@ -142,7 +142,7 @@ namespace QUANGHANH2.Controllers.DK
                             on b.HeaderID = header.HeaderID 
                             group by MaTieuChi,MaPhongBan) as table1 
                             right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi
-                            order by MaTieuChi, MaPhongBan desc";
+                            order by MaTieuChi, MaPhongBan";
 
             var query_KHDaily = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong, kht.MaPhongBan,
                             tc.MaTieuChi 
@@ -199,7 +199,7 @@ namespace QUANGHANH2.Controllers.DK
                             group by MaTieuChi,MaPhongBan)  as table1 
                             right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi) as addon
                             where addon.MaPhongBan is not null
-                            order by MaTieuChi, MaPhongBan desc";
+                            order by MaTieuChi, MaPhongBan";
 
             String[] headers = {"Than Sản Xuất","Than Hầm Lò","Than Lộ Thiên","Đất Đá Bóc", "Nhập Dương Huy", "Tổng Mét Lò CBSX", "Mét Lò CBSX Tự Làm",
                 "Mét Lò CBSX Thuê Ngoài", "Mét Lò Xén", "Than Sàng Tuyển", "Than Tiêu Thụ", "Doanh Thu", "Đá Xít Sau Sàng Tuyển"};
@@ -219,7 +219,7 @@ namespace QUANGHANH2.Controllers.DK
                 for (var index = 0; index < listReport.Count; index++)
                 {
                     listReport[index].KHDC = list_KHDC[index].SanLuong;
-                    listReport[index].BQQHDC = Math.Round(listReport[index].KHDC / (tongsongay), 2, MidpointRounding.ToEven) * 100;
+                    listReport[index].BQQHDC = Math.Round(listReport[index].KHDC / (tongsongay), 2, MidpointRounding.ToEven);
                     listReport[index].KH = list_KHDaily[index].SanLuong;
                 }
                 //
@@ -229,17 +229,22 @@ namespace QUANGHANH2.Controllers.DK
                     item.percentage = item.KH == 0 ? 100 : Math.Round(item.TH / item.KH, 2, MidpointRounding.ToEven) * 100;
                     item.percentageDC = item.KHDC == 0 ? 100 : Math.Round(item.luyke / item.KHDC, 2, MidpointRounding.ToEven) * 100;
                     item.SUM = item.KHDC - item.luyke;
-                    item.perday = Math.Round(item.SUM / (tongsongay - ngaylam), 2, MidpointRounding.ToEven) * 100;
+                    item.perday = Math.Round(item.SUM / (tongsongay - ngaylam), 2, MidpointRounding.ToEven);
                 }
                 //
                 List<string> listpxchinh = db.Database.SqlQuery<string>("select d.department_id from Department d where d.department_type = N'Phân xưởng sản xuất chính'").ToList();
                 List<string> listpxthue = db.Database.SqlQuery<string>("select d.department_id from Department d where d.department_type = N'Đơn vị sản xuất thuê ngoài'").ToList();
                 List<reportEntity> reports = new List<reportEntity>();
+                reportEntity temp = new reportEntity();
                 foreach (var header in headers)
                 {
                     reportEntity rp = new reportEntity();
                     rp.TenTieuChi = header;
                     rp.isHeader = true;
+                    if (header == "Mét Lò Xén")
+                    {
+                        temp = reports[reports.Count - 1];
+                    }
                     reports.Add(rp);
                     int previousTieuChi = -1;
                     var headerInDB = header;
@@ -279,70 +284,23 @@ namespace QUANGHANH2.Controllers.DK
                             }
                         }
                     }
-                    else
+                    else if (header == "Mét Lò CBSX Thuê Ngoài")
                     {
-                        if (header == "Mét Lò CBSX Thuê Ngoài")
+                        foreach (var item in listReport)
                         {
-                            foreach (var item in listReport)
-                            {
 
-                                if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo" || item.TenNhomTieuChi == "Mét Lò Xén")
-                                {
-                                    reportEntity rp2 = new reportEntity();
-                                    //Boolean b = listpxchinh.Contains(item.MaPhongBan);
-                                    if (listpxthue.Contains(item.MaPhongBan) || item.MaPhongBan == null)
-                                    {
-                                        //rp = addUp(rp, item);
-                                        if (item.TenNhomTieuChi == "Mét Lò Đào")
-                                        {
-                                            rp2 = item;
-                                            rp = addUp(rp, item);
-                                        }
-                                        //
-                                        if (item.MaTieuChi != previousTieuChi)
-                                        {
-                                            rp2 = item;
-                                            //
-                                            previousTieuChi = item.MaTieuChi;
-                                            if (rp2.TenTieuChi.ToUpper() != header.ToUpper())
-                                            {
-                                                reports.Add(rp2);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            rp2 = item;
-                                            reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (item.MaTieuChi != previousTieuChi)
-                                        {
-                                            rp2.TenTieuChi = item.TenTieuChi;
-                                            //
-                                            previousTieuChi = item.MaTieuChi;
-                                            if (rp2.TenTieuChi.ToUpper() != header.ToUpper())
-                                            {
-                                                reports.Add(rp2);
-                                            }
-                                        }
-                                        //rp2.TenTieuChi = item.TenTieuChi;
-                                        //reports.Add(rp2);
-                                    }
-                                    Console.WriteLine();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            foreach (var item in listReport)
+                            if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo" || item.TenNhomTieuChi == "Mét Lò Xén")
                             {
                                 reportEntity rp2 = new reportEntity();
-                                if (item.TenNhomTieuChi == header)
+                                //Boolean b = listpxchinh.Contains(item.MaPhongBan);
+                                if (listpxthue.Contains(item.MaPhongBan) || item.MaPhongBan == null)
                                 {
-                                    //
-                                    rp = addUp(rp, item);
+                                    //rp = addUp(rp, item);
+                                    if (item.TenNhomTieuChi == "Mét Lò Đào")
+                                    {
+                                        rp2 = item;
+                                        rp = addUp(rp, item);
+                                    }
                                     //
                                     if (item.MaTieuChi != previousTieuChi)
                                     {
@@ -352,17 +310,75 @@ namespace QUANGHANH2.Controllers.DK
                                         if (rp2.TenTieuChi.ToUpper() != header.ToUpper())
                                         {
                                             reports.Add(rp2);
+                                            temp = rp2;
                                         }
                                     }
                                     else
                                     {
+                                        rp2 = item;
                                         reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
                                     }
+                                }
+                                Console.WriteLine();
+                            }
+                        }
+                    }
+                    else if (header == "Mét Lò Xén")
+                    {
+                        foreach (var item in listReport)
+                        {
+                            reportEntity rp2 = new reportEntity();
+                            if (item.TenNhomTieuChi == header)
+                            {
+                                //
+                                rp = addUp(rp, item);
+                                //
+                                if (item.MaTieuChi != previousTieuChi)
+                                {
+                                    rp2 = item;
+                                    //
+                                    previousTieuChi = item.MaTieuChi;
+                                    if (rp2.TenTieuChi.ToUpper() != header.ToUpper())
+                                    {
+                                        reports.Add(rp2);
+                                    }
+                                }
+                                else
+                                {
+                                    reports[reports.Count - 1] = rp;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var item in listReport)
+                        {
+                            reportEntity rp2 = new reportEntity();
+                            if (item.TenNhomTieuChi == header)
+                            {
+                                //
+                                rp = addUp(rp, item);
+                                //
+                                if (item.MaTieuChi != previousTieuChi)
+                                {
+                                    rp2 = item;
+                                    //
+                                    previousTieuChi = item.MaTieuChi;
+                                    if (rp2.TenTieuChi.ToUpper() != header.ToUpper())
+                                    {
+                                        reports.Add(rp2);
+                                    }
+                                }
+                                else
+                                {
+                                    reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
                                 }
                             }
                         }
                     }
                 }
+
                 // Than San Xuat = Than Ham Lo + Than Lo Thien
                 reports[0] = addUp(reports[0], reports[1]);
                 reports[0] = addUp(reports[0], reports[4]);
