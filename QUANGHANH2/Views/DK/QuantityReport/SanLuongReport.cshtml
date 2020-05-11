@@ -158,6 +158,8 @@
                     $("#pre-load").hide("slow", function () { });
                     document.getElementById("reportTable").deleteRow(13);
                     document.getElementById("reportTable").deleteRow(16);
+                    document.getElementById("reportTable").rows[19].cells[1].innerHTML = "Mét lò xén thuê ngoài";
+                    document.getElementById("reportTable").rows[20].cells[1].innerHTML = "Mét lò xén tự làm";
                 },
                 error: function (response) {
                 }
