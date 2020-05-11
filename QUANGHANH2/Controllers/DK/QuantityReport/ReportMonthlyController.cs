@@ -244,45 +244,45 @@ namespace QUANGHANH2.Controllers.DK
                         if (listTH[index2].TenPhongBan == departmentName[index].department_name)
                         {
                             ChiTietBaoCao_Object bc = new ChiTietBaoCao_Object();
-                            bc.Jan = listTH[index2].Jan == null ? 0 : listTH[index2].Jan;
-                            bc.Feb = listTH[index2].Feb == null ? 0 : listTH[index2].Feb;
-                            bc.March = listTH[index2].March == null ? 0 : listTH[index2].March;
-                            bc.April = listTH[index2].April == null ? 0 : listTH[index2].April;
-                            bc.May = listTH[index2].May == null ? 0 : listTH[index2].May;
-                            bc.June = listTH[index2].June == null ? 0 : listTH[index2].June;
-                            bc.July = listTH[index2].July == null ? 0 : listTH[index2].July;
-                            bc.Aug = listTH[index2].Aug == null ? 0 : listTH[index2].Aug;
-                            bc.Sep = listTH[index2].Sep == null ? 0 : listTH[index2].Sep;
-                            bc.Oct = listTH[index2].Oct == null ? 0 : listTH[index2].Oct;
-                            bc.Nov = listTH[index2].Nov == null ? 0 : listTH[index2].Nov;
-                            bc.Dec = listTH[index2].Dec == null ? 0 : listTH[index2].Dec;
-                            bc.Q1 = listTH[index2].Q1 == null ? 0 : listTH[index2].Q1;
-                            bc.Q2 = listTH[index2].Q2 == null ? 0 : listTH[index2].Q2;
-                            bc.Q3 = listTH[index2].Q3 == null ? 0 : listTH[index2].Q3;
-                            bc.totalYear = listTH[index2].totalYear == null ? 0 : listTH[index2].totalYear;
+                            bc.Jan = listTH[index2].Jan;
+                            bc.Feb = listTH[index2].Feb;
+                            bc.March = listTH[index2].March;
+                            bc.April = listTH[index2].April;
+                            bc.May = listTH[index2].May;
+                            bc.June = listTH[index2].June;
+                            bc.July = listTH[index2].July;
+                            bc.Aug = listTH[index2].Aug;
+                            bc.Sep = listTH[index2].Sep;
+                            bc.Oct = listTH[index2].Oct;
+                            bc.Nov = listTH[index2].Nov;
+                            bc.Dec = listTH[index2].Dec;
+                            bc.Q1 = listTH[index2].Q1;
+                            bc.Q2 = listTH[index2].Q2;
+                            bc.Q3 = listTH[index2].Q3;
+                            bc.totalYear = listTH[index2].totalYear;
                             bc.isHeader = false;
                             bc.TenNhomTieuChi = listTH[index2].TenNhomTieuChi;
                             //
-                            bc.JanKH = listKH[index2].Jan == null ? 0 : listKH[index2].Jan;
-                            bc.FebKH = listKH[index2].Feb == null ? 0 : listKH[index2].Feb;
-                            bc.MarchKH = listKH[index2].March == null ? 0 : listKH[index2].March;
-                            bc.AprilKH = listKH[index2].April == null ? 0 : listKH[index2].April;
-                            bc.MayKH = listKH[index2].May == null ? 0 : listKH[index2].May;
-                            bc.JuneKH = listKH[index2].June == null ? 0 : listKH[index2].June;
-                            bc.JulyKH = listKH[index2].July == null ? 0 : listKH[index2].July;
-                            bc.AugKH = listKH[index2].Aug == null ? 0 : listKH[index2].Aug;
-                            bc.SepKH = listKH[index2].Sep == null ? 0 : listKH[index2].Sep;
-                            bc.OctKH = listKH[index2].Oct == null ? 0 : listKH[index2].Oct;
-                            bc.NovKH = listKH[index2].Nov == null ? 0 : listKH[index2].Nov;
-                            bc.DecKH = listKH[index2].Dec == null ? 0 : listKH[index2].Dec;
-                            bc.Q1KH = listKH[index2].Q1 == null ? 0 : listKH[index2].Q1;
-                            bc.Q2KH = listKH[index2].Q2 == null ? 0 : listKH[index2].Q2;
-                            bc.Q3KH = listKH[index2].Q3 == null ? 0 : listKH[index2].Q3;
+                            bc.JanKH = listKH[index2].Jan;
+                            bc.FebKH = listKH[index2].Feb;
+                            bc.MarchKH = listKH[index2].March;
+                            bc.AprilKH = listKH[index2].April;
+                            bc.MayKH = listKH[index2].May;
+                            bc.JuneKH = listKH[index2].June;
+                            bc.JulyKH = listKH[index2].July;
+                            bc.AugKH = listKH[index2].Aug;
+                            bc.SepKH = listKH[index2].Sep;
+                            bc.OctKH = listKH[index2].Oct;
+                            bc.NovKH = listKH[index2].Nov;
+                            bc.DecKH = listKH[index2].Dec;
+                            bc.Q1KH = listKH[index2].Q1;
+                            bc.Q2KH = listKH[index2].Q2;
+                            bc.Q3KH = listKH[index2].Q3;
                             //
-                            bc.adjustedPlan = listKHDC_BD[index2].KHDC == null ? 0 : listKHDC_BD[index2].KHDC;
-                            bc.firstPlan = listKHDC_BD[index2].KHBD == null ? 0 : listKHDC_BD[index2].KHBD;
+                            bc.adjustedPlan = listKHDC_BD[index2].KHDC;
+                            bc.firstPlan = listKHDC_BD[index2].KHBD;
                             //
-                            bc.totalYearKH = listYearlyPlan[index2].SanLuong == null ? 0 : listYearlyPlan[index2].SanLuong;
+                            bc.totalYearKH = listYearlyPlan[index2].SanLuong;
                             //
                             if (bc.JanKH != 0)
                             {

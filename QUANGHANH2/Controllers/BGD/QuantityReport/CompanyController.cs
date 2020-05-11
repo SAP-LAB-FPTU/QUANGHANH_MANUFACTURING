@@ -48,14 +48,47 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
             item1.KHDC += item2.KHDC;
             item1.perday += item2.perday;
             //
-            item1.percentage = item1.KH == 0 ? 100 : Math.Round(item1.TH / item1.KH, 2, MidpointRounding.ToEven);
-            item1.percentageDC = item1.KHDC == 0 ? 100 : Math.Round(item1.luyke / item1.KHDC, 2, MidpointRounding.ToEven);
+            item1.percentage = item1.KH == 0 ? 100 : Math.Round(item1.TH / item1.KH, 2, MidpointRounding.ToEven) * 100;
+            item1.percentageDC = item1.KHDC == 0 ? 100 : Math.Round(item1.luyke / item1.KHDC, 2, MidpointRounding.ToEven) * 100;
             return item1;
         }
 
         dynamic getData(DateTime timeStart, DateTime timeEnd)
         {
-            var query = @"select TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,
+            //var query = @"select TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,table3.MaPhongBan,
+            //                SUM(Case when CA1 IS NULL then CONVERT(float, 0) else CA1 end) as [CA1],
+            //                SUM(Case when CA2 IS NULL then CONVERT(float,0) else CA2 end) as [CA2], 
+            //                SUM(Case when CA3 IS NULL then CONVERT(float,0) else CA3 end) as [CA3], 
+            //                SUM(Case when TH IS NULL then CONVERT(float,0) else TH end) as TH, 
+            //                SUM(Case when LUYKE IS NULL then CONVERT(float,0) else LUYKE end) as LUYKE, 
+            //                SUM(Case when KH IS NULL then CONVERT(float,0) else KH end) as KH, 
+            //                SUM(Case when CHENHLECH IS NULL then CONVERT(float,0) else CHENHLECH end) as [CHENHLECH], 
+            //                SUM(Case when[PERCENTAGE] IS NULL then CONVERT(float,0) else [PERCENTAGE] end) as [PERCENTAGE], 
+            //                SUM(Case when KHDC IS NULL then CONVERT(float,0) else KHDC end) as KHDC, 
+            //                SUM(Case when percentDC IS NULL then 0 else percentDC end) as percentDC, 
+            //                SUM(Case when LUYKE IS NULL then 0 else LUYKE end) as LUYKE, 
+            //                SUM(Case when KH IS NULL then 0 else KH end) as KH from TieuChi 
+            //                left join (select * ,CONVERT(float, 0) as [KH],
+            //                CONVERT(float, 0) as [CHENHLECH],CONVERT(float, 0) as [PERCENTAGE], 
+            //                CONVERT(float, 0) as [KHDC], CONVERT(float, 0) as [percentDC], 
+            //                CONVERT(float, 0) as [SUM], CONVERT(float, 0) as [perday],  
+            //                CONVERT(float, 0) as [BQKHDC] from(select MaTieuChi, MaPhongBan, 
+            //                Sum(case when ca = 1 and Ngay = @dateEnd then SanLuong else 0  end )as [CA1], 
+            //                Sum(case when ca = 2 and Ngay = @dateEnd then SanLuong else 0  end )as [CA2], 
+            //                Sum(case when ca = 3 and Ngay = @dateEnd then SanLuong else 0  end )as [CA3], 
+            //                Sum(case when Ngay = @dateEnd then SanLuong else 0  end )as [TH],  
+            //                SUM(SanLuong) as [LUYKE] from(
+            //                select header_th.MaPhongBan, thuchien.HeaderID, thuchien.MaTieuChi, thuchien.SanLuong, header_th.Ca, tht.Ngay, px.department_id, px.isInside 
+            //                from ThucHien_TieuChi_TheoNgay as thuchien inner JOIN header_ThucHienTheoNgay as header_th 
+            //                on thuchien.HeaderID = header_th.HeaderID 
+            //                join ThucHienTheoNgay tht on header_th.NgayID = tht.NgayID and tht.Ngay >= @dateStart and tht.Ngay <= @dateEnd 
+            //                INNER JOIN Department as px on px.department_id = header_th.MaPhongBan) as a GROUP BY MaTieuChi,MaPhongBan) as table2 ) 
+            //                as table3 on table3.MaTieuChi = TieuChi.MaTieuChi 
+            //                inner join NhomTieuChi on TieuChi.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi 
+            //                group by TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,table3.MaPhongBan
+            //                order by MaTieuChi, MaPhongBan";
+
+            var query = @"select TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,table3.MaPhongBan,
                             SUM(Case when CA1 IS NULL then CONVERT(float, 0) else CA1 end) as [CA1],
                             SUM(Case when CA2 IS NULL then CONVERT(float,0) else CA2 end) as [CA2], 
                             SUM(Case when CA3 IS NULL then CONVERT(float,0) else CA3 end) as [CA3], 
@@ -68,48 +101,106 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                             SUM(Case when percentDC IS NULL then 0 else percentDC end) as percentDC, 
                             SUM(Case when LUYKE IS NULL then 0 else LUYKE end) as LUYKE, 
                             SUM(Case when KH IS NULL then 0 else KH end) as KH from TieuChi 
-                            left join (select * ,CONVERT(float, 0) as [KH],
+                            left join 
+							(select * ,CONVERT(float, 0) as [KH],
                             CONVERT(float, 0) as [CHENHLECH],CONVERT(float, 0) as [PERCENTAGE], 
                             CONVERT(float, 0) as [KHDC], CONVERT(float, 0) as [percentDC], 
                             CONVERT(float, 0) as [SUM], CONVERT(float, 0) as [perday],  
-                            CONVERT(float, 0) as [BQKHDC] from(select MaTieuChi, MaPhongBan, 
+                            CONVERT(float, 0) as [BQKHDC] 
+							from
+							(select kht.MaTieuChi, kht.MaPhongBan, 
                             Sum(case when ca = 1 and Ngay = @dateEnd then SanLuong else 0  end )as [CA1], 
                             Sum(case when ca = 2 and Ngay = @dateEnd then SanLuong else 0  end )as [CA2], 
                             Sum(case when ca = 3 and Ngay = @dateEnd then SanLuong else 0  end )as [CA3], 
                             Sum(case when Ngay = @dateEnd then SanLuong else 0  end )as [TH],  
-                            SUM(SanLuong) as [LUYKE] from(
-                            select header_th.MaPhongBan, thuchien.HeaderID, thuchien.MaTieuChi, thuchien.SanLuong, header_th.Ca, tht.Ngay, px.department_id, px.isInside 
-                            from ThucHien_TieuChi_TheoNgay as thuchien inner JOIN header_ThucHienTheoNgay as header_th 
+                            SUM(SanLuong) as [LUYKE]
+							from
+							(select kht.MaPhongBan, khtctt.MaTieuChi, MAX(ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung' 
+							from 
+							(select hd.HeaderID, hd.MaPhongBan from header_KeHoachTungThang hd join KeHoachTungThang khtt on hd.ThangID = khtt.ThangID
+							where khtt.ThangKeHoach = Month(@dateEnd) and khtt.NamKeHoach = Year(@dateEnd)
+							group by hd.HeaderID, hd.MaPhongBan) as kht 
+							join KeHoach_TieuChi_TheoThang khtctt on khtctt.HeaderID = kht.HeaderID
+							group by kht.MaPhongBan, khtctt.MaTieuChi) as kht
+							left join
+							(select header_th.MaPhongBan, thuchien.HeaderID, thuchien.MaTieuChi, thuchien.SanLuong, header_th.Ca, tht.Ngay, px.department_id, px.isInside 
+                            from 
+							ThucHien_TieuChi_TheoNgay as thuchien inner JOIN header_ThucHienTheoNgay as header_th 
                             on thuchien.HeaderID = header_th.HeaderID 
                             join ThucHienTheoNgay tht on header_th.NgayID = tht.NgayID and tht.Ngay >= @dateStart and tht.Ngay <= @dateEnd 
-                            INNER JOIN Department as px on px.department_id = header_th.MaPhongBan) as a GROUP BY MaTieuChi,MaPhongBan) as table2 ) 
-                            as table3 on table3.MaTieuChi = TieuChi.MaTieuChi 
-                            inner join NhomTieuChi on TieuChi.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi 
-                            group by TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi
-                            order by MaTieuChi";
+                            join Department as px on px.department_id = header_th.MaPhongBan) as a on kht.MaPhongBan = a.MaPhongBan and kht.MaTieuChi = a.MaTieuChi
+							GROUP BY kht.MaTieuChi, kht.MaPhongBan) as table2 ) as table3 on table3.MaTieuChi = TieuChi.MaTieuChi 
+                            LEFT JOIN NhomTieuChi on TieuChi.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi 
+                            group by TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,table3.MaPhongBan
+                            order by MaTieuChi, MaPhongBan";
 
-            var query_KHDC = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,
-                            (case when table1.MaPhongBan is null then '' else table1.MaPhongBan end) as MaPhongBan,TieuChi.MaTieuChi from (select MaTieuChi, SUM(SanLuong) as SanLuong,header.MaPhongBan from(
+            var query_KHDC = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,table1.MaPhongBan,
+                            TieuChi.MaTieuChi from (select MaTieuChi, SUM(SanLuong) as SanLuong,header.MaPhongBan from(
                             select kehoach.*from(Select HeaderID, MaTieuChi,Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] from KeHoach_TieuChi_TheoThang group by MaTieuChi, HeaderID) as a 
                             inner join KeHoach_TieuChi_TheoThang as kehoach 
                             on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b 
                             inner join(select h.* from header_KeHoachTungThang h join KeHoachTungThang kh on h.ThangID = kh.ThangID where ThangKeHoach = @month and NamKeHoach = @year) as header 
                             on b.HeaderID = header.HeaderID 
                             group by MaTieuChi,MaPhongBan) as table1 
-                            right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi 
-                            order by MaTieuChi";
+                            right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi
+                            order by MaTieuChi, MaPhongBan";
 
-            var query_KHDaily = "select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong," +
-                "(case when table1.MaPhongBan is null then '' else table1.MaPhongBan end) as MaPhongBan,TieuChi.MaTieuChi " +
-                "from (select MaTieuChi,SUM(KeHoach) as SanLuong, header.MaPhongBan from (" +
-                "select kehoach.*from(Select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] " +
-                "from KeHoach_TieuChi_TheoNgay group by MaTieuChi, HeaderID) as a " +
-                "inner join KeHoach_TieuChi_TheoNgay as kehoach " +
-                "on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b " +
-                "inner join(select* from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @date) as header on b.HeaderID = header.HeaderID " +
-                "group by MaTieuChi,MaPhongBan)  as table1 " +
-                "right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi " +
-                "order by MaTieuChi";
+            var query_KHDaily = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong, kht.MaPhongBan,
+                            tc.MaTieuChi 
+                            from 
+							TieuChi tc 
+							left join
+							(select kht.MaPhongBan, khtctt.MaTieuChi, MAX(ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung' 
+							from 
+							(select hd.HeaderID, hd.MaPhongBan from header_KeHoachTungThang hd join KeHoachTungThang khtt on hd.ThangID = khtt.ThangID
+							where khtt.ThangKeHoach = Month(@dateEnd) and khtt.NamKeHoach = Year(@dateEnd)
+							group by hd.HeaderID, hd.MaPhongBan) as kht 
+							join KeHoach_TieuChi_TheoThang khtctt on khtctt.HeaderID = kht.HeaderID
+							group by kht.MaPhongBan, khtctt.MaTieuChi) as kht on tc.MaTieuChi = kht.MaTieuChi
+							left join
+							(select MaTieuChi,SUM(KeHoach) as SanLuong, header.MaPhongBan from (
+                            select kehoach.*from(Select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] 
+                            from KeHoach_TieuChi_TheoNgay group by MaTieuChi, HeaderID) as a 
+                            inner join KeHoach_TieuChi_TheoNgay as kehoach 
+                            on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b 
+                            inner join
+							(select * from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @dateEnd) as header on b.HeaderID = header.HeaderID 
+                            group by MaTieuChi,MaPhongBan)  as table1 on kht.MaTieuChi = table1.MaTieuChi and kht.MaPhongBan = table1.MaPhongBan
+                            union
+                            select 0,addon.MaPhongBan, addon.MaTieuChi
+                            from (select distinct table3.MaPhongBan, TieuChi.MaTieuChi from TieuChi 
+                            left join 
+							(select * from
+							(select kht.MaTieuChi, kht.MaPhongBan
+							from
+							(select kht.MaPhongBan, khtctt.MaTieuChi, MAX(ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung' 
+							from 
+							(select hd.HeaderID, hd.MaPhongBan from header_KeHoachTungThang hd join KeHoachTungThang khtt on hd.ThangID = khtt.ThangID
+							where khtt.ThangKeHoach = Month(@dateEnd) and khtt.NamKeHoach = Year(@dateEnd)
+							group by hd.HeaderID, hd.MaPhongBan) as kht 
+							join KeHoach_TieuChi_TheoThang khtctt on khtctt.HeaderID = kht.HeaderID
+							group by kht.MaPhongBan, khtctt.MaTieuChi) as kht
+							left join
+							(select header_th.MaPhongBan, thuchien.HeaderID, thuchien.MaTieuChi, thuchien.SanLuong, header_th.Ca, tht.Ngay, px.department_id, px.isInside 
+                            from 
+							ThucHien_TieuChi_TheoNgay as thuchien inner JOIN header_ThucHienTheoNgay as header_th 
+                            on thuchien.HeaderID = header_th.HeaderID 
+                            join ThucHienTheoNgay tht on header_th.NgayID = tht.NgayID and tht.Ngay >= @dateStart and tht.Ngay <= @dateEnd 
+                            join Department as px on px.department_id = header_th.MaPhongBan) as a on kht.MaPhongBan = a.MaPhongBan and kht.MaTieuChi = a.MaTieuChi
+							GROUP BY kht.MaTieuChi, kht.MaPhongBan) as table2 ) as table3 on table3.MaTieuChi = TieuChi.MaTieuChi 
+                            LEFT JOIN NhomTieuChi on TieuChi.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi 
+                            except
+                            select distinct table1.MaPhongBan, table1.MaTieuChi
+                            from (select MaTieuChi, header.MaPhongBan from (
+                            select kehoach.*from(Select HeaderID, MaTieuChi, Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] 
+                            from KeHoach_TieuChi_TheoNgay group by MaTieuChi, HeaderID) as a 
+                            inner join KeHoach_TieuChi_TheoNgay as kehoach 
+                            on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b 
+                            inner join(select* from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @dateEnd) as header on b.HeaderID = header.HeaderID 
+                            group by MaTieuChi,MaPhongBan)  as table1 
+                            right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi) as addon
+                            where addon.MaPhongBan is not null
+                            order by MaTieuChi, MaPhongBan";
 
             String[] headers = {"Than Sản Xuất","Than Hầm Lò","Than Lộ Thiên","Đất Đá Bóc", "Nhập Dương Huy", "Tổng Mét Lò CBSX", "Mét Lò CBSX Tự Làm",
                 "Mét Lò CBSX Thuê Ngoài", "Mét Lò Xén", "Than Sàng Tuyển", "Than Tiêu Thụ", "Doanh Thu", "Đá Xít Sau Sàng Tuyển"};
@@ -124,30 +215,37 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                 //
                 var listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
                 var list_KHDC = db.Database.SqlQuery<KHDCEntity>(query_KHDC, new SqlParameter("month", timeEnd.Month), new SqlParameter("year", timeEnd.Year)).ToList();
-                var list_KHDaily = db.Database.SqlQuery<KHDCEntity>(query_KHDaily, new SqlParameter("date", timeEnd)).ToList();
+                var list_KHDaily = db.Database.SqlQuery<KHDCEntity>(query_KHDaily, new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd)).ToList();
                 //
                 for (var index = 0; index < listReport.Count; index++)
                 {
                     listReport[index].KHDC = list_KHDC[index].SanLuong;
-                    listReport[index].BQQHDC = Math.Round(listReport[index].KHDC / (tongsongay - ngaylam), 2, MidpointRounding.ToEven);
+                    listReport[index].BQQHDC = Math.Round(listReport[index].KHDC / (tongsongay), 2, MidpointRounding.ToEven);
                     listReport[index].KH = list_KHDaily[index].SanLuong;
                 }
                 //
                 foreach (var item in listReport)
                 {
                     item.chenhlech = item.TH - item.KH;
-                    item.percentage = item.KH == 0 ? 100 : Math.Round(item.TH / item.KH, 2, MidpointRounding.ToEven);
-                    item.percentageDC = item.KHDC == 0 ? 100 : Math.Round(item.luyke / item.KHDC, 2, MidpointRounding.ToEven);
+                    item.percentage = item.KH == 0 ? 100 : Math.Round(item.TH / item.KH, 2, MidpointRounding.ToEven) * 100;
+                    item.percentageDC = item.KHDC == 0 ? 100 : Math.Round(item.luyke / item.KHDC, 2, MidpointRounding.ToEven) * 100;
                     item.SUM = item.KHDC - item.luyke;
                     item.perday = Math.Round(item.SUM / (tongsongay - ngaylam), 2, MidpointRounding.ToEven);
                 }
                 //
+                List<string> listpxchinh = db.Database.SqlQuery<string>("select d.department_id from Department d where d.department_type = N'Phân xưởng sản xuất chính'").ToList();
+                List<string> listpxthue = db.Database.SqlQuery<string>("select d.department_id from Department d where d.department_type = N'Đơn vị sản xuất thuê ngoài'").ToList();
                 List<reportEntity> reports = new List<reportEntity>();
+                reportEntity temp = new reportEntity();
                 foreach (var header in headers)
                 {
                     reportEntity rp = new reportEntity();
                     rp.TenTieuChi = header;
                     rp.isHeader = true;
+                    if (header == "Mét Lò Xén")
+                    {
+                        temp = reports[reports.Count - 1];
+                    }
                     reports.Add(rp);
                     int previousTieuChi = -1;
                     var headerInDB = header;
@@ -155,12 +253,14 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                     {
                         foreach (var item in listReport)
                         {
-                            reportEntity rp2 = new reportEntity();
+
                             if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo" || item.TenNhomTieuChi == "Mét Lò Xén")
                             {
+                                reportEntity rp2 = new reportEntity();
                                 //
-                                if (item.MaPhongBan != "PXDL1" && item.MaPhongBan != "PXDL2")
+                                if (listpxchinh.Contains(item.MaPhongBan) || item.MaPhongBan == null)
                                 {
+                                    //rp = addUp(rp, item);
                                     if (item.TenNhomTieuChi == "Mét Lò Đào")
                                     {
                                         rp = addUp(rp, item);
@@ -181,53 +281,27 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                                         reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
                                     }
                                 }
+                                Console.WriteLine();
                             }
                         }
                     }
-                    else
+                    else if (header == "Mét Lò CBSX Thuê Ngoài")
                     {
-                        if (header == "Mét Lò CBSX Thuê Ngoài")
+                        foreach (var item in listReport)
                         {
-                            foreach (var item in listReport)
+
+                            if (item.TenNhomTieuChi == "Mét Lò Đào" || item.TenNhomTieuChi == "Mét Lò Neo" || item.TenNhomTieuChi == "Mét Lò Xén")
                             {
                                 reportEntity rp2 = new reportEntity();
-                                if (item.TenNhomTieuChi == "Mét Lò Đào Thuê Ngoài" || item.TenNhomTieuChi == "Mét Lò Neo Thuê Ngoài" || item.TenNhomTieuChi == "Mét Lò Xén Thuê Ngoài")
+                                //Boolean b = listpxchinh.Contains(item.MaPhongBan);
+                                if (listpxthue.Contains(item.MaPhongBan) || item.MaPhongBan == null)
                                 {
-                                    //
-                                    if (item.MaPhongBan == "PXDL1" || item.MaPhongBan == "PXDL2")
+                                    //rp = addUp(rp, item);
+                                    if (item.TenNhomTieuChi == "Mét Lò Đào")
                                     {
-                                        if (item.TenNhomTieuChi == "Mét Lò Đào Thuê Ngoài")
-                                        {
-                                            rp = addUp(rp, item);
-                                        }
-                                        //
-                                        if (item.MaTieuChi != previousTieuChi)
-                                        {
-                                            rp2 = item;
-                                            //
-                                            previousTieuChi = item.MaTieuChi;
-                                            if (rp2.TenTieuChi.ToUpper() != header.ToUpper())
-                                            {
-                                                reports.Add(rp2);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
-                                        }
+                                        rp2 = item;
+                                        rp = addUp(rp, item);
                                     }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            foreach (var item in listReport)
-                            {
-                                reportEntity rp2 = new reportEntity();
-                                if (item.TenNhomTieuChi == header)
-                                {
-                                    //
-                                    rp = addUp(rp, item);
                                     //
                                     if (item.MaTieuChi != previousTieuChi)
                                     {
@@ -237,26 +311,69 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                                         if (rp2.TenTieuChi.ToUpper() != header.ToUpper())
                                         {
                                             reports.Add(rp2);
+                                            temp = rp2;
                                         }
                                     }
                                     else
                                     {
+                                        rp2 = item;
                                         reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
                                     }
+                                }
+                                Console.WriteLine();
+                            }
+                        }
+                    }
+                    else if (header == "Mét Lò Xén")
+                    {
+                        reportEntity rp2 = new reportEntity();
+                        rp2 = reports.ElementAt(reports.Count() - 2);
+                        reports.Add(rp2);
+                        rp2 = reports[reports.Count() - 7];
+                        reports.Add(rp2);
+                    }
+                    else
+                    {
+                        foreach (var item in listReport)
+                        {
+                            reportEntity rp2 = new reportEntity();
+                            if (item.TenNhomTieuChi == header)
+                            {
+                                //
+                                rp = addUp(rp, item);
+                                //
+                                if (item.MaTieuChi != previousTieuChi)
+                                {
+                                    rp2 = item;
+                                    //
+                                    previousTieuChi = item.MaTieuChi;
+                                    if (rp2.TenTieuChi.ToUpper() != header.ToUpper())
+                                    {
+                                        reports.Add(rp2);
+                                    }
+                                }
+                                else
+                                {
+                                    reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
                                 }
                             }
                         }
                     }
                 }
+
                 // Than San Xuat = Than Ham Lo + Than Lo Thien
                 reports[0] = addUp(reports[0], reports[1]);
                 reports[0] = addUp(reports[0], reports[4]);
                 // Tong met lo CBSX = Met Lo Tu Lam + Met Lo Thue Ngoai
-                reports[11] = addUp(reports[11], reports[12]);
-                reports[11] = addUp(reports[11], reports[15]);
+                reports[9] = addUp(reports[9], reports[10]);
+                reports[9] = addUp(reports[9], reports[14]);
+                //met lo xen
+                reports[18] = addUp(reports[18], reports[19]);
+                reports[18] = addUp(reports[18], reports[20]);
                 return reports;
             }
         }
+
 
         [HttpPost]
         [Route("ban-giam-doc/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty")]
