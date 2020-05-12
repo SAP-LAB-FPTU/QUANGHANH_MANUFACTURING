@@ -17,11 +17,10 @@ namespace QUANGHANH2.Models
         public int ID { get; set; }
         public int AccountID { get; set; }
         public string Method { get; set; }
-        public string Url { get; set; }
+        public string Url_From { get; set; }
+        public string Url_To { get; set; }
         public System.DateTime Action_Time { get; set; }
         public string Browser { get; set; }
         public string Location_IP { get; set; }
-    
-        public virtual Account Account { get; set; }
     }
 }
