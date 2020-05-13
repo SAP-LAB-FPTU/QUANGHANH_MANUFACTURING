@@ -241,10 +241,10 @@ namespace QUANGHANH2.Controllers
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    var testTime = DateTime.Now.AddDays(10);
+                    var testTimeKD = DateTime.Now.AddDays(60);
                     if (type == 0)
                     {
-                        var maintitle = db.Equipments.Where(x => x.durationOfInspection <= testTime && x.durationOfInspection >= DateTime.Now).OrderBy(x => x.durationOfInspection).
+                        var maintitle = db.Equipments.Where(x => x.durationOfInspection <= testTimeKD && x.durationOfInspection >= DateTime.Now).OrderBy(x => x.durationOfInspection).
                                                 Select(x => new main
                                                 {
                                                     type = 0,
@@ -273,6 +273,7 @@ namespace QUANGHANH2.Controllers
                     }
                     else
                     {
+                        var testTime = DateTime.Now.AddDays(10);
                         var maintitle = (from equip in db.Equipments.Where(x => x.durationOfInsurance <= testTime && x.durationOfInsurance >= DateTime.Now)
                                                  join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
                                                     on equip.Equipment_category_id equals cate.Equipment_category_id
