@@ -218,6 +218,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
         public class ExportByGroup : Equipment
         {
+            public string Equipment_category_name { get; set; }
             public Int64 stt { get; set; }
             public int num { get; set; }
             public int sum1 { get; set; }

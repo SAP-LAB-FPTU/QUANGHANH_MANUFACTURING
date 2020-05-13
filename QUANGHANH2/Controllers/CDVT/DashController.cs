@@ -64,12 +64,12 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                equipment_name = equip.equipment_name,
                                equipmentId = equip.equipmentId
                            }).ToList();
-                string query = @"select e.equipment_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by e.equipment_name) as 'stt',
+                string query = @"select ec.Equipment_category_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by ec.Equipment_category_name) as 'stt',
                                 SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
                                 SUM(case when e.current_Status != 2 then 1 else 0 end) as 'sum2'
-                                from Equipment e join Car c on e.equipmentId = c.equipmentId
+                                from Equipment e join Car c on e.equipmentId = c.equipmentId join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id
                                 where e.isAttach = 0
-                                group by e.equipment_name";
+                                group by ec.Equipment_category_name";
                 var tonghop = db.Database.SqlQuery<ExportByGroup>(query).ToList();
                 ViewBag.hd = tonghop;
                 //ViewBag.hd = listhd;
@@ -91,19 +91,19 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                equipmentId = e.equipmentId,
                                equipment_name = e.equipment_name
                            }).ToList();
-                string query = @"select e.equipment_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by e.equipment_name)  as 'stt',
+                string query = @"select ec.Equipment_category_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by ec.Equipment_category_name)  as 'stt',
                                 SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
                                 SUM(case when e.current_Status != 2 then 1 else 0 end) as 'sum2'
-                                from Equipment e
+                                from Equipment e join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id
                                 where e.isAttach = 0
-                                group by e.equipment_name
+                                group by ec.Equipment_category_name
                             except
-                            select e.equipment_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by e.equipment_name),
+                            select ec.Equipment_category_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by ec.Equipment_category_name),
                                 SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
                                 SUM(case when e.current_Status != 2 then 1 else 0 end) as 'sum2'
-                                from Equipment e join Car c on e.equipmentId = c.equipmentId
+                                from Equipment e join Car c on e.equipmentId = c.equipmentId join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id
                                 where e.isAttach = 0
-                                group by e.equipment_name";
+                                group by ec.Equipment_category_name";
                 var tonghop = db.Database.SqlQuery<ExportByGroup>(query).ToList();
                 ViewBag.hd = tonghop;
                 //ViewBag.hd = listhd.Except(listcar);
