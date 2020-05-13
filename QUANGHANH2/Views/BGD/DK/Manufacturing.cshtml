@@ -785,26 +785,35 @@
         $('#chart-container').append('<canvas id="chartSanLuong"><canvas>');
         var ctx = document.getElementById('chartSanLuong').getContext('2d');
         var labels = []
-        var data=[]
+        var dataTH = []
+        var dataKH = []
         for (let i = 0; i < kind.length; i++) {
             let milli = kind[i]["Ngay"].replace(/\/Date\((-?\d+)\)\//, '$1');
             let da = new Date(parseInt(milli));
             labels.push(da.getDate() + "/" + (da.getMonth() + 1) + "/" + da.getFullYear());
-            data.push(kind[i]["SanLuong"]);
+            dataTH.push(kind[i]["SanLuong"]);
+            dataKH.push(kind[i]["KeHoach"]);
             console.log(kind.length)
         }
 
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: donvi,
-                    data: data,
-                    backgroundColor:'rgba(32, 166, 255, 0.2)',
+                    label: "Thực hiện",
+                    data: dataTH,
+                    backgroundColor:'rgba(255, 255, 255, 0)',
                     borderColor: 'rgba(32, 166, 255, 1)',
-                    borderWidth: 1
-                }]
+                    borderWidth: 2
+                    },
+                    {
+                        label: "Kế hoạch",
+                        data: dataKH,
+                        backgroundColor:'rgba(255, 255, 255, 0)',
+                        borderColor: 'rgba(255, 127, 39, 1)',
+                        borderWidth: 2
+                    }]
             },
             options: {
                 scales: {
