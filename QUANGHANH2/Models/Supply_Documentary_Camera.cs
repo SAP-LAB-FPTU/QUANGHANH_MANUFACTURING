@@ -16,7 +16,7 @@ namespace QUANGHANH2.Models
     {
         public int supplyDocumentaryCameraId { get; set; }
         public int documentary_id { get; set; }
-        public int room_id { get; set; }
+        public string room_id { get; set; }
         public string supply_id { get; set; }
         public int quantity_plan { get; set; }
         public int quantity_in { get; set; }

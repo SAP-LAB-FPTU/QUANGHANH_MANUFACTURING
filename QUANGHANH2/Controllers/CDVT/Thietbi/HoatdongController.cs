@@ -218,6 +218,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 
         public class ExportByGroup : Equipment
         {
+            public string Equipment_category_name { get; set; }
             public Int64 stt { get; set; }
             public int num { get; set; }
             public int sum1 { get; set; }
@@ -330,7 +331,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
@@ -339,44 +339,63 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             if (sortDirection == null) sortDirection = "asc";
 
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            DateTime dtStart = Convert.ToDateTime("01/01/2000");
+            DateTime dtStart = DateTime.Parse("1800-1-1");
             DateTime dtEnd = DateTime.MaxValue;
             if (!dateStart.Equals(""))
             {
-                string[] date = dateStart.Split('/');
-                string date_fix = date[2] + "/" + date[1] + "/" + date[0];
-                dtStart = DateTime.ParseExact(date_fix, "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            }
-            else
-            {
-                dateStart = dtStart.ToString("yyyy-MM-dd");
+                dtStart = DateTime.ParseExact(dateStart, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             }
             if (!dateEnd.Equals(""))
             {
-                string[] date = dateEnd.Split('/');
-                string date_fix = date[2] + "/" + date[1] + "/" + date[0];
-                dtEnd = DateTime.ParseExact(date_fix, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                dtEnd = DateTime.ParseExact(dateEnd, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             }
-            else
-            {
-                dateEnd = dtEnd.ToString("yyyy-MM-dd");
-            }
+            //Hầu như tất cả các trường đều chuyển thành allow NULL, nếu để like sẽ không thể hiện ra
             string query = "SELECT e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
-                "FROM [Equipment] e, Status s, Department d, Equipment_category ec " +
-                "where d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid " +
-                "and e.usedDay between @start_time1 and @start_time2  and e.isAttach like @att and e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name " +
-                "AND d.department_id LIKE @department_name AND e.quality_type LIKE @quality AND ec.Equipment_category_name LIKE @cate AND e.supplier LIKE @sup and e.isAttach = 0 " +
-                " except " +
+                "FROM [Equipment] e LEFT JOIN Department d ON e.department_id = d.department_id LEFT JOIN Equipment_category ec ON e.Equipment_category_id = ec.Equipment_category_id LEFT JOIN Status s on e.current_Status = s.statusid " +
+                "where e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name ";
+
+            if (department != "" || quality != "" || dateStart != "" || dateEnd != "" || category != "" || sup != "" || att != "")
+            {
+                if (department != "")
+                    query += "AND d.department_id LIKE @department_name ";
+                if (quality != "")
+                    query += "AND e.quality_type LIKE @quality ";
+                if (dateStart != "" || dateEnd != "")
+                    query += "AND e.usedDay between @start_time1 and @start_time2 ";
+                if (category != "")
+                    query += "AND ec.Equipment_category_name LIKE @cate ";
+                if (sup != "")
+                    query += "AND e.supplier LIKE @sup ";
+                if (att != "")
+                    query += "AND e.isAttach like @att ";
+            }
+            query += " except " +
                 "select e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
-                "from Equipment e inner join Car c on e.equipmentId = c.equipmentId, Status s, Department d, Equipment_category ec " +
-                "where d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid";
+                "from Equipment e inner join Car c on e.equipmentId = c.equipmentId LEFT JOIN Department d ON e.department_id = d.department_id LEFT JOIN Equipment_category ec ON e.Equipment_category_id = ec.Equipment_category_id LEFT JOIN Status s on e.current_Status = s.statusid " +
+                "where e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name ";
+            if (department != "" || quality != "" || dateStart != "" || dateEnd != "" || category != "" || sup != "" || att != "")
+            {
+                if (department != "")
+                    query += "AND d.department_id LIKE @department_name ";
+                if (quality != "")
+                    query += "AND e.quality_type LIKE @quality ";
+                if (dateStart != "" || dateEnd != "")
+                    query += "AND e.usedDay between @start_time1 and @start_time2 ";
+                if (category != "")
+                    query += "AND ec.Equipment_category_name LIKE @cate ";
+                if (sup != "")
+                    query += "AND e.supplier LIKE @sup ";
+                if (att != "")
+                    query += "AND e.isAttach like @att ";
+            }
+
             List<EquipWithName> equiplist = DBContext.Database.SqlQuery<EquipWithName>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                 new SqlParameter("department_name", '%' + department + '%'),
                 new SqlParameter("quality", '%' + quality + '%'),
-                new SqlParameter("start_time1", dateStart),
-                new SqlParameter("start_time2", dateEnd),
+                new SqlParameter("start_time1", dtStart),
+                new SqlParameter("start_time2", dtEnd),
                 new SqlParameter("cate", '%' + category + '%'),
                 new SqlParameter("sup", '%' + sup + '%'),
                 new SqlParameter("att", '%' + att + '%')
@@ -386,8 +405,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                 new SqlParameter("department_name", '%' + department + '%'),
                 new SqlParameter("quality", '%' + quality + '%'),
-                new SqlParameter("start_time1", dateStart),
-                new SqlParameter("start_time2", dateEnd),
+                new SqlParameter("start_time1", dtStart),
+                new SqlParameter("start_time2", dtEnd),
                 new SqlParameter("cate", '%' + category + '%'),
                 new SqlParameter("sup", '%' + sup + '%'),
                 new SqlParameter("att", '%' + att + '%')
@@ -543,7 +562,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string sk, string sm, string gps, string attype)
+        public ActionResult Add(Equipment emp, string import, string duraInspec, string Insua, string BuyInspec, string BuyInsua, string used, string duramain, string[] id, string[] name, string[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string[] nameVTDK, int[] quantityVTDK, string sk, string sm, string gps, string attype, string NL, string yearSX)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -557,11 +576,26 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         if (equipment != null)
                             return Json(new { success = false, message = "Mã thiết bị đã tồn tại" });
                         //import date
-                        emp.date_import = DateTime.ParseExact(import, "dd/MM/yyyy", null);
+                        if (import != "")
+                            emp.date_import = DateTime.ParseExact(import, "dd/MM/yyyy", null);
                         //durationOfInspection
+                        //if (duraInspec != "")
                         emp.durationOfInspection = DateTime.ParseExact(duraInspec, "dd/MM/yyyy", null);
+                        if(Insua != "")
+                        {
+                            emp.durationOfInsurance = DateTime.ParseExact(Insua, "dd/MM/yyyy", null);
+                        }
+                        if (BuyInsua != "")
+                        {
+                            emp.insurance_date = DateTime.ParseExact(BuyInsua, "dd/MM/yyyy", null);
+                        }
+                        if (BuyInspec != "")
+                        {
+                            emp.inspect_date = DateTime.ParseExact(BuyInspec, "dd/MM/yyyy", null);
+                        }
                         //usedDay
-                        emp.usedDay = DateTime.ParseExact(used, "dd/MM/yyyy", null);
+                        if (used != "")
+                            emp.usedDay = DateTime.ParseExact(used, "dd/MM/yyyy", null);
                         emp.input_channel = "Đường kế toán";
                         emp.department_id = Convert.ToString(Session["departID"]);
                         emp.total_operating_hours = 0;
@@ -600,6 +634,19 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             {
                                 ca.GPS = false;
                             }
+                            if (NL.Equals("1"))
+                            {
+                                ca.nhienlieu = true;
+                            }
+                            else
+                            {
+                                ca.nhienlieu = false;
+                            }
+                            if (yearSX != "")
+                            {
+                                ca.namsanxuat = Convert.ToInt32(yearSX);
+                            }
+
                             db.Cars.Add(ca);
                         }
                         if (attri != null)
@@ -649,6 +696,43 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         }
 
                         db.SaveChanges();
+
+                        if (nameVTDK != null)
+                        {
+                            if (emp.isAttach == false)
+                            {
+                                for (int i = 0; i < nameVTDK.Count(); i++)
+                                {
+                                    if (!nameVTDK[i].Equals(""))
+                                    {
+
+                                        string sql_sup = "insert into Vattu_Dikem values (@supid, @eid, @quan)";
+                                        db.Database.ExecuteSqlCommand(sql_sup
+                                            , new SqlParameter("@supid", nameVTDK[i])
+                                            , new SqlParameter("@eid", emp.equipmentId)
+                                            , new SqlParameter("@quan", quantity[i]));
+                                    }
+
+                                }
+                            } else
+                            {
+                                for (int i = 0; i < nameVTDK.Count(); i++)
+                                {
+                                    if (!nameVTDK[i].Equals(""))
+                                    {
+
+                                        string sql_sup = "insert into Supply_Equipment_DiKem values (@supid, @eid, @quan)";
+                                        db.Database.ExecuteSqlCommand(sql_sup
+                                            , new SqlParameter("@supid", nameVTDK[i])
+                                            , new SqlParameter("@eid", emp.equipmentId)
+                                            , new SqlParameter("@quan", quantity[i]));
+                                    }
+
+                                }
+                            }
+                        }
+
+                        db.SaveChanges();
                         dbc.Commit();
                         return Search("", "", "", "", "", "", "", "", "");
                     }
@@ -666,7 +750,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         }
 
         [HttpPost]
-        public ActionResult Edit(Equipment emp, string import, string inspec, string insua, string used, string main, string sk, string sm, CarDB cdb)
+        public ActionResult Edit(Equipment emp, string import, string inspec, string Insua, string BuyInspec, string BuyInsua, string used, string main, string sk, string sm, CarDB cdb, string yearSX)
         {
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -683,6 +767,18 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         date = inspec.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
                         emp.durationOfInspection = Convert.ToDateTime(date_fix);
+                        //durationOfInsurance
+                        date = BuyInsua.Split('/');
+                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.insurance_date = Convert.ToDateTime(date_fix);
+                        //BuyOfInspection
+                        date = BuyInspec.Split('/');
+                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.inspect_date = Convert.ToDateTime(date_fix);
+                        //BuyOfInsurance
+                        date = Insua.Split('/');
+                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        emp.durationOfInsurance = Convert.ToDateTime(date_fix);
                         //usedDay
                         date = used.Split('/');
                         date_fix = date[1] + "/" + date[0] + "/" + date[2];
@@ -698,6 +794,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             ca.sokhung = sk;
                             ca.somay = sm;
                             ca.GPS = cdb.GPS;
+                            if (yearSX != "")
+                            {
+                                ca.namsanxuat = Convert.ToInt32(yearSX);
+                            }
+                            ca.nhienlieu = cdb.nhienlieu;
                             db.Entry(ca).State = EntityState.Modified;
                         }
 
@@ -773,7 +874,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 listDN.Add(new SelectListItem { Text = "Đường kế toán", Value = "Đường kế toán" });
                 listDN.Add(new SelectListItem { Text = "Đường vật tư", Value = "Đường vật tư" });
                 ViewBag.listDN = listDN;
-                string query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name,a.sokhung, a.somay, a.GPS " +
+                string query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.insurance_date,e.inspect_date,e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name,a.sokhung, a.somay, a.GPS, a.nhienlieu, a.namsanxuat " +
                 "from Equipment e left outer join Car a on a.equipmentId = e.equipmentId, Department d, Equipment_category ec,Status s " +
                 " where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND e.equipmentId LIKE @equipmentId";
 
@@ -784,10 +885,17 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 listGPS.Add(new SelectListItem { Text = t.ToString(), Value = "Mất tín hiệu" });
                 ViewBag.listGPS = listGPS;
 
+                List<SelectListItem> listNL = new List<SelectListItem>();
+                t = true;
+                listNL.Add(new SelectListItem { Text = t.ToString(), Value = "Có nhiên liệu" });
+                t = false;
+                listNL.Add(new SelectListItem { Text = t.ToString(), Value = "Hết nhiên liêu" });
+                ViewBag.listNL = listNL;
+
                 Car ca = db.Database.SqlQuery<Car>("select * from Car where equipmentId = @id", new SqlParameter("id", id + "")).FirstOrDefault();
                 if (ca == null)
                 {
-                    query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
+                    query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.insurance_date,e.inspect_date,e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                         "from Equipment e, Department d, Equipment_category ec,Status s " +
                         " where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND e.equipmentId LIKE @equipmentId";
                     Equipment e = db.Database.SqlQuery<CarDB>(query, new SqlParameter("equipmentId", '%' + id + '%')).FirstOrDefault();

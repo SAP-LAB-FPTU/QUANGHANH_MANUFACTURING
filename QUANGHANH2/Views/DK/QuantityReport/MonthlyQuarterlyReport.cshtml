@@ -6,9 +6,18 @@
 <link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 <style>
-    #table-container {
-        overflow: scroll;
+    /*#table-container {
+        transform: rotateX(180deg);
+        overflow: auto;
     }
+
+        #table-container > table {
+            transform: rotateX(180deg);
+        }*/
+
+    /*#table-container > table > #tableHeader {
+        position: fixed;
+    }*/
 
     #yearCalendar {
         width: 15% !important;
@@ -18,14 +27,6 @@
     #view-btn {
         float: left;
     }
-    /*.sticky + .table-content {
-      padding-top: 102px;
-    }
-        .sticky {
-      position: fixed;
-      top: 0;
-      width: 100%;
-    }*/
 </style>
 
 <div class="card">
@@ -58,9 +59,9 @@
         </div>
         <div class="row" id="table-container">
             <table class="centered highlight responsive-table striped responsive-table table-bordered" id="reportTable">
-                <thead id="tableHeader">
+                <thead>
                     <tr>
-                        <th rowspan="3"></th>
+                        <th rowspan="3">Nhóm tiêu chí</th>
                         <th colspan="15">Q1</th>
                         <th colspan="15">Q2</th>
                         <th colspan="15">Q3</th>
@@ -136,10 +137,9 @@
                         <th>Tỷ lệ</th>
                     </tr>
                 </thead>
-                <tbody class="table-content">
+                <tbody>
                 </tbody>
             </table>
-            <div id="bottom_anchor"></div>
         </div>
     </div>
 </div>
@@ -196,15 +196,19 @@
                     for (let index = 0; index < data.length; index++) {
                         content += "<tr>"
                         if (data[index]["isHeader"]) {
-                            content += "<td colspan=\"49\"><b>" + data[index]["TenPhongBan"] + "</b></td>"
+                            content += "<td colspan=\"50\"><b>" + data[index]["TenPhongBan"] + "</b></td>"
                         } else {
-                            content += "<td>" + data[index]["TenNhomTieuChi"] + "</td>"
+                            content += "<th>" + data[index]["TenNhomTieuChi"] + "</th>"
                         }
                         //
                         for (let i = 0; i < tieuchiName.length; i++) {
                             if (!data[index]["isHeader"]) {
                                 if (data[index][tieuchiName[i]] != null) {
-                                    content += "<td>" + data[index][tieuchiName[i]] + "</td>"
+                                    var value = data[index][tieuchiName[i]];
+                                    if (Math.floor(value) != value) {
+                                        value = parseFloat(value).toFixed(1)
+                                    }
+                                    content += "<td>" + value + "</td>"
                                 } else {
                                     if (tieuchiName[i] != "GhiChu") {
                                         content += "<td>" + 0 + "</td>"
@@ -239,32 +243,38 @@
         })
     }
 </script>
+@*<script src="~/js/Custom JS/jquery-freeze-table-master/src/js/freeze-table.js"></script>*@
+<script src="~/js/Custom JS/jquery-freeze-table-master/dist/js/freeze-table.js"></script>
 <script>
-    function moveScroll() {
-        var scroll = $(window).scrollTop();
-        var anchor_top = $("#reportTable").offset().top;
-        var anchor_bottom = $("#bottom_anchor").offset().top;
-        if (scroll > anchor_top && scroll < anchor_bottom) {
-            clone_table = $("#clone");
-            if (clone_table.length == 0) {
-                clone_table = $("#reportTable").clone();
-                clone_table.attr('id', 'clone');
-                clone_table.css({
-                    position: 'fixed',
-                    'pointer-events': 'none',
-                    top: 0
-                });
-                clone_table.width($("#reportTable").width() + 2);
-                $("#table-container").append(clone_table);
-                $("#clone thead").css({ visibility: 'visible' });
-                $("#clone tbody").css({ visibility: 'hidden' });
-            }
-        } else {
-            $("#clone").remove();
-        }
-    }
-    $(window).scroll(moveScroll);
-    $(window).resize(function () {
-        $("#clone").width($("#reportTable").width() + 2);
-    })
+    $("#table-container").freezeTable({});
 </script>
+
+@*<script>
+        function moveScroll() {
+            var scroll = $(window).scrollTop();
+            var anchor_top = $("#reportTable").offset().top;
+            var anchor_bottom = $("#bottom_anchor").offset().top;
+            if (scroll > anchor_top && scroll < anchor_bottom) {
+                clone_table = $("#clone");
+                if (clone_table.length == 0) {
+                    clone_table = $("#reportTable").clone();
+                    clone_table.attr('id', 'clone');
+                    clone_table.css({
+                        position: 'fixed',
+                        'pointer-events': 'none',
+                        top: 0
+                    });
+                    clone_table.width($("#reportTable").width() + 2);
+                    $("#table-container").append(clone_table);
+                    $("#clone thead").css({ visibility: 'visible' });
+                    $("#clone tbody").css({ visibility: 'hidden' });
+                }
+            } else {
+                $("#clone").remove();
+            }
+        }
+        $(window).scroll(moveScroll);
+        $(window).resize(function () {
+            $("#clone").width($("#reportTable").width() + 2);
+        })
+    </script>*@

@@ -17,7 +17,7 @@
     }
 
     #view-btn {
-        width:170px;
+        width: 170px;
         float: left;
     }
     /*.sticky + .table-content {
@@ -135,11 +135,11 @@
                 data = JSON.parse(response.data);
                 content = "";
                 var ngay = $("#yearCalendar").val().split("-")[0];
-                var thang= $("#yearCalendar").val().split("-")[1];
+                var thang = $("#yearCalendar").val().split("-")[1];
                 var nam = $("#yearCalendar").val().split("-")[2];
-                $("#date-cell").text("Ngày "+ngay +" tháng "+thang+" năm "+nam);
-                $("#month-cell").text("Tháng "+thang);
-                tieuchiName = ["TenTieuChi", "BQQHDC_display", "Ca1", "Ca2", "Ca3", "TH", "KH", "chenhlech", "percentage_display", "luyke","KHBD", "KHDC", "percentageDC_display", "SUM", "perday_display", "GhiChu"]
+                $("#date-cell").text("Ngày " + ngay + " tháng " + thang + " năm " + nam);
+                $("#month-cell").text("Tháng " + thang);
+                tieuchiName = ["TenTieuChi", "BQQHDC_display", "Ca1", "Ca2", "Ca3", "TH", "KH", "chenhlech", "percentage_display", "luyke", "KHBD", "KHDC", "percentageDC_display", "SUM", "perday_display", "GhiChu"]
                 let count = 1;
                 for (let index = 0; index < data.length; index++) {
                     content += "<tr>"
@@ -152,11 +152,22 @@
                         content += "<td>" + count + "</td>";
                         for (let i = 0; i < tieuchiName.length; i++) {
                             if (data[index][tieuchiName[i]] != null) {
-                                if (tieuchiName[i] == "chenhlech") {
-                                    if (data[index][tieuchiName[i]] > 0) {
-                                        content += "<td><b><span class=\"green-text\">" + data[index][tieuchiName[i]] + "</span></b></td>"
+
+                                if (typeof (data[index][tieuchiName[i]]) === 'number') {
+                                    var value = data[index][tieuchiName[i]];
+                                    if (Math.floor(value) != value) {
+                                        value = parseFloat(value).toFixed(1)
                                     } else {
-                                        content += "<td><b><span class=\"red-text\">" + data[index][tieuchiName[i]] + "</span></b></td>"
+                                        value = parseFloat(value).toFixed(0)
+                                    }
+                                    if (tieuchiName[i] == "chenhlech") {
+                                        if (data[index][tieuchiName[i]] > 0) {
+                                            content += "<td><b><span class=\"green-text\">" + value + "</span></b></td>"
+                                        } else {
+                                            content += "<td><b><span class=\"red-text\">" + value + "</span></b></td>"
+                                        }
+                                    } else {
+                                        content += "<td>" + value + "</td>"
                                     }
                                 } else {
                                     content += "<td>" + data[index][tieuchiName[i]] + "</td>"
@@ -178,7 +189,7 @@
                 var a = $("#reportTable > tbody > tr").length;
                 if (a == 0) {
                     errorAlert('', 'Chưa có dữ liệu kế hoạch hôm nay');
-                } 
+                }
             },
             error: function (response) {
             }

@@ -18,13 +18,19 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
         [HttpPost]
         public ActionResult Index(string abc)
         {
-            var listConvert = abc.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var listConvert = JArray.Parse(abc).Select(x => x.ToString());
+            List<string> room_id = new List<string>();
+
+            foreach (JToken item in listConvert)
+            {
+                room_id.Add(item.ToString());
+            }
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
 
                 var result = (from a in db.Rooms
-                              where listConvert.Contains(a.room_id.ToString())
+                              where room_id.Contains(a.room_id.ToString())
                               join r in db.Rooms on a.room_id equals r.room_id
                               join d in db.Departments on r.department_id equals d.department_id
                               where r.camera_available < r.camera_quantity && r.camera_quantity != 0
@@ -66,10 +72,13 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
             {
                 try
                 {
-                    Documentary documentary = new Documentary();
-                    documentary.documentary_type = 8;
-                    documentary.date_created = DateTime.Now;
-                    documentary.person_created = Session["Name"] + ""; ;
+                    Documentary documentary = new Documentary
+                    {
+                        documentary_type = 8,
+                        date_created = DateTime.Now,
+                        person_created = Session["Name"] + ""
+                    };
+                    ;
                     documentary.reason = reason;
                     documentary.out_in_come = out_in_come;
                     documentary.department_id_to = department_id;
@@ -79,18 +88,20 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                     JObject json = JObject.Parse(data);
                     foreach (var item in json)
                     {
-                        int room_id = (int)item.Value["id"];
+                        string room_id = item.Value["id"].ToString();
                         string repair_requirement = (string)item.Value["repair_requirement"];
                         string datestring = (string)item.Value["finish_date_plan"];
 
-                        Documentary_camera_repair_details drd = new Documentary_camera_repair_details();
-                        drd.Documentary_camera_repair_status = 0;
-                        drd.documentary_id = documentary.documentary_id;
-                        drd.room_id = room_id;
-                        drd.broken_camera_quantity = (int)item.Value["broken_camera_quantity"];
-                        drd.repair_requirement = repair_requirement;
-                        drd.note = (string)item.Value["note"];
-                        drd.department_id = (string)item.Value["department_id"];
+                        Documentary_camera_repair_details drd = new Documentary_camera_repair_details
+                        {
+                            Documentary_camera_repair_status = 0,
+                            documentary_id = documentary.documentary_id,
+                            room_id = room_id,
+                            broken_camera_quantity = (int)item.Value["broken_camera_quantity"],
+                            repair_requirement = repair_requirement,
+                            note = (string)item.Value["note"],
+                            department_id = (string)item.Value["department_id"]
+                        };
                         DBContext.Documentary_camera_repair_details.Add(drd);
                         DBContext.SaveChanges();
                         JArray vattu = (JArray)item.Value.SelectToken("vattu");
@@ -98,11 +109,13 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                         {
                             string supply_id = (string)jObject["supply_id"];
                             int quantity = (int)jObject["quantity"];
-                            Supply_Documentary_Camera sde = new Supply_Documentary_Camera();
-                            sde.documentary_id = documentary.documentary_id;
-                            sde.room_id = room_id;
-                            sde.supply_id = supply_id;
-                            sde.quantity_plan = quantity;
+                            Supply_Documentary_Camera sde = new Supply_Documentary_Camera
+                            {
+                                documentary_id = documentary.documentary_id,
+                                room_id = room_id,
+                                supply_id = supply_id,
+                                quantity_plan = quantity
+                            };
                             DBContext.Supply_Documentary_Camera.Add(sde);
                             DBContext.SaveChanges();
                         }
@@ -111,7 +124,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                     transaction.Commit();
                     return Json(new { success = true });
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     transaction.Rollback();
                     return Json(new { success = false });

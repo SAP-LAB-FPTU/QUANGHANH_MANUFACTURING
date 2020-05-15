@@ -74,7 +74,7 @@
                                 <input list="listid-s" type="text" placeholder="Tìm kiếm theo lý do sự cố" class='form-control' id="reason-search" />
                             </div>
                             <div class="col l12 m12 s12 input-field center">
-                                <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton1">Tìm kiếm</a>
+                                <a class="waves-effect waves-light btn blue darken-2" id="searchButton1">Tìm kiếm</a>
                             </div>
                         </div>
                     </div>
@@ -82,142 +82,142 @@
             </form>
             <div class="col s12 left">
                 @{
-                        if (rights.Contains("20") || rights.Contains("79") || rights.Contains("179")|| rights.Contains("180")|| rights.Contains("181")|| rights.Contains("182")|| rights.Contains("183")|| rights.Contains("185")|| rights.Contains("186")|| rights.Contains("184")|| rights.Contains("187")|| rights.Contains("188")|| rights.Contains("189"))
-                        {
-                            <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
-                        }
-                        if (rights.Contains("21") || rights.Contains("79") || rights.Contains("179")|| rights.Contains("180")|| rights.Contains("181")|| rights.Contains("182")|| rights.Contains("183")|| rights.Contains("185")|| rights.Contains("186")|| rights.Contains("184")|| rights.Contains("187")|| rights.Contains("188")|| rights.Contains("189"))
-                        {
-                            <form action="" method="POST" id="myeditform" role="form">
-                                <div class="modal" id="myedit">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h3 class="modal-title">Sửa sự cố</h3>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col s12 m6">
-                                                    <div class="col s12 m6">
-                                                        <div class="form-group">
-                                                            <label for="date">Thời gian bắt đầu sự cố : </label>
-                                                            <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-start-edit" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col s12 m3">
-                                                        <div class="form-group">
-                                                            <label for="date">Giờ : </label>
-                                                            <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-start-edit" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col s12 m3">
-                                                        <div class="form-group">
-                                                            <label for="date">Phút : </label>
-                                                            <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-start-edit" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col s12 m12">
-                                                        <div class="form-group">
-                                                            <label for="date">Mã thiết bị : </label>
-                                                            <input required type="text" list="equipmentId" class="form-control" value="" id="equipment-edit" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col s12 m12">
-                                                        <div class="form-group">
-                                                            <label for="id">Phân xưởng chịu trách nhiệm : </label>
-                                                            <input required type="text" list="department_name" class="form-control" value="" id="department-edit" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col s12 m12">
-                                                        <div class="form-group">
-                                                            <label for="id">Vị trí chi tiết : </label>
-                                                            <input required type="text" class="form-control" value="" id="detail-edit" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col s12 m6">
-                                                    <div class="col s12 m6">
-                                                        <div class="form-group">
-                                                            <label for="date">Thời gian kết thúc sự cố : </label>
-                                                            <input required type='text' class='datepicker-here form-control' data-language='vi' id="date-end-edit" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col s12 m3">
-                                                        <div class="form-group">
-                                                            <label for="date">Giờ : </label>
-                                                            <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-end-edit" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col s12 m3">
-                                                        <div class="form-group">
-                                                            <label for="date">Phút : </label>
-                                                            <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-end-edit" />
-                                                            <input type="hidden" id="incident-edit" class="form-control" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="col s12 m12">
-                                                        <div class="form-group">
-                                                            <label for="supplier">Lý do sự cố : </label>
-                                                            <input required type="text" class="form-control" id="reason-edit" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</button>
-                                            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-edit-button">Thoát</button>
-                                        </div>
+                    if (rights.Contains("20") || rights.Contains("79") || rights.Contains("179") || rights.Contains("180") || rights.Contains("181") || rights.Contains("182") || rights.Contains("183") || rights.Contains("185") || rights.Contains("186") || rights.Contains("184") || rights.Contains("187") || rights.Contains("188") || rights.Contains("189"))
+                    {
+                        <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
+                    }
+                    if (rights.Contains("21") || rights.Contains("79") || rights.Contains("179") || rights.Contains("180") || rights.Contains("181") || rights.Contains("182") || rights.Contains("183") || rights.Contains("185") || rights.Contains("186") || rights.Contains("184") || rights.Contains("187") || rights.Contains("188") || rights.Contains("189"))
+                    {
+                        <form action="" method="POST" id="myeditform" role="form">
+                            <div class="modal" id="myedit">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">Sửa sự cố</h3>
                                     </div>
-                                </div>
-                            </form>
-
-                            <form action="" method="POST" id="myupdateform" role="form">
-                                <div id="myupdate" class="modal">
-                                    <div class="modal-content">
-                                        <div class="modal-header center">
-                                            <h3><b>Cập nhật sự cố</b></h3>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col s12 m4">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col s12 m6">
+                                                <div class="col s12 m6">
                                                     <div class="form-group">
-                                                        <label for="date">Thời gian kết thúc sự cố : </label>
-                                                        <input required type='text' class='datepicker-here form-control minDate' data-language='vi' value="" id="date-end-update" />
+                                                        <label for="date">Thời gian bắt đầu sự cố : </label>
+                                                        <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-start-edit" />
                                                     </div>
                                                 </div>
-                                                <div class="col s12 m2">
+                                                <div class="col s12 m3">
                                                     <div class="form-group">
                                                         <label for="date">Giờ : </label>
-                                                        <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-end-update" />
+                                                        <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-start-edit" />
                                                     </div>
                                                 </div>
-                                                <div class="col s12 m2">
+                                                <div class="col s12 m3">
                                                     <div class="form-group">
                                                         <label for="date">Phút : </label>
-                                                        <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-end-update" />
+                                                        <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-start-edit" />
                                                     </div>
                                                 </div>
-                                                <div class="col s12 m4">
+                                                <div class="col s12 m12">
                                                     <div class="form-group">
-                                                        <label for="name">Lý do sự cố : </label>
-                                                        <input required type="text" name="reason" class="form-control" id="reason-update" />
-                                                        <input type="hidden" value="" class="form-control" id="incident-update" />
+                                                        <label for="date">Mã thiết bị : </label>
+                                                        <input required type="text" list="equipmentId" class="form-control" value="" id="equipment-edit" />
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m12">
+                                                    <div class="form-group">
+                                                        <label for="id">Phân xưởng chịu trách nhiệm : </label>
+                                                        <input required type="text" list="department_name" class="form-control" value="" id="department-edit" />
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m12">
+                                                    <div class="form-group">
+                                                        <label for="id">Vị trí chi tiết : </label>
+                                                        <input required type="text" class="form-control" value="" id="detail-edit" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col s12 m6">
+                                                <div class="col s12 m6">
+                                                    <div class="form-group">
+                                                        <label for="date">Thời gian kết thúc sự cố : </label>
+                                                        <input required type='text' class='datepicker-here form-control' data-language='vi' id="date-end-edit" />
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m3">
+                                                    <div class="form-group">
+                                                        <label for="date">Giờ : </label>
+                                                        <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-end-edit" />
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m3">
+                                                    <div class="form-group">
+                                                        <label for="date">Phút : </label>
+                                                        <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-end-edit" />
+                                                        <input type="hidden" id="incident-edit" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m12">
+                                                    <div class="form-group">
+                                                        <label for="supplier">Lý do sự cố : </label>
+                                                        <input required type="text" class="form-control" id="reason-edit" />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</button>
-                                            <button type="button" class="btn light-blue modal-close darken-2" id="exit-update-button">Đóng</button>
-                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</button>
+                                        <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-edit-button">Thoát</button>
                                     </div>
                                 </div>
-                            </form>
-                        }
-                        if (rights.Contains("170") || rights.Contains("79"))
-                        {
-                            <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
-                        }
+                            </div>
+                        </form>
+
+                        <form action="" method="POST" id="myupdateform" role="form">
+                            <div id="myupdate" class="modal">
+                                <div class="modal-content">
+                                    <div class="modal-header center">
+                                        <h3><b>Cập nhật sự cố</b></h3>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col s12 m4">
+                                                <div class="form-group">
+                                                    <label for="date">Thời gian kết thúc sự cố : </label>
+                                                    <input required type='text' class='datepicker-here form-control minDate' data-language='vi' value="" id="date-end-update" />
+                                                </div>
+                                            </div>
+                                            <div class="col s12 m2">
+                                                <div class="form-group">
+                                                    <label for="date">Giờ : </label>
+                                                    <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-end-update" />
+                                                </div>
+                                            </div>
+                                            <div class="col s12 m2">
+                                                <div class="form-group">
+                                                    <label for="date">Phút : </label>
+                                                    <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-end-update" />
+                                                </div>
+                                            </div>
+                                            <div class="col s12 m4">
+                                                <div class="form-group">
+                                                    <label for="name">Lý do sự cố : </label>
+                                                    <input required type="text" name="reason" class="form-control" id="reason-update" />
+                                                    <input type="hidden" value="" class="form-control" id="incident-update" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</button>
+                                        <button type="button" class="btn light-blue modal-close darken-2" id="exit-update-button">Đóng</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    }
+                    if (rights.Contains("170") || rights.Contains("79"))
+                    {
+                        <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
+                    }
                 }
 
             </div>
@@ -367,9 +367,9 @@
 
 <!-- ============================================================== -->
 <!-- Apps -->
+<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <!-- ============================================================== -->
-
-
 @section scripts{
 
     <script>

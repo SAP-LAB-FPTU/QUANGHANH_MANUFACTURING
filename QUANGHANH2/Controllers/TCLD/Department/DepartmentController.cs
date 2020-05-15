@@ -155,5 +155,32 @@ namespace QUANGHANH2.Controllers.TCLD
             }
 
         }
+
+        [HttpPost]
+        public ActionResult DeleteDepartment(string department_id)
+        {
+            try
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    var department = db.Departments.Find(department_id);
+                    db.Departments.Remove(department);
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        return Json(new { success = false, message = "Dữ liệu bạn xóa đang tồn tại ở những màn hình khác. Do vậy để xóa phân xưởng này bạn phải xóa dữ liệu tại các màn hình có liên quan tới dữ liệu trên." });
+                    }
+
+                    return Json(new { success = true, message = "Xóa phân xưởng thành công." });
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra." });
+            }
+        }
     }
 }

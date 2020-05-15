@@ -26,6 +26,7 @@
                     <div class="input-field col s3 m3 l1"></div>
                     <div class="input-field col s3 m3 l2">
                         <button class="modal-trigger btn btn-small darken-2 blue" data-target="addsnlv" id="butsnlv">Nhập ngày sản xuất</button>
+                        <button class="modal-trigger btn btn-small darken-2 blue" data-target="editsnlv" id="butsnlvedit">Sửa ngày sản xuất</button>
                     </div>
                     <div class="input-field col l2 m2 s2">
                         <input readonly id="ngaySanXuat" name="ngaySX" value="@ViewBag.NgaySX" required autocomplete="off" class="form-control center" onchange="percentOnchange()" placeholder="NgàySX" onchange="onChangeAll()" />
@@ -107,8 +108,7 @@
                                     <th>Chênh lệch</th>
                                     <th>Phần trăm<br />hoàn thành</th>
                                     <th>Lũy kế</th>
-                                    @*<th>Ké hoạch<br />ban đầu</th>*@
-                                    <th>Ké hoạch<br />điều chỉnh</th>
+                                    <th>Kế hoạch</th>
                                     <th>Phần trăm<br />tiến độ</th>
                                     <th>Tổng</th>
                                     <th>1 ngày</th>
@@ -143,6 +143,22 @@
         </div>
     </div>
 </div>
+
+<div class="modal" id="editsnlv">
+    <div class="card">
+        <div class="card-content">
+            <div class="modal-header row">
+                <h4 class="col l6">Chỉnh sửa ngày sản xuất hôm nay</h4>
+                <input id="nsx_edit" class="form-control col l6" min="0" type="number" />
+                @*<button id="butluu">Lưu</button>*@
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button id="butluu_edit" class="btn blue modal-close">Lưu</button>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready(function () {
         $('select').formSelect();
@@ -166,9 +182,11 @@
         var check = $('#ngaySanXuat').val();
         if (check == "0") {
             $("#butsnlv").click();
+            $("#butsnlvedit").hide();
         }
         else {
             $("#butsnlv").hide();
+            $("#butsnlvedit").show();
         }
         $(".date-click").datepicker({
             onSelect: function (dateText) {
@@ -189,6 +207,11 @@
     //    }
     //});
 
+    $("#butsnlvedit").click(function () {
+        var data = $('#ngaySanXuat').val();
+        $("#nsx_edit").val(data);
+    });
+
     $("#butluu").click(function () {
         $("#pre-load").show();
         $.ajax({
@@ -202,6 +225,33 @@
                 if (response.success == true) {
                     $("#ngaySanXuat").val($("#nsx").val());
                     successAlert(response.title, response.message);
+                    $("#butsnlv").hide();
+                    $("#butsnlvedit").show();
+                    $("#pre-load").hide();
+                }
+                else {
+                    errorAlert(response.title, response.message);
+                    $("#pre-load").hide();
+                }
+            }
+        });
+    });
+    
+    $("#butluu_edit").click(function () {
+        $("#pre-load").show();
+        $.ajax({
+            type: "POST",
+            url: "/phong-dieu-khien/editnsx",
+            data: {
+                "nsx": $("#nsx_edit").val(),
+                "ngay": $("#dateInput").val(),
+            },
+            success: function (response) {
+                if (response.success == true) {
+                    $("#ngaySanXuat").val($("#nsx_edit").val());
+                    successAlert(response.title, response.message);
+                    $("#butsnlv").hide();
+                    $("#butsnlvedit").show();
                     $("#pre-load").hide();
                 }
                 else {
@@ -237,9 +287,11 @@
                             var check = $('#ngaySanXuat').val();
                             if (check == "0") {
                                 $("#butsnlv").click();
+                                $("#butsnlvedit").hide();
                             }
                             else {
                                 $("#butsnlv").hide();
+                                $("#butsnlvedit").show();
                             }
                             document.getElementById("dayMonthDis").innerHTML = "Ngày " + response.ngay + " tháng " + response.thang;
                             $("#monthDis").empty();
@@ -321,9 +373,9 @@
         } else {
             KH = document.getElementById("keHoach" + i).value;
         }
-        document.getElementById("chenhLech" + i).value = TH - KH;
+        document.getElementById("chenhLech" + i).value = (TH - KH).toFixed(1);
         if (KH != 0) {
-            document.getElementById("phanTramHT" + i).value = ((TH / KH) * 100).toFixed(2);
+            document.getElementById("phanTramHT" + i).value = ((TH / KH) * 100).toFixed(1);
         }
 
         var LK = parseInt(document.getElementById("luyKeHidden" + i).value);
@@ -332,12 +384,12 @@
         var KHDC = document.getElementById("KHDC" + i).value;
         var LK = parseInt(document.getElementById("luyKe" + i).value);
         if (KHDC != 0) {
-            document.getElementById("phanTramTD" + i).value = ((LK / KHDC) * 100).toFixed(2);
+            document.getElementById("phanTramTD" + i).value = ((LK / KHDC) * 100).toFixed(1);
         }
 
         document.getElementById("tong" + i).value = KHDC - LK;
 
-        document.getElementById("motNgay" + i).value = ((KHDC - LK) / (tongNgaySX - ngaySX)).toFixed(2);
+        document.getElementById("motNgay" + i).value = ((KHDC - LK) / (tongNgaySX - ngaySX)).toFixed(1);
 
 
     }
@@ -345,9 +397,9 @@
     function KHOnchange(i) {
         var TH = document.getElementById("thucHien" + i).value;
         var KH = document.getElementById("keHoach" + i).value;
-        document.getElementById("chenhLech" + i).value = TH - KH;
+        document.getElementById("chenhLech" + i).value = (TH - KH).toFixed(1);
         if (KH != 0) {
-            document.getElementById("phanTramHT" + i).value = ((TH / KH) * 100).toFixed(2);
+            document.getElementById("phanTramHT" + i).value = ((TH / KH) * 100).toFixed(1);
         }
     }
 
@@ -357,10 +409,10 @@
         var KHDC = document.getElementById("KHDC" + i).value;
         var LK = parseInt(document.getElementById("luyKe" + i).value);
         if (KHDC != 0) {
-            document.getElementById("phanTramTD" + i).value = ((LK / KHDC) * 100).toFixed(2);
+            document.getElementById("phanTramTD" + i).value = ((LK / KHDC) * 100).toFixed(1);
         }
         document.getElementById("tong" + i).value = KHDC - LK;
-        document.getElementById("motNgay" + i).value = ((KHDC - LK) / (tongNgaySX - ngaySX)).toFixed(2);
+        document.getElementById("motNgay" + i).value = ((KHDC - LK) / (tongNgaySX - ngaySX)).toFixed(1);
 
     }
 

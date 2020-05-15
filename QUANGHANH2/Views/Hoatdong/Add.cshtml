@@ -79,7 +79,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Thời hạn đăng kiểm tiếp theo</label>
+                        <label>Ngày hết hạn đăng kiểm</label>
                         @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             <input name="duraInspec" type="text" class="form-control datepicker-here maxDate" />
@@ -100,10 +100,30 @@
                         </div>
                     </div>
                     <div id="plus2">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Ngày mua đăng kiểm</label>
+                            <div class="col-md-10">
+                                <input name="BuyInspec" type="text" class="form-control datepicker-here maxDate" />
+                                @Html.EditorFor(model => model.inspect_date, new { htmlAttributes = new { @style = "display: none !important" } })
+                                @Html.ValidationMessageFor(model => model.inspect_date, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="control-label col-md-2">GPS</label>
                             <div class="col-md-10">
                                 <select class="form-control" name="gps">
+                                    <option value="1">Có</option>
+                                    <option value="2">Không</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Nhiên liệu</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="NL">
                                     <option value="1">Có</option>
                                     <option value="2">Không</option>
                                 </select>
@@ -137,7 +157,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Số chế tạo</label>
+                        <label id="sct">Số chế tạo</label>
                         @*@Html.LabelFor(model => model.fabrication_number, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.fabrication_number, new { htmlAttributes = new { @class = "form-control" } })
@@ -145,7 +165,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Số hiệu</label>
+                        <label id="sh">Số hiệu</label>
                         @*@Html.LabelFor(model => model.mark_code, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.mark_code, new { htmlAttributes = new { @class = "form-control" } })
@@ -181,6 +201,25 @@
 
                     <div id="plus">
                         <div class="form-group">
+                            <label>Ngày hết hạn bảo hiểm</label>
+                            @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            <div class="col-md-10">
+                                <input name="Insua" type="text" class="form-control datepicker-here maxDate" />
+                                @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @style = "display: none !important" } })
+                                @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Ngày mua bảo hiểm</label>
+                            <div class="col-md-10">
+                                <input name="BuyInsua" type="text" class="form-control datepicker-here maxDate" />
+                                @Html.EditorFor(model => model.insurance_date, new { htmlAttributes = new { @style = "display: none !important" } })
+                                @Html.ValidationMessageFor(model => model.insurance_date, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="control-label col-md-2">Số khung</label>
                             <div class="col-md-10">
                                 <input type="text" name="sk" class="form-control" />
@@ -191,6 +230,18 @@
                             <label class="control-label col-md-2">Số máy</label>
                             <div class="col-md-10">
                                 <input type="text" name="sm" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Năm sản xuất</label>
+                            <div class="col-md-10">
+                                <input type="number" name="yearSX" id="yearCalendar" class="form-control datepicker-here datepicker-add center"
+                                       data-language='vi'
+                                       data-min-view="years"
+                                       data-view="years"
+                                       data-date-format="yyyy"
+                                       required value="2019" />
                             </div>
                         </div>
 
@@ -218,7 +269,7 @@
                         <td>1</td>
                         <td><input type='text' name="id" class='form-control' placeholder='Mã đặc tính' /></td>
                         <td><input type='text' name="name" class='form-control' placeholder='Tên đặc tính' /></td>
-                        <td><input type='number' name="value" class='form-control' placeholder='Thông số' /></td>
+                        <td><input type='text' name="value" class='form-control' placeholder='Thông số' /></td>
                         <td><input type='text' name="unit" class='form-control' placeholder='ĐVT' /></td>
                         <td><button type="button" class="btnSelect btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
                     </tr>
@@ -258,7 +309,7 @@
 
         <div class="col-12" id="myadd20" style="margin-top:15px">
             <div class="modal-header center-align">
-                <h3>Thêm vật tư đi kèm</h3>
+                <h3>Thêm thiết bị đi kèm</h3>
             </div>
             <div class="modal-body">
                 <table id="myTableSup" class="table-bordered">
@@ -278,6 +329,32 @@
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="myFunction3()" class="btn blue btn-small left"><i class="large material-icons">add</i></button>
+
+            </div>
+        </div>
+
+        <div class="col-12" id="myaddVTDK" style="margin-top:15px">
+            <div class="modal-header center-align">
+                <h3>Thêm vật tư đi kèm</h3>
+            </div>
+            <div class="modal-body">
+                <table id="myTableSupVTDK" class="table-bordered">
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên vật ưu</th>
+                        <th>Số lượng</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td><input list="Suplist2" type='text' name="nameVTDK" class='form-control' placeholder='Tên vật ưu' /></td>
+                        <td><input type="number" name="quantityVTDK" class="form-control" placeholder="Số lượng" /></td>
+                        <td><button type="button" class="btnSelect4 btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="myFunction4()" class="btn blue btn-small left"><i class="large material-icons">add</i></button>
 
             </div>
         </div>
@@ -356,6 +433,8 @@
         if (ck.endsWith('1')) {
             $('#plus').show();
             $('#plus2').show();
+            $('#sct').text("Số loại");
+            $('#sh').text("Mã hiệu");
         } else {
             $('#plus').hide();
             $('#plus2').hide();
@@ -390,6 +469,21 @@
             }
             count3 = document.getElementById("myTableSup").rows.length;
         });
+
+        // code to read selected table row cell data (values).
+        $("#myTableSupVTDK").on('click', '.btnSelect4', function () {
+            // get the current row
+            var currentRow = $(this).closest("tr");
+            var data = currentRow.find("td:eq(0)").text();
+            document.getElementById("myTableSupVTDK").deleteRow(data);
+            var table = document.getElementById("myTableSupVTDK");
+            var x = document.getElementById("myTableSupVTDK").rows.length;
+            var i = 1;
+            for (i = 1; i < x; i++) {
+                table.rows[i].cells[0].innerHTML = i;
+            }
+            count3 = document.getElementById("myTableSupVTDK").rows.length;
+        });
     });
 
     var count = 2;
@@ -407,7 +501,7 @@
         cell1.innerHTML = "" + count + "";
         cell2.innerHTML = "<input type='text' name='id' class='form-control' placeholder='Mã đặc tính' />";
         cell3.innerHTML = "<input type='text' name='name' class='form-control' placeholder='Tên đặc tính' />"
-        cell4.innerHTML = "<input type='number' name='value' class='form-control' placeholder='Thông số' />";
+        cell4.innerHTML = "<input type='text' name='value' class='form-control' placeholder='Thông số' />";
         cell5.innerHTML = "<input type='text' name='unit' class='form-control' placeholder='ĐVT' />";
         cell6.innerHTML = "<button type='button' class='btnSelect btn blue btn-small left'><i class='large material-icons'>remove</i></button>";
         count++;
@@ -427,6 +521,22 @@
         cell3.innerHTML = "<input type='number' name='quantity' class='form-control' placeholder='Số lượng' />";
         cell4.innerHTML = "<button type='button' class='btnSelect3 btn blue btn-small left'><i class='large material-icons'>remove</i></button>";
         count3++;
+    }
+
+    var count4 = 2;
+    function myFunction4() {
+        var x = document.getElementById("myTableSupVTDK").rows.length;
+        var table = document.getElementById("myTableSupVTDK");
+        var row = table.insertRow(x);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        cell1.innerHTML = "" + count4 + "";
+        cell2.innerHTML = "<input list='Suplist2' type='text' name='nameVTDK' class='form-control' placeholder='Tên vật ưu' />";
+        cell3.innerHTML = "<input type='number' name='quantityVTDK' class='form-control' placeholder='Số lượng' />";
+        cell4.innerHTML = "<button type='button' class='btnSelect4 btn blue btn-small left'><i class='large material-icons'>remove</i></button>";
+        count4++;
     }
 
     $(document).ready(function () {

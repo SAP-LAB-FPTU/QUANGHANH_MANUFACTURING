@@ -1,0 +1,1011 @@
+﻿
+@{
+    ViewBag.Title = "Manufacturing";
+    Layout = "~/Views/Shared/_Layout_BGD2.cshtml";
+}
+
+<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" rel="stylesheet" type="text/css" />
+
+<form id="form" action="/ban-giam-doc/bao-cao-nhanh-san-xuat" method="post">
+    <input type="text" id="date" name="date" style="display:none !important" />
+</form>
+<style>
+    .new-title {
+        font-weight: bold;
+        text-align: center;
+        padding: 10px;
+        background: #3db7fe;
+        color: white;
+        font-size: 13px;
+    }
+
+    .main-number {
+        text-align: center
+    }
+
+    .chart-icon {
+        /* position: relative; */
+        float: right;
+        margin-right: 10px;
+        /* padding-bottom: 60px; */
+        margin-top: -40px;
+        color: #86d3ff;
+        cursor: pointer;
+        user-select: none;
+    }
+
+        .chart-icon:hover {
+            color: #3db7fe;
+        }
+
+        .chart-icon:active {
+            color: #3db7fe;
+        }
+
+    .bottom-arrow {
+        border-bottom: 1px solid lightgray;
+        margin-left: 10px;
+        margin-right: 10px
+    }
+</style>
+<div class="row">
+    <div class="col l12 m12 s12">
+        <div class="card">
+            <div class="card-content">
+                <h3 class="center">
+                    <b>BÁO CÁO NHANH NGÀY </b><i class="fas fa-calendar-alt icon"></i>
+                    <input id="data" type='text' class='datepicker-here center date-click' data-language='vi' />
+                </h3>
+                <div class="row center">
+                    <div class="input-field col s3 m3 l3"></div>
+                    <div class="input-field col s6 m6 l6" id="process" style="font-size:larger">
+                        Kế hoạch còn lại: <span id="ngaySXconlai">@ViewBag.ngaySXconlai</span> ngày - Số ngày SX:<span id="ngaySXhientai">@ViewBag.ngaySXhientai</span>/<span id="tongNgaySX">@ViewBag.tongNgaySX</span> ngày đạt <span id="tiendoNgay">@ViewBag.tiendoNgay</span>%
+                    </div>
+                    <div class="input-field col s6 m6 l6" id="process_alert" style="font-size:larger;color:#ff0000">
+                        Chưa nhập ngày sản xuất hôm nay
+                    </div>
+                    <div class="input-field col s3 m3 l3"></div>
+                </div>
+                <!--Date here-->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <span class="new badge left red" data-badge-caption="">Báo cáo lũy kế</span>
+</div>
+<div class="row">
+    <div class="col l6 m6 s12">
+        <div class="row">
+            <div class="col l4 m12 s12">
+                <div class="card">
+                    <div class="new-title">
+                        Than hầm lò (Tấn)
+                    </div>
+                    <div class="main-number">
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">
+                                TH: @ViewBag.tdl.Thuchien
+                            </span>
+                            <br />
+                            <span class="font-medium" style="color:orange">
+                                KH: @ViewBag.tdl.Kehoach
+                            </span>
+                        </div>
+                        <div class="chart-icon modal-trigger" onclick="drawChart(thl,kh_sl_thanhamlo,'Sản lượng (Tấn)','kh_sl_thanhamlo')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col l4 m12 s12">
+                <div class="card">
+                    <div class="new-title">
+                        Than lộ thiên (Tấn)
+                    </div>
+                    <div class="main-number">
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">
+                                TH: @ViewBag.tlt.Thuchien
+                            </span>
+                            <br />
+                            <span class="font-medium" style="color:orange">
+                                KH: @ViewBag.tlt.Kehoach
+                            </span>
+                        </div>
+                        <div class="chart-icon modal-trigger" onclick="drawChart(tlt, kh_sl_thanlothien,'Sản lượng (Tấn)','kh_sl_thanlothien')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col l4 m12 s12">
+                <div class="card">
+                    <div class="card">
+                        <div class="new-title">
+                            Mét lò đào (Mét)
+                        </div>
+                        <div class="main-number">
+                            <div>
+                                <span class="font-medium" style="border-bottom: 1px dashed">
+                                    TH: @ViewBag.mld.Thuchien
+                                </span>
+                                <br />
+                                <span class="font-medium" style="color:orange">
+                                    KH: @ViewBag.mld.Kehoach
+                                </span>
+                            </div>
+                            <div class="chart-icon modal-trigger" onclick="drawChart(mld, kh_sl_metlodao,'Sản lượng (Mét)','kh_sl_metlodao')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 m6 s12">
+        <div class="row">
+            <div class="col l4 m12 s12">
+                <div class="card">
+                    <div class="new-title">
+                        Mét lò neo (Mét)
+                    </div>
+                    <div class="main-number">
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">
+                                TH: @ViewBag.mln.Thuchien
+                            </span>
+                            <br />
+                            <span class="font-medium" style="color:orange">
+                                KH: @ViewBag.mln.Kehoach
+                            </span>
+                        </div>
+                        <div class="chart-icon modal-trigger" onclick="drawChart(mln, kh_sl_metloneo,'Sản lượng (Mét)','kh_sl_metloneo')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col l4 m12 s12">
+                <div class="card">
+                    <div class="new-title">
+                        Mét lò xén (Mét)
+                    </div>
+                    <div class="main-number">
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">
+                                TH: @ViewBag.mlx.Thuchien
+                            </span><br />
+                            <span class="font-medium" style="color:orange">
+                                KH: @ViewBag.mlx.Kehoach
+                            </span>
+                        </div>
+                        <div class="chart-icon modal-trigger" onclick="drawChart(mlx, kh_sl_metloxen,'Sản lượng (Mét)','kh_sl_metloxen')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col l4 m12 s12">
+                <div class="card">
+                    <div class="new-title">
+                        Than tiêu thụ
+                    </div>
+                    <div class="main-number">
+                        <div>
+                            <span class="font-medium" style="border-bottom: 1px dashed">
+                                TH: @ViewBag.ttt.Thuchien
+                            </span><br />
+                            <span class="font-medium" style="color:orange">
+                                KH: @ViewBag.ttt.Kehoach
+                            </span>
+                        </div>
+                        <div class="chart-icon modal-trigger" onclick="drawChart(ttt, kh_sl_thantieuthu,'Sản lượng (Tấn)','kh_sl_thantieuthu')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="col l3 m12 s12">
+                    <div class="card">
+                        <div class="new-title">
+                            Đá xít kho
+                        </div>
+                        <div class="main-number">
+                            <div>
+                                <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.dxk.Thuchien </span><br />
+                                <span class="font-medium" style="color:orange">@ViewBag.dxk.Kehoach</span>
+                            </div>
+                            <div class="chart-icon modal-trigger" onclick="drawChart(dxk, kh_sl_daxitkho,'Sản lượng (Tấn)','kh_sl_daxitkho')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                        </div>
+                    </div>
+                </div>*@
+            @*<div class="col l3 m12 s12">
+                    <div class="card">
+                        <div class="new-title">
+                            Đất đá bóc tự làm
+                        </div>
+                        <div class="main-number">
+                            <div>
+                                <span class="font-medium" style="border-bottom: 1px dashed">@ViewBag.ddb.Thuchien </span><br />
+                                <span class="font-medium" style="color:orange">@ViewBag.ddb.Kehoach</span>
+                            </div>
+                            <div class="chart-icon modal-trigger" onclick="drawChart(ddb, kh_sl_datdaboc,'Sản lượng (Tấn)','kh_sl_datdaboc')" href="#modal1"><i class="small material-icons">insert_chart</i></div>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <span class="new badge left red" data-badge-caption="">Sản lượng than sản xuất</span>
+</div>
+<div class="row">
+    <div class="col l12 s12 m12">
+        <div class="card ">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12">
+                        <ul class="tabs">
+                            <li class="tab col s3"><a href="#test1" class="active">THAN SẢN XUẤT</a></li>
+                            <li class="tab col s3"><a href="#test2">MÉT LÒ ĐÀO</a></li>
+                            <li class="tab col s3"><a href="#test3">ĐẤT ĐÁ BÓC LỘ THIÊN</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="test1">
+                    <div class="row">
+                        <div class="col l9 m12 s12">
+                            <table id="thansx_table" class="table table-striped table-bordered responsive-table" cellspacing="0"
+                                   width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Tên phân xưởng</th>
+                                        <th>Thực hiện</th>
+                                        <th>Kế hoạch ngày</th>
+                                        <th>Lũy kế</th>
+                                        <th>Kế hoạch tháng</th>
+                                        <th>Còn lại</th>
+                                        <th>Tình trạng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var row in ViewBag.sl_lk_thansx)
+                                    {
+                                        <tr>
+                                            <td>@row.MaPhongBan</td>
+                                            <td>@row.SanLuongThucHienNgay</td>
+                                            <td>@row.SanLuongKeHoachNgay</td>
+                                            <td>@row.SanLuongLuyKeNgay</td>
+                                            <td>@row.SanLuongKeHoachThang</td>
+                                            <td>@row.SanLuongConLai</td>
+                                            <td>@row.TinhTrang</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col l3 m12 s12">
+                            <div class="row">
+                                <div class="col l12 s12 m12">
+                                    <div class="card" style="border:0.5px solid #e5e5e5;color:gray; font-weight:bold">
+                                        <div class="card-content center">
+                                            <span class="black-text">THỰC HIỆN THEO NGÀY</span><hr />
+
+                                            @{
+                                                double? thansx_thuchien = 0;
+                                                foreach (var row in ViewBag.sl_lk_thansx)
+                                                {
+                                                    if (row.SanLuongThucHienNgay != null)
+                                                    {
+                                                        thansx_thuchien += row.SanLuongThucHienNgay;
+                                                    }
+
+                                                }
+                                            }
+                                            <h3>@thansx_thuchien</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col l12 s12 m12">
+                                    <div class="card" style="border:0.5px solid #e5e5e5;color:gray; font-weight:bold">
+                                        <div class="card-content center">
+                                            <span class="black-text">LŨY KẾ THÁNG</span><hr />
+                                            @{
+                                                double? thansx_luyke = 0;
+                                                foreach (var row in ViewBag.sl_lk_thansx)
+                                                {
+                                                    if (row.SanLuongLuyKeNgay != null)
+                                                    {
+                                                        thansx_luyke += row.SanLuongLuyKeNgay;
+                                                    }
+                                                }
+                                            }
+                                            <h3>@thansx_luyke</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col l12 s12 m12">
+                                    <div class="card" style="border:0.5px solid #e5e5e5;color:gray; font-weight:bold">
+                                        <div class="card-content center">
+                                            <span class="black-text">KẾ HOẠCH THÁNG CÒN LẠI</span><hr />
+                                            @{
+                                                double? thansx_conlai = 0;
+                                                foreach (var row in ViewBag.sl_lk_thansx)
+                                                {
+                                                    if (row.SanLuongLuyKeNgay != null)
+                                                    {
+                                                        thansx_conlai += row.SanLuongConLai;
+                                                    }
+                                                }
+                                            }
+                                            <h3>@thansx_conlai</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="test2">
+                    <div class="row">
+                        <div class="col l9 m12 s12">
+                            <table id="metlo_table" class="table table-striped table-bordered responsive-table" cellspacing="0"
+                                   width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Tên phân xưởng</th>
+                                        <th>Thực hiện</th>
+                                        <th>Kế hoạch ngày</th>
+                                        <th>Lũy kế</th>
+                                        <th>Kế hoạch tháng</th>
+                                        <th>Còn lại</th>
+                                        <th>Tình trạng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var row in ViewBag.sl_lk_metlo)
+                                    {
+                                        <tr>
+                                            <td>@row.MaPhongBan</td>
+                                            <td>@row.SanLuongThucHienNgay</td>
+                                            <td>@row.SanLuongKeHoachNgay</td>
+                                            <td>@row.SanLuongLuyKeNgay</td>
+                                            <td>@row.SanLuongKeHoachThang</td>
+                                            <td>@row.SanLuongConLai</td>
+                                            <td>@row.TinhTrang</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col l3 m12 s12">
+                            <div class="row">
+                                <div class="col l12 s12 m12">
+                                    <div class="card" style="border:0.5px solid #e5e5e5;color:gray; font-weight:bold">
+                                        <div class="card-content center">
+                                            <span class="black-text">THỰC HIỆN THEO NGÀY</span><hr />
+                                            @{
+                                                double? metlo_thuchien = 0;
+                                                foreach (var row in ViewBag.sl_lk_metlo)
+                                                {
+                                                    if (row.SanLuongThucHienNgay != null)
+                                                    {
+                                                        metlo_thuchien += row.SanLuongThucHienNgay;
+                                                    }
+
+                                                }
+                                            }
+                                            <h3>@metlo_thuchien</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col l12 s12 m12">
+                                    <div class="card" style="border:0.5px solid #e5e5e5;color:gray; font-weight:bold">
+                                        <div class="card-content center">
+                                            <span class="black-text">LŨY KẾ THÁNG</span><hr />
+                                            @{
+                                                double? metlo_luyke = 0;
+                                                foreach (var row in ViewBag.sl_lk_metlo)
+                                                {
+                                                    if (row.SanLuongLuyKeNgay != null)
+                                                    {
+                                                        metlo_luyke += row.SanLuongLuyKeNgay;
+                                                    }
+
+                                                }
+                                            }
+                                            <h3>@metlo_luyke</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col l12 s12 m12">
+                                    <div class="card" style="border:0.5px solid #e5e5e5;color:gray; font-weight:bold">
+                                        <div class="card-content center">
+                                            <span class="black-text">KẾ HOẠCH THÁNG CÒN LẠI</span><hr />
+                                            @{
+                                                double? metlo_conlai = 0;
+                                                foreach (var row in ViewBag.sl_lk_metlo)
+                                                {
+                                                    if (row.SanLuongConLai != null)
+                                                    {
+                                                        metlo_conlai += row.SanLuongConLai;
+                                                    }
+
+                                                }
+                                            }
+                                            <h3>@metlo_conlai</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="test3">
+                    <div class="row">
+                        <div class="col l9 m12 s12">
+                            <table id="datda_table" class="table table-striped table-bordered responsive-table" cellspacing="0"
+                                   width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Tên phân xưởng</th>
+                                        <th>Thực hiện</th>
+                                        <th>Kế hoạch ngày</th>
+                                        <th>Lũy kế</th>
+                                        <th>Kế hoạch tháng</th>
+                                        <th>Còn lại</th>
+                                        <th>Tình trạng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var row in ViewBag.sl_lk_datda)
+                                    {
+                                        <tr>
+                                            <td>@row.MaPhongBan</td>
+                                            <td>@row.SanLuongThucHienNgay</td>
+                                            <td>@row.SanLuongKeHoachNgay</td>
+                                            <td>@row.SanLuongLuyKeNgay</td>
+                                            <td>@row.SanLuongKeHoachThang</td>
+                                            <td>@row.SanLuongConLai</td>
+                                            <td>@row.TinhTrang</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col l3 m12 s12">
+                            <div class="row">
+                                <div class="col l12 s12 m12">
+                                    <div class="card" style="border:0.5px solid #e5e5e5;color:gray; font-weight:bold">
+                                        <div class="card-content center">
+                                            <span class="black-text">THỰC HIỆN THEO NGÀY</span><hr />
+                                            @{
+                                                double? datda_thuchien = 0;
+                                                foreach (var row in ViewBag.sl_lk_datda)
+                                                {
+                                                    if (row.SanLuongThucHienNgay != null)
+                                                    {
+                                                        datda_thuchien += row.SanLuongThucHienNgay;
+                                                    }
+
+                                                }
+                                            }
+                                            <h3>@datda_thuchien</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col l12 s12 m12">
+                                    <div class="card" style="border:0.5px solid #e5e5e5;color:gray; font-weight:bold">
+                                        <div class="card-content center">
+                                            <span class="black-text">LŨY KẾ THÁNG</span><hr />
+                                            @{
+                                                double? datda_luyke = 0;
+                                                foreach (var row in ViewBag.sl_lk_datda)
+                                                {
+                                                    if (row.SanLuongLuyKeNgay != null)
+                                                    {
+                                                        datda_luyke += row.SanLuongLuyKeNgay;
+                                                    }
+
+                                                }
+                                            }
+                                            <h3>@datda_luyke</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col l12 s12 m12">
+                                    <div class="card" style="border:0.5px solid #e5e5e5;color:gray; font-weight:bold">
+                                        <div class="card-content center">
+                                            <span class="black-text">KẾ HOẠCH THÁNG CÒN LẠI</span><hr />
+                                            @{
+                                                double? datda_conlai = 0;
+                                                foreach (var row in ViewBag.sl_lk_datda)
+                                                {
+                                                    if (row.SanLuongConLai != null)
+                                                    {
+                                                        datda_conlai += row.SanLuongConLai;
+                                                    }
+
+                                                }
+                                            }
+                                            <h3>@datda_conlai</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col l6 s12">
+        <div class="card" style="">
+            <div class="card-content">
+                <h4 class="card-title">Báo cáo sự cố</h4>
+                <div id="suco" style="overflow-y:auto">
+                    <table class="striped center-align table-bordered" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã thiết bị</th>
+                                <th>Tên thiết bị</th>
+                                <th>Phân xưởng sử dụng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (ViewBag.listSCCount == 0)
+                                {
+                                    <tr>
+                                        <td colspan="4">Không có sự cố nào</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    foreach (var item in ViewBag.listSC)
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>@item.equipmentId</td>
+                                            <td>@item.equipment_name</td>
+                                            <td>@item.department_id</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col l6 s12">
+        <div class="card" style="">
+            <div class="card-content">
+                <h4 class="card-title">Báo cáo tai nạn</h4>
+                <div id="suco" style="overflow-y:auto">
+                    <table class="striped center-align table-bordered" id="myTable_tainan">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã NV</th>
+                                <th>Tên NV</th>
+                                <th>Loại tai nạn</th>
+                                <th>Lý do</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (ViewBag.listTNCount == 0)
+                                {
+                                    <tr>
+                                        <td colspan="5">Không có tai nạn nào</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    foreach (var item in ViewBag.listTN)
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>@item.MaNV</td>
+                                            <td>@item.Ten</td>
+                                            <td>@item.Loai</td>
+                                            <td>@item.LyDo</td>
+                                        </tr>
+                                    }
+                                }
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4><b id="sanluong_title"></b></h4>
+        <div class="row">
+            <div class="card" id="card-container">
+                <div class="card-content" id="chart-container" style="height:500px">
+                    <h5 class="card-title"></h5>
+                    <canvas id="chartSanLuong" width="400" height="200"></canvas>
+                </div>
+                <div id="tableSanLuong">
+                    <hr />
+                    <div class="text-center">
+                        <span class="black-text">
+                            SẢN LƯỢNG LŨY KẾ
+                        </span>
+                    </div>
+                    <table class='table table-bordered table-center'>
+                        <thead>
+                            <tr>
+                                <th>Sản lượng thực hiện lũy kế</th>
+                                <th>Sản lượng kế hoạch tháng</th>
+                                <th>Phần trăm so sánh</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
+    </div>
+</div>
+
+@*<script src="~/dist/dashboard_Tuan/dashBoardChart_tuan.js"></script>*@
+<!-- This page plugin js -->
+<!-- ============================================================== -->
+@*<script src="../../assets/libs/chartist/dist/chartist.min.js"></script>
+    <script src="../../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script src="../../assets/extra-libs/prism/prism.js"></script>
+@*<script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
+    <script src="../../dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>*@
+@*<script src="~/js/tuan_js/myChart2.js"></script>*@
+<script>
+    $(document).ready(function () {
+        $('.modal').modal();
+        $('#thansx_table').DataTable({
+            "scrollY": "425px",
+            "scrollCollapse": true,
+            "searching": false,
+            "bPaginate": false,
+            "bLengthChange": false,
+            "lengthChange": false,
+            "bInfo": false,
+            "ordering": false,
+            "responsive": true,
+            "language": {
+                "emptyTable": "Chưa có dữ liệu"
+            }
+
+        });
+        $('a[href="#test2"]').one('click', function () {
+            setTimeout(function () {
+                $('#metlo_table').DataTable({
+                    "scrollY": "425px",
+                    "scrollCollapse": true,
+                    "searching": false,
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "lengthChange": false,
+                    "bInfo": false,
+                    "ordering": false,
+                    "responsive": true,
+                    "language": {
+                        "emptyTable": "Chưa có dữ liệu"
+                    }
+
+                });
+            }, 0);
+        });
+        $('a[href="#test3"]').one('click', function () {
+            setTimeout(function () {
+                $('#datda_table').DataTable({
+                    "scrollY": "425px",
+                    "scrollCollapse": true,
+                    "searching": false,
+                    "bPaginate": false,
+                    "bLengthChange": false,
+                    "lengthChange": false,
+                    "bInfo": false,
+                    "ordering": false,
+                    "responsive": true,
+                    "language": {
+                        "emptyTable": "Chưa có dữ liệu"
+                    }
+                });
+            }, 0);
+        });
+
+        $('.dataTables_length').addClass('bs-select');
+    });
+</script>
+<script>
+    const titleMap = new Map([
+        ['kh_sl_thanhamlo', 'CHI TIẾT BÁO CÁO SẢN LƯỢNG THAN HẦM LÒ'],
+        ['kh_sl_thanlothien', 'CHI TIẾT BÁO CÁO SẢN LƯỢNG THAN LỘ THIÊN'],
+        ['kh_sl_metlodao', 'CHI TIẾT BÁO CÁO SẢN LƯỢNG MÉT LÒ ĐÀO'],
+        ['kh_sl_metloneo', 'CHI TIẾT BÁO CÁO SẢN LƯỢNG MÉT LÒ NEO'],
+        ['kh_sl_metloxen', 'CHI TIẾT BÁO CÁO SẢN LƯỢNG MÉT LÒ XÉN'],
+        ['kh_sl_thantieuthu', 'CHI TIẾT BÁO CÁO SẢN LƯỢNG THAN THIÊU THỤ'],
+        ['kh_sl_daxitkho', 'CHI TIẾT BÁO CÁO SẢN LƯỢNG ĐÁ XÍT KHO'],
+        ['kh_sl_datdaboc', 'CHI TIẾT BÁO CÁO SẢN LƯỢNG ĐẤT ĐÁ BÓC TỰ LÀM'],
+    ]);
+
+    //data for chart
+    var kh_sl_thanhamlo = @Html.Raw(Json.Encode(ViewBag.kh_sl_thanhamlo));
+    var kh_sl_thanlothien = @Html.Raw(Json.Encode(ViewBag.kh_sl_thanlothien));
+    var kh_sl_metlodao = @Html.Raw(Json.Encode(ViewBag.kh_sl_metlodao));
+    var kh_sl_metloneo = @Html.Raw(Json.Encode(ViewBag.kh_sl_metloneo));
+    var kh_sl_metloxen = @Html.Raw(Json.Encode(ViewBag.kh_sl_metloxen));
+    var kh_sl_thantieuthu = @Html.Raw(Json.Encode(ViewBag.kh_sl_thantieuthu));
+    var kh_sl_daxitkho = @Html.Raw(Json.Encode(ViewBag.kh_sl_daxitkho));
+    var kh_sl_datdaboc = @Html.Raw(Json.Encode(ViewBag.kh_sl_datdaboc));
+
+    //data for table
+    var thl = @Html.Raw(Json.Encode(ViewBag.tdl));
+    var tlt = @Html.Raw(Json.Encode(ViewBag.tlt));
+    var mld = @Html.Raw(Json.Encode(ViewBag.mld));
+    var mln = @Html.Raw(Json.Encode(ViewBag.mln));
+    var mlx = @Html.Raw(Json.Encode(ViewBag.mlx));
+    var ttt = @Html.Raw(Json.Encode(ViewBag.ttt));
+    var dxk = @Html.Raw(Json.Encode(ViewBag.dxk));
+    var ddb = @Html.Raw(Json.Encode(ViewBag.ddb));
+
+    function drawChart(dtTable , kind, donvi,title) {
+        $("#sanluong_title").text(titleMap.get(title));
+        $('#chartSanLuong').remove(); // this is my <canvas> element
+        $('#chart-container').append('<canvas id="chartSanLuong"><canvas>');
+        var ctx = document.getElementById('chartSanLuong').getContext('2d');
+        var labels = []
+        var dataTH = []
+        var dataKH = []
+        for (let i = 0; i < kind.length; i++) {
+            let milli = kind[i]["Ngay"].replace(/\/Date\((-?\d+)\)\//, '$1');
+            let da = new Date(parseInt(milli));
+            labels.push(da.getDate() + "/" + (da.getMonth() + 1) + "/" + da.getFullYear());
+            dataTH.push(kind[i]["SanLuong"]);
+            dataKH.push(kind[i]["KeHoach"]);
+            console.log(kind.length)
+        }
+
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Thực hiện",
+                    data: dataTH,
+                    backgroundColor:'rgba(255, 255, 255, 0)',
+                    borderColor: 'rgba(32, 166, 255, 1)',
+                    borderWidth: 2
+                    },
+                    {
+                        label: "Kế hoạch",
+                        data: dataKH,
+                        backgroundColor:'rgba(255, 255, 255, 0)',
+                        borderColor: 'rgba(255, 127, 39, 1)',
+                        borderWidth: 2
+                    }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                legend: {
+                display: true,
+                labels: {
+                fontColor: 'rgb(0, 0, 0)'
+                }
+                },
+                responsive: true,
+                 maintainAspectRatio: false
+            }
+        });
+
+        //draw table
+        $("#tableSanLuong").remove();
+        $("#card-container").append(`
+                                    <div class='row' id="tableSanLuong">
+                                        <hr />
+                                        <div class='center'>
+                                            <span class='black-text'>
+                                                SẢN LƯỢNG LŨY KẾ
+                                            </span>
+                                        </div>
+                                        <table class='table-bordered table-center'>
+                                            <thead>
+                                                <tr>
+                                                    <th>Sản lượng thực hiện lũy kế</th>
+                                                    <th>Sản lượng kế hoạch tháng</th>
+                                                    <th>Phần trăm so sánh</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>`+ dtTable['Luyke'] + `</td>
+                                                    <td>`+ dtTable['KehoachThang'] + `</td>
+                                                    <td>`+ Math.round( (dtTable['Luyke'] / dtTable['KehoachThang']) * 100 ) +`%</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    `);
+
+    }
+
+</script>
+<script>
+        var temp = "@ViewBag.donvi";
+        temp = temp.split("&quot;").join("");
+        temp = temp.split("[").join("");
+        temp = temp.split("]").join("");
+        var donvi = temp.split(",");
+
+        temp = "@ViewBag.dilam";
+        temp = temp.split("&quot;").join("");
+        temp = temp.split("[").join("");
+        temp = temp.split("]").join("");
+        var dilam = temp.split(",");
+
+        temp = "@ViewBag.nghi";
+        temp = temp.split("&quot;").join("");
+        temp = temp.split("[").join("");
+        temp = temp.split("]").join("");
+        var nghilam = temp.split(",");
+</script>
+<script>
+    $(document).ready(function () {
+        var temp = "@ViewBag.ngaySXconlai";
+        if (temp == "") {
+            $("#process").hide();
+            $("#process_alert").show();
+        } else {
+            $("#process").show();
+            $("#process_alert").hide();
+        }
+        //than dao lo
+        var x = @ViewBag.tdl.percentDay; if (x > 100) x = 100;
+        $('#tdlDay').width(x + '%');
+        x = @ViewBag.tdl.percentMonth; if (x > 100) x = 100;
+        $('#tdlMonth').width(x + '%');
+
+        //than lo thien
+        x = @ViewBag.tlt.percentDay; if (x > 100) x = 100;
+        $('#tltDay').width(x + '%');
+        x = @ViewBag.tlt.percentMonth; if (x > 100) x = 100;
+        $('#tltMonth').width(x + '%');
+
+        //met lo dao
+        x = @ViewBag.mld.percentDay; if (x > 100) x = 100;
+        $('#mldDay').width(x + '%');
+        x = @ViewBag.mld.percentMonth; if (x > 100) x = 100;
+        $('#mldMonth').width(x + '%');
+
+        //met lo neo
+        x = @ViewBag.mln.percentDay; if (x > 100) x = 100;
+        $('#mlnDay').width(x + '%');
+        x = @ViewBag.mln.percentMonth; if (x > 100) x = 100;
+        $('#mlnMonth').width(x + '%');
+
+        //met lo xen
+        x = @ViewBag.mlx.percentDay; if (x > 100) x = 100;
+        $('#mlxDay').width(x + '%');
+        x = @ViewBag.mlx.percentMonth; if (x > 100) x = 100;
+        $('#mlxMonth').width(x + '%');
+
+         //than tieu thu
+        x = @ViewBag.ttt.percentDay; if (x > 100) x = 100;
+        $('#tttDay').width(x + '%');
+        x = @ViewBag.ttt.percentMonth; if (x > 100) x = 100;
+        $('#tttMonth').width(x + '%');
+
+         //da xit kho
+        x = @ViewBag.dxk.percentDay; if (x > 100) x = 100;
+        $('#dxkDay').width(x + '%');
+        x = @ViewBag.dxk.percentMonth; if (x > 100) x = 100;
+        $('#dxkMonth').width(x + '%');
+
+         //da dat boc
+        x = @ViewBag.ddb.percentDay; if (x > 100) x = 100;
+        $('#ddbDay').width(x + '%');
+        x = @ViewBag.ddb.percentMonth; if (x > 100) x = 100;
+        $('#ddbMonth').width(x + '%');
+
+        var h = $('#origin').height();
+        h = h - 82;
+        $('#suco').height(h);
+
+        var data = @ViewBag.listSCCount;
+        if (data != 0) {
+            var table = document.getElementById("myTable");
+            var x = document.getElementById("myTable").rows.length;
+            var i = 1;
+            for (i = 1; i < x; i++) {
+                table.rows[i].cells[0].innerHTML = i;
+            }
+        }
+        var data = @ViewBag.listTNCount;
+        if (data != 0) {
+            var table = document.getElementById("myTable_tainan");
+            var x = document.getElementById("myTable_tainan").rows.length;
+            var i = 1;
+            for (i = 1; i < x; i++) {
+                table.rows[i].cells[0].innerHTML = i;
+            }
+        }
+
+    });
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
+    });
+    $(document).ready(function () {
+        var date = new Date();
+        var d = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+        $(".datepicker-here").val(d);
+    });
+    function change() {
+        var data = document.getElementById("data").value;
+        document.getElementById("date").value = data;
+        document.getElementById("form").submit();
+    }
+
+    $(document).ready(function () {
+        //$('#bt').click(function () {
+        //    document.getElementById("form").submit();
+        //});
+        $(".date-click").datepicker({
+            onSelect: function (dateText) {
+                var data = document.getElementById("data").value;
+                document.getElementById("date").value = data;
+                document.getElementById("form").submit();
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        var d = '@ViewBag.d';
+        document.getElementById("data").value = d;
+
+
+    });
+
+
+</script>
+
+<!--chart-->
+@*<script src="~/assets/extra-libs/c3/d3.min.js"></script>
+    <script src="~/assets/extra-libs/c3/c3.min.js"></script>
+    <script src="~/dist/js/pages/c3-chart/line/c3-line.js"></script>*@
+

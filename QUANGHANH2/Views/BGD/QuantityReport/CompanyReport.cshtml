@@ -45,10 +45,10 @@
                 <tr>
                     <th rowspan="2">STT</th>
                     <th rowspan="2">TOÀN CÔNG TY</th>
-                    <th rowspan="2">BQKHDC THÁNG</th>
+                    <th rowspan="2">BQKH THÁNG</th>
                     <th colspan="7"><span id="date">@ViewBag.date</span></th>
                     <th colspan="3">Tháng @ViewBag.date.Split('-')[1]</th>
-                    <th colspan="2">C.LẠI THEO KHĐC</th>
+                    <th colspan="2">C.LẠI THEO KH</th>
                     <th rowspan="2">GHI CHÚ</th>
                 </tr>
                 <tr>
@@ -60,8 +60,8 @@
                     <th>C.Lệch</th>
                     <th>%</th>
                     <th>Lũy kế</th>
-                    <th>KHĐC</th>
-                    <th>% ĐC</th>
+                    <th>KH</th>
+                    <th>%</th>
                     <th>Tổng</th>
                     <th>1 Ngày</th>
                 </tr>
@@ -100,19 +100,27 @@
                         if (data[index]["isHeader"]) {
                             content += "<td></td>";
                             for (let i = 0; i < tieuchiName.length; i++) {
+                                var value;
+                                if (typeof data[index][tieuchiName[i]] === "number") {
+                                    if (Math.floor(data[index][tieuchiName[i]]) == data[index][tieuchiName[i]]) {
+                                        value = data[index][tieuchiName[i]]
+                                    } else {
+                                        value = parseFloat(data[index][tieuchiName[i]]).toFixed(1)
+                                    }
+                                } else {
+                                    value = data[index][tieuchiName[i]]
+                                }
                                 if (data[index][tieuchiName[i]] != null) {
                                     if (tieuchiName[i] == "chenhlech") {
-                                        if (parseFloat(data[index][tieuchiName[i]]).toFixed(2) > 0) {
-                                            content += "<td><b><span class=\"green-text\">" + parseFloat(data[index][tieuchiName[i]]).toFixed(2) + "</span></b></td>"
+                                        if (value > 0) {
+                                            content += "<td><b><span style=\"color: green\">" + value + "</span></b></td>"
                                         } else {
-                                            content += "<td><b><span class=\"red-text\">" + parseFloat(data[index][tieuchiName[i]]).toFixed(2) + "</span></b></td>"
+                                            content += "<td><b><span style=\"color: red\">" + value + "</span></b></td>"
                                         }
+                                    } else if (tieuchiName[i] == "TenTieuChi") {
+                                        content += "<td><b>" + value + "<b></td>"
                                     } else {
-                                        if (tieuchiName[i] != "TenTieuChi") {
-                                            content += "<td><b>" + parseFloat(data[index][tieuchiName[i]]).toFixed(2) + "</b></td>"
-                                        } else {
-                                            content += "<td><b>" + (data[index][tieuchiName[i]]) + "</b></td>"
-                                        }
+                                        content += "<td><b>" + value + "<b></td>"
                                     }
                                 } else {
                                     if (tieuchiName[i] != "GhiChu") {
@@ -128,19 +136,25 @@
                         if (!data[index]["isHeader"]) {
                             content += "<td>" + count + "</td>";
                             for (let i = 0; i < tieuchiName.length; i++) {
+                                var value;
+                                if (typeof data[index][tieuchiName[i]] === "number") {
+                                    if (Math.floor(data[index][tieuchiName[i]]) == data[index][tieuchiName[i]]) {
+                                        value = data[index][tieuchiName[i]]
+                                    } else {
+                                        value = parseFloat(data[index][tieuchiName[i]]).toFixed(1)
+                                    }
+                                } else {
+                                    value = data[index][tieuchiName[i]]
+                                }
                                 if (data[index][tieuchiName[i]] != null) {
                                     if (tieuchiName[i] == "chenhlech") {
-                                        if (parseFloat(data[index][tieuchiName[i]]).toFixed(2) > 0) {
-                                            content += "<td><b><span class=\"green-text\">" + parseFloat(data[index][tieuchiName[i]]).toFixed(2) + "</span></b></td>"
+                                        if (value > 0) {
+                                            content += "<td><span style=\"color: green\">" + value + "</span></td>"
                                         } else {
-                                            content += "<td><b><span class=\"red-text\">" + parseFloat(data[index][tieuchiName[i]]).toFixed(2) + "</span></b></td>"
+                                            content += "<td><span style=\"color: red\">" + value + "</span></td>"
                                         }
                                     } else {
-                                        if (tieuchiName[i] != "TenTieuChi") {
-                                            content += "<td>" + parseFloat(data[index][tieuchiName[i]]).toFixed(2) + "</td>"
-                                        } else {
-                                            content += "<td>" + (data[index][tieuchiName[i]]) + "</td>"
-                                        }
+                                        content += "<td>" + value + "</td>"
                                     }
                                 } else {
                                     if (tieuchiName[i] != "GhiChu") {
@@ -156,6 +170,10 @@
                     }
                     $("#reportTable").children("tbody").html(content);
                     $("#pre-load").hide("slow", function () { });
+                    document.getElementById("reportTable").deleteRow(13);
+                    document.getElementById("reportTable").deleteRow(16);
+                    document.getElementById("reportTable").rows[19].cells[1].innerHTML = "Mét lò xén thuê ngoài";
+                    document.getElementById("reportTable").rows[20].cells[1].innerHTML = "Mét lò xén tự làm";
                 },
                 error: function (response) {
                 }
@@ -165,3 +183,4 @@
 
 </body>
 </html>
+

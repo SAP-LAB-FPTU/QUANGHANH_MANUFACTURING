@@ -55,14 +55,17 @@ namespace QUANGHANH2.Controllers
                     log.Browser = Request.Browser.Browser;
                     string Controller = routeData.Values["controller"].ToString();
                     log.Method = Controller;
-                    log.Url = Request.Url.AbsolutePath;
+                    log.Url_From = Request.Url.AbsolutePath;
                     log.Location_IP = ip;
                     User_Action_Log l = db.User_Action_Log.Where(x => x.AccountID.Equals(AccountID)).OrderByDescending(x => x.Action_Time).FirstOrDefault();
-                    if (l == null || l.Url != log.Url)
+                    if (l != null)
                     {
-                        db.User_Action_Log.Add(log);
-                        db.SaveChanges();
+                        if (l.Url_From == log.Url_From)
+                            return;
+                        l.Url_To = log.Url_From;
                     }
+                    db.User_Action_Log.Add(log);
+                    db.SaveChanges();
                 }
             }
             catch (Exception)

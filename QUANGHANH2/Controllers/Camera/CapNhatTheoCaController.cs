@@ -30,7 +30,7 @@ namespace QUANGHANH2.Controllers.Camera
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             DateTime date = DateTime.ParseExact(stringDate, "dd/MM/yyyy", null);
 
             int session = 0;
@@ -39,30 +39,34 @@ namespace QUANGHANH2.Controllers.Camera
             if ((DateTime.Now.Hour >= 23 && DateTime.Now.Date == date) || (DateTime.Now.Hour < 7 && DateTime.Now.Date.AddDays(-1) == date)) session = 3;
 
             string varname1 = @"select e.room_id, e.room_name, d.department_name, e.ca1, e.ca2, e.ca3 from
-	            (select a.room_id, a.room_name, a.department_id, a.ca1, b.ca2, c.ca3 from   
+	            (select r.room_id, r.room_name, r.department_id, a.ca1, b.ca2, c.ca3 from Room r left join
 		            (select r.room_id, r.room_name, r.department_id, rs.[session], rs.[fully_function] as ca1
 		            from Room r left join Room_Status rs on r.room_id = rs.room_id   
-		            where rs.[date] = @date and rs.[session] = 1) as a left join   
+		            where rs.[date] = @date and rs.[session] = 1) as a on r.room_id = a.room_id left join   
 		            (select r.room_id, r.room_name, r.department_id, rs.[session], rs.[fully_function] as ca2
 		            from Room r left join Room_Status rs on r.room_id = rs.room_id   
-		            where rs.[date] = @date and rs.[session] = 2) as b on a.room_id = b.room_id   
+		            where rs.[date] = @date and rs.[session] = 2) as b on r.room_id = b.room_id   
 		            left join   
 		            (select r.room_id, r.room_name, r.department_id, rs.[session], rs.[fully_function] as ca3
 		            from Room r left join Room_Status rs on r.room_id = rs.room_id   
-		            where rs.[date] = @date and rs.[session] = 3) as c on b.room_id = c.room_id
+		            where rs.[date] = @date and rs.[session] = 3) as c on r.room_id = c.room_id
 	            ) as e
 			            inner join Department as d on d.department_id = e.department_id";
-            List<RoomDB> list = DBContext.Database.SqlQuery<RoomDB>(varname1,
+            List<RoomDB> list = db.Database.SqlQuery<RoomDB>(varname1,
                 new SqlParameter("date", date)).ToList();
             if (!list.Any())
             {
-                list = DBContext.Database.SqlQuery<RoomDB>("select r.room_id, r.room_name, d.department_name from Room r inner join Department d on r.department_id = d.department_id").ToList();
-                foreach (RoomDB item in list)
-                {
-                    item.ca1 = true;
-                    item.ca2 = true;
-                    item.ca3 = true;
-                }
+                list = (from r in db.Rooms
+                        join d in db.Departments on r.department_id equals d.department_id
+                        select new RoomDB
+                        {
+                            room_id = r.room_id,
+                            room_name = r.room_name,
+                            department_name = d.department_name,
+                            ca1 = true,
+                            ca2 = true,
+                            ca3 = true
+                        }).ToList();
             }
             int totalrows = list.Count;
             int totalrowsafterfiltering = list.Count;
@@ -99,7 +103,7 @@ namespace QUANGHANH2.Controllers.Camera
                         //Ca 1: 6h-14h
                         //Ca 2: 14h-22h
                         //Ca 3: 22h-6h
-                        int equipmentId = (int)item["equipmentId"];
+                        string equipmentId = item["equipmentId"].ToString();
                         int ca = (int)item["ca"];
 
                         if (thisCa != ca)
@@ -139,7 +143,7 @@ namespace QUANGHANH2.Controllers.Camera
 
         private class RoomDB
         {
-            public int room_id { get; set; }
+            public string room_id { get; set; }
             public string room_name { get; set; }
             public string department_name { get; set; }
             public Nullable<Boolean> ca1 { get; set; }

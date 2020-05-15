@@ -65,7 +65,6 @@ namespace QUANGHANH2.Controllers.TCLD.Employees
 
         public class lichSuDieuDong : NhanVien
         {
-            public string Ten { get; set; }
             public string SoQuyetDinh { get; set; }
             public Nullable<System.DateTime> NgayQuyetDinh { get; set; }
             public string DonViMoi { get; set; }

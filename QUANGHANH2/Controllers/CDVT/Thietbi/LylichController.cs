@@ -15,6 +15,15 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
     public class LylichController : Controller
     {
+        public class VT_DK : Vattu_Dikem
+        {
+            public string supply_name { get; set; }
+        }
+        public class ddplus
+        {
+            public string ten { get; set; }
+            public string value { get; set; }
+        }
         public class dactinh : Equipment_category_attribute
         {
             public int Value { get; set; }
@@ -112,8 +121,26 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
             ViewBag.incidents = listbyyear;
             //DD thiet bi
-            var equipment = DBContext.Database.SqlQuery<EquipWithName>("SELECT e.*,d.department_name,s.statusname FROM Equipment e,Status s,Department d WHERE d.department_id = e.department_id and e.current_Status = s.statusid and e.equipmentId = @id", new SqlParameter("id", id)).First();
+            var equipment = DBContext.Database.SqlQuery<EquipWithName>("SELECT e.*,d.department_name,s.statusname FROM Equipment e LEFT JOIN Status s on e.current_Status = s.statusid LEFT JOIN Department d ON d.department_id = e.department_id WHERE e.equipmentId = @id", new SqlParameter("id", id)).FirstOrDefault();
             ViewBag.equipment = equipment;
+            List<ddplus> listddplus = new List<ddplus>();
+            var car = DBContext.Database.SqlQuery<Car>("select * from Car where equipmentId = @id", new SqlParameter("id", id)).FirstOrDefault();
+            if(car != null)
+            {
+                ddplus dd = new ddplus();
+                dd.ten = "Số khung"; dd.value = car.sokhung; listddplus.Add(dd); dd = new ddplus();
+                dd.ten = "Số máy"; dd.value = car.somay; listddplus.Add(dd); dd = new ddplus();
+                dd.ten = "Năm sản xuất"; dd.value = car.namsanxuat.ToString(); listddplus.Add(dd); dd = new ddplus();
+                dd.ten = "GPS";
+                if (car.GPS == true) dd.value = "Có tín hiệu";
+                else dd.value = "Mất tín hiệu";
+                listddplus.Add(dd); dd = new ddplus();
+                dd.ten = "Nhiên liệu";
+                if (car.nhienlieu == true) dd.value = "Có nhiên liệu";
+                else dd.value = "Hết nhiên liệu";
+                listddplus.Add(dd);
+            }
+            ViewBag.plus = listddplus;
             string mysql = @"select ec.Equipment_category_attribute_id, ec.Equipment_category_attribute_name, c.Value, ec.unit
                         from Equipment_category_attribute ec join Category_attribute_value c on ec.Equipment_category_attribute_id = c.Equipment_category_attribute_id
                         where c.equipmentId = @id";
@@ -124,9 +151,12 @@ namespace QUANGHANHCORE.Controllers.CDVT
                         where e.equipmentId = @id";
             var thuoctinh = DBContext.Database.SqlQuery<Equipment_attribute>(mysql, new SqlParameter("id", id)).ToList();
             ViewBag.thuoctinh = thuoctinh;
-            //Vat tu di kem
+            //thiet bi di kem
             var sup = DBContext.Database.SqlQuery<Supply_DK>("select s.*,e.equipment_name from Equipment e join Supply_DiKem s on e.equipmentId = s.equipmentId_dikem where s.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
             ViewBag.sup = sup;
+            //vat tu di kem
+            var supVTDK = DBContext.Database.SqlQuery<VT_DK>("select s.*,e.equipment_name,sp.supply_name from Equipment e join Vattu_Dikem s on e.equipmentId = s.equipmentId join Supply sp on sp.supply_id = s.supply_id where s.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
+            ViewBag.supVTDK = supVTDK;
             //Vat tu SCTX
             var supSCTX = DBContext.Database.SqlQuery<Supply_DP>("select s.*,e.supply_name from Supply e join Supply_SCTX s on e.supply_id = s.supply_id where s.equipmentId = @id", new SqlParameter("id", equipment.equipmentId)).ToList();
             ViewBag.supSCTX = supSCTX;
@@ -609,6 +639,103 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
 
         }
+
+        [HttpPost]
+        public ActionResult addVTDK(string id, string nameSup, int quan)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (nameSup != null)
+                    {
+                        List<Supply> listSup = DBContext.Supplies.ToList();
+
+
+                        Supply s = new Supply();
+                        for (int j = 0; j < listSup.Count(); j++)
+                        {
+                            if (listSup.ElementAt(j).supply_name.Equals(nameSup))
+                            {
+                                s.supply_id = listSup.ElementAt(j).supply_id;
+                                break;
+                            }
+                        }
+                        string sql_sup = "insert into Vattu_Dikem values (@supid, @eid, @quan)";
+                        DBContext.Database.ExecuteSqlCommand(sql_sup
+                            , new SqlParameter("@supid", s.supply_id)
+                            , new SqlParameter("@eid", id)
+                            , new SqlParameter("@quan", quan));
+                    }
+                    DBContext.SaveChanges();
+                    dbc.Commit();
+                    var supVTDK = DBContext.Database.SqlQuery<VT_DK>("select s.*,e.equipment_name,sp.supply_name from Equipment e join Vattu_Dikem s on e.equipmentId = s.equipmentId join Supply sp on sp.supply_id = s.supply_id where s.equipmentId = @id", new SqlParameter("id", id)).ToList();
+                    return Json(new { success = true, data = supVTDK }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    e.Message.ToString();
+                    dbc.Rollback();
+                    return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult updateVTDK(string id, string supid, int quan)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    string sql = "update Vattu_Dikem set quantity = @quan where supply_id = @supid and equipmentId = @eid";
+                    DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("quan", quan), new SqlParameter("supid", supid), new SqlParameter("eid", id));
+                    DBContext.SaveChanges();
+                    dbc.Commit();
+                    var supVTDK = DBContext.Database.SqlQuery<VT_DK>("select s.*,e.equipment_name,sp.supply_name from Equipment e join Vattu_Dikem s on e.equipmentId = s.equipmentId join Supply sp on sp.supply_id = s.supply_id where s.equipmentId = @id", new SqlParameter("id", id)).ToList();
+                    return Json(new { success = true, data = supVTDK }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    e.Message.ToString();
+                    dbc.Rollback();
+                    return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult deleteVTDK(string id, string supid)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    string sql = "delete from Vattu_Dikem where supply_id = @supid and equipmentId = @eid";
+                    DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("supid", supid), new SqlParameter("eid", id));
+                    DBContext.SaveChanges();
+                    dbc.Commit();
+                    var supVTDK = DBContext.Database.SqlQuery<VT_DK>("select s.*,e.equipment_name,sp.supply_name from Equipment e join Vattu_Dikem s on e.equipmentId = s.equipmentId join Supply sp on sp.supply_id = s.supply_id where s.equipmentId = @id", new SqlParameter("id", id)).ToList();
+                    return Json(new { success = true, data = supVTDK }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    e.Message.ToString();
+                    dbc.Rollback();
+                    return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+
+        }
+
 
         [HttpPost]
         public ActionResult addSCTX(string id, string nameSup, int quan)

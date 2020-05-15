@@ -375,7 +375,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         }
 
         [HttpPost]
-        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, int[] value, string[] unit)
+        public ActionResult Add(Equipment emp, string import, string duraInspec, string duraInsura, string used, string duramain, string[] id, string[] name, string[] value, string[] unit)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {

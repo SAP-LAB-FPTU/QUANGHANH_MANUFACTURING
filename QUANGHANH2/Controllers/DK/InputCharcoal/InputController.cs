@@ -40,6 +40,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             else ViewBag.NgaySX = 0;
             return View("/Views/DK/InputCharcoal/InputCharcoal.cshtml");
         }
+
         [Route("phong-dieu-khien/nhapnsx")]
         [HttpPost]
         public ActionResult AddNSX()
@@ -51,15 +52,15 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 string sql = "select case when Max(NgaySanXuat) is null then 0 else Max(NgaySanXuat) end as 'check' from ThucHienTheoNgay where year(Ngay) = @year and month(Ngay) = @month";
-                int check = db.Database.SqlQuery<int>(sql, new SqlParameter("year", temp[2]), new SqlParameter("month", temp[1])).FirstOrDefault();
-                if (check >= nsx)
-                {
-                    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất không thể bé hơn ngày hôm trước." });
-                }
-                else if (nsx - check > 1)
-                {
-                    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất không thể nhảy cách hai ngày." });
-                }
+                //int check = db.Database.SqlQuery<int>(sql, new SqlParameter("year", temp[2]), new SqlParameter("month", temp[1])).FirstOrDefault();
+                //if (check >= nsx)
+                //{
+                //    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất không thể bé hơn ngày hôm trước." });
+                //}
+                //else if (nsx - check > 1)
+                //{
+                //    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất không thể nhảy cách hai ngày." });
+                //}
                 sql = "select * from ThucHienTheoNgay where Ngay = @day";
                 ThucHienTheoNgay checkadd = db.Database.SqlQuery<ThucHienTheoNgay>(sql, new SqlParameter("day", ngay)).FirstOrDefault();
                 if (checkadd != null)
@@ -84,6 +85,52 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                 }
             }
             return Json(new { success = true, title = "Thành công", message = "Thêm kế hoạch tháng thành công." });
+        }
+
+        [Route("phong-dieu-khien/editnsx")]
+        [HttpPost]
+        public ActionResult EditNSX()
+        {
+            int nsx = Convert.ToInt32(Request["nsx"]);
+            string ngay = Request["ngay"];
+            string[] temp = ngay.Split('/');
+            ngay = temp[1] + "/" + temp[0] + "/" + temp[2];
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                string sql = "select case when Max(NgaySanXuat) is null then 0 else Max(NgaySanXuat) end as 'check' from ThucHienTheoNgay where year(Ngay) = @year and month(Ngay) = @month";
+                //int check = db.Database.SqlQuery<int>(sql, new SqlParameter("year", temp[2]), new SqlParameter("month", temp[1])).FirstOrDefault();
+                //if (check >= nsx)
+                //{
+                //    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất không thể bé hơn ngày hôm trước." });
+                //}
+                //else if (nsx - check > 1)
+                //{
+                //    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất không thể nhảy cách hai ngày." });
+                //}
+                //sql = "select * from ThucHienTheoNgay where Ngay = @day";
+                //ThucHienTheoNgay checkadd = db.Database.SqlQuery<ThucHienTheoNgay>(sql, new SqlParameter("day", ngay)).FirstOrDefault();
+                //if (checkadd != null)
+                //{
+                //    return Json(new { success = false, title = "Thêm không thành công", message = "Đã có ngày sản xuất." });
+                //}
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        sql = "select * from ThucHienTheoNgay where Ngay = @date";
+                        ThucHienTheoNgay kh = db.Database.SqlQuery<ThucHienTheoNgay>(sql, new SqlParameter("date", ngay)).FirstOrDefault();
+                        kh.NgaySanXuat = nsx;
+                        db.Entry(kh).State = EntityState.Modified;
+                        db.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                    }
+                }
+            }
+            return Json(new { success = true, title = "Thành công", message = "Chỉnh sửa ngày sản xuất thành công." });
         }
         public class LuyKe
         {

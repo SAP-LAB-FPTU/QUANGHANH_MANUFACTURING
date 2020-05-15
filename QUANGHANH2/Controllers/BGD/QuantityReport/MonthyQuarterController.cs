@@ -301,7 +301,7 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                             }
                             if (bc.AprilKH != 0)
                             {
-                                bc.AprilPor = string.Format("{0:0.00}", 100 * bc.Jan / bc.JanKH);
+                                bc.AprilPor = string.Format("{0:0.00}", 100 * bc.April / bc.AprilKH);
                             }
                             if (bc.MayKH != 0)
                             {
@@ -341,11 +341,11 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                             }
                             if (bc.Q2KH != 0)
                             {
-                                bc.Q2Por = string.Format("{0:0.00}", 100 * bc.Q2 / bc.Q1KH);
+                                bc.Q2Por = string.Format("{0:0.00}", 100 * bc.Q2 / bc.Q2KH);
                             }
                             if (bc.Q3KH != 0)
                             {
-                                bc.Q3Por = string.Format("{0:0.00}", 100 * bc.Q3 / bc.Q1KH);
+                                bc.Q3Por = string.Format("{0:0.00}", 100 * bc.Q3 / bc.Q3KH);
                             }
                             if (bc.totalYearKH != 0)
                             {

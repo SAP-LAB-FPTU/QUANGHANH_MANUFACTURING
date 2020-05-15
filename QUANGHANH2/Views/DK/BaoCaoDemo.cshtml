@@ -170,7 +170,6 @@
     <thead>
         <tr>
             <th rowspan="4">KH</th>
-            <th colspan="4">PX Đào Lò 1</th>
             <th colspan="4">PX Đào Lò 3</th>
             <th colspan="4">PX Đào Lò 5</th>
             <th colspan="4">PX Đào Lò 7</th>
@@ -189,7 +188,6 @@
             <th colspan="14">Kế hoạch các chỉ tiêu chủ yếu</th>
         </tr>
         <tr>
-            <th colspan="4"> <div class="red-title">Than SX: </div><span></span></th>
             <th colspan="4"> <div class="red-title">Than SX: </div><span></span></th>
             <th colspan="4"> <div class="red-title">Than SX: </div><span></span></th>
             <th colspan="4"> <div class="red-title">Than SX: </div><span></span></th>
@@ -215,7 +213,6 @@
             <th colspan="4"> <div class="red-title">Mét Lò: </div><span></span></th>
             <th colspan="4"> <div class="red-title">Mét Lò: </div><span></span></th>
             <th colspan="4"> <div class="red-title">Mét Lò: </div><span></span></th>
-            <th colspan="4"> <div class="red-title">Mét Lò: </div><span></span></th>
             <th colspan="2"> <div class="red-title">Mét Lò: </div><span></span></th>
             <th colspan="2"> <div class="red-title">Mét Lò: </div><span></span></th>
             <th colspan="2"> <div class="red-title">Mét Lò: </div><span></span></th>
@@ -233,7 +230,6 @@
             <th colspan="3"><div class="red-title">D.Huy: </div><span id="duonghuy-cell"></span></th>
         </tr>
         <tr>
-            <th colspan="4"> <div class="red-title">Xén: </div><span></span></th>
             <th colspan="4"> <div class="red-title">Xén: </div><span></span></th>
             <th colspan="4"> <div class="red-title">Xén: </div><span></span></th>
             <th colspan="4"> <div class="red-title">Xén: </div><span></span></th>
@@ -265,8 +261,6 @@
             <th colspan="2"> Than SX</th>
             <th colspan="2"> Mét Lò</th>
             <th colspan="2"> Than SX</th>
-            <th colspan="2"> Mét Lò</th>
-            <th colspan="2"> Than SX</th>
             <th colspan="2"> Than SX</th>
             <th colspan="2"> Than SX</th>
             <th colspan="2"> Than SX</th>
@@ -286,10 +280,6 @@
             <th id="odd" colspan="2"> Than Tiêu Thụ</th>
         </tr>
         <tr>
-            <th>Ngày</th>
-            <th>Luỹ Kế</th>
-            <th>Ngày</th>
-            <th>Luỹ Kế</th>
             <th>Ngày</th>
             <th>Luỹ Kế</th>
             <th>Ngày</th>
@@ -377,7 +367,8 @@
                         elem["date"] = dateFormat2(elem["date"])
                         tableBody += "<tr>"
                         Object.keys(elem).forEach((key, index) => {
-                            tableBody += "<td>" + elem[key] + "</td>"
+                            var value = Math.floor(elem[key]) === elem[key] ? elem[key] : parseFloat(elem[key]).toFixed(1);
+                            tableBody += "<td>" + value + "</td>"
                         })
                         tableBody += "</tr>"
                     })

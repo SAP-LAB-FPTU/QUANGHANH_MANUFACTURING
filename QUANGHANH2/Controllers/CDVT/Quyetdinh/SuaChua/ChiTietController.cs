@@ -1,104 +1,112 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.Script.Serialization;
 
-namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
+namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
 {
-    public class ChitietSuachuaController : Controller
+    public class ChiTietController : Controller
     {
-        [HttpGet]
-        [Route("phong-cdvt/quyet-dinh/sua-chua-chi-tiet/")]
-        public ActionResult LoadPage(String id)
+        [Auther(RightID = "30")]
+        [Route("phong-cdvt/quyet-dinh/sua-chua/chi-tiet")]
+        public ActionResult LoadPage(int id)
         {
-            ViewBag.id = id.ToString().Split('^')[0];
-          
-            return View("/Views/CDVT/Quyet_dinh/Chi_tiet_sua_chua.cshtml");
-        }
-
-        public string Base64Encode(string plainText)
-        {
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-            return System.Convert.ToBase64String(plainTextBytes);
-        }
-        public string Base64Decode(string base64EncodedData)
-        {
-            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
-            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
-        }
-
-        [HttpPost]
-        public ActionResult Detail()
-        {
-            string requestID = Request["sessionId"];
-            int id = Int32.Parse(requestID);
-            int start = Convert.ToInt32(Request["start"]);
-            int length = 10;
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
-
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                int count = 1;
-                List<Documentary_repair_detailsDB> documentariesList = (from a in db.Documentary_repair_details
-                                                                        join b in db.Documentaries on a.documentary_id equals b.documentary_id
-                                                                        join c in db.Equipments on a.equipmentId equals c.equipmentId
-                                                                        join d in db.Departments on c.department_id equals d.department_id
-                                                                        where (b.documentary_id == id)
-                                                                        select new
-                                                                        {   documentary_id = b.documentary_id,
-                                                                            documentary_code = b.documentary_code,
-                                                                            equipmentId = c.equipmentId,
-                                                                            equipment_name = c.equipment_name,
-                                                                            department_name = d.department_name,
-                                                                            department_id = c.department_id,
-                                                                            repair_reason = a.repair_reason,
-                                                                            repair_type = a.repair_type,
-                                                                            reason = b.reason,
-                                                                            finish_date_plan = a.finish_date_plan
-                                                                        }).ToList().Select(p => new Documentary_repair_detailsDB
-                                                                        {
-                                                                            documentary_id = p.documentary_id,
-                                                                            documentary_code = p.documentary_code,
-                                                                            equipmentId = p.equipmentId,
-                                                                            equipment_name = p.equipment_name,
-                                                                            department_name = p.department_name,
-                                                                            department_id = p.department_id,
-                                                                            repair_reason = p.repair_reason,
-                                                                            repair_type = p.repair_type,
-                                                                            reason = p.reason,
-                                                                            finish_date_plan = p.finish_date_plan
-                                                                        }).ToList();
-                foreach (var el in documentariesList)
+
+                List<Detail> details = (from a in db.Documentary_repair_details
+                                        join b in db.Documentaries on a.documentary_id equals b.documentary_id
+                                        where (b.documentary_id == id)
+                                        select new Detail
+                                        {
+                                            documentary_repair_id = a.documentary_repair_id,
+                                            equipmentId = a.equipmentId,
+                                            attach_to = a.attach_to,
+                                            repair_reason = a.repair_reason,
+                                            repair_type = a.repair_type,
+                                            finish_date_plan = a.finish_date_plan,
+                                            quantity = a.quantity
+                                        }).ToList();
+                List<string> equipmentId = details.Select(x => x.equipmentId).ToList();
+
+                var dict = db.Equipments
+                    .Where(x => equipmentId.Contains(x.equipmentId))
+                    .Select(x => new { x.equipmentId, x.equipment_name })
+                    .AsEnumerable()
+                    .ToDictionary(x => x.equipmentId, x => x.equipment_name);
+
+                details.ForEach(x => x.equipment_name = dict[x.equipmentId]);
+                ViewBag.details = details;
+            }
+            return View("/Views/CDVT/Quyetdinh/SuaChua/ChiTiet.cshtml");
+        }
+
+        [Auther(RightID = "30,84,179,180,181,183,184,185,186,187,189,195")]
+        [HttpPost]
+        [Route("phong-cdvt/quyet-dinh/sua-chua/chi-tiet")]
+        public ActionResult GetDetail(int documentary_repair_id, bool isSupply)
+        {
+            try
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    el.order_number = count++;
-                    el.idAndEquip = el.documentary_id + "^" + el.equipmentId;
-
+                    if (isSupply)
+                    {
+                        var list = (from a in db.Supplies
+                                    join b in db.Supply_Documentary_Repair_Equipment on a.supply_id equals b.supply_id
+                                    where b.documentary_repair_id == documentary_repair_id
+                                    select new
+                                    {
+                                        a.supply_id,
+                                        a.supply_name,
+                                        b.quantity_plan,
+                                        b.quantity_in,
+                                        b.quantity_out,
+                                        b.quantity_used,
+                                        b.supplyDocumentaryEquipmentId
+                                    }).ToList();
+                        return Json(new { success = true, data = list });
+                    }
+                    else
+                    {
+                        var list = (from a in db.Equipments
+                                    join b in db.Supply_Documentary_Repair_Equipment on a.equipmentId equals b.equipmentId
+                                    where b.documentary_repair_id == documentary_repair_id
+                                    select new
+                                    {
+                                        a.equipmentId,
+                                        a.equipment_name,
+                                        b.quantity_plan,
+                                        b.quantity_in,
+                                        b.quantity_out,
+                                        b.quantity_used,
+                                        b.supplyDocumentaryEquipmentId
+                                    }).ToList();
+                        return Json(new { success = true, data = list });
+                    }
                 }
-                int totalrows = documentariesList.Count;
-                int totalrowsafterfiltering = documentariesList.Count;
-
-                //sorting
-                documentariesList = documentariesList.OrderBy(sortColumnName + " " + sortDirection).ToList<Documentary_repair_detailsDB>();
-                //paging
-
-                documentariesList = documentariesList.Skip(start).Take(length).ToList<Documentary_repair_detailsDB>();
-                Console.WriteLine(Json(new { success = true, data = documentariesList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet));
-
-                var js = Json(new { success = true, data = documentariesList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-
-                var result = new JavaScriptSerializer().Serialize(js.Data);
-                ViewBag.count = 0;
-                return js;
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false });
             }
         }
-    }
 
+        public class Detail
+        {
+            public int documentary_repair_id { get; set; }
+            public string equipmentId { get; set; }
+            public string attach_to { get; set; }
+            public string equipment_name { get; set; }
+            public string repair_reason { get; set; }
+            public string repair_type { get; set; }
+            public DateTime finish_date_plan { get; set; }
+            public int quantity { get; set; }
+        }
+    }
 }

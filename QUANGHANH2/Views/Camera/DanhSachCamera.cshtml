@@ -94,7 +94,7 @@
                 </div>
             </div>
             <div class="col s12">
-                <a class="waves-effect waves-light btn blue darken-2 modal-close modal-trigger" id="searchButton">Tìm kiếm</a>
+                <a class="waves-effect waves-light btn blue darken-2" id="searchButton">Tìm kiếm</a>
             </div>
             @if (rights.Contains("196"))
             {
@@ -106,6 +106,7 @@
                 <table class="table-bordered striped table-responsive centered" id="complex_header">
                     <thead>
                         <tr>
+                            <th>Mã vị trí hệ thống</th>
                             <th>Tên vị trí hệ thống</th>
                             <th>Đơn vị trực thuộc</th>
                             <th>Thông tin đăng nhập</th>
@@ -191,11 +192,12 @@
                 {
                     "data": {}, "name": "room_name", render: function (data) {
                         if (data.image_link != null)
-                            return "<a class='modal-trigger get-photo' href='#myphoto' data-room='" + data.room_id + "'>" + data.room_name + "</a>";
+                            return "<a class='modal-trigger get-photo' href='#myphoto' data-room='" + data.room_id + "'>" + data.room_id + "</a>";
                         else
-                            return "<a class='modal-trigger get-photo' href='#myphoto2' data-room='" + data.room_id + "'>" + data.room_name + "</a>";
+                            return "<a class='modal-trigger get-photo' href='#myphoto2' data-room='" + data.room_id + "'>" + data.room_id + "</a>";
                     }
                 },
+                { "data": "room_name", "name": "room_name", },
                 { "data": "department_name", "name": "department_name", },
                 { "data": "login_information", "name": "login_information", },
                 {
@@ -206,7 +208,7 @@
                 { "data": "disk_status", "name": "disk_status" },
                 {
                     "data": "capacity", "name": "capacity", render: function (data) {
-                        return data % 1000 ? (data + " GB") : (data / 1000 + " TB");
+                        return data;
                     }
                 },
                 { "data": "series", "name": "series" },
@@ -298,8 +300,8 @@
                     <div class="col s12 m6">
                         <div class="s12 m12">
                             <div class="form-group">
-                                <label>Đơn vị trực thuộc : </label>
-                                <input class="form-control" id="department-add" list="departs" />
+                                <label>Mã vị trí hệ thống : </label>
+                                <input required type="text" class="form-control" id="id-add" />
                             </div>
                         </div>
                         <div class="s12 m12">
@@ -330,6 +332,12 @@
                     <div class="col s12 m6">
                         <div class="s12 m12">
                             <div class="form-group">
+                                <label>Đơn vị trực thuộc : </label>
+                                <input class="form-control" id="department-add" list="departs" />
+                            </div>
+                        </div>
+                        <div class="s12 m12">
+                            <div class="form-group">
                                 <label>Số seri ổ cứng : </label>
                                 <input required type="text" class="form-control" id="resial-add" />
                             </div>
@@ -343,7 +351,7 @@
                         <div class="s12 m12">
                             <div class="form-group">
                                 <label>Dung lượng ổ cứng (GB) : </label>
-                                <input required type="number" min="1" class="form-control" value="1" id="capacity-add" />
+                                <input required type="text" class="form-control" id="capacity-add" />
                             </div>
                         </div>
                         <div class="s12 m12">
@@ -413,6 +421,7 @@
             data.append("status", $('#status-add').val());
             data.append("saveable", $('#checkbox-add').val());
             data.append("login", $('#login-add').val());
+            data.append("id", $('#id-add').val());
             $.ajax({
                 url: "/camera/add",
                 type: "post",
@@ -672,7 +681,7 @@
                         </div>
                         <div class="col s12 m12">
                             <div class="form-group">
-                                <label>Dung lượng ổ cứng (GB) : </label>
+                                <label>Dung lượng ổ cứng : </label>
                                 <input required type="number" min="1" class="form-control" value="1" id="capacity-edit" />
                             </div>
                         </div>

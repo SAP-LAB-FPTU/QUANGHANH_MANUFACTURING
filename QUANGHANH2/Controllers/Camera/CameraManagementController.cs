@@ -26,16 +26,7 @@ namespace QUANGHANH2.Controllers.Camera
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                ViewBag.departs = (from d in db.Departments
-                                   select new
-                                   {
-                                       d.department_id,
-                                       d.department_name
-                                   }).ToList().Select(x => new Department
-                                   {
-                                       department_id = x.department_id,
-                                       department_name = x.department_name
-                                   }).ToList();
+                ViewBag.departs = db.Departments.ToList().Select(x => new Department { department_id = x.department_id, department_name = x.department_name}).ToList();
                 return View("/Views/Camera/DanhSachCamera.cshtml");
             }
         }
@@ -75,7 +66,7 @@ namespace QUANGHANH2.Controllers.Camera
             {
                 try
                 {
-                    Room r = db.Rooms.Find(int.Parse(Request["room_id"]));
+                    Room r = db.Rooms.Find(Request["room_id"]);
                     string path = "/images/camera/";
                     Image sourceimage = Image.FromStream(Request.Files["img"].InputStream, true, true);
                     r.image_link = r.room_id + ".jfif";
@@ -115,7 +106,11 @@ namespace QUANGHANH2.Controllers.Camera
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var sql = "select r.*, d.department_name from Room r inner join Department d on r.department_id = d.department_id where r.room_name like @room_name and r.disk_status like @disk_status and r.signal_loss_reason like @signal_loss_reason and r.department_id like @department_id and r.camera_quantity != 0";
+                var sql = "select r.*, d.department_name from Room r " + 
+                    "inner join Department d on r.department_id = d.department_id " + 
+                    "where r.room_name like @room_name and r.disk_status like @disk_status and r.department_id like @department_id and r.camera_quantity != 0";
+                if (reason != "")
+                    sql += " and r.signal_loss_reason like @signal_loss_reason";
                 var equipList = db.Database.SqlQuery<camDB>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                     new SqlParameter("room_name", '%' + room_name + '%'),
                     new SqlParameter("disk_status", '%' + disk_status + '%'),
@@ -138,18 +133,21 @@ namespace QUANGHANH2.Controllers.Camera
             try
             {
                 QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-                Room r = new Room();
-                r.capacity = Request["capacity"];
-                r.disk_status = Request["status"];
-                r.series = Request["serial"];
-                r.note = Request["note"];
-                r.room_name = Request["location"];
-                r.department_id = Request["department"];
-                r.camera_quantity = int.Parse(Request["quantity"].ToString());
-                r.camera_available = int.Parse(Request["quantity"].ToString());
-                r.signal_loss_reason = "";
-                r.disk_saveable = bool.Parse(Request["saveable"].ToString());
-                r.login_information = Request["login"];
+                Room r = new Room
+                {
+                    room_id = Request["id"],
+                    capacity = Request["capacity"],
+                    disk_status = Request["status"],
+                    series = Request["serial"],
+                    note = Request["note"],
+                    room_name = Request["location"],
+                    department_id = Request["department"],
+                    camera_quantity = int.Parse(Request["quantity"].ToString()),
+                    camera_available = int.Parse(Request["quantity"].ToString()),
+                    signal_loss_reason = "",
+                    disk_saveable = bool.Parse(Request["saveable"].ToString()),
+                    login_information = Request["login"]
+                };
                 db.Rooms.Add(r);
                 db.SaveChanges();
                 if (Request.Files["img"] != null)
@@ -183,7 +181,7 @@ namespace QUANGHANH2.Controllers.Camera
             {
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    Room r = db.Rooms.Find(int.Parse(Request["room_id"]));
+                    Room r = db.Rooms.Find(Request["room_id"]);
                     r.capacity = Request["capacity"];
                     r.disk_status = Request["status"];
                     r.series = Request["serial"];
@@ -213,7 +211,7 @@ namespace QUANGHANH2.Controllers.Camera
             {
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    Room r = db.Rooms.Find(int.Parse(Request["room_id"]));
+                    Room r = db.Rooms.Find(Request["room_id"]);
                     r.camera_quantity = 0;
                     r.camera_available = 0;
                     db.SaveChanges();

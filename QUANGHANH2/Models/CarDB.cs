@@ -15,5 +15,7 @@ namespace QUANGHANH2.Models
         public string statusname { get; set; }
         public string Equipment_category_name { get; set; }
         public string department_name { get; set; }
+        public Nullable<System.Int32> namsanxuat { get; set; }
+        public Nullable<System.Boolean> nhienlieu { get; set; }
     }
 }

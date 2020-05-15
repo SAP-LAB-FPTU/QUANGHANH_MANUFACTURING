@@ -14,6 +14,13 @@ namespace QUANGHANH2.Models
     
     public partial class Documentary_big_maintain_details
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Documentary_big_maintain_details()
+        {
+            this.Supply_Documentary_Big_Maintain_Equipment = new HashSet<Supply_Documentary_Big_Maintain_Equipment>();
+        }
+    
+        public int documentary_big_maintain_id { get; set; }
         public int equipment_big_maintain_status { get; set; }
         public string remodel_type { get; set; }
         public System.DateTime end_date { get; set; }
@@ -21,11 +28,16 @@ namespace QUANGHANH2.Models
         public double next_end_time { get; set; }
         public int documentary_id { get; set; }
         public string equipmentId { get; set; }
+        public string attach_to { get; set; }
+        public int quantity { get; set; }
         public string equipment_big_maintain_reason { get; set; }
         public string department_id_from { get; set; }
     
         public virtual Department Department { get; set; }
         public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }
+        public virtual Equipment Equipment1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Supply_Documentary_Big_Maintain_Equipment> Supply_Documentary_Big_Maintain_Equipment { get; set; }
     }
 }

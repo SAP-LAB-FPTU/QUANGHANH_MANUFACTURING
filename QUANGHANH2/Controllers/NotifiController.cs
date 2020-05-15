@@ -63,10 +63,12 @@ namespace QUANGHANH2.Controllers
         public JsonResult notifiSC()
         {
             var sc = db.Notifications.Where(x => x.isread == false && x.description == "su co").ToList();
-            noti ins = new noti();
-            ins.text = "";
-            ins.title = "Thông báo sự cố";
-            if(sc.Count != 0)
+            noti ins = new noti
+            {
+                text = "",
+                title = "Thông báo sự cố"
+            };
+            if (sc.Count != 0)
             {
                 List<int> ints = new List<int>();
                 foreach(Notification i in sc)
@@ -81,11 +83,15 @@ namespace QUANGHANH2.Controllers
 
         public JsonResult notifiQD()
         {
+            if (Session["departID"] == null)
+                return null;
             string depart = Session["departID"].ToString();
             var qd = db.Notifications.Where(x => x.isread == false).Where(x => x.description == "dieu dong" || x.description == "bao duong" || x.description == "cai tien" || x.description == "sua chua" || x.description == "thanh ly" || x.description == "thu hoi" || x.description == "trung dai tu").Where(x=>x.department_id == depart).ToList();
-            noti ins = new noti();
-            ins.text = "";
-            ins.title = "Thông báo quyết định";
+            noti ins = new noti
+            {
+                text = "",
+                title = "Thông báo quyết định"
+            };
             if (qd.Count != 0)
             {
                 List<int> ints = new List<int>();
@@ -101,14 +107,18 @@ namespace QUANGHANH2.Controllers
         public JsonResult notifiQD2()
         {
             var qd = db.Notifications.Where(x => x.isread == false).Where(x => x.description == "dieu dong 2" || x.description == "bao duong 2" || x.description == "cai tien 2" || x.description == "sua chua 2" || x.description == "thanh ly 2" || x.description == "thu hoi 2" || x.description == "trung dai tu 2").FirstOrDefault();
-            noti ins = new noti();
-            ins.text = "";
-            ins.title = "Thông báo quyết định";
+            noti ins = new noti
+            {
+                text = "",
+                title = "Thông báo quyết định"
+            };
             if (qd != null)
             {
                 var depart = db.Departments.Where(x => x.department_id == qd.department_id).FirstOrDefault();
-                List<int> ints = new List<int>();
-                ints.Add(qd.id_noti);
+                List<int> ints = new List<int>
+                {
+                    qd.id_noti
+                };
                 ins.text = depart.department_name + " đã xử lí xong quyết định.";
                 ins.id = ints;
                 if (qd.description.Equals("dieu dong 2"))
@@ -131,6 +141,8 @@ namespace QUANGHANH2.Controllers
 
         public JsonResult notifi21()
         {
+            if (Session["departID"] == null)
+                return null;
             string depart = Session["departID"].ToString();
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
@@ -140,12 +152,14 @@ namespace QUANGHANH2.Controllers
                 var qd = db.SupplyPlans.Where(x => x.status == 1 && x.date.Month == month && x.date.Year == year && x.departmentid == depart).ToList();
                 if (qd.Count == 0)
                 {
-                    Notification no = new Notification();
-                    no.id_problem = 21;
-                    no.date = DateTime.Now.Date;
-                    no.description = "21";
-                    no.department_id = depart;
-                    no.isread = false;
+                    Notification no = new Notification
+                    {
+                        id_problem = 21,
+                        date = DateTime.Now.Date,
+                        description = "21",
+                        department_id = depart,
+                        isread = false
+                    };
                     db.Notifications.Add(no);
                     db.SaveChanges();
                 }
@@ -155,11 +169,15 @@ namespace QUANGHANH2.Controllers
 
         public JsonResult notifiNonXC()
         {
+            if (Session["departID"] == null)
+                return null;
             string depart = Session["departID"].ToString();
             var qd = db.Notifications.Where(x=>x.department_id == depart && x.isread == false && x.description == "21").ToList();
-            noti ins = new noti();
-            ins.text = "";
-            ins.title = "Thông báo xin cấp vật tư";
+            noti ins = new noti
+            {
+                text = "",
+                title = "Thông báo xin cấp vật tư"
+            };
             if (qd.Count != 0)
             {
                 List<int> ints = new List<int>();
@@ -175,14 +193,18 @@ namespace QUANGHANH2.Controllers
         public JsonResult notifiPXXC()
         {
             var qd = db.Notifications.Where(x => x.isread == false && x.description == "XCVT").FirstOrDefault();
-            noti ins = new noti();
-            ins.text = "";
-            ins.title = "Thông báo xin cấp vật tư";
+            noti ins = new noti
+            {
+                text = "",
+                title = "Thông báo xin cấp vật tư"
+            };
             if (qd != null)
             {
                 var depart = db.Departments.Where(x => x.department_id == qd.department_id).FirstOrDefault();
-                List<int> ints = new List<int>();
-                ints.Add(qd.id_noti);
+                List<int> ints = new List<int>
+                {
+                    qd.id_noti
+                };
                 ins.text = depart.department_name + " vừa xin cấp vật tư.";
                 ins.id = ints;
             }
@@ -202,7 +224,7 @@ namespace QUANGHANH2.Controllers
                 db.SaveChanges();
                 return Json("", JsonRequestBehavior.AllowGet);
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return Json("", JsonRequestBehavior.AllowGet);
             }
@@ -219,10 +241,10 @@ namespace QUANGHANH2.Controllers
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    var testTime = DateTime.Now.AddDays(10);
+                    var testTimeKD = DateTime.Now.AddDays(60);
                     if (type == 0)
                     {
-                        var maintitle = db.Equipments.Where(x => x.durationOfInspection <= testTime && x.durationOfInspection >= DateTime.Now).OrderBy(x => x.durationOfInspection).
+                        var maintitle = db.Equipments.Where(x => x.durationOfInspection <= testTimeKD && x.durationOfInspection >= DateTime.Now).OrderBy(x => x.durationOfInspection).
                                                 Select(x => new main
                                                 {
                                                     type = 0,
@@ -251,6 +273,7 @@ namespace QUANGHANH2.Controllers
                     }
                     else
                     {
+                        var testTime = DateTime.Now.AddDays(10);
                         var maintitle = (from equip in db.Equipments.Where(x => x.durationOfInsurance <= testTime && x.durationOfInsurance >= DateTime.Now)
                                                  join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
                                                     on equip.Equipment_category_id equals cate.Equipment_category_id

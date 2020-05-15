@@ -16,7 +16,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh
         public ActionResult AddSuaChua()
         {
             ViewBag.ListSelected = Request["ListSelected"];
-            return View("/Views/Camera/Sua_chua_camera.cshtml");
+            return View("/Views/Camera/Quyetdinh/SuaChua/ChonThietBi.cshtml");
         }
 
         [Route("camera/sua-chua/search")]

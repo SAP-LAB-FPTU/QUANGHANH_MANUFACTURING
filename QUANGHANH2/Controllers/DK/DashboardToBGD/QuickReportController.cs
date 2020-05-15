@@ -69,7 +69,6 @@ namespace QUANGHANHCORE.Controllers.DK
         public ActionResult GetData(string date)
         {
             return Index(date);
-
         }
 
         [Auther(RightID = "004,192")]
@@ -121,7 +120,6 @@ namespace QUANGHANHCORE.Controllers.DK
 		                            group by kt.HeaderID, hkt.MaPhongBan, hkt.NgayNhapKH, kt.MaTieuChi
 		                            ) as a inner join KeHoach_TieuChi_TheoNgay kt on a.HeaderID = kt.HeaderID and a.ThoiGianNhapCuoiCung = kt.ThoiGianNhapCuoiCung and a.MaTieuChi = kt.MaTieuChi
 		                            group by a.MaTieuChi) as c on d.MaTieuChi = c.MaTieuChi
-
                             order by d.MaTieuChi";
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<reportEntity> listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("date", date), new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd), new SqlParameter("month", data[1]), new SqlParameter("year", data[2])).ToList();
@@ -405,9 +403,15 @@ namespace QUANGHANHCORE.Controllers.DK
             ViewBag.dilam = dilam_result;
             ViewBag.nghi = nghi_result;
 
-            string mysql = @"select th.NgaySanXuat, kh.SoNgayLamViec
-                            from ThucHienTheoNgay th , KeHoachTungThang kh 
-                            where th.Ngay = @day";
+            string mysql = @"select 
+                            th.NgaySanXuat, 
+                            kh.SoNgayLamViec
+                            from 
+                            (select NgaySanXuat from ThucHienTheoNgay where Ngay = @day) as th,
+                            (select khtt.SoNgayLamViec from KeHoachTungThang khtt join header_KeHoachTungThang hdkht on khtt.ThangID = hdkht.ThangID
+                            where khtt.ThangKeHoach = Month(@day) and khtt.NamKeHoach = Year(@day)
+                            group by SoNgayLamViec) as kh";
+
             QuickReport qr = db.Database.SqlQuery<QuickReport>(mysql, new SqlParameter("day", date)).FirstOrDefault();
             if(qr != null)
             {
@@ -424,9 +428,503 @@ namespace QUANGHANHCORE.Controllers.DK
                 ViewBag.tiendoNgay = "";
             }
 
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            string new_query = @"--1.Than hầm lò
+                            select a.TenNhomTieuChi, b.Ngay, a.KeHoach, b.SanLuong from  
+                            (select ntc.TenNhomTieuChi, ht.NgayNhapKH, sum(kt.KeHoach) 'KeHoach'
+                            from Tieuchi t
+                            left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi 
+                            left join ( select kt.MaTieuChi, kt.HeaderID, max(kt.ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung' from 
+                            KeHoach_TieuChi_TheoNgay kt
+                            group by kt.MaTieuChi, kt.HeaderID) as tt on t.MaTieuChi = tt.MaTieuChi
+                            left join KeHoach_TieuChi_TheoNgay kt on tt.HeaderID = kt.HeaderID and tt.MaTieuChi = kt.MaTieuChi and tt.ThoiGianNhapCuoiCung = kt.ThoiGianNhapCuoiCung
+                            left join header_KeHoach_TieuChi_TheoNgay ht on ht.HeaderID = tt.HeaderID 
+                            where t.MaNhomTieuChi = 1 and (ht.NgayNhapKH between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or ht.NgayNhapKH is null) 
+                            group by ntc.TenNhomTieuChi, ht.NgayNhapKH) as a
+                            inner join 
+                            (select  ntc.TenNhomTieuChi, th.Ngay, sum(tt.SanLuong) 'SanLuong'
+                            from Tieuchi t 
+                            left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi
+                            left join ThucHien_TieuChi_TheoNgay tt on t.MaTieuChi = tt.MaTieuChi
+                            left join header_ThucHienTheoNgay ht on ht.HeaderID = tt.HeaderID 
+                            left join ThucHienTheoNgay th on th.NgayID = ht.NgayID
+                            where t.MaNhomTieuChi = 1 and (th.Ngay between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or th.Ngay is null)
+                            group by ntc.TenNhomTieuChi, th.Ngay) as b 
+                            on a.TenNhomTieuChi = b.TenNhomTieuChi and a.NgayNhapKH = b.Ngay";
+            List<KeHoach_SanLuong> kh_sl_thanhamlo = db.Database.SqlQuery<KeHoach_SanLuong>(new_query,
+                new SqlParameter("@Ngay", timeEnd)).ToList<KeHoach_SanLuong>();
+            ViewBag.kh_sl_thanhamlo = kh_sl_thanhamlo;
+            ////////////////////////////////////////////////
+            new_query = @"--2.Than lộ thiên
+                        select a.TenNhomTieuChi, b.Ngay, a.KeHoach, b.SanLuong from  
+                        (select ntc.TenNhomTieuChi, ht.NgayNhapKH, sum(kt.KeHoach) 'KeHoach'
+                        from Tieuchi t
+                        left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi 
+                        left join ( select kt.MaTieuChi, kt.HeaderID, max(kt.ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung' from 
+                        KeHoach_TieuChi_TheoNgay kt
+                        group by kt.MaTieuChi, kt.HeaderID) as tt on t.MaTieuChi = tt.MaTieuChi
+                        left join KeHoach_TieuChi_TheoNgay kt on tt.HeaderID = kt.HeaderID and tt.MaTieuChi = kt.MaTieuChi and tt.ThoiGianNhapCuoiCung = kt.ThoiGianNhapCuoiCung
+                        left join header_KeHoach_TieuChi_TheoNgay ht on ht.HeaderID = tt.HeaderID 
+                        where t.MaNhomTieuChi = 2 and (ht.NgayNhapKH between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or ht.NgayNhapKH is null) 
+                        group by ntc.TenNhomTieuChi, ht.NgayNhapKH) as a
+                        inner join 
+                        (select  ntc.TenNhomTieuChi, th.Ngay, sum(tt.SanLuong) 'SanLuong'
+                        from Tieuchi t 
+                        left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        left join ThucHien_TieuChi_TheoNgay tt on t.MaTieuChi = tt.MaTieuChi
+                        left join header_ThucHienTheoNgay ht on ht.HeaderID = tt.HeaderID 
+                        left join ThucHienTheoNgay th on th.NgayID = ht.NgayID
+                        where t.MaNhomTieuChi = 2 and (th.Ngay between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or th.Ngay is null)
+                        group by ntc.TenNhomTieuChi, th.Ngay) as b 
+                        on a.TenNhomTieuChi = b.TenNhomTieuChi and a.NgayNhapKH = b.Ngay";
+            List<KeHoach_SanLuong> kh_sl_thanlothien = db.Database.SqlQuery<KeHoach_SanLuong>(new_query,
+                new SqlParameter("@Ngay", timeEnd)).ToList<KeHoach_SanLuong>();
+            ViewBag.kh_sl_thanlothien = kh_sl_thanlothien;
+            ////////////////////////////////////////////////
+            new_query = @"--3.Mét lò đào
+                        select a.TenNhomTieuChi, b.Ngay, a.KeHoach, b.SanLuong from  
+                        (select ntc.TenNhomTieuChi, ht.NgayNhapKH, sum(kt.KeHoach) 'KeHoach'
+                        from Tieuchi t
+                        left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi 
+                        left join ( select kt.MaTieuChi, kt.HeaderID, max(kt.ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung' from 
+                        KeHoach_TieuChi_TheoNgay kt
+                        group by kt.MaTieuChi, kt.HeaderID) as tt on t.MaTieuChi = tt.MaTieuChi
+                        left join KeHoach_TieuChi_TheoNgay kt on tt.HeaderID = kt.HeaderID and tt.MaTieuChi = kt.MaTieuChi and tt.ThoiGianNhapCuoiCung = kt.ThoiGianNhapCuoiCung
+                        left join header_KeHoach_TieuChi_TheoNgay ht on ht.HeaderID = tt.HeaderID 
+                        where t.MaNhomTieuChi = 5 and (ht.NgayNhapKH between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or ht.NgayNhapKH is null) 
+                        group by ntc.TenNhomTieuChi, ht.NgayNhapKH) as a
+                        inner join 
+                        (select  ntc.TenNhomTieuChi, th.Ngay, sum(tt.SanLuong) 'SanLuong'
+                        from Tieuchi t 
+                        left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        left join ThucHien_TieuChi_TheoNgay tt on t.MaTieuChi = tt.MaTieuChi
+                        left join header_ThucHienTheoNgay ht on ht.HeaderID = tt.HeaderID 
+                        left join ThucHienTheoNgay th on th.NgayID = ht.NgayID
+                        where t.MaNhomTieuChi = 5 and (th.Ngay between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or th.Ngay is null)
+                        group by ntc.TenNhomTieuChi, th.Ngay) as b 
+                        on a.TenNhomTieuChi = b.TenNhomTieuChi and a.NgayNhapKH = b.Ngay";
+            List<KeHoach_SanLuong> kh_sl_metlodao = db.Database.SqlQuery<KeHoach_SanLuong>(new_query,
+                new SqlParameter("@Ngay", timeEnd)).ToList<KeHoach_SanLuong>();
+            ViewBag.kh_sl_metlodao = kh_sl_metlodao;
+            ////////////////////////////////////////////////
+           
+            new_query = @"--4.Mét lò neo
+                        select a.TenNhomTieuChi, b.Ngay, a.KeHoach, b.SanLuong from  
+                        (select ntc.TenNhomTieuChi, ht.NgayNhapKH, sum(kt.KeHoach) 'KeHoach'
+                        from Tieuchi t
+                        left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi 
+                        left join ( select kt.MaTieuChi, kt.HeaderID, max(kt.ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung' from 
+                        KeHoach_TieuChi_TheoNgay kt
+                        group by kt.MaTieuChi, kt.HeaderID) as tt on t.MaTieuChi = tt.MaTieuChi
+                        left join KeHoach_TieuChi_TheoNgay kt on tt.HeaderID = kt.HeaderID and tt.MaTieuChi = kt.MaTieuChi and tt.ThoiGianNhapCuoiCung = kt.ThoiGianNhapCuoiCung
+                        left join header_KeHoach_TieuChi_TheoNgay ht on ht.HeaderID = tt.HeaderID 
+                        where t.MaNhomTieuChi = 6 and (ht.NgayNhapKH between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or ht.NgayNhapKH is null) 
+                        group by ntc.TenNhomTieuChi, ht.NgayNhapKH) as a
+                        inner join 
+                        (select  ntc.TenNhomTieuChi, th.Ngay, sum(tt.SanLuong) 'SanLuong'
+                        from Tieuchi t 
+                        left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        left join ThucHien_TieuChi_TheoNgay tt on t.MaTieuChi = tt.MaTieuChi
+                        left join header_ThucHienTheoNgay ht on ht.HeaderID = tt.HeaderID 
+                        left join ThucHienTheoNgay th on th.NgayID = ht.NgayID
+                        where t.MaNhomTieuChi = 6 and (th.Ngay between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or th.Ngay is null)
+                        group by ntc.TenNhomTieuChi, th.Ngay) as b 
+                        on a.TenNhomTieuChi = b.TenNhomTieuChi and a.NgayNhapKH = b.Ngay";
+            List<KeHoach_SanLuong> kh_sl_metloneo = db.Database.SqlQuery<KeHoach_SanLuong>(new_query,
+                new SqlParameter("@Ngay", timeEnd)).ToList<KeHoach_SanLuong>();
+            ViewBag.kh_sl_metloneo = kh_sl_metloneo;
+            ////////////////////////////////////////////////
+
+            new_query = @"--5.Mét lò xén
+                        select a.TenNhomTieuChi, b.Ngay, a.KeHoach, b.SanLuong from  
+                        (select ntc.TenNhomTieuChi, ht.NgayNhapKH, sum(kt.KeHoach) 'KeHoach'
+                        from Tieuchi t
+                        left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi 
+                        left join ( select kt.MaTieuChi, kt.HeaderID, max(kt.ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung' from 
+                        KeHoach_TieuChi_TheoNgay kt
+                        group by kt.MaTieuChi, kt.HeaderID) as tt on t.MaTieuChi = tt.MaTieuChi
+                        left join KeHoach_TieuChi_TheoNgay kt on tt.HeaderID = kt.HeaderID and tt.MaTieuChi = kt.MaTieuChi and tt.ThoiGianNhapCuoiCung = kt.ThoiGianNhapCuoiCung
+                        left join header_KeHoach_TieuChi_TheoNgay ht on ht.HeaderID = tt.HeaderID 
+                        where t.MaNhomTieuChi = 7 and (ht.NgayNhapKH between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or ht.NgayNhapKH is null) 
+                        group by ntc.TenNhomTieuChi, ht.NgayNhapKH) as a
+                        inner join 
+                        (select  ntc.TenNhomTieuChi, th.Ngay, sum(tt.SanLuong) 'SanLuong'
+                        from Tieuchi t 
+                        left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        left join ThucHien_TieuChi_TheoNgay tt on t.MaTieuChi = tt.MaTieuChi
+                        left join header_ThucHienTheoNgay ht on ht.HeaderID = tt.HeaderID 
+                        left join ThucHienTheoNgay th on th.NgayID = ht.NgayID
+                        where t.MaNhomTieuChi = 7 and (th.Ngay between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or th.Ngay is null)
+                        group by ntc.TenNhomTieuChi, th.Ngay) as b 
+                        on a.TenNhomTieuChi = b.TenNhomTieuChi and a.NgayNhapKH = b.Ngay";
+            List<KeHoach_SanLuong> kh_sl_metloxen = db.Database.SqlQuery<KeHoach_SanLuong>(new_query,
+                new SqlParameter("@Ngay", timeEnd)).ToList<KeHoach_SanLuong>();
+            ViewBag.kh_sl_metloxen = kh_sl_metloxen;
+            ////////////////////////////////////////////////
+            new_query = @"--6.Than tiêu thụ
+                        select a.TenNhomTieuChi, b.Ngay, a.KeHoach, b.SanLuong from  
+                        (select ntc.TenNhomTieuChi, ht.NgayNhapKH, sum(kt.KeHoach) 'KeHoach'
+                        from Tieuchi t
+                        left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi 
+                        left join ( select kt.MaTieuChi, kt.HeaderID, max(kt.ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung' from 
+                        KeHoach_TieuChi_TheoNgay kt
+                        group by kt.MaTieuChi, kt.HeaderID) as tt on t.MaTieuChi = tt.MaTieuChi
+                        left join KeHoach_TieuChi_TheoNgay kt on tt.HeaderID = kt.HeaderID and tt.MaTieuChi = kt.MaTieuChi and tt.ThoiGianNhapCuoiCung = kt.ThoiGianNhapCuoiCung
+                        left join header_KeHoach_TieuChi_TheoNgay ht on ht.HeaderID = tt.HeaderID 
+                        where t.MaNhomTieuChi = 9 and (ht.NgayNhapKH between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or ht.NgayNhapKH is null) 
+                        group by ntc.TenNhomTieuChi, ht.NgayNhapKH) as a
+                        inner join 
+                        (select  ntc.TenNhomTieuChi, th.Ngay, sum(tt.SanLuong) 'SanLuong'
+                        from Tieuchi t 
+                        left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        left join ThucHien_TieuChi_TheoNgay tt on t.MaTieuChi = tt.MaTieuChi
+                        left join header_ThucHienTheoNgay ht on ht.HeaderID = tt.HeaderID 
+                        left join ThucHienTheoNgay th on th.NgayID = ht.NgayID
+                        where t.MaNhomTieuChi = 9 and (th.Ngay between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or th.Ngay is null)
+                        group by ntc.TenNhomTieuChi, th.Ngay) as b 
+                        on a.TenNhomTieuChi = b.TenNhomTieuChi and a.NgayNhapKH = b.Ngay";
+            List<KeHoach_SanLuong> kh_sl_thantieuthu = db.Database.SqlQuery<KeHoach_SanLuong>(new_query,
+                new SqlParameter("@Ngay", timeEnd)).ToList<KeHoach_SanLuong>();
+            ViewBag.kh_sl_thantieuthu = kh_sl_thantieuthu;
+            ////////////////////////////////////////////////
+            new_query = @"--7.Đá xít kho
+                        select a.TenNhomTieuChi, b.Ngay, a.KeHoach, b.SanLuong from  
+                        (select ntc.TenNhomTieuChi, ht.NgayNhapKH, sum(kt.KeHoach) 'KeHoach'
+                        from Tieuchi t
+                        left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi 
+                        left join ( select kt.MaTieuChi, kt.HeaderID, max(kt.ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung' from 
+                        KeHoach_TieuChi_TheoNgay kt
+                        group by kt.MaTieuChi, kt.HeaderID) as tt on t.MaTieuChi = tt.MaTieuChi
+                        left join KeHoach_TieuChi_TheoNgay kt on tt.HeaderID = kt.HeaderID and tt.MaTieuChi = kt.MaTieuChi and tt.ThoiGianNhapCuoiCung = kt.ThoiGianNhapCuoiCung
+                        left join header_KeHoach_TieuChi_TheoNgay ht on ht.HeaderID = tt.HeaderID 
+                        where t.MaNhomTieuChi = 11 and (ht.NgayNhapKH between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or ht.NgayNhapKH is null) 
+                        group by ntc.TenNhomTieuChi, ht.NgayNhapKH) as a
+                        inner join 
+                        (select  ntc.TenNhomTieuChi, th.Ngay, sum(tt.SanLuong) 'SanLuong'
+                        from Tieuchi t 
+                        left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        left join ThucHien_TieuChi_TheoNgay tt on t.MaTieuChi = tt.MaTieuChi
+                        left join header_ThucHienTheoNgay ht on ht.HeaderID = tt.HeaderID 
+                        left join ThucHienTheoNgay th on th.NgayID = ht.NgayID
+                        where t.MaNhomTieuChi = 11 and (th.Ngay between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or th.Ngay is null)
+                        group by ntc.TenNhomTieuChi, th.Ngay) as b 
+                        on a.TenNhomTieuChi = b.TenNhomTieuChi and a.NgayNhapKH = b.Ngay";
+            List<KeHoach_SanLuong> kh_sl_daxitkho = db.Database.SqlQuery<KeHoach_SanLuong>(new_query,
+                new SqlParameter("@Ngay", timeEnd)).ToList<KeHoach_SanLuong>();
+            ViewBag.kh_sl_daxitkho = kh_sl_daxitkho;
+            ////////////////////////////////////////////////
+            new_query = @"--8.Đất đá bóc tự làm
+                        select a.TenNhomTieuChi, b.Ngay, a.KeHoach, b.SanLuong from  
+                        (select ntc.TenNhomTieuChi, ht.NgayNhapKH, sum(kt.KeHoach) 'KeHoach'
+                        from Tieuchi t
+                        left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi 
+                        left join ( select kt.MaTieuChi, kt.HeaderID, max(kt.ThoiGianNhapCuoiCung) 'ThoiGianNhapCuoiCung' from 
+                        KeHoach_TieuChi_TheoNgay kt
+                        group by kt.MaTieuChi, kt.HeaderID) as tt on t.MaTieuChi = tt.MaTieuChi
+                        left join KeHoach_TieuChi_TheoNgay kt on tt.HeaderID = kt.HeaderID and tt.MaTieuChi = kt.MaTieuChi and tt.ThoiGianNhapCuoiCung = kt.ThoiGianNhapCuoiCung
+                        left join header_KeHoach_TieuChi_TheoNgay ht on ht.HeaderID = tt.HeaderID 
+                        where t.MaNhomTieuChi = 3 and (ht.NgayNhapKH between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or ht.NgayNhapKH is null) 
+                        group by ntc.TenNhomTieuChi, ht.NgayNhapKH) as a
+                        inner join 
+                        (select  ntc.TenNhomTieuChi, th.Ngay, sum(tt.SanLuong) 'SanLuong'
+                        from Tieuchi t 
+                        left join NhomTieuChi ntc on t.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        left join ThucHien_TieuChi_TheoNgay tt on t.MaTieuChi = tt.MaTieuChi
+                        left join header_ThucHienTheoNgay ht on ht.HeaderID = tt.HeaderID 
+                        left join ThucHienTheoNgay th on th.NgayID = ht.NgayID
+                        where t.MaNhomTieuChi = 3 and (th.Ngay between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay or th.Ngay is null)
+                        group by ntc.TenNhomTieuChi, th.Ngay) as b 
+                        on a.TenNhomTieuChi = b.TenNhomTieuChi and a.NgayNhapKH = b.Ngay";
+            List<KeHoach_SanLuong> kh_sl_datdaboc = db.Database.SqlQuery<KeHoach_SanLuong>(new_query,
+                new SqlParameter("@Ngay", timeEnd)).ToList<KeHoach_SanLuong>();
+            ViewBag.kh_sl_datdaboc = kh_sl_datdaboc;
+
+
+
+            ////////////////////THAN SX////////////////////////////
+            new_query = @"select 
+                        pb.MaPhongBan as 'MaPhongBan',
+                        ISNULL(th.SanLuongThucHien,0) as 'SanLuongThucHienNgay',
+						ISNULL(khn.SanLuongKeHoach,0) as 'SanLuongKeHoachNgay',
+                        ISNULL(lk.SanLuongLuyKe,0) as 'SanLuongLuyKeNgay',
+                        ISNULL(kht.SanLuongKeHoachThang,0) as 'SanLuongKeHoachThang',
+                        (ISNULL(kht.SanLuongKeHoachThang,0) - ISNULL(lk.SanLuongLuyKe,0)) as 'SanLuongConLai',
+                        (case when (th.SanLuongThucHien >= khn.SanLuongKeHoach) then N'Đạt' else N'Không đạt' end) as 'TinhTrang'
+                        from 
+						(select 
+						hd.MaPhongBan
+						from header_KeHoachTungThang hd 
+						join KeHoachTungThang kh on hd.ThangID = kh.ThangID
+						join KeHoach_TieuChi_TheoThang khtc on khtc.HeaderID = hd.HeaderID
+						join TieuChi tc on tc.MaTieuChi = khtc.MaTieuChi
+						join NhomTieuChi ntc on ntc.MaNhomTieuChi = tc.MaNhomTieuChi
+						where ntc.MaNhomTieuChi in (1,2)
+						group by hd.MaPhongBan) as pb
+						LEFT JOIN
+                        (select 
+                        hd.MaPhongBan, 
+                        ISNULL(SUM(tt.SanLuong),0) as 'SanLuongThucHien' 
+                        from header_ThucHienTheoNgay hd
+                        join ThucHienTheoNgay thn on hd.NgayID = thn.NgayID
+                        join ThucHien_TieuChi_TheoNgay tt on hd.HeaderID = tt.HeaderID
+                        join TieuChi tc on tc.MaTieuChi = tt.MaTieuChi
+                        join NhomTieuChi ntc on tc.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        where ntc.MaNhomTieuChi in (1,2) and thn.Ngay = @Ngay
+                        group by hd.MaPhongBan) as th on pb.MaPhongBan = th.MaPhongBan
+                        LEFT JOIN
+                        (select 
+                        hd.MaPhongBan,
+                        ISNULL(SUM(kh.KeHoach),0) as 'SanLuongKeHoach',
+                        MAX(kh.ThoiGianNhapCuoiCung) as 'ThoiGianNhapCuoiCung'
+                        from 
+                        header_KeHoach_TieuChi_TheoNgay hd 
+                        join KeHoach_TieuChi_TheoNgay kh on hd.HeaderID = kh.HeaderID
+                        join TieuChi tc on tc.MaTieuChi = kh.MaTieuChi
+                        join NhomTieuChi ntc on tc.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        where ntc.MaNhomTieuChi in (1,2) and hd.NgayNhapKH = @Ngay
+                        group by hd.MaPhongBan, hd.NgayNhapKH) as khn on pb.MaPhongBan = khn.MaPhongBan 
+                        LEFT JOIN 
+                        (select 
+                        hd.MaPhongBan, 
+                        ISNULL(SUM(tt.SanLuong),0) as 'SanLuongLuyKe' 
+                        from header_ThucHienTheoNgay hd
+                        join ThucHienTheoNgay thn on hd.NgayID = thn.NgayID
+                        join ThucHien_TieuChi_TheoNgay tt on hd.HeaderID = tt.HeaderID
+                        join TieuChi tc on tc.MaTieuChi = tt.MaTieuChi
+                        join NhomTieuChi ntc on tc.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        where ntc.MaNhomTieuChi in (1,2) and thn.Ngay between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay
+                        group by hd.MaPhongBan) as lk on lk.MaPhongBan = pb.MaPhongBan
+                        LEFT JOIN
+                        (select slkh.MaPhongBan,
+						sum(slkh.SanLuong) as 'SanLuongKeHoachThang'
+						from
+						(select 
+						kht.MaPhongBan,
+						kht.MaTieuChi,
+						sl.SanLuong,
+						kht.ThoiGianNhapCuoiCung					 
+						from
+						(select
+						hd.MaPhongBan,
+						tc.MaTieuChi,
+						MAX(kh.ThoiGianNhapCuoiCung) as 'ThoiGianNhapCuoiCung' 
+						from header_KeHoachTungThang hd 
+						join KeHoachTungThang kht on hd.ThangID = kht.ThangID
+						join KeHoach_TieuChi_TheoThang kh on hd.HeaderID = kh.HeaderID
+						join TieuChi tc on tc.MaTieuChi = kh.MaTieuChi
+						join NhomTieuChi ntc on tc.MaNhomTieuChi = ntc.MaNhomTieuChi
+						where ntc.MaNhomTieuChi in (1,2) and kht.ThangKeHoach = MONTH(@Ngay) and kht.NamKeHoach = YEAR(@Ngay)
+						group by hd.MaPhongBan, tc.MaTieuChi) as kht
+						left join
+						(select 
+						MaTieuChi, 
+						SanLuong,
+						ThoiGianNhapCuoiCung 
+						from KeHoach_TieuChi_TheoThang) as sl on kht.MaTieuChi = sl.MaTieuChi and kht.ThoiGianNhapCuoiCung = sl.ThoiGianNhapCuoiCung) as slkh
+						group by MaPhongBan) as kht on kht.MaPhongBan = pb.MaPhongBan";
+            List<SanLuong_LuyKe> sl_lk_thansx = db.Database.SqlQuery<SanLuong_LuyKe>(new_query,
+                new SqlParameter("@Ngay", timeEnd)).ToList<SanLuong_LuyKe>();
+            ViewBag.sl_lk_thansx = sl_lk_thansx;
+
+
+            ///////////////////MÉT LÒ ĐÀO////////////////////////////
+            new_query = @"select 
+                        pb.MaPhongBan as 'MaPhongBan',
+                        ISNULL(th.SanLuongThucHien,0) as 'SanLuongThucHienNgay',
+						ISNULL(khn.SanLuongKeHoach,0) as 'SanLuongKeHoachNgay',
+                        ISNULL(lk.SanLuongLuyKe,0) as 'SanLuongLuyKeNgay',
+                        ISNULL(kht.SanLuongKeHoachThang,0) as 'SanLuongKeHoachThang',
+                        (ISNULL(kht.SanLuongKeHoachThang,0) - ISNULL(lk.SanLuongLuyKe,0)) as 'SanLuongConLai',
+                        (case when (th.SanLuongThucHien >= khn.SanLuongKeHoach) then N'Đạt' else N'Không đạt' end) as 'TinhTrang'
+                        from 
+						(select 
+						hd.MaPhongBan
+						from header_KeHoachTungThang hd 
+						join KeHoachTungThang kh on hd.ThangID = kh.ThangID
+						join KeHoach_TieuChi_TheoThang khtc on khtc.HeaderID = hd.HeaderID
+						join TieuChi tc on tc.MaTieuChi = khtc.MaTieuChi
+						join NhomTieuChi ntc on ntc.MaNhomTieuChi = tc.MaNhomTieuChi
+						where ntc.MaNhomTieuChi = 5
+						group by hd.MaPhongBan) as pb
+						LEFT JOIN
+                        (select 
+                        hd.MaPhongBan, 
+                        ISNULL(SUM(tt.SanLuong),0) as 'SanLuongThucHien' 
+                        from header_ThucHienTheoNgay hd
+                        join ThucHienTheoNgay thn on hd.NgayID = thn.NgayID
+                        join ThucHien_TieuChi_TheoNgay tt on hd.HeaderID = tt.HeaderID
+                        join TieuChi tc on tc.MaTieuChi = tt.MaTieuChi
+                        join NhomTieuChi ntc on tc.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        where ntc.MaNhomTieuChi = 5 and thn.Ngay = @Ngay
+                        group by hd.MaPhongBan) as th on pb.MaPhongBan = th.MaPhongBan
+                        LEFT JOIN
+                        (select 
+                        hd.MaPhongBan,
+                        ISNULL(SUM(kh.KeHoach),0) as 'SanLuongKeHoach',
+                        MAX(kh.ThoiGianNhapCuoiCung) as 'ThoiGianNhapCuoiCung'
+                        from 
+                        header_KeHoach_TieuChi_TheoNgay hd 
+                        join KeHoach_TieuChi_TheoNgay kh on hd.HeaderID = kh.HeaderID
+                        join TieuChi tc on tc.MaTieuChi = kh.MaTieuChi
+                        join NhomTieuChi ntc on tc.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        where ntc.MaNhomTieuChi = 5 and hd.NgayNhapKH = @Ngay
+                        group by hd.MaPhongBan, hd.NgayNhapKH) as khn on pb.MaPhongBan = khn.MaPhongBan 
+                        LEFT JOIN 
+                        (select 
+                        hd.MaPhongBan, 
+                        ISNULL(SUM(tt.SanLuong),0) as 'SanLuongLuyKe' 
+                        from header_ThucHienTheoNgay hd
+                        join ThucHienTheoNgay thn on hd.NgayID = thn.NgayID
+                        join ThucHien_TieuChi_TheoNgay tt on hd.HeaderID = tt.HeaderID
+                        join TieuChi tc on tc.MaTieuChi = tt.MaTieuChi
+                        join NhomTieuChi ntc on tc.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        where ntc.MaNhomTieuChi = 5 and thn.Ngay between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay
+                        group by hd.MaPhongBan) as lk on lk.MaPhongBan = pb.MaPhongBan
+                        LEFT JOIN
+                        (select slkh.MaPhongBan,
+						sum(slkh.SanLuong) as 'SanLuongKeHoachThang'
+						from
+						(select 
+						kht.MaPhongBan,
+						kht.MaTieuChi,
+						sl.SanLuong,
+						kht.ThoiGianNhapCuoiCung					 
+						from
+						(select
+						hd.MaPhongBan,
+						tc.MaTieuChi,
+						MAX(kh.ThoiGianNhapCuoiCung) as 'ThoiGianNhapCuoiCung' 
+						from header_KeHoachTungThang hd 
+						join KeHoachTungThang kht on hd.ThangID = kht.ThangID
+						join KeHoach_TieuChi_TheoThang kh on hd.HeaderID = kh.HeaderID
+						join TieuChi tc on tc.MaTieuChi = kh.MaTieuChi
+						join NhomTieuChi ntc on tc.MaNhomTieuChi = ntc.MaNhomTieuChi
+						where ntc.MaNhomTieuChi = 5 and kht.ThangKeHoach = MONTH(@Ngay) and kht.NamKeHoach = YEAR(@Ngay)
+						group by hd.MaPhongBan, tc.MaTieuChi) as kht
+						left join
+						(select 
+						MaTieuChi, 
+						SanLuong,
+						ThoiGianNhapCuoiCung 
+						from KeHoach_TieuChi_TheoThang) as sl on kht.MaTieuChi = sl.MaTieuChi and kht.ThoiGianNhapCuoiCung = sl.ThoiGianNhapCuoiCung) as slkh
+						group by MaPhongBan) as kht on kht.MaPhongBan = pb.MaPhongBan";
+            List<SanLuong_LuyKe> sl_lk_metlo = db.Database.SqlQuery<SanLuong_LuyKe>(new_query,
+                new SqlParameter("@Ngay", timeEnd)).ToList<SanLuong_LuyKe>();
+            ViewBag.sl_lk_metlo = sl_lk_metlo;
+
+
+            ///////////////////ĐẤT ĐÁ BÓC////////////////////////////
+            new_query = @"select 
+                        pb.MaPhongBan as 'MaPhongBan',
+                        ISNULL(th.SanLuongThucHien,0) as 'SanLuongThucHienNgay',
+						ISNULL(khn.SanLuongKeHoach,0) as 'SanLuongKeHoachNgay',
+                        ISNULL(lk.SanLuongLuyKe,0) as 'SanLuongLuyKeNgay',
+                        ISNULL(kht.SanLuongKeHoachThang,0) as 'SanLuongKeHoachThang',
+                        (ISNULL(kht.SanLuongKeHoachThang,0) - ISNULL(lk.SanLuongLuyKe,0)) as 'SanLuongConLai',
+                        (case when (th.SanLuongThucHien >= khn.SanLuongKeHoach) then N'Đạt' else N'Không đạt' end) as 'TinhTrang'
+                        from 
+						(select 
+						hd.MaPhongBan
+						from header_KeHoachTungThang hd 
+						join KeHoachTungThang kh on hd.ThangID = kh.ThangID
+						join KeHoach_TieuChi_TheoThang khtc on khtc.HeaderID = hd.HeaderID
+						join TieuChi tc on tc.MaTieuChi = khtc.MaTieuChi
+						join NhomTieuChi ntc on ntc.MaNhomTieuChi = tc.MaNhomTieuChi
+						where ntc.MaNhomTieuChi = 3
+						group by hd.MaPhongBan) as pb
+						LEFT JOIN
+                        (select 
+                        hd.MaPhongBan, 
+                        ISNULL(SUM(tt.SanLuong),0) as 'SanLuongThucHien' 
+                        from header_ThucHienTheoNgay hd
+                        join ThucHienTheoNgay thn on hd.NgayID = thn.NgayID
+                        join ThucHien_TieuChi_TheoNgay tt on hd.HeaderID = tt.HeaderID
+                        join TieuChi tc on tc.MaTieuChi = tt.MaTieuChi
+                        join NhomTieuChi ntc on tc.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        where ntc.MaNhomTieuChi = 3 and thn.Ngay = @Ngay
+                        group by hd.MaPhongBan) as th on pb.MaPhongBan = th.MaPhongBan
+                        LEFT JOIN
+                        (select 
+                        hd.MaPhongBan,
+                        ISNULL(SUM(kh.KeHoach),0) as 'SanLuongKeHoach',
+                        MAX(kh.ThoiGianNhapCuoiCung) as 'ThoiGianNhapCuoiCung'
+                        from 
+                        header_KeHoach_TieuChi_TheoNgay hd 
+                        join KeHoach_TieuChi_TheoNgay kh on hd.HeaderID = kh.HeaderID
+                        join TieuChi tc on tc.MaTieuChi = kh.MaTieuChi
+                        join NhomTieuChi ntc on tc.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        where ntc.MaNhomTieuChi = 3 and hd.NgayNhapKH = @Ngay
+                        group by hd.MaPhongBan, hd.NgayNhapKH) as khn on pb.MaPhongBan = khn.MaPhongBan 
+                        LEFT JOIN 
+                        (select 
+                        hd.MaPhongBan, 
+                        ISNULL(SUM(tt.SanLuong),0) as 'SanLuongLuyKe' 
+                        from header_ThucHienTheoNgay hd
+                        join ThucHienTheoNgay thn on hd.NgayID = thn.NgayID
+                        join ThucHien_TieuChi_TheoNgay tt on hd.HeaderID = tt.HeaderID
+                        join TieuChi tc on tc.MaTieuChi = tt.MaTieuChi
+                        join NhomTieuChi ntc on tc.MaNhomTieuChi = ntc.MaNhomTieuChi
+                        where ntc.MaNhomTieuChi = 3 and thn.Ngay between DATEADD(DAY,1,EOMONTH(@Ngay,-1)) and @Ngay
+                        group by hd.MaPhongBan) as lk on lk.MaPhongBan = pb.MaPhongBan
+                        LEFT JOIN
+                        (select slkh.MaPhongBan,
+						sum(slkh.SanLuong) as 'SanLuongKeHoachThang'
+						from
+						(select 
+						kht.MaPhongBan,
+						kht.MaTieuChi,
+						sl.SanLuong,
+						kht.ThoiGianNhapCuoiCung					 
+						from
+						(select
+						hd.MaPhongBan,
+						tc.MaTieuChi,
+						MAX(kh.ThoiGianNhapCuoiCung) as 'ThoiGianNhapCuoiCung' 
+						from header_KeHoachTungThang hd 
+						join KeHoachTungThang kht on hd.ThangID = kht.ThangID
+						join KeHoach_TieuChi_TheoThang kh on hd.HeaderID = kh.HeaderID
+						join TieuChi tc on tc.MaTieuChi = kh.MaTieuChi
+						join NhomTieuChi ntc on tc.MaNhomTieuChi = ntc.MaNhomTieuChi
+						where ntc.MaNhomTieuChi = 3 and kht.ThangKeHoach = MONTH(@Ngay) and kht.NamKeHoach = YEAR(@Ngay)
+						group by hd.MaPhongBan, tc.MaTieuChi) as kht
+						left join
+						(select 
+						MaTieuChi, 
+						SanLuong,
+						ThoiGianNhapCuoiCung 
+						from KeHoach_TieuChi_TheoThang) as sl on kht.MaTieuChi = sl.MaTieuChi and kht.ThoiGianNhapCuoiCung = sl.ThoiGianNhapCuoiCung) as slkh
+						group by MaPhongBan) as kht on kht.MaPhongBan = pb.MaPhongBan";
+            List<SanLuong_LuyKe> sl_lk_datda = db.Database.SqlQuery<SanLuong_LuyKe>(new_query,
+                new SqlParameter("@Ngay", timeEnd)).ToList<SanLuong_LuyKe>();
+            ViewBag.sl_lk_datda = sl_lk_datda;
+
+            //get the rest days in year
+            int totalDayOfYear = new DateTime(DateTime.Now.Year,12,31).DayOfYear;
+            int currentDayOfYear = DateTime.Now.DayOfYear;
+            int restDayOfYear = totalDayOfYear - currentDayOfYear;
+            Session["restDayOfYear"] = restDayOfYear;
             return View("/Views/DK/QuickReport/QuickReportNew.cshtml");
         }
 
+        public class SanLuong_LuyKe
+        {
+            public string MaPhongBan { get; set; }
+            public double? SanLuongThucHienNgay  { get; set; }
+            public double? SanLuongKeHoachNgay { get; set; }
+            public double? SanLuongLuyKeNgay { get; set; }
+            public double? SanLuongKeHoachThang { get; set; }
+            public double? SanLuongConLai { get; set; }
+            public string TinhTrang { get; set; }
+        }
+
+        public class KeHoach_SanLuong
+        {
+            public string TenNhomTieuChi { get; set; }
+            public DateTime Ngay { get; set; }
+            public double KeHoach { get; set; }
+            public double SanLuong { get; set; }
+        }
         public class QuickReport
         {
             public int NgaySanXuat { get; set; }

@@ -57,32 +57,10 @@ namespace QUANGHANH2.Controllers.DK
                             tmp.MaPhongBan = pbtc.MaPhongBan and tmp.MaTieuChi = pbtc.MaTieuChi) as view5
                             inner join TieuChi t on view5.MaTieuChi = t.MaTieuChi							
                             right join Department on MaPhongBan = department_id
-							where department_id in (N'ĐL1',N'ĐL3',N'ĐL5',N'ĐL7',N'ĐL8',N'KT1',N'KT2',N'KT3',N'KT4',N'KT5',N'KT6',N'KT7',N'KT8',N'KT9',N'KT10',N'KT11')
-                            group by department_id
-							order by
-								case department_id
-								when N'ĐL1' then 1
-								when N'ĐL3' then 2
-								when N'ĐL5' then 3
-								when N'ĐL7' then 4
-								when N'ĐL8' then 5
-								when N'KT1' then 6
-								when N'KT2' then 7
-								when N'KT3' then 8
-								when N'KT4' then 9
-								when N'KT5' then 10
-								when N'KT6' then 11
-								when N'KT7' then 12
-								when N'KT8' then 13
-								when N'KT9' then 14
-								when N'KT10' then 15
-								when N'KT11' then 16
-							end";
+							where department_type = N'Phân xưởng sản xuất chính'
+							group by department_id";
             //
-            var queryDaily = @"select [date],SUM(case when MaPhongBan = N'ĐL1' and MaTieuChi = 1 and Ngay = [date] then SanLuong else 0 end) as PXDL1_THANTH,
-                            SUM(case when MaPhongBan = N'ĐL1' and MaTieuChi = 1 then SanLuong else 0 end) as PXDL1_THANLK,
-                            SUM(case when(MaPhongBan = N'ĐL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as PXDL1_MLTH,
-                            SUM(case when(MaPhongBan = N'ĐL1' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as PXDL1_MLLK,
+            var queryDaily = @"select [date],
                             SUM(case when MaPhongBan = N'ĐL3' and MaTieuChi = 1 and Ngay = [date] then SanLuong else 0 end) as PXDL3_THANTH,
                             SUM(case when MaPhongBan = N'ĐL3' and MaTieuChi = 1  then SanLuong else 0 end) as PXDL3_THANLK,
                             SUM(case when(MaPhongBan = N'ĐL3' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as PXDL3_MLTH,
@@ -180,10 +158,10 @@ namespace QUANGHANH2.Controllers.DK
     public class DailyEntity
     {
         public DateTime date { get; set; }
-        public double PXDL1_THANTH { get; set; }
-        public double PXDL1_THANLK { get; set; }
-        public double PXDL1_MLTH { get; set; }
-        public double PXDL1_MLLK { get; set; }
+        //public double PXDL1_THANTH { get; set; }
+        //public double PXDL1_THANLK { get; set; }
+        //public double PXDL1_MLTH { get; set; }
+        //public double PXDL1_MLLK { get; set; }
         public double PXDL3_THANTH { get; set; }
         public double PXDL3_THANLK { get; set; }
         public double PXDL3_MLTH { get; set; }
