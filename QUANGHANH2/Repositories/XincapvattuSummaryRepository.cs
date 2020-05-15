@@ -70,21 +70,9 @@ namespace QUANGHANH2.Repositories
            supp.departmentid = 'cdvt' and month(date) = month(getdate()) and status = 1").ToList();
                 
                 else
-                vattus = context.Database.SqlQuery<XincapvattuSummaryModelViewVer2>(@"select supp.id Id, sdk.equipmentId,  eq.equipment_name , supp.equipmentid as equipmentId_dikem,e.equipment_name as equipmentId_dikem_name,
-supp.supplyid, s.supply_name SupplyName, supp.dinh_muc SupplyAverage, s.unit SupplyUnit, supp.quantity_plan SupplyPlan,
-(case when su.quantity is null then 0 else su.quantity end) SupplyRemaining
-                     from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid
-
-                     left join Supply_SCTX su on supp.equipmentid = su.equipmentId
-
-                      and supp.supplyid = su.supply_id
-
-                      inner join Supply_DiKem sdk on supp.equipmentId = sdk.equipmentId_dikem
-
-                      inner join Equipment e on supp.equipmentid = e.equipmentId
-
-
-                     inner join Equipment eq on sdk.equipmentId = eq.equipmentId where
+                vattus = context.Database.SqlQuery<XincapvattuSummaryModelViewVer2>(@"select supp.id Id,supp.equipmentId Equipmentid,e.equipment_name,supp.supplyid, s.supply_name SupplyName,supp.dinh_muc SupplyAverage, s.unit SupplyUnit ,supp.quantity_plan SupplyPlan,
+                     (case when su.quantity is null then 0 else su.quantity end) SupplyRemaining 
+                     from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid left join Supply_SCTX su on supp.equipmentid=su.equipmentId and supp.supplyid=su.supply_id inner join Equipment e on supp.equipmentid = e.equipmentId where
                      supp.departmentid = @departmentid
 
                      and month(date) = month(getdate()) and status = 1 order by e.equipmentid asc", new SqlParameter("departmentid", departmentId)).ToList();
