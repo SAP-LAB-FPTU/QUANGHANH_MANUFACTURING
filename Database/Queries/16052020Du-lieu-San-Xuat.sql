@@ -70,6 +70,10 @@ INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], 
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (202, N'CTA', 1, CAST(N'2020-05-10' AS Date))
 GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (222, N'CTA', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (244, N'CTA', 1, CAST(N'2020-05-12' AS Date))
+GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (83, N'CTTL', 1, CAST(N'2020-05-04' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (104, N'CTTL', 1, CAST(N'2020-05-05' AS Date))
@@ -83,6 +87,10 @@ GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (176, N'CTTL', 1, CAST(N'2020-05-09' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (200, N'CTTL', 1, CAST(N'2020-05-10' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (220, N'CTTL', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (242, N'CTTL', 1, CAST(N'2020-05-12' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (81, N'CTV', 1, CAST(N'2020-05-04' AS Date))
 GO
@@ -98,6 +106,10 @@ INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], 
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (201, N'CTV', 1, CAST(N'2020-05-10' AS Date))
 GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (221, N'CTV', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (243, N'CTV', 1, CAST(N'2020-05-12' AS Date))
+GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (82, N'CTXLM-TKV', 1, CAST(N'2020-05-04' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (103, N'CTXLM-TKV', 1, CAST(N'2020-05-05' AS Date))
@@ -112,6 +124,10 @@ INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], 
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (199, N'CTXLM-TKV', 1, CAST(N'2020-05-10' AS Date))
 GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (219, N'CTXLM-TKV', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (241, N'CTXLM-TKV', 1, CAST(N'2020-05-12' AS Date))
+GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (1, N'CTYDH', 1, CAST(N'2020-04-26' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (79, N'CTYDH', 1, CAST(N'2020-05-04' AS Date))
@@ -125,6 +141,10 @@ GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (150, N'CTYDH', 1, CAST(N'2020-05-08' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (172, N'CTYDH', 1, CAST(N'2020-05-09' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (234, N'CTYDH', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (256, N'CTYDH', 1, CAST(N'2020-05-12' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (3, N'ĐL3', 1, CAST(N'2020-04-26' AS Date))
 GO
@@ -143,6 +163,10 @@ GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (179, N'ĐL3', 1, CAST(N'2020-05-09' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (195, N'ĐL3', 1, CAST(N'2020-05-10' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (215, N'ĐL3', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (237, N'ĐL3', 1, CAST(N'2020-05-12' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (22, N'ĐL3', 2, CAST(N'2020-04-27' AS Date))
 GO
@@ -170,6 +194,10 @@ INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], 
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (196, N'ĐL5', 1, CAST(N'2020-05-10' AS Date))
 GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (216, N'ĐL5', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (238, N'ĐL5', 1, CAST(N'2020-05-12' AS Date))
+GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (25, N'ĐL5', 2, CAST(N'2020-04-27' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (73, N'ĐL5', 2, CAST(N'2020-05-05' AS Date))
@@ -193,6 +221,10 @@ GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (181, N'ĐL7', 1, CAST(N'2020-05-09' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (197, N'ĐL7', 1, CAST(N'2020-05-10' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (217, N'ĐL7', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (239, N'ĐL7', 1, CAST(N'2020-05-12' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (28, N'ĐL7', 2, CAST(N'2020-04-27' AS Date))
 GO
@@ -220,6 +252,10 @@ INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], 
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (198, N'ĐL8', 1, CAST(N'2020-05-10' AS Date))
 GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (218, N'ĐL8', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (240, N'ĐL8', 1, CAST(N'2020-05-12' AS Date))
+GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (31, N'ĐL8', 2, CAST(N'2020-04-27' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (32, N'ĐL8', 3, CAST(N'2020-04-27' AS Date))
@@ -237,6 +273,10 @@ GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (177, N'KCS', 1, CAST(N'2020-05-09' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (194, N'KCS', 1, CAST(N'2020-05-10' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (236, N'KCS', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (257, N'KCS', 1, CAST(N'2020-05-12' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (55, N'KT1', 1, CAST(N'2020-01-01' AS Date))
 GO
@@ -257,6 +297,10 @@ GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (183, N'KT1', 1, CAST(N'2020-05-09' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (203, N'KT1', 1, CAST(N'2020-05-10' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (223, N'KT1', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (245, N'KT1', 1, CAST(N'2020-05-12' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (34, N'KT1', 2, CAST(N'2020-04-27' AS Date))
 GO
@@ -280,6 +324,10 @@ INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], 
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (212, N'KT10', 1, CAST(N'2020-05-10' AS Date))
 GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (232, N'KT10', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (254, N'KT10', 1, CAST(N'2020-05-12' AS Date))
+GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (52, N'KT10', 2, CAST(N'2020-04-27' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (17, N'KT11', 1, CAST(N'2020-04-26' AS Date))
@@ -299,6 +347,10 @@ GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (193, N'KT11', 1, CAST(N'2020-05-09' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (213, N'KT11', 1, CAST(N'2020-05-10' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (233, N'KT11', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (255, N'KT11', 1, CAST(N'2020-05-12' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (54, N'KT11', 2, CAST(N'2020-04-27' AS Date))
 GO
@@ -320,6 +372,10 @@ INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], 
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (204, N'KT2', 1, CAST(N'2020-05-10' AS Date))
 GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (224, N'KT2', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (246, N'KT2', 1, CAST(N'2020-05-12' AS Date))
+GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (36, N'KT2', 2, CAST(N'2020-04-27' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (9, N'KT3', 1, CAST(N'2020-04-26' AS Date))
@@ -339,6 +395,10 @@ GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (185, N'KT3', 1, CAST(N'2020-05-09' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (205, N'KT3', 1, CAST(N'2020-05-10' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (225, N'KT3', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (247, N'KT3', 1, CAST(N'2020-05-12' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (38, N'KT3', 2, CAST(N'2020-04-27' AS Date))
 GO
@@ -360,6 +420,10 @@ INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], 
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (206, N'KT4', 1, CAST(N'2020-05-10' AS Date))
 GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (226, N'KT4', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (248, N'KT4', 1, CAST(N'2020-05-12' AS Date))
+GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (40, N'KT4', 2, CAST(N'2020-04-27' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (11, N'KT5', 1, CAST(N'2020-04-26' AS Date))
@@ -379,6 +443,10 @@ GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (187, N'KT5', 1, CAST(N'2020-05-09' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (207, N'KT5', 1, CAST(N'2020-05-10' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (227, N'KT5', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (249, N'KT5', 1, CAST(N'2020-05-12' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (42, N'KT5', 2, CAST(N'2020-04-27' AS Date))
 GO
@@ -400,6 +468,10 @@ INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], 
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (208, N'KT6', 1, CAST(N'2020-05-10' AS Date))
 GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (228, N'KT6', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (250, N'KT6', 1, CAST(N'2020-05-12' AS Date))
+GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (44, N'KT6', 2, CAST(N'2020-04-27' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (13, N'KT7', 1, CAST(N'2020-04-26' AS Date))
@@ -419,6 +491,10 @@ GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (189, N'KT7', 1, CAST(N'2020-05-09' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (209, N'KT7', 1, CAST(N'2020-05-10' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (229, N'KT7', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (251, N'KT7', 1, CAST(N'2020-05-12' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (46, N'KT7', 2, CAST(N'2020-04-27' AS Date))
 GO
@@ -440,6 +516,10 @@ INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], 
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (210, N'KT8', 1, CAST(N'2020-05-10' AS Date))
 GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (230, N'KT8', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (252, N'KT8', 1, CAST(N'2020-05-12' AS Date))
+GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (48, N'KT8', 2, CAST(N'2020-04-27' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (15, N'KT9', 1, CAST(N'2020-04-26' AS Date))
@@ -460,6 +540,10 @@ INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], 
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (211, N'KT9', 1, CAST(N'2020-05-10' AS Date))
 GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (231, N'KT9', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (253, N'KT9', 1, CAST(N'2020-05-12' AS Date))
+GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (50, N'KT9', 2, CAST(N'2020-04-27' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (2, N'PXCBT', 1, CAST(N'2020-04-26' AS Date))
@@ -477,6 +561,10 @@ GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (156, N'PXCBT', 1, CAST(N'2020-05-08' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (178, N'PXCBT', 1, CAST(N'2020-05-09' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (214, N'PXCBT', 1, CAST(N'2020-05-10' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (268, N'PXCBT', 1, CAST(N'2020-05-11' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (19, N'PXCBT', 2, CAST(N'2020-04-27' AS Date))
 GO
@@ -2322,6 +2410,8 @@ INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [Th
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (172, 6, 6700, CAST(N'2020-05-09T17:35:48.550' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (172, 6, 6700, CAST(N'2020-05-13T22:12:53.867' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (173, 1, 10, CAST(N'2020-05-09T14:43:10.807' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (173, 1, 10, CAST(N'2020-05-09T17:36:05.587' AS DateTime), NULL)
@@ -2518,61 +2608,151 @@ INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [Th
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 3, 0, CAST(N'2020-05-09T17:40:23.020' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 3, 0, CAST(N'2020-05-13T22:25:53.250' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 3, 0, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 3, 0, CAST(N'2020-05-13T22:29:49.717' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 4, 0, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 4, 0, CAST(N'2020-05-09T17:40:23.020' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 4, 0, CAST(N'2020-05-13T22:25:53.263' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 4, 0, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 4, 0, CAST(N'2020-05-13T22:29:49.733' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 5, 0, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 5, 0, CAST(N'2020-05-09T17:40:23.033' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 5, 0, CAST(N'2020-05-13T22:25:53.263' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 5, 0, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 5, 0, CAST(N'2020-05-13T22:29:49.750' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 10, 333, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 10, 333, CAST(N'2020-05-09T17:40:23.033' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 10, 333, CAST(N'2020-05-13T22:25:53.280' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 10, 333, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 10, 333, CAST(N'2020-05-13T22:29:49.750' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 11, 0, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 11, 0, CAST(N'2020-05-09T17:40:23.050' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 11, 0, CAST(N'2020-05-13T22:25:53.280' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 11, 0, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 11, 0, CAST(N'2020-05-13T22:29:49.763' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 12, 250, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 12, 250, CAST(N'2020-05-09T17:40:23.050' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 12, 250, CAST(N'2020-05-13T22:25:53.280' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 12, 250, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 12, 250, CAST(N'2020-05-13T22:29:49.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 13, 4375, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 13, 4375, CAST(N'2020-05-09T17:40:23.067' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 13, 4375, CAST(N'2020-05-13T22:25:53.297' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 13, 4375, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 13, 4375, CAST(N'2020-05-13T22:29:49.780' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 14, 1292, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 14, 1292, CAST(N'2020-05-09T17:40:23.067' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 14, 1292, CAST(N'2020-05-13T22:25:53.297' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 14, 1292, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 14, 1292, CAST(N'2020-05-13T22:29:49.780' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 15, 5375, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 15, 5375, CAST(N'2020-05-09T17:40:23.067' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 15, 5375, CAST(N'2020-05-13T22:25:53.297' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 15, 5375, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 15, 5375, CAST(N'2020-05-13T22:29:49.797' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 16, 250, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 16, 250, CAST(N'2020-05-09T17:40:23.067' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 16, 250, CAST(N'2020-05-13T22:25:53.310' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 16, 250, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 16, 250, CAST(N'2020-05-13T22:29:49.797' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 17, 83, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 17, 83, CAST(N'2020-05-09T17:40:23.080' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 17, 83, CAST(N'2020-05-13T22:25:53.310' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 17, 83, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 17, 83, CAST(N'2020-05-13T22:29:49.810' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 18, 1500, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 18, 1500, CAST(N'2020-05-09T17:40:23.080' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 18, 1500, CAST(N'2020-05-13T22:25:53.310' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 18, 1500, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 18, 1500, CAST(N'2020-05-13T22:29:49.810' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 31, 0, CAST(N'2020-05-09T14:46:58.780' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 31, 0, CAST(N'2020-05-09T17:40:23.080' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 31, 0, CAST(N'2020-05-13T22:25:53.327' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 31, 0, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 31, 0, CAST(N'2020-05-13T22:29:49.827' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 32, 125, CAST(N'2020-05-09T14:46:58.780' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 32, 125, CAST(N'2020-05-09T17:40:23.080' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 32, 125, CAST(N'2020-05-13T22:25:53.327' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 32, 125, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 32, 125, CAST(N'2020-05-13T22:29:49.843' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 33, 125, CAST(N'2020-05-09T14:46:58.780' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 33, 125, CAST(N'2020-05-09T17:40:23.080' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 33, 125, CAST(N'2020-05-13T22:25:53.327' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 33, 125, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (178, 33, 125, CAST(N'2020-05-13T22:29:49.843' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (179, 1, 80, CAST(N'2020-05-09T14:47:25.727' AS DateTime), NULL)
 GO
@@ -2700,11 +2880,15 @@ INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [Th
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (183, 2, 700, CAST(N'2020-05-09T17:32:23.297' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (183, 2, 700, CAST(N'2020-05-13T21:46:43.547' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (183, 7, 0, CAST(N'2020-05-09T14:49:23.937' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (183, 7, 0, CAST(N'2020-05-09T17:32:23.297' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (183, 7, 8.4, CAST(N'2020-05-11T08:40:57.323' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (183, 7, 8.4, CAST(N'2020-05-13T21:46:43.563' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (183, 9, 0, CAST(N'2020-05-11T08:40:57.340' AS DateTime), NULL)
 GO
@@ -2714,11 +2898,15 @@ INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [Th
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (183, 19, 2, CAST(N'2020-05-11T08:40:57.340' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (183, 19, 2, CAST(N'2020-05-13T21:46:43.563' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (184, 2, 800, CAST(N'2020-05-09T14:49:37.047' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (184, 2, 800, CAST(N'2020-05-09T17:32:35.153' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (184, 2, 800, CAST(N'2020-05-11T08:41:16.210' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (184, 2, 800, CAST(N'2020-05-13T22:00:14.420' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (184, 7, 0, CAST(N'2020-05-09T14:49:37.047' AS DateTime), NULL)
 GO
@@ -2726,11 +2914,15 @@ INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [Th
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (184, 7, 0, CAST(N'2020-05-11T08:41:16.210' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (184, 7, 0, CAST(N'2020-05-13T22:00:14.420' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (184, 19, 0, CAST(N'2020-05-09T14:49:37.053' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (184, 19, 0, CAST(N'2020-05-09T17:32:35.153' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (184, 19, 0, CAST(N'2020-05-11T08:41:16.210' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (184, 19, 0, CAST(N'2020-05-13T22:00:14.437' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (185, 2, 500, CAST(N'2020-05-09T14:49:49.327' AS DateTime), NULL)
 GO
@@ -3034,9 +3226,15 @@ INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [Th
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (203, 2, 0, CAST(N'2020-05-11T08:59:36.547' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (203, 2, 0, CAST(N'2020-05-13T21:50:16.300' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (203, 7, 0, CAST(N'2020-05-11T08:59:36.547' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (203, 7, 0, CAST(N'2020-05-13T21:50:16.300' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (203, 19, 0, CAST(N'2020-05-11T08:59:36.547' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (203, 19, 0, CAST(N'2020-05-13T21:50:16.300' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (204, 2, 0, CAST(N'2020-05-11T08:59:47.247' AS DateTime), NULL)
 GO
@@ -3103,6 +3301,380 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (213, 19, 0, CAST(N'2020-05-11T09:01:36.223' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (213, 19, 0, CAST(N'2020-05-11T09:01:39.137' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (214, 3, 0, CAST(N'2020-05-13T22:20:27.053' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (214, 4, 0, CAST(N'2020-05-13T22:20:27.053' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (214, 5, 0, CAST(N'2020-05-13T22:20:27.053' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (214, 10, 0, CAST(N'2020-05-13T22:20:27.070' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (214, 11, 0, CAST(N'2020-05-13T22:20:27.070' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (214, 12, 0, CAST(N'2020-05-13T22:20:27.070' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (214, 13, 0, CAST(N'2020-05-13T22:20:27.070' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (214, 14, 0, CAST(N'2020-05-13T22:20:27.070' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (214, 15, 0, CAST(N'2020-05-13T22:20:27.087' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (214, 16, 0, CAST(N'2020-05-13T22:20:27.087' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (214, 17, 0, CAST(N'2020-05-13T22:20:27.087' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (214, 18, 0, CAST(N'2020-05-13T22:20:27.087' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (214, 31, 0, CAST(N'2020-05-13T22:20:27.087' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (214, 32, 0, CAST(N'2020-05-13T22:20:27.100' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (214, 33, 0, CAST(N'2020-05-13T22:20:27.100' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (215, 1, 0, CAST(N'2020-05-14T11:01:19.457' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (215, 1, 0, CAST(N'2020-05-14T11:05:00.223' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (215, 7, 0, CAST(N'2020-05-14T11:01:19.473' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (215, 7, 0, CAST(N'2020-05-14T11:05:00.223' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (215, 9, 0, CAST(N'2020-05-14T11:01:19.473' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (215, 9, 0, CAST(N'2020-05-14T11:05:00.240' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (215, 19, 0, CAST(N'2020-05-14T11:01:19.473' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (215, 19, 0, CAST(N'2020-05-14T11:05:00.240' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (216, 1, 0, CAST(N'2020-05-14T11:05:29.020' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (216, 7, 0, CAST(N'2020-05-14T11:05:29.020' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (216, 9, 0, CAST(N'2020-05-14T11:05:29.037' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (216, 19, 0, CAST(N'2020-05-14T11:05:29.037' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (217, 1, 0, CAST(N'2020-05-14T11:09:40.197' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (217, 7, 0, CAST(N'2020-05-14T11:09:40.197' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (217, 9, 0, CAST(N'2020-05-14T11:09:40.197' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (217, 19, 0, CAST(N'2020-05-14T11:09:40.210' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (218, 1, 0, CAST(N'2020-05-14T11:10:00.883' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (218, 7, 0, CAST(N'2020-05-14T11:10:00.883' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (218, 9, 0, CAST(N'2020-05-14T11:10:00.883' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (218, 19, 0, CAST(N'2020-05-14T11:10:00.883' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (219, 1, 0, CAST(N'2020-05-14T11:10:17.213' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (219, 7, 0, CAST(N'2020-05-14T11:10:17.213' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (219, 9, 0, CAST(N'2020-05-14T11:10:17.230' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (219, 19, 0, CAST(N'2020-05-14T11:10:17.230' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (220, 1, 0, CAST(N'2020-05-14T11:10:37.433' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (220, 7, 0, CAST(N'2020-05-14T11:10:37.433' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (220, 9, 0, CAST(N'2020-05-14T11:10:37.433' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (220, 19, 0, CAST(N'2020-05-14T11:10:37.433' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (221, 1, 0, CAST(N'2020-05-14T11:10:49.293' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (221, 7, 0, CAST(N'2020-05-14T11:10:49.293' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (221, 9, 0, CAST(N'2020-05-14T11:10:49.293' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (221, 19, 0, CAST(N'2020-05-14T11:10:49.293' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (222, 1, 0, CAST(N'2020-05-14T11:11:04.827' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (222, 1, 0, CAST(N'2020-05-14T20:00:24.103' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (222, 7, 0, CAST(N'2020-05-14T11:11:04.827' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (222, 7, 0, CAST(N'2020-05-14T20:00:24.120' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (222, 9, 0, CAST(N'2020-05-14T11:11:04.827' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (222, 9, 0, CAST(N'2020-05-14T20:00:24.120' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (222, 19, 0, CAST(N'2020-05-14T11:11:04.827' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (222, 19, 0, CAST(N'2020-05-14T20:00:24.120' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (223, 2, 0, CAST(N'2020-05-14T11:11:18.827' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (223, 7, 0, CAST(N'2020-05-14T11:11:18.827' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (223, 19, 0, CAST(N'2020-05-14T11:11:18.827' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (224, 2, 0, CAST(N'2020-05-14T11:11:33.250' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (224, 7, 0, CAST(N'2020-05-14T11:11:33.250' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (224, 19, 0, CAST(N'2020-05-14T11:11:33.250' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (225, 2, 0, CAST(N'2020-05-14T11:11:45.360' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (225, 7, 0, CAST(N'2020-05-14T11:11:45.360' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (225, 19, 0, CAST(N'2020-05-14T11:11:45.360' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (226, 2, 0, CAST(N'2020-05-14T11:11:56.953' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (226, 7, 0, CAST(N'2020-05-14T11:11:56.953' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (226, 19, 0, CAST(N'2020-05-14T11:11:56.953' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (227, 2, 0, CAST(N'2020-05-14T11:12:08.143' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (227, 7, 0, CAST(N'2020-05-14T11:12:08.143' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (227, 19, 0, CAST(N'2020-05-14T11:12:08.143' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (228, 2, 0, CAST(N'2020-05-14T11:12:20.050' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (228, 7, 0, CAST(N'2020-05-14T11:12:20.050' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (228, 19, 0, CAST(N'2020-05-14T11:12:20.050' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (229, 2, 0, CAST(N'2020-05-14T11:12:34.973' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (229, 7, 0, CAST(N'2020-05-14T11:12:34.973' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (229, 19, 0, CAST(N'2020-05-14T11:12:34.973' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (230, 2, 0, CAST(N'2020-05-14T11:12:45.677' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (230, 7, 0, CAST(N'2020-05-14T11:12:45.677' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (230, 19, 0, CAST(N'2020-05-14T11:12:45.690' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (231, 2, 0, CAST(N'2020-05-14T11:13:05.520' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (231, 7, 0, CAST(N'2020-05-14T11:13:05.520' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (231, 19, 0, CAST(N'2020-05-14T11:13:05.520' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (232, 2, 0, CAST(N'2020-05-14T11:13:19.617' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (232, 7, 0, CAST(N'2020-05-14T11:13:19.617' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (232, 19, 0, CAST(N'2020-05-14T11:13:19.617' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (233, 2, 0, CAST(N'2020-05-14T11:13:37.820' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (233, 2, 0, CAST(N'2020-05-14T20:06:37.580' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (233, 7, 0, CAST(N'2020-05-14T11:13:37.820' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (233, 7, 0, CAST(N'2020-05-14T20:06:37.580' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (233, 19, 0, CAST(N'2020-05-14T11:13:37.820' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (233, 19, 0, CAST(N'2020-05-14T20:06:37.580' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (234, 2, 0, CAST(N'2020-05-14T11:13:50.557' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (234, 7, 0, CAST(N'2020-05-14T11:13:50.557' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (234, 19, 0, CAST(N'2020-05-14T11:13:50.557' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (236, 21, 0, CAST(N'2020-05-14T11:18:45.890' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (236, 22, 0, CAST(N'2020-05-14T11:18:45.890' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (236, 23, 0, CAST(N'2020-05-14T11:18:45.903' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (236, 24, 0, CAST(N'2020-05-14T11:18:45.903' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (236, 25, 0, CAST(N'2020-05-14T11:18:45.903' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (236, 26, 0, CAST(N'2020-05-14T11:18:45.920' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (236, 27, 0, CAST(N'2020-05-14T11:18:45.920' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (236, 28, 0, CAST(N'2020-05-14T11:18:45.920' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (236, 30, 0, CAST(N'2020-05-14T11:18:45.920' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (236, 34, 0, CAST(N'2020-05-14T11:18:45.920' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (236, 35, 0, CAST(N'2020-05-14T11:18:45.920' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (237, 1, 0, CAST(N'2020-05-14T12:06:37.273' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (237, 7, 0, CAST(N'2020-05-14T12:06:37.273' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (237, 9, 0, CAST(N'2020-05-14T12:06:37.273' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (237, 19, 0, CAST(N'2020-05-14T12:06:37.273' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (238, 1, 0, CAST(N'2020-05-14T12:07:12.230' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (238, 7, 0, CAST(N'2020-05-14T12:07:12.230' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (238, 9, 0, CAST(N'2020-05-14T12:07:12.230' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (238, 19, 0, CAST(N'2020-05-14T12:07:12.230' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (239, 1, 0, CAST(N'2020-05-14T12:07:33.527' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (239, 7, 0, CAST(N'2020-05-14T12:07:33.527' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (239, 9, 0, CAST(N'2020-05-14T12:07:33.527' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (239, 19, 0, CAST(N'2020-05-14T12:07:33.527' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (240, 1, 0, CAST(N'2020-05-14T12:07:58.780' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (240, 7, 0, CAST(N'2020-05-14T12:07:58.780' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (240, 9, 0, CAST(N'2020-05-14T12:07:58.780' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (240, 19, 0, CAST(N'2020-05-14T12:07:58.780' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (241, 1, 0, CAST(N'2020-05-14T12:13:17.957' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (241, 7, 0, CAST(N'2020-05-14T12:13:17.957' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (241, 9, 0, CAST(N'2020-05-14T12:13:17.957' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (241, 19, 0, CAST(N'2020-05-14T12:13:17.957' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (242, 1, 0, CAST(N'2020-05-14T12:13:37.100' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (242, 7, 0, CAST(N'2020-05-14T12:13:37.100' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (242, 9, 0, CAST(N'2020-05-14T12:13:37.100' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (242, 19, 0, CAST(N'2020-05-14T12:13:37.100' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (243, 1, 0, CAST(N'2020-05-14T12:13:53.270' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (243, 7, 0, CAST(N'2020-05-14T12:13:53.270' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (243, 9, 0, CAST(N'2020-05-14T12:13:53.270' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (243, 19, 0, CAST(N'2020-05-14T12:13:53.270' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (244, 1, 0, CAST(N'2020-05-14T12:14:07.630' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (244, 7, 0, CAST(N'2020-05-14T12:14:07.630' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (244, 9, 0, CAST(N'2020-05-14T12:14:07.630' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (244, 19, 0, CAST(N'2020-05-14T12:14:07.630' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (245, 2, 0, CAST(N'2020-05-14T12:14:23.087' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (245, 7, 0, CAST(N'2020-05-14T12:14:23.087' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (245, 19, 0, CAST(N'2020-05-14T12:14:23.087' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (246, 2, 0, CAST(N'2020-05-14T12:14:38.523' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (246, 7, 0, CAST(N'2020-05-14T12:14:38.523' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (246, 19, 0, CAST(N'2020-05-14T12:14:38.523' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (247, 2, 0, CAST(N'2020-05-14T12:14:53.090' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (247, 7, 0, CAST(N'2020-05-14T12:14:53.090' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (247, 19, 0, CAST(N'2020-05-14T12:14:53.090' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (248, 2, 0, CAST(N'2020-05-14T12:15:06.293' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (248, 7, 0, CAST(N'2020-05-14T12:15:06.293' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (248, 19, 0, CAST(N'2020-05-14T12:15:06.293' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (249, 2, 0, CAST(N'2020-05-14T12:15:16.543' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (249, 7, 0, CAST(N'2020-05-14T12:15:16.543' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (249, 19, 0, CAST(N'2020-05-14T12:15:16.543' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (250, 2, 0, CAST(N'2020-05-14T12:15:28.857' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (250, 7, 0, CAST(N'2020-05-14T12:15:28.857' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (250, 19, 0, CAST(N'2020-05-14T12:15:28.857' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (251, 2, 0, CAST(N'2020-05-14T12:15:38.980' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (251, 7, 0, CAST(N'2020-05-14T12:15:38.980' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (251, 19, 0, CAST(N'2020-05-14T12:15:38.980' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (252, 2, 0, CAST(N'2020-05-14T12:15:52.310' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (252, 7, 0, CAST(N'2020-05-14T12:15:52.310' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (252, 19, 0, CAST(N'2020-05-14T12:15:52.310' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (253, 2, 0, CAST(N'2020-05-14T12:16:14.203' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (253, 7, 0, CAST(N'2020-05-14T12:16:14.203' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (253, 19, 0, CAST(N'2020-05-14T12:16:14.203' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (254, 2, 0, CAST(N'2020-05-14T12:16:26.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (254, 7, 0, CAST(N'2020-05-14T12:16:26.190' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (254, 19, 0, CAST(N'2020-05-14T12:16:26.190' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (255, 2, 0, CAST(N'2020-05-14T12:16:36.220' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (255, 7, 0, CAST(N'2020-05-14T12:16:36.220' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (255, 19, 0, CAST(N'2020-05-14T12:16:36.220' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (256, 6, 0, CAST(N'2020-05-14T12:16:52.283' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (257, 6, 0, CAST(N'2020-05-14T12:16:59.440' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (268, 3, 0, CAST(N'2020-05-14T20:03:38.833' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (268, 4, 0, CAST(N'2020-05-14T20:03:38.833' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (268, 5, 0, CAST(N'2020-05-14T20:03:38.833' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (268, 10, 0, CAST(N'2020-05-14T20:03:38.850' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (268, 11, 0, CAST(N'2020-05-14T20:03:38.850' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (268, 12, 0, CAST(N'2020-05-14T20:03:38.863' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (268, 13, 0, CAST(N'2020-05-14T20:03:38.863' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (268, 14, 0, CAST(N'2020-05-14T20:03:38.863' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (268, 15, 0, CAST(N'2020-05-14T20:03:38.880' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (268, 16, 0, CAST(N'2020-05-14T20:03:38.880' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (268, 17, 0, CAST(N'2020-05-14T20:03:38.880' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (268, 18, 0, CAST(N'2020-05-14T20:03:38.880' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (268, 31, 0, CAST(N'2020-05-14T20:03:38.880' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (268, 32, 0, CAST(N'2020-05-14T20:03:38.880' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [KeHoach], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (268, 33, 0, CAST(N'2020-05-14T20:03:38.880' AS DateTime), NULL)
 GO
 SET IDENTITY_INSERT [dbo].[KeHoachTungThang] ON 
 GO
@@ -3793,6 +4365,106 @@ GO
 INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (343, N'KT3', 2)
 GO
 INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (344, N'KT4', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (345, N'KT2', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (346, N'CTYDH', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (347, N'PXCBT', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (348, N'PXCBT', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (349, N'PXCBT', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (350, N'PXCBT', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (351, N'ĐL3', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (352, N'ĐL3', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (353, N'ĐL5', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (354, N'ĐL7', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (355, N'ĐL8', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (356, N'CTXLM-TKV', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (357, N'CTTL', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (358, N'CTV', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (359, N'CTA', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (360, N'KT2', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (361, N'KT3', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (362, N'KT4', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (363, N'KT5', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (364, N'KT6', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (365, N'KT7', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (366, N'KT8', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (367, N'KT9', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (368, N'KT10', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (369, N'KT11', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (370, N'CTYDH', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (372, N'KCS', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (373, N'ĐL3', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (374, N'ĐL5', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (375, N'ĐL7', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (376, N'ĐL8', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (377, N'CTXLM-TKV', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (378, N'CTTL', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (379, N'CTV', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (380, N'CTA', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (381, N'KT2', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (382, N'KT3', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (383, N'KT4', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (384, N'KT5', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (385, N'KT6', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (386, N'KT7', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (387, N'KT8', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (388, N'KT9', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (389, N'KT10', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (390, N'KT11', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (391, N'CTYDH', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (392, N'KCS', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (403, N'CTA', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (404, N'PXCBT', 2)
+GO
+INSERT [dbo].[header_KeHoachTungThang] ([HeaderID], [MaPhongBan], [ThangID]) VALUES (406, N'KT11', 2)
 GO
 SET IDENTITY_INSERT [dbo].[header_KeHoachTungThang] OFF
 GO
@@ -4506,6 +5178,12 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 1, 2000, CAST(N'2020-05-11T08:56:36.503' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 1, 2000, CAST(N'2020-05-14T11:01:19.457' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 1, 2000, CAST(N'2020-05-14T11:05:00.223' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 1, 2000, CAST(N'2020-05-14T12:06:37.273' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 7, 215, CAST(N'2020-05-05T13:15:05.853' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 7, 215, CAST(N'2020-05-05T18:52:52.050' AS DateTime), NULL)
@@ -4543,6 +5221,12 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 7, 215, CAST(N'2020-05-11T08:39:04.867' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 7, 215, CAST(N'2020-05-11T08:56:36.520' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 7, 215, CAST(N'2020-05-14T11:01:19.473' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 7, 215, CAST(N'2020-05-14T11:05:00.223' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 7, 215, CAST(N'2020-05-14T12:06:37.273' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 9, 40, CAST(N'2020-05-05T13:15:05.857' AS DateTime), N'')
 GO
@@ -4582,6 +5266,12 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 9, 40, CAST(N'2020-05-11T08:56:36.520' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 9, 40, CAST(N'2020-05-14T11:01:19.473' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 9, 40, CAST(N'2020-05-14T11:05:00.240' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 9, 40, CAST(N'2020-05-14T12:06:37.273' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 19, 56, CAST(N'2020-05-05T13:15:05.857' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 19, 56, CAST(N'2020-05-05T18:52:52.050' AS DateTime), NULL)
@@ -4620,6 +5310,12 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 19, 56, CAST(N'2020-05-11T08:56:36.520' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 19, 56, CAST(N'2020-05-14T11:01:19.473' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 19, 56, CAST(N'2020-05-14T11:05:00.240' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (79, 19, 56, CAST(N'2020-05-14T12:06:37.273' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 1, 1800, CAST(N'2020-05-05T13:15:29.407' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 1, 1800, CAST(N'2020-05-05T18:55:14.677' AS DateTime), NULL)
@@ -4647,6 +5343,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 1, 1800, CAST(N'2020-05-11T08:39:49.350' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 1, 1800, CAST(N'2020-05-11T08:57:46.967' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 1, 1800, CAST(N'2020-05-14T11:05:29.020' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 1, 1800, CAST(N'2020-05-14T12:07:12.230' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 7, 245, CAST(N'2020-05-05T13:15:29.407' AS DateTime), N'')
 GO
@@ -4676,6 +5376,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 7, 245, CAST(N'2020-05-11T08:57:46.967' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 7, 245, CAST(N'2020-05-14T11:05:29.020' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 7, 245, CAST(N'2020-05-14T12:07:12.230' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 9, 162, CAST(N'2020-05-05T13:15:29.407' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 9, 162, CAST(N'2020-05-05T18:55:14.677' AS DateTime), NULL)
@@ -4704,6 +5408,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 9, 162, CAST(N'2020-05-11T08:57:46.967' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 9, 162, CAST(N'2020-05-14T11:05:29.037' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 9, 162, CAST(N'2020-05-14T12:07:12.230' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 19, 35, CAST(N'2020-05-05T13:15:29.410' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 19, 35, CAST(N'2020-05-05T18:55:14.677' AS DateTime), NULL)
@@ -4731,6 +5439,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 19, 35, CAST(N'2020-05-11T08:39:49.367' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 19, 35, CAST(N'2020-05-11T08:57:46.967' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 19, 35, CAST(N'2020-05-14T11:05:29.037' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (80, 19, 35, CAST(N'2020-05-14T12:07:12.230' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 1, 2500, CAST(N'2020-05-05T13:16:30.027' AS DateTime), N'')
 GO
@@ -4762,6 +5474,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 1, 2500, CAST(N'2020-05-11T08:58:07.403' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 1, 2500, CAST(N'2020-05-14T11:09:40.197' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 1, 2500, CAST(N'2020-05-14T12:07:33.527' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 7, 215, CAST(N'2020-05-05T13:16:30.027' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 7, 215, CAST(N'2020-05-05T18:56:12.473' AS DateTime), NULL)
@@ -4791,6 +5507,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 7, 215, CAST(N'2020-05-11T08:40:19.460' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 7, 215, CAST(N'2020-05-11T08:58:07.403' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 7, 215, CAST(N'2020-05-14T11:09:40.197' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 7, 215, CAST(N'2020-05-14T12:07:33.527' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 9, 185, CAST(N'2020-05-05T13:16:30.027' AS DateTime), N'')
 GO
@@ -4822,6 +5542,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 9, 185, CAST(N'2020-05-11T08:58:07.403' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 9, 185, CAST(N'2020-05-14T11:09:40.197' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 9, 185, CAST(N'2020-05-14T12:07:33.527' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 19, 50, CAST(N'2020-05-05T13:16:30.027' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 19, 50, CAST(N'2020-05-05T18:56:12.477' AS DateTime), NULL)
@@ -4852,6 +5576,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 19, 50, CAST(N'2020-05-11T08:58:07.403' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 19, 50, CAST(N'2020-05-14T11:09:40.210' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (81, 19, 50, CAST(N'2020-05-14T12:07:33.527' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 1, 2200, CAST(N'2020-05-05T13:16:58.377' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 1, 2200, CAST(N'2020-05-05T18:56:57.703' AS DateTime), NULL)
@@ -4879,6 +5607,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 1, 2200, CAST(N'2020-05-11T08:40:40.963' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 1, 2200, CAST(N'2020-05-11T08:58:23.063' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 1, 2200, CAST(N'2020-05-14T11:10:00.883' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 1, 2200, CAST(N'2020-05-14T12:07:58.780' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 7, 205, CAST(N'2020-05-05T13:16:58.377' AS DateTime), N'')
 GO
@@ -4908,6 +5640,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 7, 205, CAST(N'2020-05-11T08:58:23.063' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 7, 205, CAST(N'2020-05-14T11:10:00.883' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 7, 205, CAST(N'2020-05-14T12:07:58.780' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 9, 50, CAST(N'2020-05-05T13:16:58.377' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 9, 50, CAST(N'2020-05-05T18:56:57.703' AS DateTime), NULL)
@@ -4935,6 +5671,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 9, 50, CAST(N'2020-05-11T08:40:40.980' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 9, 50, CAST(N'2020-05-11T08:58:23.063' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 9, 50, CAST(N'2020-05-14T11:10:00.883' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 9, 50, CAST(N'2020-05-14T12:07:58.780' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 19, 80, CAST(N'2020-05-05T13:16:58.377' AS DateTime), N'')
 GO
@@ -4964,6 +5704,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 19, 80, CAST(N'2020-05-11T08:58:23.063' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 19, 80, CAST(N'2020-05-14T11:10:00.883' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (82, 19, 80, CAST(N'2020-05-14T12:07:58.780' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 1, 1400, CAST(N'2020-05-05T13:23:31.130' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 1, 1400, CAST(N'2020-05-09T11:07:10.237' AS DateTime), NULL)
@@ -4989,6 +5733,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 1, 1400, CAST(N'2020-05-11T08:44:13.913' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 1, 1400, CAST(N'2020-05-11T08:58:36.443' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 1, 1400, CAST(N'2020-05-14T11:10:17.213' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 1, 1400, CAST(N'2020-05-14T12:13:17.957' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 7, 235, CAST(N'2020-05-05T13:23:31.130' AS DateTime), N'')
 GO
@@ -5016,6 +5764,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 7, 235, CAST(N'2020-05-11T08:58:36.443' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 7, 235, CAST(N'2020-05-14T11:10:17.213' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 7, 235, CAST(N'2020-05-14T12:13:17.957' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 9, 0, CAST(N'2020-05-05T13:23:31.130' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 9, 0, CAST(N'2020-05-09T11:07:10.237' AS DateTime), NULL)
@@ -5042,6 +5794,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 9, 0, CAST(N'2020-05-11T08:58:36.443' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 9, 0, CAST(N'2020-05-14T11:10:17.230' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 9, 0, CAST(N'2020-05-14T12:13:17.957' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 19, 10, CAST(N'2020-05-05T13:23:31.130' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 19, 10, CAST(N'2020-05-09T11:07:10.243' AS DateTime), NULL)
@@ -5067,6 +5823,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 19, 10, CAST(N'2020-05-11T08:44:13.913' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 19, 10, CAST(N'2020-05-11T08:58:36.443' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 19, 10, CAST(N'2020-05-14T11:10:17.230' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (83, 19, 10, CAST(N'2020-05-14T12:13:17.957' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (84, 2, 10500, CAST(N'2020-05-05T13:23:58.690' AS DateTime), N'')
 GO
@@ -5096,6 +5856,12 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 2, 20000, CAST(N'2020-05-11T08:59:47.247' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 2, 20000, CAST(N'2020-05-13T22:00:14.420' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 2, 20000, CAST(N'2020-05-14T11:11:33.250' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 2, 20000, CAST(N'2020-05-14T12:14:38.523' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 7, 0, CAST(N'2020-05-05T13:24:08.903' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 7, 0, CAST(N'2020-05-05T18:59:11.300' AS DateTime), NULL)
@@ -5118,6 +5884,12 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 7, 0, CAST(N'2020-05-11T08:59:47.247' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 7, 0, CAST(N'2020-05-13T22:00:14.420' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 7, 0, CAST(N'2020-05-14T11:11:33.250' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 7, 0, CAST(N'2020-05-14T12:14:38.523' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 19, 0, CAST(N'2020-05-05T13:24:08.903' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 19, 0, CAST(N'2020-05-05T18:59:11.300' AS DateTime), NULL)
@@ -5139,6 +5911,12 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 19, 0, CAST(N'2020-05-11T08:41:16.210' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 19, 0, CAST(N'2020-05-11T08:59:47.247' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 19, 0, CAST(N'2020-05-13T22:00:14.437' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 19, 0, CAST(N'2020-05-14T11:11:33.250' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (85, 19, 0, CAST(N'2020-05-14T12:14:38.523' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (86, 2, 12000, CAST(N'2020-05-05T13:24:19.550' AS DateTime), N'')
 GO
@@ -5164,6 +5942,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (86, 2, 12000, CAST(N'2020-05-11T10:03:05.637' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (86, 2, 12000, CAST(N'2020-05-14T11:11:45.360' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (86, 2, 12000, CAST(N'2020-05-14T12:14:53.090' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (86, 7, 0, CAST(N'2020-05-05T13:24:19.550' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (86, 7, 0, CAST(N'2020-05-05T18:59:30.680' AS DateTime), NULL)
@@ -5187,6 +5969,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (86, 7, 0, CAST(N'2020-05-11T09:00:00.740' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (86, 7, 0, CAST(N'2020-05-11T10:03:05.643' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (86, 7, 0, CAST(N'2020-05-14T11:11:45.360' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (86, 7, 0, CAST(N'2020-05-14T12:14:53.090' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (86, 19, 0, CAST(N'2020-05-05T13:24:19.550' AS DateTime), N'')
 GO
@@ -5212,6 +5998,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (86, 19, 0, CAST(N'2020-05-11T10:03:05.643' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (86, 19, 0, CAST(N'2020-05-14T11:11:45.360' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (86, 19, 0, CAST(N'2020-05-14T12:14:53.090' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (87, 2, 11500, CAST(N'2020-05-05T13:24:28.287' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (87, 2, 11500, CAST(N'2020-05-05T18:59:46.960' AS DateTime), NULL)
@@ -5235,6 +6025,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (87, 2, 11500, CAST(N'2020-05-11T09:00:13.130' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (87, 2, 11500, CAST(N'2020-05-11T10:03:22.837' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (87, 2, 11500, CAST(N'2020-05-14T11:11:56.953' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (87, 2, 11500, CAST(N'2020-05-14T12:15:06.293' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (87, 7, 0, CAST(N'2020-05-05T13:24:28.287' AS DateTime), N'')
 GO
@@ -5260,6 +6054,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (87, 7, 0, CAST(N'2020-05-11T10:03:22.837' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (87, 7, 0, CAST(N'2020-05-14T11:11:56.953' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (87, 7, 0, CAST(N'2020-05-14T12:15:06.293' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (87, 19, 0, CAST(N'2020-05-05T13:24:28.287' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (87, 19, 0, CAST(N'2020-05-05T18:59:46.960' AS DateTime), NULL)
@@ -5284,6 +6082,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (87, 19, 0, CAST(N'2020-05-11T10:03:22.837' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (87, 19, 0, CAST(N'2020-05-14T11:11:56.953' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (87, 19, 0, CAST(N'2020-05-14T12:15:06.293' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 2, 11000, CAST(N'2020-05-05T13:24:36.973' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 2, 11000, CAST(N'2020-05-05T19:00:06.960' AS DateTime), NULL)
@@ -5305,6 +6107,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 2, 11000, CAST(N'2020-05-11T08:41:54.147' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 2, 11000, CAST(N'2020-05-11T09:00:24.080' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 2, 11000, CAST(N'2020-05-14T11:12:08.143' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 2, 11000, CAST(N'2020-05-14T12:15:16.543' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 7, 0, CAST(N'2020-05-05T13:24:36.973' AS DateTime), N'')
 GO
@@ -5328,6 +6134,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 7, 0, CAST(N'2020-05-11T09:00:24.080' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 7, 0, CAST(N'2020-05-14T11:12:08.143' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 7, 0, CAST(N'2020-05-14T12:15:16.543' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 19, 0, CAST(N'2020-05-05T13:24:36.973' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 19, 0, CAST(N'2020-05-05T19:00:06.960' AS DateTime), NULL)
@@ -5349,6 +6159,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 19, 0, CAST(N'2020-05-11T08:41:54.147' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 19, 0, CAST(N'2020-05-11T09:00:24.080' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 19, 0, CAST(N'2020-05-14T11:12:08.143' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (88, 19, 0, CAST(N'2020-05-14T12:15:16.543' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (89, 2, 12000, CAST(N'2020-05-05T13:24:46.440' AS DateTime), N'')
 GO
@@ -5372,6 +6186,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (89, 2, 12000, CAST(N'2020-05-11T09:00:39.847' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (89, 2, 12000, CAST(N'2020-05-14T11:12:20.050' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (89, 2, 12000, CAST(N'2020-05-14T12:15:28.857' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (89, 7, 0, CAST(N'2020-05-05T13:24:46.440' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (89, 7, 0, CAST(N'2020-05-05T19:02:08.350' AS DateTime), NULL)
@@ -5394,6 +6212,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (89, 7, 0, CAST(N'2020-05-11T09:00:39.847' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (89, 7, 0, CAST(N'2020-05-14T11:12:20.050' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (89, 7, 0, CAST(N'2020-05-14T12:15:28.857' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (89, 19, 0, CAST(N'2020-05-05T13:24:46.440' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (89, 19, 0, CAST(N'2020-05-05T19:02:08.350' AS DateTime), NULL)
@@ -5415,6 +6237,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (89, 19, 0, CAST(N'2020-05-11T08:42:07.693' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (89, 19, 0, CAST(N'2020-05-11T09:00:39.847' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (89, 19, 0, CAST(N'2020-05-14T11:12:20.050' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (89, 19, 0, CAST(N'2020-05-14T12:15:28.857' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (90, 2, 8000, CAST(N'2020-05-05T13:24:59.630' AS DateTime), N'')
 GO
@@ -5440,6 +6266,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (90, 2, 8000, CAST(N'2020-05-11T09:00:52.007' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (90, 2, 8000, CAST(N'2020-05-14T11:12:34.973' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (90, 2, 8000, CAST(N'2020-05-14T12:15:38.980' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (90, 7, 60, CAST(N'2020-05-05T13:24:59.630' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (90, 7, 60, CAST(N'2020-05-05T19:02:29.650' AS DateTime), NULL)
@@ -5463,6 +6293,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (90, 7, 60, CAST(N'2020-05-11T08:42:21.653' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (90, 7, 60, CAST(N'2020-05-11T09:00:52.007' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (90, 7, 60, CAST(N'2020-05-14T11:12:34.973' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (90, 7, 60, CAST(N'2020-05-14T12:15:38.980' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (90, 19, 0, CAST(N'2020-05-05T13:24:59.630' AS DateTime), N'')
 GO
@@ -5488,6 +6322,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (90, 19, 0, CAST(N'2020-05-11T09:00:52.007' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (90, 19, 0, CAST(N'2020-05-14T11:12:34.973' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (90, 19, 0, CAST(N'2020-05-14T12:15:38.980' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 2, 10000, CAST(N'2020-05-05T13:25:09.910' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 2, 10000, CAST(N'2020-05-05T19:02:45.660' AS DateTime), NULL)
@@ -5511,6 +6349,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 2, 10000, CAST(N'2020-05-11T08:42:39.103' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 2, 10000, CAST(N'2020-05-11T09:01:03.490' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 2, 10000, CAST(N'2020-05-14T11:12:45.677' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 2, 10000, CAST(N'2020-05-14T12:15:52.310' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 7, 0, CAST(N'2020-05-05T13:25:09.910' AS DateTime), N'')
 GO
@@ -5536,6 +6378,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 7, 0, CAST(N'2020-05-11T09:01:03.490' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 7, 0, CAST(N'2020-05-14T11:12:45.677' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 7, 0, CAST(N'2020-05-14T12:15:52.310' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 19, 0, CAST(N'2020-05-05T13:25:09.910' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 19, 0, CAST(N'2020-05-05T19:02:45.660' AS DateTime), NULL)
@@ -5559,6 +6405,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 19, 0, CAST(N'2020-05-11T08:42:39.103' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 19, 0, CAST(N'2020-05-11T09:01:03.490' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 19, 0, CAST(N'2020-05-14T11:12:45.690' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (91, 19, 0, CAST(N'2020-05-14T12:15:52.310' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (92, 2, 12000, CAST(N'2020-05-05T13:25:19.333' AS DateTime), N'')
 GO
@@ -5586,6 +6436,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (92, 2, 12000, CAST(N'2020-05-11T09:01:14.653' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (92, 2, 12000, CAST(N'2020-05-14T11:13:05.520' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (92, 2, 12000, CAST(N'2020-05-14T12:16:14.203' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (92, 7, 0, CAST(N'2020-05-05T13:25:19.333' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (92, 7, 0, CAST(N'2020-05-05T19:02:59.867' AS DateTime), NULL)
@@ -5612,6 +6466,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (92, 7, 0, CAST(N'2020-05-11T09:01:14.653' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (92, 7, 0, CAST(N'2020-05-14T11:13:05.520' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (92, 7, 0, CAST(N'2020-05-14T12:16:14.203' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (92, 19, 0, CAST(N'2020-05-05T13:25:19.333' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (92, 19, 0, CAST(N'2020-05-05T19:02:59.867' AS DateTime), NULL)
@@ -5637,6 +6495,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (92, 19, 0, CAST(N'2020-05-11T08:43:14.327' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (92, 19, 0, CAST(N'2020-05-11T09:01:14.653' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (92, 19, 0, CAST(N'2020-05-14T11:13:05.520' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (92, 19, 0, CAST(N'2020-05-14T12:16:14.203' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (93, 2, 0, CAST(N'2020-05-05T13:25:29.820' AS DateTime), N'')
 GO
@@ -5668,6 +6530,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (93, 2, 12000, CAST(N'2020-05-11T09:01:25.503' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (93, 2, 12000, CAST(N'2020-05-14T11:13:19.617' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (93, 2, 12000, CAST(N'2020-05-14T12:16:26.190' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (93, 7, 12000, CAST(N'2020-05-05T13:25:29.820' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (93, 7, 0, CAST(N'2020-05-05T13:25:37.003' AS DateTime), N'')
@@ -5697,6 +6563,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (93, 7, 0, CAST(N'2020-05-11T08:43:30.077' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (93, 7, 0, CAST(N'2020-05-11T09:01:25.503' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (93, 7, 0, CAST(N'2020-05-14T11:13:19.617' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (93, 7, 0, CAST(N'2020-05-14T12:16:26.190' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (93, 19, 0, CAST(N'2020-05-05T13:25:29.820' AS DateTime), N'')
 GO
@@ -5728,6 +6598,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (93, 19, 0, CAST(N'2020-05-11T09:01:25.503' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (93, 19, 0, CAST(N'2020-05-14T11:13:19.617' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (93, 19, 0, CAST(N'2020-05-14T12:16:26.190' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 2, 0, CAST(N'2020-05-05T13:26:07.827' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 2, 0, CAST(N'2020-05-05T13:26:21.930' AS DateTime), N'')
@@ -5757,6 +6631,12 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 2, 7000, CAST(N'2020-05-11T09:01:36.223' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 2, 7000, CAST(N'2020-05-11T09:01:39.137' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 2, 7000, CAST(N'2020-05-14T11:13:37.820' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 2, 7000, CAST(N'2020-05-14T12:16:36.220' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 2, 7000, CAST(N'2020-05-14T20:06:37.580' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 7, 7000, CAST(N'2020-05-05T13:26:07.827' AS DateTime), N'')
 GO
@@ -5788,6 +6668,12 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 7, 0, CAST(N'2020-05-11T09:01:39.137' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 7, 0, CAST(N'2020-05-14T11:13:37.820' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 7, 0, CAST(N'2020-05-14T12:16:36.220' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 7, 0, CAST(N'2020-05-14T20:06:37.580' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 19, 0, CAST(N'2020-05-05T13:26:07.827' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 19, 0, CAST(N'2020-05-05T13:26:21.930' AS DateTime), N'')
@@ -5818,6 +6704,14 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 19, 0, CAST(N'2020-05-11T09:01:39.137' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 19, 0, CAST(N'2020-05-14T11:13:37.820' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 19, 0, CAST(N'2020-05-14T12:16:36.220' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 19, 0, CAST(N'2020-05-14T20:06:37.580' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (95, 2, 7000, CAST(N'2020-05-14T11:13:50.557' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (95, 6, 160000, CAST(N'2020-05-05T13:27:32.393' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (95, 6, 160000, CAST(N'2020-05-05T19:11:15.887' AS DateTime), NULL)
@@ -5839,6 +6733,16 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (95, 6, 160000, CAST(N'2020-05-09T14:36:58.230' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (95, 6, 160000, CAST(N'2020-05-09T17:35:48.550' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (95, 6, 160000, CAST(N'2020-05-13T22:12:53.867' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (95, 6, 160000, CAST(N'2020-05-14T12:16:52.283' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (95, 6, 160000, CAST(N'2020-05-14T19:55:41.100' AS DateTime), N'')
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (95, 7, 0, CAST(N'2020-05-14T11:13:50.557' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (95, 19, 0, CAST(N'2020-05-14T11:13:50.557' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 3, 5000, CAST(N'2020-05-05T13:30:12.483' AS DateTime), N'')
 GO
@@ -5872,6 +6776,16 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 3, 5000, CAST(N'2020-05-09T17:40:23.020' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 3, 5000, CAST(N'2020-05-13T22:20:27.053' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 3, 5000, CAST(N'2020-05-13T22:25:53.250' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 3, 5000, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 3, 5000, CAST(N'2020-05-13T22:29:49.717' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 3, 5000, CAST(N'2020-05-14T20:03:38.833' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 4, 10000, CAST(N'2020-05-05T13:30:12.483' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 4, 10000, CAST(N'2020-05-05T13:32:35.687' AS DateTime), N'')
@@ -5903,6 +6817,16 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 4, 10000, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 4, 10000, CAST(N'2020-05-09T17:40:23.020' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 4, 10000, CAST(N'2020-05-13T22:20:27.053' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 4, 10000, CAST(N'2020-05-13T22:25:53.263' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 4, 10000, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 4, 10000, CAST(N'2020-05-13T22:29:49.733' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 4, 10000, CAST(N'2020-05-14T20:03:38.833' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 5, 174000, CAST(N'2020-05-05T13:30:12.483' AS DateTime), N'')
 GO
@@ -5936,6 +6860,16 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 5, 174000, CAST(N'2020-05-09T17:40:23.033' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 5, 174000, CAST(N'2020-05-13T22:20:27.053' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 5, 174000, CAST(N'2020-05-13T22:25:53.263' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 5, 174000, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 5, 174000, CAST(N'2020-05-13T22:29:49.750' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 5, 174000, CAST(N'2020-05-14T20:03:38.833' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 10, 8000, CAST(N'2020-05-05T13:30:12.483' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 10, 8000, CAST(N'2020-05-05T13:32:35.687' AS DateTime), N'')
@@ -5967,6 +6901,16 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 10, 8000, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 10, 8000, CAST(N'2020-05-09T17:40:23.033' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 10, 8000, CAST(N'2020-05-13T22:20:27.070' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 10, 8000, CAST(N'2020-05-13T22:25:53.280' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 10, 8000, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 10, 8000, CAST(N'2020-05-13T22:29:49.750' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 10, 8000, CAST(N'2020-05-14T20:03:38.850' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 11, 0, CAST(N'2020-05-05T13:30:12.483' AS DateTime), N'')
 GO
@@ -6000,6 +6944,16 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 11, 0, CAST(N'2020-05-09T17:40:23.050' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 11, 0, CAST(N'2020-05-13T22:20:27.070' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 11, 0, CAST(N'2020-05-13T22:25:53.280' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 11, 0, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 11, 0, CAST(N'2020-05-13T22:29:49.763' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 11, 0, CAST(N'2020-05-14T20:03:38.850' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 12, 6000, CAST(N'2020-05-05T13:30:12.483' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 12, 6000, CAST(N'2020-05-05T13:32:35.687' AS DateTime), N'')
@@ -6031,6 +6985,16 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 12, 6000, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 12, 6000, CAST(N'2020-05-09T17:40:23.050' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 12, 6000, CAST(N'2020-05-13T22:20:27.070' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 12, 6000, CAST(N'2020-05-13T22:25:53.280' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 12, 6000, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 12, 6000, CAST(N'2020-05-13T22:29:49.763' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 12, 6000, CAST(N'2020-05-14T20:03:38.863' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 13, 96000, CAST(N'2020-05-05T13:30:12.483' AS DateTime), N'')
 GO
@@ -6064,6 +7028,16 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 13, 96000, CAST(N'2020-05-09T17:40:23.067' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 13, 96000, CAST(N'2020-05-13T22:20:27.070' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 13, 96000, CAST(N'2020-05-13T22:25:53.297' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 13, 96000, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 13, 96000, CAST(N'2020-05-13T22:29:49.780' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 13, 96000, CAST(N'2020-05-14T20:03:38.863' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 14, 22000, CAST(N'2020-05-05T13:30:12.483' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 14, 22000, CAST(N'2020-05-05T13:32:35.690' AS DateTime), N'')
@@ -6095,6 +7069,16 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 14, 22000, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 14, 22000, CAST(N'2020-05-09T17:40:23.067' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 14, 22000, CAST(N'2020-05-13T22:20:27.070' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 14, 22000, CAST(N'2020-05-13T22:25:53.297' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 14, 22000, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 14, 22000, CAST(N'2020-05-13T22:29:49.780' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 14, 22000, CAST(N'2020-05-14T20:03:38.863' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 15, 140000, CAST(N'2020-05-05T13:30:12.483' AS DateTime), N'')
 GO
@@ -6128,6 +7112,16 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 15, 140000, CAST(N'2020-05-09T17:40:23.067' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 15, 140000, CAST(N'2020-05-13T22:20:27.087' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 15, 140000, CAST(N'2020-05-13T22:25:53.297' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 15, 140000, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 15, 140000, CAST(N'2020-05-13T22:29:49.797' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 15, 140000, CAST(N'2020-05-14T20:03:38.880' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 16, 5000, CAST(N'2020-05-05T13:30:12.487' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 16, 5000, CAST(N'2020-05-05T13:32:35.690' AS DateTime), N'')
@@ -6159,6 +7153,16 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 16, 5000, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 16, 5000, CAST(N'2020-05-09T17:40:23.067' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 16, 5000, CAST(N'2020-05-13T22:20:27.087' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 16, 5000, CAST(N'2020-05-13T22:25:53.310' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 16, 5000, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 16, 5000, CAST(N'2020-05-13T22:29:49.797' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 16, 5000, CAST(N'2020-05-14T20:03:38.880' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 17, 3000, CAST(N'2020-05-05T13:30:12.487' AS DateTime), N'')
 GO
@@ -6192,6 +7196,16 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 17, 3000, CAST(N'2020-05-09T17:40:23.080' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 17, 3000, CAST(N'2020-05-13T22:20:27.087' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 17, 3000, CAST(N'2020-05-13T22:25:53.310' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 17, 3000, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 17, 3000, CAST(N'2020-05-13T22:29:49.810' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 17, 3000, CAST(N'2020-05-14T20:03:38.880' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 18, 30000, CAST(N'2020-05-05T13:30:12.487' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 18, 30000, CAST(N'2020-05-05T13:32:35.690' AS DateTime), N'')
@@ -6223,6 +7237,16 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 18, 30000, CAST(N'2020-05-09T14:46:58.763' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 18, 30000, CAST(N'2020-05-09T17:40:23.080' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 18, 30000, CAST(N'2020-05-13T22:20:27.087' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 18, 30000, CAST(N'2020-05-13T22:25:53.310' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 18, 30000, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 18, 30000, CAST(N'2020-05-13T22:29:49.810' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 18, 30000, CAST(N'2020-05-14T20:03:38.880' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 31, 0, CAST(N'2020-05-05T13:30:12.487' AS DateTime), N'')
 GO
@@ -6256,6 +7280,16 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 31, 0, CAST(N'2020-05-09T17:40:23.080' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 31, 0, CAST(N'2020-05-13T22:20:27.087' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 31, 0, CAST(N'2020-05-13T22:25:53.327' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 31, 0, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 31, 0, CAST(N'2020-05-13T22:29:49.827' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 31, 0, CAST(N'2020-05-14T20:03:38.880' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 32, 3000, CAST(N'2020-05-05T15:52:07.330' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 32, 3000, CAST(N'2020-05-05T19:07:18.107' AS DateTime), NULL)
@@ -6284,6 +7318,16 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 32, 3000, CAST(N'2020-05-09T17:40:23.080' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 32, 3000, CAST(N'2020-05-13T22:20:27.100' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 32, 3000, CAST(N'2020-05-13T22:25:53.327' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 32, 3000, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 32, 3000, CAST(N'2020-05-13T22:29:49.843' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 32, 3000, CAST(N'2020-05-14T20:03:38.880' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 33, 3000, CAST(N'2020-05-05T15:52:07.330' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 33, 3000, CAST(N'2020-05-05T19:07:18.107' AS DateTime), NULL)
@@ -6311,6 +7355,16 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 33, 3000, CAST(N'2020-05-09T14:46:58.780' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 33, 3000, CAST(N'2020-05-09T17:40:23.080' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 33, 3000, CAST(N'2020-05-13T22:20:27.100' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 33, 3000, CAST(N'2020-05-13T22:25:53.327' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 33, 3000, CAST(N'2020-05-13T22:26:41.173' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 33, 3000, CAST(N'2020-05-13T22:29:49.843' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (96, 33, 3000, CAST(N'2020-05-14T20:03:38.880' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 1, 2200, CAST(N'2020-05-11T08:40:57.323' AS DateTime), NULL)
 GO
@@ -6342,6 +7396,14 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 2, 10500, CAST(N'2020-05-11T08:59:36.547' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 2, 10500, CAST(N'2020-05-13T21:46:43.547' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 2, 10500, CAST(N'2020-05-13T21:50:16.300' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 2, 10500, CAST(N'2020-05-14T11:11:18.827' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 2, 10500, CAST(N'2020-05-14T12:14:23.087' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 7, 2000, CAST(N'2020-05-05T14:02:45.317' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 7, 25, CAST(N'2020-05-05T18:57:21.143' AS DateTime), NULL)
@@ -6371,6 +7433,14 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 7, 205, CAST(N'2020-05-11T08:40:57.323' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 7, 25, CAST(N'2020-05-11T08:59:36.547' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 7, 25, CAST(N'2020-05-13T21:46:43.563' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 7, 25, CAST(N'2020-05-13T21:50:16.300' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 7, 25, CAST(N'2020-05-14T11:11:18.827' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 7, 25, CAST(N'2020-05-14T12:14:23.087' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 9, 50, CAST(N'2020-05-11T08:40:57.340' AS DateTime), NULL)
 GO
@@ -6404,6 +7474,14 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 19, 0, CAST(N'2020-05-11T08:59:36.547' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 19, 0, CAST(N'2020-05-13T21:46:43.563' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 19, 0, CAST(N'2020-05-13T21:50:16.300' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 19, 0, CAST(N'2020-05-14T11:11:18.827' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (97, 19, 0, CAST(N'2020-05-14T12:14:23.087' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 1, 200, CAST(N'2020-05-09T10:59:06.257' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 1, 200, CAST(N'2020-05-09T11:06:24.510' AS DateTime), NULL)
@@ -6425,6 +7503,14 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 1, 1900, CAST(N'2020-05-11T08:45:29.590' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 1, 1900, CAST(N'2020-05-11T08:59:22.463' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 1, 200, CAST(N'2020-05-13T22:16:22.570' AS DateTime), N'')
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 1, 200, CAST(N'2020-05-14T11:11:04.827' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 1, 200, CAST(N'2020-05-14T12:14:07.630' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 1, 200, CAST(N'2020-05-14T20:00:24.103' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 7, 110, CAST(N'2020-05-09T10:59:06.273' AS DateTime), N'')
 GO
@@ -6448,6 +7534,14 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 7, 160, CAST(N'2020-05-11T08:59:22.463' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 7, 110, CAST(N'2020-05-13T22:16:22.570' AS DateTime), N'')
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 7, 110, CAST(N'2020-05-14T11:11:04.827' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 7, 110, CAST(N'2020-05-14T12:14:07.630' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 7, 110, CAST(N'2020-05-14T20:00:24.120' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 9, 0, CAST(N'2020-05-09T10:59:06.273' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 9, 0, CAST(N'2020-05-09T11:06:24.527' AS DateTime), NULL)
@@ -6469,6 +7563,14 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 9, 0, CAST(N'2020-05-11T08:45:29.593' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 9, 0, CAST(N'2020-05-11T08:59:22.463' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 9, 0, CAST(N'2020-05-13T22:16:22.587' AS DateTime), N'')
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 9, 0, CAST(N'2020-05-14T11:11:04.827' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 9, 0, CAST(N'2020-05-14T12:14:07.630' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 9, 0, CAST(N'2020-05-14T20:00:24.120' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 19, 0, CAST(N'2020-05-09T10:59:06.277' AS DateTime), N'')
 GO
@@ -6492,6 +7594,14 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 19, 0, CAST(N'2020-05-11T08:59:22.463' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 19, 0, CAST(N'2020-05-13T22:16:22.587' AS DateTime), N'')
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 19, 0, CAST(N'2020-05-14T11:11:04.827' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 19, 0, CAST(N'2020-05-14T12:14:07.630' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (122, 19, 0, CAST(N'2020-05-14T20:00:24.120' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 1, 1900, CAST(N'2020-05-09T10:59:19.933' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 1, 1900, CAST(N'2020-05-09T11:06:40.707' AS DateTime), NULL)
@@ -6513,6 +7623,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 1, 1900, CAST(N'2020-05-11T08:59:06.193' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 1, 1900, CAST(N'2020-05-11T08:59:11.177' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 1, 1900, CAST(N'2020-05-14T11:10:49.293' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 1, 1900, CAST(N'2020-05-14T12:13:53.270' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 7, 160, CAST(N'2020-05-09T10:59:19.933' AS DateTime), N'')
 GO
@@ -6536,6 +7650,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 7, 160, CAST(N'2020-05-11T08:59:11.177' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 7, 160, CAST(N'2020-05-14T11:10:49.293' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 7, 160, CAST(N'2020-05-14T12:13:53.270' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 9, 0, CAST(N'2020-05-09T10:59:19.933' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 9, 0, CAST(N'2020-05-09T11:06:40.707' AS DateTime), NULL)
@@ -6557,6 +7675,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 9, 0, CAST(N'2020-05-11T08:59:06.193' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 9, 0, CAST(N'2020-05-11T08:59:11.177' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 9, 0, CAST(N'2020-05-14T11:10:49.293' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 9, 0, CAST(N'2020-05-14T12:13:53.270' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 19, 0, CAST(N'2020-05-09T10:59:19.933' AS DateTime), N'')
 GO
@@ -6580,6 +7702,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 19, 0, CAST(N'2020-05-11T08:59:11.177' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 19, 0, CAST(N'2020-05-14T11:10:49.293' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (123, 19, 0, CAST(N'2020-05-14T12:13:53.270' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 1, 3000, CAST(N'2020-05-09T11:00:36.643' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 1, 3000, CAST(N'2020-05-09T11:07:28.433' AS DateTime), NULL)
@@ -6601,6 +7727,10 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 1, 3000, CAST(N'2020-05-11T08:58:51.320' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 1, 3000, CAST(N'2020-05-11T08:58:56.757' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 1, 3000, CAST(N'2020-05-14T11:10:37.433' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 1, 3000, CAST(N'2020-05-14T12:13:37.100' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 7, 260, CAST(N'2020-05-09T11:00:36.643' AS DateTime), N'')
 GO
@@ -6624,6 +7754,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 7, 260, CAST(N'2020-05-11T08:58:56.757' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 7, 260, CAST(N'2020-05-14T11:10:37.433' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 7, 260, CAST(N'2020-05-14T12:13:37.100' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 9, 0, CAST(N'2020-05-09T11:00:36.643' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 9, 0, CAST(N'2020-05-09T11:07:28.433' AS DateTime), NULL)
@@ -6646,6 +7780,10 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 9, 0, CAST(N'2020-05-11T08:58:56.757' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 9, 0, CAST(N'2020-05-14T11:10:37.433' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 9, 0, CAST(N'2020-05-14T12:13:37.100' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 19, 0, CAST(N'2020-05-09T11:00:36.643' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 19, 0, CAST(N'2020-05-09T11:07:28.450' AS DateTime), NULL)
@@ -6667,6 +7805,12 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 19, 0, CAST(N'2020-05-11T08:58:51.320' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 19, 0, CAST(N'2020-05-11T08:58:56.773' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 19, 0, CAST(N'2020-05-14T11:10:37.433' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (125, 19, 0, CAST(N'2020-05-14T12:13:37.100' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 6, 160000, CAST(N'2020-05-14T12:16:59.440' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 21, 8000, CAST(N'2020-05-09T11:01:38.307' AS DateTime), N'')
 GO
@@ -6694,6 +7838,8 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 21, 8000, CAST(N'2020-05-11T08:56:01.587' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 21, 8000, CAST(N'2020-05-14T11:18:45.890' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 22, 0, CAST(N'2020-05-09T11:01:38.307' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 22, 0, CAST(N'2020-05-09T11:01:54.790' AS DateTime), N'')
@@ -6719,6 +7865,8 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 22, 0, CAST(N'2020-05-11T08:55:43.717' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 22, 0, CAST(N'2020-05-11T08:56:01.587' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 22, 0, CAST(N'2020-05-14T11:18:45.890' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 23, 6000, CAST(N'2020-05-09T11:01:38.307' AS DateTime), N'')
 GO
@@ -6746,6 +7894,8 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 23, 6000, CAST(N'2020-05-11T08:56:01.587' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 23, 6000, CAST(N'2020-05-14T11:18:45.903' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 24, 96000, CAST(N'2020-05-09T11:01:38.307' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 24, 96000, CAST(N'2020-05-09T11:01:54.790' AS DateTime), N'')
@@ -6771,6 +7921,8 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 24, 96000, CAST(N'2020-05-11T08:55:43.723' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 24, 96000, CAST(N'2020-05-11T08:56:01.587' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 24, 96000, CAST(N'2020-05-14T11:18:45.903' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 25, 22000, CAST(N'2020-05-09T11:01:38.307' AS DateTime), N'')
 GO
@@ -6798,6 +7950,8 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 25, 22000, CAST(N'2020-05-11T08:56:01.587' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 25, 22000, CAST(N'2020-05-14T11:18:45.903' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 26, 140000, CAST(N'2020-05-09T11:01:38.307' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 26, 140000, CAST(N'2020-05-09T11:01:54.790' AS DateTime), N'')
@@ -6823,6 +7977,8 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 26, 140000, CAST(N'2020-05-11T08:55:43.737' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 26, 140000, CAST(N'2020-05-11T08:56:01.590' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 26, 140000, CAST(N'2020-05-14T11:18:45.920' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 27, 5000, CAST(N'2020-05-09T11:01:38.307' AS DateTime), N'')
 GO
@@ -6850,6 +8006,8 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 27, 5000, CAST(N'2020-05-11T08:56:01.590' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 27, 5000, CAST(N'2020-05-14T11:18:45.920' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 28, 3000, CAST(N'2020-05-09T11:01:38.310' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 28, 3000, CAST(N'2020-05-09T11:01:54.790' AS DateTime), N'')
@@ -6875,6 +8033,8 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 28, 3000, CAST(N'2020-05-11T08:55:43.743' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 28, 3000, CAST(N'2020-05-11T08:56:01.590' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 28, 3000, CAST(N'2020-05-14T11:18:45.920' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 30, 0, CAST(N'2020-05-09T11:01:38.310' AS DateTime), N'')
 GO
@@ -6902,6 +8062,8 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 30, 412.8, CAST(N'2020-05-11T08:56:01.597' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 30, 412.8, CAST(N'2020-05-14T11:18:45.920' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 34, 3000, CAST(N'2020-05-09T11:02:48.543' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 34, 3000, CAST(N'2020-05-09T11:07:58.943' AS DateTime), NULL)
@@ -6924,6 +8086,8 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 34, 3000, CAST(N'2020-05-11T08:56:01.600' AS DateTime), NULL)
 GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 34, 3000, CAST(N'2020-05-14T11:18:45.920' AS DateTime), NULL)
+GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 35, 3000, CAST(N'2020-05-09T11:02:48.543' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 35, 3000, CAST(N'2020-05-09T11:07:58.943' AS DateTime), NULL)
@@ -6945,6 +8109,8 @@ GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 35, 3000, CAST(N'2020-05-11T08:55:43.743' AS DateTime), NULL)
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 35, 3000, CAST(N'2020-05-11T08:56:01.600' AS DateTime), NULL)
+GO
+INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (126, 35, 3000, CAST(N'2020-05-14T11:18:45.920' AS DateTime), NULL)
 GO
 SET IDENTITY_INSERT [dbo].[ThucHienTheoNgay] ON 
 GO
@@ -6970,9 +8136,13 @@ INSERT [dbo].[ThucHienTheoNgay] ([NgayID], [Ngay], [NgaySanXuat]) VALUES (10, CA
 GO
 INSERT [dbo].[ThucHienTheoNgay] ([NgayID], [Ngay], [NgaySanXuat]) VALUES (11, CAST(N'2020-05-07' AS Date), 4)
 GO
-INSERT [dbo].[ThucHienTheoNgay] ([NgayID], [Ngay], [NgaySanXuat]) VALUES (12, CAST(N'2020-05-11' AS Date), 6)
+INSERT [dbo].[ThucHienTheoNgay] ([NgayID], [Ngay], [NgaySanXuat]) VALUES (12, CAST(N'2020-05-11' AS Date), 7)
 GO
 INSERT [dbo].[ThucHienTheoNgay] ([NgayID], [Ngay], [NgaySanXuat]) VALUES (13, CAST(N'2020-05-10' AS Date), 6)
+GO
+INSERT [dbo].[ThucHienTheoNgay] ([NgayID], [Ngay], [NgaySanXuat]) VALUES (14, CAST(N'2020-05-14' AS Date), 7)
+GO
+INSERT [dbo].[ThucHienTheoNgay] ([NgayID], [Ngay], [NgaySanXuat]) VALUES (15, CAST(N'2020-05-12' AS Date), 8)
 GO
 SET IDENTITY_INSERT [dbo].[ThucHienTheoNgay] OFF
 GO
@@ -7403,6 +8573,94 @@ GO
 INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT10', 212, 13, 1)
 GO
 INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT11', 213, 13, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'PXCBT', 214, 13, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'ĐL3', 215, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'ĐL5', 216, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'ĐL7', 217, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'ĐL8', 218, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'CTXLM-TKV', 219, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'CTTL', 220, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'CTV', 221, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'CTA', 222, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT1', 223, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT2', 224, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT3', 225, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT4', 226, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT5', 227, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT6', 228, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT7', 229, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT8', 230, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT9', 231, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT10', 232, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT11', 233, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'CTYDH', 234, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KCS', 235, 12, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'ĐL3', 236, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'ĐL5', 237, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'ĐL7', 238, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'ĐL8', 239, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'CTXLM-TKV', 240, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'CTTL', 241, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'CTV', 242, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'CTA', 243, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT1', 244, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT2', 245, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT3', 246, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT4', 247, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT5', 248, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT6', 249, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT7', 250, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT8', 251, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT9', 252, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT10', 253, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KT11', 254, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'CTYDH', 255, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'KCS', 256, 15, 1)
+GO
+INSERT [dbo].[header_ThucHienTheoNgay] ([MaPhongBan], [HeaderID], [NgayID], [Ca]) VALUES (N'PXCBT', 257, 12, 1)
 GO
 SET IDENTITY_INSERT [dbo].[header_ThucHienTheoNgay] OFF
 GO
@@ -8826,7 +10084,7 @@ INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (171, 19, 0, N'null')
 GO
-INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (172, 6, 2623, N'null')
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (172, 6, 4658, N'null')
 GO
 INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (173, 1, 14, N'null')
 GO
@@ -8888,25 +10146,25 @@ INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 5, 0, N'null')
 GO
-INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 10, 13, N'null')
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 10, 135, N'null')
 GO
 INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 11, 0, N'null')
 GO
-INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 12, 0, N'null')
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 12, 115, N'null')
 GO
-INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 13, 1946, N'null')
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 13, 3432, N'null')
 GO
 INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 14, 0, N'null')
 GO
-INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 15, 1310, N'null')
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 15, 4704, N'null')
 GO
-INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 16, 36, N'null')
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 16, 57, N'null')
 GO
-INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 17, 29, N'null')
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 17, 77, N'null')
 GO
-INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 18, 0, N'null')
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 18, 1038, N'null')
 GO
-INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 31, 0, N'null')
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 31, 34, N'null')
 GO
 INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (178, 32, 0, N'null')
 GO
@@ -8944,7 +10202,7 @@ INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (182, 19, 3, N'null')
 GO
-INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (183, 2, 204, N'null')
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (183, 2, 695, N'null')
 GO
 INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (183, 7, 0, N'null')
 GO
@@ -8952,7 +10210,7 @@ INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (184, 2, 1029, N'null')
 GO
-INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (184, 7, 0, N'null')
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (184, 7, 0.5, N'null')
 GO
 INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (184, 19, 0, N'null')
 GO
@@ -9096,7 +10354,7 @@ INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (202, 19, 0, N'null')
 GO
-INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (203, 2, 157, N'null')
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (203, 2, 257, N'null')
 GO
 INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (203, 7, 0, N'null')
 GO
@@ -9161,6 +10419,358 @@ GO
 INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (213, 7, 0, N'null')
 GO
 INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (213, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (214, 3, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (214, 4, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (214, 5, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (214, 10, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (214, 11, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (214, 12, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (214, 13, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (214, 14, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (214, 15, 1350, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (214, 16, 24, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (214, 17, 6, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (214, 18, 652, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (214, 31, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (214, 32, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (214, 33, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (215, 1, 112, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (215, 7, 10, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (215, 9, 3, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (215, 19, 2, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (216, 1, 76, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (216, 7, 11.4, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (216, 9, 5, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (216, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (217, 1, 94, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (217, 7, 9, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (217, 9, 9, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (217, 19, 1.5, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (218, 1, 55, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (218, 7, 10.1, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (218, 9, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (218, 19, 4, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (219, 1, 8, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (219, 7, 5.8, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (219, 9, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (219, 19, 1, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (220, 1, 111, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (220, 7, 9.8, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (220, 9, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (220, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (221, 1, 74, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (221, 7, 7, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (221, 9, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (221, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (222, 1, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (222, 7, 4.5, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (222, 9, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (222, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (223, 2, 679, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (223, 7, 2.4, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (223, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (224, 2, 862, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (224, 7, 2.2, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (224, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (225, 2, 488, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (225, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (225, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (226, 2, 460, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (226, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (226, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (227, 2, 442, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (227, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (227, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (228, 2, 529, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (228, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (228, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (229, 2, 340, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (229, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (229, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (230, 2, 474, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (230, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (230, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (231, 2, 381, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (231, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (231, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (232, 2, 453, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (232, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (232, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (233, 2, 183, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (233, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (233, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (234, 2, 1698, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (234, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (234, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (235, 21, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (235, 22, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (235, 23, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (235, 24, 1395, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (235, 25, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (235, 26, 5522, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (235, 27, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (235, 28, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (235, 30, 10.3, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (235, 34, 996, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (235, 35, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (236, 1, 165, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (236, 7, 8.6, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (236, 9, 3, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (236, 19, 2, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (237, 1, 60, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (237, 7, 12.4, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (237, 9, 6, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (237, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (238, 1, 80, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (238, 7, 6, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (238, 9, 6, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (238, 19, 1.5, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (239, 1, 110, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (239, 7, 9, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (239, 9, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (239, 19, 5, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (240, 1, 4, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (240, 7, 7.2, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (240, 9, 1, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (240, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (241, 1, 175, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (241, 7, 15.4, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (241, 9, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (241, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (242, 1, 88, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (242, 7, 9.8, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (242, 9, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (242, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (243, 1, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (243, 7, 6.7, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (243, 9, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (243, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (244, 2, 644, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (244, 7, 6.3, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (244, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (245, 2, 1111, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (245, 7, 3.2, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (245, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (246, 2, 506, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (246, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (246, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (247, 2, 441, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (247, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (247, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (248, 2, 568, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (248, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (248, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (249, 2, 347, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (249, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (249, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (250, 2, 365, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (250, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (250, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (251, 2, 401, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (251, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (251, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (252, 2, 381, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (252, 7, 1.4, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (252, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (253, 2, 347, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (253, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (253, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (254, 2, 133, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (254, 7, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (254, 19, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (255, 6, 4013, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (256, 6, 4013, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (257, 3, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (257, 4, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (257, 5, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (257, 10, 108, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (257, 11, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (257, 12, 11, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (257, 13, 1275, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (257, 14, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (257, 15, 4475, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (257, 16, 87, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (257, 17, 87, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (257, 18, 1298, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (257, 31, 27, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (257, 32, 0, N'null')
+GO
+INSERT [dbo].[ThucHien_TieuChi_TheoNgay] ([HeaderID], [MaTieuChi], [SanLuong], [GhiChu]) VALUES (257, 33, 0, N'null')
 GO
 INSERT [dbo].[PhongBan_TieuChi] ([MaTieuChi], [MaPhongBan], [Thang], [Nam]) VALUES (1, N'CTA', 5, 2020)
 GO
