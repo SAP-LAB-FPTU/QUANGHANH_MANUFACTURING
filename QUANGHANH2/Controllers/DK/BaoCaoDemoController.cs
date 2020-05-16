@@ -36,7 +36,7 @@ namespace QUANGHANH2.Controllers.DK
 
             var queryKH = @"select department_id,SUM(case when view5.MaTieuChi = 1 then SanLuong else 0 end) as [DAOLO],
                             SUM(case when view5.MaTieuChi = 2 then SanLuong else 0 end) as [KHAITHAC],
-                            SUM(case when view5.MaTieuChi = 7 or view5.MaTieuChi = 9 then SanLuong else 0 end) as [METLO],
+                            SUM(case when view5.MaTieuChi = 7 then SanLuong else 0 end) as [METLO],
                             SUM(case when view5.MaTieuChi = 19 then SanLuong else 0 end) as [XEN], 
                             SUM(case when view5.MaTieuChi = 3 or view5.MaTieuChi = 4 then SanLuong else 0 end) as [LOTHIEN], 
                             SUM(case when t.MaNhomTieuChi = 9 then SanLuong else 0 end) as [TIEUTHU], 

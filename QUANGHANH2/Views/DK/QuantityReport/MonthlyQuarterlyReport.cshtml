@@ -62,23 +62,25 @@
                 <thead>
                     <tr>
                         <th rowspan="3">Nhóm tiêu chí</th>
-                        <th colspan="15">Q1</th>
-                        <th colspan="15">Q2</th>
-                        <th colspan="15">Q3</th>
+                        <th colspan="12">Q1</th>
+                        <th colspan="12">Q2</th>
+                        <th colspan="12">Q3</th>
+                        <th colspan="12">Q4</th>
                         <th colspan="5" rowspan="2">Cả năm</th>
                     </tr>
                     <tr>
                         <th colspan="3">THÁNG 1</th>
                         <th colspan="3">THÁNG 2</th>
                         <th colspan="3">THÁNG 3</th>
-                        <th colspan="3">THÁNG 4</th>
                         <th colspan="3">Tổng Quý</th>
+                        <th colspan="3">THÁNG 4</th>
                         <th colspan="3">THÁNG 5</th>
                         <th colspan="3">THÁNG 6</th>
+                        <th colspan="3">Tổng Quý</th>
                         <th colspan="3">THÁNG 7</th>
                         <th colspan="3">THÁNG 8</th>
-                        <th colspan="3">Tổng Quý</th>
                         <th colspan="3">THÁNG 9</th>
+                        <th colspan="3">Tổng Quý</th>
                         <th colspan="3">THÁNG 10</th>
                         <th colspan="3">THÁNG 11</th>
                         <th colspan="3">THÁNG 12</th>
@@ -131,7 +133,9 @@
                         <th>KH</th>
                         <th>Tỷ lệ</th>
                         <th>TH</th>
-                        @*<th>KH</th>*@
+                        <th>KH</th>
+                        <th>Tỷ lệ</th>
+                        <th>TH</th>
                         <th>KHBD</th>
                         <th>KHDC</th>
                         <th>Tỷ lệ</th>
@@ -191,12 +195,15 @@
                 if (response.success == true) {
                     data = JSON.parse(response.data);
                     content = "";
-                    tieuchiName = ["Jan", "JanKH", "JanPor", "Feb", "FebKH", "FebPor", "March", "MarchKH", "MarchPor", "April", "AprilKH", "AprilPor", "Q1", "Q1KH", "Q1Por", "May", "MayKH", "MayPor", "June", "JuneKH", "JunePor", "July",
-                        "JulyKH", "JulyPor", "Aug", "AugKH", "AugPor", "Q2", "Q2KH", "Q2Por", "Sep", "SepKH", "SepPor", "Oct", "OctKH", "OctPor", "Nov", "NovKH", "NovPor", "Dec", "DecKH", "DecPor", "Q3", "Q3KH", "Q3Por", "totalYear", "firstPlan", "adjustedPlan", "totalYearPor"]
+                    tieuchiName = ["Jan", "JanKH", "JanPor", "Feb", "FebKH", "FebPor", "March", "MarchKH", "MarchPor", "Q1", "Q1KH", "Q1Por",
+                                    "April", "AprilKH", "AprilPor", "May", "MayKH", "MayPor", "June", "JuneKH", "JunePor", "Q2", "Q2KH", "Q2Por",
+                                    "July", "JulyKH", "JulyPor", "Aug", "AugKH", "AugPor", "Sep", "SepKH", "SepPor", "Q3", "Q3KH", "Q3Por",
+                                    "Oct", "OctKH", "OctPor", "Nov", "NovKH", "NovPor", "Dec", "DecKH", "DecPor", "Q4", "Q4KH", "Q4Por",
+                                    "totalYear", "firstPlan", "adjustedPlan", "totalYearPor"]
                     for (let index = 0; index < data.length; index++) {
                         content += "<tr>"
                         if (data[index]["isHeader"]) {
-                            content += "<td colspan=\"50\"><b>" + data[index]["TenPhongBan"] + "</b></td>"
+                            content += "<td colspan=\"53\"><b>" + data[index]["TenPhongBan"] + "</b></td>"
                         } else {
                             content += "<th>" + data[index]["TenNhomTieuChi"] + "</th>"
                         }

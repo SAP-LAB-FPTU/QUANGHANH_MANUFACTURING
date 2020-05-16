@@ -16,7 +16,7 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
         [Route("ban-giam-doc/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-thang-quy")]
         public ActionResult getView()
         {
-            return View("/Views/BGD/QuantityReport/MonthyQuarterly.cshtml");
+            return View("/Views/DK/QuantityReport/MonthlyQuarterlyReport.cshtml");
         }
         //
         [HttpPost]
@@ -24,8 +24,15 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
         public ActionResult getDataFromDB()
         {
             int year = Int32.Parse(Request["years"]);
-            var query = @"select tmp5.*,Department.department_name as TenPhongBan,NhomTieuChi.TenNhomTieuChi from (
-                            select tmp4.*, (Jan + Feb + March + April) as [Q1],(May + June + July + Aug) as [Q2],(Sep + Oct + Nov + [Dec]) as [Q3],(Jan + Feb + March + April + May + June + July + Aug + Sep + Oct + Nov + [Dec]) as [totalYear] from 
+            var query = @"select tmp5.*,
+                            Department.department_name as TenPhongBan,
+                            NhomTieuChi.TenNhomTieuChi from (
+                            select tmp4.*, 
+                            (Jan + Feb + March) as [Q1],
+                            (April + May + June) as [Q2],
+                            (July + Aug + Sep) as [Q3],
+                            (Oct + Nov + [Dec]) as [Q4],
+                            (Jan + Feb + March + April + May + June + July + Aug + Sep + Oct + Nov + [Dec]) as [totalYear] from 
                             (select MaNhomTieuChi, MaPhongBan, 
                             SUM(Jan) as [Jan], SUM([Feb]) as [Feb],SUM([March]) as [March],SUM([April]) as [April], 
                             SUM([May]) as [May],SUM([June]) as [June],SUM([July]) as [July],SUM([Aug]) as [Aug],  SUM([Sep]) as [Sep],SUM([Oct]) as [Oct],SUM([Nov]) as [Nov],SUM([Dec]) as [Dec] 
@@ -68,15 +75,22 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                             order by MaPhongBan,MaNhomTieuChi";
             //
             var queryKH = @"select MaPhongBan,MaNhomTieuChi,
-                            SUM(case when tmp6.ThangKeHoach = 1 then SanLuong else 0 end) as [Jan],SUM(case when tmp6.ThangKeHoach = 2 then SanLuong else 0 end) as [Feb], 
-                            SUM(case when tmp6.ThangKeHoach = 3 then SanLuong else 0 end) as [March], SUM(case when tmp6.ThangKeHoach = 4 then SanLuong else 0 end) as [April], 
-                            SUM(case when((tmp6.ThangKeHoach = 4) or(tmp6.ThangKeHoach = 1) or(tmp6.ThangKeHoach = 2) or(tmp6.ThangKeHoach = 3)) then SanLuong else 0 end) as [Q1],
-                            SUM(case when tmp6.ThangKeHoach = 5 then SanLuong else 0 end) as [May], SUM(case when tmp6.ThangKeHoach = 6 then SanLuong else 0 end) as [June],
-                            SUM(case when tmp6.ThangKeHoach = 7 then SanLuong else 0 end) as [July], SUM(case when tmp6.ThangKeHoach = 8 then SanLuong else 0 end) as [Aug], 
-                            SUM(case when((tmp6.ThangKeHoach = 5) or(tmp6.ThangKeHoach = 6) or(tmp6.ThangKeHoach = 7) or(tmp6.ThangKeHoach = 8)) then SanLuong else 0 end) as [Q2], 
-                            SUM(case when tmp6.ThangKeHoach = 9 then SanLuong else 0 end) as [Sep],SUM(case when tmp6.ThangKeHoach = 10 then SanLuong else 0 end) as [Oct],
-                            SUM(case when tmp6.ThangKeHoach = 11 then SanLuong else 0 end) as [Nov],SUM(case when tmp6.ThangKeHoach = 12 then SanLuong else 0 end) as [Dec], 
-                            SUM(case when((tmp6.ThangKeHoach = 9) or(tmp6.ThangKeHoach = 10) or(tmp6.ThangKeHoach = 11) or(tmp6.ThangKeHoach = 12)) then SanLuong else 0 end) as [Q3] 
+                            SUM(case when tmp6.ThangKeHoach = 1 then SanLuong else 0 end) as [Jan],
+                            SUM(case when tmp6.ThangKeHoach = 2 then SanLuong else 0 end) as [Feb], 
+                            SUM(case when tmp6.ThangKeHoach = 3 then SanLuong else 0 end) as [March], 
+                            SUM(case when((tmp6.ThangKeHoach = 1) or(tmp6.ThangKeHoach = 2) or(tmp6.ThangKeHoach = 3)) then SanLuong else 0 end) as [Q1],
+                            SUM(case when tmp6.ThangKeHoach = 4 then SanLuong else 0 end) as [April], 
+                            SUM(case when tmp6.ThangKeHoach = 5 then SanLuong else 0 end) as [May], 
+                            SUM(case when tmp6.ThangKeHoach = 6 then SanLuong else 0 end) as [June],
+                            SUM(case when((tmp6.ThangKeHoach = 4) or(tmp6.ThangKeHoach = 5) or(tmp6.ThangKeHoach = 6)) then SanLuong else 0 end) as [Q2],
+                            SUM(case when tmp6.ThangKeHoach = 7 then SanLuong else 0 end) as [July], 
+                            SUM(case when tmp6.ThangKeHoach = 8 then SanLuong else 0 end) as [Aug], 
+                            SUM(case when tmp6.ThangKeHoach = 9 then SanLuong else 0 end) as [Sep],
+                            SUM(case when((tmp6.ThangKeHoach = 7) or(tmp6.ThangKeHoach = 8) or(tmp6.ThangKeHoach = 9)) then SanLuong else 0 end) as [Q3], 
+                            SUM(case when tmp6.ThangKeHoach = 10 then SanLuong else 0 end) as [Oct],
+                            SUM(case when tmp6.ThangKeHoach = 11 then SanLuong else 0 end) as [Nov],
+                            SUM(case when tmp6.ThangKeHoach = 12 then SanLuong else 0 end) as [Dec], 
+                            SUM(case when((tmp6.ThangKeHoach = 10) or(tmp6.ThangKeHoach = 11) or(tmp6.ThangKeHoach = 12)) then SanLuong else 0 end) as [Q4] 
                             from (select MaPhongBan, SanLuong, ThangKeHoach, MaNhomTieuChi from 
                             (select tmp3.MaPhongBan, tmp3.MaTieuChi, (case when tmp4.SanLuong is null then 0 else tmp4.SanLuong end) as [SanLuong],(case when tmp4.ThangKeHoach is null then 1 else tmp4.ThangKeHoach end) as [ThangKeHoach] from( 
                             select distinct MaTieuChi, MaPhongBan from ThucHien_TieuChi_TheoNgay as a 
@@ -230,21 +244,19 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                 //         }
                 //Thu Tu In Ra Theo Ten Phong Ban
                 //
-                var departmentName = new string[] { "Phân xưởng khai thác 1", "Phân xưởng khai thác 2", "Phân xưởng khai thác 3", "Phân xưởng khai thác 4","Phân xưởng khai thác 5",
-                                                    "Phân xưởng khai thác 6", "Phân xưởng khai thác 7", "Phân xưởng khai thác 8", "Phân xưởng khai thác 9","Phân xưởng khai thác 10",
-                                                    "Phân xưởng khai thác 11", "Phân xưởng đào lò 3", "Phân xưởng đào lò 5", "Phân xưởng đào lò 7","Phân xưởng đào lò 8",
-                                                    "Phân xưởng chế biến than","Phân xưởng vận tải lò 1","Phân xưởng vận tải lò 2"};
+
+                var departmentName = db.Departments.Where(x => x.department_type.Contains("Phân xưởng sản xuất chính") || x.department_type.Contains("Đơn vị sản xuất thuê ngoài")).OrderBy(x => x.department_name).ToList();
                 //
                 List<ChiTietBaoCao_Object> listBaoCao = new List<ChiTietBaoCao_Object>();
-                for (var index = 0; index < departmentName.Length; index++)
+                for (var index = 0; index < departmentName.Count; index++)
                 {
                     ChiTietBaoCao_Object bcHeader = new ChiTietBaoCao_Object();
-                    bcHeader.TenPhongBan = departmentName[index];
+                    bcHeader.TenPhongBan = departmentName[index].department_name;
                     bcHeader.isHeader = true;
                     listBaoCao.Add(bcHeader);
                     for (var index2 = 0; index2 < listTH.Count; index2++)
                     {
-                        if (listTH[index2].TenPhongBan == departmentName[index])
+                        if (listTH[index2].TenPhongBan == departmentName[index].department_name)
                         {
                             ChiTietBaoCao_Object bc = new ChiTietBaoCao_Object();
                             bc.Jan = listTH[index2].Jan;
@@ -262,6 +274,7 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                             bc.Q1 = listTH[index2].Q1;
                             bc.Q2 = listTH[index2].Q2;
                             bc.Q3 = listTH[index2].Q3;
+                            bc.Q4 = listTH[index2].Q4;
                             bc.totalYear = listTH[index2].totalYear;
                             bc.isHeader = false;
                             bc.TenNhomTieuChi = listTH[index2].TenNhomTieuChi;
@@ -281,6 +294,7 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                             bc.Q1KH = listKH[index2].Q1;
                             bc.Q2KH = listKH[index2].Q2;
                             bc.Q3KH = listKH[index2].Q3;
+                            bc.Q4KH = listKH[index2].Q3;
                             //
                             bc.adjustedPlan = listKHDC_BD[index2].KHDC;
                             bc.firstPlan = listKHDC_BD[index2].KHBD;
@@ -347,6 +361,10 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                             {
                                 bc.Q3Por = string.Format("{0:0.00}", 100 * bc.Q3 / bc.Q3KH);
                             }
+                            if (bc.Q4KH != 0)
+                            {
+                                bc.Q4Por = string.Format("{0:0.00}", 100 * bc.Q4 / bc.Q4KH);
+                            }
                             if (bc.totalYearKH != 0)
                             {
                                 bc.totalYearPor = string.Format("{0:0.00}", 100 * bc.totalYear / bc.totalYearKH);
@@ -389,6 +407,7 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
         public double Q1 { get; set; }
         public double Q2 { get; set; }
         public double Q3 { get; set; }
+        public double Q4 { get; set; }
         public double totalYear { get; set; }
     }
     //
@@ -409,6 +428,7 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
         public double Q1KH { get; set; }
         public double Q2KH { get; set; }
         public double Q3KH { get; set; }
+        public double Q4KH { get; set; }
         public double totalYearKH { get; set; }
     }
 
@@ -429,6 +449,7 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
         public double Q1 { get; set; }
         public double Q2 { get; set; }
         public double Q3 { get; set; }
+        public double Q4 { get; set; }
         public double JanKH { get; set; }
         public double FebKH { get; set; }
         public double MarchKH { get; set; }
@@ -444,6 +465,7 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
         public double Q1KH { get; set; }
         public double Q2KH { get; set; }
         public double Q3KH { get; set; }
+        public double Q4KH { get; set; }
         public double totalYear { get; set; }
         public double totalYearKH { get; set; }
         public string totalYearPor { get; set; }
@@ -462,6 +484,7 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
         public string Q1Por { get; set; }
         public string Q2Por { get; set; }
         public string Q3Por { get; set; }
+        public string Q4Por { get; set; }
 
         public double firstPlan { get; set; }
         public double adjustedPlan { get; set; }
