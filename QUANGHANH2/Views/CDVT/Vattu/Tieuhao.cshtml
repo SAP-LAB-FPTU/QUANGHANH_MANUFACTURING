@@ -285,6 +285,12 @@
                         return json.data;
                     }
                 },
+                "drawCallback": function (settings) {
+                    ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    ////////////////////////////////////////////////
+                },
                     "columns": [
                         { "data": "SupplyId", "name": "SupplyId" },
                         { "data": "SupplyName", "name": "SupplyName" },
@@ -296,7 +302,7 @@
                         { "data": "SupplyEviction", "name": "SupplyEviction" },
                         {
                             "data": {}, "render": function (data) {
-                            return "<a href=\"#mysupplydetail\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\"  data-supply=\"" + data.SupplyId+"-"+data.DepartmentName+ "\">Chi&nbsp;Tiết&nbsp;Tiêu&nbsp;Hao</a>";
+                            return "<a href=\"#mysupplydetail\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\"  data-supply=\"" + data.SupplyId+"^"+data.DepartmentName+ "\">Chi&nbsp;Tiết&nbsp;Tiêu&nbsp;Hao</a>";
                         },
                         "orderable": false,
                         "searchable": false,
@@ -346,7 +352,13 @@
                                 return val
                             },
                             "year": function () { return $('#txtyear').val() },
-                        },
+                    },
+                    "drawCallback": function (settings) {
+                        ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        ////////////////////////////////////////////////
+                    },
                        "dataSrc": function (json) {
                         index = 1;
                         if (isFirstInit) {
@@ -489,7 +501,7 @@
             $("#supplyDetail").find("tr:gt(0)").remove();
             var maintainid = $(this).data('supply');
                  var words = [];
-                 words = maintainid.split("-");
+                 words = maintainid.split("^");
             $.ajax({
                 type: "POST",
                 url: "/phong-cdvt/vat-tu/tieu-hao/getsupplydetail",
