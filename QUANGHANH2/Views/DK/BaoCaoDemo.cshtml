@@ -60,13 +60,13 @@
         border: 1px solid;
     }
 
-    th#odd {
-        background-color: yellow !important
-    }
+        th#odd {
+            background-color: yellow !important
+        }
 
-    th#even {
-        background-color: #99cc00 !important
-    }
+        th#even {
+            background-color: #99cc00 !important
+        }
 
     .table-bordered th {
         vertical-align: middle !important;
@@ -170,21 +170,21 @@
     <thead>
         <tr>
             <th rowspan="4">KH</th>
-            <th colspan="4">PX Đào Lò 3</th>
-            <th colspan="4">PX Đào Lò 5</th>
-            <th colspan="4">PX Đào Lò 7</th>
-            <th colspan="4">PX Đào Lò 8</th>
-            <th colspan="2">PX Khai Thác 1</th>
-            <th colspan="2">PX Khai Thác 2</th>
-            <th colspan="2">PX Khai Thác 3</th>
-            <th colspan="2">PX Khai Thác 4</th>
-            <th colspan="2">PX Khai Thác 5</th>
-            <th colspan="2">PX Khai Thác 6</th>
-            <th colspan="2">PX Khai Thác 7</th>
-            <th colspan="2">PX Khai Thác 8</th>
-            <th colspan="2">PX Khai Thác 9</th>
-            <th colspan="2">PX Khai Thác 10</th>
-            <th colspan="2">PX Khai Thác 11</th>
+            <th colspan="4" id="ĐL3">PX Đào Lò 3</th>
+            <th colspan="4" id="ĐL5">PX Đào Lò 5</th>
+            <th colspan="4" id="ĐL7">PX Đào Lò 7</th>
+            <th colspan="4" id="ĐL8">PX Đào Lò 8</th>
+            <th colspan="2" id="KT1">PX Khai Thác 1</th>
+            <th colspan="2" id="KT2">PX Khai Thác 2</th>
+            <th colspan="2" id="KT3">PX Khai Thác 3</th>
+            <th colspan="2" id="KT4">PX Khai Thác 4</th>
+            <th colspan="2" id="KT5">PX Khai Thác 5</th>
+            <th colspan="2" id="KT6">PX Khai Thác 6</th>
+            <th colspan="2" id="KT7">PX Khai Thác 7</th>
+            <th colspan="2" id="KT8">PX Khai Thác 8</th>
+            <th colspan="2" id="KT9">PX Khai Thác 9</th>
+            <th colspan="2" id="KT10">PX Khai Thác 10</th>
+            <th colspan="2" id="KT11">PX Khai Thác 11</th>
             <th colspan="14">Kế hoạch các chỉ tiêu chủ yếu</th>
         </tr>
         <tr>
@@ -381,10 +381,18 @@
                     let duonghuy = 0;
                     let trong = 0;
                     let ngoai = 0;
-                    for (var j = 0; j < 16; j++) {
-                        $('#mainTable thead tr:eq(1) th:eq(' + j + ') span').text(response.listKH[j].DAOLO + response.listKH[j].KHAITHAC + response.listKH[j].LOTHIEN);
-                        $('#mainTable thead tr:eq(2) th:eq(' + j + ') span').text(response.listKH[j].METLO);
-                        $('#mainTable thead tr:eq(3) th:eq(' + j + ') span').text(response.listKH[j].XEN);
+                    //
+                    var listHeader = $('#mainTable thead tr:eq(0) th');
+                    for (var j = 0; j < listHeader.length; j++) {
+                        var valueHeaderHTML = listHeader[j].id;
+                        for (var k = 0; k < response.listKH.length; k++) {
+                            if (response.listKH[k].department_id == valueHeaderHTML) {
+                                $('#mainTable thead tr:eq(1) th:eq(' + (j-1) + ') span').text(response.listKH[k].DAOLO + response.listKH[k].KHAITHAC + response.listKH[k].LOTHIEN);
+                                $('#mainTable thead tr:eq(2) th:eq(' + (j-1) + ') span').text(response.listKH[k].METLO);
+                                $('#mainTable thead tr:eq(3) th:eq(' + (j-1) + ') span').text(response.listKH[k].XEN);
+                                break;
+                            }
+                        }
                         doanhthu += response.listKH[j].DOANHTHU;
                         metlo += response.listKH[j].METLO;
                         lothien += response.listKH[j].LOTHIEN;
