@@ -267,7 +267,7 @@
                     {
                         "data": {}, "render": function (data) {
                             if (data.documentary_type == '1' || data.documentary_type == '2' || data.documentary_type == '6')
-                                return "<a class=\"vattu btn blue darken-2 modal-trigger\" data-type=" + data.documentary_type + " data-equipment=\"" + data.equipmentId + "\" data-attach=\"" + data.attach_to + "\" href=\"#vattu\">Vật tư cần</a>";
+                                return "<a class=\"vattu btn blue darken-2 modal-trigger\" data-id=" + data.documentary_id + " data-type=" + data.documentary_type + " data-equipment=\"" + data.equipmentId + "\" data-attach=\"" + data.attach_to + "\" href=\"#vattu\">Vật tư cần</a>";
                             else if (data.documentary_type == '3')
                                 return "<a data-id=\"" + data.documentary_id + "\" data-equipmentId=\"" + data.equipmentId + "\" class=\"waves-effect waves-light btn-small blue modal-trigger dikem-duphong\" href=\"#thietbicon\">Chi tiết TB con</a>";
                             else if (data.di_kem || data.can)
@@ -281,7 +281,7 @@
                     {
                         "data": {}, "render": function (data) {
                             if ((data.documentary_type == '1' || data.documentary_type == '2' || data.documentary_type == '6') && data.attach_to == null)
-                                return "<a class=\"thietbi btn blue darken-2 modal-trigger\" data-type=" + data.documentary_type + " data-equipment=\"" + data.equipmentId + "\" data-attach=\"" + data.attach_to + "\" href=\"#thietbi\">Thiết&nbsp;bị&nbsp;con&nbsp;cần</a>";
+                                return "<a class=\"thietbi btn blue darken-2 modal-trigger\" data-id=" + data.documentary_id + " data-type=" + data.documentary_type + " data-equipment=\"" + data.equipmentId + "\" data-attach=\"" + data.attach_to + "\" href=\"#thietbi\">Thiết&nbsp;bị&nbsp;con&nbsp;cần</a>";
                             else if ((data.documentary_type == '1' || data.documentary_type == '2' || data.documentary_type == '6') && data.attach_to != null)
                                 return "";
                             else if (data.documentary_type == "3")
@@ -334,6 +334,7 @@
             equipmentId = $(this).data("equipment");
             documentary_type = $(this).data("type");
             attach_to = $(this).data("attach");
+            documentary_id = $(this).data("id");
             $.ajax({
                 url: "/phong-cdvt/quyet-dinh/sua-chua/nghiem-thu/GetData",
                 method: "post",
@@ -343,7 +344,8 @@
                     equipmentId: equipmentId,
                     documentary_type: documentary_type,
                     attach_to: attach_to,
-                    isSupply: true
+                    isSupply: true,
+                    documentary_id: documentary_id
                 },
                 success: function (response) {
                     if (response.success) {
@@ -373,6 +375,7 @@
             equipmentId = $(this).data("equipment");
             documentary_type = $(this).data("type");
             attach_to = $(this).data("attach");
+            documentary_id = $(this).data("id");
             $.ajax({
                 url: "/phong-cdvt/quyet-dinh/sua-chua/nghiem-thu/GetData",
                 method: "post",
@@ -382,7 +385,8 @@
                     equipmentId: equipmentId,
                     documentary_type: documentary_type,
                     attach_to: attach_to,
-                    isSupply: false
+                    isSupply: false,
+                    documentary_id: documentary_id
                 },
                 success: function (response) {
                     if (response.success) {

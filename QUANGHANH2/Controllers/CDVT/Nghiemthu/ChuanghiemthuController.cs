@@ -515,7 +515,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         [Auther(RightID = "82")]
         [HttpPost]
         [Route("phong-cdvt/quyet-dinh/sua-chua/nghiem-thu/GetData")]
-        public ActionResult GetDetail(string equipmentId, string attach_to, bool isSupply, int documentary_type)
+        public ActionResult GetDetail(string equipmentId, string attach_to, bool isSupply, int documentary_type, int documentary_id)
         {
             attach_to = attach_to == "" ? null : attach_to;
             try
@@ -528,7 +528,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             var list = (from a in db.Supplies
                                         join b in db.Supply_Documentary_Repair_Equipment on a.supply_id equals b.supply_id
                                         join c in db.Documentary_repair_details on b.documentary_repair_id equals c.documentary_repair_id
-                                        where c.equipmentId == equipmentId && c.attach_to == attach_to
+                                        where c.equipmentId == equipmentId && c.attach_to == attach_to && c.documentary_id == documentary_id
                                         select new
                                         {
                                             a.supply_id,
@@ -546,7 +546,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             var list = (from a in db.Equipments
                                         join b in db.Supply_Documentary_Repair_Equipment on a.equipmentId equals b.equipmentId
                                         join c in db.Documentary_repair_details on b.documentary_repair_id equals c.documentary_repair_id
-                                        where c.equipmentId == equipmentId && c.attach_to == attach_to
+                                        where c.equipmentId == equipmentId && c.attach_to == attach_to && c.documentary_id == documentary_id
                                         select new
                                         {
                                             a.equipmentId,
@@ -565,7 +565,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             var list = (from a in db.Supplies
                                         join b in db.Supply_Documentary_Maintain_Equipment on a.supply_id equals b.supply_id
                                         join c in db.Documentary_maintain_details on b.documentary_maintain_id equals c.documentary_maintain_id
-                                        where c.equipmentId == equipmentId && c.attach_to == attach_to
+                                        where c.equipmentId == equipmentId && c.attach_to == attach_to && c.documentary_id == documentary_id
                                         select new
                                         {
                                             a.supply_id,
@@ -583,7 +583,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             var list = (from a in db.Equipments
                                         join b in db.Supply_Documentary_Maintain_Equipment on a.equipmentId equals b.equipmentId
                                         join c in db.Documentary_maintain_details on b.documentary_maintain_id equals c.documentary_maintain_id
-                                        where c.equipmentId == equipmentId && c.attach_to == attach_to
+                                        where c.equipmentId == equipmentId && c.attach_to == attach_to && c.documentary_id == documentary_id
                                         select new
                                         {
                                             a.equipmentId,
@@ -602,7 +602,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             var list = (from a in db.Supplies
                                         join b in db.Supply_Documentary_Big_Maintain_Equipment on a.supply_id equals b.supply_id
                                         join c in db.Documentary_big_maintain_details on b.documentary_big_maintain_id equals c.documentary_big_maintain_id
-                                        where c.equipmentId == equipmentId && c.attach_to == attach_to
+                                        where c.equipmentId == equipmentId && c.attach_to == attach_to && c.documentary_id == documentary_id
                                         select new
                                         {
                                             a.supply_id,
@@ -620,7 +620,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             var list = (from a in db.Equipments
                                         join b in db.Supply_Documentary_Big_Maintain_Equipment on a.equipmentId equals b.equipmentId
                                         join c in db.Documentary_big_maintain_details on b.documentary_big_maintain_id equals c.documentary_big_maintain_id
-                                        where c.equipmentId == equipmentId && c.attach_to == attach_to
+                                        where c.equipmentId == equipmentId && c.attach_to == attach_to && c.documentary_id == documentary_id
                                         select new
                                         {
                                             a.equipmentId,
