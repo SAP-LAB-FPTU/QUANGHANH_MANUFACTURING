@@ -63,11 +63,11 @@ namespace QUANGHANH2.Repositories
             var vattus = new List<XincapvattuSummaryModelViewVer2>();
             if (HasProvided(departmentId))
             {
-                if (departmentId == "CDVT")
+                if (departmentId == "CV")
                     vattus = context.Database.SqlQuery<XincapvattuSummaryModelViewVer2>(@"select supp.id Id,supp.equipmentId Equipmentid,supp.supplyid, s.supply_name SupplyName, s.unit SupplyUnit ,supp.quantity_plan SupplyPlan  
          from Supply s inner
          join SupplyPlan supp on s.supply_id = supp.supplyid where
-           supp.departmentid = 'cdvt' and month(date) = month(getdate()) and status = 1").ToList();
+           supp.departmentid = 'cv' and month(date) = month(getdate()) and status = 1").ToList();
                 
                 else
                 vattus = context.Database.SqlQuery<XincapvattuSummaryModelViewVer2>(@"select supp.id Id,supp.equipmentId Equipmentid,e.equipment_name,supp.supplyid, s.supply_name SupplyName,supp.dinh_muc SupplyAverage, s.unit SupplyUnit ,supp.quantity_plan SupplyPlan,
