@@ -352,7 +352,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             //Hầu như tất cả các trường đều chuyển thành allow NULL, nếu để like sẽ không thể hiện ra
             string query = "SELECT e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                 "FROM [Equipment] e LEFT JOIN Department d ON e.department_id = d.department_id LEFT JOIN Equipment_category ec ON e.Equipment_category_id = ec.Equipment_category_id LEFT JOIN Status s on e.current_Status = s.statusid " +
-                "where e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name ";
+                "where e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name  and e.isAttach = 0 ";
 
             if (department != "" || quality != "" || dateStart != "" || dateEnd != "" || category != "" || sup != "" || att != "")
             {
@@ -372,7 +372,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             query += " except " +
                 "select e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                 "from Equipment e inner join Car c on e.equipmentId = c.equipmentId LEFT JOIN Department d ON e.department_id = d.department_id LEFT JOIN Equipment_category ec ON e.Equipment_category_id = ec.Equipment_category_id LEFT JOIN Status s on e.current_Status = s.statusid " +
-                "where e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name ";
+                "where e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name  and e.isAttach = 0 ";
             if (department != "" || quality != "" || dateStart != "" || dateEnd != "" || category != "" || sup != "" || att != "")
             {
                 if (department != "")
