@@ -223,7 +223,7 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ChonThietBiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\DanhSachController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ThemQuyetDinhController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ThemController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\XuLyQuyetDinhController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DSQDChuaxulyController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DSQDDaxulyController.cs" />
@@ -7230,6 +7230,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="doc\CDVT\QD\quyetdinh-dieudong-template.docx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />

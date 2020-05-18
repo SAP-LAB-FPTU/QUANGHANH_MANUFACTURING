@@ -14,12 +14,10 @@ using System.Text.RegularExpressions;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.SessionState;
 
 namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
 {
-    [SessionState(SessionStateBehavior.Default)]
-    public class DieudongchonController : Controller
+    public class ThemController : Controller
     {
         private readonly QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
@@ -189,35 +187,21 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
         }
 
         [Auther(RightID = "87")]
-        [Route("phong-cdvt/dieu-dong-chon/export")]
+        [Route("phong-cdvt/quyet-dinh/dieu-dong/them/export")]
         [HttpGet]
-        public ActionResult Export()
+        public ActionResult ExportQuyetDinh(string data, string department_id_to, string reason)
         {
-            string data = Request["data"];
-            string title = Request["title"];
-            string department_id = Request["department_id"];
-            string documentary_type = Request["documentary_type"];
-            string name = Request["fileName"];
-            string resource = Request["resource"];
-
             using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
             {
                 try
                 {
-                    Department department = DBContext.Departments.Find(department_id);
+                    Department department = DBContext.Departments.Find(department_id_to);
                     if (department == null)
                     {
-                        return Json(new { success = false, message = "Mã phòng ban không tồn tại" }, JsonRequestBehavior.AllowGet);
+                        return new HttpStatusCodeResult(400);
                     }
 
-                    DocumentaryType type = DBContext.DocumentaryTypes.Find(int.Parse(documentary_type));
-                    if (type == null)
-                    {
-                        return Json(new { success = true, message = "Loại quyết định không tồn tại" }, JsonRequestBehavior.AllowGet);
-                    }
-
-                    //string Flocation = "/doc/CDVT/QD/quyetdinh.docx";
-                    string fileName = HostingEnvironment.MapPath("/doc/CDVT/QD/quyetdinh-template.docx");
+                    string fileName = HostingEnvironment.MapPath("/doc/CDVT/QD/quyetdinh-dieudong-template.docx");
                     byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
                     using (var stream = new MemoryStream())
                     {
@@ -241,16 +225,13 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
                             docText = regexText.Replace(docText, DateTime.Now.Year.ToString());
 
                             regexText = new Regex("%noidung%");
-                            docText = regexText.Replace(docText, title);
+                            docText = regexText.Replace(docText, reason);
 
                             regexText = new Regex("%px%");
                             docText = regexText.Replace(docText, department.department_id.Contains("PX") ? department.department_name.Substring(11) : department.department_name);
 
                             regexText = new Regex("%loaiquyetdinh%");
-                            docText = regexText.Replace(docText, type.documentary_name.Substring(11, type.documentary_name.Length - 19));
-
-                            regexText = new Regex("%nguon%");
-                            docText = regexText.Replace(docText, resource);
+                            docText = regexText.Replace(docText, "điều động");
 
                             using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
                             {
@@ -262,14 +243,51 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
                             doc.MainDocumentPart.Document.Body.Elements<Table>().ElementAt(1);
                             foreach (var item in json)
                             {
+                                bool added = false;
                                 string equipmentId = (string)item.Value["id"];
-                                if (item.Value["vattu"] != null)
+                                if (item.Value["vattu"] != null && item.Value["vattu"].HasValues)
                                 {
                                     AppendRow((JArray)item.Value.SelectToken("vattu"), equipmentId, table, "vattu");
+                                    added = true;
                                 }
-                                if (item.Value["thietbi"] != null)
+                                if (item.Value["thietbi"] != null && item.Value["thietbi"].HasValues)
                                 {
                                     AppendRow((JArray)item.Value.SelectToken("thietbi"), equipmentId, table, "thietbi");
+                                    added = true;
+                                }
+                                if (!added)
+                                {
+                                    TableRow tr = new TableRow();
+
+                                    TableCell tc1 = new TableCell();
+                                    tc1.Append(new Paragraph(new Run(new Text("1"))));
+                                    tr.Append(tc1);
+
+                                    TableCell tc2 = new TableCell();
+                                    tc2.Append(new Paragraph(new Run(new Text(equipmentId))));
+                                    tr.Append(tc2);
+
+                                    TableCell tc3 = new TableCell();
+                                    tc3.Append(new Paragraph(new Run(new Text(""))));
+                                    tr.Append(tc3);
+
+                                    TableCell tc4 = new TableCell();
+                                    tc4.Append(new Paragraph(new Run(new Text(""))));
+                                    tr.Append(tc4);
+
+                                    TableCell tc5 = new TableCell();
+                                    tc5.Append(new Paragraph(new Run(new Text(""))));
+                                    tr.Append(tc5);
+
+                                    TableCell tc6 = new TableCell();
+                                    tc6.Append(new Paragraph(new Run(new Text(""))));
+                                    tr.Append(tc6);
+
+                                    TableCell tc7 = new TableCell();
+                                    tc7.Append(new Paragraph(new Run(new Text(""))));
+                                    tr.Append(tc7);
+
+                                    table.Append(tr);
                                 }
                                 doc.MainDocumentPart.Document.Save();
                             }
@@ -280,21 +298,19 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
                             if (TempData[handle] != null)
                             {
                                 byte[] output = TempData[handle] as byte[];
-                                return File(output, "application/vnd.ms-excel", name);
+                                return File(output, "application/vnd.ms-excel", "Quyết định điều động.docx");
                             }
                             else
                             {
-                                return new EmptyResult();
+                                return new HttpStatusCodeResult(400);
                             }
                         }
 
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    if (e is FormatException)
-                        return Json(new { success = false, message = "Loại quyết định không tồn tại" }, JsonRequestBehavior.AllowGet);
-                    return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);
+                    return new HttpStatusCodeResult(400);
                 }
             }
         }
