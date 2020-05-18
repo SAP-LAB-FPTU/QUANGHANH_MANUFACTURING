@@ -168,7 +168,8 @@
                    })
                     if (data.count > 0) { $('#submitedit').hide();
                         $('#them').hide();
-                         $('#xc').hide();
+                        $('#xc').hide();
+                        $("#mysupply").find("tbody").append("<tr><td colspan=\"4\"><i>Không có dữ liệu</i></td></tr>")
                     }
                     
                      var a = document.getElementsByClassName("dem").length;
@@ -233,8 +234,7 @@
                     success: function (data) {
 
                         location.reload();
-
-
+                       
 
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -283,6 +283,8 @@
                     $("#mysupply").find("tr:gt(0)").remove(); 
                     $('#submitedit').hide();
                     $('#them').hide();
+                    $("#xc").attr("disabled", true);
+                    $("#mysupply").find("tbody").append("<tr><td colspan=\"4\"><i>Không có dữ liệu</i></td></tr>")
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $('#pre-load').hide();
