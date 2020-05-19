@@ -12,10 +12,6 @@
                     <label for="department_id_to">Điều động đến <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
                     <input id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
                 </div>
-                @*<div class="col s3 m3">
-                        <label for="out_in_come">Nguồn vốn</label>
-                        <input readonly id="out_in_come" name="out_in_come" class="form-control" type="text" />
-                    </div>*@
                 <div class="col s3 m3">
                     <label for="reason">Nội dung <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
                     <input id="reason" name="reason" class="form-control" type="text" required />
@@ -407,11 +403,35 @@
             })
         })
 
-        $("#export-button").click(function () {
-            window.location = '/phong-cdvt/dieu-dong-chon/export?data=' + JSON.stringify(output)
-                + '&title=' + $('input[name = "reason"]').val() + '&department_id='
-                + $('#department_id_to').val() + '&documentary_type=' + 3
-                + '&fileName=Quyết định điều động.docx' + '&resource=' + $('input[name = "out_in_come"]').val()
-        });
+        $('#export-button').click(function () {
+            if (!$('#department_id_to').val()) {
+                errorAlert("Phân xưởng được điều động đến không được bỏ trống");
+                return;
+            }
+            if (!$('#reason').val()) {
+                errorAlert("Nội dung quyết định không được bỏ trống");
+                return;
+            }
+            $('#pre-load').show();
+            $.ajax({
+                url: "/phong-cdvt/quyet-dinh/dieu-dong/them/export",
+                method: "get",
+                cache: false,
+                data: {
+                    data: JSON.stringify(output),
+                    reason: $('#reason').val(),
+                    department_id_to: $('#department_id_to').val(),
+                },
+                success: function (data) {
+                    window.location = '/phong-cdvt/quyet-dinh/dieu-dong/them/export?data=' + JSON.stringify(output)
+                        + '&reason=' + $('#reason').val() + '&department_id_to=' + $('#department_id_to').val();
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $('#pre-load').hide();
+                }
+            })
+        })
     </script>
 }
