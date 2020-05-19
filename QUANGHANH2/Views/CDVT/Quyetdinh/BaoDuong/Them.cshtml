@@ -157,9 +157,17 @@
 </datalist>
 
 <datalist id="supply_inverse">
+    @foreach (QUANGHANH2.Models.Supply item in ViewBag.supply_inverse)
+    {
+        <option value="@item.supply_id">@item.supply_name</option>
+    }
 </datalist>
 
 <datalist id="supply_reverse">
+    @foreach (var item in ViewBag.supply_inverse)
+    {
+        <option value="@item.supply_name">@item.supply_id</option>
+    }
 </datalist>
 
 <script src="~/js/Custom JS/CDVT/QuyetDinh/datePicker.js"></script>

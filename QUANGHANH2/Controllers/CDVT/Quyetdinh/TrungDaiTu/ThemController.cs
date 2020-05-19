@@ -81,6 +81,8 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.TrungDaiTu
                     List<Department> departments = db.Departments.ToList();
 
                     ViewBag.Departments = departments;
+
+                    ViewBag.supply_inverse = db.Supplies.Take(10).ToList();
                 }
                 return View("/Views/CDVT/Quyetdinh/TrungDaiTu/Them.cshtml");
             }

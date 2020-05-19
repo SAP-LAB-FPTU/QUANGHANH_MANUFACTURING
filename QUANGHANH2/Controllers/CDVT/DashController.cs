@@ -37,10 +37,10 @@ namespace QUANGHANHCORE.Controllers.CDVT
             var gpsunavailble = db.Database.SqlQuery<GPSCarAvail>(@"select c.equipmentId
                                                                     from CarGPS c
                                                                     where c.[date] = @date and c.[session] = @sess and c.available = 0",
-                                                                    new SqlParameter("date",date),
+                                                                    new SqlParameter("date", date),
                                                                     new SqlParameter("sess", sess)
                                                                     ).ToList();
-            ViewBag.gpsavail = gpsunavailble.Count; 
+            ViewBag.gpsavail = gpsunavailble.Count;
 
             listcar = (from equip in db.Equipments
                        join c in db.Cars on equip.equipmentId equals c.equipmentId
@@ -51,7 +51,8 @@ namespace QUANGHANHCORE.Controllers.CDVT
                        }).ToList();
             if (rights.Contains("10"))
             {
-                listhd = (from equip in db.Equipments.Where(x => x.current_Status == 2) join c in db.Cars on equip.equipmentId equals c.equipmentId
+                listhd = (from equip in db.Equipments.Where(x => x.current_Status == 2)
+                          join c in db.Cars on equip.equipmentId equals c.equipmentId
                           select new DashEquip
                           {
                               equipment_name = equip.equipment_name,
@@ -64,12 +65,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                equipment_name = equip.equipment_name,
                                equipmentId = equip.equipmentId
                            }).ToList();
-                string query = @"select ec.Equipment_category_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by ec.Equipment_category_name) as 'stt',
+                string query = @"select ec.Equipment_category_id,ec.Equipment_category_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by ec.Equipment_category_name) as 'stt',
                                 SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
                                 SUM(case when e.current_Status != 2 then 1 else 0 end) as 'sum2'
                                 from Equipment e join Car c on e.equipmentId = c.equipmentId join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id
-                                where e.isAttach = 0
-                                group by ec.Equipment_category_name";
+                                group by ec.Equipment_category_id,ec.Equipment_category_name";
                 var tonghop = db.Database.SqlQuery<ExportByGroup>(query).ToList();
                 ViewBag.hd = tonghop;
                 //ViewBag.hd = listhd;
@@ -91,19 +91,17 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                equipmentId = e.equipmentId,
                                equipment_name = e.equipment_name
                            }).ToList();
-                string query = @"select ec.Equipment_category_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by ec.Equipment_category_name)  as 'stt',
+                string query = @"select ec.Equipment_category_id, ec.Equipment_category_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by ec.Equipment_category_name)  as 'stt',
                                 SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
                                 SUM(case when e.current_Status != 2 then 1 else 0 end) as 'sum2'
-                                from Equipment e join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id
-                                where e.isAttach = 0
-                                group by ec.Equipment_category_name
+                            from Equipment_category ec left join Equipment e on ec.Equipment_category_id = e.Equipment_category_id
+                            group by ec.Equipment_category_id,ec.Equipment_category_name
                             except
-                            select ec.Equipment_category_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by ec.Equipment_category_name),
+                            select ec.Equipment_category_id,ec.Equipment_category_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by ec.Equipment_category_name),
                                 SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
                                 SUM(case when e.current_Status != 2 then 1 else 0 end) as 'sum2'
                                 from Equipment e join Car c on e.equipmentId = c.equipmentId join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id
-                                where e.isAttach = 0
-                                group by ec.Equipment_category_name";
+                                group by ec.Equipment_category_id,ec.Equipment_category_name";
                 var tonghop = db.Database.SqlQuery<ExportByGroup>(query).ToList();
                 ViewBag.hd = tonghop;
                 //ViewBag.hd = listhd.Except(listcar);
@@ -334,7 +332,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                             " from Equipment_Inspection e where MONTH(e.inspect_date) = " + monthnull + " and YEAR(e.inspect_date) = " + yearnull + " " +
                             " group by DAY(e.inspect_date)";
                 queryCamera = @"select DAY(e.start_time) as [date] ,SUM(e.incident_camera_quantity) as soluong  
-                             from CameraIncident e where MONTH(e.start_time) = " + monthnull + " and YEAR(e.start_time) = " + yearnull + 
+                             from CameraIncident e where MONTH(e.start_time) = " + monthnull + " and YEAR(e.start_time) = " + yearnull +
                              " group by DAY(e.start_time)";
             }
             if (type == "month")

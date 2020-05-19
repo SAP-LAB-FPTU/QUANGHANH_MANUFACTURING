@@ -33,23 +33,14 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                 using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
                 {
                     // only taken by each department.
+                    var listequipment = new List<Xincap>();
                    
-                    List<Xincap> listequipment;
-                    int count = DBContext.SupplyPlans.Where(x => x.departmentid == "CDVT" && x.date.Month == DateTime.Now.Month && x.status == 1).Count();
-                    if (count > 0)
-                    {
-                        string query = @" select id,supplyid,departmentid,equipmentid,quantity_plan,status
-from SupplyPlan 
-where departmentid='' ";
-                        listequipment = DBContext.Database.SqlQuery<Xincap>(query).ToList();
-                    }
-                    else
-                    {
-
-
-                        string query = @" select id,supplyid,departmentid,equipmentid,quantity_plan,status,supply_name,unit
+                   
+                    Boolean count = DBContext.SupplyPlans.Where(x => x.departmentid == "CV" && x.date.Month == DateTime.Now.Month && x.status == 1).Count()>=1;
+                    if (!count)
+                    { string query = @" select id,supplyid,departmentid,equipmentid,quantity_plan,status,supply_name,unit
 from SupplyPlan inner join Supply on SupplyPlan.supplyid=Supply.supply_id
-where departmentid='CDVT' and status=0 and month(date)=month(getdate())";
+where departmentid='CV' and status=0 and month(date)=month(getdate())";
                         listequipment = DBContext.Database.SqlQuery<Xincap>(query).ToList();
                     }
 
@@ -103,7 +94,7 @@ where departmentid='CDVT' and status=0 and month(date)=month(getdate())";
                                           " end "+
                                           " else "+
                                          " begin  "+
-                                         $" insert into Supplyplan(supplyid, departmentid, [date], quantity_plan,quantity, [status]) VALUES('{listsupplyid[i]}', 'CDVT', getdate(), {Int32.Parse(listxin_cap[i])},0, 0) "+
+                                         $" insert into Supplyplan(supplyid, departmentid, [date], quantity_plan,quantity, [status]) VALUES('{listsupplyid[i]}', 'CV', getdate(), {Int32.Parse(listxin_cap[i])},0, 0) "+
                                          " end;  ";
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
 
@@ -133,7 +124,7 @@ where departmentid='CDVT' and status=0 and month(date)=month(getdate())";
             {
                 try
                 {
-                    db.Database.ExecuteSqlCommand("update Supplyplan set status=1,date=getdate() where departmentid='CDVT' and month(date)=month(getDate())"
+                    db.Database.ExecuteSqlCommand("update Supplyplan set status=1,date=getdate() where departmentid='CV' and month(date)=month(getDate())"
                   );
                     db.SaveChanges();
 

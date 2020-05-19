@@ -46,8 +46,7 @@
                                             <th>STT</th>
                                             <th>Mã thiết bị</th>
                                             <th>Tên thiết bị</th>
-                                            <th>Mã thiết bị</th>
-                                            <th>Tên thiết bị</th>
+                                           
                                             <th>Mã vật tư</th>
                                             <th>Tên vật tư</th>
                                             <th>Định mức</th>
@@ -94,7 +93,7 @@
             setDepartments();
             datatable = drawTable();
             $('#department_search').on('change', function () {
-                if (getCurrDepId() == 'CDVT') drawTableOfCDVT();
+                if (getCurrDepId() == 'CV') drawTableOfCDVT();
                 else
                 drawTable();
             });
@@ -206,19 +205,18 @@
                                 "<td>" + (i + 1) + "</td>" +
                                 "<td>" + resultArray[i].Equipmentid + "</td>" +
                                 "<td>" + resultArray[i].equipment_name + "</td>" +
-                                "<td>" + resultArray[i].equipmentId_dikem + "</td>" +
-                                "<td>" + resultArray[i].equipmentId_dikem_name+ "</td>" +
+                               
                                 "<td>" + resultArray[i].SupplyId + "</td>" +
                                 "<td>" + resultArray[i].SupplyName + "</td>" +
                                 "<td>" + resultArray[i].SupplyAverage + "</td>" +
                                 "<td>" + resultArray[i].SupplyPlan + "</td>" +
                                 "<td>" + resultArray[i].SupplyRemaining + "</td>" +
-                                "<td><input type='number' id='quantity-" + resultArray[i].equipmentId_dikem + "-" + resultArray[i].SupplyId + "'class='form-control'></td>" +
+                                "<td><input type='number' id='quantity-" + resultArray[i].Equipmentid+ "-" + resultArray[i].SupplyId + "'class='form-control'></td>" +
                                 "<td>" + resultArray[i].SupplyUnit + "</td>" +
                                 "</tr>";
                             lists.push({
                                 "Id": resultArray[i].Id,
-                                "Equipmentid": resultArray[i].equipmentId_dikem,
+                                "Equipmentid": resultArray[i].Equipmentid,
                                 "SupplyId": resultArray[i].SupplyId,
                                
                             });
@@ -226,7 +224,7 @@
                         $("#summary_tbl").find("tbody").append(tbData);
                         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         $('#summary_tbl').rowspanizer({
-                                 columns: [1,2,3,4]
+                                 columns: [1,2]
                           });                  
                          $('.rowspan-combine').css({
                 'vertical-align':'middle'

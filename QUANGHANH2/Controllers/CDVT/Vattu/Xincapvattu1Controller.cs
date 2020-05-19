@@ -33,6 +33,11 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
         {
             try
             {
+                int start = Convert.ToInt32(Request["start"]);
+                int length = Convert.ToInt32(Request["length"]);
+               
+                string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                string sortDirection = Request["order[0][dir]"];
 
                 using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
                 {
@@ -41,25 +46,20 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                    
                     var listequipment = new List<Eq>();
                     Boolean count = DBContext.SupplyPlans.Where(x => x.departmentid == department_id && x.date.Month == DateTime.Now.Month && x.status == 1).Count()>=1;
+                    int totalrows = 0;
                     if (!count) { 
-
-
-                        string query = @"Select e.equipmentId, e.equipment_name, s.equipmentId_dikem, eq.equipment_name as equipmentId_dikem_name
-From Equipment e inner join Supply_DiKem s on e.equipmentId = s.equipmentId inner join Equipment eq on s.equipmentId_dikem = eq.equipmentId
-where e.department_id = @departmentid1 and eq.department_id = @departmentid2 order by e.equipmentId asc ";
-                        listequipment = DBContext.Database.SqlQuery<Eq>(query,
-                          new SqlParameter("departmentid1", department_id), new SqlParameter("departmentid2", department_id)
-                           ).ToList();
+                        listequipment = DBContext.Equipments.Where(x => x.department_id == department_id)
+                            .OrderBy(sortColumnName + " " + sortDirection)
+                            .Skip(start).Take(length)
+                            .Select(x => new Eq
+                            {
+                                equipmentId = x.equipmentId,
+                                equipment_name = x.equipment_name
+                            }).ToList();
+                        totalrows = DBContext.Equipments.Where(x => x.department_id == department_id).Count();
                     }
 
-
-
-
-                    return Json(new
-                    {
-                        success = true,
-                        data = listequipment,
-                    }, JsonRequestBehavior.AllowGet)  ;
+                    return Json(new { success = true, data = listequipment, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet)  ;
                 } }
             catch (Exception)
             {
@@ -73,11 +73,45 @@ where e.department_id = @departmentid1 and eq.department_id = @departmentid2 ord
         public JsonResult getListSupply(String equipmentId)
         {
            using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            { 
+            {
 
                 {
-                    List<SupplyPlanDB> m = db.Database.SqlQuery<SupplyPlanDB>("select supp.supplyid, s.supply_name,supp.dinh_muc, s.unit ,supp.quantity_plan,supp.id,(case when su.quantity is null then 0 else su.quantity end) 'quantity'  " +
-                   "from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid left join Supply_SCTX su on supp.equipmentid=su.equipmentId and supp.supplyid=su.supply_id  where supp.equipmentid = @equipmentid and month(date)=month(getdate()) and status=0", new SqlParameter("equipmentid", equipmentId)).ToList();
+                    var m = new List<SupplyPlanDB>();
+                    string department_id = Session["departID"].ToString();
+                    Boolean count = db.SupplyPlans.Where(x => x.departmentid == department_id && x.date.Month == DateTime.Now.Month && x.status == 0 &&x.equipmentid==equipmentId).Count() >= 1;
+                    if (count)
+                    {
+                        m = db.Database.SqlQuery<SupplyPlanDB>("select supp.supplyid, s.supply_name,supp.dinh_muc , s.unit ,supp.quantity_plan,supp.id,(case when su.quantity is null then 0 else su.quantity end) 'quantity'  " +
+                      "from Supply s inner join SupplyPlan supp on s.supply_id = supp.supplyid left join Supply_SCTX su on supp.equipmentid=su.equipmentId and supp.supplyid=su.supply_id  where supp.equipmentid = @equipmentid and month(date)=month(getdate()) and status=0", new SqlParameter("equipmentid", equipmentId)).ToList();
+                    }
+                    else
+                    {
+                        m = db.Database.SqlQuery<SupplyPlanDB>(@"select distinct (case when a.supply_id is null then b.supply_id else a.supply_id end) 'supplyid',
+ (case when a.supply_name is null then b.supply_name else a.supply_name end) 'supply_name', 
+ (case when a.unit is null then b.unit else a.unit end) 'unit',
+  (case when a.quantity is null then 0 else a.quantity end) + (case when b.quantity is null then 0 else b.quantity end) 'quantity'
+from (
+select distinct s.supply_id, s.supply_name, s.unit, e.equipmentId, ss.quantity 'quantity'
+from Equipment e inner join Supply_DiKem sdk on e.equipmentId = sdk.equipmentId
+inner join Supply_Equipment_DiKem sed on sdk.equipmentId_dikem = sed.equipmentId 
+inner join Supply s on s.supply_id = sed.supply_id
+left join Supply_SCTX ss on ss.equipmentId = e.equipmentId and ss.supply_id = sed.supply_id
+where e.equipmentId = @equipmentid1 
+) as a full outer join 
+(select distinct s.supply_id, s.supply_name, s.unit, e.equipmentId, sum(ss.quantity) 'quantity'
+from Equipment e inner join Supply_Equipment_DiKem sed on e.equipmentId = sed.equipmentId
+inner join Supply s on s.supply_id = sed.supply_id
+left join Supply_SCTX ss on ss.equipmentId = e.equipmentId and ss.supply_id = sed.supply_id
+where e.equipmentId = @equipmentid2
+group by s.supply_id, s.supply_name, s.unit, e.equipmentId) as b on a.supply_id = b.supply_id", new SqlParameter("equipmentid1", equipmentId), new SqlParameter("equipmentid2", equipmentId)).ToList();
+                        // m.ForEach(x => x.dinh_muc = 0 && x.quantity_plan = 0) ;
+                        foreach (var items in m)
+                        {
+                            items.dinh_muc = 0;
+                            items.quantity_plan = 0;
+                            items.id = 0;
+                        }
+                    }
 
                     return Json(m);
                 } }
@@ -112,17 +146,20 @@ where e.department_id = @departmentid1 and eq.department_id = @departmentid2 ord
                     Equipment e = db.Equipments.Where(x => x.equipmentId == equipmentid).First();
                     for (int i = 0; i < listsupplyid.Length; i++)
                     {
-                        string sub_insert = $"if exists (select * from SupplyPlan  where id='{listsupplyplanid[i]}')  " +
-                                            " begin " +
-                                           " update SupplyPlan set " +
-                                           $" supplyid = N'{listsupplyid[i]}' , date = getdate(),quantity_plan = {Int32.Parse(listxin_cap[i])},dinh_muc={double.Parse(listgeneral[i])} " +
-                                          $" where id = '{listsupplyplanid[i]}'" +
-                                          " end " +
-                                          " else " +
-                                         " begin  " +
-                                         $" insert into Supplyplan(supplyid, departmentid,equipmentid, [date],dinh_muc, quantity_plan,quantity, [status]) VALUES(N'{listsupplyid[i]}', N'{department_id}',N'{equipmentid}', getdate(),{double.Parse(listgeneral[i])} ,{Int32.Parse(listxin_cap[i])},0, 0) " +
-                                         " end;  ";
-                        bulk_insert = string.Concat(bulk_insert, sub_insert);
+                        if (double.Parse(listgeneral[i]) > 0 || Int32.Parse(listxin_cap[i]) > 0)
+                        {
+                            string sub_insert = $"if exists (select * from SupplyPlan  where id='{listsupplyplanid[i]}')  " +
+                                                " begin " +
+                                               " update SupplyPlan set " +
+                                               $" supplyid = N'{listsupplyid[i]}' , date = getdate(),quantity_plan = {Int32.Parse(listxin_cap[i])},dinh_muc={double.Parse(listgeneral[i])} " +
+                                              $" where id = '{listsupplyplanid[i]}'" +
+                                              " end " +
+                                              " else " +
+                                             " begin  " +
+                                             $" insert into Supplyplan(supplyid, departmentid,equipmentid, [date],dinh_muc, quantity_plan,quantity, [status]) VALUES(N'{listsupplyid[i]}', N'{department_id}',N'{equipmentid}', getdate(),{double.Parse(listgeneral[i])} ,{Int32.Parse(listxin_cap[i])},0, 0) " +
+                                             " end;  ";
+                            bulk_insert = string.Concat(bulk_insert, sub_insert);
+                        }
                     }
                     db.Database.ExecuteSqlCommand(bulk_insert);
                     db.SaveChanges();
@@ -219,7 +256,10 @@ where e.department_id = @departmentid1 and eq.department_id = @departmentid2 ord
         {
             try
             {
-
+                int start = Convert.ToInt32(Request["start"]);
+                int length = Convert.ToInt32(Request["length"]);
+                string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                string sortDirection = Request["order[0][dir]"];
                 using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
                 {
                     // only taken by each department.
@@ -228,23 +268,26 @@ where e.department_id = @departmentid1 and eq.department_id = @departmentid2 ord
 
                     if (HasProvided())
                     {
-                        string query = @"select  distinct sdk.equipmentId,  eq.equipment_name , supp.equipmentid as equipmentId_dikem,e.equipment_name as equipmentId_dikem_name
-                      from  SupplyPlan supp
-                     inner join Supply_DiKem sdk on supp.equipmentId = sdk.equipmentId_dikem
-                     inner join Equipment e on supp.equipmentid = e.equipmentId
-                      inner join Equipment eq on sdk.equipmentId = eq.equipmentId where
-                     supp.departmentid = @department_id and month(date) = month(getdate())  
-					 and quantity_provide is not null ";
-                        listequipment = DBContext.Database.SqlQuery<Eq>(query,
-                          new SqlParameter("department_id", department_id)
-                           ).ToList();
-                    
-                      }
-                    return Json(new
-                    {
-                        success = true,
-                        data = listequipment,
-                    }, JsonRequestBehavior.AllowGet);
+                        string query = @"select distinct SupplyPlan.equipmentId,equipment_name 
+                                from Equipment inner join SupplyPlan on Equipment.equipmentId=SupplyPlan.equipmentid
+                                where SupplyPlan.departmentid = @department_id  and month(date)=month(getdate()) and quantity_provide is not null ";
+
+                        listequipment = DBContext.Database.SqlQuery<Eq>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
+                            new SqlParameter("department_id", department_id)
+                     ).ToList();
+
+
+
+                    }
+                    int totalrows = DBContext.Database.SqlQuery<int>(@"select count(distinct SupplyPlan.equipmentId)
+                                from Equipment inner join SupplyPlan on Equipment.equipmentId = SupplyPlan.equipmentid
+                                where SupplyPlan.departmentid = 'pxcbt'  and month(date) = month(getdate()) and quantity_provide is not null",
+                   new SqlParameter("department_id", department_id)
+                   ).FirstOrDefault(); 
+                  
+
+
+                    return Json(new { success = true, data = listequipment, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception)
@@ -341,8 +384,18 @@ where e.department_id = @departmentid1 and eq.department_id = @departmentid2 ord
     {
         public string equipmentId { get; set; }
         public string equipment_name { get; set; }
-        public string equipmentId_dikem { get; set; }
-        public string equipmentId_dikem_name { get; set; }
+      
+
+    }
+    public class Eq_duyetcap
+    {
+        public string equipmentId { get; set; }
+        public string equipment_name { get; set; }
+        public System.DateTime date { get; set; }
+        public int quantity_provide { get; set; }
+        public string departmentid { get; set; }
+
+
 
     }
     public class SupplyPlanDB : SupplyPlan
@@ -350,7 +403,7 @@ where e.department_id = @departmentid1 and eq.department_id = @departmentid2 ord
         public int duphong { get; set; }
         public string supply_name { get; set; }
         public string unit { get; set; }
-       
+        public int dinhmuc  { get; set; }
     }
  
 }
