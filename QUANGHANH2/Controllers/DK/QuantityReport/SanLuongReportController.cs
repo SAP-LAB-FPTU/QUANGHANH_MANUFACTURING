@@ -333,6 +333,7 @@ namespace QUANGHANH2.Controllers.DK
                     }
                     else
                     {
+                        Boolean ck = false;
                         foreach (var item in listReport)
                         {
                             reportEntity rp2 = new reportEntity();
@@ -348,12 +349,14 @@ namespace QUANGHANH2.Controllers.DK
                                     previousTieuChi = item.MaTieuChi;
                                     if (rp2.TenTieuChi.ToUpper() != header.ToUpper())
                                     {
+                                        ck = true;
                                         reports.Add(rp2);
                                     }
                                 }
                                 else
                                 {
-                                    reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
+                                    if(ck)
+                                        reports[reports.Count - 1] = addUp(reports[reports.Count - 1], item);
                                 }
                             }
                         }
