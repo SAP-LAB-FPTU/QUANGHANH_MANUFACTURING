@@ -56,6 +56,30 @@ INSERT [dbo].[KeHoach_TieuChi_TheoNam] ([HeaderID], [MaTieuChi], [SanLuongKeHoac
 GO
 SET IDENTITY_INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ON 
 GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (2, N'CBT', 1, CAST(N'2020-04-26' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (18, N'CBT', 1, CAST(N'2020-04-27' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (85, N'CBT', 1, CAST(N'2020-05-04' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (71, N'CBT', 1, CAST(N'2020-05-05' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (112, N'CBT', 1, CAST(N'2020-05-06' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (134, N'CBT', 1, CAST(N'2020-05-07' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (156, N'CBT', 1, CAST(N'2020-05-08' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (178, N'CBT', 1, CAST(N'2020-05-09' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (214, N'CBT', 1, CAST(N'2020-05-10' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (268, N'CBT', 1, CAST(N'2020-05-11' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (19, N'CBT', 2, CAST(N'2020-04-27' AS Date))
+GO
+INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (20, N'CBT', 3, CAST(N'2020-04-27' AS Date))
+GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (80, N'CTA', 1, CAST(N'2020-05-04' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (101, N'CTA', 1, CAST(N'2020-05-05' AS Date))
@@ -545,30 +569,6 @@ GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (253, N'KT9', 1, CAST(N'2020-05-12' AS Date))
 GO
 INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (50, N'KT9', 2, CAST(N'2020-04-27' AS Date))
-GO
-INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (2, N'CBT', 1, CAST(N'2020-04-26' AS Date))
-GO
-INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (18, N'CBT', 1, CAST(N'2020-04-27' AS Date))
-GO
-INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (85, N'CBT', 1, CAST(N'2020-05-04' AS Date))
-GO
-INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (71, N'CBT', 1, CAST(N'2020-05-05' AS Date))
-GO
-INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (112, N'CBT', 1, CAST(N'2020-05-06' AS Date))
-GO
-INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (134, N'CBT', 1, CAST(N'2020-05-07' AS Date))
-GO
-INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (156, N'CBT', 1, CAST(N'2020-05-08' AS Date))
-GO
-INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (178, N'CBT', 1, CAST(N'2020-05-09' AS Date))
-GO
-INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (214, N'CBT', 1, CAST(N'2020-05-10' AS Date))
-GO
-INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (268, N'CBT', 1, CAST(N'2020-05-11' AS Date))
-GO
-INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (19, N'CBT', 2, CAST(N'2020-04-27' AS Date))
-GO
-INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] ([HeaderID], [MaPhongBan], [Ca], [NgayNhapKH]) VALUES (20, N'CBT', 3, CAST(N'2020-04-27' AS Date))
 GO
 SET IDENTITY_INSERT [dbo].[header_KeHoach_TieuChi_TheoNgay] OFF
 GO
@@ -6710,8 +6710,6 @@ INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (94, 19, 0, CAST(N'2020-05-14T20:06:37.580' AS DateTime), NULL)
 GO
-INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (95, 2, 7000, CAST(N'2020-05-14T11:13:50.557' AS DateTime), NULL)
-GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (95, 6, 160000, CAST(N'2020-05-05T13:27:32.393' AS DateTime), N'')
 GO
 INSERT [dbo].[KeHoach_TieuChi_TheoThang] ([HeaderID], [MaTieuChi], [SanLuong], [ThoiGianNhapCuoiCung], [GhiChu]) VALUES (95, 6, 160000, CAST(N'2020-05-05T19:11:15.887' AS DateTime), NULL)
@@ -11124,6 +11122,32 @@ INSERT [dbo].[PhongBan_TieuChi] ([MaTieuChi], [MaPhongBan], [Thang], [Nam]) VALU
 GO
 INSERT [dbo].[PhongBan_TieuChi] ([MaTieuChi], [MaPhongBan], [Thang], [Nam]) VALUES (35, N'KCS', 5, 2020)
 GO
+INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 3, 2020)
+GO
+INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 4, 2020)
+GO
+INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 5, 2020)
+GO
+INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 10, 2020)
+GO
+INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 11, 2020)
+GO
+INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 12, 2020)
+GO
+INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 13, 2020)
+GO
+INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 14, 2020)
+GO
+INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 15, 2020)
+GO
+INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 16, 2020)
+GO
+INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 17, 2020)
+GO
+INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 18, 2020)
+GO
+INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 31, 2020)
+GO
 INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CTYDH', 6, 2020)
 GO
 INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'ĐL3', 1, 2020)
@@ -11229,30 +11253,4 @@ GO
 INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'KT9', 7, 2020)
 GO
 INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'KT9', 19, 2020)
-GO
-INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 3, 2020)
-GO
-INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 4, 2020)
-GO
-INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 5, 2020)
-GO
-INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 10, 2020)
-GO
-INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 11, 2020)
-GO
-INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 12, 2020)
-GO
-INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 13, 2020)
-GO
-INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 14, 2020)
-GO
-INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 15, 2020)
-GO
-INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 16, 2020)
-GO
-INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 17, 2020)
-GO
-INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 18, 2020)
-GO
-INSERT [dbo].[PhongBan_TieuChi_TheoNam] ([MaPhongBan], [MaTieuChi], [Nam]) VALUES (N'CBT', 31, 2020)
 GO
