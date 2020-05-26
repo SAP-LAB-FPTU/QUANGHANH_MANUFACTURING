@@ -57,7 +57,7 @@ namespace QUANGHANH2.Controllers.DK
                             tmp.MaPhongBan = pbtc.MaPhongBan and tmp.MaTieuChi = pbtc.MaTieuChi) as view5
                             inner join TieuChi t on view5.MaTieuChi = t.MaTieuChi							
                             right join Department on MaPhongBan = department_id
-							where department_type = N'Phân xưởng sản xuất chính'
+							where department_type in (N'Phân xưởng sản xuất chính', N'Đơn vị sản xuất thuê ngoài')
 							group by department_id";
             //
             var queryDaily = @"select [date],
@@ -99,6 +99,26 @@ namespace QUANGHANH2.Controllers.DK
                             SUM(case when MaPhongBan = 'KT10' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT10_THANLK,
                             SUM(case when MaPhongBan = 'KT11' and MaTieuChi = 2 and Ngay = [date] then SanLuong else 0 end) as PXKT11_THANTH,
                             SUM(case when MaPhongBan = 'KT11' and MaTieuChi = 2  then SanLuong else 0 end) as PXKT11_THANLK,
+                            SUM(case when MaPhongBan = N'CBT' and (MaTieuChi = 1 or MaTieuChi = 2) and Ngay = [date] then SanLuong else 0 end) as PXCBT_THANTH,
+                            SUM(case when MaPhongBan = N'CBT' and (MaTieuChi = 1 or MaTieuChi = 2) then SanLuong else 0 end) as PXCBT_THANLK,
+                            SUM(case when MaPhongBan = N'VTL1' and (MaTieuChi = 1 or MaTieuChi = 2) and Ngay = [date] then SanLuong else 0 end) as PXCBT_THANTH,
+                            SUM(case when MaPhongBan = N'VTL1' and (MaTieuChi = 1 or MaTieuChi = 2)  then SanLuong else 0 end) as PXCBT_THANLK,
+                            SUM(case when MaPhongBan = N'CTA' and (MaTieuChi = 1 or MaTieuChi = 2) and Ngay = [date] then SanLuong else 0 end) as CTA_THANTH,
+                            SUM(case when MaPhongBan = N'CTA' and (MaTieuChi = 1 or MaTieuChi = 2)  then SanLuong else 0 end) as CTA_THANLK,
+                            SUM(case when(MaPhongBan = N'CTA' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as CTA_MLTH,
+                            SUM(case when(MaPhongBan = N'CTA' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as CTA_MLLK,
+                            SUM(case when MaPhongBan = N'CTTL' and (MaTieuChi = 1 or MaTieuChi = 2) and Ngay = [date] then SanLuong else 0 end) as CTTL_THANTH,
+                            SUM(case when MaPhongBan = N'CTTL' and (MaTieuChi = 1 or MaTieuChi = 2)  then SanLuong else 0 end) as CTTL_THANLK,
+                            SUM(case when(MaPhongBan = N'CTTL' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as CTTL_MLTH,
+                            SUM(case when(MaPhongBan = N'CTTL' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as CTTL_MLLK,
+                            SUM(case when MaPhongBan = N'CTV' and (MaTieuChi = 1 or MaTieuChi = 2) and Ngay = [date] then SanLuong else 0 end) as CTV_THANTH,
+                            SUM(case when MaPhongBan = N'CTV' and (MaTieuChi = 1 or MaTieuChi = 2)  then SanLuong else 0 end) as CTV_THANLK,
+                            SUM(case when(MaPhongBan = N'CTV' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as CTV_MLTH,
+                            SUM(case when(MaPhongBan = N'CTV' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as CTV_MLLK,
+                            SUM(case when MaPhongBan = N'CTXLM-TKV' and (MaTieuChi = 1 or MaTieuChi = 2) and Ngay = [date] then SanLuong else 0 end) as CTXLM_TKV_THANTH,
+                            SUM(case when MaPhongBan = N'CTXLM-TKV' and (MaTieuChi = 1 or MaTieuChi = 2)  then SanLuong else 0 end) as CTXLM_TKV_THANLK,
+                            SUM(case when(MaPhongBan = N'CTXLM-TKV' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19) and Ngay = [date] then SanLuong else 0 end) as CTXLM_TKV_MLTH,
+                            SUM(case when(MaPhongBan = N'CTXLM-TKV' and MaTieuChi = 7 or MaTieuChi = 9 and MaTieuChi = 19)  then SanLuong else 0 end) as CTXLM_TKV_MLLK,
                             SUM(case when MaTieuChi = 30 and Ngay = [date]  then SanLuong else 0 end) as DOANHTHU_TH,
                             SUM(case when MaTieuChi = 30  then SanLuong else 0 end) as DOANHTHU_LK,
                             SUM(case when(MaTieuChi = 2 or MaTieuChi = 1 or MaTieuChi = 4 or MaTieuChi = 3) and Ngay = [date] then SanLuong else 0 end) as SX_THANTH,
@@ -204,6 +224,30 @@ namespace QUANGHANH2.Controllers.DK
         public double PXKT10_THANLK { get; set; }
         public double PXKT11_THANTH { get; set; }
         public double PXKT11_THANLK { get; set; }
+
+        public double PXCBT_THANTH { get; set; }
+        public double PXCBT_THANLK { get; set; }
+        public double VTL1_THANTH { get; set; }
+        public double VTL1_THANLK { get; set; }
+        public double VTL2_THANTH { get; set; }
+        public double VTL2_THANLK { get; set; }
+        public double CTA_THANTH { get; set; }
+        public double CTA_THANLK { get; set; }
+        public double CTA_MLTH { get; set; }
+        public double CTA_MLLK { get; set; }
+        public double CTTL_THANTH { get; set; }
+        public double CTTL_THANLK { get; set; }
+        public double CTTL_MLTH { get; set; }
+        public double CTTL_MLLK { get; set; }
+        public double CTV_THANTH { get; set; }
+        public double CTV_THANLK { get; set; }
+        public double CTV_MLTH { get; set; }
+        public double CTV_MLLK { get; set; }
+        public double CTXLM_TKV_THANTH {get;set;}
+        public double CTXLM_TKV_THANLK {get;set;}
+        public double CTXLM_TKV_MLTH { get; set; }
+        public double CTXLM_TKV_MLLK { get; set; }
+
         public double DOANHTHU_TH { get; set; }
         public double DOANHTHU_LK { get; set; }
         public double SX_THANTH { get; set; }
