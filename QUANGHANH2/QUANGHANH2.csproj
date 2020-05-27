@@ -301,7 +301,7 @@
     <Compile Include="Controllers\CDVT\Vattu\XincapvattuController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\XincapvattuSummaryController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuChinh\ChonThietBiController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\DieuChinh\ThemQuyenDinhController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\DieuChinh\ThemController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\SuaChua\ThemController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\SuaChua\ChonThietBiController.cs" />
     <Compile Include="Controllers\DK\Accident\AccidentController.cs" />
@@ -7513,7 +7513,7 @@
     <Content Include="Views\KCM\InputPlan\InputPlan_Month.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\DieuChinh\DanhSach.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\DieuChinh\ChonThietBi.cshtml" />
-    <Content Include="Views\CDVT\Work\CaiTien\ThemCaiTien.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\DieuChinh\Them.cshtml" />
     <Content Include="Views\Shared\_Layout_KCM.cshtml" />
     <Content Include="Views\Camera\DanhSachCamera.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />

@@ -41,187 +41,104 @@
                 </table>
             </div>
             <div class="col">
-                <a href="#" id="tienhanh" onclick="SaveStatus()" class="btn blue darken-2">Tiến hành điều chỉnh</a>
-                <a class="btn blue darken-2" id="drop">Bỏ Chọn</a>
+                <form method="get" action="/phong-cdvt/quyet-dinh/dieu-chinh/them">
+                    <input hidden name="selected" />
+                    <button type="submit" id="tienhanh" class="btn blue darken-2">Tiến hành điều chỉnh</button>
+                    <a class="btn blue darken-2" id="drop">Bỏ Chọn</a>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    @if (ViewBag.alert == true)
-    {
-        <text>
-        $(document).ready(function () {
-            errorAlert('Lỗi', 'Bạn đã nhập sai vật tư');
-        })
-        </text>
-    }
-</script>
-
 @section scripts{
     <script>
         $("#pre-load").show();
         var Popup, dataTable;
-        @{
-            var listFromServer = "[]";
-            if (ViewBag.selectedList != null)
-            {
-                listFromServer = ViewBag.selectedList;
-            }
-         }
-        var arrCarSelected = JSON.parse("@listFromServer".replace(/(&quot\;)/g, "\""));
-        $("#drop").click(function () {
-            $(".my_checkbox").each(function () {
-                if ($(this).is(":checked")) $(this).click();
-            })
-            //here
-            arrCarSelected = null;
-        })
+        var dataTable, equipmentId;
+        var selected = @Html.Raw(ViewBag.selected);
+
         $(document).ready(function () {
-            dataTable = $('#equipmentTable')
-                .on('preXhr.dt', function ( e, settings, data )  {
-                    data.sessionId = "@ViewBag.id";
-                    data.selectList = JSON.stringify(arrCarSelected);
-                })
-                .DataTable({
-                    language: {
-                        emptyTable: "Không tìm thấy dữ liệu",
-                        info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                        infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
-                        paginate: {
-                            first: "Trang đầu",
-                            last: "Trang cuối",
-                            next: "Trang sau",
-                            previous: "Trang trước"
-                        }
-                    },
-                    ajax: {
-                        url: "/phong-cdvt/quyet-dinh/dieu-chinh/chon-thiet-bi",
-                        type: "POST",
-                        datatype: "json",
-                        cache: false,
-                        data: {
-                            equipmentId: function () { return $('#equipmentId-search').val() },
-                            department_name: function () { return $('#department-search').val() },
-                            equipmentName: function () { return $('#equipmentName-search').val() }
-                        },
-                    },
-                    columns: [
-                        { data: "equipmentId", name: "equipmentId", searchable: true },
-                        { data: "equipment_name", name: "equipment_name" },
-                        { data: "department_name", name: "department_name" },
-                        { data: "statusname", name: "statusname" },
-                        {
-                            data: "equipmentId", render: function (data) {
-                                if (arrCarSelected != null) {
-                                    for (let i = 0; i < arrCarSelected.length; i++)
-                                        if (arrCarSelected[i] == data) {
-                                            return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "') checked><span></span></label>";
-                                        }
-                                }
-                                return "<label><input class='my_checkbox'  name='abc' id ='" + data + "' value='" + data + "' type ='checkbox' onclick=updateList('" + data + "')><span></span></label>";
-                            },
-                        orderable: false,
-                        searchable: false,
-                        width: "150px"
-                        }],
-                    bLengthChange: false,
-                    searching: false,
-                    serverSide: "true",
-                    order: [1, "asc"],
-                    initComplete: function (settings, json) {
-                        $("#pre-load").hide();
-                    },
-                    preDrawCallback: function (settings) {
-                        $('#pre-load').show();
-                    },
-                    drawCallback: function (settings) {
-                        $('#pre-load').hide();
+            dataTable = $('#equipmentTable').DataTable({
+                language: {
+                    emptyTable: "Không tìm thấy dữ liệu",
+                    info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                    paginate: {
+                        first: "Trang đầu",
+                        last: "Trang cuối",
+                        next: "Trang sau",
+                        previous: "Trang trước"
                     }
-                });
-
-            $("#equipmentId-search").keyup(function (event) {
-                if (event.keyCode === 13) {
-                    $("#searchButton1").click();
-                    $("#equipmentId-search").blur();
+                },
+                ajax: {
+                    url: "/phong-cdvt/quyet-dinh/dieu-chinh/chon-thiet-bi",
+                    type: "POST",
+                    datatype: "json",
+                    cache: false,
+                    data: {
+                        equipmentId: function () { return $('#equipmentId-search').val() },
+                        department_name: function () { return $('#department-search').val() },
+                        equipmentName: function () { return $('#equipmentName-search').val() }
+                    },
+                },
+                columns: [
+                    { data: "equipmentId", name: "equipmentId", searchable: true },
+                    { data: "equipment_name", name: "equipment_name" },
+                    { data: "department_name", name: "department_name" },
+                    { data: "statusname", name: "statusname" },
+                    {
+                        "data": "equipmentId", "render": function (data) {
+                            if (selected[data] !== undefined && Object.keys(selected[data]).length == 0) {
+                                return "<label><input class='my_checkbox' value='" + data + "' type ='checkbox' checked><span></span></label>";
+                            }
+                            return "<label><input class='my_checkbox' value='" + data + "' type ='checkbox'><span></span></label>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                bLengthChange: false,
+                searching: false,
+                serverSide: "true",
+                order: [1, "asc"],
+                initComplete: function (settings, json) {
+                    $("#pre-load").hide();
+                },
+                preDrawCallback: function (settings) {
+                    $('#pre-load').show();
+                },
+                drawCallback: function (settings) {
+                    $('#pre-load').hide();
                 }
             });
-
-            $("#equipmentName-search").keyup(function (event) {
-                if (event.keyCode === 13) {
-                    $("#searchButton1").click();
-                    $("#equipmentName-search").blur();
-                }
-            });
-
-            $("#department-search").keyup(function (event) {
-                if (event.keyCode === 13) {
-                    $("#searchButton1").click();
-                    $("#department-search").blur();
-                }
-            });
-
 
             $("#searchButton1").click(function () {
                 $("#pre-load").show();
                 dataTable.ajax.reload(function () {
-                    $.notify("Tìm kiếm thành công", {
-                        globalPosition: "top center",
-                        className: "success"
-                    });
                     $("#pre-load").hide();
                 })
             })
-        });
 
-        var table = new $.fn.dataTable.Api('#myTable');
-
-        // Get data from the first row
-        var data = table.rows().data()[0]; // same as row(0).data()
-
-        function updateList(id) {
-            isExist = false;
-            if (arrCarSelected != null) {
-                for (let i = 0; i < arrCarSelected.length; i++) {
-                    if (arrCarSelected[i] == id) {
-                        isExist = true;
-                        arrCarSelected.splice(i, 1);
-                        break;
-                    }
-                }
-            }
-
-            if (!isExist && id != "" && id != null) {
-                if (arrCarSelected != null) {
-                    arrCarSelected.push(id);
-                    console.log(arrCarSelected)
-                } else {
-                    arrCarSelected = [id];
-
-                }
-
-            }
-        }
-
-        function SaveStatus() {
-            $.ajax({
-                url: "/phong-cdvt/cai-tien-chon",
-                method: "POST",
-                data: {
-                    "selectList": JSON.stringify(arrCarSelected)
-                }
+            $("#drop").click(function () {
+                selected = {};
+                dataTable.ajax.reload();
             })
-            document.getElementById("selectListJson").value = arrCarSelected;
-            document.getElementById("formSaveStatus").submit();
-        }
 
-        function sendData() {
-            $.each($("input[name='abc']:checked"), function () {
-            });
-        }
+            $(document).on("click", '.my_checkbox', function () {
+                equipmentId = $(this).val();
+                if ($(this).is(":checked")) {
+                    selected[equipmentId] = {};
+                    dump[equipmentId] = $(this).closest("tr").children().eq(1).text();
+                }
+                else
+                    delete selected[equipmentId];
+            })
+
+            $('#tienhanh').click(function () {
+                $('input[name="selected"]').val(JSON.stringify(selected));
+            })
+        });
     </script>
 }
-<form action="/phong-cdvt/cai-tien-chon" id="formSaveStatus">
-    <input type="hidden" name="selectListJson" id="selectListJson" value="" />
-</form>
