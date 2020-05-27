@@ -7,11 +7,11 @@
     <div class="card-content">
         <div class="row">
             <div class="col m12">
-                <h3 class="center"><b>CHI TIẾT CẢI TIẾN</b></h3>
+                <h3 class="center"><b>CHI TIẾT ĐIỀU CHỈNH</b></h3>
                 <form action="/phong-cdvt/cai-tien-chon/add" method="post" id="myform">
                     <div class="col s3 m3">
                         <textarea name="data" hidden value="" id="json"></textarea>
-                        <label for="department_id_to">Cải tiến tại <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                        <label for="department_id_to">Điều chỉnh tại <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
                         <input id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
                     </div>
                     <div class="col s3 m3">
@@ -40,7 +40,7 @@
                                         <td>@ViewBag.DataThietBi[i].equipment_name</td>
                                         <td>@ViewBag.DataThietBi[i].statusname</td>
                                         <td>
-                                            <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">Vật tư cải tiến</a>
+                                            <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">Vật tư điều chỉnh</a>
                                         </td>
                                     </tr>
                                 }
@@ -50,7 +50,7 @@
                 </form>
                 <div class="col l12 m12 s12 center">
                     <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
-                    <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận cải tiến</a>
+                    <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận điều chỉnh</a>
                     <a href="cai-tien" class="btn blue darken-2 ">Quay lại</a>
                 </div>
             </div>
@@ -250,7 +250,7 @@
             window.location = '/phong-cdvt/quyet-dinh/export-word?data=' + $('#json').val()
                 + '&title=' + $('input[name = "reason"]').val() + '&department_id='
                 + $('#department_id_to').val() + '&documentary_type=' + 7
-                + '&fileName=Quyết định cải tiến.docx' + '&resource=' + $('input[name = "out_in_come"]').val()
+                + '&fileName=Quyết định điều chỉnh.docx' + '&resource=' + $('input[name = "out_in_come"]').val()
         });
     </script>
 }

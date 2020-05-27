@@ -10,7 +10,7 @@
     <div class="card-content">
         <div class="row center">
             <div class="col s12">
-                <h3><b>DANH SÁCH QUYẾT ĐỊNH CẢI TIẾN</b></h3>
+                <h3><b>DANH SÁCH QUYẾT ĐỊNH ĐIỀU CHỈNH</b></h3>
                 <div class="col l4 m4 s12">
                     <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
                         <input type="text" placeholder="Tên người lập quyết định" class='form-control' id="person_created-search" />
@@ -37,7 +37,7 @@
                         {
                             if (item.Equals("83"))
                             {
-                                <a href="/phong-cdvt/cai-tien" class="waves-effect waves-light btn blue darken-1 blue">Thêm</a>
+                                <a href="/phong-cdvt/quyet-dinh/dieu-chinh/chon-thiet-bi" class="waves-effect waves-light btn blue darken-1 blue">Thêm</a>
 
                             }
                         }
@@ -171,7 +171,7 @@
                     }
                 },
                 ajax: {
-                    url: "/phong-cdvt/quyet-dinh/cai-tien/search",
+                    url: "/phong-cdvt/quyet-dinh/dieu-chinh",
                     type: "POST",
                     datatype: "json",
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
