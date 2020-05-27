@@ -106,7 +106,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
                         item.linkIdCode.link = "trung-dai-tu";
                         break;
                     case 7:
-                        item.stringtype = "Cải tiến";
+                        item.stringtype = "Điều chỉnh";
                         item.linkIdCode.link = "cai-tien";
                         break;
                 }

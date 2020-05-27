@@ -126,7 +126,7 @@ namespace QUANGHANH2.Controllers
                 else if(qd.description.Equals("bao duong 2"))
                     ins.title += " bảo dưỡng";
                 else if (qd.description.Equals("cai tien 2"))
-                    ins.title += " cải tiến";
+                    ins.title += " điều chỉnh";
                 else if (qd.description.Equals("sua chua 2"))
                     ins.title += " sửa chữa";
                 else if (qd.description.Equals("thanh ly 2"))

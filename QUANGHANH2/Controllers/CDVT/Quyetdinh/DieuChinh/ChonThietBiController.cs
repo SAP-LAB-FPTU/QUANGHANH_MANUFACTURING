@@ -9,51 +9,50 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
 
-namespace QUANGHANH2.Controllers.CDVT.Work.CaiTien
+namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuChinh
 {
-    [SessionState(SessionStateBehavior.Default)]
     public class ChonThietBiController : Controller
     {
         [Auther(RightID = "85")]
-        [Route("phong-cdvt/cai-tien")]
+        [Route("phong-cdvt/quyet-dinh/dieu-chinh/chon-thiet-bi")]
         public ActionResult Index()
         {
             HttpCookie cookie;
-            if (HttpContext.Request.Cookies.Get("CaiTienThietBi") == null)
+            if (HttpContext.Request.Cookies.Get("DieuDongThietBi") == null)
             {
-                cookie = new HttpCookie("CaiTienThietBi");
+                cookie = new HttpCookie("DieuDongThietBi");
                 cookie.Expires = DateTime.Now.AddDays(1);
                 Response.Cookies.Add(cookie);
                 cookie.Value = "[]";
             }
             else
             {
-                cookie = HttpContext.Request.Cookies.Get("CaiTienThietBi");
+                cookie = HttpContext.Request.Cookies.Get("DieuDongThietBi");
             }
             ViewBag.selectedList = cookie.Value;
             if (TempData["shortMessage"] != null)
                 ViewBag.alert = true;
             else
                 ViewBag.alert = false;
-            return View("/Views/CDVT/Work/CaiTien/ChonThietBi.cshtml");
+            return View("/Views/CDVT/Quyetdinh/DieuChinh/ChonThietBi.cshtml");
         }
 
         [Auther(RightID = "85")]
-        [Route("phong-cdvt/cai-tien/search")]
+        [Route("phong-cdvt/quyet-dinh/dieu-chinh/chon-thiet-bi")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string department_name, string equipmentName)
         {
             HttpCookie cookie;
-            if (HttpContext.Request.Cookies["CaiTienThietBi"] == null)
+            if (HttpContext.Request.Cookies["DieuDongThietBi"] == null)
             {
-                cookie = new HttpCookie("CaiTienThietBi");
+                cookie = new HttpCookie("DieuDongThietBi");
                 cookie.Expires = DateTime.Now.AddDays(1);
                 Response.Cookies.Add(cookie);
                 cookie.Value = "[]";
             }
             else
             {
-                cookie = HttpContext.Request.Cookies["CaiTienThietBi"];
+                cookie = HttpContext.Request.Cookies["DieuDongThietBi"];
                 cookie.Value = Request["selectList"];
             }
 
