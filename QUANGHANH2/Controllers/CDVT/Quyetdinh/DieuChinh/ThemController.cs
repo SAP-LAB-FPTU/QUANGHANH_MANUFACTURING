@@ -15,60 +15,66 @@ using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
+namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuChinh
 {
-    public class ThemController : Controller
+    public class ThemCaiTienController : Controller
     {
         private readonly QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
-        [Auther(RightID = "87")]
-        [Route("phong-cdvt/dieu-dong-chon")]
+        [Auther(RightID = "85")]
+        [Route("phong-cdvt/quyet-dinh/dieu-chinh/them")]
         [HttpGet]
-        public ActionResult Index(String selectListJson)
+        public ActionResult Index(String selected)
         {
-            var listSelected = selectListJson;
-            db.Configuration.LazyLoadingEnabled = false;
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                db.Configuration.LazyLoadingEnabled = false;
 
-            var result = (from e in db.Equipments
-                          where listSelected.Contains(e.equipmentId)
-                          join d in db.Departments on e.department_id equals d.department_id
-                          join c in db.Status on e.current_Status equals c.statusid
-                          select new equipmentExtend
-                          {
-                              equipmentId = e.equipmentId,
-                              equipment_name = e.equipment_name,
-                              department_name = d.department_name,
-                              department_id = e.department_id,
-                              current_Status = e.current_Status,
-                              statusname = c.statusname,
+                List<equipmentExtend> result = (from e in db.Equipments
+                                                where selected.Contains(e.equipmentId)
+                                                join d in db.Departments on e.department_id equals d.department_id
+                                                join c in db.Status on e.current_Status equals c.statusid
+                                                select new equipmentExtend
+                                                {
+                                                    equipmentId = e.equipmentId,
+                                                    equipment_name = e.equipment_name,
+                                                    statusname = c.statusname,
+                                                    department_id = e.department_id,
+                                                }).ToList();
+                ViewBag.DataThietBi = result;
 
-                          }).ToList();
-            ViewBag.DataThietBi = result;
+                List<Supply_DiKem> vatTuDiKem = (from s in db.Supply_DiKem
+                                                 where selected.Contains(s.equipmentId)
+                                                 select s).ToList().Select(s => new Supply_DiKem
+                                                 {
+                                                     equipmentId_dikem = s.equipmentId_dikem,
+                                                     equipmentId = s.equipmentId,
+                                                 }).OrderBy(l => l.equipmentId).ToList();
 
-            List<Supply> supplies = db.Supplies.ToList();
-            List<Department> departments = db.Departments.ToList();
-            var equipAttached1 = (from a in db.Equipments
-                                  join b in db.Supply_DiKem on a.equipmentId equals b.equipmentId_dikem into newlist
-                                  from c in newlist.DefaultIfEmpty()
-                                  where c.equipmentId_dikem == null && a.isAttach == true
-                                  select new MiniEquipment
-                                  {
-                                      equipmentId = a.equipmentId,
-                                      equipment_name = a.equipment_name
-                                  }).ToList();
-            var equipAttacked2 = (from a in db.Equipments
-                                  join b in db.Supply_DiKem on a.equipmentId equals b.equipmentId_dikem
-                                  where a.isAttach == true && listSelected.Contains(b.equipmentId)
-                                  select new MiniEquipment
-                                  {
-                                      equipmentId = a.equipmentId,
-                                      equipment_name = a.equipment_name
-                                  }).ToList();
-            ViewBag.equipAttached = equipAttached1.Union(equipAttacked2).ToList();
-            ViewBag.Supplies = supplies;
-            ViewBag.Departments = departments;
-            ViewBag.supply_inverse = db.Supplies.Take(10).ToList();
-            return View("/Views/CDVT/Work/dieu_dong_va_chon.cshtml");
+                List<Department> departments = db.Departments.ToList();
+                var equipAttached1 = (from a in db.Equipments
+                                      join b in db.Supply_DiKem on a.equipmentId equals b.equipmentId_dikem into newlist
+                                      from c in newlist.DefaultIfEmpty()
+                                      where c.equipmentId_dikem == null && a.isAttach == true
+                                      select new MiniEquipment
+                                      {
+                                          equipmentId = a.equipmentId,
+                                          equipment_name = a.equipment_name
+                                      }).ToList();
+                var equipAttacked2 = (from a in db.Equipments
+                                      join b in db.Supply_DiKem on a.equipmentId equals b.equipmentId_dikem
+                                      where a.isAttach == true && selected.Contains(b.equipmentId)
+                                      select new MiniEquipment
+                                      {
+                                          equipmentId = a.equipmentId,
+                                          equipment_name = a.equipment_name
+                                      }).ToList();
+                ViewBag.equipAttached = equipAttached1.Union(equipAttacked2).ToList();
+                ViewBag.vatTuDiKem = vatTuDiKem;
+                ViewBag.supply_inverse = db.Supplies.Take(10).ToList();
+                ViewBag.Departments = departments;
+            }
+            return View("/Views/CDVT/Quyetdinh/DieuChinh/Them.cshtml");
         }
 
         public class MiniEquipment
@@ -77,10 +83,10 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
             public string equipment_name { get; set; }
         }
 
-        [Auther(RightID = "87")]
-        [Route("phong-cdvt/dieu-dong-chon")]
+        [Auther(RightID = "85")]
+        [Route("phong-cdvt/cai-tien-chon/add")]
         [HttpPost]
-        public ActionResult Add(string out_in_come, string data, string department_id, string reason)
+        public ActionResult Add(string out_in_come, string data, string reason)
         {
             string department_id_to = Request["department_id_to"];
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
@@ -89,7 +95,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
                 {
                     Documentary documentary = new Documentary
                     {
-                        documentary_type = 3,
+                        documentary_type = 7,
                         department_id_to = department_id_to,
                         date_created = DateTime.Now,
                         person_created = Session["Name"] + "",
@@ -103,45 +109,26 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
                     foreach (var item in json)
                     {
                         string equipmentId = (string)item.Value["id"];
-                        string department_detail = (string)item.Value["department_detail"];
-                        string equipment_moveline_reason = (string)item.Value["equipment_moveline_reason"];
-                        string datestring = (string)item.Value["date_to"];
-                        DateTime date_to = DateTime.ParseExact(datestring, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                        Documentary_moveline_details drd = new Documentary_moveline_details();
+                        Documentary_Improve_Detail drd = new Documentary_Improve_Detail();
                         Equipment e = db.Equipments.Find(equipmentId);
                         drd.department_id_from = e.department_id;
-                        drd.equipment_moveline_status = 0;
-                        drd.department_detail = department_detail;
-                        drd.date_to = date_to;
-                        drd.equipment_moveline_reason = equipment_moveline_reason;
                         drd.documentary_id = documentary.documentary_id;
                         drd.equipmentId = equipmentId;
-                        db.Documentary_moveline_details.Add(drd);
+                        db.Documentary_Improve_Detail.Add(drd);
                         db.SaveChanges();
                         JArray thietbi = (JArray)item.Value.SelectToken("thietbi");
                         foreach (JObject jObject in thietbi)
                         {
                             string equipmentId_dikem = (string)jObject["equipmentId"];
                             int quantity_dikem = (int)jObject["quantity_dikem"];
-                            int quantity_duphong = (int)jObject["quantity_duphong"];
                             Supply_Documentary_Equipment sde1 = new Supply_Documentary_Equipment
                             {
                                 documentary_id = documentary.documentary_id,
                                 equipmentId = equipmentId,
                                 equipmentId_dikem = equipmentId_dikem,
-                                quantity_plan = quantity_dikem,
-                                supplyStatus = "dikem"
+                                quantity_plan = quantity_dikem
                             };
                             db.Supply_Documentary_Equipment.Add(sde1);
-                            Supply_Documentary_Equipment sde2 = new Supply_Documentary_Equipment
-                            {
-                                documentary_id = documentary.documentary_id,
-                                equipmentId = equipmentId,
-                                equipmentId_dikem = equipmentId_dikem,
-                                quantity_plan = quantity_duphong,
-                                supplyStatus = "duphong"
-                            };
-                            db.Supply_Documentary_Equipment.Add(sde2);
                             db.SaveChanges();
                         }
                         JArray vattu = (JArray)item.Value.SelectToken("vattu");
@@ -167,28 +154,17 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
 
                     return Json(new { success = true, message = "Tạo quyết định thành công, đang chuyển hướng" });
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     transaction.Rollback();
                     return Json(new { success = false, message = "Có lỗi xảy ra" });
-                    throw e;
 
                 }
             }
         }
 
         [Auther(RightID = "87")]
-        [Route("phong-cdvt/dieu-dong-chon/getdata")]
-        [HttpPost]
-        public ActionResult GetData(string equipmentId)
-        {
-            db.Configuration.LazyLoadingEnabled = false;
-            var output = db.Supply_DiKem.Where(x => x.equipmentId.Equals(equipmentId)).ToList();
-            return Json(output);
-        }
-
-        [Auther(RightID = "87")]
-        [Route("phong-cdvt/quyet-dinh/dieu-dong/them/export")]
+        [Route("phong-cdvt/quyet-dinh/dieu-chinh/them/export")]
         [HttpGet]
         public ActionResult ExportQuyetDinh(string data, string department_id_to, string reason)
         {
@@ -232,7 +208,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
                             docText = regexText.Replace(docText, department.department_id.Contains("PX") ? department.department_name.Substring(11) : department.department_name);
 
                             regexText = new Regex("%loaiquyetdinh%");
-                            docText = regexText.Replace(docText, "điều động");
+                            docText = regexText.Replace(docText, "điều chỉnh");
 
                             using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
                             {
@@ -299,7 +275,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
                             if (TempData[handle] != null)
                             {
                                 byte[] output = TempData[handle] as byte[];
-                                return File(output, "application/vnd.ms-excel", "Quyết định điều động.docx");
+                                return File(output, "application/vnd.ms-excel", "Quyết định điều chỉnh.docx");
                             }
                             else
                             {
@@ -336,14 +312,9 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
                     else
                     {
                         Equipment e = db.Equipments.Find((string)jObject["equipmentId"]);
-                        int dikem = (int)jObject["quantity_dikem"];
-                        int duphong = (int)jObject["quantity_duphong"];
-                        quantity = dikem + duphong;
+                        quantity = (int)jObject["quantity_dikem"];
                         name = e.equipment_name;
                         unit = "Cái";
-                        note = dikem + " đi kèm";
-                        if (duphong != 0)
-                            note += ", " + duphong + " dự phòng";
                     }
                     TableRow tr = new TableRow();
 

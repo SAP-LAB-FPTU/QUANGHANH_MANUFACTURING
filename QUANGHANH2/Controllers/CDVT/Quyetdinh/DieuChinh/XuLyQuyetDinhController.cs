@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Linq.Dynamic;
 using QUANGHANH2.SupportClass;
 using System.Data.SqlClient;
+using Newtonsoft.Json.Linq;
 
 namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
 {
@@ -57,12 +58,11 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             string sortDirection = Request["order[0][dir]"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             string departid = Session["departID"].ToString();
-            List<Documentary_Improve_DetailDB> equips = DBContext.Database.SqlQuery<Documentary_Improve_DetailDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.equipment_Improve_status from Department depa inner join Documentary docu on depa.department_id = docu.department_id_to inner join Documentary_Improve_Detail details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 7 and details.documentary_id = @documentary_id and docu.department_id_to = @departid ",
+            List<Documentary_Improve_DetailDB> equips = DBContext.Database.SqlQuery<Documentary_Improve_DetailDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.equipment_Improve_status, docu.documentary_id from Department depa inner join Documentary docu on depa.department_id = docu.department_id_to inner join Documentary_Improve_Detail details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 7 and details.documentary_id = @documentary_id and docu.department_id_to = @departid ",
                 new SqlParameter("documentary_id", id), new SqlParameter("departid", departid)).ToList();
             foreach (Documentary_Improve_DetailDB item in equips)
             {
                 item.statusAndEquip = item.equipment_Improve_status + "^" + item.equipmentId;
-                item.idAndEquip = id + "^" + item.equipmentId;
             }
             int totalrows = equips.Count;
             int totalrowsafterfiltering = equips.Count;
@@ -130,6 +130,67 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                 }
             }
             return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Auther(RightID = "86,179,180,181,183,184,185,186,187,189,195")]
+        [Route("phong-cdvt/cap-nhat/quyet-dinh/cai-tien/update")]
+        [HttpPost]
+        public ActionResult AddSupply(string list, int documentary_id, string equipmentId, bool IsSupply)
+        {
+            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            Documentary_Improve_Detail detail = DBContext.Documentary_Improve_Detail.Where(x => x.equipmentId == equipmentId && x.documentary_id == documentary_id).FirstOrDefault();
+            if (detail.equipment_Improve_status == 1)
+                return Json(new { success = false, message = "Thiết bị đã được xử lý xong" });
+
+            using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    JObject json = JObject.Parse(list);
+                    JArray arr = (JArray)json.SelectToken("list");  //list của thiết bị con đi kèm, dự phòng và vật tư sctx
+                    foreach (JObject item in arr)
+                    {
+                        string supply_id = (string)item["supply_id"];
+                        Supply_Documentary_Equipment temp;
+                        if (!IsSupply)
+                        {
+                            temp = DBContext.Supply_Documentary_Equipment.Where(a => a.documentary_id == documentary_id && a.equipmentId == equipmentId && a.equipmentId_dikem == supply_id).FirstOrDefault();
+                        }
+                        else
+                        {
+                            temp = DBContext.Supply_Documentary_Equipment.Where(a => a.documentary_id == documentary_id && a.equipmentId == equipmentId && a.supply_id == supply_id).FirstOrDefault();
+                        }
+                        if (temp == null)
+                        {
+                            temp = new Supply_Documentary_Equipment
+                            {
+                                documentary_id = documentary_id,
+                                equipmentId = equipmentId,
+                                quantity_in = (int)item["quantity_in"],
+                                quantity_plan = item["quantity_plan"] == null ? 0 : (int)item["quantity_plan"],
+                            };
+                            if (IsSupply)
+                                temp.supply_id = supply_id;
+                            else
+                                temp.equipmentId_dikem = supply_id;
+                            DBContext.Supply_Documentary_Equipment.Add(temp);
+                        }
+                        else
+                        {
+                            temp.quantity_in = (int)item["quantity_in"] < temp.quantity_in ? temp.quantity_in : (int)item["quantity_in"];
+                        }
+                        DBContext.SaveChanges();
+                    }
+                    DBContext.SaveChanges();
+                    transaction.Commit();
+                    return Json(new { success = true, message = "Cập nhật thành công" });
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    return Json(new { success = false, message = "Có lỗi xảy ra" });
+                }
+            }
         }
     }
 }
