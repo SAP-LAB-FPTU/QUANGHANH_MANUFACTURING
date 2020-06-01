@@ -631,6 +631,7 @@ namespace QUANGHANH2.Controllers.BGD.DK
             ////////////////////THAN SX////////////////////////////
             new_query = @"select 
                         pb.MaPhongBan as 'MaPhongBan',
+						pb.TenPhongBan,
                         ISNULL(th.SanLuongThucHien,0) as 'SanLuongThucHienNgay',
 						ISNULL(khn.SanLuongKeHoach,0) as 'SanLuongKeHoachNgay',
                         ISNULL(lk.SanLuongLuyKe,0) as 'SanLuongLuyKeNgay',
@@ -639,14 +640,16 @@ namespace QUANGHANH2.Controllers.BGD.DK
                         (case when (th.SanLuongThucHien >= khn.SanLuongKeHoach) then N'Đạt' else N'Không đạt' end) as 'TinhTrang'
                         from 
 						(select 
-						hd.MaPhongBan
+						hd.MaPhongBan,
+						dp.department_name as 'TenPhongBan'
 						from header_KeHoachTungThang hd 
 						join KeHoachTungThang kh on hd.ThangID = kh.ThangID
 						join KeHoach_TieuChi_TheoThang khtc on khtc.HeaderID = hd.HeaderID
 						join TieuChi tc on tc.MaTieuChi = khtc.MaTieuChi
 						join NhomTieuChi ntc on ntc.MaNhomTieuChi = tc.MaNhomTieuChi
+						join Department dp on hd.MaPhongBan = dp.department_id
 						where ntc.MaNhomTieuChi in (1,2)
-						group by hd.MaPhongBan) as pb
+						group by hd.MaPhongBan, dp.department_name) as pb
 						LEFT JOIN
                         (select 
                         hd.MaPhongBan, 
@@ -717,6 +720,7 @@ namespace QUANGHANH2.Controllers.BGD.DK
             ///////////////////MÉT LÒ ĐÀO////////////////////////////
             new_query = @"select 
                         pb.MaPhongBan as 'MaPhongBan',
+                        pb.TenPhongBan,
                         ISNULL(th.SanLuongThucHien,0) as 'SanLuongThucHienNgay',
 						ISNULL(khn.SanLuongKeHoach,0) as 'SanLuongKeHoachNgay',
                         ISNULL(lk.SanLuongLuyKe,0) as 'SanLuongLuyKeNgay',
@@ -725,14 +729,16 @@ namespace QUANGHANH2.Controllers.BGD.DK
                         (case when (th.SanLuongThucHien >= khn.SanLuongKeHoach) then N'Đạt' else N'Không đạt' end) as 'TinhTrang'
                         from 
 						(select 
-						hd.MaPhongBan
+						hd.MaPhongBan,
+                        dp.department_name as 'TenPhongBan'
 						from header_KeHoachTungThang hd 
 						join KeHoachTungThang kh on hd.ThangID = kh.ThangID
 						join KeHoach_TieuChi_TheoThang khtc on khtc.HeaderID = hd.HeaderID
 						join TieuChi tc on tc.MaTieuChi = khtc.MaTieuChi
 						join NhomTieuChi ntc on ntc.MaNhomTieuChi = tc.MaNhomTieuChi
+                        join Department dp on hd.MaPhongBan = dp.department_id
 						where ntc.MaNhomTieuChi = 5
-						group by hd.MaPhongBan) as pb
+						group by hd.MaPhongBan, dp.department_name) as pb
 						LEFT JOIN
                         (select 
                         hd.MaPhongBan, 
@@ -803,6 +809,7 @@ namespace QUANGHANH2.Controllers.BGD.DK
             ///////////////////ĐẤT ĐÁ BÓC////////////////////////////
             new_query = @"select 
                         pb.MaPhongBan as 'MaPhongBan',
+                        pb.TenPhongBan,
                         ISNULL(th.SanLuongThucHien,0) as 'SanLuongThucHienNgay',
 						ISNULL(khn.SanLuongKeHoach,0) as 'SanLuongKeHoachNgay',
                         ISNULL(lk.SanLuongLuyKe,0) as 'SanLuongLuyKeNgay',
@@ -811,14 +818,16 @@ namespace QUANGHANH2.Controllers.BGD.DK
                         (case when (th.SanLuongThucHien >= khn.SanLuongKeHoach) then N'Đạt' else N'Không đạt' end) as 'TinhTrang'
                         from 
 						(select 
-						hd.MaPhongBan
+						hd.MaPhongBan,
+                        dp.department_name as 'TenPhongBan'
 						from header_KeHoachTungThang hd 
 						join KeHoachTungThang kh on hd.ThangID = kh.ThangID
 						join KeHoach_TieuChi_TheoThang khtc on khtc.HeaderID = hd.HeaderID
 						join TieuChi tc on tc.MaTieuChi = khtc.MaTieuChi
 						join NhomTieuChi ntc on ntc.MaNhomTieuChi = tc.MaNhomTieuChi
+                        join Department dp on hd.MaPhongBan = dp.department_id
 						where ntc.MaNhomTieuChi = 3
-						group by hd.MaPhongBan) as pb
+						group by hd.MaPhongBan, dp.department_name) as pb
 						LEFT JOIN
                         (select 
                         hd.MaPhongBan, 
@@ -890,6 +899,7 @@ namespace QUANGHANH2.Controllers.BGD.DK
         public class SanLuong_LuyKe
         {
             public string MaPhongBan { get; set; }
+            public string TenPhongBan { get; set; }
             public double? SanLuongThucHienNgay { get; set; }
             public double? SanLuongKeHoachNgay { get; set; }
             public double? SanLuongLuyKeNgay { get; set; }
