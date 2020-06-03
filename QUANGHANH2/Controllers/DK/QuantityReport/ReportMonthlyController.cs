@@ -115,6 +115,7 @@ namespace QUANGHANH2.Controllers.DK
                             inner join TieuChi on tmp5.MaTieuChi = TieuChi.MaTieuChi) as tmp6 
                             group by MaPhongBan,MaNhomTieuChi
                             order by MaPhongBan";
+
             var yearlyPlanQuery = @"Select MaPhongBan,MaNhomTieuChi,SUM(SanLuong) as [SanLuong] from (select MaPhongBan, TieuChi.MaNhomTieuChi, SanLuong from( 
                             select tmp3.MaTieuChi, tmp3.MaPhongBan, (Case when SanLuong IS NULL then 0 else SanLuong end) as [SanLuong] from 
                             (select distinct MaTieuChi, MaPhongBan from ThucHien_TieuChi_TheoNgay as a 
