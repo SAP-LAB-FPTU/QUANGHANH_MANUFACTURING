@@ -7223,6 +7223,7 @@
     <Content Include="js\Custom JS\jquery-freeze-table-master\package.json" />
     <Content Include="js\Custom JS\jquery-freeze-table-master\README.md" />
     <Content Include="js\Custom JS\jquery-freeze-table-master\RECOMMENDATIONS.md" />
+    <Content Include="doc\CDVT\QD\quyetdinh-dieudong-template.docx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7230,7 +7231,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="doc\CDVT\QD\quyetdinh-dieudong-template.docx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />

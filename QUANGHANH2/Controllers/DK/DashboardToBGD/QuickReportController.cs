@@ -655,7 +655,8 @@ namespace QUANGHANHCORE.Controllers.DK
                         from 
 						(select 
 						hd.MaPhongBan,
-						dp.department_name as 'TenPhongBan'
+						dp.department_name as 'TenPhongBan',
+						dp.[index]
 						from header_KeHoachTungThang hd 
 						join KeHoachTungThang kh on hd.ThangID = kh.ThangID
 						join KeHoach_TieuChi_TheoThang khtc on khtc.HeaderID = hd.HeaderID
@@ -663,7 +664,7 @@ namespace QUANGHANHCORE.Controllers.DK
 						join NhomTieuChi ntc on ntc.MaNhomTieuChi = tc.MaNhomTieuChi
 						join Department dp on hd.MaPhongBan = dp.department_id
 						where ntc.MaNhomTieuChi in (1,2)
-						group by hd.MaPhongBan, dp.department_name) as pb
+						group by hd.MaPhongBan, dp.department_name, dp.[index]) as pb
 						LEFT JOIN
                         (select 
                         hd.MaPhongBan, 
@@ -725,7 +726,8 @@ namespace QUANGHANHCORE.Controllers.DK
 						SanLuong,
 						ThoiGianNhapCuoiCung 
 						from KeHoach_TieuChi_TheoThang) as sl on kht.MaTieuChi = sl.MaTieuChi and kht.ThoiGianNhapCuoiCung = sl.ThoiGianNhapCuoiCung) as slkh
-						group by MaPhongBan) as kht on kht.MaPhongBan = pb.MaPhongBan";
+						group by MaPhongBan) as kht on kht.MaPhongBan = pb.MaPhongBan
+						order by pb.[index]";
             List<SanLuong_LuyKe> sl_lk_thansx = db.Database.SqlQuery<SanLuong_LuyKe>(new_query,
                 new SqlParameter("@Ngay", timeEnd)).ToList<SanLuong_LuyKe>();
             ViewBag.sl_lk_thansx = sl_lk_thansx;
@@ -744,7 +746,8 @@ namespace QUANGHANHCORE.Controllers.DK
                         from 
 						(select 
 						hd.MaPhongBan,
-                        dp.department_name as 'TenPhongBan'
+                        dp.department_name as 'TenPhongBan',
+						dp.[index]
 						from header_KeHoachTungThang hd 
 						join KeHoachTungThang kh on hd.ThangID = kh.ThangID
 						join KeHoach_TieuChi_TheoThang khtc on khtc.HeaderID = hd.HeaderID
@@ -752,7 +755,7 @@ namespace QUANGHANHCORE.Controllers.DK
 						join NhomTieuChi ntc on ntc.MaNhomTieuChi = tc.MaNhomTieuChi
                         join Department dp on hd.MaPhongBan = dp.department_id
 						where ntc.MaNhomTieuChi = 5
-						group by hd.MaPhongBan, dp.department_name) as pb
+						group by hd.MaPhongBan, dp.department_name, dp.[index]) as pb
 						LEFT JOIN
                         (select 
                         hd.MaPhongBan, 
@@ -814,7 +817,8 @@ namespace QUANGHANHCORE.Controllers.DK
 						SanLuong,
 						ThoiGianNhapCuoiCung 
 						from KeHoach_TieuChi_TheoThang) as sl on kht.MaTieuChi = sl.MaTieuChi and kht.ThoiGianNhapCuoiCung = sl.ThoiGianNhapCuoiCung) as slkh
-						group by MaPhongBan) as kht on kht.MaPhongBan = pb.MaPhongBan";
+						group by MaPhongBan) as kht on kht.MaPhongBan = pb.MaPhongBan
+						order by pb.[index]";
             List<SanLuong_LuyKe> sl_lk_metlo = db.Database.SqlQuery<SanLuong_LuyKe>(new_query,
                 new SqlParameter("@Ngay", timeEnd)).ToList<SanLuong_LuyKe>();
             ViewBag.sl_lk_metlo = sl_lk_metlo;
@@ -833,7 +837,8 @@ namespace QUANGHANHCORE.Controllers.DK
                         from 
 						(select 
 						hd.MaPhongBan,
-                        dp.department_name as 'TenPhongBan'
+                        dp.department_name as 'TenPhongBan',
+						dp.[index]
 						from header_KeHoachTungThang hd 
 						join KeHoachTungThang kh on hd.ThangID = kh.ThangID
 						join KeHoach_TieuChi_TheoThang khtc on khtc.HeaderID = hd.HeaderID
@@ -841,7 +846,7 @@ namespace QUANGHANHCORE.Controllers.DK
 						join NhomTieuChi ntc on ntc.MaNhomTieuChi = tc.MaNhomTieuChi
                         join Department dp on hd.MaPhongBan = dp.department_id
 						where ntc.MaNhomTieuChi = 3
-						group by hd.MaPhongBan, dp.department_name) as pb
+						group by hd.MaPhongBan, dp.department_name, dp.[index]) as pb
 						LEFT JOIN
                         (select 
                         hd.MaPhongBan, 
@@ -903,7 +908,8 @@ namespace QUANGHANHCORE.Controllers.DK
 						SanLuong,
 						ThoiGianNhapCuoiCung 
 						from KeHoach_TieuChi_TheoThang) as sl on kht.MaTieuChi = sl.MaTieuChi and kht.ThoiGianNhapCuoiCung = sl.ThoiGianNhapCuoiCung) as slkh
-						group by MaPhongBan) as kht on kht.MaPhongBan = pb.MaPhongBan";
+						group by MaPhongBan) as kht on kht.MaPhongBan = pb.MaPhongBan
+						order by pb.[index]";
             List<SanLuong_LuyKe> sl_lk_datda = db.Database.SqlQuery<SanLuong_LuyKe>(new_query,
                 new SqlParameter("@Ngay", timeEnd)).ToList<SanLuong_LuyKe>();
             ViewBag.sl_lk_datda = sl_lk_datda;

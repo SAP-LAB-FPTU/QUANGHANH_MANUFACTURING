@@ -54,6 +54,7 @@ namespace QUANGHANH2.Models
         public string department_name { get; set; }
         public string department_type { get; set; }
         public bool isInside { get; set; }
+        public Nullable<int> index { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BaoCaoFile> BaoCaoFiles { get; set; }
