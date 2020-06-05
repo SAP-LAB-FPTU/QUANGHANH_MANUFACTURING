@@ -46,6 +46,7 @@ namespace QUANGHANHCORE.Controllers
         {
             if (password == null) return RedirectToAction("Index");
             string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(password, "pl");
+            string passssssss = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Decrypt(passXc);
             var checkuser = db.Accounts.Where(x => x.Username == username).Where(y => y.Password == passXc).SingleOrDefault();
             if (checkuser != null)
             {
@@ -56,12 +57,12 @@ namespace QUANGHANHCORE.Controllers
                     int id = checkuser.ID;
                     var Name = db.Database.SqlQuery<InfoAccount>(@"select a.ID,nv.Ten,a.Username,a.Position,a.ADMIN,d.department_name,d.department_id,a.Role from Account a , NhanVien nv , Department d
                                                                     where a.NVID = nv.MaNV and d.department_id = nv.MaPhongBan and a.ID = @id", new SqlParameter("id", id)).FirstOrDefault();
-                    Session["departName"] = Name.department_name;
-                    Session["departID"] = Name.department_id;
+                    Session["departName"] = Name.department_name.Trim();
+                    Session["departID"] = Name.department_id.Trim();
                     Session["account_id"] = Name.ID;
                     Session["Name"] = Name.Ten;
-                    Session["username"] = Name.Username;
-                    Session["Position"] = Name.Position;
+                    Session["username"] = Name.Username.Trim();
+                    Session["Position"] = Name.Position.Trim();
                     Session["isAdmin"] = Name.ADMIN;
                     Session["Role"] = Name.Role;
                     GetPermission(id);
@@ -73,6 +74,8 @@ namespace QUANGHANHCORE.Controllers
                             remme["username"] = Name.Username;
                             remme["password"] = password;
                             remme.Expires = DateTime.Now.AddDays(365);
+                            remme.Secure = true;
+                            remme.HttpOnly = true;
                             HttpContext.Response.Cookies.Add(remme);
                         }
                     }
@@ -117,6 +120,10 @@ namespace QUANGHANHCORE.Controllers
             if(Session["Position"].ToString().Equals("Trưởng phòng") && Session["departID"].ToString().Equals("CV"))
             {
                 RightIDs.Add("192");
+            }
+            if (Session["Position"].ToString().Equals("Trưởng phòng"))
+            {
+                RightIDs.Add("0");
             }
             var user = db.Accounts.Where(x => x.ID == UserID).FirstOrDefault();
 
