@@ -823,9 +823,9 @@ namespace QUANGHANH2.Controllers.TCLD
             public string TenTrinhDo { get; set; }
             public string TenChuyenNganh { get; set; }
             public string TenCongViec { get; set; }
-            public string ThangLuong { get; set; }
-
-
+            public string MucThangLuong { get; set; }
+            public string MucBacLuong { get; set; }
+            public string MucLuongNhanVien { get; set; }
         }
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/excel")]
         [HttpPost]
@@ -839,12 +839,40 @@ namespace QUANGHANH2.Controllers.TCLD
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    string query = "select * from NhanVien nv left outer join CongViec cv on nv.MaCongViec = cv.MaCongViec where nv.MaTrangThai = 1";
-                    List<NhanVienExcel> list = db.Database.SqlQuery<NhanVienExcel>(query).ToList();
+                    string searchMaNV = Request["MaNV"];
+                    string searchTenNV = Request["TenNV"];
+                    string searchGioiTinh = Request["GioiTinh"];
+                    string searchMaPhongBan = Request["MaPhongBan"];
+
+                    string query = @"select nv.*, cv.TenCongViec, 
+                                    tl.MucThangLuong as 'MucThangLuong',
+                                    bl.MucBacLuong as 'MucBacLuong',
+                                    bl_tl_ml.MucLuong as 'MucLuongNhanVien'
+                                    from NhanVien nv
+                                    left outer join CongViec cv on nv.MaCongViec = cv.MaCongViec
+                                    left outer join BacLuong_ThangLuong_MucLuong bl_tl_ml on nv.MaBacLuong_ThangLuong_MucLuong = bl_tl_ml.MaBacLuong_ThangLuong_MucLuong
+                                    left outer join BacLuong bl on bl.MaBacLuong = bl_tl_ml.MaBacLuong
+                                    left outer join ThangLuong tl on tl.MaThangLuong = bl_tl_ml.MaThangLuong";
+                    if (searchMaNV != "" || searchTenNV != "" || searchGioiTinh != "" || searchMaPhongBan != "")
+                    {
+                        query += " where";
+                        if (searchMaNV != "") query += " nv.MaNV like @searchMaNV and";
+                        if (searchTenNV != "") query += " nv.Ten like @searchTenNV and";
+                        if (searchGioiTinh != "")
+                        {
+                            searchGioiTinh = searchGioiTinh == "true" ? "1" : "0";
+                            query += " nv.GioiTinh = @searchGioiTinh and";
+                        }
+                        if (searchMaPhongBan != "") query += " nv.MaPhongBan = @searchMaPhongBan and";
+                        query = query.Substring(0, query.Length - 4);
+                    }
+                    List<NhanVienExcel> list = db.Database.SqlQuery<NhanVienExcel>(query, new SqlParameter("searchMaNV", searchMaNV),
+                                                                                            new SqlParameter("searchTenNV", searchTenNV),
+                                                                                            new SqlParameter("searchGioiTinh", searchGioiTinh),
+                                                                                            new SqlParameter("searchMaPhongBan", searchMaPhongBan)).ToList();
                     int k = 4;
                     for (int i = 0; i < list.Count; i++)
                     {
-
                         excelWorksheet.Cells[k, 1].Value = i + 1;
                         excelWorksheet.Cells[k, 2].Value = list.ElementAt(i).MaNV;
                         excelWorksheet.Cells[k, 3].Value = list.ElementAt(i).Ten;
@@ -859,9 +887,11 @@ namespace QUANGHANH2.Controllers.TCLD
                         excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).NgaySinh.HasValue ? list.ElementAt(i).NgaySinh.Value.ToString("dd/MM/yyyy") : "";
                         excelWorksheet.Cells[k, 6].Value = list.ElementAt(i).SoCMND;
                         excelWorksheet.Cells[k, 7].Value = list.ElementAt(i).SoBHXH;
+                        excelWorksheet.Cells[k, 13].Value = list.ElementAt(i).MaPhongBan;
                         excelWorksheet.Cells[k, 14].Value = list.ElementAt(i).TenCongViec;
-                        excelWorksheet.Cells[k, 15].Value = list.ElementAt(i).MucLuong;
-                        excelWorksheet.Cells[k, 17].Value = list.ElementAt(i).BacLuong;
+                        excelWorksheet.Cells[k, 15].Value = list.ElementAt(i).MucLuongNhanVien;
+                        excelWorksheet.Cells[k, 16].Value = list.ElementAt(i).MucThangLuong;
+                        excelWorksheet.Cells[k, 17].Value = list.ElementAt(i).MucBacLuong;
                         if (list.ElementAt(i).MaTrinhDo != null)
                         {
                             if (list.ElementAt(i).MaTrinhDo.Equals("1"))

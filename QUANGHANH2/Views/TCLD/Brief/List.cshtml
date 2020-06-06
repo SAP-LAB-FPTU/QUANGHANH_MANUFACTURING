@@ -9,8 +9,8 @@
     List<string> right = (List<string>)Session["RightIDs"];
 }
 <datalist id="pb">
-    @{ 
-        foreach(var item in ViewBag.pb)
+    @{
+        foreach (var item in ViewBag.pb)
         {
             <option value="@item.department_id">@item.department_name</option>
         }
@@ -495,6 +495,12 @@
             $.ajax({
                 type: "POST",
                 url: "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/excel",
+                data: {
+                    "MaNV": function () { return $("#searchMaNV").val() },
+                    "TenNV": function () { return $("#searchTenNV").val() },
+                    "GioiTinh": function () { return $("#searchGioiTinh").val() },
+                    "MaPhongBan": function () { return $("#searchPB").val() }
+                },
                 cache: false
             }).done(function () {
                 window.location.href = "/excel/TCLD/download/Danh-sách-nhân-viên.xlsx";
