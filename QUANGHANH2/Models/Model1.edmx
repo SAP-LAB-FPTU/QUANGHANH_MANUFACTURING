@@ -45,6 +45,7 @@
           <Property Name="KCM" Type="bit" Nullable="false" />
           <Property Name="ADMIN" Type="bit" Nullable="false" />
           <Property Name="PXCKSC" Type="bit" />
+          <Property Name="token" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Account_Right">
           <Key>
@@ -4194,6 +4195,7 @@
           <Property Name="KCM" Type="Boolean" Nullable="false" />
           <Property Name="ADMIN" Type="Boolean" Nullable="false" />
           <Property Name="PXCKSC" Type="Boolean" />
+          <Property Name="token" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="FileBaoCaos" Relationship="Self.FK__FileBaoCa__nguoi__29AC2CE0" FromRole="Account" ToRole="FileBaoCao" />
           <NavigationProperty Name="NhanVien" Relationship="Self.FK_Account_NhanVien" FromRole="Account" ToRole="NhanVien" />
           <NavigationProperty Name="Account_Right_Detail" Relationship="Self.FK_Account_Right_Detail_Account" FromRole="Account" ToRole="Account_Right_Detail" />
@@ -8688,6 +8690,7 @@
                 <ScalarProperty Name="KCM" ColumnName="KCM" />
                 <ScalarProperty Name="ADMIN" ColumnName="ADMIN" />
                 <ScalarProperty Name="PXCKSC" ColumnName="PXCKSC" />
+                <ScalarProperty Name="token" ColumnName="token" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
