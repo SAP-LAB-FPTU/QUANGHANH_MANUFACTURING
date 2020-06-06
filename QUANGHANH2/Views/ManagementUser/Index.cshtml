@@ -239,7 +239,7 @@
                             <li><a href="@Url.Action("Logout", "LogIn")"><i class="small material-icons">power_settings_new</i>Đăng Xuất</a></li>
                         </ul>
                     </li>
-                    <li id="user-icon"><a href="" style="color:black">@Session["Name"] <span class="new badge red" data-badge-caption="@Session["Position"]"></span></a></li>
+                    <li id="user-icon"><a href="/@Session["url"]" style="color:black">@Session["Name"] <span class="new badge red" data-badge-caption="@Session["Position"]"></span></a></li>
                 </ul>
             </div>
         </nav>

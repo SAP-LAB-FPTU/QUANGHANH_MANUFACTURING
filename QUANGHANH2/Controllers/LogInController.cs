@@ -28,16 +28,21 @@ namespace QUANGHANHCORE.Controllers
                 string url = (string)Session["url"];
                 return Redirect(url);
             }
-            if (HttpContext.Request.Cookies["remme"] != null)
+            if (HttpContext.Request.Cookies["token"] != null)
             {
-                HttpCookie remme = HttpContext.Request.Cookies.Get("remme");
-                login a = new login()
+                HttpCookie remme = HttpContext.Request.Cookies.Get("token");
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    username = remme.Values.Get("username"),
-                    password = remme.Values.Get("password")
-                };
-                ViewBag.login = a;
-                return View();
+                    string token = remme.Values.Get("token");
+                    var info = db.Accounts.Where(x => x.token.Equals(token)).FirstOrDefault();
+                    login a = new login()
+                    {
+                        username = info.Username,
+                        password = Hash.Encrypt.DecryptString(token, "quanghanhcoals")
+                    };
+                    ViewBag.login = a;
+                    return View();
+                }
             }
             return View();
         }
@@ -56,23 +61,32 @@ namespace QUANGHANHCORE.Controllers
                     int id = checkuser.ID;
                     var Name = db.Database.SqlQuery<InfoAccount>(@"select a.ID,nv.Ten,a.Username,a.Position,a.ADMIN,d.department_name,d.department_id,a.Role from Account a , NhanVien nv , Department d
                                                                     where a.NVID = nv.MaNV and d.department_id = nv.MaPhongBan and a.ID = @id", new SqlParameter("id", id)).FirstOrDefault();
-                    Session["departName"] = Name.department_name;
-                    Session["departID"] = Name.department_id;
+                    Session["departName"] = Name.department_name.Trim();
+                    Session["departID"] = Name.department_id.Trim();
                     Session["account_id"] = Name.ID;
                     Session["Name"] = Name.Ten;
-                    Session["username"] = Name.Username;
-                    Session["Position"] = Name.Position;
+                    Session["username"] = Name.Username.Trim();
+                    Session["Position"] = Name.Position.Trim();
                     Session["isAdmin"] = Name.ADMIN;
                     Session["Role"] = Name.Role;
                     GetPermission(id);
+                    string hashtoken = Hash.Encrypt.EncryptString(password,"quanghanhcoals");
+                    checkuser.token = hashtoken;
+                    try
+                    {
+                        db.Entry(checkuser).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    catch (Exception e) { }
                     if (!String.IsNullOrEmpty(rm))
                     {
                         if (rm.Equals("on"))
                         {
-                            HttpCookie remme = new HttpCookie("remme");
-                            remme["username"] = Name.Username;
-                            remme["password"] = password;
+                            HttpCookie remme = new HttpCookie("token");
+                            remme["token"] = hashtoken;
                             remme.Expires = DateTime.Now.AddDays(365);
+                            remme.Secure = true;
+                            remme.HttpOnly = true;
                             HttpContext.Response.Cookies.Add(remme);
                         }
                     }
@@ -114,9 +128,13 @@ namespace QUANGHANHCORE.Controllers
             {
                 RightIDs.Add(right.RightID + "");
             }
-            if(Session["Position"].ToString().Equals("Trưởng phòng") && Session["departID"].ToString().Equals("CV"))
+            if (Session["Position"].ToString().Equals("Trưởng phòng") && Session["departID"].ToString().Equals("CV"))
             {
                 RightIDs.Add("192");
+            }
+            if (Session["Position"].ToString().Equals("Trưởng phòng"))
+            {
+                RightIDs.Add("0");
             }
             var user = db.Accounts.Where(x => x.ID == UserID).FirstOrDefault();
 
