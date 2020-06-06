@@ -41,8 +41,8 @@ namespace QUANGHANH2.Controllers.DK
                             SUM(case when view5.MaTieuChi = 3 or view5.MaTieuChi = 4 then SanLuong else 0 end) as [LOTHIEN], 
                             SUM(case when t.MaNhomTieuChi = 9 then SanLuong else 0 end) as [TIEUTHU], 
                             SUM(case when view5.MaTieuChi = 30 then SanLuong else 0 end) as [DOANHTHU],
-                            SUM(case when (view5.MaTieuChi = 7 or view5.MaTieuChi = 9) and isInside = 1 then SanLuong else 0 end) as [TRONG],
-                            SUM(case when (view5.MaTieuChi = 7 or view5.MaTieuChi = 9) and isInside = 0 then SanLuong else 0 end) as [NGOAI],
+                            SUM(case when (view5.MaTieuChi = 7) and isInside = 1 then SanLuong else 0 end) as [TRONG],
+                            SUM(case when (view5.MaTieuChi = 7) and isInside = 0 then SanLuong else 0 end) as [NGOAI],
                             SUM(case when view5.MaTieuChi = 6 then SanLuong else 0 end) as [DUONGHUY]
                             from(select tmp.* from( 
                             select header.MaPhongBan, kh.MaTieuChi, kh.SanLuong from 
