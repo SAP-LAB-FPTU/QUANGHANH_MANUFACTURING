@@ -550,7 +550,7 @@
                             "<td>" + resultArray[i].unit + "</td>" +
                             "<td>" + resultArray[i].quantity_plan + "</td>" +
                             "<td>" + resultArray[i].quantity_provide + "</td>" +
-                            "<td><input type='number' id='quantity-" + resultArray[i].equipmentid + "-" + resultArray[i].supplyid + "'class='form-control' value='" + resultArray[i].quantity + "'></td>" +
+                            "<td><input type='number' id='quantity-" + resultArray[i].id +  "'class='form-control' value='" + resultArray[i].quantity + "'></td>" +
 
                             "</tr>";
                         lists.push({
@@ -575,7 +575,7 @@
         });
         $("#submiteditconfirm").click(function () {
             for (var i = 0; i < lists.length; i++) {
-                lists[i].quantity = $("#quantity-" + lists[i].equipmentid + "-" + lists[i].supplyid).val()
+                lists[i].quantity = $("#quantity-" + lists[i].id).val()
             }
             var data = {
                 listvattu: lists,

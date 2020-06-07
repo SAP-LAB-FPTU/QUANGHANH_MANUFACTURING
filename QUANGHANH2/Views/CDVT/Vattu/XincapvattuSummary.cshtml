@@ -101,8 +101,8 @@
                 var xincap = [];
                 for (var i = 0; i < lists.length; i++) {
                    var newData = {}
-                    newData.SupplyQuantity = $("#quantity-" + lists[i].Equipmentid + "-" + lists[i].SupplyId).val();
-                    newData.Id = lists[i].Id;
+                    newData.SupplyQuantity = $("#quantity-" + lists[i].id).val();
+                    newData.Id = lists[i].id;
                     xincap.push(newData);
                 }
                 var data = {
@@ -211,11 +211,11 @@
                                 "<td>" + resultArray[i].SupplyAverage + "</td>" +
                                 "<td>" + resultArray[i].SupplyPlan + "</td>" +
                                 "<td>" + resultArray[i].SupplyRemaining + "</td>" +
-                                "<td><input type='number' id='quantity-" + resultArray[i].Equipmentid+ "-" + resultArray[i].SupplyId + "'class='form-control'></td>" +
+                                "<td><input type='number' id='quantity-" + resultArray[i].Id+ "'class='form-control'></td>" +
                                 "<td>" + resultArray[i].SupplyUnit + "</td>" +
                                 "</tr>";
                             lists.push({
-                                "Id": resultArray[i].Id,
+                                "id": resultArray[i].Id,
                                 "Equipmentid": resultArray[i].Equipmentid,
                                 "SupplyId": resultArray[i].SupplyId,
                                
@@ -275,13 +275,12 @@
                                  "<td>" + resultArray[i].SupplyId + "</td>" +
                                  "<td>" + resultArray[i].SupplyName + "</td>" +
                                  "<td>" + resultArray[i].SupplyPlan + "</td>" +
-                                 "<td><input type='text' id='quantity-" + resultArray[i].Equipmentid + "-" + resultArray[i].SupplyId + "' class='form-control'><input type='hidden' id='Id-" + resultArray[i].Id + "' value='" + resultArray[i].Id + "' class='form-control'> </td>" +
+                                 "<td><input type='text' id='quantity-" + resultArray[i].Id+ "' class='form-control'> </td>" +
                                  "<td>" + resultArray[i].SupplyUnit + "</td>" +
                                  "</tr>";
                              lists.push({
                                  "id": resultArray[i].Id,
-                                 "Equipmentid": resultArray[i].Equipmentid,
-                                 "SupplyId": resultArray[i].SupplyId,
+                              
                                  "quantity": ""
                              });
                          }
