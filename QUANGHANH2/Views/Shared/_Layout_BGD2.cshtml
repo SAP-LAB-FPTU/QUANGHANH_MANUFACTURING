@@ -146,21 +146,7 @@
                                 <span class="bars bar3"></span>
                             </a>
                         </li>
-                        <!-- ============================================================== -->
-                        <!-- Notification icon scss in header.scss -->
-                        <!-- ============================================================== -->
-
-                        <!-- ============================================================== -->
-                        <!-- Comment topbar icon scss in header.scss -->
-                        <!-- ============================================================== -->
-                        
                     </ul>
-                    <!-- ============================================================== -->
-                    <!-- Left topbar icon scss in header.scss -->
-                    <!-- ============================================================== -->
-                    <!-- ============================================================== -->
-                    <!-- Right topbar icon scss in header.scss -->
-                    <!-- ============================================================== -->
 
                     <ul class="right">
                         <!-- ============================================================== -->
@@ -194,7 +180,7 @@
                                 <li><a href="@Url.Action("Logout","LogIn")"><i class="material-icons">power_settings_new</i>Đăng Xuất</a></li>
                             </ul>
                         </li>
-                        <li id="user-icon"><a href="">@Session["Name"] <span class="new badge red" data-badge-caption="@Session["Position"]"></span></a></li>
+                        <li id="user-icon"><a href="">@Session["Name"] <span class="new badge red" data-badge-caption="@Session["Position"] @Session["departName"]"></span></a></li>
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Right topbar icon scss in header.scss -->
