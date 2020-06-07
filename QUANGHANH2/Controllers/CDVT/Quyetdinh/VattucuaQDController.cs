@@ -146,10 +146,10 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
                                 documentary_id = documentary_id,
                                 equipmentId = equipmentId,
                                 quantity_in = (int)item["quantity_in"],
-                                quantity_out = (int)item["quantity_out"],
+                                quantity_out = item["quantity_out"] == null ? 0 : (int)item["quantity_out"],
                                 quantity_plan = item["quantity_plan"] == null ? 0 : (int)item["quantity_plan"],
-                                quantity_used = (int)item["quantity_used"],
-                                supplyStatus = (string)item["supplyStatus"]
+                                quantity_used = item["quantity_used"] == null ? 0 : (int)item["quantity_used"],
+                                supplyStatus = item["supplyStatus"] == null ? null : item["quantity_used"].ToString()
                             };
                             if (IsSupply)
                                 temp.supply_id = supply_id;

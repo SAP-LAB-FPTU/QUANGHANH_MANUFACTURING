@@ -10,10 +10,8 @@
     }
 }
 
-<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
-<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
-<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" rel="stylesheet" type="text/css" />
+@*<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" rel="stylesheet" type="text/css" />*@
 
 <form id="form" action="/phong-dieu-khien" method="post">
     <input type="text" id="date" name="date" style="display:none !important" />
@@ -56,6 +54,7 @@
         margin-left: 10px;
         margin-right: 10px
     }
+
 </style>
 <div class="row">
     <div class="col l12 m12 s12">
@@ -259,7 +258,7 @@
                                    width="100%">
                                 <thead>
                                     <tr>
-                                        <th>Tên phân xưởng</th>
+                                        <th>Tên phân xưởng/công ty</th>
                                         <th>Thực hiện</th>
                                         <th>Kế hoạch ngày</th>
                                         <th>Lũy kế</th>
@@ -272,7 +271,7 @@
                                     @foreach (var row in ViewBag.sl_lk_thansx)
                                     {
                                         <tr>
-                                            <td>@row.MaPhongBan</td>
+                                            <td>@row.TenPhongBan</td>
                                             <td>@row.SanLuongThucHienNgay</td>
                                             <td>@row.SanLuongKeHoachNgay</td>
                                             <td>@row.SanLuongLuyKeNgay</td>
@@ -370,7 +369,7 @@
                                     @foreach (var row in ViewBag.sl_lk_metlo)
                                     {
                                         <tr>
-                                            <td>@row.MaPhongBan</td>
+                                            <td>@row.TenPhongBan</td>
                                             <td>@row.SanLuongThucHienNgay</td>
                                             <td>@row.SanLuongKeHoachNgay</td>
                                             <td>@row.SanLuongLuyKeNgay</td>
@@ -469,7 +468,7 @@
                                     @foreach (var row in ViewBag.sl_lk_datda)
                                     {
                                         <tr>
-                                            <td>@row.MaPhongBan</td>
+                                            <td>@row.TenPhongBan</td>
                                             <td>@row.SanLuongThucHienNgay</td>
                                             <td>@row.SanLuongKeHoachNgay</td>
                                             <td>@row.SanLuongLuyKeNgay</td>
@@ -690,11 +689,47 @@
 @*<script src="../../assets/libs/chartist/dist/chartist.min.js"></script>
     <script src="../../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>*@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-<script src="../../assets/extra-libs/prism/prism.js"></script>
+@*<script src="../../assets/extra-libs/prism/prism.js"></script>*@
 @*<script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
     <script src="../../dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>*@
 @*<script src="~/js/tuan_js/myChart2.js"></script>*@
 <script>
+
+        $(document).ready(function () {
+        //$('#bt').click(function () {
+        //    document.getElementById("form").submit();
+        //});
+
+        var d = '@ViewBag.d';
+
+        $picker = $('#data');
+            $("#data").datepicker({
+                onSelect: function (dateText) {
+                    var data = document.getElementById("data").value;
+                    document.getElementById("date").value = data;
+                    document.getElementById("form").submit();
+                }
+            });
+
+        var datepicker = $('#data').datepicker().data('datepicker');
+        datepicker.date = new Date(d.split('/')[1] + '/' + d.split('/')[0] + '/' + d.split('/')[2])
+        document.getElementById("data").value = d;
+        //$('.datepicker-inline').remove();
+            $(".datepicker--cell").each(function () {
+                let date = $(this).attr("data-date");
+                let month = $(this).attr("data-month");
+                let year = $(this).attr("data-year");
+                if (parseInt(date) == parseInt(d.split('/')[0]) &&
+                    parseInt(month) == parseInt(d.split('/')[1] - 1) &&
+                    parseInt(year) == parseInt(d.split('/')[2])) {
+                    $(this).css('background', '#3db7fe')
+                    $(this).css('color', '#5b616e')
+                    return false
+                }
+            })
+
+    });
+
     $(document).ready(function () {
         $('.modal').modal();
         $('#thansx_table').DataTable({
@@ -710,8 +745,8 @@
             "language": {
                 "emptyTable": "Chưa có dữ liệu"
             }
-
         });
+
         $('a[href="#test2"]').one('click', function () {
             setTimeout(function () {
                 $('#metlo_table').DataTable({
@@ -973,45 +1008,38 @@
         }
 
     });
-    $(document).ready(function () {
-        $('.datepicker-inline').remove();
-    });
-    $(document).ready(function () {
-        var date = new Date();
-        var d = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
-        $(".datepicker-here").val(d);
-    });
-    function change() {
-        var data = document.getElementById("data").value;
-        document.getElementById("date").value = data;
-        document.getElementById("form").submit();
-    }
 
-    $(document).ready(function () {
-        //$('#bt').click(function () {
-        //    document.getElementById("form").submit();
-        //});
-        $(".date-click").datepicker({
-            onSelect: function (dateText) {
-                var data = document.getElementById("data").value;
-                document.getElementById("date").value = data;
-                document.getElementById("form").submit();
-            }
-        });
-    });
+    //$(document).ready(function () {
+    //    var date = new Date();
+    //    var d = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    //    $(".datepicker-here").val(d);
+    //});
+    //function change() {
+    //    var data = document.getElementById("data").value;
+    //    document.getElementById("date").value = data;
+    //    document.getElementById("form").submit();
+    //}
 
-    $(document).ready(function () {
-        var d = '@ViewBag.d';
-        document.getElementById("data").value = d;
+    // $(document).ready(function () {
+    //     $("#data").datepicker({
+    //         onSelect: function (dateText) {
+    //             var data = document.getElementById("data").value;
+    //             document.getElementById("date").value = data;
+    //             document.getElementById("form").submit();
+    //         }
+    //     });
+    // });
 
-
-    });
-
-
+    // $(document).ready(function () {
+    //     var d = '@ViewBag.d';
+    //     if (d == null || d == "") {
+    //         var currentTime = new Date();
+    //         var month = currentTime.getMonth() + 1;
+    //         var day = currentTime.getDate();
+    //         var year = currentTime.getFullYear();
+    //         d = day + "/" + month + "/" + year;
+    //     }
+    //     document.getElementById("data").value = d;
+    // });
 </script>
-
-<!--chart-->
-@*<script src="~/assets/extra-libs/c3/d3.min.js"></script>
-    <script src="~/assets/extra-libs/c3/c3.min.js"></script>
-    <script src="~/dist/js/pages/c3-chart/line/c3-line.js"></script>*@
 

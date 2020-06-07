@@ -36,7 +36,7 @@ namespace QUANGHANH2.Controllers
                               }).ToList();
                 ViewBag.employ = employ;
             }
-            if (Session["Role"].ToString().Equals("2"))
+            else
             {
                 var employ = (from nv in db.NhanViens
                               join pb in db.Departments on nv.MaPhongBan equals pb.department_id
@@ -76,7 +76,7 @@ namespace QUANGHANH2.Controllers
             {
                 users = db.Database.SqlQuery<Accountdb>("select  a.ID,a.Username,a.Name,d.department_name,d.department_id from Account a inner join NhanVien nv on a.NVID = nv.MaNV inner join Department d on d.department_id = nv.MaPhongBan order by d.department_name").ToList();
             }
-            if (Session["Role"].ToString().Equals("2"))
+            else
             {
                 users = db.Database.SqlQuery<Accountdb>("select  a.ID,a.Username,a.Name,d.department_name,d.department_id from Account a inner join NhanVien nv on a.NVID = nv.MaNV inner join Department d on d.department_id = nv.MaPhongBan where nv.MaPhongBan = @pb order by d.department_name",new SqlParameter("pb", Session["departID"].ToString())).ToList();
             }

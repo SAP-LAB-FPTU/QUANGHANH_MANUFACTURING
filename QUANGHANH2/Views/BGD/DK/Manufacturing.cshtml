@@ -1,7 +1,30 @@
 ﻿
 @{
     ViewBag.Title = "Manufacturing";
-    Layout = "~/Views/Shared/_Layout_BGD2.cshtml";
+    if (Session["departID"].ToString().Contains("BGĐ"))
+    {
+        Layout = "~/Views/Shared/_Layout_BGD2.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("CV"))
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("TCLĐ"))
+    {
+        Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("ĐK"))
+    {
+        Layout = "~/Views/Shared/_Layout_DK.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("KCM"))
+    {
+        Layout = "~/Views/Shared/_Layout_KCM.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("KCS"))
+    {
+        Layout = "~/Views/Shared/_Layout_KCS.cshtml";
+    }
 }
 
 <link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
@@ -266,7 +289,7 @@
                                     @foreach (var row in ViewBag.sl_lk_thansx)
                                     {
                                         <tr>
-                                            <td>@row.MaPhongBan</td>
+                                            <td>@row.TenPhongBan</td>
                                             <td>@row.SanLuongThucHienNgay</td>
                                             <td>@row.SanLuongKeHoachNgay</td>
                                             <td>@row.SanLuongLuyKeNgay</td>
@@ -364,7 +387,7 @@
                                     @foreach (var row in ViewBag.sl_lk_metlo)
                                     {
                                         <tr>
-                                            <td>@row.MaPhongBan</td>
+                                            <td>@row.TenPhongBan</td>
                                             <td>@row.SanLuongThucHienNgay</td>
                                             <td>@row.SanLuongKeHoachNgay</td>
                                             <td>@row.SanLuongLuyKeNgay</td>
@@ -463,7 +486,7 @@
                                     @foreach (var row in ViewBag.sl_lk_datda)
                                     {
                                         <tr>
-                                            <td>@row.MaPhongBan</td>
+                                            <td>@row.TenPhongBan</td>
                                             <td>@row.SanLuongThucHienNgay</td>
                                             <td>@row.SanLuongKeHoachNgay</td>
                                             <td>@row.SanLuongLuyKeNgay</td>

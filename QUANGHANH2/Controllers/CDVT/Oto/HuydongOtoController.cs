@@ -102,7 +102,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         {
             public string sokhung { get; set; }
             public string somay { get; set; }
-            public Boolean GPS { get; set; }
+            public Nullable<Boolean> GPS { get; set; }
             public string GPSstring { get; set; }
             public Nullable<System.DateTime> durationOfInspection_fix { get; set; }
             public string statusname { get; set; }
@@ -204,10 +204,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 string date_fix = date[2] + "/" + date[1] + "/" + date[0];
                 dtEnd = DateTime.ParseExact(date_fix, "yyyy/MM/dd", CultureInfo.InvariantCulture);
             }
-            string query = "SELECT e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name,a.sokhung, a.somay, a.GPS " +
-                "from Equipment e, Department d, Equipment_category ec,Status s, " +
-                "Car a " +
-                " where a.equipmentId = e.equipmentId and d.department_id != 'kho' and e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.statusid AND e.usedDay between @start_time1 and @start_time2 and ";
+            string query = @"SELECT e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,case when ec.Equipment_category_name is null then '' else ec.Equipment_category_name end as 'Equipment_category_name',a.sokhung, a.somay, a.GPS
+                            from Equipment e left outer join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id , Department d, Status s, Car a
+                             where a.equipmentId = e.equipmentId and d.department_id != 'kho' and e.department_id = d.department_id AND e.current_Status = s.statusid AND e.usedDay between @start_time1 and @start_time2 and ";
 
 
             if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !quality.Equals("") || !category.Equals("") || !sup.Equals(""))
@@ -232,8 +231,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 ).ToList();
             foreach(var item in equiplist)
             {
-                if (item.GPS) item.GPSstring = "Có tín hiệu";
-                else item.GPSstring = "Mất tín hiệu";
+                if(item.GPS == null) item.GPSstring = "Mất tín hiệu";
+                else
+                {
+                    if (item.GPS.Value == true) item.GPSstring = "Có tín hiệu";
+                    else item.GPSstring = "Mất tín hiệu";
+                }
+                //if (item.GPS.Value == true) item.GPSstring = "Có tín hiệu";
+                //else item.GPSstring = "Mất tín hiệu";
             }
             int totalrows = DBContext.Database.SqlQuery<EquipWithName>(query.Replace("e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name,a.sokhung, a.somay, a.GPS", "count(e.[equipmentId])"),
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),

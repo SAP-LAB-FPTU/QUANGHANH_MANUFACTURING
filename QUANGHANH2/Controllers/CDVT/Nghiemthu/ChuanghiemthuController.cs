@@ -365,22 +365,41 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             List<Supply_Documentary_Equipment> supplies = db.Supply_Documentary_Equipment.Where(x => x.documentary_id == documentary.documentary_id && x.equipmentId == equipmentId).ToList();
                             foreach (Supply_Documentary_Equipment item in supplies)
                             {
-                                Supply_DiKem supply7 = db.Supply_DiKem.Where(x => x.equipmentId == equipmentId && x.equipmentId_dikem == item.equipmentId_dikem).FirstOrDefault();
-                                if (supply7 == null)
+                                if (item.equipmentId_dikem != null)
                                 {
-                                    supply7 = new Supply_DiKem
+                                    Supply_DiKem supply7 = db.Supply_DiKem.Where(x => x.equipmentId == equipmentId && x.equipmentId_dikem == item.equipmentId_dikem).FirstOrDefault();
+                                    if (supply7 == null)
                                     {
-                                        equipmentId = equipmentId,
-                                        note = item.supplyStatus,
-                                        quantity = item.quantity_used,
-                                        equipmentId_dikem = item.equipmentId_dikem
-                                    };
-                                    db.Supply_DiKem.Add(supply7);
+                                        supply7 = new Supply_DiKem
+                                        {
+                                            equipmentId = equipmentId,
+                                            quantity = item.quantity_in,
+                                            equipmentId_dikem = item.equipmentId_dikem
+                                        };
+                                        db.Supply_DiKem.Add(supply7);
+                                    }
+                                    else
+                                    {
+                                        supply7.quantity = item.quantity_in;
+                                    }
                                 }
                                 else
                                 {
-                                    supply7.quantity += item.quantity_used;
-                                    supply7.note = item.supplyStatus;
+                                    Vattu_Dikem supply7 = db.Vattu_Dikem.Where(x => x.equipmentId == equipmentId && x.supply_id == item.supply_id).FirstOrDefault();
+                                    if (supply7 == null)
+                                    {
+                                        supply7 = new Vattu_Dikem
+                                        {
+                                            equipmentId = equipmentId,
+                                            quantity = item.quantity_in,
+                                            supply_id = item.supply_id
+                                        };
+                                        db.Vattu_Dikem.Add(supply7);
+                                    }
+                                    else
+                                    {
+                                        supply7.quantity = item.quantity_in;
+                                    }
                                 }
                                 db.SaveChanges();
                             }

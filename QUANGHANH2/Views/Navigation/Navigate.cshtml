@@ -4,7 +4,6 @@
     string version = string.Concat("v", typeof(QUANGHANH2.MvcApplication).Assembly.GetName().Version);
 }
 <style>
- 
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,26 +54,30 @@
                     </span>
                     <ul class="text-center">
                         <li class="nav-container">
-                            @using (Html.BeginForm("Index", "LogIn", FormMethod.Get, new { @class = "login100-form validate-form" }))
+                            @using (Html.BeginForm("Index", "LogIn", FormMethod.Get, new { @class = "login100-form validate-form text-center" }))
                             {
                                 <button class="btn btn-link navigator-link" type="submit">
-                                    <span class="text-font__normal">Hệ thống quản lý và điều độ sản xuất</span>
+                                    <span class="text-font__normal">Báo cáo sản xuất</span>
                                 </button>
-                                <img class="nav-icon" src="~/assets/images/nav/next-icon.png"/>
+                                <img class="nav-icon" src="~/assets/images/nav/next-icon.png" />
                             }
 
                         </li>
                         <li class="nav-container" onclick="window.location.href='http://113.162.60.102:6868/'">
-                            <a class="text-font__normal navigator-link">
-                                Hệ thống quản lý nhân sự/suất ăn/văn phòng 
-                            </a>
-                            <img class="nav-icon" src="~/assets/images/nav/next-icon.png" />
+                            <div class="text-center">
+                                <a class="text-font__normal navigator-link">
+                                    Quản lý nhân sự
+                                </a>
+                                <img class="nav-icon" src="~/assets/images/nav/next-icon.png" />
+                            </div>
                         </li>
-                        <li class="nav-container" onclick="window.location.href='https://quanghanh.tacnghiep.net/'">
-                            <a class="text-font__normal navigator-link">
-                                Hệ thống tác nghiệp & Quản lý công văn
-                            </a>
-                            <img class="nav-icon" src="~/assets/images/nav/next-icon.png" />
+                        <li class="nav-container" onclick="window.location.href='http://qlcv1.quanghanhcoal.vn:8287/'">
+                            <div class="text-center">
+                                <a class="text-font__normal navigator-link">
+                                    Quản lý công văn
+                                </a>
+                                <img class="nav-icon" src="~/assets/images/nav/next-icon.png" />
+                            </div>
                         </li>
                     </ul>
                 </div>

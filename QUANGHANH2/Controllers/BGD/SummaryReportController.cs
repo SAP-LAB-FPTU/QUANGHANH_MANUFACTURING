@@ -256,19 +256,15 @@ namespace QUANGHANHCORE.Controllers.BGD
                 sql = @"select tb1.department_id as MaDonVi,
                         (case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong
                         from
-                        (select * from Department where department_id in
-                        ('KT1', 'KT2', 'KT3', 'KT4', 'KT5', 'KT6', 
-                        'KT7', 'KT8', 'KT9', 'KT10', 'KT11','ĐL3', 
-                        'ĐL5', 'ĐL7', 'ĐL8', 'VTL1', 'VTL2')) tb1
+                        (select * from Department where department_type = N'Phân xưởng sản xuất chính') tb1
                         left join
                         (select nv.MaPhongBan ,count(dd.MaNV) 'SoLuong' from 
                         (select Min(HeaderID) as 'HeaderID' from Header_DiemDanh_NangSuat_LaoDong
                         where NgayDiemDanh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))) as hd
                         join DiemDanh_NangSuatLaoDong dd on hd.HeaderID = dd.HeaderID and dd.DiLam = 1
                         join NhanVien nv on nv.MaNV = dd.MaNV
-                        group by nv.MaPhongBan) as tb2
-                        on tb1.department_id = tb2.MaPhongBan
-                        group by tb1.department_id,tb2.soluong";
+                        group by nv.MaPhongBan) as tb2 on tb1.department_id = tb2.MaPhongBan
+						order by tb1.[index] asc";
                 try
                 {
                     listNhanLuc = db.Database.SqlQuery<NhanLuc>(sql).ToList<NhanLuc>();
