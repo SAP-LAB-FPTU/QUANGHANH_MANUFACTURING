@@ -13,28 +13,21 @@
     <title>Phòng An Toàn</title>
     <!-- chartist CSS -->
     <link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+    <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
     <link href="~/dist/css/style.css" rel="stylesheet">
     <link href="~/css/preloader/css.css" rel="stylesheet" />
     <!-- This page CSS -->
-    <!--Wizard and Editable CSS-->
-    <!--Editable-->
-    <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
-
-    <!--Custom css QUANG HANH-->
-    <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+    <link href="~/dist/css/pages/dashboard1.css" rel="stylesheet">
+    <!--Cutstom css QUANG HANH-->
     <link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
-    <link href="~/css/preloader/css.css" rel="stylesheet" />
+    <link href="~/assets/Custom css/floating-action-btn.css" rel="stylesheet">
+    <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet">
     <!--Custom Datepicker CSS-->
     <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
     <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
-
-    @*QuangHanh Alert*@
-    <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
-    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
-    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
-    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
-
+    <!--Font css-->
+    <link href="~/assets/Custom css/font-family.css" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -57,19 +50,34 @@
     <!-- Custom js -->
     <!-- ============================================================== -->
     <script src="~/dist/js/custom.min.js"></script>
-
     <!-- ============================================================== -->
     <!-- This page plugin js -->
     <!-- ============================================================== -->
     <script src="~/assets/libs/chartist/dist/chartist.min.js"></script>
     <script src="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
+    <script src="~/dist/js/pages/dashboards/dashboard1.js"></script>
+
+    <!--Custom js QUANG HANH-->
+    <script src="~/js/Custom JS/Flexible_user_icon.js"></script>
 
     <!--Custom Datepicker JS-->
     <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
     <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
 
-    <script src="~/js/Custom JS/Flexible_user_icon.js"></script>
+    <!--Quang Hanh Alert-->
+    <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+
+    <!--Wizard.-->
+    <script src="~/assets/libs/jquery-steps/build/jquery.steps.min.js"></script>
+    <script src="~/assets/libs/jquery-validation/dist/jquery.validate.min.js"></script>
+    <link href="~/assets/libs/jquery-steps/jquery.steps.css" rel="stylesheet">
+    <link href="~/assets/libs/jquery-steps/steps.css" rel="stylesheet">
+    <link href="~/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
 </head>
 
 <body>
@@ -321,20 +329,20 @@
             <!-- Page wrapper scss in scafholding.scss -->
         </div>
     </div>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/Scripts/notify.min.js"></script>
-    <script src="~/js/jquery.dataTables.min.js"></script>
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/notify.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
     <script>
         $(".loading").css("z-index", 99999);
         $('body').css('overflow', '');
     </script>
-    <script>
+    @*<script>
         $(".datepicker-here").keydown(function (e) {
             e.preventDefault();
         });
-    </script>
+    </script>*@
 </body>
 
 </html>
