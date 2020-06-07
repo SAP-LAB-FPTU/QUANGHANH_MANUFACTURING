@@ -29,14 +29,24 @@ namespace QUANGHANH2.Repositories
                 {
                     string bulk_insert = string.Empty;
                     // DateTime today = DateTime.Today;
-                    
+                    if (departmentid == "CV")
+                    {
+                        foreach (XincapvattuSummaryModelView vattu in vattus)
+                        {
+                            string sub_insert = $" update Supplyplan set quantity={vattu.SupplyQuantity}, date=getdate() where id={vattu.Id} ;";
+                            bulk_insert = string.Concat(bulk_insert, sub_insert);
+
+                        }
+                    }
+                    else
+                    {
                         foreach (XincapvattuSummaryModelView vattu in vattus)
                         {
                             string sub_insert = $" update Supplyplan set quantity_provide={vattu.SupplyQuantity}, date=getdate() where id={vattu.Id} ;";
                             bulk_insert = string.Concat(bulk_insert, sub_insert);
 
                         }
-                    
+                    }
                     context.Database.ExecuteSqlCommand(bulk_insert);
                     context.SaveChanges();
                     transaction.Commit();
