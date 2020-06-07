@@ -113,6 +113,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Supply_Documentary_Big_Maintain_Equipment> Supply_Documentary_Big_Maintain_Equipment { get; set; }
         public virtual DbSet<Supply_Documentary_Camera> Supply_Documentary_Camera { get; set; }
         public virtual DbSet<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
+        public virtual DbSet<Supply_Documentary_Improve_Equipment> Supply_Documentary_Improve_Equipment { get; set; }
         public virtual DbSet<Supply_Documentary_Maintain_Equipment> Supply_Documentary_Maintain_Equipment { get; set; }
         public virtual DbSet<Supply_Documentary_Repair_Equipment> Supply_Documentary_Repair_Equipment { get; set; }
         public virtual DbSet<Supply_Equipment_DiKem> Supply_Equipment_DiKem { get; set; }
