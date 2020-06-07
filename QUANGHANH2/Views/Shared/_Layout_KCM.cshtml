@@ -12,14 +12,22 @@
     <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
     <title>Phòng KCM</title>
     <!-- chartist CSS -->
-    <link href="/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
-    <link href="/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
-    <link href="/dist/css/style.css" rel="stylesheet">
-    <link href="/dist/css/custom.css" rel="stylesheet">
+    <link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+    <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+    <link href="~/dist/css/style.css" rel="stylesheet">
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
     <!-- This page CSS -->
-    <link href="/dist/css/pages/dashboard1.css" rel="stylesheet" />
-    <link href="/assets/Custom css/floating-action-btn.css" rel="stylesheet">
-    <link href="/assets/Custom css/form-input-border.css" rel="stylesheet">
+    <link href="~/dist/css/pages/dashboard1.css" rel="stylesheet">
+    <!--Cutstom css QUANG HANH-->
+    <link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
+    <link href="~/assets/Custom css/floating-action-btn.css" rel="stylesheet">
+    <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet">
+    <!--Custom Datepicker CSS-->
+    <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+    <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+    <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+    <!--Font css-->
+    <link href="~/assets/Custom css/font-family.css" rel="stylesheet" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -29,40 +37,47 @@
     <!-- ============================================================== -->
     <!-- All Required js -->
     <!-- ============================================================== -->
-    <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
-    <script src="/dist/js/materialize.min.js"></script>
-    <script src="/assets/libs/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js"></script>
-
-    <!--Custom Css QUANGHANH-->
-    <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
-    <!--Custom Datepicker CSS-->
-    <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
-    <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
-    <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
-    <link href="~/css/preloader/css.css" rel="stylesheet" />
-    <!--Custom Datepicker JS-->
-    <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
-    <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+    <script src="~/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="~/dist/js/materialize.min.js"></script>
+    <script src="~/assets/libs/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js"></script>
     <!-- ============================================================== -->
     <!-- Apps -->
     <!-- ============================================================== -->
-    <script src="/dist/js/app.js"></script>
-    <script src="/dist/js/app.init.js"></script>
-    <script src="/dist/js/app-style-switcher.js"></script>
+    <script src="~/dist/js/app.js"></script>
+    <script src="~/dist/js/app.init.js"></script>
+    <script src="~/dist/js/app-style-switcher.js"></script>
     <!-- ============================================================== -->
     <!-- Custom js -->
     <!-- ============================================================== -->
-    <script src="/dist/js/custom.min.js"></script>
+    <script src="~/dist/js/custom.min.js"></script>
     <!-- ============================================================== -->
     <!-- This page plugin js -->
     <!-- ============================================================== -->
-    <script src="/assets/libs/chartist/dist/chartist.min.js"></script>
-    <script src="/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="/assets/extra-libs/sparkline/sparkline.js"></script>
-    <script src="/dist/js/pages/dashboards/dashboard1.js"></script>
-    <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
-    <!--Custom js QUANGHANH-->
+    <script src="~/assets/libs/chartist/dist/chartist.min.js"></script>
+    <script src="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
+    <script src="~/dist/js/pages/dashboards/dashboard1.js"></script>
+
+    <!--Custom js QUANG HANH-->
     <script src="~/js/Custom JS/Flexible_user_icon.js"></script>
+
+    <!--Custom Datepicker JS-->
+    <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+    <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+
+    <!--Quang Hanh Alert-->
+    <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+
+    <!--Wizard.-->
+    <script src="~/assets/libs/jquery-steps/build/jquery.steps.min.js"></script>
+    <script src="~/assets/libs/jquery-validation/dist/jquery.validate.min.js"></script>
+    <link href="~/assets/libs/jquery-steps/jquery.steps.css" rel="stylesheet">
+    <link href="~/assets/libs/jquery-steps/steps.css" rel="stylesheet">
+    <link href="~/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
 
 </head>
 
@@ -129,13 +144,28 @@
                     <!-- ============================================================== -->
                     <!-- Left topbar icon scss in header.scss -->
                     <!-- ============================================================== -->
-                    
                     <!-- ============================================================== -->
                     <!-- Left topbar icon scss in header.scss -->
                     <!-- ============================================================== -->
                     <!-- ============================================================== -->
                     <!-- Right topbar icon scss in header.scss -->
                     <!-- ============================================================== -->
+                    <ul class="left">
+                        <li class="hide-on-med-and-down">
+                            <a href="javascript: void(0);" class="nav-toggle">
+                                <span class="bars bar1"></span>
+                                <span class="bars bar2"></span>
+                                <span class="bars bar3"></span>
+                            </a>
+                        </li>
+                        <li class="hide-on-large-only">
+                            <a href="javascript: void(0);" class="sidebar-toggle">
+                                <span class="bars bar1"></span>
+                                <span class="bars bar2"></span>
+                                <span class="bars bar3"></span>
+                            </a>
+                        </li>
+                    </ul>
 
                     <ul class="right">
                         <!-- ============================================================== -->
@@ -277,22 +307,23 @@
         <!-- Right Sidebar -->
         <!-- ============================================================== -->
         <!-- Right Sidebar -->
-        
+
         <div class="chat-windows"></div>
         <!-- ============================================================== -->
         <!-- Right Sidebar -->
         <!-- ============================================================== -->
     </div>
+    @RenderSection("scripts", required: false)
+    @*<script src="~/Scripts/Scripts.js"></script>*@
+    <script src="~/Scripts/notify.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    @*@Scripts.Render("~/Scripts/moment.js")*@
     <script>
         $(".loading").css("z-index", 99999);
         $('body').css('overflow', '');
-        $(function () {
-            $(".datepicker-inline").remove();
-        })
     </script>
-    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
-    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
-    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
 </body>
 
 </html>

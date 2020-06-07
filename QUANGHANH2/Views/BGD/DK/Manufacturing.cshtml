@@ -24,6 +24,10 @@
     else if(Session["departID"].ToString().Contains("KCS"))
     {
         Layout = "~/Views/Shared/_Layout_KCS.cshtml";
+    } 
+    else if(Session["departID"].ToString().Contains("AT"))
+    {
+        Layout = "~/Views/Shared/_Layout_AT.cshtml";
     }
 }
 

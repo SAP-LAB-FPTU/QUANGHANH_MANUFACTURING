@@ -142,13 +142,28 @@
                     <!-- ============================================================== -->
                     <!-- Left topbar icon scss in header.scss -->
                     <!-- ============================================================== -->
-                    
                     <!-- ============================================================== -->
                     <!-- Left topbar icon scss in header.scss -->
                     <!-- ============================================================== -->
                     <!-- ============================================================== -->
                     <!-- Right topbar icon scss in header.scss -->
                     <!-- ============================================================== -->
+                    <ul class="left">
+                        <li class="hide-on-med-and-down">
+                            <a href="javascript: void(0);" class="nav-toggle">
+                                <span class="bars bar1"></span>
+                                <span class="bars bar2"></span>
+                                <span class="bars bar3"></span>
+                            </a>
+                        </li>
+                        <li class="hide-on-large-only">
+                            <a href="javascript: void(0);" class="sidebar-toggle">
+                                <span class="bars bar1"></span>
+                                <span class="bars bar2"></span>
+                                <span class="bars bar3"></span>
+                            </a>
+                        </li>
+                    </ul>
 
                     <ul class="right">
                         <!-- ============================================================== -->
@@ -402,15 +417,11 @@
         <!-- Right Sidebar -->
         <!-- ============================================================== -->
     </div>
-    @*@Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
-    @*<script src="~/Scripts/Scripts.js"></script>*@
     <script src="~/Scripts/notify.min.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <script src="~/js/jquery.dataTables.min.js"></script>
-    @*@Scripts.Render("~/Scripts/moment.js")*@
     <script>
         $(".loading").css("z-index", 99999);
         $('body').css('overflow', '');
@@ -418,7 +429,3 @@
 </body>
 
 </html>
-<script>
-    $(".loading").css("z-index", 99999);
-    $('body').css('overflow', '');
-</script>
