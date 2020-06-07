@@ -94,7 +94,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             string sql = @"select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS,a.QL_CTy, 
                             (case when (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) != 0 then cast(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 as float) / cast((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as float) * 100 else 0 end) as 'tile' 
                              from 
-							 (select nv_d.MaPhongBan, sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '1' and nv_d.DiLam = '1' then 1 else 0 end) as 'KT1' 
+							 (select nv_d.MaPhongBan, dep.[index]
+								, SUM(case when ncv.MaNhomCongViec = 6 and h.Ca = '1' and nv_d.DiLam = '1' then 1 else 0 end) as 'KT1' 
                                , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '1' and nv_d.DiLam = '1' then 1 else 0 end) as 'CD1' 
                                , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '1' and nv_d.DiLam = '1' then 1 else 0 end) as 'QL1' 
                                , sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '2' and nv_d.DiLam = '1' then 1 else 0 end) as 'KT2' 
@@ -114,8 +115,9 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                              left outer join Header_DiemDanh_NangSuat_LaoDong h on nv_d.HeaderID = h.HeaderID 
                              join CongViec_NhomCongViec cn on nv_d.MaCongViec = cn.MaCongViec 
                             join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec 
-                             where h.NgayDiemDanh = @day 
-                             group by nv_d.MaPhongBan) a 
+							join Department dep on dep.department_id = nv_d.MaPhongBan
+                             where h.NgayDiemDanh = @day and dep.department_type = N'Phân xưởng sản xuất chính'
+                             group by nv_d.MaPhongBan, dep.[index]) a 
 							 LEFT OUTER JOIN 
 	                         (select nv_d.MaPhongBan, SUM(case when nv_d.LyDoVangMat like N'Vô lý do' and h.Ca = '1' and nv_d.DiLam = '0' then 1 else 0 end) as 'vld1' 
                                , sum(case when nv_d.LyDoVangMat like N'Ốm'  and h.Ca = '1' and nv_d.DiLam = '0' then 1 else 0 end) as 'om1' 
@@ -138,7 +140,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
 							 left outer join NhanVien n on n.MaNV = d.MaNV) as nv_d on hdd.HeaderID = nv_d.HeaderID and hdd.MaPhongBan = nv_d.MaPhongBan
                              left outer join Header_DiemDanh_NangSuat_LaoDong h on nv_d.HeaderID = h.HeaderID 
                              where h.NgayDiemDanh = @day 
-                             group by nv_d.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan";
+                             group by nv_d.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan
+							 order by a.[index] asc";
             List<report> list = db.Database.SqlQuery<report>(sql, new SqlParameter("day", d)).ToList();
             foreach (var item in list)
             {
@@ -187,7 +190,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             string sql = @"select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS,a.QL_CTy, 
                             (case when (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) != 0 then cast(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 as float) / cast((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as float) * 100 else 0 end) as 'tile' 
                              from 
-							 (select nv_d.MaPhongBan, sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '1' and nv_d.DiLam = '1' then 1 else 0 end) as 'KT1' 
+							 (select nv_d.MaPhongBan, dep.[index]
+								, SUM(case when ncv.MaNhomCongViec = 6 and h.Ca = '1' and nv_d.DiLam = '1' then 1 else 0 end) as 'KT1' 
                                , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '1' and nv_d.DiLam = '1' then 1 else 0 end) as 'CD1' 
                                , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '1' and nv_d.DiLam = '1' then 1 else 0 end) as 'QL1' 
                                , sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '2' and nv_d.DiLam = '1' then 1 else 0 end) as 'KT2' 
@@ -207,8 +211,9 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                              left outer join Header_DiemDanh_NangSuat_LaoDong h on nv_d.HeaderID = h.HeaderID 
                              join CongViec_NhomCongViec cn on nv_d.MaCongViec = cn.MaCongViec 
                             join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec 
-                             where h.NgayDiemDanh = @day 
-                             group by nv_d.MaPhongBan) a 
+							join Department dep on dep.department_id = nv_d.MaPhongBan
+                             where h.NgayDiemDanh = @day and dep.department_type = N'Phân xưởng sản xuất chính'
+                             group by nv_d.MaPhongBan, dep.[index]) a 
 							 LEFT OUTER JOIN 
 	                         (select nv_d.MaPhongBan, SUM(case when nv_d.LyDoVangMat like N'Vô lý do' and h.Ca = '1' and nv_d.DiLam = '0' then 1 else 0 end) as 'vld1' 
                                , sum(case when nv_d.LyDoVangMat like N'Ốm'  and h.Ca = '1' and nv_d.DiLam = '0' then 1 else 0 end) as 'om1' 
@@ -231,7 +236,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
 							 left outer join NhanVien n on n.MaNV = d.MaNV) as nv_d on hdd.HeaderID = nv_d.HeaderID and hdd.MaPhongBan = nv_d.MaPhongBan
                              left outer join Header_DiemDanh_NangSuat_LaoDong h on nv_d.HeaderID = h.HeaderID 
                              where h.NgayDiemDanh = @day 
-                             group by nv_d.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan";
+                             group by nv_d.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan
+							 order by a.[index] asc";
             List<report> list = db.Database.SqlQuery<report>(sql, new SqlParameter("@day", d)).ToList();
             foreach (var item in list)
             {
@@ -287,7 +293,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                     string sql = @"select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS,a.QL_CTy, 
                             (case when (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) != 0 then cast(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 as float) / cast((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as float) * 100 else 0 end) as 'tile' 
                              from 
-							 (select nv_d.MaPhongBan, sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '1' and nv_d.DiLam = '1' then 1 else 0 end) as 'KT1' 
+							 (select nv_d.MaPhongBan, dep.[index]
+								, SUM(case when ncv.MaNhomCongViec = 6 and h.Ca = '1' and nv_d.DiLam = '1' then 1 else 0 end) as 'KT1' 
                                , SUM(case when ncv.MaNhomCongViec = 7 and h.Ca = '1' and nv_d.DiLam = '1' then 1 else 0 end) as 'CD1' 
                                , SUM(case when ncv.MaNhomCongViec = 10 and h.Ca = '1' and nv_d.DiLam = '1' then 1 else 0 end) as 'QL1' 
                                , sum(case when ncv.MaNhomCongViec = 6 and h.Ca = '2' and nv_d.DiLam = '1' then 1 else 0 end) as 'KT2' 
@@ -307,8 +314,9 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                              left outer join Header_DiemDanh_NangSuat_LaoDong h on nv_d.HeaderID = h.HeaderID 
                              join CongViec_NhomCongViec cn on nv_d.MaCongViec = cn.MaCongViec 
                             join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec 
-                             where h.NgayDiemDanh = @day 
-                             group by nv_d.MaPhongBan) a 
+							join Department dep on dep.department_id = nv_d.MaPhongBan
+                             where h.NgayDiemDanh = @day and dep.department_type = N'Phân xưởng sản xuất chính'
+                             group by nv_d.MaPhongBan, dep.[index]) a 
 							 LEFT OUTER JOIN 
 	                         (select nv_d.MaPhongBan, SUM(case when nv_d.LyDoVangMat like N'Vô lý do' and h.Ca = '1' and nv_d.DiLam = '0' then 1 else 0 end) as 'vld1' 
                                , sum(case when nv_d.LyDoVangMat like N'Ốm'  and h.Ca = '1' and nv_d.DiLam = '0' then 1 else 0 end) as 'om1' 
@@ -331,7 +339,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
 							 left outer join NhanVien n on n.MaNV = d.MaNV) as nv_d on hdd.HeaderID = nv_d.HeaderID and hdd.MaPhongBan = nv_d.MaPhongBan
                              left outer join Header_DiemDanh_NangSuat_LaoDong h on nv_d.HeaderID = h.HeaderID 
                              where h.NgayDiemDanh = @day 
-                             group by nv_d.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan";
+                             group by nv_d.MaPhongBan) b on a.MaPhongBan = b.MaPhongBan
+							 order by a.[index] asc";
                     List<report> list = db.Database.SqlQuery<report>(sql, new SqlParameter("day", date)).ToList();
                     foreach (var item in list)
                     {
@@ -465,7 +474,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
 	                        (case when tuan2 != 0 then cast(cast(dilamtuan2 as float)/cast(b.tuan2 as float)*100 as int) else 0 end) as tuan2,
 	                        (case when tuan3 != 0 then cast(cast(dilamtuan3 as float)/cast(b.tuan3 as float)*100 as int) else 0 end) as tuan3,
 	                        (case when tuan4 != 0 then cast(cast(dilamtuan4 as float)/cast(b.tuan4 as float)*100 as int) else 0 end) as tuan4
-                        from (select d.department_id,
+                        from (select d.department_id, d.[index],
 		                        sum(case when a.LoaiNhomCongViec like '%QL%' then 1 else 0 end) as 'ql',
 		                        sum(case when a.LoaiNhomCongViec like N'%CĐ%' then 1 else 0 end) as 'cd',
 		                        sum(case when a.LoaiNhomCongViec like '%KT%' then 1 else 0 end) as 'kt',
@@ -475,7 +484,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
 				                        from NhanVien n join Department d on n.MaPhongBan = d.department_id
 				                        join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec
 				                        join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec) a on n.MaNV = a.MaNV
-		                        group by d.department_id) a
+                                        where d.department_type = N'Phân xưởng sản xuất chính'
+		                        group by d.department_id, d.[index]) a
 	                        left outer join (select d.department_id,
 		                        sum(case when (h.NgayDiemDanh between @start1 and @end1) then 1 else 0 end) as 'tuan1',
 		                        sum(case when (h.NgayDiemDanh between @start2 and @end2) then 1 else 0 end) as 'tuan2',
@@ -489,7 +499,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
 		                        from NhanVien n join Department d on n.MaPhongBan = d.department_id
 			                        join DiemDanh_NangSuatLaoDong dn on n.MaNV = dn.MaNV
 			                        join Header_DiemDanh_NangSuat_LaoDong h on h.HeaderID = dn.HeaderID
-		                        group by d.department_id) b on a.department_id = b.department_id";
+		                        group by d.department_id) b on a.department_id = b.department_id
+                                order by a.[index] asc";
 
             List<reportMonth> list = db.Database.SqlQuery<reportMonth>(sql, new SqlParameter("month", data[1]), new SqlParameter("year", data[0]),
                             new SqlParameter("start1", s + "-01"), new SqlParameter("end1", s + "-07"),
@@ -524,7 +535,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
 	                        (case when tuan2 != 0 then cast(cast(dilamtuan2 as float)/cast(b.tuan2 as float)*100 as int) else 0 end) as tuan2,
 	                        (case when tuan3 != 0 then cast(cast(dilamtuan3 as float)/cast(b.tuan3 as float)*100 as int) else 0 end) as tuan3,
 	                        (case when tuan4 != 0 then cast(cast(dilamtuan4 as float)/cast(b.tuan4 as float)*100 as int) else 0 end) as tuan4
-                        from (select d.department_id,
+                        from (select d.department_id, d.[index],
 		                        sum(case when a.LoaiNhomCongViec like '%QL%' then 1 else 0 end) as 'ql',
 		                        sum(case when a.LoaiNhomCongViec like N'%CĐ%' then 1 else 0 end) as 'cd',
 		                        sum(case when a.LoaiNhomCongViec like '%KT%' then 1 else 0 end) as 'kt',
@@ -534,7 +545,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
 				                        from NhanVien n join Department d on n.MaPhongBan = d.department_id
 				                        join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec
 				                        join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec) a on n.MaNV = a.MaNV
-		                        group by d.department_id) a
+                                        where d.department_type = N'Phân xưởng sản xuất chính'
+		                        group by d.department_id, d.[index]) a
 	                        left outer join (select d.department_id,
 		                        sum(case when (h.NgayDiemDanh between @start1 and @end1) then 1 else 0 end) as 'tuan1',
 		                        sum(case when (h.NgayDiemDanh between @start2 and @end2) then 1 else 0 end) as 'tuan2',
@@ -548,7 +560,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
 		                        from NhanVien n join Department d on n.MaPhongBan = d.department_id
 			                        join DiemDanh_NangSuatLaoDong dn on n.MaNV = dn.MaNV
 			                        join Header_DiemDanh_NangSuat_LaoDong h on h.HeaderID = dn.HeaderID
-		                        group by d.department_id) b on a.department_id = b.department_id";
+		                        group by d.department_id) b on a.department_id = b.department_id
+                                order by a.[index] asc";
 
             List<reportMonth> list = db.Database.SqlQuery<reportMonth>(sql, new SqlParameter("month", data[1]), new SqlParameter("year", data[2]),
                             new SqlParameter("start1", s + "-01"), new SqlParameter("end1", s + "-07"),
@@ -590,7 +603,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
 	                        (case when tuan2 != 0 then cast(cast(dilamtuan2 as float)/cast(b.tuan2 as float)*100 as int) else 0 end) as tuan2,
 	                        (case when tuan3 != 0 then cast(cast(dilamtuan3 as float)/cast(b.tuan3 as float)*100 as int) else 0 end) as tuan3,
 	                        (case when tuan4 != 0 then cast(cast(dilamtuan4 as float)/cast(b.tuan4 as float)*100 as int) else 0 end) as tuan4
-                        from (select d.department_id,
+                        from (select d.department_id, d.[index],
 		                        sum(case when a.LoaiNhomCongViec like '%QL%' then 1 else 0 end) as 'ql',
 		                        sum(case when a.LoaiNhomCongViec like N'%CĐ%' then 1 else 0 end) as 'cd',
 		                        sum(case when a.LoaiNhomCongViec like '%KT%' then 1 else 0 end) as 'kt',
@@ -600,7 +613,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
 				                        from NhanVien n join Department d on n.MaPhongBan = d.department_id
 				                        join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec
 				                        join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec) a on n.MaNV = a.MaNV
-		                        group by d.department_id) a
+                                        where d.department_type = N'Phân xưởng sản xuất chính'
+		                        group by d.department_id, d.[index]) a
 	                        left outer join (select d.department_id,
 		                        sum(case when (h.NgayDiemDanh between @start1 and @end1) then 1 else 0 end) as 'tuan1',
 		                        sum(case when (h.NgayDiemDanh between @start2 and @end2) then 1 else 0 end) as 'tuan2',
@@ -614,7 +628,8 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
 		                        from NhanVien n join Department d on n.MaPhongBan = d.department_id
 			                        join DiemDanh_NangSuatLaoDong dn on n.MaNV = dn.MaNV
 			                        join Header_DiemDanh_NangSuat_LaoDong h on h.HeaderID = dn.HeaderID
-		                        group by d.department_id) b on a.department_id = b.department_id";
+		                        group by d.department_id) b on a.department_id = b.department_id
+                                order by a.[index] asc";
 
                     List<reportMonth> list = db.Database.SqlQuery<reportMonth>(sql, new SqlParameter("month", data[1]), new SqlParameter("year", data[0]),
                                     new SqlParameter("start1", s + "-01"), new SqlParameter("end1", s + "-07"),
