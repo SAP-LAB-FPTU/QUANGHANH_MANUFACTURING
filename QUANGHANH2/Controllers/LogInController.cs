@@ -35,12 +35,15 @@ namespace QUANGHANHCORE.Controllers
                 {
                     string token = remme.Values.Get("token");
                     var info = db.Accounts.Where(x => x.token.Equals(token)).FirstOrDefault();
-                    login a = new login()
+                    if(info != null)
                     {
-                        username = info.Username,
-                        password = Hash.Encrypt.DecryptString(token, "quanghanhcoals")
-                    };
-                    ViewBag.login = a;
+                        login a = new login()
+                        {
+                            username = info.Username,
+                            password = Hash.Encrypt.DecryptString(token, "quanghanhcoals")
+                        };
+                        ViewBag.login = a;
+                    }
                     return View();
                 }
             }
