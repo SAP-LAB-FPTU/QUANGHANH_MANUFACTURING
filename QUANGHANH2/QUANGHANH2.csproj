@@ -671,6 +671,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supply_Documentary_EquipmentDB.cs" />
+    <Compile Include="Models\Supply_Documentary_Improve_Equipment.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Supply_Documentary_Maintain_Equipment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
