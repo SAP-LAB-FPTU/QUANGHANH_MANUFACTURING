@@ -34,7 +34,8 @@ namespace QUANGHANHCORE.Controllers
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     string token = remme.Values.Get("token");
-                    var info = db.Accounts.Where(x => x.token.Equals(token)).FirstOrDefault();
+                    int uid = int.Parse(remme.Values.Get("uid"));
+                    var info = db.Accounts.Where(x => x.token.Equals(token) && x.ID == uid).FirstOrDefault();
                     if(info != null)
                     {
                         login a = new login()
@@ -74,23 +75,24 @@ namespace QUANGHANHCORE.Controllers
                     Session["Role"] = Name.Role;
                     GetPermission(id);
                     string hashtoken = Hash.Encrypt.EncryptString(password,"quanghanhcoals");
-                    checkuser.token = hashtoken;
-                    try
-                    {
-                        db.Entry(checkuser).State = EntityState.Modified;
-                        db.SaveChanges();
-                    }
-                    catch (Exception e) { }
                     if (!String.IsNullOrEmpty(rm))
                     {
                         if (rm.Equals("on"))
                         {
                             HttpCookie remme = new HttpCookie("token");
                             remme["token"] = hashtoken;
+                            remme["uid"] = Name.ID.ToString();
                             remme.Expires = DateTime.Now.AddDays(365);
                             remme.Secure = true;
                             remme.HttpOnly = true;
                             HttpContext.Response.Cookies.Add(remme);
+                            checkuser.token = hashtoken;
+                            try
+                            {
+                                db.Entry(checkuser).State = EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                            catch (Exception e) { }
                         }
                     }
                     if (Name.ADMIN) return RedirectToAction("Index", "ManagementUser");
