@@ -172,7 +172,7 @@ namespace QUANGHANHCORE.Controllers
                 }
                 if (url.MaPhongBan.Equals("BGĐ"))
                 {
-                    Session["url"] = "ban-giam-doc";
+                    Session["url"] = "ban-giam-doc/bao-cao-nhanh-san-xuat";
                     RightIDs.Add("005");
                 }
                 if (url.department_type.Contains("Phân xưởng"))
