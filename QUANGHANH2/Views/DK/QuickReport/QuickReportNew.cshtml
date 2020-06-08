@@ -562,9 +562,9 @@
                         <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Mã thiết bị</th>
-                                <th>Tên thiết bị</th>
-                                <th>Phân xưởng sử dụng</th>
+                                <th>Tên PX</th>
+                                <th>Mô tả sự cố</th>
+                                <th>Thời gian xử lý (Giờ)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -577,13 +577,14 @@
                                 }
                                 else
                                 {
-                                    foreach (var item in ViewBag.listSC)
+                                    for (var i = 0; i < ViewBag.listSCCount; i++)
                                     {
+                                        var item = ViewBag.listSC[i];
                                         <tr>
-                                            <td></td>
-                                            <td>@item.equipmentId</td>
-                                            <td>@item.equipment_name</td>
-                                            <td>@item.department_id</td>
+                                            <td>@i</td>
+                                            <td>@item.department_name</td>
+                                            <td>@item.reason</td>
+                                            <td>@item.time_different</td>
                                         </tr>
                                     }
                                 }
@@ -604,10 +605,10 @@
                         <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Mã NV</th>
-                                <th>Tên NV</th>
-                                <th>Loại tai nạn</th>
-                                <th>Lý do</th>
+                                <th>Tên PX</th>
+                                <th>Tên công nhân</th>
+                                <th>Số thẻ</th>
+                                <th>Mô tả nguyên nhân sơ bộ</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -620,13 +621,14 @@
                                 }
                                 else
                                 {
-                                    foreach (var item in ViewBag.listTN)
+                                    for (var i = 0; i < ViewBag.listTNCount; i++)
                                     {
+                                        var item = ViewBag.listTN[i];
                                         <tr>
-                                            <td></td>
-                                            <td>@item.MaNV</td>
+                                            <td>@i</td>
+                                            <td>@item.department_name</td>
                                             <td>@item.Ten</td>
-                                            <td>@item.Loai</td>
+                                            <td>@item.MaNV</td>
                                             <td>@item.LyDo</td>
                                         </tr>
                                     }
@@ -849,14 +851,16 @@
                     data: dataTH,
                     backgroundColor:'rgba(255, 255, 255, 0)',
                     borderColor: 'rgba(32, 166, 255, 1)',
-                    borderWidth: 2
+                    borderWidth: 2,
+                    lineTension: 0
                     },
                     {
                         label: "Kế hoạch",
                         data: dataKH,
                         backgroundColor:'rgba(255, 255, 255, 0)',
                         borderColor: 'rgba(255, 127, 39, 1)',
-                        borderWidth: 2
+                        borderWidth: 2,
+                    lineTension: 0
                     }]
             },
             options: {
