@@ -7544,7 +7544,7 @@
     <Content Include="Views\TCLD\Salary\SalaryScale.cshtml" />
     <Content Include="Views\TCLD\Salary\Grade_Scale_Salary.cshtml" />
     <Content Include="Views\TCLD\Occupation\Occupation_GroupOccupation.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_cai_tien.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\DieuChinh\ChiTiet.cshtml" />
     <Content Include="Views\DK\BaoCaoDemo.cshtml" />
     <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />
     <Content Include="Views\DK\InputPlan\InputPlan_Year.cshtml" />
