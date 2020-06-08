@@ -92,7 +92,9 @@ namespace QUANGHANHCORE.Controllers.DK
                 data = date.Split('/');
                 date = data[2] + "-" + data[1] + "-" + data[0];
                 string day_dashboard = DateTime.Parse(date).AddDays(-2).ToShortDateString();
-                ViewBag.d = day_dashboard;
+                string[] day_dashboard1 = day_dashboard.Split('/');
+                string day_dashboard2 = day_dashboard1[1] + "/" + day_dashboard1[0] + "/" + day_dashboard1[2];
+                ViewBag.d = day_dashboard2;
             }
             string[] data_tmp = data;
             DateTime timeEnd = Convert.ToDateTime(date);
