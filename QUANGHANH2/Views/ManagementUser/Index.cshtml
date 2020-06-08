@@ -1014,6 +1014,12 @@
         if (pb === 'XD') { var rights = GetAcceptRights(right15); }
         if (pb === 'AT') { var rights = GetAcceptRights(right17); }
         if (pb === 'PXCBT') { var rights = GetAcceptRights(right20); }
+        if (rights == null) {
+            $("#modalNotify").modal('open');
+            document.getElementById("notifyMessage").innerHTML = 'Không thể tạo tài khoản cho phòng ban này';
+            $('#pre-load').hide();
+            return false;
+        }
         var empObj = {
             Name: document.getElementById("txtName").value,
             Username: document.getElementById("txtUsername").value,
@@ -1193,6 +1199,12 @@
         if (pb === 'XD') { var rights = GetAcceptRights(right15); }
         if (pb === 'AT') { var rights = GetAcceptRights(right17); }
         if (pb === 'PXCBT') { var rights = GetAcceptRights(right20); }
+        if (rights == null) {
+            $("#modalNotify").modal('open');
+            document.getElementById("notifyMessage").innerHTML = 'Không thể tạo tài khoản cho phòng ban này';
+            $('#pre-load').hide();
+            return false;
+        }
         var empObj = {
             ID: document.getElementById("txtID").value,
             Name: document.getElementById("txtName").value,

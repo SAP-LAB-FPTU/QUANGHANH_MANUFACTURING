@@ -1053,6 +1053,17 @@
           <Property Name="supplyStatus" Type="nvarchar" MaxLength="150" />
           <Property Name="equipmentId_dikem" Type="nvarchar" MaxLength="150" />
         </EntityType>
+        <EntityType Name="Supply_Documentary_Improve_Equipment">
+          <Key>
+            <PropertyRef Name="supplyDocumentaryEquipmentId" />
+          </Key>
+          <Property Name="supplyDocumentaryEquipmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="documentary_improve_id" Type="int" Nullable="false" />
+          <Property Name="supply_id" Type="nvarchar" MaxLength="150" />
+          <Property Name="equipmentId" Type="nvarchar" MaxLength="150" />
+          <Property Name="quantity_before" Type="int" Nullable="false" />
+          <Property Name="quantity_after" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Supply_Documentary_Maintain_Equipment">
           <Key>
             <PropertyRef Name="supplyDocumentaryEquipmentId" />
@@ -2678,6 +2689,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Supply_Do__docum__52793849">
+          <End Role="Documentary_Improve_Detail" Type="Self.Documentary_Improve_Detail" Multiplicity="1" />
+          <End Role="Supply_Documentary_Improve_Equipment" Type="Self.Supply_Documentary_Improve_Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documentary_Improve_Detail">
+              <PropertyRef Name="documentary_improve_id" />
+            </Principal>
+            <Dependent Role="Supply_Documentary_Improve_Equipment">
+              <PropertyRef Name="documentary_improve_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Supply_Do__docum__671F4F74">
           <End Role="Documentary" Type="Self.Documentary" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -2752,6 +2775,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Supply_Do__equip__536D5C82">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
+          <End Role="Supply_Documentary_Improve_Equipment" Type="Self.Supply_Documentary_Improve_Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipmentId" />
+            </Principal>
+            <Dependent Role="Supply_Documentary_Improve_Equipment">
+              <PropertyRef Name="equipmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Supply_Do__room___1940BAED">
           <End Role="Room" Type="Self.Room" Multiplicity="1" />
           <End Role="Supply_Documentary_Camera" Type="Self.Supply_Documentary_Camera" Multiplicity="*" />
@@ -2820,6 +2855,18 @@
               <PropertyRef Name="supply_id" />
             </Principal>
             <Dependent Role="Supply_Documentary_Repair_Equipment">
+              <PropertyRef Name="supply_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Supply_Do__suppl__546180BB">
+          <End Role="Supply" Type="Self.Supply" Multiplicity="0..1" />
+          <End Role="Supply_Documentary_Improve_Equipment" Type="Self.Supply_Documentary_Improve_Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supply">
+              <PropertyRef Name="supply_id" />
+            </Principal>
+            <Dependent Role="Supply_Documentary_Improve_Equipment">
               <PropertyRef Name="supply_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -3429,6 +3476,7 @@
           <EntitySet Name="Supply_Documentary_Big_Maintain_Equipment" EntityType="Self.Supply_Documentary_Big_Maintain_Equipment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supply_Documentary_Camera" EntityType="Self.Supply_Documentary_Camera" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supply_Documentary_Equipment" EntityType="Self.Supply_Documentary_Equipment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supply_Documentary_Improve_Equipment" EntityType="Self.Supply_Documentary_Improve_Equipment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supply_Documentary_Maintain_Equipment" EntityType="Self.Supply_Documentary_Maintain_Equipment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supply_Documentary_Repair_Equipment" EntityType="Self.Supply_Documentary_Repair_Equipment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supply_Equipment_DiKem" EntityType="Self.Supply_Equipment_DiKem" Schema="dbo" store:Type="Tables" />
@@ -3926,6 +3974,10 @@
             <End Role="Documentary_repair_details" EntitySet="Documentary_repair_details" />
             <End Role="Supply_Documentary_Repair_Equipment" EntitySet="Supply_Documentary_Repair_Equipment" />
           </AssociationSet>
+          <AssociationSet Name="FK__Supply_Do__docum__52793849" Association="Self.FK__Supply_Do__docum__52793849">
+            <End Role="Documentary_Improve_Detail" EntitySet="Documentary_Improve_Detail" />
+            <End Role="Supply_Documentary_Improve_Equipment" EntitySet="Supply_Documentary_Improve_Equipment" />
+          </AssociationSet>
           <AssociationSet Name="FK__Supply_Do__docum__671F4F74" Association="Self.FK__Supply_Do__docum__671F4F74">
             <End Role="Documentary" EntitySet="Documentary" />
             <End Role="Supply_Documentary_Equipment" EntitySet="Supply_Documentary_Equipment" />
@@ -3950,6 +4002,10 @@
             <End Role="Equipment" EntitySet="Equipment" />
             <End Role="Supply_Documentary_Repair_Equipment" EntitySet="Supply_Documentary_Repair_Equipment" />
           </AssociationSet>
+          <AssociationSet Name="FK__Supply_Do__equip__536D5C82" Association="Self.FK__Supply_Do__equip__536D5C82">
+            <End Role="Equipment" EntitySet="Equipment" />
+            <End Role="Supply_Documentary_Improve_Equipment" EntitySet="Supply_Documentary_Improve_Equipment" />
+          </AssociationSet>
           <AssociationSet Name="FK__Supply_Do__room___1940BAED" Association="Self.FK__Supply_Do__room___1940BAED">
             <End Role="Room" EntitySet="Room" />
             <End Role="Supply_Documentary_Camera" EntitySet="Supply_Documentary_Camera" />
@@ -3973,6 +4029,10 @@
           <AssociationSet Name="FK__Supply_Do__suppl__23BE4960" Association="Self.FK__Supply_Do__suppl__23BE4960">
             <End Role="Supply" EntitySet="Supply" />
             <End Role="Supply_Documentary_Repair_Equipment" EntitySet="Supply_Documentary_Repair_Equipment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Supply_Do__suppl__546180BB" Association="Self.FK__Supply_Do__suppl__546180BB">
+            <End Role="Supply" EntitySet="Supply" />
+            <End Role="Supply_Documentary_Improve_Equipment" EntitySet="Supply_Documentary_Improve_Equipment" />
           </AssociationSet>
           <AssociationSet Name="FK__Supply_Eq__equip__24B26D99" Association="Self.FK__Supply_Eq__equip__24B26D99">
             <End Role="Equipment" EntitySet="Equipment" />
@@ -4634,6 +4694,7 @@
           <NavigationProperty Name="Department" Relationship="Self.FK__Documenta__depar__46486B8E" FromRole="Documentary_Improve_Detail" ToRole="Department" />
           <NavigationProperty Name="Documentary" Relationship="Self.FK__Documenta__docum__473C8FC7" FromRole="Documentary_Improve_Detail" ToRole="Documentary" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK__Documenta__equip__4830B400" FromRole="Documentary_Improve_Detail" ToRole="Equipment" />
+          <NavigationProperty Name="Supply_Documentary_Improve_Equipment" Relationship="Self.FK__Supply_Do__docum__52793849" FromRole="Documentary_Improve_Detail" ToRole="Supply_Documentary_Improve_Equipment" />
         </EntityType>
         <EntityType Name="Documentary_liquidation_details">
           <Key>
@@ -4790,6 +4851,7 @@
           <NavigationProperty Name="Supply_Documentary_Equipment1" Relationship="Self.FK__Supply_Do__equip__1D114BD1" FromRole="Equipment" ToRole="Supply_Documentary_Equipment" />
           <NavigationProperty Name="Supply_Documentary_Maintain_Equipment" Relationship="Self.FK__Supply_Do__equip__1FEDB87C" FromRole="Equipment" ToRole="Supply_Documentary_Maintain_Equipment" />
           <NavigationProperty Name="Supply_Documentary_Repair_Equipment" Relationship="Self.FK__Supply_Do__equip__22CA2527" FromRole="Equipment" ToRole="Supply_Documentary_Repair_Equipment" />
+          <NavigationProperty Name="Supply_Documentary_Improve_Equipment" Relationship="Self.FK__Supply_Do__equip__536D5C82" FromRole="Equipment" ToRole="Supply_Documentary_Improve_Equipment" />
           <NavigationProperty Name="Supply_Equipment_DiKem" Relationship="Self.FK__Supply_Eq__equip__24B26D99" FromRole="Equipment" ToRole="Supply_Equipment_DiKem" />
           <NavigationProperty Name="Supply_SCTX" Relationship="Self.FK__Supply_SC__equip__269AB60B" FromRole="Equipment" ToRole="Supply_SCTX" />
           <NavigationProperty Name="Supply_SCTX1" Relationship="Self.FK__Supply_SC__equip__278EDA44" FromRole="Equipment" ToRole="Supply_SCTX" />
@@ -5437,6 +5499,7 @@
           <NavigationProperty Name="Supply_Documentary_Equipment" Relationship="Self.FK__Supply_Do__suppl__1E05700A" FromRole="Supply" ToRole="Supply_Documentary_Equipment" />
           <NavigationProperty Name="Supply_Documentary_Maintain_Equipment" Relationship="Self.FK__Supply_Do__suppl__20E1DCB5" FromRole="Supply" ToRole="Supply_Documentary_Maintain_Equipment" />
           <NavigationProperty Name="Supply_Documentary_Repair_Equipment" Relationship="Self.FK__Supply_Do__suppl__23BE4960" FromRole="Supply" ToRole="Supply_Documentary_Repair_Equipment" />
+          <NavigationProperty Name="Supply_Documentary_Improve_Equipment" Relationship="Self.FK__Supply_Do__suppl__546180BB" FromRole="Supply" ToRole="Supply_Documentary_Improve_Equipment" />
           <NavigationProperty Name="Supply_Equipment_DiKem" Relationship="Self.FK__Supply_Eq__suppl__25A691D2" FromRole="Supply" ToRole="Supply_Equipment_DiKem" />
           <NavigationProperty Name="Supply_SCTX" Relationship="Self.FK__Supply_SC__suppl__297722B6" FromRole="Supply" ToRole="Supply_SCTX" />
           <NavigationProperty Name="Supply_tieuhao" Relationship="Self.FK__Supply_ti__suppl__2B5F6B28" FromRole="Supply" ToRole="Supply_tieuhao" />
@@ -5508,6 +5571,20 @@
           <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Do__equip__1C1D2798" FromRole="Supply_Documentary_Equipment" ToRole="Equipment" />
           <NavigationProperty Name="Equipment1" Relationship="Self.FK__Supply_Do__equip__1D114BD1" FromRole="Supply_Documentary_Equipment" ToRole="Equipment" />
           <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Do__suppl__1E05700A" FromRole="Supply_Documentary_Equipment" ToRole="Supply" />
+        </EntityType>
+        <EntityType Name="Supply_Documentary_Improve_Equipment">
+          <Key>
+            <PropertyRef Name="supplyDocumentaryEquipmentId" />
+          </Key>
+          <Property Name="supplyDocumentaryEquipmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="documentary_improve_id" Type="Int32" Nullable="false" />
+          <Property Name="supply_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="equipmentId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="quantity_before" Type="Int32" Nullable="false" />
+          <Property Name="quantity_after" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Documentary_Improve_Detail" Relationship="Self.FK__Supply_Do__docum__52793849" FromRole="Supply_Documentary_Improve_Equipment" ToRole="Documentary_Improve_Detail" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Do__equip__536D5C82" FromRole="Supply_Documentary_Improve_Equipment" ToRole="Equipment" />
+          <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Do__suppl__546180BB" FromRole="Supply_Documentary_Improve_Equipment" ToRole="Supply" />
         </EntityType>
         <EntityType Name="Supply_Documentary_Maintain_Equipment">
           <Key>
@@ -6913,6 +6990,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Supply_Do__docum__52793849">
+          <End Role="Documentary_Improve_Detail" Type="Self.Documentary_Improve_Detail" Multiplicity="1" />
+          <End Role="Supply_Documentary_Improve_Equipment" Type="Self.Supply_Documentary_Improve_Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documentary_Improve_Detail">
+              <PropertyRef Name="documentary_improve_id" />
+            </Principal>
+            <Dependent Role="Supply_Documentary_Improve_Equipment">
+              <PropertyRef Name="documentary_improve_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Documenta__equip__43D61338">
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
           <End Role="Documentary_liquidation_details" Type="Self.Documentary_liquidation_details" Multiplicity="*" />
@@ -7209,6 +7298,18 @@
               <PropertyRef Name="equipmentId" />
             </Principal>
             <Dependent Role="Supply_Documentary_Repair_Equipment">
+              <PropertyRef Name="equipmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Supply_Do__equip__536D5C82">
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
+          <End Role="Supply_Documentary_Improve_Equipment" Type="Self.Supply_Documentary_Improve_Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Equipment">
+              <PropertyRef Name="equipmentId" />
+            </Principal>
+            <Dependent Role="Supply_Documentary_Improve_Equipment">
               <PropertyRef Name="equipmentId" />
             </Dependent>
           </ReferentialConstraint>
@@ -7753,6 +7854,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Supply_Do__suppl__546180BB">
+          <End Role="Supply" Type="Self.Supply" Multiplicity="0..1" />
+          <End Role="Supply_Documentary_Improve_Equipment" Type="Self.Supply_Documentary_Improve_Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supply">
+              <PropertyRef Name="supply_id" />
+            </Principal>
+            <Dependent Role="Supply_Documentary_Improve_Equipment">
+              <PropertyRef Name="supply_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Supply_Eq__suppl__25A691D2">
           <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
           <End Role="Supply_Equipment_DiKem" Type="Self.Supply_Equipment_DiKem" Multiplicity="*" />
@@ -7926,6 +8039,7 @@
           <EntitySet Name="Supply_Documentary_Big_Maintain_Equipment" EntityType="Self.Supply_Documentary_Big_Maintain_Equipment" />
           <EntitySet Name="Supply_Documentary_Camera" EntityType="Self.Supply_Documentary_Camera" />
           <EntitySet Name="Supply_Documentary_Equipment" EntityType="Self.Supply_Documentary_Equipment" />
+          <EntitySet Name="Supply_Documentary_Improve_Equipment" EntityType="Self.Supply_Documentary_Improve_Equipment" />
           <EntitySet Name="Supply_Documentary_Maintain_Equipment" EntityType="Self.Supply_Documentary_Maintain_Equipment" />
           <EntitySet Name="Supply_Documentary_Repair_Equipment" EntityType="Self.Supply_Documentary_Repair_Equipment" />
           <EntitySet Name="Supply_Equipment_DiKem" EntityType="Self.Supply_Equipment_DiKem" />
@@ -8335,6 +8449,10 @@
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Documentary_Improve_Detail" EntitySet="Documentary_Improve_Detail" />
           </AssociationSet>
+          <AssociationSet Name="FK__Supply_Do__docum__52793849" Association="Self.FK__Supply_Do__docum__52793849">
+            <End Role="Documentary_Improve_Detail" EntitySet="Documentary_Improve_Detail" />
+            <End Role="Supply_Documentary_Improve_Equipment" EntitySet="Supply_Documentary_Improve_Equipment" />
+          </AssociationSet>
           <AssociationSet Name="FK__Documenta__equip__43D61338" Association="Self.FK__Documenta__equip__43D61338">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Documentary_liquidation_details" EntitySet="Documentary_liquidation_details" />
@@ -8434,6 +8552,10 @@
           <AssociationSet Name="FK__Supply_Do__equip__22CA2527" Association="Self.FK__Supply_Do__equip__22CA2527">
             <End Role="Equipment" EntitySet="Equipments" />
             <End Role="Supply_Documentary_Repair_Equipment" EntitySet="Supply_Documentary_Repair_Equipment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Supply_Do__equip__536D5C82" Association="Self.FK__Supply_Do__equip__536D5C82">
+            <End Role="Equipment" EntitySet="Equipments" />
+            <End Role="Supply_Documentary_Improve_Equipment" EntitySet="Supply_Documentary_Improve_Equipment" />
           </AssociationSet>
           <AssociationSet Name="FK__Supply_Eq__equip__24B26D99" Association="Self.FK__Supply_Eq__equip__24B26D99">
             <End Role="Equipment" EntitySet="Equipments" />
@@ -8614,6 +8736,10 @@
           <AssociationSet Name="FK__Supply_Do__suppl__23BE4960" Association="Self.FK__Supply_Do__suppl__23BE4960">
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="Supply_Documentary_Repair_Equipment" EntitySet="Supply_Documentary_Repair_Equipment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Supply_Do__suppl__546180BB" Association="Self.FK__Supply_Do__suppl__546180BB">
+            <End Role="Supply" EntitySet="Supplies" />
+            <End Role="Supply_Documentary_Improve_Equipment" EntitySet="Supply_Documentary_Improve_Equipment" />
           </AssociationSet>
           <AssociationSet Name="FK__Supply_Eq__suppl__25A691D2" Association="Self.FK__Supply_Eq__suppl__25A691D2">
             <End Role="Supply" EntitySet="Supplies" />
@@ -9755,6 +9881,18 @@
                 <ScalarProperty Name="quantity_out" ColumnName="quantity_out" />
                 <ScalarProperty Name="supplyStatus" ColumnName="supplyStatus" />
                 <ScalarProperty Name="equipmentId_dikem" ColumnName="equipmentId_dikem" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Supply_Documentary_Improve_Equipment">
+            <EntityTypeMapping TypeName="QUANGHANHABCModel.Supply_Documentary_Improve_Equipment">
+              <MappingFragment StoreEntitySet="Supply_Documentary_Improve_Equipment">
+                <ScalarProperty Name="supplyDocumentaryEquipmentId" ColumnName="supplyDocumentaryEquipmentId" />
+                <ScalarProperty Name="documentary_improve_id" ColumnName="documentary_improve_id" />
+                <ScalarProperty Name="supply_id" ColumnName="supply_id" />
+                <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+                <ScalarProperty Name="quantity_before" ColumnName="quantity_before" />
+                <ScalarProperty Name="quantity_after" ColumnName="quantity_after" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
