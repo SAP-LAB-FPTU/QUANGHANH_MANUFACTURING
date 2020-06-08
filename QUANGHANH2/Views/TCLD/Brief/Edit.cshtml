@@ -336,18 +336,18 @@
                                         </div>
                                     </div>
                                     <div class="input-field col m12">
-                                        <div class="col m4">
-                                            @Html.LabelFor(model => model.BacLuong, "Bậc lương", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col m8">
+                                            @Html.LabelFor(model => model.BacLuong, "Mã bậc lương - Thang lương - Mức lương", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.BacLuong, new { htmlAttributes = new { @class = " form-control bac", @placeholder = "Bậc lương", @type = "text", @autocomplete = "off" } })
-                                                @Html.ValidationMessageFor(model => model.BacLuong, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="col m4">
-                                            @Html.LabelFor(model => model.HeSo, "Hệ số", htmlAttributes: new { @class = "custom-label" })
-                                            <div class="col-md-10">
-                                                @Html.EditorFor(model => model.HeSo, new { htmlAttributes = new { @class = " form-control", @placeholder = "Hệ số", @type = "number", @min = "0", @autocomplete = "off" } })
-                                                @Html.ValidationMessageFor(model => model.HeSo, "", new { @class = "text-danger" })
+                                                <input id="salaryLevelId" list="listSalaryLevel" class="form-control inputEdit" name="salaryLevelName" value="@ViewBag.load_salary_level" placeholder="Mã bậc lương - Thang lương - Mức lương" autocomplete="off" />
+                                                <input type="hidden" name="hiddenSalary" id="salaryLevelIdHidden" />
+                                                <datalist id="listSalaryLevel">
+                                                    @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.level_salary)
+                                                    {
+                                                        <option value="@item.Text" data-value="@item.Value" />
+                                                    }
+                                                </datalist>
+                                                @Html.ValidationMessageFor(model => model.MaBacLuong_ThangLuong_MucLuong, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col m4">
@@ -812,5 +812,13 @@
             var currentTime = dateString[1] + "/" + dateString[0] + "/" + dateString[2].substr(4);
             return document.getElementById('td-' + key).innerHTML = currentTime;
         }
+
+        $(document).ready(function () {
+            $('#save').click(function () {
+                var value = $('#salaryLevelId').val();
+                $('#salaryLevelIdHidden').val($('#listSalaryLevel [value="' + value + '"]').data('value'));
+            });
+        });
+
     </script>
 }

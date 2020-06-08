@@ -671,6 +671,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supply_Documentary_EquipmentDB.cs" />
+    <Compile Include="Models\Supply_Documentary_Improve_Equipment.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Supply_Documentary_Maintain_Equipment.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -745,6 +748,7 @@
     <Compile Include="Repositories\XincapvattuSummaryRepository.cs" />
     <Compile Include="SupportClass\Auther.cs" />
     <Compile Include="SupportClass\DataTableAjaxPostModal.cs" />
+    <Compile Include="SupportClass\Hash.cs" />
     <Compile Include="Utils\TimeHelper.cs" />
   </ItemGroup>
   <ItemGroup>

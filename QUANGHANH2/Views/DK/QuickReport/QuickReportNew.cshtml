@@ -10,10 +10,8 @@
     }
 }
 
-<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
-@*<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
-    <link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">*@
-<link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" rel="stylesheet" type="text/css" />
+@*<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" rel="stylesheet" type="text/css" />*@
 
 <form id="form" action="/phong-dieu-khien" method="post">
     <input type="text" id="date" name="date" style="display:none !important" />
@@ -56,6 +54,7 @@
         margin-left: 10px;
         margin-right: 10px
     }
+
 </style>
 <div class="row">
     <div class="col l12 m12 s12">
@@ -255,7 +254,7 @@
                 <div id="test1">
                     <div class="row">
                         <div class="col l9 m12 s12">
-                            <table id="thansx_table" class="table table-striped table-bordered responsive-table" cellspacing="0"
+                            <table id="thansx_table" class="table table-striped table-bordered table-responsive" cellspacing="0"
                                    width="100%">
                                 <thead>
                                     <tr>
@@ -353,7 +352,7 @@
                 <div id="test2">
                     <div class="row">
                         <div class="col l9 m12 s12">
-                            <table id="metlo_table" class="table table-striped table-bordered responsive-table" cellspacing="0"
+                            <table id="metlo_table" class="table table-striped table-bordered table-responsive" cellspacing="0"
                                    width="100%">
                                 <thead>
                                     <tr>
@@ -452,7 +451,7 @@
                 <div id="test3">
                     <div class="row">
                         <div class="col l9 m12 s12">
-                            <table id="datda_table" class="table table-striped table-bordered responsive-table" cellspacing="0"
+                            <table id="datda_table" class="table table-striped table-bordered table-responsive" cellspacing="0"
                                    width="100%">
                                 <thead>
                                     <tr>
@@ -690,7 +689,7 @@
 @*<script src="../../assets/libs/chartist/dist/chartist.min.js"></script>
     <script src="../../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>*@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-<script src="../../assets/extra-libs/prism/prism.js"></script>
+@*<script src="../../assets/extra-libs/prism/prism.js"></script>*@
 @*<script src="../../assets/extra-libs/sparkline/sparkline.js"></script>
     <script src="../../dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>*@
 @*<script src="~/js/tuan_js/myChart2.js"></script>*@
@@ -702,7 +701,7 @@
         //});
 
         var d = '@ViewBag.d';
-        
+
         $picker = $('#data');
             $("#data").datepicker({
                 onSelect: function (dateText) {
@@ -727,14 +726,15 @@
                     $(this).css('color', '#5b616e')
                     return false
                 }
-            })   
-        
+            })
+
     });
 
     $(document).ready(function () {
         $('.modal').modal();
         $('#thansx_table').DataTable({
             "scrollY": "425px",
+            "scrollX":  true,
             "scrollCollapse": true,
             "searching": false,
             "bPaginate": false,
@@ -746,12 +746,13 @@
             "language": {
                 "emptyTable": "Chưa có dữ liệu"
             }
-
         });
+
         $('a[href="#test2"]').one('click', function () {
             setTimeout(function () {
                 $('#metlo_table').DataTable({
                     "scrollY": "425px",
+                    "scrollX":  true,
                     "scrollCollapse": true,
                     "searching": false,
                     "bPaginate": false,
@@ -771,6 +772,7 @@
             setTimeout(function () {
                 $('#datda_table').DataTable({
                     "scrollY": "425px",
+                    "scrollX":  true,
                     "scrollCollapse": true,
                     "searching": false,
                     "bPaginate": false,
@@ -788,7 +790,6 @@
 
         $('.dataTables_length').addClass('bs-select');
     });
-</script>
 </script>
 <script>
     const titleMap = new Map([
@@ -1043,6 +1044,5 @@
     //     }
     //     document.getElementById("data").value = d;
     // });
-
 </script>
 

@@ -9,8 +9,8 @@
     List<string> right = (List<string>)Session["RightIDs"];
 }
 <datalist id="pb">
-    @{ 
-        foreach(var item in ViewBag.pb)
+    @{
+        foreach (var item in ViewBag.pb)
         {
             <option value="@item.department_id">@item.department_name</option>
         }
@@ -52,7 +52,7 @@
                     <div class="row">
                         <div class="left col s12 m6 l12">
                             <div class="row">
-                                <div class="col s3 m3 l3">
+                                <div class="col s2 m2 l2">
                                     @foreach (var item in right)
                                     {
                                         if (item.Equals("52"))
@@ -65,7 +65,7 @@
                                 @*<div class="col s2 m3 l3">
                                         <a class="waves-effect waves-light btn btn-small blue darken-2 modal-trigger input-field" style="width:120px" href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/them-nhan-vien")">Thêm</a>
                                     </div>*@
-                                <div class="col s3 m3 l3">
+                                <div class="col s2 m2 l2">
                                     <a class="waves-effect waves-light btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
                                 </div>
                             </div>
@@ -495,6 +495,12 @@
             $.ajax({
                 type: "POST",
                 url: "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/excel",
+                data: {
+                    "MaNV": function () { return $("#searchMaNV").val() },
+                    "TenNV": function () { return $("#searchTenNV").val() },
+                    "GioiTinh": function () { return $("#searchGioiTinh").val() },
+                    "MaPhongBan": function () { return $("#searchPB").val() }
+                },
                 cache: false
             }).done(function () {
                 window.location.href = "/excel/TCLD/download/Danh-sách-nhân-viên.xlsx";

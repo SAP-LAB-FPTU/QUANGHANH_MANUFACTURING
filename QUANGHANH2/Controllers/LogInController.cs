@@ -28,16 +28,25 @@ namespace QUANGHANHCORE.Controllers
                 string url = (string)Session["url"];
                 return Redirect(url);
             }
-            if (HttpContext.Request.Cookies["remme"] != null)
+            if (HttpContext.Request.Cookies["token"] != null)
             {
-                HttpCookie remme = HttpContext.Request.Cookies.Get("remme");
-                login a = new login()
+                HttpCookie remme = HttpContext.Request.Cookies.Get("token");
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    username = remme.Values.Get("username"),
-                    password = remme.Values.Get("password")
-                };
-                ViewBag.login = a;
-                return View();
+                    string token = remme.Values.Get("token");
+                    int uid = int.Parse(remme.Values.Get("uid"));
+                    var info = db.Accounts.Where(x => x.token.Equals(token) && x.ID == uid).FirstOrDefault();
+                    if(info != null)
+                    {
+                        login a = new login()
+                        {
+                            username = info.Username,
+                            password = Hash.Encrypt.DecryptString(token, "quanghanhcoals")
+                        };
+                        ViewBag.login = a;
+                    }
+                    return View();
+                }
             }
             return View();
         }
@@ -46,7 +55,6 @@ namespace QUANGHANHCORE.Controllers
         {
             if (password == null) return RedirectToAction("Index");
             string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(password, "pl");
-            string passssssss = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Decrypt(passXc);
             var checkuser = db.Accounts.Where(x => x.Username == username).Where(y => y.Password == passXc).SingleOrDefault();
             if (checkuser != null)
             {
@@ -66,17 +74,25 @@ namespace QUANGHANHCORE.Controllers
                     Session["isAdmin"] = Name.ADMIN;
                     Session["Role"] = Name.Role;
                     GetPermission(id);
+                    string hashtoken = Hash.Encrypt.EncryptString(password,"quanghanhcoals");
                     if (!String.IsNullOrEmpty(rm))
                     {
                         if (rm.Equals("on"))
                         {
-                            HttpCookie remme = new HttpCookie("remme");
-                            remme["username"] = Name.Username;
-                            remme["password"] = password;
+                            HttpCookie remme = new HttpCookie("token");
+                            remme["token"] = hashtoken;
+                            remme["uid"] = Name.ID.ToString();
                             remme.Expires = DateTime.Now.AddDays(365);
                             remme.Secure = true;
                             remme.HttpOnly = true;
                             HttpContext.Response.Cookies.Add(remme);
+                            checkuser.token = hashtoken;
+                            try
+                            {
+                                db.Entry(checkuser).State = EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                            catch (Exception e) { }
                         }
                     }
                     if (Name.ADMIN) return RedirectToAction("Index", "ManagementUser");
@@ -117,7 +133,7 @@ namespace QUANGHANHCORE.Controllers
             {
                 RightIDs.Add(right.RightID + "");
             }
-            if(Session["Position"].ToString().Equals("Trưởng phòng") && Session["departID"].ToString().Equals("CV"))
+            if (Session["Position"].ToString().Equals("Trưởng phòng") && Session["departID"].ToString().Equals("CV"))
             {
                 RightIDs.Add("192");
             }

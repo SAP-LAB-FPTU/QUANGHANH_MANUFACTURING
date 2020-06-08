@@ -336,18 +336,18 @@
                                         </div>
                                     </div>
                                     <div class="input-field col m12">
-                                        <div class="col m4">
-                                            @Html.LabelFor(model => model.BacLuong, "Bậc lương", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col m8">
+                                            @Html.LabelFor(model => model.BacLuong, "Mã bậc lương - Thang lương - Mức lương", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.BacLuong, new { htmlAttributes = new { @class = "inputEdit form-control bac", @placeholder = "Bậc lương", @type = "text", @autocomplete = "off" } })
-                                                @Html.ValidationMessageFor(model => model.BacLuong, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="col m4">
-                                            @Html.LabelFor(model => model.HeSo, "Hệ số", htmlAttributes: new { @class = "custom-label" })
-                                            <div class="col-md-10">
-                                                @Html.EditorFor(model => model.HeSo, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Hệ số", @type = "number", @min = "0", @autocomplete = "off" } })
-                                                @Html.ValidationMessageFor(model => model.HeSo, "", new { @class = "text-danger" })
+                                                <input id="salaryLevelId" list="listSalaryLevel" class="form-control inputEdit" name="salaryLevelName" value="@ViewBag.load_salary_level" placeholder="Mã bậc lương - Thang lương - Mức lương" autocomplete="off" />
+                                                <input type="hidden" name="hiddenSalary" id="salaryLevelIdHidden"/>
+                                                <datalist id="listSalaryLevel">
+                                                    @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.level_salary)
+                                                    {
+                                                        <option value="@item.Text" data-value="@item.Value" />
+                                                    }
+                                                </datalist>
+                                                @Html.ValidationMessageFor(model => model.MaBacLuong_ThangLuong_MucLuong, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col m4">
@@ -638,6 +638,7 @@
             <div class="modal-footer">
                 <button class="waves-effect waves-light btn blue darken-2 modal-close" id="save" type="submit">Lưu</button>
                 <button class="waves-effect waves-light btn blue darken-2 modal-close">Hủy</button>
+                
             </div>
         </div>
     </div>
@@ -652,6 +653,14 @@
 <script src="~/js/Custom JS/TCLD/Brief/Brief_View.js"></script>
 <script src="~/js/Custom JS/TCLD/Brief/DateError.js"></script>
 <script>
+    $(document).ready(function () {
+        $('#save').click(function () {
+            var value = $('#salaryLevelId').val();
+            $('#salaryLevelIdHidden').val($('#listSalaryLevel [value="' + value + '"]').data('value'));
+        });
+    });
+
+
     $(".bac").keydown(function (e) {
         var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];
         for (var i = 48; i <= 57; i++) {
