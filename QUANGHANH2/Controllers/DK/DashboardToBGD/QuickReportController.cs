@@ -60,6 +60,7 @@ namespace QUANGHANHCORE.Controllers.DK
         }
         public class Tainan_Dasboard : TaiNan
         {
+            public string department_name { get; set; }
             public string Ten { get; set; }
         }
         // GET: /<controller>/
@@ -81,6 +82,8 @@ namespace QUANGHANHCORE.Controllers.DK
             {
                 data = date.Split('/');
                 date = data[2] + "-" + data[1] + "-" + data[0];
+                string day_dashboard = data[0] + "/" + data[1] + "/" + data[2];
+                ViewBag.d = day_dashboard;
             }
             else
             {
@@ -88,6 +91,8 @@ namespace QUANGHANHCORE.Controllers.DK
                 date = d.ToString("dd/MM/yyyy");
                 data = date.Split('/');
                 date = data[2] + "-" + data[1] + "-" + data[0];
+                string day_dashboard = DateTime.Parse(date).AddDays(-2).ToShortDateString();
+                ViewBag.d = day_dashboard;
             }
             string[] data_tmp = data;
             DateTime timeEnd = Convert.ToDateTime(date);
@@ -281,25 +286,37 @@ namespace QUANGHANHCORE.Controllers.DK
 
             //sự cố
             string[] data2 = date.Split('-');
-            string sql = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different " +
-                            " FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId " +
-                            "                 inner join Department d on d.department_id = i.department_id " +
-                            " where YEAR(i.start_time) = '" + data2[0] + "' and MONTH(i.start_time) = '" + data2[1] + "' and DAY(i.start_time) = '" + data2[2] + "'";
-            List<IncidentDB> list = db.Database.SqlQuery<IncidentDB>(sql).ToList();
+            string sql = @"SELECT 
+                            d.department_name, 
+                            i.reason, 
+                            DATEDIFF(HOUR, i.start_time, i.end_time) as time_different
+                            FROM Incident i
+                            inner join Equipment e on e.equipmentId = i.equipmentId
+                            inner join Department d on d.department_id = i.department_id
+                            where YEAR(i.start_time) = @year and MONTH(i.start_time) = @month and DAY(i.start_time) = @day";
+            List<IncidentDB> list = db.Database.SqlQuery<IncidentDB>(sql, new SqlParameter("year", data2[0]),
+                                                                            new SqlParameter("month", data2[1]),
+                                                                            new SqlParameter("day", data2[2])).ToList();
 
             ViewBag.listSC = list;
             ViewBag.listSCCount = list.Count();
 
             //tai nạn
-            string sql_tainan = " SELECT NhanVien.MaNV, NhanVien.Ten, TaiNan.LyDo, TaiNan.Ngay, TaiNan.Loai " +
-                                " FROM NhanVien INNER JOIN TaiNan ON NhanVien.MaNV = TaiNan.MaNV " +
-                                " where YEAR(TaiNan.Ngay) = '" + data2[0] + "' and MONTH(TaiNan.Ngay) = '" + data2[1] + "' and DAY(TaiNan.Ngay) = '" + data2[2] + "'";
-            List<Tainan_Dasboard> list_tainan = db.Database.SqlQuery<Tainan_Dasboard>(sql_tainan).ToList();
+            string sql_tainan = @"SELECT 
+                                Department.department_name,
+                                NhanVien.Ten,
+                                NhanVien.MaNV,
+                                TaiNan.LyDo
+                                FROM NhanVien 
+                                INNER JOIN TaiNan ON NhanVien.MaNV = TaiNan.MaNV
+                                INNER JOIN Department ON NhanVien.MaPhongBan = Department.department_id
+                                where YEAR(TaiNan.Ngay) = @year and MONTH(TaiNan.Ngay) = @month and DAY(TaiNan.Ngay) = @day";
+            List<Tainan_Dasboard> list_tainan = db.Database.SqlQuery<Tainan_Dasboard>(sql_tainan, new SqlParameter("year", data2[0]),
+                                                                                                    new SqlParameter("month", data2[1]),
+                                                                                                    new SqlParameter("day", data2[2])).ToList();
 
             ViewBag.listTN = list_tainan;
             ViewBag.listTNCount = list_tainan.Count();
-            string day_dashboard = data2[2] + "/" + data2[1] + "/" + data2[0];
-            ViewBag.d = day_dashboard;
 
             //lộ thiên
             string sql_LTTL = "select top 1 SanLuong from KeHoach_TieuChi_TheoThang " +
