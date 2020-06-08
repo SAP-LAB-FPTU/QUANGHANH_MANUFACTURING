@@ -339,6 +339,11 @@ namespace QUANGHANH2.Controllers.TCLD
             ViewBag.nameDepartment = "baohiem";
             return View("/Views/TCLD/Brief/ListAll.cshtml");
         }
+        public class BacLuong_ThangLuong_MucLuong_Extend : BacLuong_ThangLuong_MucLuong
+        {
+            public String MucBacLuong { get; set; }
+            public String MucThangLuong { get; set; }
+        }
         [Auther(RightID = "56")]
         [Route("phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien")]
         [HttpGet]
@@ -346,6 +351,25 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                List<SelectListItem> salary_level = new List<SelectListItem>();
+                String query_salary_level = @"select a.*, b.MucBacLuong, c.MucThangLuong from BacLuong_ThangLuong_MucLuong 
+                a join BacLuong b on a.MaBacLuong = b.MaBacLuong join ThangLuong c on a.MaThangLuong = c.MaThangLuong";
+                List<BacLuong_ThangLuong_MucLuong_Extend> list_level_salary = new List<BacLuong_ThangLuong_MucLuong_Extend>();
+                list_level_salary = db.Database.SqlQuery<BacLuong_ThangLuong_MucLuong_Extend>(query_salary_level).ToList();
+                foreach (BacLuong_ThangLuong_MucLuong_Extend i in list_level_salary)
+                {
+                    salary_level.Add(new SelectListItem
+                    {
+                        Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.MucLuong,
+                        Value = i.MaBacLuong_ThangLuong_MucLuong.ToString()
+                    });
+                    if (db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>().MaBacLuong_ThangLuong_MucLuong == i.MaBacLuong_ThangLuong_MucLuong)
+                    {
+                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.MucLuong;
+                    }
+                }
+                ViewBag.level_salary = salary_level;
+
                 List<SelectListItem> Month = new List<SelectListItem>();
                 for (int i = 1; i <= 12; i++)
                 {
@@ -409,6 +433,8 @@ namespace QUANGHANH2.Controllers.TCLD
                 return View("/Views/TCLD/Brief/View.cshtml", db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>());
             }
         }
+
+
         [Auther(RightID = "53")]
         [Route("phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")]
         [HttpGet]
@@ -416,11 +442,31 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                List<SelectListItem> salary_level = new List<SelectListItem>();
+                String query_salary_level = @"select a.*, b.MucBacLuong, c.MucThangLuong from BacLuong_ThangLuong_MucLuong 
+                a join BacLuong b on a.MaBacLuong = b.MaBacLuong join ThangLuong c on a.MaThangLuong = c.MaThangLuong";
+                List<BacLuong_ThangLuong_MucLuong_Extend> list_level_salary = new List<BacLuong_ThangLuong_MucLuong_Extend>();
+                list_level_salary = db.Database.SqlQuery<BacLuong_ThangLuong_MucLuong_Extend>(query_salary_level).ToList();
+                foreach (BacLuong_ThangLuong_MucLuong_Extend i in list_level_salary)
+                {
+                    salary_level.Add(new SelectListItem
+                    {
+                        Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.MucLuong,
+                        Value = i.MaBacLuong_ThangLuong_MucLuong.ToString()
+                    });
+                    if (db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>().MaBacLuong_ThangLuong_MucLuong == i.MaBacLuong_ThangLuong_MucLuong)
+                    {
+                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.MucLuong;
+                    }
+                }
+                ViewBag.level_salary = salary_level;
+
                 List<SelectListItem> Month = new List<SelectListItem>();
                 for (int i = 1; i <= 12; i++)
                 {
                     Month.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
                 }
+
 
                 ViewBag.months = Month;
                 List<SelectListItem> Genders = new List<SelectListItem>
@@ -481,7 +527,7 @@ namespace QUANGHANH2.Controllers.TCLD
         }
         [Auther(RightID = "53")]
         [HttpPost]
-        public ActionResult SaveEdit(NhanVien emp, string test, string[] giaDinh, string[] ngaySinhGiaDinh, string[] hoTen, string[] moiQuanHe, string[] lyLich, string[] donVi, string[] chucDanh, string[] chucVu, string[] tuNgayDenNgay)
+        public ActionResult SaveEdit(NhanVien emp, string test, string hiddenSalary, string[] giaDinh, string[] ngaySinhGiaDinh, string[] hoTen, string[] moiQuanHe, string[] lyLich, string[] donVi, string[] chucDanh, string[] chucVu, string[] tuNgayDenNgay)
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             using (DbContextTransaction dbct = db.Database.BeginTransaction())
@@ -603,7 +649,14 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     dbct.Rollback();
                 }
-
+                if (hiddenSalary != "")
+                {
+                    emp.MaBacLuong_ThangLuong_MucLuong = Convert.ToInt32(hiddenSalary);
+                }
+                else
+                {
+                    emp.MaBacLuong_ThangLuong_MucLuong = null;
+                }
                 db.Entry(emp).State = EntityState.Modified;
                 db.SaveChanges();
                 dbct.Commit();
@@ -712,7 +765,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     if (result[0].SoQD.Equals(""))
                     {
                         qd.SoQuyetDinh = "";
-                        foreach(var item in result)
+                        foreach (var item in result)
                         {
                             emp = db.NhanViens.Where(x => x.MaNV == item.MaNV).FirstOrDefault();
                             emp.MaTrangThai = 4;
@@ -733,7 +786,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     db.SaveChanges();
 
                     int maqd = db.QuyetDinhs.Select(n => n.MaQuyetDinh).DefaultIfEmpty(0).Max();
-                    foreach(var item in result)
+                    foreach (var item in result)
                     {
                         ChamDut_NhanVien tlhd = new ChamDut_NhanVien();
                         tlhd.MaNV = item.MaNV;
