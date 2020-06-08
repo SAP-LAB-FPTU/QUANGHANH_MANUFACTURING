@@ -71,7 +71,8 @@
                         <thead>
                             <tr>
                                 <th>Mã vật tư</th>
-                                <th>Số lượng</th>
+                                <th>Số lượng ban đầu</th>
+                                <th>Số lượng điều chỉnh</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -106,7 +107,8 @@
                         <thead>
                             <tr>
                                 <th>Mã thiết bị con</th>
-                                <th>Số lượng đi kèm</th>
+                                <th>Số lượng ban đầu</th>
+                                <th>Số lượng điều chỉnh</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -175,24 +177,6 @@
         })
     })
 
-    $("#sctx #addrow").click(function () {
-        var $tr = $('<tr>').append(
-            $('<td>').html("<input type='text' list='supply_inverse' class='form-control required' />"),
-            $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
-            $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
-        );
-        $tr.appendTo('#sctx tbody');
-    });
-
-    $("#thietbicon #addrow").click(function () {
-        var $tr = $('<tr>').append(
-            $('<td>').html("<input type='text' list='equipAttached' class='form-control required' />"),
-            $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
-            $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
-        );
-        $tr.appendTo('#thietbicon tbody');
-    });
-
     $(document).on("click", "#sctx table a, #thietbicon table a", function () {
         $(this).closest("tr").remove();
     })
@@ -258,6 +242,7 @@
                         $.each(data, function (i, item) {
                             var $tr = $('<tr>').append(
                                 $('<td>').html("<input type='text' list='equipAttached' class='form-control required' value='" + item.equipmentId_dikem + "' /> "),
+                                $('<td>').text(item.quantity),
                                 $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> "),
                                 $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
                             );
@@ -280,6 +265,7 @@
                     var item = output[equipId].thietbi[i];
                     var $tr = $('<tr>').append(
                         $('<td>').html("<input type='text' list='equipAttached' class='form-control required' value='" + item.equipmentId + "' /> "),
+                        $('<td>').text(item.quantity_dikem),
                         $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity_dikem + "' /> "),
                         $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
                     );
@@ -306,6 +292,7 @@
                         $.each(data, function (i, item) {
                             var $tr = $('<tr>').append(
                                 $('<td>').html("<input type='text' list='supply_inverse' class='form-control required' value='" + item.supply_id + "' /> "),
+                                $('<td>').text(item.quantity),
                                 $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> "),
                                 $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
                             );
@@ -328,6 +315,7 @@
                     var item = output[equipId].vattu[i];
                     var $tr = $('<tr>').append(
                         $('<td>').html("<input type='text' list='supply_inverse' class='form-control required' value='" + item.supply_id + "' /> "),
+                        $('<td>').text(item.quantity),
                         $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> "),
                         $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
                     );
