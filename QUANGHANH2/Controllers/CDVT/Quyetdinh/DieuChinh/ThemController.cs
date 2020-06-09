@@ -119,32 +119,27 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuChinh
                         JArray thietbi = (JArray)item.Value.SelectToken("thietbi");
                         foreach (JObject jObject in thietbi)
                         {
-                            string equipmentId_dikem = (string)jObject["equipmentId"];
-                            int quantity_dikem = (int)jObject["quantity_dikem"];
-                            Supply_Documentary_Equipment sde1 = new Supply_Documentary_Equipment
+                            Supply_Documentary_Improve_Equipment sde1 = new Supply_Documentary_Improve_Equipment
                             {
-                                documentary_id = documentary.documentary_id,
-                                equipmentId = equipmentId,
-                                equipmentId_dikem = equipmentId_dikem,
-                                quantity_plan = quantity_dikem
+                                documentary_improve_id = drd.documentary_improve_id,
+                                equipmentId = (string)jObject["equipmentId"],
+                                quantity_before = (int)jObject["quantity_before"],
+                                quantity_after = (int)jObject["quantity_after"]
                             };
-                            db.Supply_Documentary_Equipment.Add(sde1);
+                            db.Supply_Documentary_Improve_Equipment.Add(sde1);
                             db.SaveChanges();
                         }
                         JArray vattu = (JArray)item.Value.SelectToken("vattu");
                         foreach (JObject jObject in vattu)
                         {
-                            string supply_id = (string)jObject["supply_id"];
-                            int quantity = (int)jObject["quantity"];
-                            Supply_Documentary_Equipment sde = new Supply_Documentary_Equipment
+                            Supply_Documentary_Improve_Equipment sde = new Supply_Documentary_Improve_Equipment
                             {
-                                documentary_id = documentary.documentary_id,
-                                equipmentId = equipmentId,
-                                supply_id = supply_id,
-                                quantity_plan = quantity,
-                                supplyStatus = null
+                                documentary_improve_id = drd.documentary_improve_id,
+                                supply_id = (string)jObject["supply_id"],
+                                quantity_before = (int)jObject["quantity_before"],
+                                quantity_after = (int)jObject["quantity_after"]
                             };
-                            db.Supply_Documentary_Equipment.Add(sde);
+                            db.Supply_Documentary_Improve_Equipment.Add(sde);
                             db.SaveChanges();
                         }
                     }
@@ -168,6 +163,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuChinh
         [HttpGet]
         public ActionResult ExportQuyetDinh(string data, string department_id_to, string reason)
         {
+            string type = Request["Isimprove"] == "true" ? "cải tiến" : "thu hồi";
             using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
             {
                 try
@@ -208,7 +204,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuChinh
                             docText = regexText.Replace(docText, department.department_id.Contains("PX") ? department.department_name.Substring(11) : department.department_name);
 
                             regexText = new Regex("%loaiquyetdinh%");
-                            docText = regexText.Replace(docText, "điều chỉnh");
+                            docText = regexText.Replace(docText, type);
 
                             using (StreamWriter sw = new StreamWriter(doc.MainDocumentPart.GetStream(FileMode.Create)))
                             {
@@ -275,7 +271,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuChinh
                             if (TempData[handle] != null)
                             {
                                 byte[] output = TempData[handle] as byte[];
-                                return File(output, "application/vnd.ms-excel", "Quyết định điều chỉnh.docx");
+                                return File(output, "application/vnd.ms-excel", $"Quyết định {type}.docx");
                             }
                             else
                             {
@@ -305,14 +301,14 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuChinh
                     if (type == "vattu")
                     {
                         Supply s = db.Supplies.Find((string)jObject["supply_id"]);
-                        quantity = (int)jObject["quantity"];
+                        quantity = (int)jObject["quantity_after"];
                         name = s.supply_name;
                         unit = s.unit;
                     }
                     else
                     {
                         Equipment e = db.Equipments.Find((string)jObject["equipmentId"]);
-                        quantity = (int)jObject["quantity_dikem"];
+                        quantity = (int)jObject["quantity_after"];
                         name = e.equipment_name;
                         unit = "Cái";
                     }

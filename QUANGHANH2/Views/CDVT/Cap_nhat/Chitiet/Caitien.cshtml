@@ -50,8 +50,8 @@
                         <tr>
                             <th>Mã thiết bị con</th>
                             <th>Tên thiết bị con</th>
-                            <th>Số lượng trong quyết định</th>
-                            <th>Số lượng đã nhận</th>
+                            <th>Số lượng ban đầu</th>
+                            <th>Số lượng điều chỉnh</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -77,8 +77,8 @@
                         <tr>
                             <th>Mã vật tư con</th>
                             <th>Tên vật tư con</th>
-                            <th>Số lượng trong quyết định</th>
-                            <th>Số lượng đã nhận</th>
+                            <th>Số lượng ban đầu</th>
+                            <th>Số lượng điều chỉnh</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -106,12 +106,12 @@
     </div>
 </div>
 
-<datalist id="supplyID">
+@*<datalist id="supplyID">
     @foreach (var item in ViewBag.equipAttached)
     {
         <option value="@item.equipmentId">@item.equipment_name</option>
     }
-</datalist>
+</datalist>*@
 
 <script>
     var equipmentId, documentary_id, IsSupply

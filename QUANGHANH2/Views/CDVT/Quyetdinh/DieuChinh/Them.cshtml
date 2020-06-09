@@ -20,6 +20,13 @@
                     <label for="reason">Nội dung <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
                     <input id="reason" name="reason" class="form-control" type="text" required />
                 </div>
+                <div class="col s3 m3">
+                    <label for="isImprove">Loại quyết định</label>
+                    <select id="isImprove" name="isImprove" class="form-control" type="text" required>
+                        <option value="true">Cải tiến</option>
+                        <option value="false">Thu hồi</option>
+                    </select>
+                </div>
                 <div class="col s12 table_container">
                     <table id="mytablevattu" class="striped table-responsive centered table-bordered">
                         <thead>
@@ -71,7 +78,9 @@
                         <thead>
                             <tr>
                                 <th>Mã vật tư</th>
-                                <th>Số lượng</th>
+                                <th>Tên vật tư</th>
+                                <th>Số lượng ban đầu</th>
+                                <th>Số lượng điều chỉnh</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -87,7 +96,6 @@
             </div>
         </div>
         <div class="modal-footer">
-            <a id="addrow" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
             <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-close">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
         </div>
@@ -106,7 +114,9 @@
                         <thead>
                             <tr>
                                 <th>Mã thiết bị con</th>
-                                <th>Số lượng đi kèm</th>
+                                <th>Tên thiết bị con</th>
+                                <th>Số lượng ban đầu</th>
+                                <th>Số lượng điều chỉnh</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -122,7 +132,6 @@
             </div>
         </div>
         <div class="modal-footer">
-            <a id="addrow" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
             <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-close">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
         </div>
@@ -141,12 +150,12 @@
     </div>
 </div>
 
-<datalist id="supply_inverse">
+@*<datalist id="supply_inverse">
     @foreach (QUANGHANH2.Models.Supply item in ViewBag.supply_inverse)
     {
         <option value="@item.supply_id">@item.supply_name</option>
     }
-</datalist>
+</datalist>*@
 
 <datalist id="departmentName">
     @foreach (var item in ViewBag.Departments)
@@ -155,12 +164,12 @@
     }
 </datalist>
 
-<datalist id="equipAttached">
+@*<datalist id="equipAttached">
     @foreach (var item in ViewBag.equipAttached)
     {
         <option value="@item.equipmentId">@item.equipment_name</option>
     }
-</datalist>
+</datalist>*@
 
 <script src="~/js/Custom JS/CDVT/QuyetDinh/datePicker.js"></script>
 <script>
@@ -174,24 +183,6 @@
             $(this).attr("oninput", "this.setCustomValidity('')");
         })
     })
-
-    $("#sctx #addrow").click(function () {
-        var $tr = $('<tr>').append(
-            $('<td>').html("<input type='text' list='supply_inverse' class='form-control required' />"),
-            $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
-            $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
-        );
-        $tr.appendTo('#sctx tbody');
-    });
-
-    $("#thietbicon #addrow").click(function () {
-        var $tr = $('<tr>').append(
-            $('<td>').html("<input type='text' list='equipAttached' class='form-control required' />"),
-            $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
-            $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
-        );
-        $tr.appendTo('#thietbicon tbody');
-    });
 
     $(document).on("click", "#sctx table a, #thietbicon table a", function () {
         $(this).closest("tr").remove();
@@ -207,8 +198,10 @@
             for (var i = 1; i < $('#thietbicon tbody tr').length + 1; i++) {
                 if ($('#thietbicon tbody tr:nth-child(' + i + ') input').eq(0).val() != "") {
                     var thietbi = {};
-                    thietbi.equipmentId = $('#thietbicon tbody tr:nth-child(' + i + ') input').eq(0).val();
-                    thietbi.quantity_dikem = $('#thietbicon tbody tr:nth-child(' + i + ') input').eq(1).val();
+                    thietbi.equipmentId = $('#thietbicon tbody tr:nth-child(' + i + ') td').eq(0).text();
+                    thietbi.equipment_name = $('#thietbicon tbody tr:nth-child(' + i + ') td').eq(1).text();
+                    thietbi.quantity_before = $('#thietbicon tbody tr:nth-child(' + i + ') td').eq(2).text();
+                    thietbi.quantity_after = $('#thietbicon tbody tr:nth-child(' + i + ') input').eq(0).val();
                     arr.push(thietbi);
                 }
             }
@@ -218,8 +211,10 @@
             for (var i = 1; i < $('#sctx tbody tr').length + 1; i++) {
                 if ($('#sctx tbody tr:nth-child(' + i + ') input').eq(0).val() != "") {
                     var vattu = {};
-                    vattu.supply_id = $('#sctx tbody tr:nth-child(' + i + ') input').eq(0).val();
-                    vattu.quantity = $('#sctx tbody tr:nth-child(' + i + ') input').eq(1).val();
+                    vattu.supply_id = $('#sctx tbody tr:nth-child(' + i + ') td').eq(0).text();
+                    vattu.supply_name = $('#sctx tbody tr:nth-child(' + i + ') td').eq(1).text();
+                    vattu.quantity_before = $('#sctx tbody tr:nth-child(' + i + ') td').eq(2).text();
+                    vattu.quantity_after = $('#sctx tbody tr:nth-child(' + i + ') input').eq(0).val();
                     arr.push(vattu);
                 }
             }
@@ -251,13 +246,15 @@
             if (output[equipId].getequip == false) {
                 $.ajax({
                     type: "POST",
-                    url: "/phong-cdvt/dieu-dong-chon/getdata",
+                    url: "@Url.Action("GetSmallEquip", "MethodChung")",
                     dataType: "json",
-                    success: function (data) {
+                    success: function (response) {
                         output[equipId].getequip = true;
-                        $.each(data, function (i, item) {
+                        $.each(response.data, function (i, item) {
                             var $tr = $('<tr>').append(
-                                $('<td>').html("<input type='text' list='equipAttached' class='form-control required' value='" + item.equipmentId_dikem + "' /> "),
+                                $('<td>').text(item.equipmentId),
+                                $('<td>').text(item.equipment_name),
+                                $('<td>').text(item.quantity),
                                 $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> "),
                                 $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
                             );
@@ -279,8 +276,10 @@
                 for (var i = 0; i < output[equipId].thietbi.length; i++) {
                     var item = output[equipId].thietbi[i];
                     var $tr = $('<tr>').append(
-                        $('<td>').html("<input type='text' list='equipAttached' class='form-control required' value='" + item.equipmentId + "' /> "),
-                        $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity_dikem + "' /> "),
+                        $('<td>').text(item.equipmentId),
+                        $('<td>').text(item.equipment_name),
+                        $('<td>').text(item.quantity_before),
+                        $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity_after + "' /> "),
                         $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
                     );
                     $tr.appendTo('#thietbicon tbody');
@@ -299,13 +298,15 @@
             if (output[equipId].getsupply == false) {
                 $.ajax({
                     type: "POST",
-                    url: "/phong-cdvt/thiet-bi/get-supply2",
+                    url: "@Url.Action("GetSupplyBigEquip", "MethodChung")",
                     dataType: "json",
-                    success: function (data) {
+                    success: function (response) {
                         output[equipId].getsupply = true;
-                        $.each(data, function (i, item) {
+                        $.each(response.data, function (i, item) {
                             var $tr = $('<tr>').append(
-                                $('<td>').html("<input type='text' list='supply_inverse' class='form-control required' value='" + item.supply_id + "' /> "),
+                                $('<td>').text(item.supply_id),
+                                $('<td>').text(item.supply_name),
+                                $('<td>').text(item.quantity),
                                 $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> "),
                                 $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
                             );
@@ -327,8 +328,10 @@
                 for (var i = 0; i < output[equipId].vattu.length; i++) {
                     var item = output[equipId].vattu[i];
                     var $tr = $('<tr>').append(
-                        $('<td>').html("<input type='text' list='supply_inverse' class='form-control required' value='" + item.supply_id + "' /> "),
-                        $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity + "' /> "),
+                        $('<td>').text(item.supply_id),
+                        $('<td>').text(item.supply_name),
+                        $('<td>').text(item.quantity_before),
+                        $('<td>').html("<input type='number' min='1' class='form-control' value='" + item.quantity_after + "' /> "),
                         $("<td>").html("<a class=\"btn light-blue lighten-1\">Xóa</a>")
                     );
                     $tr.appendTo('#sctx tbody');
@@ -379,7 +382,7 @@
                     $('#pre-load').hide();
                 },
                 data: {
-                    out_in_come: null,
+                    out_in_come: $('#out_in_come').val(),
                     data: JSON.stringify(output),
                     reason: $('#reason').val(),
                     department_id_to: $('#department_id_to').val()
@@ -406,10 +409,11 @@
                     data: JSON.stringify(output),
                     reason: $('#reason').val(),
                     department_id_to: $('#department_id_to').val(),
+                    Isimprove: $('#isImprove').val()
                 },
                 success: function (data) {
                     window.location = '/phong-cdvt/quyet-dinh/dieu-chinh/them/export?data=' + JSON.stringify(output)
-                        + '&reason=' + $('#reason').val() + '&department_id_to=' + $('#department_id_to').val();
+                        + '&reason=' + $('#reason').val() + '&department_id_to=' + $('#department_id_to').val() + '&Isimprove=' + $('#isImprove').val();
                     $('#pre-load').hide();
                 },
                 error: function () {
