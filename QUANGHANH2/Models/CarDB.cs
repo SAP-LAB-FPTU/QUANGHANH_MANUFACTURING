@@ -9,7 +9,7 @@ namespace QUANGHANH2.Models
     {
         public string sokhung { get; set; }
         public string somay { get; set; }
-        public Boolean GPS { get; set; }
+        public Nullable<System.Boolean> GPS { get; set; }
         public string GPSstring { get; set; }
         public Nullable<System.DateTime> durationOfInspection_fix { get; set; }
         public string statusname { get; set; }
