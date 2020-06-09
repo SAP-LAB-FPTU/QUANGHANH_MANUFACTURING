@@ -122,15 +122,19 @@ namespace QUANGHANH2.Controllers.DK
                             join TieuChi tc on tc.MaTieuChi = pbtc.MaTieuChi
                             where hd.MaPhongBan = @departmentID and hd.Nam = @year) as hdkh 
                             left join 
-                            (select 
+							(select
+							khtc1.HeaderID, khtc1.MaTieuChi, khtc2.SanLuongKeHoach, khtc2.GhiChu, khtc1.ThoiGianNhapCuoiCung 
+							from 
+							(select 
                             kh.HeaderID, 
                             kh.MaTieuChi, 
-                            kh.SanLuongKeHoach, 
-                            kh.GhiChu,
                             max(kh.ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung
                             from KeHoach_TieuChi_TheoNam kh
                             join TieuChi tc on tc.MaTieuChi = kh.MaTieuChi
-                            group by kh.HeaderID, kh.MaTieuChi, kh.SanLuongKeHoach, kh.GhiChu) as khtc
+                            group by kh.HeaderID, kh.MaTieuChi) as khtc1
+							join KeHoach_TieuChi_TheoNam as khtc2 on khtc1.HeaderID = khtc2.HeaderID 
+							and khtc1.MaTieuChi = khtc2.MaTieuChi 
+							and khtc1.ThoiGianNhapCuoiCung = khtc2.ThoiGianNhapCuoiCung) as khtc
                             on hdkh.HeaderID = khtc.HeaderID and hdkh.MaTieuChi = khtc.MaTieuChi";
             List<TieuChiCu> tieuChiCuList = dbContext.Database.SqlQuery<TieuChiCu>(query,
                                             new SqlParameter("departmentID", department),
