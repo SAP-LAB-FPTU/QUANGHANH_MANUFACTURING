@@ -314,7 +314,7 @@
         </div>
         <div class="modal-footer">
             <a class='waves-effect waves-light btn blue darken-2 submit-dieu-chinh'>Lưu</a>
-            <button id="exit-button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+            <button class="btn light-blue lighten-1 modal-close">Thoát</button>
         </div>
     </div>
 </div>
@@ -686,7 +686,7 @@
                             $('<td>').html(item.id),
                             $('<td>').text(item.name),
                             $('<td>').text(item.quantity_before),
-                            $('<td>').html("<input class='form-control' type='number' min=0 value='" + item.quantity_after + "' />"),
+                            $('<td>').html("<input class='form-control quantity_after' type='number' min=0 value='" + item.quantity_after + "' />"),
                         ).prop("id", item.supplyDocumentaryEquipmentId);
                         $(base_query + " tbody").append($tr);
                     });
@@ -712,10 +712,34 @@
                 return;
             $("#pre-load").show();
             for (var i = 0; i < $(base_query + " tbody tr").length; i++) {
-                var temp = {
-                    id: $(base_query + " tbody tr").eq(i).
-                }
+                input.push({
+                    id: $(base_query + " tbody tr:eq(" + i + ")").prop("id"),
+                    quantity_after: $(base_query + " tbody tr:eq(" + i + ") .quantity_after").val()
+                });
             }
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/nghiem-thu/dieu-chinh/cap-nhat",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success) {
+                        $(base_query + ' .modal-close').click();
+                        successAlert(data.message);
+                    }
+                    else {
+                        errorAlert(data.message);
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    list: JSON.stringify(input)
+                },
+                cache: false
+            })
         })
 
         $('#overwrite-detail').click(function () {
