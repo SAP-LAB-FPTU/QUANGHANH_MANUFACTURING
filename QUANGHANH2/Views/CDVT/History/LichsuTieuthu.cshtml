@@ -474,12 +474,24 @@
                 dataType: "json",
                 success: function () {
                     dataFuelTable.ajax.reload();
+                    clearBox();
                     successAlert('Thành công', 'Thêm thành công');
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
                 }
             });
+        }
+
+        function clearBox() {
+            $('#equipmentidfuel-add').val('');
+            $('#consumption_value-add').val('');
+            $('#equipmentnamefuel-add').val('');
+            $('#datefuel-add').val('');
+            $('#fuelId-add').val('');
+            $('#unit-add').val('');
+            $('#fuelname-add').val('');
+            $('#remaining-add').val('');
         }
 
         //ajax CRUD fuel
