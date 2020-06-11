@@ -63,7 +63,7 @@
                 </div>
             </div>
             <div class="col s12 m12 l12 input-field center row">
-                <button class="btn blue darken-2" id="save">Lưu</button>
+                <button class="btn blue darken-2" disabled id="save">Lưu</button>
             </div>
         </div>
     </div>
@@ -107,6 +107,7 @@
                 else {
                     $("#butsnlv").click();
                 }
+                $('#save').prop("disabled", false);
                 $("#pre-load").hide();
             }
         });
@@ -242,7 +243,7 @@
                     table.ajax.reload();
                     //hide the pre-loader
                     $("#pre-load").hide();
-                } else if (response.error) {
+                } else {
                     //alert the failure
                     errorAlert(response.title, response.message);
                     //hide the pre-loader

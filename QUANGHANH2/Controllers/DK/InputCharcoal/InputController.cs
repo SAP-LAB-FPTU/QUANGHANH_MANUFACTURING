@@ -220,7 +220,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         string query = @"select c.MaTieuChi, case when a.GhiChu is null then '' else a.GhiChu end 'GhiChu',
                                         case when a.NgaySanXuat is null then 0 else a.NgaySanXuat end 'NgaySanXuat', 
                                         case when a.SanLuong is null then 0 else a.SanLuong end 'SanLuong', 
-                                        case when b.luyke is null then 0 else a.SanLuong end 'LuyKe', c.DonViDo, c.TenTieuChi from
+                                        case when b.luyke is null then 0 else b.luyke end 'LuyKe', c.DonViDo, c.TenTieuChi from
                                         (select thDay.MaTieuChi, thDay.GhiChu, tht.NgaySanXuat, thDay.SanLuong from header_ThucHienTheoNgay headTH
                                         inner
                                         join ThucHien_TieuChi_TheoNgay thDay

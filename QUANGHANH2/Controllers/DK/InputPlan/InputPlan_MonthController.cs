@@ -136,6 +136,8 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                 var MaPhongBan = Request["MaPhongBan"];
                 var listData = Request["listData"];
                 JObject listDataJObject = JObject.Parse(listData);
+                if (listDataJObject.SelectToken("list").ToString() == "[\r\n  {}\r\n]")
+                    return Json(new { success = false, title = "Có lỗi", message = "Phân xưởng chưa có tiêu chí" });
                 JArray listDataArray = (JArray)listDataJObject.SelectToken("list");
 
 
