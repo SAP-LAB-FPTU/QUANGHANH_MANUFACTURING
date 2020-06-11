@@ -353,21 +353,30 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             string query = "SELECT e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
                 "FROM [Equipment] e LEFT JOIN Department d ON e.department_id = d.department_id LEFT JOIN Equipment_category ec ON e.Equipment_category_id = ec.Equipment_category_id LEFT JOIN Status s on e.current_Status = s.statusid " +
                 "where e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name  and e.isAttach = 0 ";
+            string queryTotalRow = @"SELECT count(e.[equipmentId])
+                FROM [Equipment] e LEFT JOIN Department d ON e.department_id = d.department_id LEFT JOIN Equipment_category ec ON e.Equipment_category_id = ec.Equipment_category_id LEFT JOIN Status s on e.current_Status = s.statusid left join Car c on e.equipmentId = c.equipmentId
+                where e.equipmentId LIKE '%%' AND e.equipment_name LIKE '%%' and c.equipmentId is null  and e.isAttach = 0 ";
 
             if (department != "" || quality != "" || dateStart != "" || dateEnd != "" || category != "" || sup != "" || att != "")
             {
                 if (department != "")
                     query += "AND d.department_id LIKE @department_name ";
+                queryTotalRow += "AND d.department_id LIKE @department_name ";
                 if (quality != "")
                     query += "AND e.quality_type LIKE @quality ";
+                queryTotalRow += "AND e.quality_type LIKE @quality ";
                 if (dateStart != "" || dateEnd != "")
                     query += "AND e.usedDay between @start_time1 and @start_time2 ";
+                queryTotalRow += "AND e.usedDay between @start_time1 and @start_time2 ";
                 if (category != "")
                     query += "AND ec.Equipment_category_name LIKE @cate ";
+                queryTotalRow += "AND ec.Equipment_category_name LIKE @cate ";
                 if (sup != "")
                     query += "AND e.supplier LIKE @sup ";
+                queryTotalRow += "AND e.supplier LIKE @sup ";
                 if (att != "")
                     query += "AND e.isAttach like @att ";
+                queryTotalRow += "AND e.isAttach like @att ";
             }
             query += " except " +
                 "select e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
@@ -400,7 +409,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 new SqlParameter("sup", '%' + sup + '%'),
                 new SqlParameter("att", '%' + att + '%')
                 ).ToList();
-            int totalrows = DBContext.Database.SqlQuery<int>(query.Replace("e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name ", "count(e.[equipmentId])"),
+            int totalrows = DBContext.Database.SqlQuery<int>(queryTotalRow,
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                 new SqlParameter("department_name", '%' + department),
@@ -581,7 +590,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         //durationOfInspection
                         //if (duraInspec != "")
                         emp.durationOfInspection = DateTime.ParseExact(duraInspec, "dd/MM/yyyy", null);
-                        if(Insua != "")
+                        if (Insua != "")
                         {
                             emp.durationOfInsurance = DateTime.ParseExact(Insua, "dd/MM/yyyy", null);
                         }
@@ -714,7 +723,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                     }
 
                                 }
-                            } else
+                            }
+                            else
                             {
                                 for (int i = 0; i < nameVTDK.Count(); i++)
                                 {
