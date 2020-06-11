@@ -652,6 +652,39 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                         }).ToList();
                             return Json(new { success = true, data = list });
                         }
+                    else if (documentary_type == 7)
+                        if (isSupply)
+                        {
+                            var list = (from a in db.Supplies
+                                        join b in db.Supply_Documentary_Improve_Equipment on a.supply_id equals b.supply_id
+                                        join c in db.Documentary_Improve_Detail on b.documentary_improve_id equals c.documentary_improve_id
+                                        where c.equipmentId == equipmentId && c.documentary_id == documentary_id
+                                        select new
+                                        {
+                                            id = a.supply_id,
+                                            name = a.supply_name,
+                                            b.quantity_before,
+                                            b.quantity_after,
+                                            b.supplyDocumentaryEquipmentId
+                                        }).ToList();
+                            return Json(new { success = true, data = list });
+                        }
+                        else
+                        {
+                            var list = (from a in db.Equipments
+                                        join b in db.Supply_Documentary_Improve_Equipment on a.equipmentId equals b.equipmentId
+                                        join c in db.Documentary_Improve_Detail on b.documentary_improve_id equals c.documentary_improve_id
+                                        where c.equipmentId == equipmentId && c.documentary_id == documentary_id
+                                        select new
+                                        {
+                                            id = a.equipmentId,
+                                            name = a.equipment_name,
+                                            b.quantity_before,
+                                            b.quantity_after,
+                                            b.supplyDocumentaryEquipmentId
+                                        }).ToList();
+                            return Json(new { success = true, data = list });
+                        }
                     else
                         return Json(new { success = false });
                 }

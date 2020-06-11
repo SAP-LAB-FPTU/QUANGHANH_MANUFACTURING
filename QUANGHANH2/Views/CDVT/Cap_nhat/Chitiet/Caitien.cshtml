@@ -21,7 +21,7 @@
                         <tr>
                             <th>Mã thiết bị</th>
                             <th>Tên thiết bị</th>
-                            <th>Vị trí ban đầu</th>
+                            <th>Tình trạng hiện tại</th>
                             <th></th>
                             <th></th>
                             <th>Đã xử lý</th>
@@ -208,20 +208,20 @@
             "columns": [
                 { "data": "equipmentId", "name": "equipmentId" },
                 { "data": "equipment_name", "name": "equipment_name" },
-                { "data": "department_name", "name": "department_name" },
+                { "data": "statusname", "name": "statusname" },
                 {
-                    "data": {}, "name": "person_created", "render": function (data) {
-                        return "<a data-documentary_id=" + data.documentary_id + " data-equipmentid=\"" + data.equipmentId + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal\" href=\"#mylist\">TB đi kèm</a>";
+                    "data": "documentary_improve_id", "name": "documentary_improve_id", "render": function (data) {
+                        return "<a data-isEquip=\"true\" data-documentary_improve_id=" + data + " class=\"waves-effect waves-light btn-small blue modal-trigger\" href=\"#mylist\">Thiết bị đi kèm</a>";
                     }
                 },
                 {
-                    "data": {}, "name": "person_created", "render": function (data) {
-                        return "<a data-documentary_id=" + data.documentary_id + " data-equipmentid=\"" + data.equipmentId + "\" class=\"waves-effect waves-light btn-small blue modal-trigger vattu\" href=\"#mylist2\">VT đi kèm</a>";
+                    "data": "documentary_improve_id", "name": "documentary_improve_id", "render": function (data) {
+                        return "<a data-isEquip=\"false\" data-documentary_improve_id=" + data + " class=\"waves-effect waves-light btn-small blue modal-trigger\" href=\"#mylist2\">Vật tư đi kèm</a>";
                     }
                 },
                 {
-                    "data": "statusAndEquip", "name": "person_created", "render": function (data) {
-                        if (data.split("^")[0] == "0") return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.split("^")[1] + "\">Chưa xử lý</button>";
+                    "data": {}, "render": function (data) {
+                        if (data.equipment_Improve_status == "0") return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.equipmentId + "\">Chưa xử lý</button>";
                         else return "<button disabled class=\"btn blue darken-2\">Đã xử lý</button>"
                     }
                 }
@@ -313,74 +313,32 @@
             })
         });
 
-        //get data and push to modal list
-        $(document).on("click", ".open-Modal", function () {
-            $("#pre-load").show();
-            $("#test").find("tr:gt(0)").remove();
-            equipmentId = $(this).data('equipmentid');
-            documentary_id = $(this).data('documentary_id');
-            $('#mylist h3').text("Danh sách thiết bị con đi kèm của thiết bị " + equipmentId)
-            IsSupply = false;
+        $(document).on("click", '#complex_header tbody a', function () {
+            $('#pre-load').show();
+            $("#mylist tbody").empty();
+            $("#mylist2 tbody").empty();
+            documentary_improve_id = $(this).data("documentary_improve_id");
+            isEquip = $(this).data("isequip");
             $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetEquipAttached",
-                dataType: "json",
-                success: function (data) {
-                    $.each(data, function (i, item) {
-                        var $tr = $('<tr>').append(
-                            $('<td>').html("<input readonly class='form-control' type='text' value='" + item.equipmentId_dikem + "' />"),
-                            $('<td>').text(item.equipment_name),
-                            $('<td>').text(item.quantity_plan),
-                            $('<td>').html("<input class='form-control' type='number' min=0 max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
-                        );
-                        $tr.appendTo('#test tbody');
-                    });
-                    $("#pre-load").hide();
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    errorAlert('Lỗi');
-                },
+                url: "/phong-cdvt/quyet-dinh/dieu-chinh/chi-tiet",
+                method: "post",
+                cache: false,
                 data: {
-                    documentary_id: documentary_id,
-                    equipmentId: equipmentId
+                    documentary_improve_id: documentary_improve_id,
+                    isEquip: isEquip
                 },
-                cache: false
+                success: function (response) {
+                    $.each(response, function (index, value) {
+                        if (isEquip === true) {
+                            $("#mylist tbody").append("<tr><td>" + value.equipmentId + "</td><td>" + value.equipment_name + "</td><td>" + value.quantity_before + "</td><td>" + value.quantity_after + "</td></tr>");
+                        }
+                        else {
+                            $("#mylist2 tbody").append("<tr><td>" + value.supply_id + "</td><td>" + value.supply_name + "</td><td>" + value.quantity_before + "</td><td>" + value.quantity_after + "</td></tr>");
+                        }
+                    })
+                    $('#pre-load').hide();
+                }
             })
-        });
-
-        //get data and push to modal list
-        $(document).on("click", ".vattu", function () {
-            $("#pre-load").show();
-            $("#test2").find("tr:gt(0)").remove();
-            equipmentId = $(this).data('equipmentid');
-            documentary_id = $(this).data('documentary_id');
-            $('#mylist2 h3').text("Danh sách vật tư đi kèm của thiết bị " + equipmentId)
-            IsSupply = true;
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupply",
-                dataType: "json",
-                success: function (data) {
-                    $.each(data, function (i, item) {
-                        var $tr = $('<tr>').append(
-                            $('<td>').html("<input readonly class='form-control' type='text' value='" + item.supply_id + "' />"),
-                            $('<td>').text(item.supply_name),
-                            $('<td>').text(item.quantity_plan),
-                            $('<td>').html("<input class='form-control' type='number' min=0 max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
-                        );
-                        $tr.appendTo('#test2 tbody');
-                    });
-                    $("#pre-load").hide();
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    errorAlert('Lỗi');
-                },
-                data: {
-                    documentary_id: documentary_id,
-                    equipmentId: equipmentId
-                },
-                cache: false
-            })
-        });
+        })
     </script>
 }
