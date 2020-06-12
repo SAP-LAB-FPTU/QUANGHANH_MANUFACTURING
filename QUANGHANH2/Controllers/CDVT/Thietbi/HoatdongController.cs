@@ -769,34 +769,57 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 {
                     try
                     {
+                        string[] date;
+                        string date_fix;
                         //import date
-                        string[] date = import.Split('/');
-                        string date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.date_import = Convert.ToDateTime(date_fix);
+                        if (!import.Equals(""))
+                        {
+                            date = import.Split('/');
+                            date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                            emp.date_import = Convert.ToDateTime(date_fix);
+                        }
                         //durationOfInspection
-                        date = inspec.Split('/');
-                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.durationOfInspection = Convert.ToDateTime(date_fix);
-                        //durationOfInsurance
-                        date = BuyInsua.Split('/');
-                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.insurance_date = Convert.ToDateTime(date_fix);
-                        //BuyOfInspection
-                        date = BuyInspec.Split('/');
-                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.inspect_date = Convert.ToDateTime(date_fix);
+                        if (!inspec.Equals(""))
+                        {
+                            date = inspec.Split('/');
+                            date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                            emp.durationOfInspection = Convert.ToDateTime(date_fix);
+                        }
                         //BuyOfInsurance
-                        date = Insua.Split('/');
-                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.durationOfInsurance = Convert.ToDateTime(date_fix);
+                        if (!BuyInsua.Equals(""))
+                        {
+                            date = BuyInsua.Split('/');
+                            date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                            emp.insurance_date = Convert.ToDateTime(date_fix);
+                        }
+                        //BuyOfInspection
+                        if (!BuyInspec.Equals(""))
+                        {
+                            date = BuyInspec.Split('/');
+                            date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                            emp.inspect_date = Convert.ToDateTime(date_fix);
+                        }
+                        //durationOfInsurance
+                        if (!Insua.Equals(""))
+                        {
+                            date = Insua.Split('/');
+                            date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                            emp.durationOfInsurance = Convert.ToDateTime(date_fix);
+                        }
                         //usedDay
-                        date = used.Split('/');
-                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.usedDay = Convert.ToDateTime(date_fix);
+                        if (!used.Equals(""))
+                        {
+                            date = used.Split('/');
+                            date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                            emp.usedDay = Convert.ToDateTime(date_fix);
+                        }
                         //nearest_Maintenance_Day
-                        date = main.Split('/');
-                        date_fix = date[1] + "/" + date[0] + "/" + date[2];
-                        emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
+                        if (!main.Equals(""))
+                        {
+                            date = main.Split('/');
+                            date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                            emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
+                        }
 
                         if (sk != "" && sm != "")
                         {
