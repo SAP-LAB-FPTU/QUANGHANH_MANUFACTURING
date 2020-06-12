@@ -48,7 +48,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
 
         [Route("phong-cdvt/cap-nhat/quyet-dinh/cai-tien/GetData")]
         [HttpPost]
-        public ActionResult GetData(string id)
+        public ActionResult GetData(int id)
         {
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
@@ -56,22 +56,46 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            db.Configuration.LazyLoadingEnabled = false;
             string departid = Session["departID"].ToString();
-            List<Documentary_Improve_DetailDB> equips = DBContext.Database.SqlQuery<Documentary_Improve_DetailDB>("select e.equipmentId, e.equipment_name, depa.department_name, details.equipment_Improve_status, docu.documentary_id from Department depa inner join Documentary docu on depa.department_id = docu.department_id_to inner join Documentary_Improve_Detail details on details.documentary_id = docu.documentary_id inner join Equipment e on e.equipmentId = details.equipmentId where docu.documentary_type = 7 and details.documentary_id = @documentary_id and docu.department_id_to = @departid ",
-                new SqlParameter("documentary_id", id), new SqlParameter("departid", departid)).ToList();
-            foreach (Documentary_Improve_DetailDB item in equips)
-            {
-                item.statusAndEquip = item.equipment_Improve_status + "^" + item.equipmentId;
-            }
-            int totalrows = equips.Count;
-            int totalrowsafterfiltering = equips.Count;
-            ViewBag.List = equips.Count;
-            //sorting
-            equips = equips.OrderBy(sortColumnName + " " + sortDirection).ToList<Documentary_Improve_DetailDB>();
-            //paging
-            equips = equips.Skip(start).Take(length).ToList<Documentary_Improve_DetailDB>();
-            return Json(new { success = true, data = equips, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            List<Detail> documentariesList = (from a in db.Documentary_Improve_Detail
+                                              join b in db.Documentaries on a.documentary_id equals b.documentary_id
+                                              join c in db.Equipments on a.equipmentId equals c.equipmentId
+                                              join d in db.Status on c.current_Status equals d.statusid
+                                              where (b.documentary_id == id)
+                                              select new Detail
+                                              {
+                                                  documentary_improve_id = a.documentary_improve_id,
+                                                  equipmentId = c.equipmentId,
+                                                  equipment_name = c.equipment_name,
+                                                  statusname = d.statusname,
+                                                  equipment_Improve_status = a.equipment_Improve_status
+                                              }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
+            int totalrows = (from a in db.Documentary_Improve_Detail
+                             join b in db.Documentaries on a.documentary_id equals b.documentary_id
+                             join c in db.Equipments on a.equipmentId equals c.equipmentId
+                             join d in db.Status on c.current_Status equals d.statusid
+                             where (b.documentary_id == id)
+                             select new Detail
+                             {
+                                 documentary_improve_id = a.documentary_improve_id,
+                                 equipmentId = c.equipmentId,
+                                 equipment_name = c.equipment_name,
+                                 statusname = d.statusname,
+                                 equipment_Improve_status = a.equipment_Improve_status
+                             }).Count();
+
+            return Json(new { success = true, data = documentariesList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
+        }
+
+        public class Detail
+        {
+            public int documentary_improve_id { get; set; }
+            public string equipmentId { get; set; }
+            public string equipment_name { get; set; }
+            public string statusname { get; set; }
+            public int equipment_Improve_status { get; set; }
         }
 
         [Auther(RightID = "86,179,180,181,183,184,185,186,187,189,195")]
