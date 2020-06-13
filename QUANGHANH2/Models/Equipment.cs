@@ -44,9 +44,9 @@ namespace QUANGHANH2.Models
             this.Supply_Documentary_Big_Maintain_Equipment = new HashSet<Supply_Documentary_Big_Maintain_Equipment>();
             this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
             this.Supply_Documentary_Equipment1 = new HashSet<Supply_Documentary_Equipment>();
+            this.Supply_Documentary_Improve_Equipment = new HashSet<Supply_Documentary_Improve_Equipment>();
             this.Supply_Documentary_Maintain_Equipment = new HashSet<Supply_Documentary_Maintain_Equipment>();
             this.Supply_Documentary_Repair_Equipment = new HashSet<Supply_Documentary_Repair_Equipment>();
-            this.Supply_Documentary_Improve_Equipment = new HashSet<Supply_Documentary_Improve_Equipment>();
             this.Supply_Equipment_DiKem = new HashSet<Supply_Equipment_DiKem>();
             this.Supply_SCTX = new HashSet<Supply_SCTX>();
             this.Supply_SCTX1 = new HashSet<Supply_SCTX>();
@@ -136,11 +136,11 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Supply_Documentary_Improve_Equipment> Supply_Documentary_Improve_Equipment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Documentary_Maintain_Equipment> Supply_Documentary_Maintain_Equipment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Documentary_Repair_Equipment> Supply_Documentary_Repair_Equipment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_Documentary_Improve_Equipment> Supply_Documentary_Improve_Equipment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Equipment_DiKem> Supply_Equipment_DiKem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
