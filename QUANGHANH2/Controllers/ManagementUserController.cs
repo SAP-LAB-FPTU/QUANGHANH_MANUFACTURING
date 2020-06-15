@@ -168,7 +168,7 @@ namespace QUANGHANH2.Controllers
 
                 if (UserID == 1)
                 {
-                    var rightAccept = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ID=ar.RightID and a.ModuleID='" + module + "' and ar.AccountID='" + UserID + "' order by a.GroupID asc").ToList<FunctionRight>();
+                    var rightAccept = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ID=ar.RightID and a.ModuleID= @module and ar.AccountID= @userid order by a.GroupID asc",new SqlParameter("module",module),new SqlParameter("userid",UserID)).ToList<FunctionRight>();
                     foreach (var r in rightAccept)
                     {
                         rights.Accept.Add(new FunctionRight()
@@ -178,7 +178,7 @@ namespace QUANGHANH2.Controllers
                             GroupID = r.GroupID
                         });
                     }
-                    var rightDeny = db.Database.SqlQuery<FunctionRight>("select distinct a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ModuleID='" + module + "' and a.ID not in (select a.RightID from Account_Right_Detail a where a.AccountID='" + UserID + "') order by a.GroupID asc").ToList<FunctionRight>();
+                    var rightDeny = db.Database.SqlQuery<FunctionRight>("select distinct a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ModuleID= @module and a.ID not in (select a.RightID from Account_Right_Detail a where a.AccountID= @userid) order by a.GroupID asc", new SqlParameter("module", module), new SqlParameter("userid", UserID)).ToList<FunctionRight>();
                     foreach (var r in rightDeny)
                     {
                         rights.Deny.Add(new FunctionRight()
@@ -191,7 +191,7 @@ namespace QUANGHANH2.Controllers
                 }
                 else
                 {
-                    var rightAccept = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ID=ar.RightID and a.ModuleID='" + module + "' and ar.AccountID='" + UserID + "' order by a.GroupID asc").ToList<FunctionRight>();
+                    var rightAccept = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ID=ar.RightID and a.ModuleID= @module and ar.AccountID= @userid order by a.GroupID asc", new SqlParameter("module", module), new SqlParameter("userid", UserID)).ToList<FunctionRight>();
                     foreach (var r in rightAccept)
                     {
                         rights.Accept.Add(new FunctionRight()
@@ -201,7 +201,7 @@ namespace QUANGHANH2.Controllers
                             GroupID = r.GroupID
                         });
                     }
-                    var rightDeny = db.Database.SqlQuery<FunctionRight>("select distinct a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ModuleID='" + module + "' and a.ID not in (select a.RightID from Account_Right_Detail a where a.AccountID='" + UserID + "') order by a.GroupID asc").ToList<FunctionRight>();
+                    var rightDeny = db.Database.SqlQuery<FunctionRight>("select distinct a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ModuleID= @module and a.ID not in (select a.RightID from Account_Right_Detail a where a.AccountID= @userid) order by a.GroupID asc", new SqlParameter("module", module), new SqlParameter("userid", UserID)).ToList<FunctionRight>();
                     foreach (var r in rightDeny)
                     {
                         rights.Deny.Add(new FunctionRight()
@@ -219,7 +219,7 @@ namespace QUANGHANH2.Controllers
                 RightsWhenCreate rights = new RightsWhenCreate();
                 rights.Accept = new List<FunctionRight>();
                 rights.Deny = new List<FunctionRight>();
-                var rightDeny = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a where a.ModuleID='" + module + "' order by a.GroupID asc").ToList<FunctionRight>();
+                var rightDeny = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a where a.ModuleID= @module order by a.GroupID asc", new SqlParameter("module", module)).ToList<FunctionRight>();
                 foreach (var r in rightDeny)
                 {
                     rights.Deny.Add(new FunctionRight()
@@ -237,7 +237,7 @@ namespace QUANGHANH2.Controllers
             if (module == 1)
             {
                 var listRight = db.Account_Right.Where(x => x.ModuleID == moduleID + "").ToList();
-                var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + ID + "' and a.ModuleID='" + moduleID + "'").ToList<Account_Right_Detail>();
+                var rightRemove = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID= @accountid and a.ModuleID= @moduleid", new SqlParameter("accountid", ID), new SqlParameter("moduleid", moduleID)).ToList<Account_Right_Detail>();
                 foreach (var r in rightRemove)
                 {
                     var del = db.Account_Right_Detail.Where(x => x.ID == r.ID).SingleOrDefault();
@@ -468,7 +468,7 @@ namespace QUANGHANH2.Controllers
             else
             {
                 var listRight = db.Account_Right.Where(x => x.ModuleID == moduleID + "").ToList();
-                var rightRemoveup = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + ID + "' and a.ModuleID='" + moduleID + "'").ToList<Account_Right_Detail>();
+                var rightRemoveup = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID= @accountid and a.ModuleID= @moduleid", new SqlParameter("accountid", ID), new SqlParameter("moduleid", moduleID)).ToList<Account_Right_Detail>();
                 foreach (var r in rightRemoveup)
                 {
                     var del = db.Account_Right_Detail.Where(a => a.ID == r.ID).SingleOrDefault();
@@ -610,7 +610,7 @@ namespace QUANGHANH2.Controllers
                     else
                     {
                         var listRight = db.Account_Right.ToList();
-                        var rightRemoveup = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID='" + ID + "'").ToList<Account_Right_Detail>();
+                        var rightRemoveup = db.Database.SqlQuery<Account_Right_Detail>("select ar.* from Account_Right a , Account_Right_Detail ar where a.ID = ar.RightID and ar.AccountID= @accountid", new SqlParameter("accountid", ID)).ToList<Account_Right_Detail>();
                         foreach (var r in rightRemoveup)
                         {
                             var del = db.Account_Right_Detail.Where(a => a.ID == r.ID).SingleOrDefault();
@@ -703,9 +703,9 @@ namespace QUANGHANH2.Controllers
                 var IDs = strUIDs.Split(',');
                 foreach (var ID in IDs)
                 {
-                    db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account_Right_Detail] WHERE Account_Right_Detail.AccountID = '" + ID + "'");
-                    db.Database.ExecuteSqlCommand("delete from User_Action_Log where AccountID = '" + ID + "'");
-                    db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account] WHERE Account.ID = '" + ID + "'");
+                    db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account_Right_Detail] WHERE Account_Right_Detail.AccountID = @accountid", new SqlParameter("accountid",ID));
+                    db.Database.ExecuteSqlCommand("delete from User_Action_Log where AccountID = @accountid", new SqlParameter("accountid", ID));
+                    db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account] WHERE Account.ID = @accountid", new SqlParameter("accountid", ID));
                 }
                 db.SaveChanges();
                 return Json("", JsonRequestBehavior.AllowGet);
