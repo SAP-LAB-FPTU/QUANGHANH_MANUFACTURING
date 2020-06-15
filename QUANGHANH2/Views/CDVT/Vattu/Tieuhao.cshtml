@@ -331,11 +331,7 @@
                     }
                 });
 
-                tbl_summary = $('#tbl_summary').on('preXhr.dt', function (e, settings, data) {
-                $("#pre-load").show("slow", function () {
-                });
-                $("#pre-load").css("z-index", "99999");
-            }).DataTable({
+                tbl_summary = $('#tbl_summary').DataTable({
                     "ajax": {
                         "url": "/phong-cdvt/vat-tu/tieu-hao/summary",
                         "type": "GET",
@@ -353,12 +349,7 @@
                             },
                             "year": function () { return $('#txtyear').val() },
                     },
-                    "drawCallback": function (settings) {
-                        ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
-                        $("#pre-load").hide("slow", function () {
-                        });
-                        ////////////////////////////////////////////////
-                    },
+                   
                        "dataSrc": function (json) {
                         index = 1;
                         if (isFirstInit) {
@@ -387,8 +378,10 @@
                     "searching": false,
                     "initComplete": function (settings, json) {
                           $("#pre-load").hide("slow", function () {
-                    });
-                    },
+                          });
+                 
+                },
+               
                     "language": {
                         "emptyTable": "Không tìm thấy dữ liệu",
                         "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
