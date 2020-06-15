@@ -16,13 +16,13 @@ using System.Web.Routing;
 
 namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
 {
-    public class QuyetDInhController : Controller
+    public class DanhSachController : Controller
     {
         [Auther(RightID = "30")]
         [Route("phong-cdvt/quyet-dinh/dieu-dong")]
         public ActionResult Index()
         {
-            return View("/Views/CDVT/Quyet_dinh/Quyet_dinh_dieu_dong.cshtml");
+            return View("/Views/CDVT/Quyetdinh/DieuDong/DanhSach.cshtml");
         }
 
         [HttpPost]

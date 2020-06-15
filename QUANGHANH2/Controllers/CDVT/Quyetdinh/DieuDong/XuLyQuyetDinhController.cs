@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 
 namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
 {
-    public class DieudongController : Controller
+    public class XuLyController : Controller
     {
         QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
@@ -30,7 +30,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
                 else ViewBag.AddAble = false;
                 ViewBag.id = documentary.documentary_id;
                 ViewBag.code = documentary.documentary_code as string;
-                return View("/Views/CDVT/Quyetdinh/DieuDong/XuLyQuyetDinh.cshtml");
+                return View("/Views/CDVT/Quyetdinh/DieuDong/XuLy.cshtml");
             }
             catch (Exception)
             {
@@ -82,7 +82,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
                            StringSplitOptions.RemoveEmptyEntries);
                         foreach (var item in list)
                         {
-                            Documentary_moveline_details temp = db.Documentary_moveline_details.Find(documentary_id, item);
+                            Documentary_moveline_details temp = db.Documentary_moveline_details.Where(x => x.equipmentId == item && x.documentary_id == documentary_id).FirstOrDefault();
                             temp.equipment_moveline_status = 1;
                             Acceptance a = new Acceptance
                             {
@@ -166,11 +166,12 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
                             List<Supply_Documentary_Equipment> listTemp = db.Supply_Documentary_Equipment
                                 .Where(a => a.documentary_id == documentary_id && a.equipmentId == equipmentId && a.equipmentId_dikem == equipmentId_dikem)
                                 .OrderBy(a => a.supplyDocumentaryEquipmentId).ToList();
-                            listTemp.First().quantity_in = (int)item["quantity_dikem"];
-                            if (listTemp.Count == 2)
-                            {
-                                listTemp.Last().quantity_in = (int)item["quantity_duphong"];
-                            }
+                            Supply_Documentary_Equipment dikem = listTemp.Where(x => x.supplyStatus == "dikem").FirstOrDefault();
+                            if (dikem != null)
+                                dikem.quantity_in = (int)item["quantity_dikem"];
+                            Supply_Documentary_Equipment duphong = listTemp.Where(x => x.supplyStatus == "duphong").FirstOrDefault();
+                            if (duphong != null)
+                                duphong.quantity_in = (int)item["quantity_duphong"];
                         }
                         else
                         {

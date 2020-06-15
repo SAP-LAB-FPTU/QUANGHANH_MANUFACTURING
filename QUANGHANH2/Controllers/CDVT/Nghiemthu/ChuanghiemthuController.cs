@@ -263,10 +263,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             }
                             break;
                         case 3:
-                            db.Database.ExecuteSqlCommand("DELETE FROM Supply_SCTX WHERE equipmentId = @equipmentId",
-                                new SqlParameter("equipmentId", equipmentId));
-                            db.Database.ExecuteSqlCommand("update Supply_DiKem set quantity = 0 where equipmentId = @equipmentId",
-                                new SqlParameter("equipmentId", equipmentId));
+                            db.Supply_SCTX.RemoveRange(db.Supply_SCTX.Where(x => x.equipmentId == equipmentId));
+                            db.Supply_DiKem.RemoveRange(db.Supply_DiKem.Where(x => x.equipmentId == equipmentId));
+                            db.SaveChanges();
                             List<Supply_Documentary_Equipment> supplies_Moveline = db.Supply_Documentary_Equipment.Where(x => x.documentary_id == documentary.documentary_id && x.equipmentId == equipmentId).ToList();
                             foreach (Supply_Documentary_Equipment item in supplies_Moveline)
                             {
@@ -282,10 +281,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                             equipmentId_dikem = item.equipmentId_dikem
                                         };
                                         db.Supply_DiKem.Add(thietbi);
+                                        db.SaveChanges();
                                     }
                                     else
                                     {
-                                        thietbi.quantity = item.quantity_in;
+                                        thietbi.quantity_duphong = item.quantity_in;
                                     }
                                 }
                                 else
@@ -306,7 +306,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                                         vattu.quantity = item.quantity_in;
                                     }
                                 }
-                                db.SaveChanges();
                             }
                             if (acceptance.attach_to == null)
                             {
@@ -485,11 +484,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                             List<Supply_Documentary_Equipment> listTemp = db.Supply_Documentary_Equipment
                                 .Where(a => a.documentary_id == documentary_id && a.equipmentId == equipmentId && a.equipmentId_dikem == equipmentId_dikem)
                                 .OrderBy(a => a.supplyDocumentaryEquipmentId).ToList();
-                            listTemp.First().quantity_in = (int)item["quantity_dikem"];
-                            if (listTemp.Count == 2)
-                            {
-                                listTemp.Last().quantity_in = (int)item["quantity_duphong"];
-                            }
+                            Supply_Documentary_Equipment dikem = listTemp.Where(x => x.supplyStatus == "dikem").FirstOrDefault();
+                            if (dikem != null)
+                                dikem.quantity_in = (int)item["quantity_dikem"];
+                            Supply_Documentary_Equipment duphong = listTemp.Where(x => x.supplyStatus == "duphong").FirstOrDefault();
+                            if (duphong != null)
+                                duphong.quantity_in = (int)item["quantity_duphong"];
                         }
                         else
                         {
