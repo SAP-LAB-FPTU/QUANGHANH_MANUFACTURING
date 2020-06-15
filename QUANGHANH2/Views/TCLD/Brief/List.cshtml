@@ -48,27 +48,24 @@
                 @{
                     List<string> right1 = (List<string>)Session["RightIDs"];
                 }
-                <div class="left col s12 m6 l6">
-                    <div class="row">
-                        <div class="left col s12 m6 l12">
-                            <div class="row">
-                                <div class="col s2 m2 l2">
-                                    @foreach (var item in right)
+                <div class="col l12 m12 s12">
+                    <div class="row center">
+                        <div class="col l12 m12 s12">
+                            @*<div class="row">*@
+                            <div class="col l2 m6 s12 input-field">
+                                @foreach (var item in right)
+                                {
+                                    if (item.Equals("52"))
                                     {
-                                        if (item.Equals("52"))
-                                        {
-                                            <a class="waves-effect waves-light btn btn-small blue darken-2 modal-trigger input-field" href="/phong-tcld/quan-ly-nhan-vien/tuyen-dung-nhan-vien" style="width:120px" data-target="tuyendung">Tuyển Dụng</a>
-                                        }
-
+                                        <a class="waves-effect waves-light btn btn-small blue darken-2 modal-trigger input-field" href="/phong-tcld/quan-ly-nhan-vien/tuyen-dung-nhan-vien" style="width:80%" data-target="tuyendung">Tuyển Dụng</a>
                                     }
-                                </div>
-                                @*<div class="col s2 m3 l3">
-                                        <a class="waves-effect waves-light btn btn-small blue darken-2 modal-trigger input-field" style="width:120px" href="@Url.Content("/phong-tcld/quan-ly-nhan-vien/them-nhan-vien")">Thêm</a>
-                                    </div>*@
-                                <div class="col s2 m2 l2">
-                                    <a class="waves-effect waves-light btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
-                                </div>
+
+                                }
                             </div>
+                            <div class="col l2 m6 s12 input-field">
+                                <button class="waves-effect waves-light btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien" style="width:80%"><i class="fas fa-file-excel"></i>&nbsp;Excel</button>
+                            </div>
+                            @*</div>*@
                         </div>
                     </div>
                 </div>
