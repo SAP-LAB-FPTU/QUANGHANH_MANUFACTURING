@@ -88,8 +88,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                           LuongTieuThu,ac.quantity as SanLuong from Equipment c 
                           inner join Activity ac on c.equipmentId = ac.equipmentid 
                           inner join Department d on d.department_id = c.department_id 
-                          inner join Category_attribute_value ca on ca.equipmentId = c.equipmentId
-                          where ca.Equipment_category_attribute_id = 'CS' and ac.date = '" + ngay+"' and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
+                          inner join Equipment_attribute ca on ca.equipmentId = c.equipmentId
+                          where ca.Equipment_attribute_name like N'%Công suất%' and ca.unit = 'kW' and ac.date = '" + ngay+"' and c.Equipment_category_id = 'BN'";
             }
             if (type == "day")
             {
@@ -99,8 +99,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                           LuongTieuThu,ac.quantity as SanLuong from Equipment c 
                           inner join Activity ac on c.equipmentId = ac.equipmentid 
                           inner join Department d on d.department_id = c.department_id 
-                          inner join Category_attribute_value ca on ca.equipmentId = c.equipmentId
-                          where ca.Equipment_category_attribute_id = 'CS' and ac.date = '" + ngay+"' and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
+                          inner join Equipment_attribute ca on ca.equipmentId = c.equipmentId
+                          where ca.Equipment_attribute_name like N'%Công suất%' and ca.unit = 'kW' and ac.date = '" + ngay+"' and c.Equipment_category_id = 'BN'";
             }
             if (type == "month")
             {
@@ -111,8 +111,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                           LuongTieuThu,ac.quantity as SanLuong from Equipment c 
                           inner join Activity ac on c.equipmentId = ac.equipmentid 
                           inner join Department d on d.department_id = c.department_id 
-                          inner join Category_attribute_value ca on ca.equipmentId = c.equipmentId
-                          where ca.Equipment_category_attribute_id = 'CS' and YEAR(ac.date) = " + nam+" and MONTH(ac.date) = "+thang+" and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
+                          inner join Equipment_attribute ca on ca.equipmentId = c.equipmentId
+                          where ca.Equipment_attribute_name like N'%Công suất%' and ca.unit = 'kW' and YEAR(ac.date) = " + nam+" and MONTH(ac.date) = "+thang+" and c.Equipment_category_id = 'BN'";
             }
             if (type == "quarter")
             {
@@ -139,8 +139,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                           LuongTieuThu,ac.quantity as SanLuong from Equipment c 
                           inner join Activity ac on c.equipmentId = ac.equipmentid 
                           inner join Department d on d.department_id = c.department_id 
-                          inner join Category_attribute_value ca on ca.equipmentId = c.equipmentId
-                          where ca.Equipment_category_attribute_id = 'CS' and MONTH(ac.date) in " + quy+" and YEAR(ac.date) = "+nam+" and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
+                          inner join Equipment_attribute ca on ca.equipmentId = c.equipmentId
+                          where ca.Equipment_attribute_name like N'%Công suất%' and ca.unit = 'kW' and MONTH(ac.date) in " + quy+" and YEAR(ac.date) = "+nam+" and c.Equipment_category_id = 'BN'";
             }
             if (type == "year")
             {
@@ -150,8 +150,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                           LuongTieuThu,ac.quantity as SanLuong from Equipment c 
                           inner join Activity ac on c.equipmentId = ac.equipmentid 
                           inner join Department d on d.department_id = c.department_id 
-                          inner join Category_attribute_value ca on ca.equipmentId = c.equipmentId
-                          where ca.Equipment_category_attribute_id = 'CS' and YEAR(ac.date) = " + nam+" and c.Equipment_category_id = 'BNLT' OR c.Equipment_category_id = 'BNHL'";
+                          inner join Equipment_attribute ca on ca.equipmentId = c.equipmentId
+                          where ca.Equipment_attribute_name like N'%Công suất%' and ca.unit = 'kW' and YEAR(ac.date) = " + nam+" and c.Equipment_category_id = 'BN'";
             }
             return query;
         }

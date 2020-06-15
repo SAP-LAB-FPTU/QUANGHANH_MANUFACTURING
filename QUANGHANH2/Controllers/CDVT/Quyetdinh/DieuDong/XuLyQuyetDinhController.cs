@@ -16,7 +16,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
     {
         QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
-        [Auther(RightID = "88,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "88,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/dieu-dong")]
         [HttpGet]
         public ActionResult Index(string id)
@@ -65,7 +65,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
             return Json(new { success = true, data = equips, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "88,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "88,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/dieu-dong/edit")]
         [HttpPost]
         public ActionResult editpost(string edit, int documentary_id)
@@ -127,7 +127,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
             return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "88,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "88,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/dieu-dong/so-luong")]
         public ActionResult GetQuantity(int documentary_id, string equipmentId)
         {

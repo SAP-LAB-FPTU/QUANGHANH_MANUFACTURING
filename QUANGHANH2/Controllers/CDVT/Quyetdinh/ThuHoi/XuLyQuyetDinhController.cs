@@ -13,7 +13,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
 {
     public class ThuhoiController : Controller
     {
-        [Auther(RightID = "90,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "90,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/thu-hoi")]
         [HttpGet]
         public ActionResult Index(int id)
@@ -66,7 +66,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             return Json(new { success = true, data = equips, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "90,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "90,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/thu-hoi/edit")]
         [HttpPost]
         public ActionResult editpost(string edit, string id)

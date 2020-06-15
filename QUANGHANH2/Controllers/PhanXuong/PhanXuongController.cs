@@ -133,7 +133,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             ViewBag.phanxuong = Session["departID"].ToString();
             return View("/Views/Phanxuong/ChonBaoCao/ChonBaoCao.cshtml");
         }
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phan-xuong/nhap-bao-cao-len-phong-dk")]
         public ActionResult HangNgayKT()
         {
@@ -416,14 +416,14 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         /// NSLD va Diem Luong
         /// </summary>
         /// <returns></returns>
-        //[Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        //[Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phan-xuong/nang-suat-lao-dong")]
         public ActionResult NSLD()
         {
             return View("/Views/PX/PXKT/InputNSLD.cshtml");
         }
 
-        //[Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        //[Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [HttpPost]
         [Route("phan-xuong/nang-suat-lao-dong/lay-du-lieu")]
         /////////////////////GET DATA///////////////////////
@@ -514,7 +514,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             return null;
         }
 
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phan-xuong/nang-suat-lao-dong/luu-du-lieu")]
         [HttpPost]
         public ActionResult saveNSLD()
@@ -640,7 +640,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         //        return Json(new { success = false });
         //    }
         //}
-        //[Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        //[Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         //[Route("phan-xuong/nang-suat-lao-dong-update")]
         //public ActionResult UpdateNSLD(string stringjson)
         //{
@@ -697,7 +697,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
 
 
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phan-xuong/diem-danh")]
         public ActionResult takeAttendanceView()
         {
@@ -824,7 +824,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         }
 
 
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [HttpPost]
         [Route("phan-xuong/diem-danh")]
         public ActionResult takeAttendance()
@@ -863,7 +863,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             }
         }
 
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [HttpPost]
         [Route("phan-xuong/diem-danh/cap-nhat")]
         public ActionResult updateAttendance()
@@ -931,7 +931,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             
         }
 
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [HttpPost]
         [Route("phan-xuong/diem-danh/lua-chon-diem-danh")]
         public ActionResult filterEmployee()
@@ -979,7 +979,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                 return Json(new { success = true, data = result, listAtten_NotAtten = listAtten_NotAtten }, JsonRequestBehavior.AllowGet);
             }
         }
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [HttpPost]
         [Route("phan-xuong/diem-danh/lay-thong-tin")]
         public async Task<ActionResult> fetchAPIAsync(int session, string date)

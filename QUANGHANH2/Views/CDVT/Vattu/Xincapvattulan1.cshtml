@@ -2,8 +2,14 @@
 @{
     ViewBag.Title = "Xincapvattu1";
 
-    Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
-
+    if (Session["departName"].ToString().Contains("Phân xưởng"))
+    {
+        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
 }
 
 @*@{
