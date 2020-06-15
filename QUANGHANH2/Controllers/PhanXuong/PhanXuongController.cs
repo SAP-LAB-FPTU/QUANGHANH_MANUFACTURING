@@ -734,7 +734,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
             }
             return null;
-        }
+        } 
 
         public SoLuongDiLam_Vang getAttendance_NotAttendance(int session, string departmentID, DateTime date)
         {
@@ -930,6 +930,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             return Json(new { success = true, data = result, listAtten_NotAtten = listAtten_NotAtten }, JsonRequestBehavior.AllowGet);
             
         }
+
         [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
         [HttpPost]
         [Route("phan-xuong/diem-danh/lua-chon-diem-danh")]
@@ -946,6 +947,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
+                //fix 15/6
                 var listAttendance = (from emp in db.NhanViens
                                         .Where(emp => emp.MaPhongBan == departmentID)
                                       join per in db.DiemDanh_NangSuatLaoDong
@@ -961,6 +963,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                       from att in attendance.DefaultIfEmpty()
                                       select new
                                       {
+                                          headerID = tmp2.HeaderID,
                                           maNV = emp.MaNV,
                                           tenNV = emp.Ten,
                                           status = (bool?)tmp2.DiLam,
@@ -968,6 +971,8 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                           reason = tmp2.LyDoVangMat,
                                           description = tmp2.GhiChu
                                       }).OrderBy(att => att.status).ToList();
+
+
                 listAtten_NotAtten = getAttendance_NotAttendance(session, departmentID, dateAtt);
                 JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
                 var result = JsonConvert.SerializeObject(listAttendance, Formatting.Indented, jss);

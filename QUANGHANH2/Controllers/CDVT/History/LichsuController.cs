@@ -322,15 +322,16 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     //check
                     //need to check equipment of each department.
                     string department_id = Session["departID"].ToString();
-                    //Equipment i = DBContext.Equipments.Find(equipmentId);
-                    Equipment i = DBContext.Equipments.Where(x => (x.department_id == department_id &&    x.equipmentId == equipmentId)).First();
 
-                    //Activity q = DBContext.Activities.Where(x => x.activityid == activityid).SingleOrDefault();
+                    Equipment i = DBContext.Equipments.Where(x => (x.department_id == department_id && x.equipmentId == equipmentId)).First();
+
+                    Activity actiOldEq = DBContext.Activities.Find(activityid);
+                    string oldEq = actiOldEq.equipmentid;
+                    double oldHour = actiOldEq.hours_per_day;
+                    int newHour = hours_per_day;
+
                     Activity q = DBContext.Activities.Find(activityid);
-                    Activity fixBug = DBContext.Activities.Find(activityid);
-                    string oldEq = fixBug.equipmentid;
                     q.equipmentid = i.equipmentId;
-
                     q.date = DateTime.ParseExact(date1, "dd/MM/yyyy", null);
                     q.hours_per_day = hours_per_day;
                     q.quantity = quantity;
@@ -341,29 +342,24 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 
                     //after update activity.
                     //get old and new.
-                    //string oldEq = q.equipmentid;
                     string newEq = equipmentId;
 
-                    //update old:
-                    double hoursOld = DBContext.Database.SqlQuery<double>("" +
-                       @" select case when sum(hours_per_day) is null then 0 else sum(hours_per_day) end as total  from Activity 
-                        where equipmentid = @equipmentId"
-                        , new SqlParameter("equipmentId", oldEq)).First();
-                    int totalHourOld = (int) hoursOld;
-                    DBContext.Database.ExecuteSqlCommand("update Equipment set total_operating_hours = @hour where equipmentId = @equipmentId",
-                        new SqlParameter("hour", totalHourOld),
-                        new SqlParameter("equipmentId", oldEq));
+                    if (newEq.Equals(oldEq))
+                    {
+                        i.total_operating_hours += (newHour - (int) oldHour);
 
-                    //update new:
-                    double hoursNew = DBContext.Database.SqlQuery<double>("" +
-                        " select sum(hours_per_day) as total  from Activity " +
-                        " where equipmentid = @equipmentId"
-                        , new SqlParameter("equipmentId", newEq)).First();
-                    int totalHourNew = (int)hoursNew;
-                    DBContext.Database.ExecuteSqlCommand("update Equipment set total_operating_hours = @hour where equipmentId = @equipmentId",
-                        new SqlParameter("hour", totalHourNew),
-                        new SqlParameter("equipmentId", newEq));
+                        DBContext.Entry(i).State = EntityState.Modified;
+                    } else
+                    {
+                        Equipment olds = DBContext.Equipments.Where(x => (x.department_id == department_id && x.equipmentId == oldEq)).First();
+                        Equipment news = DBContext.Equipments.Where(x => (x.department_id == department_id && x.equipmentId == newEq)).First();
+                        olds.total_operating_hours -= (int) oldHour;
+                        news.total_operating_hours += newHour;
 
+                        DBContext.Entry(news).State = EntityState.Modified;
+                    }
+
+                    DBContext.SaveChanges();
                     transaction.Commit();
                     return new HttpStatusCodeResult(201);
                 }
