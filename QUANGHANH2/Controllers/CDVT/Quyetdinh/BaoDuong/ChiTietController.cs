@@ -46,7 +46,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.BaoDuong
             return View("/Views/CDVT/Quyetdinh/SuaChua/ChiTiet.cshtml");
         }
 
-        [Auther(RightID = "30,84,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "30,84,179,180,181,183,184,185,186,187,189,195,003")]
         [HttpPost]
         [Route("phong-cdvt/quyet-dinh/bao-duong/chi-tiet")]
         public ActionResult GetDetail(int documentary_maintain_id, bool isSupply)

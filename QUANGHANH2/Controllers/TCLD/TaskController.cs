@@ -291,7 +291,7 @@ namespace QUANGHANH2.Controllers.TCLD
 
         }
 
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phan-xuong/dang-ki-nhiem-vu")]
         public ActionResult DangKiNhiemVu()
         {

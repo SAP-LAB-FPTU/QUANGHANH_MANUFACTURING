@@ -265,7 +265,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
 
           "inner " +
                 "join Supply s on s.supply_id = fa.fuel_type " +
-                "where s.supply_name like N'%Xăng%' and s.unit like 'L' and fa.date = '" + ngay+"'";
+                "where s.unit like N'Lít' and fa.date = '" + ngay+"'";
             }
             if (type == "day")
             {
@@ -281,7 +281,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
 
           "inner " +
                 "join Supply s on s.supply_id = fa.fuel_type " +
-                "where s.supply_name like N'%Xăng%' and s.unit like 'L' and fa.date = '" + ngay+"'";
+                "where s.unit like N'Lít' and fa.date = '" + ngay+"'";
             }
             if (type == "month")
             {
@@ -298,7 +298,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
 
           "inner "+
                 "join Supply s on s.supply_id = fa.fuel_type "+
-                "where s.supply_name like N'%Xăng%' and s.unit like 'L' and Month(fa.date) = "+thang+" and Year(fa.date) = "+nam+""+
+                "where s.unit like N'Lít' and Month(fa.date) = " + thang+" and Year(fa.date) = "+nam+""+
 
                 "group by MONTH(fa.date) , YEAR(fa.date) ,e.equipmentId ,"+
                 "equipment_name, supply_name,consumption_value, unit";
@@ -334,7 +334,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
 
           "inner " +
                 "join Supply s on s.supply_id = fa.fuel_type " +
-                "where s.supply_name like N'%Xăng%' and s.unit like 'L' and Month(fa.date) in " + quy + " and Year(fa.date) = " + nam + "" +
+                "where s.unit like N'Lít' and Month(fa.date) in " + quy + " and Year(fa.date) = " + nam + "" +
 
                 "group by MONTH(fa.date) , YEAR(fa.date) ,e.equipmentId ," +
                 "equipment_name, supply_name,consumption_value, unit";
@@ -348,7 +348,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
 				            "from Fuel_activities_consumption fa "+
                             "inner join Equipment e on e.equipmentId = fa.equipmentId "+
                             "inner join Supply s on s.supply_id = fa.fuel_type "+
-                            "where s.supply_name like N'%Xăng%' and  s.unit like 'L' and YEAR(date) = "+nam+""+
+                            "where s.unit like N'Lít' and YEAR(date) = " + nam+""+
 				            "group by MONTH(date) , YEAR(date) ,e.equipmentId ,"+
                             "equipment_name, supply_name,consumption_value, unit";
             }
