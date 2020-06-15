@@ -297,13 +297,14 @@
             if (ck.endsWith('1')) {
                 var currentRow = $(this).closest("tr");
                 var data = currentRow.find("td:eq(3)").text();
-                document.getElementById("edit_sk_abc").value = "abc";
+                $("#edit_sk_abc").val("abc");
 
                 data = currentRow.find("td:eq(4)").text();
-                document.getElementById("edit_sm").value = data;
+                $("#edit_sm").val(data);
 
                 data = currentRow.find("td:eq(5)").text();
-                document.getElementById("edit_gps").selectedIndex = 1;
+                $("#edit_gps").val("1");
+                //document.getElementById("edit_gps").selectedIndex = 1;
             }
         });
 
