@@ -55,7 +55,7 @@
                         <label>Ngày nhập</label>
                         @*@Html.LabelFor(model => model.date_import, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
-                            <input name="import" type="text" class="form-control datepicker-here maxDate" />
+                            <input name="import" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
                             @Html.EditorFor(model => model.date_import, new { htmlAttributes = new { @style = "display: none !important" } })
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                         <label>Ngày hết hạn đăng kiểm</label>
                         @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
-                            <input name="duraInspec" type="text" class="form-control datepicker-here maxDate" />
+                            <input name="duraInspec" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
                             @Html.EditorFor(model => model.durationOfInspection, new { htmlAttributes = new { @style = "display: none !important" } })
                             @Html.ValidationMessageFor(model => model.durationOfInspection, "", new { @class = "text-danger" })
                         </div>
@@ -104,7 +104,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-2">Ngày mua đăng kiểm</label>
                             <div class="col-md-10">
-                                <input name="BuyInspec" type="text" class="form-control datepicker-here maxDate" />
+                                <input name="BuyInspec" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
                                 @Html.EditorFor(model => model.inspect_date, new { htmlAttributes = new { @style = "display: none !important" } })
                                 @Html.ValidationMessageFor(model => model.inspect_date, "", new { @class = "text-danger" })
                             </div>
@@ -140,7 +140,7 @@
                         <label>Ngày đưa vào sử dụng</label>
                         @*@Html.LabelFor(model => model.usedDay, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
-                            <input name="used" type="text" class="form-control datepicker-here maxDate" />
+                            <input name="used" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
                             @Html.EditorFor(model => model.usedDay, new { htmlAttributes = new { @style = "display: none !important" } })
                             @Html.ValidationMessageFor(model => model.usedDay, "", new { @class = "text-danger" })
                         </div>
@@ -204,7 +204,7 @@
                             <label>Ngày hết hạn bảo hiểm</label>
                             @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
                             <div class="col-md-10">
-                                <input name="Insua" type="text" class="form-control datepicker-here maxDate" />
+                                <input name="Insua" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
                                 @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @style = "display: none !important" } })
                                 @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
                             </div>
@@ -213,7 +213,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-2">Ngày mua bảo hiểm</label>
                             <div class="col-md-10">
-                                <input name="BuyInsua" type="text" class="form-control datepicker-here maxDate" />
+                                <input name="BuyInsua" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
                                 @Html.EditorFor(model => model.insurance_date, new { htmlAttributes = new { @style = "display: none !important" } })
                                 @Html.ValidationMessageFor(model => model.insurance_date, "", new { @class = "text-danger" })
                             </div>
