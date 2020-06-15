@@ -306,7 +306,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                             on headKH.HeaderID = khMonth.HeaderID
                                             join KeHoachTungThang khtt on khtt.ThangID = headKH.ThangID
                                             where headKH.MaPhongBan = @px
-                                            and khtt.ThangKeHoach = @thang
+                                            and khtt.ThangKeHoach = @thang and khtt.NamKeHoach = @nam
                                             group by headKH.MaPhongBan, khtt.ThangKeHoach, khtt.NamKeHoach,  
                                             khtt.SoNgayLamViec, khMonth.MaTieuChi) as a
                                             left join(select* from KeHoach_TieuChi_TheoThang khMonth
@@ -332,14 +332,15 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         on headKH.HeaderID = khMonth.HeaderID
                                         join KeHoachTungThang khtt on khtt.ThangID = headKH.ThangID
                                         where headKH.MaPhongBan = @px
-                                        and khtt.ThangKeHoach = @thang
+                                        and khtt.ThangKeHoach = @thang and khtt.NamKeHoach = @nam
                                         group by headKH.MaPhongBan, khtt.ThangKeHoach, khtt.NamKeHoach,  
                                         khtt.SoNgayLamViec, khMonth.MaTieuChi) as a
                                         left join(select* from KeHoach_TieuChi_TheoThang khMonth
                                         ) as b on a.MaTieuChi = b.MaTieuChi and a.MaxDate = b.ThoiGianNhapCuoiCung) as khdc
                                         on pbtc.MaTieuChi = khdc.MaTieuChi";
                         listKHDC = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
-                                                                      new SqlParameter("thang", month)).ToList();
+                                                                      new SqlParameter("thang", month),
+                                                                      new SqlParameter("nam", year)).ToList();
                     }
 
                     for (int i = 0; i < listSX.Count; i++)
