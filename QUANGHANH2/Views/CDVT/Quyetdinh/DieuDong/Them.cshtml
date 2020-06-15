@@ -96,7 +96,7 @@
         </div>
         <div class="modal-footer">
             <a id="addrow" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
-            <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-close">Lưu</a>
+            <a class="waves-effect waves-light btn blue darken-2 modal-close submitvattu">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
         </div>
     </div>
@@ -133,7 +133,7 @@
         </div>
         <div class="modal-footer">
             <a id="addrow" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
-            <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-close">Lưu</a>
+            <a class="waves-effect waves-light btn blue darken-2 modal-close submitvattu">Lưu</a>
             <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
         </div>
     </div>
@@ -208,7 +208,7 @@
         $(this).closest("tr").remove();
     })
     //tạo json cho thiết bị khi nhập submit vật tư
-    $("#sctx #submitvattu, #thietbicon #submitvattu").click(function () {
+    $(".submitvattu").click(function () {
         convertToJson();
     })
 
@@ -221,7 +221,8 @@
                     thietbi.equipmentId = $('#thietbicon tbody tr:nth-child(' + i + ') input').eq(0).val();
                     thietbi.quantity_dikem = $('#thietbicon tbody tr:nth-child(' + i + ') input').eq(1).val();
                     thietbi.quantity_duphong = $('#thietbicon tbody tr:nth-child(' + i + ') input').eq(2).val();
-                    arr.push(thietbi);
+                    if (thietbi.quantity_dikem != "0" || thietbi.quantity_duphong != "0")
+                        arr.push(thietbi);
                 }
             }
             output[equipId].thietbi = arr;
@@ -232,7 +233,8 @@
                     var vattu = {};
                     vattu.supply_id = $('#sctx tbody tr:nth-child(' + i + ') input').eq(0).val();
                     vattu.quantity = $('#sctx tbody tr:nth-child(' + i + ') input').eq(1).val();
-                    arr.push(vattu);
+                    if (vattu.quantity != "0")
+                        arr.push(vattu);
                 }
             }
             output[equipId].vattu = arr;
@@ -263,7 +265,7 @@
             if (output[equipId].getequip == false) {
                 $.ajax({
                     type: "POST",
-                    url: "/phong-cdvt/dieu-dong-chon/getdata",
+                    url: "/phong-cdvt/quyet-dinh/dieu-dong/them/getdata",
                     dataType: "json",
                     success: function (data) {
                         output[equipId].getequip = true;
@@ -376,7 +378,7 @@
             $('#pre-load').show();
             $.ajax({
                 type: "POST",
-                url: "/phong-cdvt/dieu-dong-chon",
+                url: "/phong-cdvt/quyet-dinh/dieu-dong/them",
                 dataType: "json",
                 success: function (data) {
                     $('#pre-load').hide();

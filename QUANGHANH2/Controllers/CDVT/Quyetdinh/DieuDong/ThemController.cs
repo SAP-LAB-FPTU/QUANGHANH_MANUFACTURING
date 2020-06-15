@@ -22,11 +22,11 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
         private readonly QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
         [Auther(RightID = "87")]
-        [Route("phong-cdvt/dieu-dong-chon")]
+        [Route("phong-cdvt/quyet-dinh/dieu-dong/them")]
         [HttpGet]
-        public ActionResult Index(String selectListJson)
+        public ActionResult Index()
         {
-            var listSelected = selectListJson;
+            List<string> listSelected = JArray.Parse(Request["selected"]).ToObject<List<string>>();
             db.Configuration.LazyLoadingEnabled = false;
 
             var result = (from e in db.Equipments
@@ -68,7 +68,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
             ViewBag.Supplies = supplies;
             ViewBag.Departments = departments;
             ViewBag.supply_inverse = db.Supplies.Take(10).ToList();
-            return View("/Views/CDVT/Work/dieu_dong_va_chon.cshtml");
+            return View("/Views/CDVT/Quyetdinh/DieuDong/Them.cshtml");
         }
 
         public class MiniEquipment
@@ -78,7 +78,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
         }
 
         [Auther(RightID = "87")]
-        [Route("phong-cdvt/dieu-dong-chon")]
+        [Route("phong-cdvt/quyet-dinh/dieu-dong/them")]
         [HttpPost]
         public ActionResult Add(string out_in_come, string data, string department_id, string reason)
         {
@@ -155,6 +155,8 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
                         {
                             string supply_id = (string)jObject["supply_id"];
                             int quantity = (int)jObject["quantity"];
+                            if (quantity == 0)
+                                continue;
                             Supply_Documentary_Equipment sde = new Supply_Documentary_Equipment
                             {
                                 documentary_id = documentary.documentary_id,
@@ -184,7 +186,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
         }
 
         [Auther(RightID = "87")]
-        [Route("phong-cdvt/dieu-dong-chon/getdata")]
+        [Route("phong-cdvt/quyet-dinh/dieu-dong/them/getdata")]
         [HttpPost]
         public ActionResult GetData(string equipmentId)
         {
