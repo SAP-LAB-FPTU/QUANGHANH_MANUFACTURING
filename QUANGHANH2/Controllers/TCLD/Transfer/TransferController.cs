@@ -511,25 +511,25 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             tc4.Append(new Paragraph(new Run(new Text(d.DonViHienTai))));
                             tr.Append(tc4);
 
-                            //TableCell tc5 = new TableCell();
-                            //tc5.Append(new Paragraph(new Run(new Text(d.DonViMoi))));
-                            //tr.Append(tc5);
+                            TableCell tc5 = new TableCell();
+                            tc5.Append(new Paragraph(new Run(new Text(d.DonViMoi))));
+                            tr.Append(tc5);
 
                             TableCell tc6 = new TableCell();
                             tc6.Append(new Paragraph(new Run(new Text(d.ChucVu.tenChucVu))));
                             tr.Append(tc6);
 
-                            //TableCell tc7 = new TableCell();
-                            //tc7.Append(new Paragraph(new Run(new Text(d.BacLuong))));
-                            //tr.Append(tc7);
+                            TableCell tc7 = new TableCell();
+                            tc7.Append(new Paragraph(new Run(new Text(d.BacLuong))));
+                            tr.Append(tc7);
 
-                            //TableCell tc8 = new TableCell();
-                            //tc8.Append(new Paragraph(new Run(new Text(d.MucLuong.ToString()))));
-                            //tr.Append(tc8);
+                            TableCell tc8 = new TableCell();
+                            tc8.Append(new Paragraph(new Run(new Text(d.MucLuong.ToString()))));
+                            tr.Append(tc8);
 
-                            //TableCell tc9 = new TableCell();
-                            //tc9.Append(new Paragraph(new Run(new Text(d.PhuCap.ToString()))));
-                            //tr.Append(tc9);
+                            TableCell tc9 = new TableCell();
+                            tc9.Append(new Paragraph(new Run(new Text(d.PhuCap.ToString()))));
+                            tr.Append(tc9);
 
                             TableCell tc10 = new TableCell();
                             tc10.Append(new Paragraph(new Run(new Text(d.LyDo.ToString()))));
@@ -538,6 +538,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             table.Append(tr);
                         }
                         doc.MainDocumentPart.Document.Save(); // won't update the original file 
+
                     }
                     // Save the file with the new name
                     string savePath = HostingEnvironment.MapPath(Flocation);

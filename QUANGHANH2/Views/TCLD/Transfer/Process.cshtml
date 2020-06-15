@@ -861,7 +861,7 @@
                 $("#check-select-all-bac").prop("checked", false);
                 $(".bac").prop("disabled", false);
                 $("#bac-selectAll").prop("disabled", true);
-            } else {
+            } else {   
                 $(".chucvu").each(function () {
                     $(this).prop("disabled", true);
                     $(this).val($("#chucvu-selectAll").val());
@@ -924,7 +924,7 @@
         });
         $("#chucvu-selectAll").change(async () => {
             await getThangLuongAndPhuCapForAll("selectAll", $("#chucvu-selectAll").find(":selected").val());
-            //await $(".chucvu").val($("#chucvu-selectAll").val());
+            await $(".chucvu").val($("#chucvu-selectAll").val());
             //await $(".bac").empty();
             //await await $(".bac").append($("#bac-selectAll").html());
             //await (".bac").val($("#bac-selectAll").val());
