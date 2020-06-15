@@ -74,6 +74,7 @@ namespace QUANGHANHCORE.Controllers
                     Session["isAdmin"] = Name.ADMIN;
                     Session["Role"] = Name.Role;
                     GetPermission(id);
+                    //thư viện đang dùng cho hashpass không decrypt được nên phải dùng thư viện khác để set pass cookie
                     string hashtoken = Hash.Encrypt.EncryptString(password,"quanghanhcoals");
                     if (!String.IsNullOrEmpty(rm))
                     {
