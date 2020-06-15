@@ -62,7 +62,7 @@
                     <label>Ngày nhập</label>
                     @*@Html.LabelFor(model => model.date_import, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
-                        <input id="import_fix" name="import" type="text" class="form-control datepicker-here" placeholder="Ngày nhập" />
+                        <input id="import_fix" name="import" type="text" class="form-control datepicker-here" placeholder="Ngày nhập" autocomplete="off" />
                         @Html.EditorFor(model => model.date_import, new { htmlAttributes = new { @style = "display: none !important" } })
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                     <label>Ngày hết hạn đăng kiểm</label>
                     @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
-                        <input id="Inspec_fix" name="inspec" type="text" class="form-control datepicker-here" placeholder="Ngày hết hạn đăng kiểm" />
+                        <input id="Inspec_fix" name="inspec" type="text" class="form-control datepicker-here" placeholder="Ngày hết hạn đăng kiểm" autocomplete="off" />
                         @Html.EditorFor(model => model.durationOfInspection, new { htmlAttributes = new { @style = "display: none !important" } })
                         @Html.ValidationMessageFor(model => model.durationOfInspection, "", new { @class = "text-danger" })
                     </div>
@@ -101,7 +101,7 @@
                     <label>Thời hạn bảo dưỡng</label>
                     @*@Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
-                        <input id="main_fix" name="main" type="text" class="form-control datepicker-here" placeholder="Thời hạn bảo dưỡng" />
+                        <input id="main_fix" name="main" type="text" class="form-control datepicker-here" placeholder="Thời hạn bảo dưỡng" autocomplete="off" />
                         @Html.EditorFor(model => model.durationOfMaintainance, new { htmlAttributes = new { @style = "display: none !important" } })
                         @Html.ValidationMessageFor(model => model.durationOfMaintainance, "", new { @class = "text-danger" })
                     </div>
@@ -110,7 +110,7 @@
                     <label>Ngày đưa vào sử dụng</label>
                     @*@Html.LabelFor(model => model.usedDay, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
-                        <input id="used_fix" name="used" type="text" class="form-control datepicker-here" placeholder="Ngày đưa vào sử dụng" />
+                        <input id="used_fix" name="used" type="text" class="form-control datepicker-here" placeholder="Ngày đưa vào sử dụng" autocomplete="off" />
                         @Html.EditorFor(model => model.usedDay, new { htmlAttributes = new { @style = "display: none !important" } })
                         @Html.ValidationMessageFor(model => model.usedDay, "", new { @class = "text-danger" })
                     </div>
@@ -120,7 +120,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-2">Ngày mua đăng kiểm</label>
                         <div class="col-md-10">
-                            <input id="BuyInspec_fix" name="BuyInspec" type="text" class="form-control datepicker-here maxDate" />
+                            <input id="BuyInspec_fix" name="BuyInspec" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
                             @Html.EditorFor(model => model.inspect_date, new { htmlAttributes = new { @style = "display: none !important" } })
                             @Html.ValidationMessageFor(model => model.inspect_date, "", new { @class = "text-danger" })
                         </div>
@@ -213,7 +213,7 @@
                         <label>Ngày hết hạn bảo hiểm</label>
                         @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
-                            <input id="Insua_fix" name="Insua" type="text" class="form-control datepicker-here maxDate" />
+                            <input id="Insua_fix" name="Insua" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
                             @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @style = "display: none !important" } })
                             @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
                         </div>
@@ -222,7 +222,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-2">Ngày mua bảo hiểm</label>
                         <div class="col-md-10">
-                            <input id="BuyInsua_fix" name="BuyInsua" type="text" class="form-control datepicker-here maxDate" />
+                            <input id="BuyInsua_fix" name="BuyInsua" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
                             @Html.EditorFor(model => model.insurance_date, new { htmlAttributes = new { @style = "display: none !important" } })
                             @Html.ValidationMessageFor(model => model.insurance_date, "", new { @class = "text-danger" })
                         </div>
@@ -250,7 +250,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-2">Năm sản xuất</label>
                         <div class="col-md-10">
-                            <input type="number" name="yearSX" id="yearSX" class="form-control datepicker-here datepicker-add center"
+                            <input type="number" name="yearSX" id="yearSX" class="form-control datepicker-here datepicker-add center" autocomplete="off"
                                    data-language='vi'
                                    data-min-view="years"
                                    data-view="years"
