@@ -232,7 +232,7 @@
             url: "/phong-cdvt/cap-nhat/quyet-dinh/dieu-dong/so-luong",
             dataType: "json",
             success: function (data) {
-                let $tr;
+                let $tr = "";
                 let last_record = "";
 
                 // Record đi kèm luôn tồn tại và được add trước vào db, dự phòng được add sau
@@ -250,6 +250,8 @@
                         }
                         else {
                             last_record = "duphong"
+                            if (!$tr.includes("<tr>"))
+                                $tr = '<tr><td>' + value.equipmentId_dikem + '</td><td>' + value.equipment_name + '</td><td>0</td><td>0</td>';
                             $tr += "<td>" + value["quantity_plan"] + "</td>";
                             $tr += "<td><input class='form-control' type='number' min='" + value.quantity_in + "' max='" + value.quantity_plan + "' value='" + value.quantity_in + "' /></td></tr>";
                             $('#thietbicon tbody').append($tr);
