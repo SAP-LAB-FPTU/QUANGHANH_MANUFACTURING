@@ -330,9 +330,9 @@
 
             //display data
             for (var i = 0; i < 12; i++) {
-                tableBody += "<td>" + KH[i] + "</td>"
-                tableBody += "<td>" + LK[i] + "</td>"
-                tableBody += "<td>" + BQ[i] + "</td>"
+                tableBody += "<td>" + Math.round(KH[i]) + "</td>"
+                tableBody += "<td>" + Math.round(LK[i]) + "</td>"
+                tableBody += "<td>" + Math.round(BQ[i]) + "</td>"
             }
 
             tableBody += "</tr>"
