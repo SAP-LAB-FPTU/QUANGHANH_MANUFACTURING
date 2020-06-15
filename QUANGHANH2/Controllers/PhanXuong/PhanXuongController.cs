@@ -24,6 +24,7 @@ using QUANGHANH2.Utils;
 using QUANGHANH2.ModelViews;
 using System.Web.Script.Serialization;
 using System.Text;
+using System.Configuration;
 
 namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 {
@@ -389,8 +390,9 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         [Route("phan-xuong/download-file")]
         public virtual ActionResult Download(string location, string fileName)
         {
-
+            string path = ConfigurationManager.AppSettings["phanxuongFileReportsPath"].ToString();
             MemoryStream memoryStream = new MemoryStream();
+            location = path + location;
             string handle = Guid.NewGuid().ToString();
             using (FileStream fileStream = new FileStream(location, FileMode.Open, FileAccess.Read))
             {
