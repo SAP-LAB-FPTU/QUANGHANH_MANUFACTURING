@@ -17,7 +17,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
     public class Xincapvattu1Controller : Controller
     {
         // GET: Xincapvattu1
-        [Auther(RightID = "33,27,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "33,27,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx")]
         public ActionResult Index()
         {
@@ -117,7 +117,7 @@ group by s.supply_id, s.supply_name, s.unit, e.equipmentId) as b on a.supply_id 
                 } }
         }
 
-        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx/editoradd")]
         [HttpPost]
         public ActionResult InsertInformation(String equipmentid)
@@ -175,7 +175,7 @@ group by s.supply_id, s.supply_name, s.unit, e.equipmentId) as b on a.supply_id 
                 }
             }
         }
-        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx/xincap")]
         [HttpPost]
         public ActionResult XinCap()
@@ -249,7 +249,7 @@ group by s.supply_id, s.supply_name, s.unit, e.equipmentId) as b on a.supply_id 
         /// </summary>
         /// <returns></returns>
         
-        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx/duyet-cap/getinformation")]
         [HttpPost]
         public ActionResult EquipmentInformation()
@@ -323,7 +323,7 @@ group by s.supply_id, s.supply_name, s.unit, e.equipmentId) as b on a.supply_id 
                 }
             }
         }
-        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phan-xuong/xin-cap-vat-tu-sctx/duyet-cap/edit")]
         [HttpPost]
         public ActionResult EditListSupplyGeted(List<SupplyPlanDB> listvattu )

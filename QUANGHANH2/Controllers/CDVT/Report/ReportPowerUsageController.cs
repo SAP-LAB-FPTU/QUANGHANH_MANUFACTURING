@@ -77,40 +77,54 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             if (type == null)
             {
                 var ngay = DateTime.Now.Date;
-                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,e.equipmentId as MaThietBi, 
-                            equipment_name as TenThietBi,(CAST(ca.[Value] as float) / 1000) * a.hours_per_day as 
-                            LuongTieuThu,a.quantity as SanLuong,N'tấn' as DonVi 
-                            from Equipment e
-							inner Join Category_attribute_value ca on e.equipmentId = ca.equipmentId
-							inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId
-							inner join Activity a on a.equipmentid = e.equipmentId
-                            where ca.Equipment_category_attribute_id = 'CS' and a.date = fa.date and a.date = '" + ngay + "'";
+
+                query = "select b.Thang, b.Nam,b.MaThietBi, b.TenThietBi,(b.[value]/ 1000) * b.[time] as 'LuongTieuThu', " +
+                        " b.SanLuong, b.DonVi from " +
+                        " (select MONTH(a.date) as Thang, YEAR(a.date) as Nam, AVG(CAST(ca.[Value] as float)) as 'value', e.equipmentId as MaThietBi, " +
+                        " equipment_name as TenThietBi,a.hours_per_day as " +
+                        " 'time',a.quantity as SanLuong, s.unit as DonVi " +
+                        " from Equipment e " +
+                        " inner Join Equipment_attribute ca on e.equipmentId = ca.equipmentId " +
+                        " inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId " +
+                        " inner join Activity a on a.equipmentid = e.equipmentId " +
+                        " inner join Supply s on s.supply_id = fa.fuel_type " +
+                        " where ca.Equipment_attribute_name like N'%Công suất%' and ca.unit = 'kW' and a.date = fa.date and a.date = '" + ngay + "' " +
+                        " group by a.[date], e.equipmentId, e.equipment_name, a.hours_per_day, a.quantity, s.unit) as b";
             }
             if (type == "day")
             {
                 var ngay = DateTime.ParseExact(date,"dd/MM/yyyy",null).ToString("yyyy-MM-dd");
-                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,e.equipmentId as MaThietBi, 
-                            equipment_name as TenThietBi,(CAST(ca.[Value] as float) / 1000) * a.hours_per_day as 
-                            LuongTieuThu,a.quantity as SanLuong,N'tấn' as DonVi 
-                            from Equipment e
-							inner Join Category_attribute_value ca on e.equipmentId = ca.equipmentId
-							inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId
-							inner join Activity a on a.equipmentid = e.equipmentId
-                            where ca.Equipment_category_attribute_id = 'CS' and a.date = fa.date and a.date = '" + ngay+"'";
+                query = "select b.Thang, b.Nam,b.MaThietBi, b.TenThietBi,(b.[value]/ 1000) * b.[time] as 'LuongTieuThu', " +
+                        " b.SanLuong, b.DonVi from " +
+                        " (select MONTH(a.date) as Thang, YEAR(a.date) as Nam, AVG(CAST(ca.[Value] as float)) as 'value', e.equipmentId as MaThietBi, " +
+                        " equipment_name as TenThietBi,a.hours_per_day as " +
+                        " 'time',a.quantity as SanLuong, s.unit as DonVi " +
+                        " from Equipment e " +
+                        " inner Join Equipment_attribute ca on e.equipmentId = ca.equipmentId " +
+                        " inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId " +
+                        " inner join Activity a on a.equipmentid = e.equipmentId " +
+                        " inner join Supply s on s.supply_id = fa.fuel_type " +
+                        " where ca.Equipment_attribute_name like N'%Công suất%' and ca.unit = 'kW' and a.date = fa.date and a.date = '" + ngay + "' " +
+                        " group by a.[date], e.equipmentId, e.equipment_name, a.hours_per_day, a.quantity, s.unit) as b";
                 ViewBag.now = date;
             }
+            
             if (type == "month")
             {
                 int thang = Convert.ToInt32(month);
                 int nam = Convert.ToInt32(year);
-                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,e.equipmentId as MaThietBi, 
-                            equipment_name as TenThietBi,(CAST(ca.[Value] as float) / 1000) * a.hours_per_day as 
-                            LuongTieuThu,a.quantity as SanLuong,N'tấn' as DonVi 
-                            from Equipment e
-							inner Join Category_attribute_value ca on e.equipmentId = ca.equipmentId
-							inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId
-							inner join Activity a on a.equipmentid = e.equipmentId
-                            where ca.Equipment_category_attribute_id = 'CS' and a.date = fa.date and YEAR(a.date) = " + nam + " and MONTH(a.date) = " + thang;
+                query = "select b.Thang, b.Nam,b.MaThietBi, b.TenThietBi,(b.[value]/ 1000) * b.[time] as 'LuongTieuThu', " +
+                        " b.SanLuong, b.DonVi from " +
+                        " (select MONTH(a.date) as Thang, YEAR(a.date) as Nam, AVG(CAST(ca.[Value] as float)) as 'value', e.equipmentId as MaThietBi, " +
+                        " equipment_name as TenThietBi,a.hours_per_day as " +
+                        " 'time',a.quantity as SanLuong, s.unit as DonVi " +
+                        " from Equipment e " +
+                        " inner Join Equipment_attribute ca on e.equipmentId = ca.equipmentId " +
+                        " inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId " +
+                        " inner join Activity a on a.equipmentid = e.equipmentId " +
+                        " inner join Supply s on s.supply_id = fa.fuel_type " +
+                        " where ca.Equipment_attribute_name like N'%Công suất%' and ca.unit = 'kW' and a.date = fa.date and YEAR(a.date) = " + nam + " and MONTH(a.date) = " + thang +
+                        " group by a.[date], e.equipmentId, e.equipment_name, a.hours_per_day, a.quantity, s.unit) as b";
             }
             if (type == "quarter")
             {
@@ -132,26 +146,36 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 {
                     quy = " (10,11,12) ";
                 }
-                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,e.equipmentId as MaThietBi, 
-                            equipment_name as TenThietBi,(CAST(ca.[Value] as float) / 1000) * a.hours_per_day as 
-                            LuongTieuThu,a.quantity as SanLuong,N'tấn' as DonVi 
-                            from Equipment e
-							inner Join Category_attribute_value ca on e.equipmentId = ca.equipmentId
-							inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId
-							inner join Activity a on a.equipmentid = e.equipmentId
-                            where ca.Equipment_category_attribute_id = 'CS' and a.date = fa.date and YEAR(a.date) = " + nam + " and Month(a.date) in " + quy;
+                
+                query = "select b.Thang, b.Nam,b.MaThietBi, b.TenThietBi,(b.[value]/ 1000) * b.[time] as 'LuongTieuThu', " +
+                        " b.SanLuong, b.DonVi from " +
+                        " (select MONTH(a.date) as Thang, YEAR(a.date) as Nam, AVG(CAST(ca.[Value] as float)) as 'value', e.equipmentId as MaThietBi, " +
+                        " equipment_name as TenThietBi,a.hours_per_day as " +
+                        " 'time',a.quantity as SanLuong, s.unit as DonVi " +
+                        " from Equipment e " +
+                        " inner Join Equipment_attribute ca on e.equipmentId = ca.equipmentId " +
+                        " inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId " +
+                        " inner join Activity a on a.equipmentid = e.equipmentId " +
+                        " inner join Supply s on s.supply_id = fa.fuel_type " +
+                        " where ca.Equipment_attribute_name like N'%Công suất%' and ca.unit = 'kW' and a.date = fa.date and YEAR(a.date) = " + nam + " and Month(a.date) in " + quy +
+                        " group by a.[date], e.equipmentId, e.equipment_name, a.hours_per_day, a.quantity, s.unit) as b";
             }
             if (type == "year")
             {
+                
                 int nam = Convert.ToInt32(year);
-                query = @"select MONTH(a.date) as Thang, YEAR(a.date) as Nam,e.equipmentId as MaThietBi, 
-                            equipment_name as TenThietBi,(CAST(ca.[Value] as float) / 1000) * a.hours_per_day as 
-                            LuongTieuThu,a.quantity as SanLuong,N'tấn' as DonVi 
-                            from Equipment e
-							inner Join Category_attribute_value ca on e.equipmentId = ca.equipmentId
-							inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId
-							inner join Activity a on a.equipmentid = e.equipmentId
-                            where ca.Equipment_category_attribute_id = 'CS' and a.date = fa.date and YEAR(a.date) = " + nam;
+                query = "select b.Thang, b.Nam,b.MaThietBi, b.TenThietBi,(b.[value]/ 1000) * b.[time] as 'LuongTieuThu', " +
+                        " b.SanLuong, b.DonVi from " +
+                        " (select MONTH(a.date) as Thang, YEAR(a.date) as Nam, AVG(CAST(ca.[Value] as float)) as 'value', e.equipmentId as MaThietBi, " +
+                        " equipment_name as TenThietBi,a.hours_per_day as " +
+                        " 'time',a.quantity as SanLuong, s.unit as DonVi " +
+                        " from Equipment e " +
+                        " inner Join Equipment_attribute ca on e.equipmentId = ca.equipmentId " +
+                        " inner join Fuel_activities_consumption fa on fa.equipmentId = e.equipmentId " +
+                        " inner join Activity a on a.equipmentid = e.equipmentId " +
+                        " inner join Supply s on s.supply_id = fa.fuel_type " +
+                        " where ca.Equipment_attribute_name like N'%Công suất%' and ca.unit = 'kW' and a.date = fa.date and YEAR(a.date) = " + nam +
+                        " group by a.[date], e.equipmentId, e.equipment_name, a.hours_per_day, a.quantity, s.unit) as b";
             }
             return query;
         }

@@ -14,7 +14,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
 {
     public class QDCaitienController : Controller
     {
-        [Auther(RightID = "86,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "86,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/cai-tien")]
         [HttpGet]
         public ActionResult Index(int id)
@@ -98,7 +98,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             public int equipment_Improve_status { get; set; }
         }
 
-        [Auther(RightID = "86,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "86,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/cai-tien/edit")]
         [HttpPost]
         public ActionResult editpost(string edit, int id)
@@ -156,7 +156,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "86,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "86,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/cai-tien/update")]
         [HttpPost]
         public ActionResult AddSupply(string list, int documentary_id, string equipmentId, bool IsSupply)
