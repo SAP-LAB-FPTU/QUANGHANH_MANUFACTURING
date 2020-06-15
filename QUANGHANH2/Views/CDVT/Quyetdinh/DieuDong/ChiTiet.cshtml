@@ -114,7 +114,7 @@
         $('#thietbicon tbody').empty();
         let equipmentId = $(this).data("equipmentid");
         $('#thietbicon h3').text("Danh sách thiết bị con của thiết bị " + equipmentId);
-        let $tr;
+        let $tr = "";
         let last_record = "";
         // Record đi kèm luôn tồn tại và được add trước vào db, dự phòng được add sau
         $.each(arr, function( index , value ) {
@@ -129,7 +129,10 @@
                     last_record = "dikem";
                 }
                 else {
-                    last_record = "duphong"
+                    last_record = "duphong";
+                    if (!$tr.includes("<tr>")) {
+                        $tr = '<tr><td>' + value["equipmentId_dikem"] + '</td><td>' + value["equipment_name"] + '</td><td>0</td>';
+                    }
                     $tr += "<td>" + value["quantity_plan"] + "</td></tr>";
                     $('#thietbicon tbody').append($tr);
                     $tr = "";
