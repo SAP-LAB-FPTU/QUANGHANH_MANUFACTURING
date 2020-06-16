@@ -7448,13 +7448,12 @@
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_thu_hoi.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\DieuDong\ChonThietBi.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\DieuDong\Them.cshtml" />
-    <Content Include="Views\CDVT\Work\sctx_va_chon.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\SuaChua\ChonThietBi.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\SuaChua\Them.cshtml" />
-    <Content Include="Views\CDVT\Work\thanhly.cshtml" />
-    <Content Include="Views\CDVT\Work\thanhly_va_chon.cshtml" />
-    <Content Include="Views\CDVT\Work\thuhoi.cshtml" />
-    <Content Include="Views\CDVT\Work\thuhoichon.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\ThanhLy\ChonThietBi.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\ThanhLy\Them.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\ThuHoi\ChonThietBi.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\ThuHoi\Them.cshtml" />
     <Content Include="Views\Hoatdong\AddCategory.cshtml" />
     <Content Include="Views\TCLD\Task\ReportJob.cshtml" />
     <Content Include="Views\TCLD\Task\ViewCertificateByNV.cshtml" />
@@ -7579,7 +7578,6 @@
     <Folder Include="FileContainer\PhanXuongLenDK\" />
     <Folder Include="images\camera\" />
     <Folder Include="Library\" />
-    <Folder Include="Views\Factory\" />
     <Folder Include="Views\TrangChu\" />
   </ItemGroup>
   <ItemGroup>

@@ -48,7 +48,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                               }).ToList();
                 ViewBag.DataThietBi = result;
             }
-            return View("/Views/CDVT/Work/thuhoichon.cshtml");
+            return View("/Views/CDVT/Quyetdinh/ThuHoi/Them.cshtml");
         }
 
         [Auther(RightID = "89")]

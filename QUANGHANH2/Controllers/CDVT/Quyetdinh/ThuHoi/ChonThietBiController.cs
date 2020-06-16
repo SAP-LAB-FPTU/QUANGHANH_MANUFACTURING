@@ -36,7 +36,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                 ViewBag.alert = true;
             else
                 ViewBag.alert = false;
-            return View("/Views/CDVT/Work/thuhoi.cshtml");
+            return View("/Views/CDVT/Quyetdinh/ThuHoi/ChonThietBi.cshtml");
         }
 
         [Auther(RightID = "89")]
