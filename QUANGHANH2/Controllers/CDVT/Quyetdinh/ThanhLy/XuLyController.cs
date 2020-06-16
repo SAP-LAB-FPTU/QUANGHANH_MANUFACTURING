@@ -29,7 +29,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
                 else ViewBag.AddAble = false;
                 ViewBag.id = documentary.documentary_id;
                 ViewBag.code = documentary.documentary_code as string;
-                return View("/Views/CDVT/Cap_nhat/Chitiet/Thanhly.cshtml");
+                return View("/Views/CDVT/Quyetdinh/ThanhLy/XuLy.cshtml");
             }
             catch (Exception)
             {

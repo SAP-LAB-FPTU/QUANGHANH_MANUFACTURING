@@ -9,14 +9,14 @@ using System.Web.Script.Serialization;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
 {
-    public class ChitietThanhliController : Controller
+    public class ChiTietController : Controller
     {
         [Route("phong-cdvt/quyet-dinh/thanh-li-chi-tiet")]
         public ActionResult LoadPage(String id)
         {
             ViewBag.id = id.ToString().Split('^')[0];
            
-            return View("/Views/CDVT/Quyet_dinh/Chi_tiet_thanh_li.cshtml");
+            return View("/Views/CDVT/Quyetdinh/ThanhLy/ChiTiet.cshtml");
         }
 
         public string Base64Encode(string plainText)
