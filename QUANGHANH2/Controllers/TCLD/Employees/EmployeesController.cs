@@ -108,14 +108,13 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 List<RecordTotalEmployee> listAll = new List<RecordTotalEmployee>();
                 List<RecordTotalEmployee> listAllTemp = new List<RecordTotalEmployee>();
-                var recordAll = (from p in db.Departments
-                                 join p1 in db.NhanViens on p.department_id equals p1.MaPhongBan
-                                 join p2 in db.CongViecs on p1.MaCongViec equals p2.MaCongViec
-                                 join p3 in db.CongViec_NhomCongViec on p2.MaCongViec equals p3.MaCongViec
-                                 join p4 in db.NhomCongViecs on p3.MaNhomCongViec equals p4.MaNhomCongViec
-                                 join p5 in db.DienCongViecs on p4.MaDienCongViec equals p5.MaDienCongViec
-
-                                 where p1.MaTrangThai == 1 & p.isInside != false & p3.MaNhomCongViec >= 1 & p3.MaNhomCongViec <= 9
+                var recordAll = (from p1 in db.NhanViens
+                                 join p in db.Departments.DefaultIfEmpty() on p1.MaPhongBan equals p.department_id
+                                 join p2 in db.CongViecs.DefaultIfEmpty() on p1.MaCongViec equals p2.MaCongViec
+                                 join p3 in db.CongViec_NhomCongViec.DefaultIfEmpty() on p2.MaCongViec equals p3.MaCongViec
+                                 join p4 in db.NhomCongViecs.DefaultIfEmpty() on p3.MaNhomCongViec equals p4.MaNhomCongViec
+                                 join p5 in db.DienCongViecs.DefaultIfEmpty() on p4.MaDienCongViec equals p5.MaDienCongViec
+                                 where p1.MaTrangThai == 1 & p.isInside != false
                                  select
                                  new
                                  {
@@ -126,11 +125,8 @@ namespace QUANGHANH2.Controllers.TCLD
                                      maPhongBan = p.department_id,
                                      tenDonVi = p.department_type,
                                      gioiTinh = p1.GioiTinh,
-                                     maNv = p1.MaNV,
-
-                                 }
-
-                                ).ToList();
+                                     maNv = p1.MaNV
+                                 }).ToList();
                 var listDonVi = (from p in db.Departments
                                  where p.isInside != false
                                  select new
