@@ -172,7 +172,9 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             {
                 ca = Convert.ToInt32(ca_value);
             }
-            string date_sql = date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2];
+            int day = date.Split('/')[0] != "1" ? Convert.ToInt32(date.Split('/')[0]) - 1 : 1;
+            string date_sql = date.Split('/')[1] + "/" + day + "/" + date.Split('/')[2];
+            string date_sql2 = date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2];
             DateTime dateTime = Convert.ToDateTime(date_sql);
             try
             {
@@ -192,7 +194,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
 
                     if (checkList.Count <= 0)
                     {
-                        string sql = @"select a.MaTieuChi, a.TenTieuChi,case when b.luyke is null then 0 else b.luyke end 'LuyKe', a.DonViDo from 
+                        string sql = @"select a.MaTieuChi, a.TenTieuChi,case when b.luyke is null then 0 else b.luyke + (case when d.SanLuong is null then 0 else d.SanLuong end) end 'LuyKe', a.DonViDo from 
                                         (select pb.MaTieuChi, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left 
                                         join TieuChi tc 
                                         on pb.MaTieuChi = tc.MaTieuChi 
@@ -204,13 +206,22 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         join ThucHien_TieuChi_TheoNgay t 
                                         on h.HeaderID = t.HeaderID 
                                         join ThucHienTheoNgay ttt on h.NgayID = ttt.NgayID
-                                        where h.MaPhongBan = @px and ttt.Ngay between @start and @date and h.Ca <= @ca) as a 
+                                        where h.MaPhongBan = @px and ttt.Ngay between @start and @date) as a 
                                         group by a.MaPhongBan,a.MaTieuChi) as b 
                                         on a.MaTieuChi = b.MaTieuChi 
-                                        order by a.MaTieuChi ASC";
+                                        
+										left outer join (select thDay.MaTieuChi, thDay.GhiChu, tht.NgaySanXuat, thDay.SanLuong from header_ThucHienTheoNgay headTH
+                                        inner
+                                        join ThucHien_TieuChi_TheoNgay thDay
+                                        on headTH.HeaderID = thDay.HeaderID
+										join ThucHienTheoNgay tht on headTH.NgayID = tht.NgayID
+                                        where headTH.MaPhongBan = @px and tht.Ngay = @date2 and headTH.Ca <= @ca) as d on b.MaTieuChi = d.MaTieuChi
+
+                                        order by a.MaTieuChi ASC"; 
                         listSX = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
                                                                     new SqlParameter("start", year + "-" + month + "-1"),
                                                                     new SqlParameter("date", date_sql),
+                                                                    new SqlParameter("date2", date_sql2),
                                                                     new SqlParameter("ca", ca),
                                                                     new SqlParameter("thang", month),
                                                                     new SqlParameter("nam", year)).ToList();
@@ -220,14 +231,14 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         string query = @"select c.MaTieuChi, case when a.GhiChu is null then '' else a.GhiChu end 'GhiChu',
                                         case when a.NgaySanXuat is null then 0 else a.NgaySanXuat end 'NgaySanXuat', 
                                         case when a.SanLuong is null then 0 else a.SanLuong end 'SanLuong', 
-                                        case when b.luyke is null then 0 else b.luyke end 'LuyKe', c.DonViDo, c.TenTieuChi from
+                                        case when b.luyke is null then 0 else b.luyke + (case when d.SanLuong is null then 0 else d.SanLuong end) end 'LuyKe', c.DonViDo, c.TenTieuChi from
                                         (select thDay.MaTieuChi, thDay.GhiChu, tht.NgaySanXuat, thDay.SanLuong from header_ThucHienTheoNgay headTH
                                         inner
                                         join ThucHien_TieuChi_TheoNgay thDay
                                         on headTH.HeaderID = thDay.HeaderID
 										join ThucHienTheoNgay tht on headTH.NgayID = tht.NgayID
-                                        where headTH.MaPhongBan = @px and tht.Ngay = @date and headTH.Ca = @ca) as a
-                                        inner join(
+                                        where headTH.MaPhongBan = @px and tht.Ngay = @date2 and headTH.Ca = @ca) as a
+                                        right join(
                                         select a.MaPhongBan, a.MaTieuChi, sum(a.SanLuong) as 'luyke'
                                         from(select t.SanLuong, t.MaTieuChi, h.MaPhongBan
                                         from header_ThucHienTheoNgay h 
@@ -236,17 +247,26 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         on h.HeaderID = t.HeaderID
                                         left join ThucHienTheoNgay thtn 
 										on h.NgayID = thtn.NgayID 
-                                        where h.MaPhongBan = @px and thtn.Ngay between @start and @date and h.Ca <= @ca) as a
+                                        where h.MaPhongBan = @px and thtn.Ngay between @start and @date) as a
                                         group by a.MaPhongBan,a.MaTieuChi) as b
                                         on a.MaTieuChi = b.MaTieuChi
 
                                         right join (select pb.MaTieuChi, pb.MaPhongBan, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left join TieuChi tc on pb.MaTieuChi = tc.MaTieuChi
                                         where pb.MaPhongBan = @px and pb.Thang = @thang and pb.Nam = @nam) as c
                                         on b.MaTieuChi = c.MaTieuChi
+
+                                        left outer join (select thDay.MaTieuChi, thDay.GhiChu, tht.NgaySanXuat, thDay.SanLuong from header_ThucHienTheoNgay headTH
+                                        inner
+                                        join ThucHien_TieuChi_TheoNgay thDay
+                                        on headTH.HeaderID = thDay.HeaderID
+										join ThucHienTheoNgay tht on headTH.NgayID = tht.NgayID
+                                        where headTH.MaPhongBan = @px and tht.Ngay = @date2 and headTH.Ca <= @ca) as d on b.MaTieuChi = d.MaTieuChi
+
                                         order by a.MaTieuChi";
                         listSX = db.Database.SqlQuery<SanXuat>(query, new SqlParameter("px", px_value),
                                                                       new SqlParameter("start", year + "-" + month + "-1"),
                                                                       new SqlParameter("date", date_sql),
+                                                                      new SqlParameter("date2", date_sql2),
                                                                       new SqlParameter("ca", ca),
                                                                       new SqlParameter("thang", month),
                                                                       new SqlParameter("nam", year)).ToList();
