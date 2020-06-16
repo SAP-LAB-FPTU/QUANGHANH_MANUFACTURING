@@ -80,11 +80,15 @@
                     </div>
                 </div>
             </form>
-            <div class="col s12 left">
+            <div class="col s12 left row">
                 @{
                     if (rights.Contains("20") || rights.Contains("79") || rights.Contains("179") || rights.Contains("180") || rights.Contains("181") || rights.Contains("182") || rights.Contains("183") || rights.Contains("185") || rights.Contains("186") || rights.Contains("184") || rights.Contains("187") || rights.Contains("188") || rights.Contains("189"))
                     {
                         <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
+                    }
+                    if (rights.Contains("170") || rights.Contains("79"))
+                    {
+                        <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
                     }
                     if (rights.Contains("21") || rights.Contains("79") || rights.Contains("179") || rights.Contains("180") || rights.Contains("181") || rights.Contains("182") || rights.Contains("183") || rights.Contains("185") || rights.Contains("186") || rights.Contains("184") || rights.Contains("187") || rights.Contains("188") || rights.Contains("189"))
                     {
@@ -214,10 +218,7 @@
                             </div>
                         </form>
                     }
-                    if (rights.Contains("170") || rights.Contains("79"))
-                    {
-                        <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
-                    }
+
                 }
 
             </div>

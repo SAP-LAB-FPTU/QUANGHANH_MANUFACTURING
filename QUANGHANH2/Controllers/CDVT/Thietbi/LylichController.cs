@@ -756,10 +756,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
                             if (listSup.ElementAt(j).supply_name.Equals(nameSup))
                             {
                                 s.supply_id = listSup.ElementAt(j).supply_id;
+                                s.supply_name = listSup.ElementAt(j).supply_name;
                                 break;
                             }
                         }
-                        string sql_sup = "insert into Supply_SCTX values (@supid, @eid, @quan)";
+                        string sql_sup = "insert into Supply_SCTX(supply_id, equipmentId, quantity) values (@supid, @eid, @quan)";
                         DBContext.Database.ExecuteSqlCommand(sql_sup
                             , new SqlParameter("@supid", s.supply_id)
                             , new SqlParameter("@eid", id)
