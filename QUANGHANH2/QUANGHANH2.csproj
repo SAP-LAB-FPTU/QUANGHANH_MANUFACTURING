@@ -219,12 +219,12 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\ThemController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\BaoDuong\XuLyController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuChinh\ChiTietController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\DieuChinh\XuLyQuyetDinhController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\DieuChinh\XuLyController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ChonThietBiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\DanhSachController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\ThemController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\XuLyQuyetDinhController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\DieuDong\XuLyController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DSQDChuaxulyController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\DSQDDaxulyController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\SuaChua\XuLyController.cs" />
@@ -256,8 +256,8 @@
     <Compile Include="Controllers\CDVT\Quyetdinh\ThanhLy\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ThanhLy\ChonThietBiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ThanhLy\DanhSachController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\ThanhLy\ThemQuyetDinhController.cs" />
-    <Compile Include="Controllers\CDVT\Quyetdinh\ThanhLy\XuLyQuyetDinhController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\ThanhLy\ThemController.cs" />
+    <Compile Include="Controllers\CDVT\Quyetdinh\ThanhLy\XuLyController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ThuHoi\ChiTietController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ThuHoi\ChonThietBiController.cs" />
     <Compile Include="Controllers\CDVT\Quyetdinh\ThuHoi\DanhSachController.cs" />
@@ -7337,7 +7337,7 @@
     <Content Include="Views\CDVT\Nghiemthu\Nghiemthu.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_Quyet_dinh.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_SCTX.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_thanh_li.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\ThanhLy\ChiTiet.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Chi_tiet_thu_hoi.cshtml" />
     <Content Include="Views\CDVT\Suco\SucoThietbi.cshtml" />
     <Content Include="Views\CDVT\Report\bao_cao_kiem_dinh.cshtml" />
@@ -7427,7 +7427,7 @@
     <Content Include="Views\CDVT\Report\FuelConsumption.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Baoduong.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\DieuDong\XuLy.cshtml" />
-    <Content Include="Views\CDVT\Cap_nhat\Chitiet\Thanhly.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\ThanhLy\XuLy.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Thuhoi.cshtml" />
     <Content Include="Views\CDVT\Cap_nhat\Chitiet\Trungdaitu.cshtml" />
     <Content Include="Views\CDVT\Vattu\XincapvattuSummary.cshtml" />
@@ -7444,7 +7444,7 @@
     <Content Include="Views\CDVT\Quyetdinh\DieuDong\DanhSach.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_kiem_dinh.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\SuaChua\DanhSach.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_thanh_ly.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\ThanhLy\DanhSach.cshtml" />
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_thu_hoi.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\DieuDong\ChonThietBi.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\DieuDong\Them.cshtml" />
@@ -7510,7 +7510,7 @@
     <Content Include="Views\CDVT\Quyetdinh\DieuChinh\Them.cshtml" />
     <Content Include="Views\Shared\_Layout_KCM.cshtml" />
     <Content Include="Views\Camera\DanhSachCamera.cshtml" />
-    <Content Include="Views\CDVT\Cap_nhat\Chitiet\Caitien.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\DieuChinh\XuLy.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\ChiTiet.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\DanhSach.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\ChonThietBi.cshtml" />

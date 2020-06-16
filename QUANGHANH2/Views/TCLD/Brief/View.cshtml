@@ -637,8 +637,7 @@
             </div>
             <div class="modal-footer">
                 <button class="waves-effect waves-light btn blue darken-2 modal-close" id="save" type="submit">Lưu</button>
-                <button class="waves-effect waves-light btn blue darken-2 modal-close">Hủy</button>
-                
+                <button class="waves-effect waves-light btn blue darken-2 modal-close" type="button">Hủy</button>
             </div>
         </div>
     </div>
@@ -784,4 +783,21 @@
             }
         );
     }
+
+    $(document).on("click", "#save", function () {
+        for (var i = 0; i < $("input[name='tuNgayDenNgay']").length; i++) {
+            let string_date = $("input[name='tuNgayDenNgay']").eq(i).val();
+            let don_vi = $("input[name='donVi']").eq(i).val();
+            if (don_vi != "" && string_date == "") {
+                errorAlert("Dòng thứ " + (i + 1) + " chưa nhập ngày");
+                    return false;
+            }
+            if (string_date != "") {
+                if (string_date.split("-").length != 2) {
+                    errorAlert("Dòng thứ " + (i + 1) + " không đúng");
+                    return false;
+                }
+            }
+        }
+    })
 </script>
