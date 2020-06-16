@@ -220,7 +220,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             return View("/Views/Phanxuong/NhapBaoCao/BaoCaoLenDK.cshtml");
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phan-xuong/upload-len-dk")]
         [HttpPost]
         public ActionResult uploadLenDK()

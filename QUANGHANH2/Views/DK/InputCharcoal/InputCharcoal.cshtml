@@ -175,7 +175,10 @@
         var SoNgaySX = document.getElementById('SoNgaySX').value;
         var phanTramNgay = document.getElementById('phanTramNgay').value;
     });
-
+    window.onbeforeunload = function () {
+        $('li .active').removeClass('active')
+        return 'You have unsaved changes!';
+    }
 
     $(document).ready(function () {
         $("#process").hide();
