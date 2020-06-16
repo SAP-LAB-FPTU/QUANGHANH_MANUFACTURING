@@ -18,7 +18,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             _repository = repo;
         }
 
-        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/xin-cap-vat-tu-sctx")]
         public ActionResult Index()
         {
@@ -40,7 +40,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/xin-cap-vat-tu-sctx/submit")]
         [HttpPost]
         public ActionResult Submit(IList<XincapvattuModelView> vattus)
@@ -60,7 +60,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "33,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/xin-cap-vat-tu-sctx/update")]
         [HttpPost]
         public ActionResult Update(IList<XincapvattuModelView> vattus)

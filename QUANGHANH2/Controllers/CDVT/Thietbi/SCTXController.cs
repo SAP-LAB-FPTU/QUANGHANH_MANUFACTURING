@@ -15,7 +15,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
 {
     public class SCTXController : Controller
     {
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/thiet-bi/sctx")]
         [HttpGet]
         public ActionResult Index()
@@ -29,7 +29,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             return View("/Views/CDVT/Thietbi/SCTX.cshtml");
         }
 
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/thiet-bi/sctx/insertMaintainCar")]
         [HttpPost]
         public JsonResult InsertMaintainCar(List<Maintain_DetailDB> maintain, string equipmentId, string date, string maintain_content)
@@ -155,7 +155,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             }
         }
 
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/thiet-bi/sctx/getMaintainCarDetail")]
         [HttpPost]
         public JsonResult getMaintainCarDetail(int maintainId)
@@ -193,7 +193,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 return Json(maintainCar);
             }
         }
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/thiet-bi/sctx/search")]
         [HttpPost]
         public ActionResult Search(string equipmentId, string equipmentName, string timeFrom, string timeTo, string content, string position)
@@ -354,7 +354,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             }
         }
 
-        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/thiet-bi/sctx/editMaintainDetail")]
         [HttpPost]
         public ActionResult EditMaintainDetail(List<Equipment_SCTX_Detail> supplyDetail, string equipmentID)

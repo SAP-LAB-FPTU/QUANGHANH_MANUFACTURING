@@ -14,7 +14,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
 {
     public class XuLyController : Controller
     {
-        [Auther(RightID = "84,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "84,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/sua-chua")]
         public ActionResult Index(int id)
         {
@@ -99,7 +99,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
             public int equipment_repair_status { get; set; }
         }
 
-        [Auther(RightID = "84,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "84,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/quyet-dinh/sua-chua/xu-ly")]
         [HttpPost]
         public ActionResult editpost(string edit, int id)
@@ -162,7 +162,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
             return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "82,84,179,180,181,183,184,185,186,187,189,195")]
+        [Auther(RightID = "82,84,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/quyet-dinh/sua-chua/xu-ly/edit")]
         [HttpPost]
         public ActionResult EditDetails(string data)
