@@ -131,7 +131,6 @@ namespace QUANGHANHCORE.Controllers.KCS
 
             DateTime date = DateTime.Parse(ngayNhap.Split('/')[2] + "/" + ngayNhap.Split('/')[1] + "/" + ngayNhap.Split('/')[0]);
 
-
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
