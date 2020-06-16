@@ -3,16 +3,7 @@
     Layout = null;
     string version = string.Concat("v", typeof(QUANGHANH2.MvcApplication).Assembly.GetName().Version);
 }
-<style>
 
-    .check-box {
-        width: 20px;
-        height: 20px;
-        background: white;
-        border-radius: 10px;
-        border: 1px solid #555;
-    }
-</style>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,12 +18,20 @@
     <!--===============================================================================================-->
     <link rel="icon" type="image/png" href="/images/login/icons/favicon.ico" />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="css/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 
     <!--===============================================================================================-->
     <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
     <link href="~/css/preloader/css.css" rel="stylesheet" />
-
+    <style>
+        .check-box {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #555;
+        }
+    </style>
 </head>
 <body>
     <div class="limiter">
@@ -81,7 +80,7 @@
                         </span>
                     </div>
                     <div class="wrap-input100 validate-input" data-validate="Password is required">
-                        <input class="input100" type="password" name="password" value="@password" placeholder="Mật khẩu" required>
+                        <input id="password-field" class="input100" type="password" name="password" value="@password" placeholder="Mật khẩu" required><span id="showpass" class="symbol-input100" style="right:0px !important; left:250px !important; padding-left:0px !important; pointer-events:auto"><i id="iconsss" class="fa fa-eye" aria-hidden="true"></i></span>
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-lock" aria-hidden="true"></i>
@@ -116,6 +115,15 @@
 
             $('#pre-load').show();
         }
+        $('#showpass').click(function () {
+            if ($('#password-field').attr("type") == "password") {
+                $('#password-field').attr("type", "text");
+                $('#iconsss').attr("class", "fa fa-eye-slash");
+            } else {
+                $('#password-field').attr("type", "password");
+                $('#iconsss').attr("class", "fa fa-eye");
+            }
+        });
     </script>
 </body>
 </html>

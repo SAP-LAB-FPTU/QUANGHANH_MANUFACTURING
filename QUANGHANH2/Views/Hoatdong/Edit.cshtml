@@ -328,47 +328,59 @@
 
         elms = document.querySelectorAll("[id='durationOfInspection']");
         temp = elms[1].value;
-        arr = temp.split("/");
-        arr1 = arr[2].split(" ");
-        data = arr[1] + "/" + arr[0] + "/" + arr1[0];
-        document.getElementById("Inspec_fix").value = data;
+        if (temp != "") {
+            arr = temp.split("/");
+            arr1 = arr[2].split(" ");
+            data = arr[1] + "/" + arr[0] + "/" + arr1[0];
+            document.getElementById("Inspec_fix").value = data;
+        }
 
         elms = document.querySelectorAll("[id='usedDay']");
         temp = elms[1].value;
-        arr = temp.split("/");
-        arr1 = arr[2].split(" ");
-        data = arr[1] + "/" + arr[0] + "/" + arr1[0];
-        document.getElementById("used_fix").value = data;
+        if (temp != "") {
+            arr = temp.split("/");
+            arr1 = arr[2].split(" ");
+            data = arr[1] + "/" + arr[0] + "/" + arr1[0];
+            document.getElementById("used_fix").value = data;
+        }
 
         elms = document.querySelectorAll("[id='durationOfMaintainance']");
         temp = elms[0].value;
-        arr = temp.split("/");
-        arr1 = arr[2].split(" ");
-        data = arr[1] + "/" + arr[0] + "/" + arr1[0];
-        document.getElementById("main_fix").value = data;
+        if (temp != "") {
+            arr = temp.split("/");
+            arr1 = arr[2].split(" ");
+            data = arr[1] + "/" + arr[0] + "/" + arr1[0];
+            document.getElementById("main_fix").value = data;
+        }
 
         elms = document.querySelectorAll("[id='durationOfInsurance']");
         temp = elms[1].value;
-        arr = temp.split("/");
-        arr1 = arr[2].split(" ");
-        data = arr[1] + "/" + arr[0] + "/" + arr1[0];
-        document.getElementById("Insua_fix").value = data;
+        if (temp != "") {
+            arr = temp.split("/");
+            arr1 = arr[2].split(" ");
+            data = arr[1] + "/" + arr[0] + "/" + arr1[0];
+            document.getElementById("Insua_fix").value = data;
+        }
 
         elms = document.querySelectorAll("[id='inspect_date']");
         temp = elms[1].value;
-        arr = temp.split("/");
-        arr1 = arr[2].split(" ");
-        data = arr[1] + "/" + arr[0] + "/" + arr1[0];
-        document.getElementById("BuyInspec_fix").value = data;
+        if (temp != "") {
+            arr = temp.split("/");
+            arr1 = arr[2].split(" ");
+            data = arr[1] + "/" + arr[0] + "/" + arr1[0];
+            document.getElementById("BuyInspec_fix").value = data;
+        }
 
         elms = document.querySelectorAll("[id='insurance_date']");
         temp = elms[1].value;
-        arr = temp.split("/");
-        arr1 = arr[2].split(" ");
-        data = arr[1] + "/" + arr[0] + "/" + arr1[0];
-        document.getElementById("BuyInsua_fix").value = data;
+        if (temp != "") {
+            arr = temp.split("/");
+            arr1 = arr[2].split(" ");
+            data = arr[1] + "/" + arr[0] + "/" + arr1[0];
+            document.getElementById("BuyInsua_fix").value = data;
+        }
 
-        
+
 
         data = document.getElementById("sokhung").value;
         document.getElementById("editsk").value = data

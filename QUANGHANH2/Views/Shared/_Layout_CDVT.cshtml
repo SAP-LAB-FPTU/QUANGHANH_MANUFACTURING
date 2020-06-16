@@ -616,7 +616,7 @@
                 contentType: "application/json;charset=utf-8",
                 success: function (result) {
                     result.result.forEach(function (key) {
-                        var string = "<a href ='Notifi/Export?type=" + key.type + "'><span class='btn-floating btn-large red'><i class='large material-icons' style='font-size:40px'>error</i></span><span class='mail-contnet'><h5><b>" + key.pb + "</b></h5><span class='mail-desc black-text' style='font-size:14px !important'>" + key.title + "</span><span class='blue-text' style='font-size:13px !important'>" + key.remain_title + "</span></span></a>";
+                        var string = "<a href ='#'><span class='btn-floating btn-large red'><i class='large material-icons' style='font-size:40px'>error</i></span><span class='mail-contnet'><h5><b>" + key.pb + "</b></h5><span class='mail-desc black-text' style='font-size:14px !important'>" + key.title + "</span><span class='blue-text' style='font-size:13px !important'>" + key.remain_title + "</span></span></a>";
                         $('#message').append(string);
                     });
                     if (result.result.length != 0) {
