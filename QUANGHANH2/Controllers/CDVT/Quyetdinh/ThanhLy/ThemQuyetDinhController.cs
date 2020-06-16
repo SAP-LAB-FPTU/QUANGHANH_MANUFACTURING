@@ -79,7 +79,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
 
                
             }
-            return View("/Views/CDVT/Work/thanhly_va_chon.cshtml");
+            return View("/Views/CDVT/Quyetdinh/ThanhLy/Them.cshtml");
         }
 
 
