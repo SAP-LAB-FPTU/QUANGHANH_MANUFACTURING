@@ -100,14 +100,6 @@
                                         </select>
                                     </div>
                                     <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                        <select class="form-control" id="equipmentAttach-search">
-                                            <option value="" disabled selected>Chọn loại thiết bị </option>
-                                            <option value="0">Thiết bị to</option>
-                                            <option value="1">Thiết bị nhỏ</option>
-
-                                        </select>
-                                    </div>
-                                    <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
 
                                         <input list="listid-s" type="text" placeholder="Tìm kiếm theo nhà cung cấp" name="name" class='form-control' id="supplier-search"
                                                multiple />
@@ -271,7 +263,7 @@
 
 <div class="modal fade" id="myadd">
     <div class="card">
-        <div class="card-content">
+        <div class="card-content" id="add_content">
             <div class="modal-header center-align">
                 <h3 id="title" style="display:none !important">2</h3>
                 <h3>Thêm</h3>
@@ -905,12 +897,11 @@
                     success: function (data) {
                         dataTable.ajax.reload();
                         var ck = $("#changetype").val();
-                        if (ck == "1") {
-                            window.location.reload(true);
-                        }
+                        //window.location.reload(true);
                         $("#pre-load").hide("slow", function () {
                         });
                         $("#pre-load").hide();
+
                         if (data.success == false) {
                             errorAlert('Lỗi', 'Có lỗi xảy ra');
                         } else {
@@ -937,6 +928,14 @@
 
             return false;
         }
+
+        function ClearInput() {
+            $("#save").closest('form').find("input[type=text], textarea").val("");
+            $("#save2").closest('form').find("input[type=text], textarea").val("");
+            $("#myaddVTDK").closest('form').find("input[type=text], textarea").val("");
+            $("#myadd20").closest('form').find("input[type=text], textarea").val("");
+        }
+
         function Edit(url) {
             $("#pre-load").show("slow", function () {
             });
