@@ -145,11 +145,11 @@ namespace QUANGHANH2.Controllers.DK.EquipmentIncident
 	                        ) as i on d.department_id = i.department_id
                         where d.department_type like N'%phân xưởng%'";
                     List<Report> content = db.Database.SqlQuery<Report>(sql).ToList();
-                    for (int i = 3; i < content.Count; i++)
+                    for (int i = 3; i < content.Count + 3; i++)
                     {
-                        excelWorksheet.Cells[i, 1].Value = content.ElementAt(i).department_name;
-                        excelWorksheet.Cells[i, 2].Value = content.ElementAt(i).total;
-                        excelWorksheet.Cells[i, 3].Value = content.ElementAt(i).stringdiff();
+                        excelWorksheet.Cells[i, 1].Value = content.ElementAt(i - 3).department_name;
+                        excelWorksheet.Cells[i, 2].Value = content.ElementAt(i - 3).total;
+                        excelWorksheet.Cells[i, 3].Value = content.ElementAt(i - 3).stringdiff();
                     }
                     Response.Clear();
                     Response.AddHeader("content-disposition", "attachment; filename=LeadsExport.xlsx");
