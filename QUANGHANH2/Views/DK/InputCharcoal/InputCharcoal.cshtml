@@ -133,7 +133,7 @@
         <div class="card-content">
             <div class="modal-header row">
                 <h4 class="col l6">Nhập ngày sản xuất hôm nay</h4>
-                <input id="nsx" class="form-control col l6" min="0" type="number" />
+                <input id="nsx" class="form-control col l6" type="text"/>
                 @*<button id="butluu">Lưu</button>*@
             </div>
 
@@ -149,7 +149,7 @@
         <div class="card-content">
             <div class="modal-header row">
                 <h4 class="col l6">Chỉnh sửa ngày sản xuất hôm nay</h4>
-                <input id="nsx_edit" class="form-control col l6" min="0" type="number" />
+                <input id="nsx_edit" class="form-control col l6" type="text" />
                 @*<button id="butluu">Lưu</button>*@
             </div>
 
@@ -202,13 +202,41 @@
         })
     })
 
-    //$(".datepicker-here").keydown(function (e) {
-    //    if (e.KeyCode != 8) {
-    //        e.preventDefault()
-    //    } else {
-    //        $(this).val("");
-    //    }
-    //});
+    var ngaysx = '@ViewBag.SoNgaySX'
+    if ($("#nsx").val() >= 1 && $("#nsx").val() <= parseInt(ngaysx)) {
+        $("#butluu").prop('disabled', true)
+    }
+    if ($("#nsx_edit").val() >= 1 && $("#nsx_edit").val() <= parseInt(ngaysx)) {
+        $("#butluu_edit").prop('disabled', true)
+    }
+    accept_Keycode = [97, 98, 99, 100, 101, 102, 103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 8, 37, 40, 39, 38]
+    $("#nsx").keydown(function (e) {
+        if (!accept_Keycode.includes(e.keyCode)) {
+            e.preventDefault()
+        }
+    })
+    $("#nsx").keyup(function (e) {
+        let temp = $("#nsx").val();
+        if (temp >= 1 && temp <= parseInt(ngaysx)) {
+            $("#butluu").prop('disabled', false)
+        } else {
+            $("#butluu").prop('disabled', true)
+        }
+    })
+    $("#nsx_edit").keydown(function (e) {
+        if (!accept_Keycode.includes(e.keyCode)) {
+            e.preventDefault()
+        }
+    })
+    $("#nsx_edit").keyup(function (e) {
+        let temp = $("#nsx_edit").val();
+        if (temp >= 1 && temp <= parseInt(ngaysx)) {
+            $("#butluu_edit").prop('disabled', false)
+        } else {
+            $("#butluu_edit").prop('disabled', true)
+        }
+    })
+    //////////////////////////////////////////////////////////////////////////////////////////////
 
     $("#butsnlvedit").click(function () {
         var data = $('#ngaySanXuat').val();
