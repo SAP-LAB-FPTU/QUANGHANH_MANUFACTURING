@@ -172,7 +172,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             {
                 ca = Convert.ToInt32(ca_value);
             }
-            int day = date.Split('/')[0] != "1" ? Convert.ToInt32(date.Split('/')[0]) - 1 : 1;
+            int day = Convert.ToInt32(date.Split('/')[0]) > 1 ? Convert.ToInt32(date.Split('/')[0]) - 1 : 1;
             string date_sql = date.Split('/')[1] + "/" + day + "/" + date.Split('/')[2];
             string date_sql2 = date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2];
             DateTime dateTime = Convert.ToDateTime(date_sql);
