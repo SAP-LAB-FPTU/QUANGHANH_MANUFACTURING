@@ -631,7 +631,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
 		                        group by d.department_id) b on a.department_id = b.department_id
                                 order by a.[index] asc";
 
-                    List<reportMonth> list = db.Database.SqlQuery<reportMonth>(sql, new SqlParameter("month", data[1]), new SqlParameter("year", data[0]),
+                    List<reportMonth> list = db.Database.SqlQuery<reportMonth>(sql, new SqlParameter("month", data[0]), new SqlParameter("year", data[1]),
                                     new SqlParameter("start1", s + "-01"), new SqlParameter("end1", s + "-07"),
                                     new SqlParameter("start2", s + "-08"), new SqlParameter("end2", s + "-14"),
                                     new SqlParameter("start3", s + "-15"), new SqlParameter("end3", s + "-21"),
