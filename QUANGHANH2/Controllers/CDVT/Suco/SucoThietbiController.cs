@@ -263,7 +263,27 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
 
                 using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
                 {
-                    var incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.Equipment_category_id, e.*, i.*, d.department_name FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d on d.department_id = i.department_id inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id").ToList();
+                    //var incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.Equipment_category_id, e.*, i.*, d.department_name " +
+                    //    "FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId " +
+                    //    "inner join Department d on d.department_id = i.department_id " +
+                    //    "inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id").ToList();
+                    var incidents = (from i in DBContext.Incidents
+                                     join e in DBContext.Equipments on i.equipmentId equals e.equipmentId
+                                     join d in DBContext.Departments on i.department_id equals d.department_id
+                                     //join ec in DBContext.Equipment_category on e.Equipment_category_id equals ec.Equipment_category_id
+                                     select new IncidentDB
+                                     {
+                                         Equipment_category_id = e.Equipment_category_id,
+                                         equipment_name = e.equipment_name,
+                                         mark_code = e.mark_code,
+                                         equipmentId = e.equipmentId,
+                                         fabrication_number = e.fabrication_number,
+                                         detail_location = i.detail_location,
+                                         department_name = d.department_name,
+                                         start_time = i.start_time,
+                                         end_time = i.end_time,
+                                         reason = i.reason
+                                     }).ToList();
                     int k = 0;
                     for (int i = 5; i < incidents.Count + 5; i++)
                     {
@@ -334,7 +354,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         public string department_name { get; set; }
         public string Equipment_category_id { get; set; }
         public string mark_code { get; set; }
-        public double fabrication_number { get; set; }
+        public string fabrication_number { get; set; }
         public string stringStartTime { get; set; }
         public string stringEndTime { get; set; }
         public string stringDiffTime { get; set; }
