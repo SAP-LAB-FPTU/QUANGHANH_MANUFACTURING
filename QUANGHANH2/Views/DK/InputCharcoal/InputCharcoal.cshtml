@@ -14,28 +14,28 @@
 }))
 {
     <style>
-        /*.first-row {
-            padding-left: 86px !important;
-        }*/
+        .width-fit {
+            height: 40px !important;
+        }
     </style>
     <div class="card">
         <div class="card-content">
             <div class="row">
                 <h3 class="center">NHẬP LIỆU SẢN XUẤT</h3>
                 <div class="row center">
-                    <div class="input-field col s3 m3 l1"></div>
+                    <div class="input-field col s1 m1 l2"></div>
                     <div class="input-field col s3 m3 l2">
-                        <button class="modal-trigger btn btn-small darken-2 blue" data-target="addsnlv" id="butsnlv">Nhập ngày sản xuất</button>
-                        <button class="modal-trigger btn btn-small darken-2 blue" data-target="editsnlv" id="butsnlvedit">Sửa ngày sản xuất</button>
+                        <button class="modal-trigger btn btn-small darken-2 blue width-fit" data-target="addsnlv" id="butsnlv">Nhập ngày sản xuất</button>
+                        <button class="modal-trigger btn btn-small darken-2 blue width-fit" data-target="editsnlv" id="butsnlvedit">Sửa ngày sản xuất</button>
                     </div>
                     <div class="input-field col l2 m2 s2">
-                        <input readonly id="ngaySanXuat" name="ngaySX" value="@ViewBag.NgaySX" required autocomplete="off" class="form-control center" onchange="percentOnchange()" placeholder="NgàySX" onchange="onChangeAll()" />
+                        <input readonly id="ngaySanXuat" name="ngaySX" value="@ViewBag.NgaySX" required autocomplete="off" class="form-control center width-fit" onchange="percentOnchange()" placeholder="NgàySX" onchange="onChangeAll()" />
                     </div>
                     <div class="input-field col l2 m2 s2">
-                        <input id="SoNgaySX" class="form-control center" value="@ViewBag.SoNgaySX" readonly />
+                        <input id="SoNgaySX" class="form-control center width-fit" value="@ViewBag.SoNgaySX" readonly />
                     </div>
                     <div class="input-field col l2 m2 s2">
-                        <input id="phanTramNgay" class="form-control center" value="" readonly />
+                        <input id="phanTramNgay" class="form-control center width-fit" value="" readonly />
                     </div>
                     <div class="input-field col s3 m3 l3"></div>
                 </div>
@@ -133,13 +133,13 @@
         <div class="card-content">
             <div class="modal-header row">
                 <h4 class="col l6">Nhập ngày sản xuất hôm nay</h4>
-                <input id="nsx" class="form-control col l6" type="text"/>
+                <input id="nsx" class="form-control col l6" type="text" />
                 @*<button id="butluu">Lưu</button>*@
             </div>
 
         </div>
         <div class="modal-footer">
-            <button id="butluu" class="btn blue modal-close">Lưu</button>
+            <button id="butluu" onclick="onClickNgaySx()" class="btn blue modal-close">Lưu</button>
         </div>
     </div>
 </div>
@@ -155,7 +155,7 @@
 
         </div>
         <div class="modal-footer">
-            <button id="butluu_edit" class="btn blue modal-close">Lưu</button>
+            <button id="butluu_edit" onclick="onClickNgaySxEdit()" class="btn blue modal-close">Lưu</button>
         </div>
     </div>
 </div>
@@ -209,7 +209,7 @@
     if ($("#nsx_edit").val() >= 1 && $("#nsx_edit").val() <= parseInt(ngaysx)) {
         $("#butluu_edit").prop('disabled', true)
     }
-    accept_Keycode = [97, 98, 99, 100, 101, 102, 103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 8, 37, 40, 39, 38]
+    accept_Keycode = [96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 8, 37, 40, 39, 38]
     $("#nsx").keydown(function (e) {
         if (!accept_Keycode.includes(e.keyCode)) {
             e.preventDefault()
@@ -351,9 +351,9 @@
                                 var ngaySx = document.getElementById('ngaySanXuat').value;
                                 var soNgaySx = document.getElementById('SoNgaySX').value;
                                 if (ngaySx != '' && soNgaySx != '') {
-                                    var phanTram = ngaySx / soNgaySx * 100;
-                                    document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
-                                    $("#tiendoNgay").text(Math.round(phanTram, 2));
+                                var phanTram = ngaySx / soNgaySx * 100;
+                                document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
+                                $("#tiendoNgay").text(Math.round(phanTram, 2));
 
                                 }
                                 $("#ngaySXconlai").text(response.dateSX - response.NgaySX);
@@ -375,7 +375,26 @@
     }
 </script>
 <script>
+    function onClickNgaySx() {
+        var ngaySx = document.getElementById('nsx').value;
+        var soNgaySx = document.getElementById('SoNgaySX').value;
+        if (ngaySx != '' && soNgaySx != '') {
+            var phanTram = ngaySx / soNgaySx * 100;
+            document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
+            $("#tiendoNgay").text(Math.round(phanTram, 2));
 
+        }
+    }
+    function onClickNgaySxEdit() {
+        var ngaySx = document.getElementById('nsx_edit').value;
+        var soNgaySx = document.getElementById('SoNgaySX').value;
+        if (ngaySx != '' && soNgaySx != '') {
+            var phanTram = ngaySx / soNgaySx * 100;
+            document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
+            $("#tiendoNgay").text(Math.round(phanTram, 2));
+
+        }
+    }
     function onChangeAll() {
         var table = document.getElementById("Mytable").rows.length;
         table = table - 2;
