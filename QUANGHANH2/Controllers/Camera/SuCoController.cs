@@ -136,35 +136,32 @@ namespace QUANGHANH2.Controllers.Camera
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
+            DateTime dtStart = dateStart == "" ? DateTime.Parse("1800/1/1") : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
+            DateTime dtEnd = dateEnd == "" ? DateTime.MaxValue : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null).AddHours(23).AddMinutes(59);
+
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             string query = @"select r.room_name, r.camera_available, ci.disk_status, r.disk_saveable, d.department_name, ci.reason, ci.incident_id, ci.start_time, ci.end_time, ci.incident_camera_quantity
                     from Room r join Department d on r.department_id = d.department_id
-                    join CameraIncident ci on r.room_id = ci.room_id where";
-
+                    join CameraIncident ci on r.room_id = ci.room_id where ci.start_time BETWEEN @dtStart AND @dtEnd AND ";
 
             if (!depart.Equals("") || !room.Equals("") || !(dateStart.Equals("") || dateEnd.Equals("")))
             {
-                if (!dateStart.Equals("") && !dateEnd.Equals(""))
-                {
-                    DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    dtEnd = dtEnd.AddHours(23);
-                    dtEnd = dtEnd.AddMinutes(59);
-                    query += " i.start_time BETWEEN '" + dtStart + "' AND '" + dtEnd + "' AND ";
-                }
                 if (!depart.Equals("")) query += " d.department_name LIKE @depart AND ";
                 if (!room.Equals("")) query += " r.room_name LIKE @room AND ";
             }
             query = query.Substring(0, query.Length - 5);
-            List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(query,
+            List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                 new SqlParameter("depart", '%' + depart + '%'),
-                new SqlParameter("room", '%' + room + '%')).ToList();
-            int totalrows = incidents.Count;
-            int totalrowsafterfiltering = incidents.Count;
-            //sorting
-            incidents = incidents.OrderBy(sortColumnName + " " + sortDirection).ToList<IncidentDB>();
-            //paging
-            incidents = incidents.Skip(start).Take(length).ToList<IncidentDB>();
+                new SqlParameter("room", '%' + room + '%'),
+                new SqlParameter("dtStart", dtStart),
+                new SqlParameter("dtEnd", dtEnd)).ToList();
+
+            int totalrows = DBContext.Database.SqlQuery<int>(query.Replace("r.room_name, r.camera_available, ci.disk_status, r.disk_saveable, d.department_name, ci.reason, ci.incident_id, ci.start_time, ci.end_time, ci.incident_camera_quantity", "count(*)"),
+                new SqlParameter("depart", '%' + depart + '%'),
+                new SqlParameter("room", '%' + room + '%'),
+                new SqlParameter("dtStart", dtStart),
+                new SqlParameter("dtEnd", dtEnd)).FirstOrDefault();
+
             foreach (IncidentDB item in incidents)
             {
                 item.stringStartTime = item.start_time.ToString("HH:mm dd/MM/yyyy");
@@ -173,7 +170,7 @@ namespace QUANGHANH2.Controllers.Camera
                 if (item.time_different.ToString() == "") item.editAble = item.incident_id + "^false";
                 else item.editAble = item.incident_id + "^true";
             }
-            return Json(new { success = true, data = incidents, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, data = incidents, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
         //[Route("camera/su-co/export")]
