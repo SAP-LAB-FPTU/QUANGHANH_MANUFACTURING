@@ -641,7 +641,7 @@ namespace QUANGHANH2.Controllers.TCLD
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     dbct.Rollback();
                 }

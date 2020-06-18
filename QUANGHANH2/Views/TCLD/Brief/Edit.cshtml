@@ -162,7 +162,7 @@
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.SoDienThoai, "Số điện thoại", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            @Html.EditorFor(model => model.SoDienThoai, new { htmlAttributes = new { @class = "form-control", @placeholder = "Số điện thoại", @type = "number", @autocomplete = "off" , @pattern="[0-9]{11}"}})
+                                            @Html.EditorFor(model => model.SoDienThoai, new { htmlAttributes = new { @class = "form-control", @placeholder = "Số điện thoại", @type = "number", @autocomplete = "off", @pattern = "[0-9]{11}" } })
                                             @Html.ValidationMessageFor(model => model.SoDienThoai, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -820,5 +820,21 @@
             });
         });
 
+        $("#save").click(function () {
+            for (var i = 0; i < $("input[name='tuNgayDenNgay']").length; i++) {
+                let string_date = $("input[name='tuNgayDenNgay']").eq(i).val();
+                let don_vi = $("input[name='donVi']").eq(i).val();
+                if (don_vi != "" && string_date == "") {
+                    errorAlert("Dòng thứ " + (i + 1) + " chưa nhập ngày");
+                        return false;
+                }
+                if (string_date != "") {
+                    if (string_date.split("-").length != 2) {
+                        errorAlert("Dòng thứ " + (i + 1) + " không đúng");
+                        return false;
+                    }
+                }
+            }
+        })
     </script>
 }

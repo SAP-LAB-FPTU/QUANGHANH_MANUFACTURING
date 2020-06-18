@@ -100,14 +100,6 @@
                                         </select>
                                     </div>
                                     <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                        <select class="form-control" id="equipmentAttach-search">
-                                            <option value="" disabled selected>Chọn loại thiết bị </option>
-                                            <option value="0">Thiết bị to</option>
-                                            <option value="1">Thiết bị nhỏ</option>
-
-                                        </select>
-                                    </div>
-                                    <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
 
                                         <input list="listid-s" type="text" placeholder="Tìm kiếm theo nhà cung cấp" name="name" class='form-control' id="supplier-search"
                                                multiple />
@@ -271,7 +263,7 @@
 
 <div class="modal fade" id="myadd">
     <div class="card">
-        <div class="card-content">
+        <div class="card-content" id="add_content">
             <div class="modal-header center-align">
                 <h3 id="title" style="display:none !important">2</h3>
                 <h3>Thêm</h3>
@@ -696,8 +688,10 @@
 
                     //
                     {
-                        "data": "equipmentId", "visible":bol,"render": function (data) {
-                return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
+                        "data": "equipmentId", "visible": bol, "render": function (data) {
+                            var temp = data.split(" ").join("^");
+                            temp = temp.split(".").join("_");
+                return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + temp + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
             },
                         "orderable": false,
                         "searchable":false,
@@ -792,6 +786,7 @@
                     success: function (data) {
                         dataTable.ajax.reload();
                         successAlert('Cập nhật thành công', '');
+                        notice();
                         $("#pre-load").hide();
 
                     },
@@ -804,6 +799,29 @@
             }
 
             return false;
+        }
+
+        function notice() {
+            $.ajax({
+                url: "/Notifi/CDVT",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
+                    result.result.forEach(function (key) {
+                        var string = "<a href ='#'><span class='btn-floating btn-large red'><i class='large material-icons' style='font-size:40px'>error</i></span><span class='mail-contnet'><h5><b>" + key.pb + "</b></h5><span class='mail-desc black-text' style='font-size:14px !important'>" + key.title + "</span><span class='blue-text' style='font-size:13px !important'>" + key.remain_title + "</span></span></a>";
+                        $('#message').append(string);
+                    });
+                    if (result.result.length != 0) {
+                        $('#number').attr('class', 'notification-badge');
+                        $('#number').html(result.result.length);
+                    } else {
+                        $('#message').attr('class', 'center');
+                        $('#message').html('Bạn chưa có thông báo nào');
+                    }
+                },
+                error: function (errormessage) {
+                }
+            });
         }
 
         function Change(form) {
@@ -908,9 +926,12 @@
                         if (ck == "1") {
                             window.location.reload(true);
                         }
+                        ClearInput();
+                        //window.location.reload(true);
                         $("#pre-load").hide("slow", function () {
                         });
                         $("#pre-load").hide();
+
                         if (data.success == false) {
                             errorAlert('Lỗi', 'Có lỗi xảy ra');
                         } else {
@@ -937,6 +958,28 @@
 
             return false;
         }
+
+        function ClearInput() {
+            $("#save").closest('form').find("input[type=text], textarea, input[type=number]").val("");
+            $("#save2").closest('form').find("input[type=text], textarea, input[type=number]").val("");
+            var x = document.getElementById("myTable").rows.length;
+            for (i = 2; i < x; i++) {
+                document.getElementById("myTable").deleteRow(i);
+            }
+            x = document.getElementById("myTableSupVTDK").rows.length;
+            for (i = 2; i < x; i++) {
+                document.getElementById("myTableSupVTDK").deleteRow(i);
+            }
+            x = document.getElementById("myTableSup").rows.length;
+            for (i = 2; i < x; i++) {
+                document.getElementById("myTableSup").deleteRow(i);
+            }
+            //$("#myTableSupVTDK").find("input[type=text], textarea").val("");
+            //$("#myTableSup").find("input[type=text], textarea").val("");
+            //$("#myTable").find("input[type=text], textarea").val("");
+            //$("#cateTB").find("input[type=text], textarea").val("");
+        }
+
         function Edit(url) {
             $("#pre-load").show("slow", function () {
             });

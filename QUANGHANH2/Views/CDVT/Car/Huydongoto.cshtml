@@ -620,8 +620,10 @@
 
                     //
                     {
-                        "data": "equipmentId", "visible":bol,"render": function (data) {
-                return "<a class='waves-effect waves-light btn-small blue modal-trigger btnSelect2' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
+                        "data": "equipmentId", "visible": bol, "render": function (data) {
+                            var temp = data.split(" ").join("^");
+                            temp = temp.split(".").join("_");
+                return "<a class='waves-effect waves-light btn-small blue modal-trigger btnSelect2' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + temp + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
             },
                         "orderable": false,
                         "searchable":false,
@@ -770,7 +772,6 @@
             //$("#pre-load").show();
             $("#pre-load").show("slow", function () {
             });
-            $("#pre-load").css("z-index", "99999");
             $.validator.unobtrusive.parse(form);
 
             if ($(form).valid()) {

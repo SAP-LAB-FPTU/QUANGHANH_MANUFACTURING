@@ -26,9 +26,8 @@
                     <div class="col l4 m4 s12">
                         <div class="row">
                             <div class="col l10 m10 s12 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo tên phòng ban" class='form-control' id="depart-search" />
+                                <input type="text" placeholder="Tìm kiếm theo đơn vị trực thuộc" list="department_name" class='form-control' id="depart-search" />
                             </div>
-
                         </div>
                     </div>
                     <div class="col l4 m4 s12">
@@ -46,7 +45,7 @@
                     <div class="col l4 m4 s12">
                         <div class="row">
                             <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo tên hệ thống" class='form-control' id="room-search" />
+                                <input type="text" placeholder="Tìm kiếm theo tên hệ thống" list="room_name" class='form-control' id="room-search" />
                             </div>
                         </div>
                     </div>
@@ -86,10 +85,17 @@
     </div>
 </div>
 
-<datalist id="department_name">
-    @foreach (var item in ViewBag.departments)
+<datalist id="room_name">
+    @foreach (var item in ViewBag.room_name)
     {
-        <option>@item.room_name</option>
+        <option>@item</option>
+    }
+</datalist>
+
+<datalist id="department_name">
+    @foreach (var item in ViewBag.department_name)
+    {
+        <option>@item</option>
     }
 </datalist>
 <!-- ============================================================== -->
@@ -239,7 +245,7 @@
                         <div class="col s12 m12">
                             <div class="form-group">
                                 <label for="date">Hệ thống : </label>
-                                <input required type="text" list="department_name" class="form-control" value="" id="department-add" />
+                                <input required type="text" list="room_name" class="form-control" value="" id="department-add" />
                             </div>
                         </div>
                         <div class="col s12 m6">
@@ -447,7 +453,7 @@
                         <div class="col s12 m12">
                             <div class="form-group">
                                 <label for="id">Hệ thống : </label>
-                                <input required type="text" list="department_name" class="form-control" value="" id="department-edit" />
+                                <input required type="text" list="room_name" class="form-control" value="" id="department-edit" />
                             </div>
                         </div>
                     </div>

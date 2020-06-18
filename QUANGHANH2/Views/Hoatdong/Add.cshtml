@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col s6">
                     <div class="form-group">
-                        <label>Mã thiết bị</label>
+                        <label class="notempty" id="eid">Mã thiết bị *</label>
                         @*@Html.LabelFor(model => model.equipmentId, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.equipmentId, new { htmlAttributes = new { @class = "form-control" } })
@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Tên thiết bị</label>
+                        <label class="notempty" id="ename">Tên thiết bị *</label>
                         @*@Html.LabelFor(model => model.equipment_name, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.equipment_name, new { htmlAttributes = new { @class = "form-control" } })
@@ -267,10 +267,10 @@
                     </tr>
                     <tr>
                         <td>1</td>
-                        <td><input type='text' name="id" class='form-control' placeholder='Mã đặc tính' /></td>
-                        <td><input type='text' name="name" class='form-control' placeholder='Tên đặc tính' /></td>
-                        <td><input type='text' name="value" class='form-control' placeholder='Thông số' /></td>
-                        <td><input type='text' name="unit" class='form-control' placeholder='ĐVT' /></td>
+                        <td><input type='text' name="id" class='form-control add_new' placeholder='Mã đặc tính' /></td>
+                        <td><input type='text' name="name" class='form-control add_new' placeholder='Tên đặc tính' /></td>
+                        <td><input type='text' name="value" class='form-control add_new' placeholder='Thông số' /></td>
+                        <td><input type='text' name="unit" class='form-control add_new' placeholder='ĐVT' /></td>
                         <td><button type="button" class="btnSelect btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
                     </tr>
                 </table>
@@ -321,8 +321,8 @@
                     </tr>
                     <tr>
                         <td>1</td>
-                        <td><input list="supDK" type='text' name="nameSup" class='form-control' placeholder='Tên vật ưu' /></td>
-                        <td><input type="number" name="quantity" class="form-control" placeholder="Số lượng" /></td>
+                        <td><input list="supDK" type='text' name="nameSup" class='form-control add_new' placeholder='Tên vật ưu' /></td>
+                        <td><input type="number" name="quantity" class="form-control add_new" placeholder="Số lượng" /></td>
                         <td><button type="button" class="btnSelect3 btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
                     </tr>
                 </table>
@@ -347,8 +347,8 @@
                     </tr>
                     <tr>
                         <td>1</td>
-                        <td><input list="Suplist2" type='text' name="nameVTDK" class='form-control' placeholder='Tên vật ưu' /></td>
-                        <td><input type="number" name="quantityVTDK" class="form-control" placeholder="Số lượng" /></td>
+                        <td><input list="Suplist2" type='text' name="nameVTDK" class='form-control add_new' placeholder='Tên vật ưu' /></td>
+                        <td><input type="number" name="quantityVTDK" class="form-control add_new" placeholder="Số lượng" /></td>
                         <td><button type="button" class="btnSelect4 btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
                     </tr>
                 </table>
@@ -427,7 +427,27 @@
 
     }
 
+    $("#equipmentId").change(function () {
+        if ($("#equipmentId").val() == "") {
+            $("#eid").css('color', 'red');
+        } else {
+            $("#eid").css('color', 'black');
+        }
+    });
+
+    $("#equipment_name").change(function () {
+        if ($("#equipment_name").val() == "") {
+            $("#ename").css('color', 'red');
+        } else {
+            $("#ename").css('color', 'black');
+        }
+    });
+
     $(document).ready(function () {
+
+        if ($("#equipmentId").val() == "" || $("#equipment_name").val() == "") {
+            $(".notempty").css('color', 'red');
+        }
 
         var ck = $("#title").text();
         if (ck.endsWith('1')) {

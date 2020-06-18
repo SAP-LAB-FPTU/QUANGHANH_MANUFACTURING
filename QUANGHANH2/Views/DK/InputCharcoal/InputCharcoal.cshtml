@@ -14,28 +14,33 @@
 }))
 {
     <style>
-        /*.first-row {
-            padding-left: 86px !important;
-        }*/
+        .width-fit {
+            height: 40px !important;
+            width: 100% !important;
+        }
+
+        .button-border {
+            border-radius: 4px;
+        }
     </style>
     <div class="card">
         <div class="card-content">
             <div class="row">
                 <h3 class="center">NHẬP LIỆU SẢN XUẤT</h3>
                 <div class="row center">
-                    <div class="input-field col s3 m3 l1"></div>
+                    <div class="input-field col s1 m1 l2"></div>
                     <div class="input-field col s3 m3 l2">
-                        <button class="modal-trigger btn btn-small darken-2 blue" data-target="addsnlv" id="butsnlv">Nhập ngày sản xuất</button>
-                        <button class="modal-trigger btn btn-small darken-2 blue" data-target="editsnlv" id="butsnlvedit">Sửa ngày sản xuất</button>
+                        <button class="modal-trigger btn btn-small darken-2 blue width-fit button-border" data-target="addsnlv" id="butsnlv">Nhập ngày sản xuất</button>
+                        <button class="modal-trigger btn btn-small darken-2 blue width-fit button-border" data-target="editsnlv" id="butsnlvedit">Sửa ngày sản xuất</button>
                     </div>
                     <div class="input-field col l2 m2 s2">
-                        <input readonly id="ngaySanXuat" name="ngaySX" value="@ViewBag.NgaySX" required autocomplete="off" class="form-control center" onchange="percentOnchange()" placeholder="NgàySX" onchange="onChangeAll()" />
+                        <input readonly id="ngaySanXuat" name="ngaySX" value="@ViewBag.NgaySX" required autocomplete="off" class="form-control center width-fit" onchange="percentOnchange()" placeholder="NgàySX" onchange="onChangeAll()" />
                     </div>
                     <div class="input-field col l2 m2 s2">
-                        <input id="SoNgaySX" class="form-control center" value="@ViewBag.SoNgaySX" readonly />
+                        <input id="SoNgaySX" class="form-control center width-fit" value="@ViewBag.SoNgaySX" readonly />
                     </div>
                     <div class="input-field col l2 m2 s2">
-                        <input id="phanTramNgay" class="form-control center" value="" readonly />
+                        <input id="phanTramNgay" class="form-control center width-fit" value="" readonly />
                     </div>
                     <div class="input-field col s3 m3 l3"></div>
                 </div>
@@ -133,13 +138,13 @@
         <div class="card-content">
             <div class="modal-header row">
                 <h4 class="col l6">Nhập ngày sản xuất hôm nay</h4>
-                <input id="nsx" class="form-control col l6" min="0" type="number" />
+                <input id="nsx" class="form-control col l6" type="text" />
                 @*<button id="butluu">Lưu</button>*@
             </div>
 
         </div>
         <div class="modal-footer">
-            <button id="butluu" class="btn blue modal-close">Lưu</button>
+            <button id="butluu" onclick="onClickNgaySx()" class="btn blue modal-close">Lưu</button>
         </div>
     </div>
 </div>
@@ -149,13 +154,13 @@
         <div class="card-content">
             <div class="modal-header row">
                 <h4 class="col l6">Chỉnh sửa ngày sản xuất hôm nay</h4>
-                <input id="nsx_edit" class="form-control col l6" min="0" type="number" />
+                <input id="nsx_edit" class="form-control col l6" type="text" />
                 @*<button id="butluu">Lưu</button>*@
             </div>
 
         </div>
         <div class="modal-footer">
-            <button id="butluu_edit" class="btn blue modal-close">Lưu</button>
+            <button id="butluu_edit" onclick="onClickNgaySxEdit()" class="btn blue modal-close">Lưu</button>
         </div>
     </div>
 </div>
@@ -175,7 +180,10 @@
         var SoNgaySX = document.getElementById('SoNgaySX').value;
         var phanTramNgay = document.getElementById('phanTramNgay').value;
     });
-
+    window.onbeforeunload = function () {
+        $('li .active').removeClass('active')
+        return 'You have unsaved changes!';
+    }
 
     $(document).ready(function () {
         $("#process").hide();
@@ -193,19 +201,62 @@
             }
         });
         $('#cbx-px').change(function () {
-            if ($('#cbx-px').val() != null) {
+            if ($('#cbx-px').val() != null && $('#dateInput').val() != null) {
                 $('#changeButton').removeAttr("disabled");
             }
         })
     })
 
-    //$(".datepicker-here").keydown(function (e) {
-    //    if (e.KeyCode != 8) {
-    //        e.preventDefault()
-    //    } else {
-    //        $(this).val("");
-    //    }
-    //});
+    var ngaysx = $('#SoNgaySX').val();
+    if ($("#nsx").val() >= 1 && $("#nsx").val() <= parseInt(ngaysx)) {
+        $("#butluu").prop('disabled', true)
+    }
+    if ($("#nsx_edit").val() >= 1 && $("#nsx_edit").val() <= parseInt(ngaysx)) {
+        $("#butluu_edit").prop('disabled', true)
+    }
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    accept_Keycode_table = [96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 8, 9, 37, 40, 39, 38, 190]
+
+    $(document).on('keydown', '#Mytable input', function (e) {
+        //alert('e')
+        if (!accept_Keycode_table.includes(e.keyCode)) {
+            e.preventDefault()
+        }
+    });
+
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    accept_Keycode = [96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 8, 37, 40, 39, 38]
+    $("#nsx").keydown(function (e) {
+        if (!accept_Keycode.includes(e.keyCode)) {
+            e.preventDefault()
+        }
+    })
+    $("#nsx").keyup(function (e) {
+        let temp = $("#nsx").val();
+        if (temp >= 1 && temp <= parseInt(ngaysx)) {
+            $("#butluu").prop('disabled', false)
+        } else {
+            $("#butluu").prop('disabled', true)
+        }
+    })
+    $("#nsx_edit").keydown(function (e) {
+        if (!accept_Keycode.includes(e.keyCode)) {
+            e.preventDefault()
+        }
+    })
+    $("#nsx_edit").keyup(function (e) {
+        let temp = $("#nsx_edit").val();
+        if (temp >= 1 && temp <= parseInt(ngaysx)) {
+            $("#butluu_edit").prop('disabled', false)
+        } else {
+            $("#butluu_edit").prop('disabled', true)
+        }
+    })
+    //////////////////////////////////////////////////////////////////////////////////////////////
 
     $("#butsnlvedit").click(function () {
         var data = $('#ngaySanXuat').val();
@@ -224,6 +275,15 @@
             success: function (response) {
                 if (response.success == true) {
                     $("#ngaySanXuat").val($("#nsx").val());
+                    $("#ngaySXhientai").text($("#nsx").val());
+                    var ngaySx = document.getElementById('ngaySanXuat').value;
+                    var soNgaySx = document.getElementById('SoNgaySX').value;
+                    if (ngaySx != '' && soNgaySx != '') {
+                        var phanTram = ngaySx / soNgaySx * 100;
+                        document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
+                        $("#tiendoNgay").text(Math.round(phanTram, 2));
+                    }
+                    $("#ngaySXconlai").text(soNgaySx - ngaySx);
                     successAlert(response.title, response.message);
                     $("#butsnlv").hide();
                     $("#butsnlvedit").show();
@@ -236,7 +296,7 @@
             }
         });
     });
-    
+
     $("#butluu_edit").click(function () {
         $("#pre-load").show();
         $.ajax({
@@ -249,6 +309,15 @@
             success: function (response) {
                 if (response.success == true) {
                     $("#ngaySanXuat").val($("#nsx_edit").val());
+                    $("#ngaySXhientai").text($("#nsx_edit").val());
+                    var ngaySx = document.getElementById('ngaySanXuat').value;
+                    var soNgaySx = document.getElementById('SoNgaySX').value;
+                    if (ngaySx != '' && soNgaySx != '') {
+                        var phanTram = ngaySx / soNgaySx * 100;
+                        document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
+                        $("#tiendoNgay").text(Math.round(phanTram, 2));
+                    }
+                    $("#ngaySXconlai").text(soNgaySx - ngaySx);
                     successAlert(response.title, response.message);
                     $("#butsnlv").hide();
                     $("#butsnlvedit").show();
@@ -263,84 +332,108 @@
     });
 
     function change() {
-        confirmAlert("Dữ liệu chưa được lưu?", "Xác nhận đổi",
-            function () {
-                $("#pre-load").show("slow", function () {
-                });
-                $("#pre-load").css("z-index", "99999");
-                var px_value = $('#cbx-px').val();
-                var date = $('#dateInput').val();
-                var ca_value = $('#cbx-group').val();
-                $.ajax({
-                    type: 'POST',
-                    url: '/change',
-                    dataType: 'json',
-                    data: { 'px_value': px_value, 'date': date, 'ca_value': ca_value },
-                    success: function (response) {
-                        if (response.success == true) {
-                            $("#process").show();
-                            $("#ngaySanXuat").val(response.NgaySX);
-                            $("#ngaySXhientai").text(response.NgaySX);
-                            $("#SoNgaySX").val(response.dateSX);
-                            $("#tongNgaySX").text(response.dateSX);
-                            $("#dayMonthDis").empty();
-                            var check = $('#ngaySanXuat').val();
-                            if (check == "0") {
-                                $("#butsnlv").click();
-                                $("#butsnlvedit").hide();
-                            }
-                            else {
-                                $("#butsnlv").hide();
-                                $("#butsnlvedit").show();
-                            }
-                            document.getElementById("dayMonthDis").innerHTML = "Ngày " + response.ngay + " tháng " + response.thang;
-                            $("#monthDis").empty();
-                            document.getElementById("monthDis").innerHTML = "Tháng " + response.thang;
-                            $("#table-input-body").empty();
-                            for (i = 0; i < response.listSXLoad.length; i++) {
-                                $("#table-input-body").append("<tr>");
-                                $("#table-input-body").append('<th><input class="center" readonly style="border:none" name="tenTieuChi" value="' + response.listSXLoad[i].TenTieuChi + '"/></th>');
-                                $("#table-input-body").append("<th>" + response.listSXLoad[i].DonViDo + "</th>");
-                                $("#table-input-body").append('<td><input class="center" required value="' + response.listSXLoad[i].SanLuong + '" id="thucHien' + i + '" autocomplete="off" style="border:none" name="thucHien" onchange="THOnchange(' + i + ')"/></td>' +
-                                    '<td><input class="center" required value="' + response.listSXLoad[i].KeHoach + '"   id="keHoach' + i + '" autocomplete="off" style="border:none" name="keHoach" onchange="KHOnchange(' + i + ')" /></td>' +
-                                    '<td><input class="center" value="' + response.listSXLoad[i].chenhlech + '" readonly id="chenhLech' + i + '" autocomplete="off" style="border:none" name="chenhLech" /></td>' +
-                                    '<td><input class="center" value="' + response.listSXLoad[i].percentDay + '" readonly id="phanTramHT' + i + '" autocomplete="off" style="border:none" name="phanTramHT" /></td>' +
-                                    '<td><input class="center"  readonly id="luyKe' + i + '" value="' + response.listSXLoad[i].luyke_temp + '" autocomplete="off" style="border:none" name="luyKe" />' +
-                                    ' <input type="hidden" id="luyKeHidden' + i + '" value="' + response.listSXLoad[i].LuyKe + '" /></td > ' +
-                                    '<td><input class="center" required value="' + response.listSXLoad[i].KHDC + '"  id="KHDC' + i + '"  autocomplete="off" style="border:none" name="KHDC" onchange="KHDCOnchange(' + i + ')"/></td>' +
-                                    '<td><input class="center" value="' + response.listSXLoad[i].percentMonth + '" readonly id="phanTramTD' + i + '"  autocomplete="off" style="border:none" name="phanTramTD" /></td>' +
-                                    '<td><input class="center" value="' + response.listSXLoad[i].tong + '" readonly id="tong' + i + '" autocomplete="off" style="border:none" name="tong" /></td>' +
-                                    '<td><input class="center" value="' + response.listSXLoad[i].OneDay + '" readonly id="motNgay' + i + '" autocomplete="off" style="border:none" name="motNgay" /></td>' +
-                                    '<td><input class="center"  value="' + response.listSXLoad[i].GhiChu + '"  autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>');
-                                $("#table-input-body").append("</tr>");
-                            }
-                            $("#pre-load").hide("slow", function () {
-                            });
-                            var ngaySx = document.getElementById('ngaySanXuat').value;
-                            var soNgaySx = document.getElementById('SoNgaySX').value;
-                            if (ngaySx != '' && soNgaySx != '') {
-                                var phanTram = ngaySx / soNgaySx * 100;
-                                document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
-                                $("#tiendoNgay").text(Math.round(phanTram, 2));
+        if ($('#dateInput').val() != "") {
+            confirmAlert("Dữ liệu chưa được lưu?", "Xác nhận đổi",
+                function () {
+                    $("#pre-load").show("slow", function () {
+                    });
+                    $("#pre-load").css("z-index", "99999");
+                    var px_value = $('#cbx-px').val();
+                    var date = $('#dateInput').val();
+                    var ca_value = $('#cbx-group').val();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/change',
+                        dataType: 'json',
+                        data: { 'px_value': px_value, 'date': date, 'ca_value': ca_value },
+                        success: function (response) {
+                            if (response.success == true) {
+                                $("#process").show();
+                                $("#ngaySanXuat").val(response.NgaySX);
+                                $("#ngaySXhientai").text(response.NgaySX);
+                                $("#SoNgaySX").val(response.dateSX);
+                                $("#tongNgaySX").text(response.dateSX);
+                                $("#dayMonthDis").empty();
+                                var check = $('#ngaySanXuat').val();
+                                if (check == "0") {
+                                    $("#butsnlv").click();
+                                    $("#butsnlvedit").hide();
+                                }
+                                else {
+                                    $("#butsnlv").hide();
+                                    $("#butsnlvedit").show();
+                                }
+                                document.getElementById("dayMonthDis").innerHTML = "Ngày " + response.ngay + " tháng " + response.thang;
+                                $("#monthDis").empty();
+                                document.getElementById("monthDis").innerHTML = "Tháng " + response.thang;
+                                $("#table-input-body").empty();
+                                for (i = 0; i < response.listSXLoad.length; i++) {
+                                    $("#table-input-body").append("<tr>");
+                                    $("#table-input-body").append('<th><input class="center" readonly style="border:none" name="tenTieuChi" value="' + response.listSXLoad[i].TenTieuChi + '"/></th>');
+                                    $("#table-input-body").append("<th>" + response.listSXLoad[i].DonViDo + "</th>");
+                                    $("#table-input-body").append('<td><input class="center" required value="' + response.listSXLoad[i].SanLuong + '" id="thucHien' + i + '" autocomplete="off" style="border:none" name="thucHien" onchange="THOnchange(' + i + ')"/></td>' +
+                                        '<td><input class="center" required value="' + response.listSXLoad[i].KeHoach + '"   id="keHoach' + i + '" autocomplete="off" style="border:none" name="keHoach" onchange="KHOnchange(' + i + ')" /></td>' +
+                                        '<td><input class="center" value="' + response.listSXLoad[i].chenhlech + '" readonly id="chenhLech' + i + '" autocomplete="off" style="border:none" name="chenhLech" /></td>' +
+                                        '<td><input class="center" value="' + response.listSXLoad[i].percentDay + '" readonly id="phanTramHT' + i + '" autocomplete="off" style="border:none" name="phanTramHT" /></td>' +
+                                        '<td><input class="center"  readonly id="luyKe' + i + '" value="' + response.listSXLoad[i].luyke_temp + '" autocomplete="off" style="border:none" name="luyKe" />' +
+                                        ' <input type="hidden" id="luyKeHidden' + i + '" value="' + response.listSXLoad[i].LuyKe + '" /></td > ' +
+                                        '<td><input class="center" required value="' + response.listSXLoad[i].KHDC + '"  id="KHDC' + i + '"  autocomplete="off" style="border:none" name="KHDC" onchange="KHDCOnchange(' + i + ')"/></td>' +
+                                        '<td><input class="center" value="' + response.listSXLoad[i].percentMonth + '" readonly id="phanTramTD' + i + '"  autocomplete="off" style="border:none" name="phanTramTD" /></td>' +
+                                        '<td><input class="center" value="' + response.listSXLoad[i].tong + '" readonly id="tong' + i + '" autocomplete="off" style="border:none" name="tong" /></td>' +
+                                        '<td><input class="center" value="' + response.listSXLoad[i].OneDay + '" readonly id="motNgay' + i + '" autocomplete="off" style="border:none" name="motNgay" /></td>' +
+                                        '<td><input class="center"  value="' + response.listSXLoad[i].GhiChu + '"  autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>');
+                                    $("#table-input-body").append("</tr>");
+                                }
+                                $("#pre-load").hide("slow", function () {
+                                });
+                                var ngaySx = document.getElementById('ngaySanXuat').value;
+                                var soNgaySx = document.getElementById('SoNgaySX').value;
+                                if (ngaySx != '' && soNgaySx != '') {
+                                    var phanTram = ngaySx / soNgaySx * 100;
+                                    document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
+                                    $("#tiendoNgay").text(Math.round(phanTram, 2));
 
+                                }
+                                $("#ngaySXconlai").text(response.dateSX - response.NgaySX);
+                                ngaysx = $('#SoNgaySX').val();
+                                successAlert("Thành công", "Đổi thành công");
+                            } else {
+                                $("#pre-load").hide("slow", function () {
+                                });
+                                $("#table-input-body").empty();
+                                errorAlert("Có lỗi", response.message)
                             }
-                            $("#ngaySXconlai").text(response.dateSX - response.NgaySX);
-                            successAlert("Thành công", "Đổi thành công");
-                        } else {
-                            $("#pre-load").hide("slow", function () {
-                            });
-                            $("#table-input-body").empty();
-                            errorAlert("Có lỗi", response.message)
+
                         }
-
-                    }
-                })
-            }
-        );
+                    })
+                }
+            );
+        } else {
+            errorAlert("Có lỗi", "Chưa nhập ngày");
+        }
     }
 </script>
 <script>
+    function onClickNgaySx() {
+        var ngaySx = document.getElementById('nsx').value;
+        var soNgaySx = document.getElementById('SoNgaySX').value;
+        if (ngaySx != '' && soNgaySx != '') {
+            var phanTram = ngaySx / soNgaySx * 100;
+            document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
+            $("#tiendoNgay").text(Math.round(phanTram, 2));
 
+        }
+    }
+    function onClickNgaySxEdit() {
+        var ngaySx = document.getElementById('nsx_edit').value;
+        var soNgaySx = document.getElementById('SoNgaySX').value;
+        if (ngaySx != '' && soNgaySx != '') {
+            var phanTram = ngaySx / soNgaySx * 100;
+            document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
+            $("#tiendoNgay").text(Math.round(phanTram, 2));
+
+        }
+    }
     function onChangeAll() {
         var table = document.getElementById("Mytable").rows.length;
         table = table - 2;

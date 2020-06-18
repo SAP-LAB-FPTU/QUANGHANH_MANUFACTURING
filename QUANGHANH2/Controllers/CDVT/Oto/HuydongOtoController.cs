@@ -206,11 +206,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             }
             string query = @"SELECT e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,case when ec.Equipment_category_name is null then '' else ec.Equipment_category_name end as 'Equipment_category_name',a.sokhung, a.somay, a.GPS
                             from Equipment e left outer join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id , Department d, Status s, Car a
-                             where a.equipmentId = e.equipmentId and d.department_id != 'kho' and e.department_id = d.department_id AND e.current_Status = s.statusid AND e.usedDay between @start_time1 and @start_time2 and ";
+                             where a.equipmentId = e.equipmentId and d.department_id != 'kho' and e.department_id = d.department_id AND e.current_Status = s.statusid AND ";
 
 
-            if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !quality.Equals("") || !category.Equals("") || !sup.Equals(""))
+            if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !quality.Equals("") || !category.Equals("") || !sup.Equals("") || dateStart != "" || dateEnd != "")
             {
+                if (dateStart != "" || dateEnd != "") query += "AND e.usedDay between @start_time1 and @start_time2 ";
                 if (!equipmentId.Equals("")) query += "e.equipmentId LIKE @equipmentId AND ";
                 if (!equipmentName.Equals("")) query += "e.equipment_name LIKE @equipment_name AND ";
                 if (!department.Equals("")) query += "d.department_id = @department_name AND ";

@@ -44,7 +44,7 @@
                 </select>
             </div>
             <div class="input-field col l1 m12 s12">
-                <a class="btn blue darken-2 right" onclick="getInformation()">XEM</a>
+                <a class="btn blue darken-2 right" id="view-btn">XEM</a>
             </div>
             <div class="input-field col l12 m12 s12">
                 <div class="center" id="message"></div>
@@ -77,6 +77,37 @@
 
 <!--ADD ROW-->
 <script>
+
+    var editing = false
+    $("#EditSaveBtn").click(function () {
+        $("#EditSaveBtn").prop('disabled', true);
+        editing = false;
+    });
+    $("#addRowsbtn").click(function () {
+        $("#EditSaveBtn").prop('disabled', false);
+        editing = true;
+    })
+    function getNumberOfRows() {
+        return $("#aspectDetailTable tbody").find('tr').length
+    }
+
+    window.onbeforeunload = function () {
+        $('li .active').removeClass('active')
+        return 'You have unsaved changes!';
+    }
+
+    $("#view-btn").click(function () {
+        let rownum = getNumberOfRows()
+        if (editing == true && rownum!=0) {
+            r = confirm('Thay đổi hiện tại chưa được lưu lại! Đồng ý chuyển trang?')
+            if (r == true) {
+                getInformation()
+            } 
+        } else {
+            getInformation()
+        }
+    })
+    ///////////////////////////////////////////////////////////////////////////////////
     $(document).ready(function () {
         $('select').formSelect();
         mode = 0;
@@ -120,7 +151,12 @@
                 }
             }
         })
-
+        ////////////////////////////
+        let rownum = getNumberOfRows()
+        if (rownum == 0) {
+            $("#EditSaveBtn").prop('disabled', true);
+        }
+        editing = true;
     })
 </script>
 
@@ -147,7 +183,7 @@
                 content = "";
                 let reponseListPhongBanTieuChi = response.listPhongBanTieuChi;
                 for (let i = 0; i < reponseListPhongBanTieuChi.length; i++) {
-                    content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a class='btn red darken-2' onclick='deleteInformation(" + reponseListPhongBanTieuChi[i].MaTieuChi + ")'>Xóa</a></td><tr>";
+                    content += "<tr><td class=\"aspectName\" id=\"" + reponseListPhongBanTieuChi[i].MaTieuChi + "\">" + reponseListPhongBanTieuChi[i].TenTieuChi + "</td><td><a class='btn red darken-2' onclick='deleteInformation(" + reponseListPhongBanTieuChi[i].MaTieuChi + ",this)'>Xóa</a></td><tr>";
                 }
                 tableBody.html(content);
                 ViewMode();
@@ -160,7 +196,9 @@
 
                 //Add message
                 $("#message").html(response.message);
-
+                $("#EditSaveBtn").prop('disabled', false);
+                editing = false;
+                $('#pre-load').hide();
                 $('#pre-load').hide();
             },
             error: function (response) {
@@ -281,7 +319,7 @@
         })
     }
 
-    function deleteInformation(MaTieuChi) {
+    function deleteInformation(MaTieuChi,el) {
         var year = $("#yearCalendar").val().split(" ")[1];
         confirmAlert("Xác nhận xóa?", "Bạn sẽ xóa tất cả kế hoạch của tiêu chí này trong năm " + year, function () {
             setTimeout($('#pre-load').show(), 3000);
@@ -296,7 +334,8 @@
                 },
                 success: function (response) {
                     successAlert('Thành công', 'Thao tác thành công');
-                    getInformation();
+                    //getInformation();
+                    $(el).parent().parent().hide();
                     $('#pre-load').hide();
                 },
                 error: function (response) {
@@ -351,6 +390,10 @@
             selectTag.value = '-1';
             toastr.error('Tiêu chí này đã tồn tại', '');
         }
+    }
+    window.onbeforeunload = function () {
+        $('li .active').removeClass('active')
+        return 'You have unsaved changes!';
     }
 </script>
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>

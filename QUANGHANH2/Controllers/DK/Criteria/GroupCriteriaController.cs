@@ -147,9 +147,8 @@ namespace QUANGHANH2.Controllers.DK.Criteria
             }
             catch (Exception e)
             {
-
+                return Json(new { error = true, title = "Lỗi", message = "Nhóm tiêu chí đang được sử dụng nên không thể xóa." });
             }
-            return null;
         }
     }
 }

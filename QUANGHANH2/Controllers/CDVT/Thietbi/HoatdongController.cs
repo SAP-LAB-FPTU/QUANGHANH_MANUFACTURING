@@ -360,23 +360,35 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             if (department != "" || quality != "" || dateStart != "" || dateEnd != "" || category != "" || sup != "" || att != "")
             {
                 if (department != "")
+                {
                     query += "AND d.department_id LIKE @department_name ";
-                queryTotalRow += "AND d.department_id LIKE @department_name ";
+                    queryTotalRow += "AND d.department_id LIKE @department_name ";
+                }
                 if (quality != "")
+                {
                     query += "AND e.quality_type LIKE @quality ";
-                queryTotalRow += "AND e.quality_type LIKE @quality ";
+                    queryTotalRow += "AND e.quality_type LIKE @quality ";
+                }
                 if (dateStart != "" || dateEnd != "")
+                {
                     query += "AND e.usedDay between @start_time1 and @start_time2 ";
-                queryTotalRow += "AND e.usedDay between @start_time1 and @start_time2 ";
+                    queryTotalRow += "AND e.usedDay between @start_time1 and @start_time2 ";
+                }
                 if (category != "")
+                {
                     query += "AND ec.Equipment_category_name LIKE @cate ";
-                queryTotalRow += "AND ec.Equipment_category_name LIKE @cate ";
+                    queryTotalRow += "AND ec.Equipment_category_name LIKE @cate ";
+                }
                 if (sup != "")
+                {
                     query += "AND e.supplier LIKE @sup ";
-                queryTotalRow += "AND e.supplier LIKE @sup ";
+                    queryTotalRow += "AND e.supplier LIKE @sup ";
+                }
                 if (att != "")
+                {
                     query += "AND e.isAttach like @att ";
-                queryTotalRow += "AND e.isAttach like @att ";
+                    queryTotalRow += "AND e.isAttach like @att ";
+                }
             }
             query += " except " +
                 "select e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
@@ -495,6 +507,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 ViewBag.listDepeartment = listDepeartment;
                 ViewBag.listCategory = listCategory;
                 List<SelectListItem> listQuality = new List<SelectListItem>();
+                listQuality.Add(new SelectListItem { Text = "Không có chất lượng", Value = "" });
                 listQuality.Add(new SelectListItem { Text = "A", Value = "A" });
                 listQuality.Add(new SelectListItem { Text = "B", Value = "B" });
                 listQuality.Add(new SelectListItem { Text = "C", Value = "C" });
@@ -856,6 +869,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         [HttpGet]
         public ActionResult Edit(string id)
         {
+            if (id != null)
+            {
+                id = id.Replace("^", " ");
+                id = id.Replace("_", ".");
+            }
             List<SelectListItem> listDepeartment = new List<SelectListItem>();
             List<SelectListItem> listCategory = new List<SelectListItem>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -898,6 +916,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 //listForSelect.Add(new SelectListItem { Text = "Your text", Value = "TRAI" });
                 ViewBag.listStatus = listStatus;
                 List<SelectListItem> listQuality = new List<SelectListItem>();
+                listQuality.Add(new SelectListItem { Text = "Không có chất lượng", Value = "" });
                 listQuality.Add(new SelectListItem { Text = "A", Value = "A" });
                 listQuality.Add(new SelectListItem { Text = "B", Value = "B" });
                 listQuality.Add(new SelectListItem { Text = "C", Value = "C" });

@@ -21,7 +21,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
         [Route("phong-cdvt/quyet-dinh/thanh-ly")]
         public ActionResult Index()
         {
-            return View("/Views/CDVT/Quyet_dinh/Quyet_dinh_thanh_ly.cshtml");
+            return View("/Views/CDVT/Quyetdinh/ThanhLy/DanhSach.cshtml");
         }
 
 
