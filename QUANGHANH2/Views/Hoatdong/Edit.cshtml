@@ -321,10 +321,13 @@
 
         var elms = document.querySelectorAll("[id='date_import']");
         var temp = elms[1].value;
-        var arr = temp.split("/");
-        var arr1 = arr[2].split(" ");
-        var data = arr[1] + "/" + arr[0] + "/" + arr1[0];
-        document.getElementById("import_fix").value = data;
+        var arr, arr1, data;
+        if (temp != "") {
+            arr = temp.split("/");
+            arr1 = arr[2].split(" ");
+            data = arr[1] + "/" + arr[0] + "/" + arr1[0];
+            document.getElementById("import_fix").value = data;
+        }
 
         elms = document.querySelectorAll("[id='durationOfInspection']");
         temp = elms[1].value;
