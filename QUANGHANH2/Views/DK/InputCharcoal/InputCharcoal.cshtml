@@ -16,6 +16,11 @@
     <style>
         .width-fit {
             height: 40px !important;
+            width: 100% !important;
+        }
+
+        .button-border {
+            border-radius: 4px;
         }
     </style>
     <div class="card">
@@ -25,8 +30,8 @@
                 <div class="row center">
                     <div class="input-field col s1 m1 l2"></div>
                     <div class="input-field col s3 m3 l2">
-                        <button class="modal-trigger btn btn-small darken-2 blue width-fit" data-target="addsnlv" id="butsnlv">Nhập ngày sản xuất</button>
-                        <button class="modal-trigger btn btn-small darken-2 blue width-fit" data-target="editsnlv" id="butsnlvedit">Sửa ngày sản xuất</button>
+                        <button class="modal-trigger btn btn-small darken-2 blue width-fit button-border" data-target="addsnlv" id="butsnlv">Nhập ngày sản xuất</button>
+                        <button class="modal-trigger btn btn-small darken-2 blue width-fit button-border" data-target="editsnlv" id="butsnlvedit">Sửa ngày sản xuất</button>
                     </div>
                     <div class="input-field col l2 m2 s2">
                         <input readonly id="ngaySanXuat" name="ngaySX" value="@ViewBag.NgaySX" required autocomplete="off" class="form-control center width-fit" onchange="percentOnchange()" placeholder="NgàySX" onchange="onChangeAll()" />
@@ -209,6 +214,21 @@
     if ($("#nsx_edit").val() >= 1 && $("#nsx_edit").val() <= parseInt(ngaysx)) {
         $("#butluu_edit").prop('disabled', true)
     }
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    accept_Keycode_table = [96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 8, 9, 37, 40, 39, 38, 190]
+
+    $(document).on('keydown', '#Mytable input', function (e) {
+        //alert('e')
+        if (!accept_Keycode_table.includes(e.keyCode)) {
+            e.preventDefault()
+        }
+    });
+
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     accept_Keycode = [96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 8, 37, 40, 39, 38]
     $("#nsx").keydown(function (e) {
         if (!accept_Keycode.includes(e.keyCode)) {
