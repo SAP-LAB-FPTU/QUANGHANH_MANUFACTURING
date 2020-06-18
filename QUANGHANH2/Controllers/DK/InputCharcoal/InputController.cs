@@ -194,9 +194,9 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
 
                     if (checkList.Count <= 0)
                     {
-                        string tempquery = date.Split('/')[0] == "01" ? "" : "+ d.SanLuong";
+                        string tempquery = date.Split('/')[0] == "01" ? "" : "+ (case when d.SanLuong is null then 0 else d.SanLuong end)";
                         string tempCa = date.Split('/')[0] == "01" ? " and h.Ca <= @ca" : "";
-                        string sql = @"select a.MaTieuChi, a.TenTieuChi,case when b.luyke is null then 0 else b.luyke  " + tempquery + @" 'LuyKe', a.DonViDo from 
+                        string sql = @"select a.MaTieuChi, a.TenTieuChi,case when b.luyke is null then 0 else b.luyke " + tempquery + @" end 'LuyKe', a.DonViDo from 
                                         (select pb.MaTieuChi, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left 
                                         join TieuChi tc 
                                         on pb.MaTieuChi = tc.MaTieuChi 
@@ -230,7 +230,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     }
                     else
                     {
-                        string tempquery = date.Split('/')[0] == "01" ? "" : "+ d.SanLuong";
+                        string tempquery = date.Split('/')[0] == "01" ? "" : "+ (case when d.SanLuong is null then 0 else d.SanLuong end)";
                         string tempCa = date.Split('/')[0] == "01" ? " and h.Ca <= @ca" : "";
                         string query = @"select c.MaTieuChi, case when a.GhiChu is null then '' else a.GhiChu end 'GhiChu',
                                         case when a.NgaySanXuat is null then 0 else a.NgaySanXuat end 'NgaySanXuat', 
