@@ -133,7 +133,7 @@
         <div class="card-content">
             <div class="modal-header row">
                 <h4 class="col l6">Nhập ngày sản xuất hôm nay</h4>
-                <input id="nsx" class="form-control col l6" type="text" />
+                <input id="nsx" class="form-control col l6" type="number" />
                 @*<button id="butluu">Lưu</button>*@
             </div>
 
@@ -149,7 +149,7 @@
         <div class="card-content">
             <div class="modal-header row">
                 <h4 class="col l6">Chỉnh sửa ngày sản xuất hôm nay</h4>
-                <input id="nsx_edit" class="form-control col l6" type="text" />
+                <input id="nsx_edit" class="form-control col l6" type="number" />
                 @*<button id="butluu">Lưu</button>*@
             </div>
 
@@ -255,6 +255,15 @@
             success: function (response) {
                 if (response.success == true) {
                     $("#ngaySanXuat").val($("#nsx").val());
+                    $("#ngaySXhientai").text($("#nsx").val());
+                    var ngaySx = document.getElementById('ngaySanXuat').value;
+                    var soNgaySx = document.getElementById('SoNgaySX').value;
+                    if (ngaySx != '' && soNgaySx != '') {
+                        var phanTram = ngaySx / soNgaySx * 100;
+                        document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
+                        $("#tiendoNgay").text(Math.round(phanTram, 2));
+                    }
+                    $("#ngaySXconlai").text(soNgaySx - ngaySx);
                     successAlert(response.title, response.message);
                     $("#butsnlv").hide();
                     $("#butsnlvedit").show();
@@ -280,6 +289,15 @@
             success: function (response) {
                 if (response.success == true) {
                     $("#ngaySanXuat").val($("#nsx_edit").val());
+                    $("#ngaySXhientai").text($("#nsx_edit").val());
+                    var ngaySx = document.getElementById('ngaySanXuat').value;
+                    var soNgaySx = document.getElementById('SoNgaySX').value;
+                    if (ngaySx != '' && soNgaySx != '') {
+                        var phanTram = ngaySx / soNgaySx * 100;
+                        document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
+                        $("#tiendoNgay").text(Math.round(phanTram, 2));
+                    }
+                    $("#ngaySXconlai").text(soNgaySx - ngaySx);
                     successAlert(response.title, response.message);
                     $("#butsnlv").hide();
                     $("#butsnlvedit").show();
@@ -351,9 +369,9 @@
                                 var ngaySx = document.getElementById('ngaySanXuat').value;
                                 var soNgaySx = document.getElementById('SoNgaySX').value;
                                 if (ngaySx != '' && soNgaySx != '') {
-                                var phanTram = ngaySx / soNgaySx * 100;
-                                document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
-                                $("#tiendoNgay").text(Math.round(phanTram, 2));
+                                    var phanTram = ngaySx / soNgaySx * 100;
+                                    document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
+                                    $("#tiendoNgay").text(Math.round(phanTram, 2));
 
                                 }
                                 $("#ngaySXconlai").text(response.dateSX - response.NgaySX);
