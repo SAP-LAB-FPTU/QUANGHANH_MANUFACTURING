@@ -197,28 +197,28 @@
                             return "<a class='modal-trigger get-photo' href='#myphoto2' data-room='" + data.room_id + "'>" + data.room_id + "</a>";
                     }
                 },
-                { "data": "room_name", "name": "room_name", },
-                { "data": "department_name", "name": "department_name", },
-                { "data": "login_information", "name": "login_information", },
+                { "data": "room_name", "name": "room_name", className: "room_name" },
+                { "data": "department_name", "name": "department_name", className: "department_name" },
+                { "data": "login_information", "name": "login_information", className: "login_information" },
                 {
-                    "data": {}, "name": "camera_quantity", render: function (data) {
+                    "data": {}, "name": "camera_quantity", className: "camera_quantity", render: function (data) {
                         return data.camera_available + "/" + data.camera_quantity;
                     }
                 },
-                { "data": "disk_status", "name": "disk_status" },
+                { "data": "disk_status", "name": "disk_status", className: "disk_status" },
                 {
-                    "data": "capacity", "name": "capacity", render: function (data) {
+                    "data": "capacity", "name": "capacity", className: "capacity", render: function (data) {
                         return data;
                     }
                 },
-                { "data": "series", "name": "series" },
+                { "data": "series", "name": "series", className: "series" },
                 {
                     "data": "disk_saveable", "name": "disk_saveable", render: function (data) {
                         return data ? "Có" : "Không";
                     }
                 },
                 { "data": "signal_loss_reason", "name": "signal_loss_reason" },
-                { "data": "note", "name": "note" },
+                { "data": "note", "name": "note", className: "note" },
                 @if (rights.Contains("199"))
                 {
                     @Html.Raw("{ data: \"room_id\", orderable: false, render: function (data) { return \"<a class='waves-effect waves-light btn blue darken-2 modal-trigger edit-room' href='#myedit' data-room='\" + data + \"'>Sửa</a>\"; } },");
@@ -616,15 +616,15 @@
                 datatype: 'json',
                 success: function (data) {
                     if (data.success) {
-                        $('#mydelete').modal();
                         dataTable.ajax.reload();
                         successAlert(data.message);
+                        $("#mydelete .modal-close").click();
                     }
                     else {
                         errorAlert(data.message);
-                        $('#pre-load').hide();
                     }
                     room_id = "";
+                    $('#pre-load').hide();
                 }
             })
         })
@@ -682,7 +682,7 @@
                         <div class="col s12 m12">
                             <div class="form-group">
                                 <label>Dung lượng ổ cứng : </label>
-                                <input required type="number" min="1" class="form-control" value="1" id="capacity-edit" />
+                                <input required type="text" class="form-control" id="capacity-edit" />
                             </div>
                         </div>
                         <div class="col s12 m12">
@@ -703,16 +703,15 @@
 
     <script>
         $(document).on('click', '.edit-room', function () {
-            let $tr = $(this).closest('tr').children('td');
-            $('#location-edit').val($tr.eq(0).text());
-            $('#department-edit').val($tr.eq(1).data('department'));
-            $('#login-edit').val($tr.eq(2).text());
-            $('#quantity-edit').val($tr.eq(3).text().split('/')[1]);
-            $('#status-edit').val($tr.eq(4).text());
-            let capacity = $tr.eq(5).text().endsWith('GB') ? $tr.eq(5).text().split(' ')[0] : ($tr.eq(5).text().split(' ')[0] * 1000)
-            $('#capacity-edit').val(capacity);
-            $('#resial-edit').val($tr.eq(6).text());
-            $('#note-edit').val($tr.eq(9).text());
+            let $tr = $(this).closest('tr');
+            $('#location-edit').val($tr.find(".room_name").text());
+            $('#department-edit').val($tr.find(".department_name").text());
+            $('#login-edit').val($tr.find(".login_information").text());
+            $('#quantity-edit').val($tr.find(".camera_quantity").text().split('/')[1]);
+            $('#status-edit').val($tr.find(".disk_status").text());
+            $('#capacity-edit').val($tr.find(".capacity").text());
+            $('#resial-edit').val($tr.find(".series").text());
+            $('#note-edit').val($tr.find(".note").text());
         })
 
         $('#save-edit').click(function () {
