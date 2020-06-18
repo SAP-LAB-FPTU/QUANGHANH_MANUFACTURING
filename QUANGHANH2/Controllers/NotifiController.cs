@@ -33,10 +33,8 @@ namespace QUANGHANH2.Controllers
                                         title = "Mã thiết bị " + x.equipmentId,
                                         name = x.equipment_name,
                                         date = x.durationOfInspection.Value
-                                    }).FirstOrDefault();
+                                    }).ToList();
             var hanBaohiem = (from equip in db.Equipments.Where(x => x.durationOfInsurance <= testTime && x.durationOfInsurance >= DateTime.Now)
-                              join cate in db.Equipment_category_attribute.Where(x => x.Equipment_category_attribute_name == "Số máy" || x.Equipment_category_attribute_name == "Số khung")
-                                 on equip.Equipment_category_id equals cate.Equipment_category_id
                               select new main
                               {
                                   type = 1,
@@ -44,18 +42,24 @@ namespace QUANGHANH2.Controllers
                                   title = "Mã thiết bị " + equip.equipmentId,
                                   name = equip.equipment_name,
                                   date = equip.durationOfInsurance.Value
-                              }).OrderBy(x => x.date).FirstOrDefault();
-            if (hanBaohiem != null)
+                              }).OrderBy(x => x.date).ToList();
+            if (hanBaohiem.Count > 0 )
             {
-                TimeSpan span = hanBaohiem.date.Subtract(DateTime.Now.Date);
-                hanBaohiem.remain_title = "Còn " + span.TotalDays + " ngày đến hạn bảo hiểm";
-                total.Add(hanBaohiem);
+                foreach(main m in hanBaohiem)
+                {
+                    TimeSpan span = m.date.Subtract(DateTime.Now.Date);
+                    m.remain_title = "Còn " + span.TotalDays + " ngày đến hạn bảo hiểm";
+                    total.Add(m);
+                }
             }
-            if (hanDangKiem != null)
+            if (hanDangKiem.Count > 0 )
             {
-                TimeSpan span = hanDangKiem.date.Subtract(DateTime.Now.Date);
-                hanDangKiem.remain_title = "Còn " + span.TotalDays + " ngày đến hạn kiểm định";
-                total.Add(hanDangKiem);
+                foreach(main m in hanDangKiem)
+                {
+                    TimeSpan span = m.date.Subtract(DateTime.Now.Date);
+                    m.remain_title = "Còn " + span.TotalDays + " ngày đến hạn kiểm định";
+                    total.Add(m);
+                }
             }
             return Json(new { result = total }, JsonRequestBehavior.AllowGet);
         }
