@@ -507,6 +507,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 ViewBag.listDepeartment = listDepeartment;
                 ViewBag.listCategory = listCategory;
                 List<SelectListItem> listQuality = new List<SelectListItem>();
+                listQuality.Add(new SelectListItem { Text = "Không có chất lượng", Value = "" });
                 listQuality.Add(new SelectListItem { Text = "A", Value = "A" });
                 listQuality.Add(new SelectListItem { Text = "B", Value = "B" });
                 listQuality.Add(new SelectListItem { Text = "C", Value = "C" });
@@ -868,6 +869,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         [HttpGet]
         public ActionResult Edit(string id)
         {
+            if (id != null)
+            {
+                id = id.Replace("^", " ");
+                id = id.Replace("_", ".");
+            }
             List<SelectListItem> listDepeartment = new List<SelectListItem>();
             List<SelectListItem> listCategory = new List<SelectListItem>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -910,6 +916,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 //listForSelect.Add(new SelectListItem { Text = "Your text", Value = "TRAI" });
                 ViewBag.listStatus = listStatus;
                 List<SelectListItem> listQuality = new List<SelectListItem>();
+                listQuality.Add(new SelectListItem { Text = "Không có chất lượng", Value = "" });
                 listQuality.Add(new SelectListItem { Text = "A", Value = "A" });
                 listQuality.Add(new SelectListItem { Text = "B", Value = "B" });
                 listQuality.Add(new SelectListItem { Text = "C", Value = "C" });

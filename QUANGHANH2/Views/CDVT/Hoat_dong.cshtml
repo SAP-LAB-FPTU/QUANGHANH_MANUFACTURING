@@ -688,8 +688,10 @@
 
                     //
                     {
-                        "data": "equipmentId", "visible":bol,"render": function (data) {
-                return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + data + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
+                        "data": "equipmentId", "visible": bol, "render": function (data) {
+                            var temp = data.split(" ").join("^");
+                            temp = temp.split(".").join("_");
+                return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + temp + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
             },
                         "orderable": false,
                         "searchable":false,
@@ -784,6 +786,7 @@
                     success: function (data) {
                         dataTable.ajax.reload();
                         successAlert('Cập nhật thành công', '');
+                        notice();
                         $("#pre-load").hide();
 
                     },
@@ -796,6 +799,29 @@
             }
 
             return false;
+        }
+
+        function notice() {
+            $.ajax({
+                url: "/Notifi/CDVT",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
+                    result.result.forEach(function (key) {
+                        var string = "<a href ='#'><span class='btn-floating btn-large red'><i class='large material-icons' style='font-size:40px'>error</i></span><span class='mail-contnet'><h5><b>" + key.pb + "</b></h5><span class='mail-desc black-text' style='font-size:14px !important'>" + key.title + "</span><span class='blue-text' style='font-size:13px !important'>" + key.remain_title + "</span></span></a>";
+                        $('#message').append(string);
+                    });
+                    if (result.result.length != 0) {
+                        $('#number').attr('class', 'notification-badge');
+                        $('#number').html(result.result.length);
+                    } else {
+                        $('#message').attr('class', 'center');
+                        $('#message').html('Bạn chưa có thông báo nào');
+                    }
+                },
+                error: function (errormessage) {
+                }
+            });
         }
 
         function Change(form) {

@@ -46,7 +46,7 @@
                                             <th>STT</th>
                                             <th>Mã thiết bị</th>
                                             <th>Tên thiết bị</th>
-                                           
+
                                             <th>Mã vật tư</th>
                                             <th>Tên vật tư</th>
                                             <th>Định mức</th>
@@ -65,15 +65,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col s12 m2">
-                    </div>
-                    <div class="col s12 m4">
-                    </div>
-                    <div class="col s12 m4">
-                    </div>
-                    <div class="col s12 m2">
-                        <a id="submit" class="btn" style="width:225px;background-color:#273146;margin-bottom:20px">Duyệt Xin Cấp</a>
-                    </div>
+
+                    <a id="submit" class="btn right" style="width:225px;background-color:#273146;margin-bottom:20px">Duyệt Xin Cấp</a>
                 </div>
             </div>
         </div>
@@ -82,11 +75,11 @@
 @section scripts{
     <script src="~/js/Rowspan/jquery.rowspanizer.js"></script>
     <script src="~/js/Rowspan/jquery.rowspanizer.min.js"></script>
- <script src="~/assets/libs/jquery.rowspanizer.js"></script>
+    <script src="~/assets/libs/jquery.rowspanizer.js"></script>
     <script>
         var lists = [];
-        
-       
+
+
 
         var datatable;
         $(document).ready(function () {
@@ -95,22 +88,22 @@
             $('#department_search').on('change', function () {
                 if (getCurrDepId() == 'CV') drawTableOfCDVT();
                 else
-                drawTable();
+                    drawTable();
             });
             $("#submit").click(function () {
                 var xincap = [];
                 for (var i = 0; i < lists.length; i++) {
-                   var newData = {}
+                    var newData = {}
                     newData.SupplyQuantity = $("#quantity-" + lists[i].id).val();
                     newData.Id = lists[i].id;
                     xincap.push(newData);
                 }
                 var data = {
-                values:xincap,
-                departmentid: getCurrDepId(),
+                    values: xincap,
+                    departmentid: getCurrDepId(),
 
 
-            };
+                };
                 confirmAlert('Xác nhận', 'Duyệt đơn xin cấp mới cho đơn vị này?', function () {
                     $("#pre-load").show();
                     $.ajax({
@@ -165,26 +158,26 @@
             var x = $('#table-wrapper2').find("#summary_tbl");
             if (x.length == 0) {
                 $("#summary_tblcdvt").remove();
-                 $('#table-wrapper2').append(' <table id="summary_tbl" class="table-bordered striped table-responsive centered" sstyle="margin-top:30px; text-align:center;width:100%;">'+
-                                    '<thead>'+
-                                        '<tr>'+
-                                            '<th>STT</th>'+
-                                            '<th>Mã thiết bị</th>'+
-                                            '<th>Tên thiết bị</th>'+
-                                            '<th>Mã vật tư</th>'+
-                                            '<th>Tên vật tư</th>' +
-                                            '<th>Định mức chung</th>'+
-                                            '<th>Kế hoạch phân xưởng</th>'+
-                                            '<th>Số lượng còn</th>'+
-                                            '<th>CĐVT duyệt</th>'+
-                                            '<th>Đơn vị tính</th>'+
-                                       '</tr>'+
-                                    '</thead>'+
-                                   ' <tbody>'+
-                                   '</tbody>');
+                $('#table-wrapper2').append(' <table id="summary_tbl" class="table-bordered striped table-responsive centered" sstyle="margin-top:30px; text-align:center;width:100%;">' +
+                    '<thead>' +
+                    '<tr>' +
+                    '<th>STT</th>' +
+                    '<th>Mã thiết bị</th>' +
+                    '<th>Tên thiết bị</th>' +
+                    '<th>Mã vật tư</th>' +
+                    '<th>Tên vật tư</th>' +
+                    '<th>Định mức chung</th>' +
+                    '<th>Kế hoạch phân xưởng</th>' +
+                    '<th>Số lượng còn</th>' +
+                    '<th>CĐVT duyệt</th>' +
+                    '<th>Đơn vị tính</th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    ' <tbody>' +
+                    '</tbody>');
             }
             else
-            $("#summary_tbl").find("tbody").empty();
+                $("#summary_tbl").find("tbody").empty();
             let index = 1;
             $.ajax({
                 url: "/phong-cdvt/xin-cap-vat-tu-sctx-summary/all",
@@ -205,94 +198,94 @@
                                 "<td>" + (i + 1) + "</td>" +
                                 "<td>" + resultArray[i].Equipmentid + "</td>" +
                                 "<td>" + resultArray[i].equipment_name + "</td>" +
-                               
+
                                 "<td>" + resultArray[i].SupplyId + "</td>" +
                                 "<td>" + resultArray[i].SupplyName + "</td>" +
                                 "<td>" + resultArray[i].SupplyAverage + "</td>" +
                                 "<td>" + resultArray[i].SupplyPlan + "</td>" +
                                 "<td>" + resultArray[i].SupplyRemaining + "</td>" +
-                                "<td><input type='number' id='quantity-" + resultArray[i].Id+ "'class='form-control'></td>" +
+                                "<td><input type='number' id='quantity-" + resultArray[i].Id + "'class='form-control'></td>" +
                                 "<td>" + resultArray[i].SupplyUnit + "</td>" +
                                 "</tr>";
                             lists.push({
                                 "id": resultArray[i].Id,
                                 "Equipmentid": resultArray[i].Equipmentid,
                                 "SupplyId": resultArray[i].SupplyId,
-                               
+
                             });
                         }
                         $("#summary_tbl").find("tbody").append(tbData);
                         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         $('#summary_tbl').rowspanizer({
-                                 columns: [1,2]
-                          });                  
-                         $('.rowspan-combine').css({
-                'vertical-align':'middle'
-            })
+                            columns: [1, 2]
+                        });
+                        $('.rowspan-combine').css({
+                            'vertical-align': 'middle'
+                        })
                     }
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     $("#pre-load").hide();
                 }
             });
         }
-         function drawTableOfCDVT() {
+        function drawTableOfCDVT() {
             $("#pre-load").show();
-           
+
             let index = 1;
-             $.ajax({
-                 url: "/phong-cdvt/xin-cap-vat-tu-sctx-summary/all",
-                 type: "GET",
-                 data: {
-                     departmentId: getCurrDepId()
-                 },
-                 datatype: "json",
-                 cache: false,
-                 success: function (response) {
-                     resultArray = response.data;
-                     $("#summary_tbl").remove();
-                     $('#table-wrapper2').append(' <table id="summary_tblcdvt" class="table-bordered striped table-responsive centered" sstyle="margin-top:30px; text-align:center;width:100%;">'+
-                                    '<thead>'+
-                                        '<tr>'+
-                                            '<th>STT</th>'+
-                                             '<th>Mã vật tư</th>'+
-                                            '<th>Tên vật tư</th>'+
-                                             '<th>Kế hoạch phân xưởng</th>'+
-                                            '<th>CĐVT duyệt</th>'+
-                                            '<th>Đơn vị tính</th>'+
-                                       '</tr>'+
-                                    '</thead>'+
-                                   ' <tbody>'+
-                                   '</tbody>');
-                     var table = $('#here_table').children();
+            $.ajax({
+                url: "/phong-cdvt/xin-cap-vat-tu-sctx-summary/all",
+                type: "GET",
+                data: {
+                    departmentId: getCurrDepId()
+                },
+                datatype: "json",
+                cache: false,
+                success: function (response) {
+                    resultArray = response.data;
+                    $("#summary_tbl").remove();
+                    $('#table-wrapper2').append(' <table id="summary_tblcdvt" class="table-bordered striped table-responsive centered" sstyle="margin-top:30px; text-align:center;width:100%;">' +
+                        '<thead>' +
+                        '<tr>' +
+                        '<th>STT</th>' +
+                        '<th>Mã vật tư</th>' +
+                        '<th>Tên vật tư</th>' +
+                        '<th>Kế hoạch phân xưởng</th>' +
+                        '<th>CĐVT duyệt</th>' +
+                        '<th>Đơn vị tính</th>' +
+                        '</tr>' +
+                        '</thead>' +
+                        ' <tbody>' +
+                        '</tbody>');
+                    var table = $('#here_table').children();
 
-                     var tbData = "";
-                     if (resultArray.length == 0) {
-                         $("#summary_tblcdvt").find("tbody").append("<tr><td colspan=\"6\"><i>Không có dữ liệu</i></td></tr>")
-                     } else {
-                         for (var i = 0; i < resultArray.length; i++) {
-                             tbData += "<tr>" +
-                                 "<td>" + (i + 1) + "</td>" +
-                                 "<td>" + resultArray[i].SupplyId + "</td>" +
-                                 "<td>" + resultArray[i].SupplyName + "</td>" +
-                                 "<td>" + resultArray[i].SupplyPlan + "</td>" +
-                                 "<td><input type='text' id='quantity-" + resultArray[i].Id+ "' class='form-control'> </td>" +
-                                 "<td>" + resultArray[i].SupplyUnit + "</td>" +
-                                 "</tr>";
-                             lists.push({
-                                 "id": resultArray[i].Id,
-                              
-                                 "quantity": ""
-                             });
-                         }
-                         $("#summary_tblcdvt").find("tbody").append(tbData);
-                         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    var tbData = "";
+                    if (resultArray.length == 0) {
+                        $("#summary_tblcdvt").find("tbody").append("<tr><td colspan=\"6\"><i>Không có dữ liệu</i></td></tr>")
+                    } else {
+                        for (var i = 0; i < resultArray.length; i++) {
+                            tbData += "<tr>" +
+                                "<td>" + (i + 1) + "</td>" +
+                                "<td>" + resultArray[i].SupplyId + "</td>" +
+                                "<td>" + resultArray[i].SupplyName + "</td>" +
+                                "<td>" + resultArray[i].SupplyPlan + "</td>" +
+                                "<td><input type='text' id='quantity-" + resultArray[i].Id + "' class='form-control'> </td>" +
+                                "<td>" + resultArray[i].SupplyUnit + "</td>" +
+                                "</tr>";
+                            lists.push({
+                                "id": resultArray[i].Id,
 
-                         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        
-                     }
-                      $("#pre-load").hide();
-                 }
-             });
+                                "quantity": ""
+                            });
+                        }
+                        $("#summary_tblcdvt").find("tbody").append(tbData);
+                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                    }
+                    $("#pre-load").hide();
+                }
+            });
         }
         function handleSupplyQuantityChange(domId, id) {
             let value = 0;
