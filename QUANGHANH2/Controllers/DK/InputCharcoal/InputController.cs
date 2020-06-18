@@ -457,7 +457,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             string sqltmep = @"select *
                                 from ThucHienTheoNgay
                                 where Ngay = @date";
-            ThucHienTheoNgay thtt = db.Database.SqlQuery<ThucHienTheoNgay>(sqltmep, new SqlParameter("date", date_sql)).FirstOrDefault();
+            ThucHienTheoNgay thtt = db.Database.SqlQuery<ThucHienTheoNgay>(sqltmep, new SqlParameter("date", date_sql2)).FirstOrDefault();
             string temp = "0";
             if (thtt != null)
             {
