@@ -194,7 +194,9 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
 
                     if (checkList.Count <= 0)
                     {
-                        string sql = @"select a.MaTieuChi, a.TenTieuChi,case when b.luyke is null then 0 else b.luyke + (case when d.SanLuong is null then 0 else d.SanLuong end) end 'LuyKe', a.DonViDo from 
+                        string tempquery = date.Split('/')[0] == "01" ? "" : "+ d.SanLuong";
+                        string tempCa = date.Split('/')[0] == "01" ? " and h.Ca <= @ca" : "";
+                        string sql = @"select a.MaTieuChi, a.TenTieuChi,case when b.luyke is null then 0 else b.luyke  " + tempquery + @" 'LuyKe', a.DonViDo from 
                                         (select pb.MaTieuChi, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left 
                                         join TieuChi tc 
                                         on pb.MaTieuChi = tc.MaTieuChi 
@@ -206,7 +208,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         join ThucHien_TieuChi_TheoNgay t 
                                         on h.HeaderID = t.HeaderID 
                                         join ThucHienTheoNgay ttt on h.NgayID = ttt.NgayID
-                                        where h.MaPhongBan = @px and ttt.Ngay between @start and @date) as a 
+                                        where h.MaPhongBan = @px and ttt.Ngay between @start and @date " + tempCa + @") as a 
                                         group by a.MaPhongBan,a.MaTieuChi) as b 
                                         on a.MaTieuChi = b.MaTieuChi 
                                         
@@ -217,7 +219,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
 										join ThucHienTheoNgay tht on headTH.NgayID = tht.NgayID
                                         where headTH.MaPhongBan = @px and tht.Ngay = @date2 and headTH.Ca <= @ca) as d on b.MaTieuChi = d.MaTieuChi
 
-                                        order by a.MaTieuChi ASC"; 
+                                        order by a.MaTieuChi ASC";
                         listSX = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
                                                                     new SqlParameter("start", year + "-" + month + "-1"),
                                                                     new SqlParameter("date", date_sql),
@@ -228,10 +230,12 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     }
                     else
                     {
+                        string tempquery = date.Split('/')[0] == "01" ? "" : "+ d.SanLuong";
+                        string tempCa = date.Split('/')[0] == "01" ? " and h.Ca <= @ca" : "";
                         string query = @"select c.MaTieuChi, case when a.GhiChu is null then '' else a.GhiChu end 'GhiChu',
                                         case when a.NgaySanXuat is null then 0 else a.NgaySanXuat end 'NgaySanXuat', 
                                         case when a.SanLuong is null then 0 else a.SanLuong end 'SanLuong', 
-                                        case when b.luyke is null then 0 else b.luyke + (case when d.SanLuong is null then 0 else d.SanLuong end) end 'LuyKe', c.DonViDo, c.TenTieuChi from
+                                        case when b.luyke is null then 0 else b.luyke " + tempquery + @" end 'LuyKe', c.DonViDo, c.TenTieuChi from
                                         (select thDay.MaTieuChi, thDay.GhiChu, tht.NgaySanXuat, thDay.SanLuong from header_ThucHienTheoNgay headTH
                                         inner
                                         join ThucHien_TieuChi_TheoNgay thDay
@@ -247,7 +251,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         on h.HeaderID = t.HeaderID
                                         left join ThucHienTheoNgay thtn 
 										on h.NgayID = thtn.NgayID 
-                                        where h.MaPhongBan = @px and thtn.Ngay between @start and @date) as a
+                                        where h.MaPhongBan = @px and thtn.Ngay between @start and @date " + tempCa + @") as a
                                         group by a.MaPhongBan,a.MaTieuChi) as b
                                         on a.MaTieuChi = b.MaTieuChi
 
@@ -255,12 +259,13 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         where pb.MaPhongBan = @px and pb.Thang = @thang and pb.Nam = @nam) as c
                                         on b.MaTieuChi = c.MaTieuChi
 
-                                        left outer join (select thDay.MaTieuChi, thDay.GhiChu, tht.NgaySanXuat, thDay.SanLuong from header_ThucHienTheoNgay headTH
+                                        left outer join (select thDay.MaTieuChi, tht.NgaySanXuat, SUM(case when thDay.SanLuong is null then 0 else thDay.SanLuong end) as 'SanLuong' from header_ThucHienTheoNgay headTH
                                         inner
                                         join ThucHien_TieuChi_TheoNgay thDay
                                         on headTH.HeaderID = thDay.HeaderID
 										join ThucHienTheoNgay tht on headTH.NgayID = tht.NgayID
-                                        where headTH.MaPhongBan = @px and tht.Ngay = @date2 and headTH.Ca <= @ca) as d on b.MaTieuChi = d.MaTieuChi
+                                        where headTH.MaPhongBan = @px and tht.Ngay = @date2 and headTH.Ca <= @ca
+										group by thDay.MaTieuChi, tht.NgaySanXuat) as d on b.MaTieuChi = d.MaTieuChi
 
                                         order by a.MaTieuChi";
                         listSX = db.Database.SqlQuery<SanXuat>(query, new SqlParameter("px", px_value),
