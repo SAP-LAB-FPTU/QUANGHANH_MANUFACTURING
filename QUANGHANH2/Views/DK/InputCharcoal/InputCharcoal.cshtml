@@ -207,7 +207,7 @@
         })
     })
 
-    var ngaysx = '@ViewBag.SoNgaySX'
+    var ngaysx = $('#SoNgaySX').val();
     if ($("#nsx").val() >= 1 && $("#nsx").val() <= parseInt(ngaysx)) {
         $("#butluu").prop('disabled', true)
     }
@@ -395,6 +395,7 @@
 
                                 }
                                 $("#ngaySXconlai").text(response.dateSX - response.NgaySX);
+                                ngaysx = $('#SoNgaySX').val();
                                 successAlert("Thành công", "Đổi thành công");
                             } else {
                                 $("#pre-load").hide("slow", function () {
