@@ -616,15 +616,15 @@
                 datatype: 'json',
                 success: function (data) {
                     if (data.success) {
-                        $('#mydelete').modal();
                         dataTable.ajax.reload();
                         successAlert(data.message);
+                        $("#mydelete .modal-close").click();
                     }
                     else {
                         errorAlert(data.message);
-                        $('#pre-load').hide();
                     }
                     room_id = "";
+                    $('#pre-load').hide();
                 }
             })
         })
