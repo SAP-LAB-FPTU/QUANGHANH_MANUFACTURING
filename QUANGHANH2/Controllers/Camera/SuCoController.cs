@@ -23,9 +23,11 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpGet]
         public ActionResult Index()
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Room> departments = DBContext.Rooms.Where(x => x.camera_available != 0).ToList();
-            ViewBag.departments = departments;
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                ViewBag.room_name = db.Rooms.Where(x => x.camera_available != 0).Select(x => x.room_name).ToList();
+                ViewBag.department_name = db.Departments.Select(x => x.department_name).ToList();
+            }
             return View("/Views/Camera/SuCo.cshtml");
         }
 
@@ -42,7 +44,7 @@ namespace QUANGHANH2.Controllers.Camera
                 {
                     Models.Room e = DBContext.Rooms.Where(x => x.room_name.Equals(depart)).FirstOrDefault();
                     DateTime start = new DateTime(yearStart, monthStart, dayStart, hourStart, minuteStart, 0);
-                    if(e.camera_available < Convert.ToInt32(quan))
+                    if (e.camera_available < Convert.ToInt32(quan))
                         return Json(new { success = false, message = "Số lượng camera không khả dụng" }, JsonRequestBehavior.AllowGet);
                     i.room_id = e.room_id;
                     i.incident_camera_quantity = Convert.ToInt32(quan);
@@ -87,7 +89,7 @@ namespace QUANGHANH2.Controllers.Camera
                     i.start_time = start;
                     i.end_time = end;
                     i.incident_camera_quantity = quan;
-                    
+
 
                     DBContext.SaveChanges();
                     transaction.Commit();
