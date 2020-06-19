@@ -212,12 +212,13 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         group by a.MaPhongBan,a.MaTieuChi) as b 
                                         on a.MaTieuChi = b.MaTieuChi 
                                         
-										left outer join (select thDay.MaTieuChi, thDay.GhiChu, tht.NgaySanXuat, thDay.SanLuong from header_ThucHienTheoNgay headTH
+										left outer join (select thDay.MaTieuChi, tht.NgaySanXuat, SUM(case when thDay.SanLuong is null then 0 else thDay.SanLuong end) as 'SanLuong' from header_ThucHienTheoNgay headTH
                                         inner
                                         join ThucHien_TieuChi_TheoNgay thDay
                                         on headTH.HeaderID = thDay.HeaderID
 										join ThucHienTheoNgay tht on headTH.NgayID = tht.NgayID
-                                        where headTH.MaPhongBan = @px and tht.Ngay = @date2 and headTH.Ca <= @ca) as d on b.MaTieuChi = d.MaTieuChi
+                                        where headTH.MaPhongBan = @px and tht.Ngay = @date2 and headTH.Ca <= @ca
+										group by thDay.MaTieuChi, tht.NgaySanXuat) as d on b.MaTieuChi = d.MaTieuChi
 
                                         order by a.MaTieuChi ASC";
                         listSX = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
