@@ -83,7 +83,6 @@
 
 <!--ADD ROW-->
 <script>
-    
     var editing = false
     $("#EditSaveBtn").click(function () {
         $("#EditSaveBtn").prop('disabled', true);
@@ -291,7 +290,7 @@
     function ViewMode() {
         $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>CẬP NHẬT");
         $('#addRowsbtn').hide();
-        $("#totalDays").attr("disable", true)
+        $("#totalDays").attr("disabled", true)
     }
 
     function EditMode() {

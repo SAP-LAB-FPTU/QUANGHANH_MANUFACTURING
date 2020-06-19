@@ -598,7 +598,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             TongTuyenDungKhaiThac = tongTDKT,
                             TongChamDut = tongCD,
                             TongChamDutCoDien = tongCDCD,
-                            TongChamDutKhaiThac = tongCDKT
+                            TongChamDutKhaiThac = tongCDKT,
+                            ChenhLech = tongTD - tongCD
                         };
                         arrPhongBan.Add(totalModel);
                         int k = 0;
@@ -615,7 +616,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             excelWorksheet.Cells[i, 7].Value = arrPhongBan.ElementAt(k).TongTuyenDungKhaiThac;
                             excelWorksheet.Cells[i, 8].Value = arrPhongBan.ElementAt(k).TongTuyenDungCoDien;
                             excelWorksheet.Cells[i, 9].Value = arrPhongBan.ElementAt(k).ChenhLech;
-                            excelWorksheet.Cells[i, 10].Value = arrPhongBan.ElementAt(k).GhiChu;
                             totalCD += arrPhongBan.ElementAt(k).TongChamDut;
                             totalTD += arrPhongBan.ElementAt(k).TongTuyenDung;
                             k++;

@@ -438,7 +438,7 @@ namespace QUANGHANHCORE.Controllers.DK
                 ViewBag.ngaySXhientai = qr.NgaySanXuat;
                 ViewBag.tongNgaySX = qr.SoNgayLamViec;
                 double tmp = Convert.ToDouble(qr.NgaySanXuat) / Convert.ToDouble(qr.SoNgayLamViec) * 100;
-                ViewBag.tiendoNgay = string.Format("{0:0.##}", tmp);
+                ViewBag.tiendoNgay = string.Format("{0:0}", Math.Round(tmp));
             } else
             {
                 ViewBag.ngaySXconlai = "";

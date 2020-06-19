@@ -153,9 +153,18 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 if (bangcap != null)
                 {
-
-                    db.BangCap_GiayChungNhan.Add(bangcap);
-                    db.SaveChanges();
+                    var checkDupicate = db.BangCap_GiayChungNhan.Where(x => x.MaTruong == bangcap.MaTruong && x.MaChuyenNganh == bangcap.MaChuyenNganh
+                                                                                                            && x.MaTrinhDo == bangcap.MaTrinhDo && x.KieuBangCap == bangcap.KieuBangCap
+                                                                                                            && x.ThoiHan == bangcap.ThoiHan && x.TenBangCap == bangcap.TenBangCap
+                                                                                                            && x.Loai == bangcap.Loai).FirstOrDefault();
+                    if (checkDupicate == null)
+                    {
+                        db.BangCap_GiayChungNhan.Add(bangcap);
+                        db.SaveChanges();
+                    } else
+                    {
+                        return Json(new { error = true, title = "Lỗi", message = "Bằng cấp hoặc giấy chứng nhận đang thêm đã tồn tại." });
+                    }
                 }
                 return RedirectToAction("List");
             }
@@ -180,7 +189,6 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 if (chitietbangcap != null)
                 {
-
                     db.ChiTiet_BangCap_GiayChungNhan.Add(chitietbangcap);
                     db.SaveChanges();
                 }
@@ -210,8 +218,18 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 if (bangcap != null)
                 {
-                    db.Entry(bangcap).State = EntityState.Modified;
-                    db.SaveChanges();
+                    var checkDupicate = db.BangCap_GiayChungNhan.Where(x => x.MaTruong == bangcap.MaTruong && x.MaChuyenNganh == bangcap.MaChuyenNganh
+                                                                                        && x.MaTrinhDo == bangcap.MaTrinhDo && x.KieuBangCap == bangcap.KieuBangCap
+                                                                                        && x.ThoiHan == bangcap.ThoiHan && x.TenBangCap == bangcap.TenBangCap
+                                                                                        && x.Loai == bangcap.Loai).FirstOrDefault();
+                    if (checkDupicate == null)
+                    {
+                        db.Entry(bangcap).State = EntityState.Modified;
+                        db.SaveChanges();
+                    } else
+                    {
+                        return Json(new { error = true, title = "Lỗi", message = "Đã tồn tại bằng cấp hoặc giấy chứng nhận." });
+                    }
                 }
                 return RedirectToAction("List");
             }
@@ -662,16 +680,15 @@ namespace QUANGHANH2.Controllers.TCLD
                             ws_cert_emp.Cells[string.Format("D{0}", rowStart)].Value = item.TenTrinhDo;
                             ws_cert_emp.Cells[string.Format("E{0}", rowStart)].Value = item.TenBangCap;
                             ws_cert_emp.Cells[string.Format("F{0}", rowStart)].Value = item.KieuBangCap;
-                            ws_cert_emp.Cells[string.Format("G{0}", rowStart)].Value = item.Loai;
-
                             if (item.ThoiHan.Equals("-1"))
                             {
-                                ws_cert_emp.Cells[string.Format("H{0}", rowStart)].Value = "Vĩnh viễn";
+                                ws_cert_emp.Cells[string.Format("G{0}", rowStart)].Value = "Vĩnh viễn";
                             }
                             else
                             {
-                                ws_cert_emp.Cells[string.Format("H{0}", rowStart)].Value = item.ThoiHan;
+                                ws_cert_emp.Cells[string.Format("G{0}", rowStart)].Value = item.ThoiHan;
                             }
+                            ws_cert_emp.Cells[string.Format("H{0}", rowStart)].Value = item.Loai;
 
 
                             rowStart++;
