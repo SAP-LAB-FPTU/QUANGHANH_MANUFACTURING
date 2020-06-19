@@ -29,7 +29,8 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortDirection = Request["order[0][dir]"];
             dynamic dataJson = JObject.Parse(data);
 
-            string name = dataJson.name==null?"": dataJson.name.Trim();
+            string name = dataJson.name==null?"": dataJson.name;
+            name = name.Trim();
             string mnv = dataJson.mnv == null ? "" : dataJson.mnv;
             mnv = mnv.Trim();
             try { string[] d = mnv.Split(' '); mnv = ""; foreach (string i in d) { mnv += "'" + i + "',"; } mnv = mnv.Substring(0, mnv.Length - 1); mnv = mnv == "''" ? "" : mnv; } catch (Exception e) { }
@@ -1107,7 +1108,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                     join
                                     nv in db.NhanViens
                                     on px.department_id equals nv.MaPhongBan
-                                    where nv.MaTrangThai == 1
+                                    where nv.MaTrangThai != 2
                                     select new
                                     {
                                         TenNhanVien = nv.Ten,
@@ -1122,7 +1123,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                     nv in db.NhanViens
                                     on px.department_id equals nv.MaPhongBan
                                     where px.department_id.Equals(pb)
-                                    && nv.MaTrangThai == 1
+                                    && nv.MaTrangThai != 2
                                     select new
                                     {
                                         TenNhanVien = nv.Ten,

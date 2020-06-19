@@ -40,7 +40,6 @@
                     <div class="card-content">
                         <div class="row">
                             <a class="btn btn-small blue darken-2 modal-trigger btn-mg input-field" data-target="addDerpartment">Thêm phân xưởng </a>
-
                         </div>
                         <div class="table-responsive">
                             <table id="table_department" class="table table-bordered centered highlight">
@@ -303,6 +302,15 @@
                         successAlert('Thành công','Thêm mới phân xưởng thành công');
                         dataTable.ajax.reload();
                         $("body").css("overflow", "");
+
+                        //clear data in modal
+                        $("#tm-in-mpb").val("");
+                        $("#tm-in-tpb").val("");
+                        $("#tm-sl-lpb").val("");
+                        $("#tm-sl-IsInside option").prop("selected", function () {
+                            return this.defaultSelected;
+                        });
+
                     } else {
                         $("#pre-load").hide()
                         errorAlert('Thất bại', 'Mã phân xưởng đã tồn tại');
@@ -341,7 +349,6 @@
 
             var objJson = JSON.stringify(obj);
             $.ajax({
-
                 url:'@Url.Action("EditDepartment","Factory")',
                 type: "POST",
                 data: {
@@ -365,7 +372,6 @@
                     errorAlert('Thất bại', 'Chỉnh sửa phân xưởng thất bại');
                 }
             })
-
         }
 
         function getEditIdDepartment(data) {
@@ -424,8 +430,7 @@
             error: function (response) {
 
             }
-
-        });
+            });
         }
 
         //searching bang nut search

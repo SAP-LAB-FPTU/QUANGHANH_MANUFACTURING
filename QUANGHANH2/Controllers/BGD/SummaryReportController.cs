@@ -308,12 +308,6 @@ namespace QUANGHANHCORE.Controllers.BGD
             ViewBag.listNhanLuc = listNhanLuc;
             ViewBag.sanluong = sanluong;
 
-            //get the rest days in year
-            int totalDayOfYear = new DateTime(DateTime.Now.Year, 12, 31).DayOfYear;
-            int currentDayOfYear = DateTime.Now.DayOfYear;
-            int restDayOfYear = totalDayOfYear - currentDayOfYear;
-            Session["restDayOfYear"] = restDayOfYear;
-
             return View("/Views/BGD/Dashboard.cshtml");
         }
 

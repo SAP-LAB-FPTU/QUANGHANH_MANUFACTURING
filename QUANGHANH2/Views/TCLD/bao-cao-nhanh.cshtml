@@ -649,8 +649,8 @@
                         var option = {
                             // Setup grid
                             grid: {
-                                left: '1%',
-                                right: '2%',
+                                left: '3%',
+                                right: '3%',
                                 bottom: '3%',
                                 containLabel: true
                             },
@@ -665,7 +665,7 @@
                             calculable: true,
                             xAxis: [
                                 {
-                                    boundaryGap: false,
+                                    boundaryGap: true,
                                     data: donvi
                                 }
                             ],
@@ -679,7 +679,7 @@
                                     name: 'Tổng',
                                     type: 'bar',
                                     data: soluong,
-                                    barWidth: '50%',
+                                    barWidth: '20%',
                                     markPoint: {
                                         data: [
                                             { type: 'max', name: 'Max' },

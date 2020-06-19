@@ -380,6 +380,31 @@
                         $(".modal").modal();
                         $("body").css("overflow", "");
                         $("#addDiplomaEmp").load('@Url.Action("AddDiplomaEmployee")');
+
+                        $("#add_matruong option").prop("selected", function () {
+                            return this.defaultSelected;
+                        });
+                        $("#add_chuyennganh option").prop("selected", function () {
+                            return this.defaultSelected;
+                        });
+                        $("#add_trinhdo option").prop("selected", function () {
+                            return this.defaultSelected;
+                        });
+                        $("#add_kieubangcap option").prop("selected", function () {
+                            return this.defaultSelected;
+                        });
+                        $("#option_diploma option").prop("selected", function () {
+                            return this.defaultSelected;
+                        });
+                        $('#add_dip').val("Vĩnh viễn");
+                        $('#add_dip').attr("disabled", "disabled");
+                        $("#add_bangcap").val("");
+                        $("#add_loaibangcap option").prop("selected", function () {
+                            return this.defaultSelected;
+                        });
+                        if (data.error) {
+                            errorAlert(data.title, data.message);
+                        }
                     },
                     error: function () {
                         errorAlert('Lỗi', 'Thử lại');

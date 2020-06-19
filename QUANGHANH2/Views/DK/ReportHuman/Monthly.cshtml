@@ -124,10 +124,11 @@
                                 <th>BQ tháng</th>
                             </tr>
                             @{
+                                var stt = 1;
                                 foreach (var item in ViewBag.list)
                                 {
                                     <tr>
-                                        <td></td>
+                                        <td>@stt</td>
                                         <td>@item.MaPhongBan</td>
                                         <td>@item.ds</td>
                                         <td>@item.ql</td>
@@ -144,6 +145,7 @@
                                         <td>@item.tuan4</td>
                                         <td>@item.tile</td>
                                     </tr>
+                                    stt++;
                                 }
                             }
 

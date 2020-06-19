@@ -438,7 +438,7 @@ namespace QUANGHANHCORE.Controllers.DK
                 ViewBag.ngaySXhientai = qr.NgaySanXuat;
                 ViewBag.tongNgaySX = qr.SoNgayLamViec;
                 double tmp = Convert.ToDouble(qr.NgaySanXuat) / Convert.ToDouble(qr.SoNgayLamViec) * 100;
-                ViewBag.tiendoNgay = string.Format("{0:0.##}", tmp);
+                ViewBag.tiendoNgay = string.Format("{0:0}", Math.Round(tmp));
             } else
             {
                 ViewBag.ngaySXconlai = "";
@@ -697,8 +697,12 @@ namespace QUANGHANHCORE.Controllers.DK
                         group by hd.MaPhongBan) as th on pb.MaPhongBan = th.MaPhongBan
                         LEFT JOIN
                         (select 
-                        hd.MaPhongBan,
-                        ISNULL(SUM(kh.KeHoach),0) as 'SanLuongKeHoach',
+						pbtc.MaPhongBan,
+						ISNULL(SUM(khtcn.KeHoach), 0) as 'SanLuongKeHoach'
+						from
+						(select
+						hd.MaPhongBan,
+						kh.MaTieuChi,
                         MAX(kh.ThoiGianNhapCuoiCung) as 'ThoiGianNhapCuoiCung'
                         from 
                         header_KeHoach_TieuChi_TheoNgay hd 
@@ -706,7 +710,10 @@ namespace QUANGHANHCORE.Controllers.DK
                         join TieuChi tc on tc.MaTieuChi = kh.MaTieuChi
                         join NhomTieuChi ntc on tc.MaNhomTieuChi = ntc.MaNhomTieuChi
                         where ntc.MaNhomTieuChi in (1,2) and hd.NgayNhapKH = @Ngay
-                        group by hd.MaPhongBan, hd.NgayNhapKH) as khn on pb.MaPhongBan = khn.MaPhongBan 
+                        group by hd.MaPhongBan, kh.MaTieuChi) as pbtc
+						JOIN 
+						KeHoach_TieuChi_TheoNgay khtcn on khtcn.MaTieuChi = pbtc.MaTieuChi and khtcn.ThoiGianNhapCuoiCung = pbtc.ThoiGianNhapCuoiCung
+						group by pbtc.MaPhongBan) as khn on pb.MaPhongBan = khn.MaPhongBan 
                         LEFT JOIN 
                         (select 
                         hd.MaPhongBan, 
