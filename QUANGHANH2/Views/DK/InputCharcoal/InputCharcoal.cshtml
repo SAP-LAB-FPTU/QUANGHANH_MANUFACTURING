@@ -138,7 +138,7 @@
         <div class="card-content">
             <div class="modal-header row">
                 <h4 class="col l6">Nhập ngày sản xuất hôm nay</h4>
-                <input id="nsx" class="form-control col l6" type="text" />
+                <input id="nsx" class="form-control col l6" type="text" value="0"/>
                 @*<button id="butluu">Lưu</button>*@
             </div>
 
@@ -359,6 +359,7 @@
                                 $("#dayMonthDis").empty();
                                 var check = $('#ngaySanXuat').val();
                                 if (check == "0") {
+                                    $('#butluu').prop('disabled', true);
                                     $("#butsnlv").click();
                                     $("#butsnlvedit").hide();
                                 }
