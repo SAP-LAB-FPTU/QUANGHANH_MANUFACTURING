@@ -82,7 +82,7 @@
                         <label>Ngày hết hạn đăng kiểm</label>
                         @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
-                            <input name="duraInspec" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
+                            <input name="duraInspec" type="text" class="form-control datepicker-here" autocomplete="off" />
                             @Html.EditorFor(model => model.durationOfInspection, new { htmlAttributes = new { @style = "display: none !important" } })
                             @Html.ValidationMessageFor(model => model.durationOfInspection, "", new { @class = "text-danger" })
                         </div>
@@ -204,7 +204,7 @@
                             <label>Ngày hết hạn bảo hiểm</label>
                             @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
                             <div class="col-md-10">
-                                <input name="Insua" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
+                                <input name="Insua" type="text" class="form-control datepicker-here" autocomplete="off" />
                                 @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @style = "display: none !important" } })
                                 @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
                             </div>
