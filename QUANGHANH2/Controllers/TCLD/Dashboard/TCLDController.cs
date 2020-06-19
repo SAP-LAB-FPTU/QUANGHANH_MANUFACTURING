@@ -574,10 +574,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     sql = @"select tb1.department_id as MaDonVi,
                         (case when tb2.soluong is null then 0 else tb2.soluong end) as SoLuong
                         from
-                        (select * from Department where department_id in
-                        ('KT1', 'KT2', 'KT3', 'KT4', 'KT5', 'KT6', 
-                        'KT7', 'KT8', 'KT9', 'KT10', 'KT11','ĐL3', 
-                        'ĐL5', 'ĐL7', 'ĐL8', 'VTL1', 'VTL2')) tb1
+                        (select * from Department where department_type = N'Phân xưởng sản xuất chính') tb1
                         left join
                         (select nv.MaPhongBan ,count(dd.MaNV) 'SoLuong' from 
                         (select Min(HeaderID) as 'HeaderID' from Header_DiemDanh_NangSuat_LaoDong

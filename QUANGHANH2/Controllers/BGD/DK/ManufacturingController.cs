@@ -683,8 +683,12 @@ namespace QUANGHANH2.Controllers.BGD.DK
                         group by hd.MaPhongBan) as th on pb.MaPhongBan = th.MaPhongBan
                         LEFT JOIN
                         (select 
-                        hd.MaPhongBan,
-                        ISNULL(SUM(kh.KeHoach),0) as 'SanLuongKeHoach',
+						pbtc.MaPhongBan,
+						ISNULL(SUM(khtcn.KeHoach), 0) as 'SanLuongKeHoach'
+						from
+						(select
+						hd.MaPhongBan,
+						kh.MaTieuChi,
                         MAX(kh.ThoiGianNhapCuoiCung) as 'ThoiGianNhapCuoiCung'
                         from 
                         header_KeHoach_TieuChi_TheoNgay hd 
@@ -692,7 +696,10 @@ namespace QUANGHANH2.Controllers.BGD.DK
                         join TieuChi tc on tc.MaTieuChi = kh.MaTieuChi
                         join NhomTieuChi ntc on tc.MaNhomTieuChi = ntc.MaNhomTieuChi
                         where ntc.MaNhomTieuChi in (1,2) and hd.NgayNhapKH = @Ngay
-                        group by hd.MaPhongBan, hd.NgayNhapKH) as khn on pb.MaPhongBan = khn.MaPhongBan 
+                        group by hd.MaPhongBan, kh.MaTieuChi) as pbtc
+						JOIN 
+						KeHoach_TieuChi_TheoNgay khtcn on khtcn.MaTieuChi = pbtc.MaTieuChi and khtcn.ThoiGianNhapCuoiCung = pbtc.ThoiGianNhapCuoiCung
+						group by pbtc.MaPhongBan) as khn on pb.MaPhongBan = khn.MaPhongBan 
                         LEFT JOIN 
                         (select 
                         hd.MaPhongBan, 
@@ -918,6 +925,11 @@ namespace QUANGHANH2.Controllers.BGD.DK
             List<SanLuong_LuyKe> sl_lk_datda = db.Database.SqlQuery<SanLuong_LuyKe>(new_query,
                 new SqlParameter("@Ngay", timeEnd)).ToList<SanLuong_LuyKe>();
             ViewBag.sl_lk_datda = sl_lk_datda;
+            //get the rest days in year
+            int totalDayOfYear = new DateTime(DateTime.Now.Year, 12, 31).DayOfYear;
+            int currentDayOfYear = DateTime.Now.DayOfYear;
+            int restDayOfYear = totalDayOfYear - currentDayOfYear;
+            Session["restDayOfYear"] = restDayOfYear;
             return View("/Views/BGD/DK/Manufacturing.cshtml");
         }
 

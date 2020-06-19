@@ -24,7 +24,7 @@
         <h3 class="center">PHÂN XƯỞNG TIÊU CHÍ-NĂM</h3>
         <div class="row">
             <div class="input-field col l3 m12 s12">
-                <a class="btn blue darken-2 right" onclick="getBeforeInformation()">LẤY DỮ LIỆU NĂM TRƯỚC</a>
+                <a class="btn blue darken-2 right" id="yearBefore" onclick="getBeforeInformation()">LẤY DỮ LIỆU NĂM TRƯỚC</a>
             </div>
             <div class="input-field col l3 m12 s12">
                 <input type="text" id="yearCalendar" autocomplete="off" class="form-control datepicker-here datepicker-add center"
@@ -190,6 +190,13 @@
                 mode = 0;
                 listAspectDepartments = response.listTieuChi;
                 emptyArr();
+
+                //when list data of currentYear > 0 then disable button "Lấy dữ liệu năm trước"
+                if (response.listPhongBanTieuChi.length > 0) {
+                    $("#yearBefore").attr("disabled", "disabled");
+                } else {
+                    $("#yearBefore").removeAttr("disabled", "disabled");
+                }
 
                 //status
                 status = response.status;

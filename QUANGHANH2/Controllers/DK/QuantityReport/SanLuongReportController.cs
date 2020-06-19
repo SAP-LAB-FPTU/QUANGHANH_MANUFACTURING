@@ -87,7 +87,10 @@ namespace QUANGHANH2.Controllers.DK
             //                group by TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,table3.MaPhongBan
             //                order by MaTieuChi, MaPhongBan";
 
-            var query = @"select TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,table3.MaPhongBan,
+            var query = @"select slkh.*
+                            from (select * from PhongBan_TieuChi where Thang = MONTH(@dateEnd) and Nam = YEAR(@dateEnd)) as pbtc
+                            LEFT JOIN
+                            (select TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,table3.MaPhongBan,
                             SUM(Case when CA1 IS NULL then CONVERT(float, 0) else CA1 end) as [CA1],
                             SUM(Case when CA2 IS NULL then CONVERT(float,0) else CA2 end) as [CA2], 
                             SUM(Case when CA3 IS NULL then CONVERT(float,0) else CA3 end) as [CA3], 
@@ -97,9 +100,8 @@ namespace QUANGHANH2.Controllers.DK
                             SUM(Case when CHENHLECH IS NULL then CONVERT(float,0) else CHENHLECH end) as [CHENHLECH], 
                             SUM(Case when[PERCENTAGE] IS NULL then CONVERT(float,0) else [PERCENTAGE] end) as [PERCENTAGE], 
                             SUM(Case when KHDC IS NULL then CONVERT(float,0) else KHDC end) as KHDC, 
-                            SUM(Case when percentDC IS NULL then 0 else percentDC end) as percentDC, 
-                            SUM(Case when LUYKE IS NULL then 0 else LUYKE end) as LUYKE, 
-                            SUM(Case when KH IS NULL then 0 else KH end) as KH from TieuChi 
+                            SUM(Case when percentDC IS NULL then 0 else percentDC end) as percentDC
+							from TieuChi 
                             left join 
 							(select * ,CONVERT(float, 0) as [KH],
                             CONVERT(float, 0) as [CHENHLECH],CONVERT(float, 0) as [PERCENTAGE], 
@@ -130,21 +132,33 @@ namespace QUANGHANH2.Controllers.DK
                             join Department as px on px.department_id = header_th.MaPhongBan) as a on kht.MaPhongBan = a.MaPhongBan and kht.MaTieuChi = a.MaTieuChi
 							GROUP BY kht.MaTieuChi, kht.MaPhongBan) as table2 ) as table3 on table3.MaTieuChi = TieuChi.MaTieuChi 
                             LEFT JOIN NhomTieuChi on TieuChi.MaNhomTieuChi = NhomTieuChi.MaNhomTieuChi 
-                            group by TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,table3.MaPhongBan
-                            order by MaTieuChi, MaPhongBan";
+                            group by TieuChi.MaTieuChi,TieuChi.TenTieuChi, TieuChi.MaNhomTieuChi,NhomTieuChi.TenNhomTieuChi,table3.MaPhongBan) as slkh on slkh.MaPhongBan = pbtc.MaPhongBan and slkh.MaTieuChi = pbtc.MaTieuChi
+							order by MaTieuChi, MaPhongBan";
 
-            var query_KHDC = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,table1.MaPhongBan,
-                            TieuChi.MaTieuChi from (select MaTieuChi, SUM(SanLuong) as SanLuong,header.MaPhongBan from(
-                            select kehoach.*from(Select HeaderID, MaTieuChi,Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] from KeHoach_TieuChi_TheoThang group by MaTieuChi, HeaderID) as a 
-                            inner join KeHoach_TieuChi_TheoThang as kehoach 
-                            on a.HeaderID = kehoach.HeaderID and a.MaTieuChi = kehoach.MaTieuChi and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b 
-                            inner join(select h.* from header_KeHoachTungThang h join KeHoachTungThang kh on h.ThangID = kh.ThangID where ThangKeHoach = @month and NamKeHoach = @year) as header 
-                            on b.HeaderID = header.HeaderID 
-                            group by MaTieuChi,MaPhongBan) as table1 
-                            right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi
-                            order by MaTieuChi, MaPhongBan";
+            var query_KHDC = @"select khtc.* 
+                                from (select * from PhongBan_TieuChi where Thang = @month and Nam = @year) as pbtc
+                                LEFT JOIN
+                                (select 
+                                (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong,
+                                table1.MaPhongBan,
+                                TieuChi.MaTieuChi 
+                                from (select MaTieuChi, SUM(SanLuong) as SanLuong,header.MaPhongBan 
+                                from(select kehoach.* from(Select HeaderID, MaTieuChi,Max(ThoiGianNhapCuoiCung) as [ThoiGianNhapCuoiCung] 
+		                                from KeHoach_TieuChi_TheoThang group by MaTieuChi, HeaderID) as a 
+		                                inner join KeHoach_TieuChi_TheoThang as kehoach on a.HeaderID = kehoach.HeaderID 
+													                                and a.MaTieuChi = kehoach.MaTieuChi 
+													                                and a.ThoiGianNhapCuoiCung = kehoach.ThoiGianNhapCuoiCung) as b 
+                                inner join(select h.* from header_KeHoachTungThang h 
+                                join KeHoachTungThang kh on h.ThangID = kh.ThangID 
+                                where ThangKeHoach = @month and NamKeHoach = @year) as header on b.HeaderID = header.HeaderID 
+                                group by MaTieuChi,MaPhongBan) as table1 
+                                right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi) as khtc on khtc.MaPhongBan = pbtc.MaPhongBan and khtc.MaTieuChi = pbtc.MaTieuChi
+                                order by MaTieuChi, MaPhongBan";
 
-            var query_KHDaily = @"select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong, kht.MaPhongBan,
+            var query_KHDaily = @"select khtc.* 
+                            from (select * from PhongBan_TieuChi where Thang = MONTH(@dateEnd) and Nam = YEAR(@dateEnd)) as pbtc
+                            LEFT JOIN
+                            (select (case when table1.SanLuong is null then 0 else table1.SanLuong end) as SanLuong, kht.MaPhongBan,
                             tc.MaTieuChi 
                             from 
 							TieuChi tc 
@@ -198,8 +212,8 @@ namespace QUANGHANH2.Controllers.DK
                             inner join(select* from header_KeHoach_TieuChi_TheoNgay where NgayNhapKH = @dateEnd) as header on b.HeaderID = header.HeaderID 
                             group by MaTieuChi,MaPhongBan)  as table1 
                             right join TieuChi on table1.MaTieuChi = TieuChi.MaTieuChi) as addon
-                            where addon.MaPhongBan is not null
-                            order by MaTieuChi, MaPhongBan";
+                            where addon.MaPhongBan is not null) as khtc on khtc.MaPhongBan = pbtc.MaPhongBan and khtc.MaTieuChi = pbtc.MaTieuChi
+							order by MaTieuChi,MaPhongBan";
 
             String[] headers = {"Than Sản Xuất","Than Hầm Lò","Than Lộ Thiên","Đất Đá Bóc", "Nhập Dương Huy", "Tổng Mét Lò CBSX", "Mét Lò CBSX Tự Làm",
                 "Mét Lò CBSX Thuê Ngoài", "Mét Lò Xén", "Than Sàng Tuyển", "Than Tiêu Thụ", "Doanh Thu", "Đá Xít Sau Sàng Tuyển"};

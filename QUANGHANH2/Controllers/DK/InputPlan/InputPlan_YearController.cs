@@ -164,17 +164,8 @@ namespace QUANGHANH2.Controllers.DK
                                "order by a.HeaderID DESC ";
             //header_KeHoach_TieuChi_TheoNam GhiChu = dbContext.Database.SqlQuery<header_KeHoach_TieuChi_TheoNam>(quertNote,new SqlParameter("maphongban",department)).FirstOrDefault<header_KeHoach_TieuChi_TheoNam>();
             header_KeHoach_TieuChi_TheoNam GhiChu = dbContext.header_KeHoach_TieuChi_TheoNam.Where(x => x.MaPhongBan.Equals(department) && x.Nam == year).FirstOrDefault<header_KeHoach_TieuChi_TheoNam>();
-            if (GhiChu == null)
-            {
-                return Json(new { tieuChiCuList = tieuChiCuList, note = "" });
-            }
-            else
-            {
-                return Json(new { tieuChiCuList = tieuChiCuList, note = GhiChu.GhiChu });
-            }
-
+            return Json(new { tieuChiCuList = tieuChiCuList, note = GhiChu.GhiChu });
         }
-
     }
     public class TieuChiCu
     {

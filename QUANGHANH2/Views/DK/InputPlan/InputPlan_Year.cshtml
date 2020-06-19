@@ -187,7 +187,12 @@
                         dem++;
                     }
                     tableBody.html(content);
-                    $("#noteNam").text(parseNote(response.note));
+                    var noteYear = response.note;
+                    if (noteYear == null || noteYear == "") {
+                        $("#noteNam").val("");
+                    } else {
+                        $("#noteNam").val(noteYear);
+                    }
                     $('#pre-load').hide();
                 },
                 error: function (response) {
@@ -217,7 +222,7 @@
 
     function parseNote(note) {
         if (note == null) {
-            return '';
+            return "";
         } else {
             return note;
         }
