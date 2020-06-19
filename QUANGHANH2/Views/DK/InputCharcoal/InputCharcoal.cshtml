@@ -52,7 +52,7 @@
                     <div class="input-field col s3 m3 l3"></div>
                 </div>
                 <div class="input-field col l3 m12 s12">
-                    <input type="text" placeholder="Ngày" value="@ViewBag.NgayNhap" autocomplete="off" class='form-control date-click center' id="dateInput" name="ngayNhap" multiple />
+                    <input type="text" placeholder="Ngày" value="@ViewBag.NgayNhap" autocomplete="off" class='form-control date-click center maxDate' id="dateInput" name="ngayNhap" multiple readonly />
                 </div>
                 <div class="input-field col l3 m12 s12">
                     <select class="form-control" id="cbx-px" name="px_value">
@@ -175,7 +175,10 @@
 <script src="~/js/Custom JS/DK/InputCharcoal/AddRow.js"></script>
 
 <script>
+   
+
     $(document).ready(function () {
+
         var ngaySanXuat = document.getElementById('ngaySanXuat').value;
         var SoNgaySX = document.getElementById('SoNgaySX').value;
         var phanTramNgay = document.getElementById('phanTramNgay').value;
@@ -544,5 +547,8 @@
             document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
         }
     }
+
+
+
 
 </script>
