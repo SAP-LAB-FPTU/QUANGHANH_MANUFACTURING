@@ -251,11 +251,7 @@
             var tbl_detail, tbl_summary, currTab = 0, exportPayload = [], isFirstInit = true, exportSearch = [];
             $(document).ready(function () {
                 $("#pre-load").show();
-                tbl_detail = $('#tbl_detail').on('preXhr.dt', function (e, settings, data) {
-                $("#pre-load").show("slow", function () {
-                });
-                $("#pre-load").css("z-index", "99999");
-            }).DataTable({
+                tbl_detail = $('#tbl_detail').DataTable({
                     "ajax": {
                         "url": "/phong-cdvt/vat-tu/tieu-hao/details",
                         "type": "Post",
@@ -285,12 +281,7 @@
                         return json.data;
                     }
                 },
-                "drawCallback": function (settings) {
-                    ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
-                    $("#pre-load").hide("slow", function () {
-                    });
-                    ////////////////////////////////////////////////
-                },
+               
                     "columns": [
                         { "data": "SupplyId", "name": "SupplyId" },
                         { "data": "SupplyName", "name": "SupplyName" },
@@ -423,7 +414,7 @@
                                 window.location = '/phong-cdvt/vat-tu/tieu-hao/download?fileGuid=' + response.FileGuid
                                     + '&filename=' + response.FileName;
                             } else {
-                                errorAlert('Lỗi', 'Không xuất ra được EXCEL');
+                                errorAlert('Không xuất ra được EXCEL', 'Chưa có dữ liệu');
                             }
                         }
                     });
@@ -443,7 +434,7 @@
                                 window.location = '/phong-cdvt/vat-tu/tieu-hao/downloaddetail?fileGuid=' + response.FileGuid
                                     + '&filename=' + response.FileName;
                             } else {
-                                errorAlert('Lỗi', 'Không xuất ra được EXCEL');
+                                errorAlert('Không xuất ra được EXCEL', 'Chưa có dữ liệu');
                             }
                         }
                     });
