@@ -403,6 +403,15 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                 e.Message.ToString();
                 return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);
             }
+            string sqltmep = @"select *
+                                from ThucHienTheoNgay
+                                where Ngay = @date";
+            ThucHienTheoNgay thtt = db.Database.SqlQuery<ThucHienTheoNgay>(sqltmep, new SqlParameter("date", date_sql2)).FirstOrDefault();
+            string temp = "0";
+            if (thtt != null)
+            {
+                temp = thtt.NgaySanXuat.ToString();
+            }
             var ngaySX = db.KeHoachTungThangs.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
             ViewBag.SoNgaySX = ngaySX;
 
@@ -413,7 +422,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             {
                 try
                 {
-                    ngay_SX_now = listSX.ElementAt(0).NgaySanXuat;
+                    ngay_SX_now = Convert.ToInt32(temp);
 
 
                     foreach (var item in listSX)
@@ -443,7 +452,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         }
                         else
                         {
-                            item.OneDay = (Math.Round(Convert.ToDouble(item.tong) / Convert.ToDouble(ngaySX - item.NgaySanXuat), 2)).ToString();
+                            item.OneDay = (Math.Round(Convert.ToDouble(item.tong) / Convert.ToDouble(ngaySX - ngay_SX_now), 2)).ToString();
                         }
                         item.LuyKe = (Math.Round(Convert.ToDouble(item.LuyKe) - Convert.ToDouble(item.SanLuong), 2));
                     }
@@ -460,15 +469,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             {
                 e.Message.ToString();
             }
-            string sqltmep = @"select *
-                                from ThucHienTheoNgay
-                                where Ngay = @date";
-            ThucHienTheoNgay thtt = db.Database.SqlQuery<ThucHienTheoNgay>(sqltmep, new SqlParameter("date", date_sql2)).FirstOrDefault();
-            string temp = "0";
-            if (thtt != null)
-            {
-                temp = thtt.NgaySanXuat.ToString();
-            }
+            
             return Json(new
             {
                 success = true,
