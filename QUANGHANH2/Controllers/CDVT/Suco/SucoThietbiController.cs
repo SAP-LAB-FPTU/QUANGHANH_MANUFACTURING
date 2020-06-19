@@ -18,44 +18,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
 {
     public class SucoThietbiController : Controller
     {
-        public class EquipTempSearch
-        {
-            public string equipmentId { get; set; }
-        }
-
-        [HttpPost]
-        public ActionResult ChangeID(string id, string ck)
-        {
-            string sql = "";
-            if (ck.Equals("0"))
-            {
-                sql = @"select s.equipmentId
-                        from Incident s
-                        where s.equipmentId like @id";
-            }
-            else if (ck.Equals("1"))
-            {
-                sql = @"select e.equipment_name as 'equipmentId'
-                        from Incident s join Equipment e on s.equipmentId = e.equipmentId
-                        where e.equipment_name like @id";
-            }
-            else if (ck.Equals("2"))
-            {
-                sql = @"select s.detail_location as 'equipmentId'
-                        from Incident s
-                        where s.detail_location like @id";
-            }
-            else if (ck.Equals("3"))
-            {
-                sql = @"select s.reason as 'equipmentId'
-                        from Incident s
-                        where s.reason like @id";
-            }
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
-            List<EquipTempSearch> list = db.Database.SqlQuery<EquipTempSearch>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
-            return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
-        }
-
         [Auther(RightID = "79,19,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/su-co")]
         [HttpGet]
@@ -210,7 +172,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
@@ -221,10 +182,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             string base_select = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different ";
             string query = "FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId " +
                 "inner join Department d on d.department_id = i.department_id " +
-                "where i.start_time BETWEEN '" + dtStart + "' AND '" + dtEnd + "' AND i.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name " +
-                "AND d.department_name LIKE @department_name AND i.detail_location LIKE @detail_location";
-            if (reason == null)
-                query += " AND i.reason LIKE @reason";
+                "where i.start_time BETWEEN @dtStart AND @dtEnd AND i.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name " +
+                "AND d.department_name LIKE @department_name AND i.detail_location LIKE @detail_location AND i.reason LIKE @reason";
             string department_id = Session["departID"].ToString();
             if (Session["departName"].ToString().Contains("Phân xưởng")) query += " AND d.department_id = '" + department_id + "'";
             List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(base_select + query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
@@ -232,13 +191,17 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                 new SqlParameter("department_name", '%' + department + '%'),
                 new SqlParameter("detail_location", '%' + detail + '%'),
-                new SqlParameter("reason", '%' + reason + '%')).ToList();
+                new SqlParameter("reason", '%' + reason + '%'),
+                new SqlParameter("dtStart", dtStart),
+                new SqlParameter("dtEnd", dtEnd)).ToList();
             int totalrows = DBContext.Database.SqlQuery<int>("select count(e.equipment_name) " + query,
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
                 new SqlParameter("department_name", '%' + department + '%'),
                 new SqlParameter("detail_location", '%' + detail + '%'),
-                new SqlParameter("reason", '%' + reason + '%')).FirstOrDefault();
+                new SqlParameter("reason", '%' + reason + '%'),
+                new SqlParameter("dtStart", dtStart),
+                new SqlParameter("dtEnd", dtEnd)).FirstOrDefault();
             foreach (IncidentDB item in incidents)
             {
                 item.stringStartTime = item.start_time.ToString("HH:mm dd/MM/yyyy");
