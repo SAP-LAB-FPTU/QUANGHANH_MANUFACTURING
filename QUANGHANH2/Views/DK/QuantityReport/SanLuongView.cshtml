@@ -17,7 +17,7 @@
     }
 
     #view-btn {
-        width:170px;
+        width: 170px;
         float: left;
     }
     /*.sticky + .table-content {
@@ -93,7 +93,7 @@
                     window.location = '/phong-dieu-khien/bao-cao-san-xuat-than/download?fileGuid=' + response.FileGuid
                         + '&filename=' + response.FileName;
                 } else {
-                    errorAlert("Lỗi!","");
+                    errorAlert("Lỗi!", "");
                 }
                 $("#pre-load").hide("slow", function () { });
             },
@@ -103,14 +103,14 @@
     });
 </script>
 <script>
-        $(function () {
-            var currentTime = new Date();
-            var month = currentTime.getMonth() + 1;
-            var day = currentTime.getDate();
-            var year = currentTime.getFullYear();
-            var date = day + "-" + month + "-" + year;
-            $("#yearCalendar").val(date);
-        })
+    $(function () {
+        var currentTime = new Date();
+        var month = currentTime.getMonth() + 1;
+        var day = currentTime.getDate();
+        var year = currentTime.getFullYear();
+        var date = day + "-" + month + "-" + year;
+        $("#yearCalendar").val(date);
+    })
 
     function getInformation() {
         window.open("/phong-dieu-khien/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty?ngay=" + $("#yearCalendar").val())
