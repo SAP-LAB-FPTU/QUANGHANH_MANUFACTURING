@@ -5,27 +5,27 @@
     {
         Layout = "~/Views/Shared/_Layout_BGD2.cshtml";
     }
-    else if(Session["departID"].ToString().Contains("CV"))
+    else if (Session["departID"].ToString().Contains("CV"))
     {
         Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
     }
-    else if(Session["departID"].ToString().Contains("TCLĐ"))
+    else if (Session["departID"].ToString().Contains("TCLĐ"))
     {
         Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
     }
-    else if(Session["departID"].ToString().Contains("ĐK"))
+    else if (Session["departID"].ToString().Contains("ĐK"))
     {
         Layout = "~/Views/Shared/_Layout_DK.cshtml";
     }
-    else if(Session["departID"].ToString().Contains("KCM"))
+    else if (Session["departID"].ToString().Contains("KCM"))
     {
         Layout = "~/Views/Shared/_Layout_KCM.cshtml";
     }
-    else if(Session["departID"].ToString().Contains("KCS"))
+    else if (Session["departID"].ToString().Contains("KCS"))
     {
         Layout = "~/Views/Shared/_Layout_KCS.cshtml";
     }
-    else if(Session["departID"].ToString().Contains("AT"))
+    else if (Session["departID"].ToString().Contains("AT"))
     {
         Layout = "~/Views/Shared/_Layout_AT.cshtml";
     }
@@ -247,3 +247,4 @@
         })
     });
 </script>
+<script src="~/js/Custom JS/jquery-freeze-table-master/dist/js/freeze-table.js"></script>
