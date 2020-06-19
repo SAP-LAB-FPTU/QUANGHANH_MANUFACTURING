@@ -601,8 +601,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         if (import != "")
                             emp.date_import = DateTime.ParseExact(import, "dd/MM/yyyy", null);
                         //durationOfInspection
-                        //if (duraInspec != "")
-                        emp.durationOfInspection = DateTime.ParseExact(duraInspec, "dd/MM/yyyy", null);
+                        if (duraInspec != "")
+                            emp.durationOfInspection = DateTime.ParseExact(duraInspec, "dd/MM/yyyy", null);
                         if (Insua != "")
                         {
                             emp.durationOfInsurance = DateTime.ParseExact(Insua, "dd/MM/yyyy", null);
@@ -688,9 +688,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         }
 
                         Equipment_Inspection ei = new Equipment_Inspection();
-                        ei.equipmentId = emp.equipmentId;
-                        ei.inspect_date = emp.durationOfInspection.Value;
-                        db.Equipment_Inspection.Add(ei);
+                        if (emp.durationOfInspection != null)
+                        {
+                            ei.equipmentId = emp.equipmentId;
+                            ei.inspect_date = emp.durationOfInspection.Value;
+                            db.Equipment_Inspection.Add(ei);
+                        }
                         bool isAc = true;
                         if (attype.Equals("0"))
                         {
