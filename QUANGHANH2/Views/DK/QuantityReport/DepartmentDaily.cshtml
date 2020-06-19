@@ -241,7 +241,8 @@
                 $("#pre-load").hide("slow", function () { });
             },
             error: function (response) {
-
+                $("#pre-load").hide("slow", function () { });
+                errorAlert('Không xuất được ra excel', 'Chưa có dữ liệu');
             }
         })
     });

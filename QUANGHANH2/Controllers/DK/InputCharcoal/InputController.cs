@@ -175,7 +175,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             int day = Convert.ToInt32(date.Split('/')[0]) > 1 ? Convert.ToInt32(date.Split('/')[0]) - 1 : 1;
             string date_sql = date.Split('/')[1] + "/" + day + "/" + date.Split('/')[2];
             string date_sql2 = date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2];
-            DateTime dateTime = Convert.ToDateTime(date_sql);
+            DateTime dateTime = Convert.ToDateTime(date_sql2);
             try
             {
                 if (!date.Equals(""))
@@ -185,7 +185,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     string sqltemp = @"select th.*, h.Ca, h.HeaderID, h.MaPhongBan
                                     from ThucHienTheoNgay th join header_ThucHienTheoNgay h on th.NgayID = h.NgayID
                                     where h.Ca = @ca and h.MaPhongBan = @px and th.Ngay = @date";
-                    List<header_ThucHienTheoNgay> checkList = db.Database.SqlQuery<header_ThucHienTheoNgay>(sqltemp, new SqlParameter("ca", ca), new SqlParameter("px", px_value), new SqlParameter("date", date_sql)).ToList();
+                    List<header_ThucHienTheoNgay> checkList = db.Database.SqlQuery<header_ThucHienTheoNgay>(sqltemp, new SqlParameter("ca", ca), new SqlParameter("px", px_value), new SqlParameter("date", date_sql2)).ToList();
                     List<header_KeHoach_TieuChi_TheoNgay> checkList2 = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.NgayNhapKH == dateTime).ToList();
                     sqltemp = @"select h.*
                                 from header_KeHoachTungThang h join KeHoachTungThang kh on h.ThangID = kh.ThangID
@@ -212,12 +212,13 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         group by a.MaPhongBan,a.MaTieuChi) as b 
                                         on a.MaTieuChi = b.MaTieuChi 
                                         
-										left outer join (select thDay.MaTieuChi, thDay.GhiChu, tht.NgaySanXuat, thDay.SanLuong from header_ThucHienTheoNgay headTH
+										left outer join (select thDay.MaTieuChi, tht.NgaySanXuat, SUM(case when thDay.SanLuong is null then 0 else thDay.SanLuong end) as 'SanLuong' from header_ThucHienTheoNgay headTH
                                         inner
                                         join ThucHien_TieuChi_TheoNgay thDay
                                         on headTH.HeaderID = thDay.HeaderID
 										join ThucHienTheoNgay tht on headTH.NgayID = tht.NgayID
-                                        where headTH.MaPhongBan = @px and tht.Ngay = @date2 and headTH.Ca <= @ca) as d on b.MaTieuChi = d.MaTieuChi
+                                        where headTH.MaPhongBan = @px and tht.Ngay = @date2 and headTH.Ca <= @ca
+										group by thDay.MaTieuChi, tht.NgaySanXuat) as d on b.MaTieuChi = d.MaTieuChi
 
                                         order by a.MaTieuChi ASC";
                         listSX = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
@@ -288,7 +289,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                             "on b.MaPhongBan = a.MaPhongBan " +
                             "order by a.MaTieuChi";
                         listKH = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
-                                                                    new SqlParameter("date", date_sql),
+                                                                    new SqlParameter("date", date_sql2),
                                                                     new SqlParameter("thang", month),
                                                                     new SqlParameter("nam", year)).ToList();
                     }
@@ -310,7 +311,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 "on c.MaTieuChi = a.MaTieuChi " +
                                 "order by a.MaTieuChi";
                         listKH = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
-                                                                      new SqlParameter("date", date_sql),
+                                                                      new SqlParameter("date", date_sql2),
                                                                       new SqlParameter("ca", ca),
                                                                       new SqlParameter("thang", month),
                                                                       new SqlParameter("nam", year)).ToList();
