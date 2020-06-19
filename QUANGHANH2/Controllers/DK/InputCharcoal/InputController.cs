@@ -175,7 +175,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             int day = Convert.ToInt32(date.Split('/')[0]) > 1 ? Convert.ToInt32(date.Split('/')[0]) - 1 : 1;
             string date_sql = date.Split('/')[1] + "/" + day + "/" + date.Split('/')[2];
             string date_sql2 = date.Split('/')[1] + "/" + date.Split('/')[0] + "/" + date.Split('/')[2];
-            DateTime dateTime = Convert.ToDateTime(date_sql);
+            DateTime dateTime = Convert.ToDateTime(date_sql2);
             try
             {
                 if (!date.Equals(""))
@@ -185,7 +185,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     string sqltemp = @"select th.*, h.Ca, h.HeaderID, h.MaPhongBan
                                     from ThucHienTheoNgay th join header_ThucHienTheoNgay h on th.NgayID = h.NgayID
                                     where h.Ca = @ca and h.MaPhongBan = @px and th.Ngay = @date";
-                    List<header_ThucHienTheoNgay> checkList = db.Database.SqlQuery<header_ThucHienTheoNgay>(sqltemp, new SqlParameter("ca", ca), new SqlParameter("px", px_value), new SqlParameter("date", date_sql)).ToList();
+                    List<header_ThucHienTheoNgay> checkList = db.Database.SqlQuery<header_ThucHienTheoNgay>(sqltemp, new SqlParameter("ca", ca), new SqlParameter("px", px_value), new SqlParameter("date", date_sql2)).ToList();
                     List<header_KeHoach_TieuChi_TheoNgay> checkList2 = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.NgayNhapKH == dateTime).ToList();
                     sqltemp = @"select h.*
                                 from header_KeHoachTungThang h join KeHoachTungThang kh on h.ThangID = kh.ThangID
@@ -194,9 +194,9 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
 
                     if (checkList.Count <= 0)
                     {
-                        string tempquery = date.Split('/')[0] == "01" ? "" : "+ d.SanLuong";
+                        string tempquery = date.Split('/')[0] == "01" ? "" : "+ (case when d.SanLuong is null then 0 else d.SanLuong end)";
                         string tempCa = date.Split('/')[0] == "01" ? " and h.Ca <= @ca" : "";
-                        string sql = @"select a.MaTieuChi, a.TenTieuChi,case when b.luyke is null then 0 else b.luyke  " + tempquery + @" 'LuyKe', a.DonViDo from 
+                        string sql = @"select a.MaTieuChi, a.TenTieuChi,case when b.luyke is null then 0 else b.luyke " + tempquery + @" end 'LuyKe', a.DonViDo from 
                                         (select pb.MaTieuChi, tc.TenTieuChi, tc.DonViDo from PhongBan_TieuChi pb left 
                                         join TieuChi tc 
                                         on pb.MaTieuChi = tc.MaTieuChi 
@@ -212,12 +212,13 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                         group by a.MaPhongBan,a.MaTieuChi) as b 
                                         on a.MaTieuChi = b.MaTieuChi 
                                         
-										left outer join (select thDay.MaTieuChi, thDay.GhiChu, tht.NgaySanXuat, thDay.SanLuong from header_ThucHienTheoNgay headTH
+										left outer join (select thDay.MaTieuChi, tht.NgaySanXuat, SUM(case when thDay.SanLuong is null then 0 else thDay.SanLuong end) as 'SanLuong' from header_ThucHienTheoNgay headTH
                                         inner
                                         join ThucHien_TieuChi_TheoNgay thDay
                                         on headTH.HeaderID = thDay.HeaderID
 										join ThucHienTheoNgay tht on headTH.NgayID = tht.NgayID
-                                        where headTH.MaPhongBan = @px and tht.Ngay = @date2 and headTH.Ca <= @ca) as d on b.MaTieuChi = d.MaTieuChi
+                                        where headTH.MaPhongBan = @px and tht.Ngay = @date2 and headTH.Ca <= @ca
+										group by thDay.MaTieuChi, tht.NgaySanXuat) as d on b.MaTieuChi = d.MaTieuChi
 
                                         order by a.MaTieuChi ASC";
                         listSX = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
@@ -230,7 +231,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     }
                     else
                     {
-                        string tempquery = date.Split('/')[0] == "01" ? "" : "+ d.SanLuong";
+                        string tempquery = date.Split('/')[0] == "01" ? "" : "+ (case when d.SanLuong is null then 0 else d.SanLuong end)";
                         string tempCa = date.Split('/')[0] == "01" ? " and h.Ca <= @ca" : "";
                         string query = @"select c.MaTieuChi, case when a.GhiChu is null then '' else a.GhiChu end 'GhiChu',
                                         case when a.NgaySanXuat is null then 0 else a.NgaySanXuat end 'NgaySanXuat', 
@@ -288,7 +289,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                             "on b.MaPhongBan = a.MaPhongBan " +
                             "order by a.MaTieuChi";
                         listKH = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
-                                                                    new SqlParameter("date", date_sql),
+                                                                    new SqlParameter("date", date_sql2),
                                                                     new SqlParameter("thang", month),
                                                                     new SqlParameter("nam", year)).ToList();
                     }
@@ -310,7 +311,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                                 "on c.MaTieuChi = a.MaTieuChi " +
                                 "order by a.MaTieuChi";
                         listKH = db.Database.SqlQuery<SanXuat>(sql, new SqlParameter("px", px_value),
-                                                                      new SqlParameter("date", date_sql),
+                                                                      new SqlParameter("date", date_sql2),
                                                                       new SqlParameter("ca", ca),
                                                                       new SqlParameter("thang", month),
                                                                       new SqlParameter("nam", year)).ToList();
@@ -402,6 +403,15 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                 e.Message.ToString();
                 return Json(new { success = false, message = "Có lỗi xảy ra" }, JsonRequestBehavior.AllowGet);
             }
+            string sqltmep = @"select *
+                                from ThucHienTheoNgay
+                                where Ngay = @date";
+            ThucHienTheoNgay thtt = db.Database.SqlQuery<ThucHienTheoNgay>(sqltmep, new SqlParameter("date", date_sql2)).FirstOrDefault();
+            string temp = "0";
+            if (thtt != null)
+            {
+                temp = thtt.NgaySanXuat.ToString();
+            }
             var ngaySX = db.KeHoachTungThangs.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
             ViewBag.SoNgaySX = ngaySX;
 
@@ -412,7 +422,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             {
                 try
                 {
-                    ngay_SX_now = listSX.ElementAt(0).NgaySanXuat;
+                    ngay_SX_now = Convert.ToInt32(temp);
 
 
                     foreach (var item in listSX)
@@ -442,7 +452,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         }
                         else
                         {
-                            item.OneDay = (Math.Round(Convert.ToDouble(item.tong) / Convert.ToDouble(ngaySX - item.NgaySanXuat), 2)).ToString();
+                            item.OneDay = (Math.Round(Convert.ToDouble(item.tong) / Convert.ToDouble(ngaySX - ngay_SX_now), 2)).ToString();
                         }
                         item.LuyKe = (Math.Round(Convert.ToDouble(item.LuyKe) - Convert.ToDouble(item.SanLuong), 2));
                     }
@@ -459,15 +469,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             {
                 e.Message.ToString();
             }
-            string sqltmep = @"select *
-                                from ThucHienTheoNgay
-                                where Ngay = @date";
-            ThucHienTheoNgay thtt = db.Database.SqlQuery<ThucHienTheoNgay>(sqltmep, new SqlParameter("date", date_sql2)).FirstOrDefault();
-            string temp = "0";
-            if (thtt != null)
-            {
-                temp = thtt.NgaySanXuat.ToString();
-            }
+            
             return Json(new
             {
                 success = true,

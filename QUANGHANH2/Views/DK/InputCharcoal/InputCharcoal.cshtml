@@ -52,7 +52,7 @@
                     <div class="input-field col s3 m3 l3"></div>
                 </div>
                 <div class="input-field col l3 m12 s12">
-                    <input type="text" placeholder="Ngày" value="@ViewBag.NgayNhap" autocomplete="off" class='form-control date-click center' id="dateInput" name="ngayNhap" multiple />
+                    <input type="text" placeholder="Ngày" value="@ViewBag.NgayNhap" autocomplete="off" class='form-control date-click center maxDate' id="dateInput" name="ngayNhap" multiple readonly />
                 </div>
                 <div class="input-field col l3 m12 s12">
                     <select class="form-control" id="cbx-px" name="px_value">
@@ -125,7 +125,7 @@
                     </div>
                     <input type="hidden" id="luyKe" value="@ViewBag.luyKe" />
 
-                    <button class="btn blue darken-2" type="submit">Lưu</button>
+                    <button id="save-button" class="btn blue darken-2" type="submit">Lưu</button>
                 </div>
             </div>
         </div>
@@ -138,7 +138,7 @@
         <div class="card-content">
             <div class="modal-header row">
                 <h4 class="col l6">Nhập ngày sản xuất hôm nay</h4>
-                <input id="nsx" class="form-control col l6" type="text" />
+                <input id="nsx" class="form-control col l6" type="text" value="0" />
                 @*<button id="butluu">Lưu</button>*@
             </div>
 
@@ -175,7 +175,10 @@
 <script src="~/js/Custom JS/DK/InputCharcoal/AddRow.js"></script>
 
 <script>
+
+
     $(document).ready(function () {
+
         var ngaySanXuat = document.getElementById('ngaySanXuat').value;
         var SoNgaySX = document.getElementById('SoNgaySX').value;
         var phanTramNgay = document.getElementById('phanTramNgay').value;
@@ -184,7 +187,7 @@
         $('li .active').removeClass('active')
         return 'You have unsaved changes!';
     }
-
+    var ck = 0;
     $(document).ready(function () {
         $("#process").hide();
         var check = $('#ngaySanXuat').val();
@@ -203,6 +206,7 @@
         $('#cbx-px').change(function () {
             if ($('#cbx-px').val() != null && $('#dateInput').val() != null) {
                 $('#changeButton').removeAttr("disabled");
+                ck = 1;
             }
         })
     })
@@ -298,7 +302,6 @@
     });
 
     $("#butluu_edit").click(function () {
-        $("#pre-load").show();
         $.ajax({
             type: "POST",
             url: "/phong-dieu-khien/editnsx",
@@ -318,10 +321,9 @@
                         $("#tiendoNgay").text(Math.round(phanTram, 2));
                     }
                     $("#ngaySXconlai").text(soNgaySx - ngaySx);
-                    successAlert(response.title, response.message);
                     $("#butsnlv").hide();
                     $("#butsnlvedit").show();
-                    $("#pre-load").hide();
+                    change2();
                 }
                 else {
                     errorAlert(response.title, response.message);
@@ -356,6 +358,7 @@
                                 $("#dayMonthDis").empty();
                                 var check = $('#ngaySanXuat').val();
                                 if (check == "0") {
+                                    $('#butluu').prop('disabled', true);
                                     $("#butsnlv").click();
                                     $("#butsnlvedit").hide();
                                 }
@@ -408,6 +411,86 @@
                     })
                 }
             );
+        } else {
+            errorAlert("Có lỗi", "Chưa nhập ngày");
+        }
+    }
+    function change2() {
+        if ($('#dateInput').val() != "") {
+                    $("#pre-load").show("slow", function () {
+                    });
+                    $("#pre-load").css("z-index", "99999");
+                    var px_value = $('#cbx-px').val();
+                    var date = $('#dateInput').val();
+                    var ca_value = $('#cbx-group').val();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/change',
+                        dataType: 'json',
+                        data: { 'px_value': px_value, 'date': date, 'ca_value': ca_value },
+                        success: function (response) {
+                            if (response.success == true) {
+                                $("#process").show();
+                                $("#ngaySanXuat").val(response.NgaySX);
+                                $("#ngaySXhientai").text(response.NgaySX);
+                                $("#SoNgaySX").val(response.dateSX);
+                                $("#tongNgaySX").text(response.dateSX);
+                                $("#dayMonthDis").empty();
+                                var check = $('#ngaySanXuat').val();
+                                if (check == "0") {
+                                    $('#butluu').prop('disabled', true);
+                                    $("#butsnlv").click();
+                                    $("#butsnlvedit").hide();
+                                }
+                                else {
+                                    $("#butsnlv").hide();
+                                    $("#butsnlvedit").show();
+                                }
+                                document.getElementById("dayMonthDis").innerHTML = "Ngày " + response.ngay + " tháng " + response.thang;
+                                $("#monthDis").empty();
+                                document.getElementById("monthDis").innerHTML = "Tháng " + response.thang;
+                                $("#table-input-body").empty();
+                                for (i = 0; i < response.listSXLoad.length; i++) {
+                                    $("#table-input-body").append("<tr>");
+                                    $("#table-input-body").append('<th><input class="center" readonly style="border:none" name="tenTieuChi" value="' + response.listSXLoad[i].TenTieuChi + '"/></th>');
+                                    $("#table-input-body").append("<th>" + response.listSXLoad[i].DonViDo + "</th>");
+                                    $("#table-input-body").append('<td><input class="center" required value="' + response.listSXLoad[i].SanLuong + '" id="thucHien' + i + '" autocomplete="off" style="border:none" name="thucHien" onchange="THOnchange(' + i + ')"/></td>' +
+                                        '<td><input class="center" required value="' + response.listSXLoad[i].KeHoach + '"   id="keHoach' + i + '" autocomplete="off" style="border:none" name="keHoach" onchange="KHOnchange(' + i + ')" /></td>' +
+                                        '<td><input class="center" value="' + response.listSXLoad[i].chenhlech + '" readonly id="chenhLech' + i + '" autocomplete="off" style="border:none" name="chenhLech" /></td>' +
+                                        '<td><input class="center" value="' + response.listSXLoad[i].percentDay + '" readonly id="phanTramHT' + i + '" autocomplete="off" style="border:none" name="phanTramHT" /></td>' +
+                                        '<td><input class="center"  readonly id="luyKe' + i + '" value="' + response.listSXLoad[i].luyke_temp + '" autocomplete="off" style="border:none" name="luyKe" />' +
+                                        ' <input type="hidden" id="luyKeHidden' + i + '" value="' + response.listSXLoad[i].LuyKe + '" /></td > ' +
+                                        '<td><input class="center" required value="' + response.listSXLoad[i].KHDC + '"  id="KHDC' + i + '"  autocomplete="off" style="border:none" name="KHDC" onchange="KHDCOnchange(' + i + ')"/></td>' +
+                                        '<td><input class="center" value="' + response.listSXLoad[i].percentMonth + '" readonly id="phanTramTD' + i + '"  autocomplete="off" style="border:none" name="phanTramTD" /></td>' +
+                                        '<td><input class="center" value="' + response.listSXLoad[i].tong + '" readonly id="tong' + i + '" autocomplete="off" style="border:none" name="tong" /></td>' +
+                                        '<td><input class="center" value="' + response.listSXLoad[i].OneDay + '" readonly id="motNgay' + i + '" autocomplete="off" style="border:none" name="motNgay" /></td>' +
+                                        '<td><input class="center"  value="' + response.listSXLoad[i].GhiChu + '"  autocomplete="off" class="input-field" style="border:none" name="ghiChu" /></td>');
+                                    $("#table-input-body").append("</tr>");
+                                }
+                                $("#pre-load").hide("slow", function () {
+                                });
+                                var ngaySx = document.getElementById('ngaySanXuat').value;
+                                var soNgaySx = document.getElementById('SoNgaySX').value;
+                                if (ngaySx != '' && soNgaySx != '') {
+                                    var phanTram = ngaySx / soNgaySx * 100;
+                                    document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
+                                    $("#tiendoNgay").text(Math.round(phanTram, 2));
+
+                                }
+                                $("#ngaySXconlai").text(response.dateSX - response.NgaySX);
+                                ngaysx = $('#SoNgaySX').val();
+                                successAlert("Thành công", "Đổi thành công");
+                            } else {
+                                $("#pre-load").hide("slow", function () {
+                                });
+                                $("#table-input-body").empty();
+                                errorAlert("Có lỗi", response.message)
+                            }
+
+                        }
+                    })
+                
+            ;
         } else {
             errorAlert("Có lỗi", "Chưa nhập ngày");
         }
@@ -544,5 +627,8 @@
             document.getElementById('phanTramNgay').value = Math.round(phanTram, 2) + '%';
         }
     }
+
+
+
 
 </script>
