@@ -92,7 +92,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             ViewBag.dat = s;
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             string sql = @"select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS,a.QL_CTy, 
-                            (case when (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) != 0 then cast(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 as float) / cast((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as float) * 100 else 0 end) as 'tile' 
+                            ROUND((case when (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) != 0 then cast(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 as float) / cast((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as float) * 100 else 0 end),2) as 'tile' 
                              from 
 							 (select nv_d.MaPhongBan, dep.[index]
 								, SUM(case when ncv.MaNhomCongViec = 6 and h.Ca = '1' and nv_d.DiLam = '1' then 1 else 0 end) as 'KT1' 
@@ -188,7 +188,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             d = temp[2] + "-" + temp[1] + "-" + temp[0];
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             string sql = @"select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS,a.QL_CTy, 
-                            (case when (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) != 0 then cast(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 as float) / cast((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as float) * 100 else 0 end) as 'tile' 
+                            ROUND((case when (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) != 0 then cast(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 as float) / cast((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as float) * 100 else 0 end),2) as 'tile' 
                              from 
 							 (select nv_d.MaPhongBan, dep.[index]
 								, SUM(case when ncv.MaNhomCongViec = 6 and h.Ca = '1' and nv_d.DiLam = '1' then 1 else 0 end) as 'KT1' 
@@ -291,7 +291,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     string sql = @"select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS,a.QL_CTy, 
-                            (case when (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) != 0 then cast(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 as float) / cast((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as float) * 100 else 0 end) as 'tile' 
+                            ROUND((case when (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) != 0 then cast(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 as float) / cast((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as float) * 100 else 0 end),2) as 'tile' 
                              from 
 							 (select nv_d.MaPhongBan, dep.[index]
 								, SUM(case when ncv.MaNhomCongViec = 6 and h.Ca = '1' and nv_d.DiLam = '1' then 1 else 0 end) as 'KT1' 

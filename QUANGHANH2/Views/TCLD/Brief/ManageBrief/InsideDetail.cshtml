@@ -9,144 +9,126 @@
         <div class="row">
             <h3 class="center black-text">Thông tin cơ bản của hồ sơ</h3>
             <div class="row">
-                <div class="card">
-                    <div class="card-content">
-
-                        <div class="col m4">
-                            <label class='custom-label'>Mã nhân viên</label>
-                            <input disabled type="text" id="cb_maNV" class="inputEdit form-control" />
-                        </div>
-                        <div class="col m4">
-                            <label class='custom-label'>Họ và tên</label>
-                            <input disabled type="text" id="cb_ten" class="inputEdit form-control" />
-                        </div>
-                        <div class="col m4">
-                            <label class='custom-label'>Ngày sinh</label>
-                            <input disabled type="text" id="cb_ngaySinh" class="inputEdit form-control" />
-                        </div>
-                        <div class="col m4">
-                            <label class='custom-label'>Số chứng minh thư</label>
-                            <input disabled type="text" id="cb_cmt" class="inputEdit form-control" />
-                        </div>
-                        <div class="col m4">
-                            <label class='custom-label'>Số bảo hiểm xã hội</label>
-                            <input disabled type="text" id="cb_bhxh" class="inputEdit form-control" />
-                        </div>
-                        <div class="col m4">
-                            <label class='custom-label'>Số điện thoại</label>
-                            <input disabled type="text" id="cb_sodienthoai" class="inputEdit form-control" />
-                        </div>
-                        <div class="col m4">
-                            <label class='custom-label'>Quê quán</label>
-                            <input disabled type="text" id="cb_quequan" class="inputEdit form-control" />
-                        </div>
-                        <div class="col m4">
-                            <label class='custom-label'>Nơi ở hiện tại</label>
-                            <input disabled type="text" id="cb_noiohientai" class="inputEdit form-control" />
-                        </div>
-                        <div class="col m4">
-                            <label class='custom-label'>Trình độ học vấn</label>
-                            <input disabled type="text" id="cb_trinhdohocvan" class="inputEdit form-control" />
-                        </div>
-                    </div>
+                <div class="col m4">
+                    <label class='custom-label'>Mã nhân viên</label>
+                    <input disabled type="text" id="cb_maNV" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Họ và tên</label>
+                    <input disabled type="text" id="cb_ten" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Ngày sinh</label>
+                    <input disabled type="text" id="cb_ngaySinh" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Số chứng minh thư</label>
+                    <input disabled type="text" id="cb_cmt" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Số bảo hiểm xã hội</label>
+                    <input disabled type="text" id="cb_bhxh" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Số điện thoại</label>
+                    <input disabled type="text" id="cb_sodienthoai" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Quê quán</label>
+                    <input disabled type="text" id="cb_quequan" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Nơi ở hiện tại</label>
+                    <input disabled type="text" id="cb_noiohientai" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Trình độ học vấn</label>
+                    <input disabled type="text" id="cb_trinhdohocvan" class="inputEdit form-control" />
                 </div>
             </div>
         </div>
-
-        <br />
         <hr />
         <div class="row">
             <h3 class="center black-text">Chi tiết hồ sơ</h3>
             <div id="hosotrongcty">
-                <div class="row">
-                    <div class="card">
-                        <div class="card-content">
-                            <br />
-                            <table id="hoso_detail" class="table table-bordered table-responsive centered highlight">
-                                <thead>
-                                    <tr>
-                                        <th rowspan="2">Người giữ hồ sơ</th>
-                                        <th rowspan="2">Ngày nhận hồ sơ</th>
-                                        <th rowspan="2">Người giao hồ sơ</th>
-                                        <th rowspan="2">Cam kết tuyển dụng</th>
-                                        <th rowspan="2">Người bàn giao bằng nhập kho</th>
-                                        <th colspan="4">Quyết định tiếp nhận đơn vị cũ</th>
-                                        <th colspan="4">Quyết định chấm dứt đơn vị cũ</th>
-                                        <th rowspan="2">Sửa</th>
-                                    </tr>
-                                    <tr>
+                <div class="row table-responsive">
+                    <br />
+                    <table id="hoso_detail" class="table table-bordered table-responsive centered highlight">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Người giữ hồ sơ</th>
+                                <th rowspan="2">Ngày nhận hồ sơ</th>
+                                <th rowspan="2">Người giao hồ sơ</th>
+                                <th rowspan="2">Cam kết tuyển dụng</th>
+                                <th rowspan="2">Người bàn giao bằng nhập kho</th>
+                                <th colspan="4">Quyết định tiếp nhận đơn vị cũ</th>
+                                <th colspan="4">Quyết định chấm dứt đơn vị cũ</th>
+                                <th rowspan="2">Sửa</th>
+                            </tr>
+                            <tr>
 
-                                        <th>Kiểu</th>
-                                        <th>Ngày QD</th>
-                                        <th>Ngày đi làm</th>
-                                        <th>Đơn vị ký quyết định tiếp nhận</th>
-                                        <th>Kiểu</th>
-                                        <th>Ngày quyết định chấm dứt</th>
-                                        <th>Ngày chấm dứt</th>
-                                        <th>Đơn vị ký chấm dứt</th>
+                                <th>Kiểu</th>
+                                <th>Ngày QD</th>
+                                <th>Ngày đi làm</th>
+                                <th>Đơn vị ký quyết định tiếp nhận</th>
+                                <th>Kiểu</th>
+                                <th>Ngày quyết định chấm dứt</th>
+                                <th>Ngày chấm dứt</th>
+                                <th>Đơn vị ký chấm dứt</th>
 
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                            <br />
-                        </div>
-                    </div>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <br />
                 </div>
             </div>
         </div>
-
+        <hr />
         <div class="row">
             <h3 class="center black-text">Chi tiết giấy tờ</h3>
             <div id="hoso_giayto">
-                <div class="row">
-                    <div class="card">
-                        <div class="card-content">
-                            <br />
-                            <table id="giayto_detail" class="table table-bordered table-responsive centered highlight">
-                                <thead>
-                                    <tr>
+                <div class="row table-responsive">
+                    <br />
+                    <table id="giayto_detail" class="table table-bordered table-responsive centered highlight">
+                        <thead>
+                            <tr>
 
-                                        <th>Tên giấy tờ</th>
-                                        <th>Kiểu giấy tờ</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                            <br />
-                        </div>
-                    </div>
+                                <th>Tên giấy tờ</th>
+                                <th>Kiểu giấy tờ</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <br />
                 </div>
             </div>
         </div>
 
+        <hr />
         <div class="row">
             <h3 class="center black-text">Chi tiết bằng cấp và giấy chứng nhận</h3>
             <div id="bang_cap_chitiet">
-                <div class="row">
-                    <div class="card">
-                        <div class="card-content">
-                            <br />
-                            <table id="bangcap_detail" class="table table-bordered table-responsive centered highlight">
-                                <thead>
-                                    <tr>
-                                        <th>Số hiệu</th>
-                                        <th>Loại</th>
-                                        <th>Tên bằng cấp</th>
-                                        <th>Kiểu</th>
-                                        <th>Trường</th>
-                                        <th>Chuyên ngành</th>
-                                        <th>Ngành</th>
-                                        <th>Ngày cấp</th>
-                                        <th>Thời hạn</th>
+                <div class="row table-responsive">
+                    <br />
+                    <table id="bangcap_detail" class="table table-bordered table-responsive centered highlight">
+                        <thead>
+                            <tr>
+                                <th>Số hiệu</th>
+                                <th>Loại</th>
+                                <th>Tên bằng cấp</th>
+                                <th>Kiểu</th>
+                                <th>Trường</th>
+                                <th>Chuyên ngành</th>
+                                <th>Ngành</th>
+                                <th>Ngày cấp</th>
+                                <th>Thời hạn</th>
 
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                            <br />
-                        </div>
-                    </div>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <br />
                 </div>
             </div>
         </div>
@@ -156,86 +138,73 @@
         <div class="row">
             <h3 class="center black-text">Chi tiết chứng chỉ</h3>
             <div id="">
-                <div class="row">
-                    <div class="card">
-                        <div class="card-content">
-                            <br />
-                            <table id="chung_chi_chi_tiet" class="table table-bordered table-responsive centered highlight">
-                                <thead>
-                                    <tr>
-                                        <th>Số hiệu</th>
-                                        <th>Tên chứng chỉ</th>
-                                        <th>Loại</th>
-                                        <th>Ngày cấp</th>
+                <div class="row table-responsive">
+                    <br />
+                    <table id="chung_chi_chi_tiet" class="table table-bordered table-responsive centered highlight">
+                        <thead>
+                            <tr>
+                                <th>Số hiệu</th>
+                                <th>Tên chứng chỉ</th>
+                                <th>Loại</th>
+                                <th>Ngày cấp</th>
 
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                            <br />
-                        </div>
-                    </div>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <br />
                 </div>
             </div>
         </div>
+        <hr />
 
         <div class="row">
             <h3 class="center black-text">Quan hệ gia đình</h3>
             <div id="quan_he_gia_dinh">
-                <div class="row">
-                    <div class="card">
-                        <div class="card-content">
-                            <br />
-                            <table id="quanhe_detail" class="table table-bordered table-responsive centered highlight">
-                                <thead>
-                                    <tr>
-                                        <th>Loại gia đình</th>
-                                        <th>Mối quan hệ</th>
-                                        <th>Tên</th>
+                <div class="row table-responsive">
+                    <br />
+                    <table id="quanhe_detail" class="table table-bordered table-responsive centered highlight">
+                        <thead>
+                            <tr>
+                                <th>Loại gia đình</th>
+                                <th>Mối quan hệ</th>
+                                <th>Tên</th>
 
-                                        <th>Ngày sinh</th>
-                                        <th>Lý lịch</th>
+                                <th>Ngày sinh</th>
+                                <th>Lý lịch</th>
 
 
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                            <br />
-                        </div>
-                    </div>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <br />
                 </div>
             </div>
         </div>
-
+        <hr />
 
         <div class="row">
 
             <h3 class="center black-text">Sơ yếu lý lịch</h3>
             <div id="so_yeu_ly_lich">
-                <div class="row">
-
-                    <div class="card">
-                        <div class="card-content">
-                            <br />
-                            <a class='waves-effect waves-light btn-small blue modal-trigger' data-target="AddSyll" style='margin-left:5px' id="add_so_yeu_ly_lich"> Thêm</a>
-                            <br />
-                            <table id="syll_detail" class="table table-bordered table-responsive centered highlight">
-                                <thead>
-                                    <tr>
-                                        <th>Năm bổ sung</th>
-                                        <th>Sửa</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                            <br />
-                        </div>
-                    </div>
+                <div class="row table-responsive">
+                    <br />
+                    <a class='waves-effect waves-light btn-small blue modal-trigger' data-target="AddSyll" style='margin-left:5px' id="add_so_yeu_ly_lich"> Thêm</a>
+                    <br />
+                    <table id="syll_detail" class="table table-bordered table-responsive centered highlight">
+                        <thead>
+                            <tr>
+                                <th>Năm bổ sung</th>
+                                <th>Sửa</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <br />
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 

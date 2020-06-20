@@ -3,14 +3,7 @@
 @using QUANGHANH2.Controllers
 @{
     ViewData["Title"] = "ViewJobByPX";
-    if (Session["departID"].ToString().Contains("PX"))
-    {
-        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
-    }
-    else
-    {
-        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
-    }
+    Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
     var arrPhanXuong = ViewBag.PhanXuongs;
     var arrNhiemVu = ViewBag.arrNhiemVu;
 }
@@ -272,7 +265,7 @@
 
         var newJob = []
         function selectNewJob(data) {
-            
+
         }
 
         var removeJob = []
@@ -297,7 +290,7 @@
             var name = $("#name_search").val()
             var mnv = $("#mnv_search").val()
             nameNormalized = normailize(name);
-            mnvNormalized = normailize(mnv)
+            mnvNormalized = normailize(mnv);
             if (nameNormalized == "") {
                 nameNormalized = null;
             }
@@ -309,7 +302,7 @@
                 name: nameNormalized,
                 mnv: mnvNormalized,
             }
-            var searchObjJson = JSON.stringify(searchObj)
+            var searchObjJson = encodeURIComponent(JSON.stringify(searchObj));
 
             dataTable.ajax.url('@Url.Action("SearchEmployeeInPX", "Task")?data=' + searchObjJson).load((response) => {
                 $("#pre-load").hide()

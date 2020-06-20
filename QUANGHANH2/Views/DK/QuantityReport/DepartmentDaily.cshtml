@@ -146,8 +146,12 @@
     });
 
     function changeDateFormat(date) {
-        var x = date.split("-")
-        return x[2] + '-' + x[1] + '-' + x[0];
+        if (date == null || date == "") {
+            return null;
+        } else {
+            var x = date.split("-")
+            return x[2] + '-' + x[1] + '-' + x[0];
+        }
     }
 
     function getInformation() {
@@ -214,9 +218,6 @@
                 $("#reportTable").children("tbody").html(content);
                 $("#pre-load").hide("slow", function () { });
                 var a = $("#reportTable > tbody > tr").length;
-                if (a == 0) {
-                    errorAlert('', 'Chưa có dữ liệu kế hoạch hôm nay');
-                }
             },
             error: function (response) {
             }
@@ -233,7 +234,9 @@
                 'date': changeDateFormat($("#yearCalendar").val()),
             },
             success: function (res) {
-                if (res.success) {
+                if (res.error) {
+                    errorAlert(res.title, res.message);
+                } else if (res.success) {
                     var response = JSON.parse(JSON.stringify(res.data));
                     window.location = '/phong-dieu-khien/bao-cao-san-xuat-than/download?fileGuid=' + response.FileGuid
                         + '&filename=' + response.FileName;
