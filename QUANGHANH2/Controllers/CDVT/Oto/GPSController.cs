@@ -36,9 +36,9 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
             DateTime date = DateTime.ParseExact(stringDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             int session = 0;
-            if (DateTime.Now.Hour >= 7 && DateTime.Now.Hour < 15 && DateTime.Now.Date == date) session = 1;
-            if (DateTime.Now.Hour >= 15 && DateTime.Now.Hour < 23 && DateTime.Now.Date == date) session = 2;
-            if ((DateTime.Now.Hour >= 23 && DateTime.Now.Date == date) || (DateTime.Now.Hour < 7 && DateTime.Now.Date.AddDays(-1) == date)) session = 3;
+            if (DateTime.Now.Hour >= 6 && DateTime.Now.Hour < 14 && DateTime.Now.Date == date) session = 1;
+            if (DateTime.Now.Hour >= 14 && DateTime.Now.Hour < 22 && DateTime.Now.Date == date) session = 2;
+            if ((DateTime.Now.Hour >= 22 && DateTime.Now.Date == date) || (DateTime.Now.Hour < 6 && DateTime.Now.Date.AddDays(-1) == date)) session = 3;
 
             string varname1 = @"select d.equipmentId, e.Equipment_category_name, d.ca1, d.reason1, d.ca2, d.reason2, d.ca3, d.reason3 from
 	(select a.equipmentId, a.equipment_name, a.Equipment_category_id, a.ca1, a.reason1, b.ca2, b.reason2, c.ca3, c.reason3 from   

@@ -34,9 +34,9 @@ namespace QUANGHANH2.Controllers.Camera
             DateTime date = DateTime.ParseExact(stringDate, "dd/MM/yyyy", null);
 
             int session = 0;
-            if (DateTime.Now.Hour >= 7 && DateTime.Now.Hour < 15 && DateTime.Now.Date == date) session = 1;
-            if (DateTime.Now.Hour >= 15 && DateTime.Now.Hour < 23 && DateTime.Now.Date == date) session = 2;
-            if ((DateTime.Now.Hour >= 23 && DateTime.Now.Date == date) || (DateTime.Now.Hour < 7 && DateTime.Now.Date.AddDays(-1) == date)) session = 3;
+            if (DateTime.Now.Hour >= 6 && DateTime.Now.Hour < 14 && DateTime.Now.Date == date) session = 1;
+            if (DateTime.Now.Hour >= 14 && DateTime.Now.Hour < 22 && DateTime.Now.Date == date) session = 2;
+            if ((DateTime.Now.Hour >= 22 && DateTime.Now.Date == date) || (DateTime.Now.Hour < 6 && DateTime.Now.Date.AddDays(-1) == date)) session = 3;
 
             string varname1 = @"select e.room_id, e.room_name, d.department_name, e.ca1, e.ca2, e.ca3 from
 	            (select r.room_id, r.room_name, r.department_id, a.ca1, b.ca2, c.ca3 from Room r left join

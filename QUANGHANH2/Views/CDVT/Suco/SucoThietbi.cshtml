@@ -33,21 +33,20 @@
         <div class="row">
             <h3 class="center"><b>THÔNG TIN SỰ CỐ</b></h3>
             <hr>
-            <datalist id="listid-s"></datalist>
             <form action="" method="POST" id="mysearchform" role="form">
                 <div class="row center">
                     <div class="col l4 m4 s12">
                         <div class="row">
                             <div class="col l10 m10 s12 input-field">
-                                <input list="listid-s" type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search" />
+                                <input list="equipmentId" type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search" />
                             </div>
                             <div class="col l10 m10 s12 input-field">
-                                <input list="listid-s" type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
+                                <input list="equipment_name" type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
                             </div>
                             @{ if (!Session["departID"].ToString().Contains("PX"))
                                 {
                                     <div class="col l10 m10 s12 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo phân xưởng chịu trách nhiệm" class='form-control' id="department-search" />
+                                        <input type="text" list="department_name" placeholder="Tìm kiếm theo phân xưởng chịu trách nhiệm" class='form-control' id="department-search" />
                                     </div>
                                 }
                             }
@@ -68,10 +67,10 @@
                     <div class="col l4 m4 s12">
                         <div class="row">
                             <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                <input list="listid-s" type="text" placeholder="Tìm kiếm theo vị trí chi tiết" class='form-control' id="detail-search" />
+                                <input type="text" placeholder="Tìm kiếm theo vị trí chi tiết" class='form-control' id="detail-search" />
                             </div>
                             <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                <input list="listid-s" type="text" placeholder="Tìm kiếm theo lý do sự cố" class='form-control' id="reason-search" />
+                                <input type="text" placeholder="Tìm kiếm theo lý do sự cố" class='form-control' id="reason-search" />
                             </div>
                             <div class="col l12 m12 s12 input-field center">
                                 <a class="waves-effect waves-light btn blue darken-2" id="searchButton1">Tìm kiếm</a>
@@ -338,24 +337,17 @@
     </div>
 </form>
 
-
-
-
-@using (Html.BeginForm("ChangeID", "SucoThietbi", FormMethod.Post, new
-{
-    id = "ChangeIDForm",
-    enctype = "multipart/form-data",
-    onSubmit = "return ChangeID(this);",
-    data_restUrl = Url.Action("ChangeID", "SucoThietbi", new { id = "" })
-}))
-{
-    <input type="hidden" id="id-s" name="id" value=" " />
-    <input type="hidden" id="ck" name="ck" value="0" />
-}
 <datalist id="equipmentId">
-    @foreach (var item in ViewBag.equipments)
+    @foreach (QUANGHANH2.Models.Equipment item in ViewBag.equipments)
     {
         <option>@item.equipmentId</option>
+    }
+</datalist>
+
+<datalist id="equipment_name">
+    @foreach (QUANGHANH2.Models.Equipment item in ViewBag.equipments)
+    {
+        <option>@item.equipment_name</option>
     }
 </datalist>
 
