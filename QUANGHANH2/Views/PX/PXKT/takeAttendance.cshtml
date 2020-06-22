@@ -1,13 +1,6 @@
 ﻿@{
     ViewData["Title"] = "diem-danh";
-    if (Session["departID"].ToString().Contains("PX"))
-    {
-        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
-    }
-    else
-    {
-        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
-    }
+    Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
 }
 
 <div class="card">
@@ -72,7 +65,7 @@
                             <th>Mã Điểm Danh</th>
                             <th>Thời gian có mặt</th>
                             @*<th>Thời gian xuống lò</th>
-                            <th>Thời gian lên lò</th>*@
+                                <th>Thời gian lên lò</th>*@
                             <th>Lý do vắng mặt</th>
                             <th>Ghi chú</th>
                         </tr>
@@ -296,80 +289,79 @@
                             orderable: false,
                             searchable: false
                         },
-                    {
-                        data: "status", render: function (data, type, row) {
-                            if (data) {
-                                return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" class=\"checkBox1\" id='" + row["maNV"] + "-status'/><span></span></label>";
-                            } else {
-                                return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\"disabled=\"disabled\"class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-status\"/><span></span></label>";
-                            }
-                        },
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: "headerID", render: function (data) {
-                            if (data != null) {
-                                return data
-                            } else {
-                                return "";
-                            }
-                        },
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: "timeAttendance", render: function (data) {
-                            if (data != null) {
-                                return "<span class=\"dateTime\">" + data + "</span>"
-                            } else
-                                return "<span class=\"dateTimeTest\"></span>"
-                        },
-                        orderable: false,
-                        searchable: false
-                    },
-                    //{
-                    //    data: "",
-                    //    orderable: false,
-                    //    searchable: false
-                    //},
-                    //{
-                    //    data: "",
-                    //    orderable: false,
-                    //    searchable: false
-                    //},
-                    {
-                        data: "reason", render: function (data, type, row) {
-                            if (row['status']) {
-                                return ""
-                            } else {
-                                if (data != null) {
-                                    return "<span class=\"reasonBox\">" + data + "</span>"
+                        {
+                            data: "status", render: function (data, type, row) {
+                                if (data) {
+                                    return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" class=\"checkBox1\" id='" + row["maNV"] + "-status'/><span></span></label>";
                                 } else {
-                                    return "<span class=\"reasonBox\">" + "</span>"
+                                    return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\"disabled=\"disabled\"class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-status\"/><span></span></label>";
                                 }
-                            }
+                            },
+                            orderable: false,
+                            searchable: false
                         },
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: "description", render: function (data) {
-                            if (data != null) {
-                                return "<input disabled value=\"" + data + "\" type=\"text\" class=\"inputDescription\">"
-                            } else
-                                return "<input disabled value=\"\" type=\"text\" class=\"inputDescription\">"
+                        {
+                            data: "headerID", render: function (data) {
+                                if (data != null) {
+                                    return data
+                                } else {
+                                    return "";
+                                }
+                            },
+                            orderable: false,
+                            searchable: false
                         },
-                        orderable: false,
-                        searchable: false
-                    }
+                        {
+                            data: "timeAttendance", render: function (data) {
+                                if (data != null) {
+                                    return "<span class=\"dateTime\">" + data + "</span>"
+                                } else
+                                    return "<span class=\"dateTimeTest\"></span>"
+                            },
+                            orderable: false,
+                            searchable: false
+                        },
+                        //{
+                        //    data: "",
+                        //    orderable: false,
+                        //    searchable: false
+                        //},
+                        //{
+                        //    data: "",
+                        //    orderable: false,
+                        //    searchable: false
+                        //},
+                        {
+                            data: "reason", render: function (data, type, row) {
+                                if (row['status']) {
+                                    return ""
+                                } else {
+                                    if (data != null) {
+                                        return "<span class=\"reasonBox\">" + data + "</span>"
+                                    } else {
+                                        return "<span class=\"reasonBox\">" + "</span>"
+                                    }
+                                }
+                            },
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: "description", render: function (data) {
+                                if (data != null) {
+                                    return "<input disabled value=\"" + data + "\" type=\"text\" class=\"inputDescription\">"
+                                } else
+                                    return "<input disabled value=\"\" type=\"text\" class=\"inputDescription\">"
+                            },
+                            orderable: false,
+                            searchable: false
+                        }
                     ]
                 })
         })
 
         function getcontent() {
-            if (mode == 1)
-            {
+            if (mode == 1) {
                 $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>Cập Nhật");
                 mode = 0;
             }
@@ -475,7 +467,7 @@
                             $("#workedAllCheckbox").show();
                             $("#notWorkedAllCheckbox").show();
                             successAlert('Cập nhật thành công', '');
-                    })
+                        })
                 } else {
                     successAlert('Cập nhật thành công', '');
                     $("#workedAllCheckbox").show();

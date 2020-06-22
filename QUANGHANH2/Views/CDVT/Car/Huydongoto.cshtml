@@ -809,6 +809,8 @@
         function SubmitForm(form) {
             $("#pre-load").show("slow", function () {
             });
+            $("#pre-load").css("z-index", "99999");
+            $("#pre-load").show();
 
             $.validator.unobtrusive.parse(form);
 
@@ -819,22 +821,65 @@
                     data: $(form).serialize(),
                     success: function (data) {
                         dataTable.ajax.reload();
-                        if (data.success == false) {
-                            errorAlert(data.message);
-                        } else {
-                            successAlert('Thêm thành công', '');
+                        var ck = $("#changetype").val();
+                        if (ck == "1") {
+                            window.location.reload(true);
                         }
+                        ClearInput();
+                        //window.location.reload(true);
                         $("#pre-load").hide("slow", function () {
                         });
                         $("#pre-load").hide();
 
-                    }
+                        if (data.success == false) {
+                            errorAlert('Lỗi', 'Có lỗi xảy ra');
+                        } else {
+                            successAlert('Thêm thành công', '');
+                        }
+
+
+                    },
+                    error: function (data) {
+
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        $("#pre-load").hide();
+                        dataTable.ajax.reload();
+                         if (data.success == false) {
+                            errorAlert('Lỗi', 'Có lỗi xảy ra');
+                        } else {
+                            successAlert('Thêm thành công', '');
+                        }
+
+                    },
                 });
             }
 
-
             return false;
         }
+
+        
+        function ClearInput() {
+            $("#save").closest('form').find("input[type=text], textarea, input[type=number]").val("");
+            $("#save2").closest('form').find("input[type=text], textarea, input[type=number]").val("");
+            var x = document.getElementById("myTable").rows.length;
+            for (i = 2; i < x; i++) {
+                document.getElementById("myTable").deleteRow(i);
+            }
+            x = document.getElementById("myTableSupVTDK").rows.length;
+            for (i = 2; i < x; i++) {
+                document.getElementById("myTableSupVTDK").deleteRow(i);
+            }
+            x = document.getElementById("myTableSup").rows.length;
+            for (i = 2; i < x; i++) {
+                document.getElementById("myTableSup").deleteRow(i);
+            }
+            //$("#myTableSupVTDK").find("input[type=text], textarea").val("");
+            //$("#myTableSup").find("input[type=text], textarea").val("");
+            //$("#myTable").find("input[type=text], textarea").val("");
+            //$("#cateTB").find("input[type=text], textarea").val("");
+        }
+
         function Edit(url) {
             $("#pre-load").show("slow", function () {
             });
