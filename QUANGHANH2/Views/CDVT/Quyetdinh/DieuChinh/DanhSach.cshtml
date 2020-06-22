@@ -254,14 +254,17 @@
 
         $("#ExportExcel").click(function () {
             $("#pre-load").show();
-            $("#pre-load").css("z-index", "9999");
             $.ajax({
-                url: '@Url.Action("ExportExcel","Caitien")',
+                url: '/phong-cdvt/quyet-dinh/dieu-chinh/export',
                 type: 'POST',
-
-            }).done(function () {
-                window.location.href = "/excel/CDVT/download/BaoDuongThietBi.xlsx";
-                 $("#pre-load").hide();
+                success: function () {
+                    window.location.href = "/phong-cdvt/quyet-dinh/dieu-chinh/export";
+                    $("#pre-load").hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $("#pre-load").hide();
+                }
             })
         });
     </script>
