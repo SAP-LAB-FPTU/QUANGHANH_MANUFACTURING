@@ -883,7 +883,7 @@
         if (pb.substring(0, 3) === 'VTL') { $("#hide4").show(); GetRightFromDBNotFill(9); }
         if (pb === 'XD') { $("#hide9").show(); GetRightFromDBNotFill(15); }
         if (pb === 'AT') { $("#hide19").show(); GetRightFromDBNotFill(17); }
-        if (pb === 'PXCBT') { $("#hide20").show(); GetRightFromDBNotFill(20); }
+        if (pb === 'CBT') { $("#hide20").show(); GetRightFromDBNotFill(20); }
     }
 
     function show() {
@@ -1013,7 +1013,7 @@
         if (pb.substring(0, 3) === 'VTL') { var rights = GetAcceptRights(right9); }
         if (pb === 'XD') { var rights = GetAcceptRights(right15); }
         if (pb === 'AT') { var rights = GetAcceptRights(right17); }
-        if (pb === 'PXCBT') { var rights = GetAcceptRights(right20); }
+        if (pb === 'CBT') { var rights = GetAcceptRights(right20); }
         if (rights == null) {
             $("#modalNotify").modal('open');
             document.getElementById("notifyMessage").innerHTML = 'Không thể tạo tài khoản cho phòng ban này';
