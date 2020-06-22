@@ -44,8 +44,8 @@
                     }
                     <a href="javascript:void(0);" id="ExportExcel" class="waves-effect waves-light btn blue darken-1 blue">Xuất Excel</a>
                 </div>
-                <div class="col s12">
-                    <table class="striped centered responsive-table mytable table-bordered" id="DocumnetaryTable">
+                <div class="col s12 table_container">
+                    <table class="striped centered mytable table-bordered table-responsive" id="DocumnetaryTable">
                         <thead>
                             <tr>
                                 <th class="center">Ngày</th>
@@ -254,14 +254,17 @@
 
         $("#ExportExcel").click(function () {
             $("#pre-load").show();
-            $("#pre-load").css("z-index", "9999");
             $.ajax({
-                url: '@Url.Action("ExportExcel","Caitien")',
+                url: '/phong-cdvt/quyet-dinh/dieu-chinh/export',
                 type: 'POST',
-
-            }).done(function () {
-                window.location.href = "/excel/CDVT/download/BaoDuongThietBi.xlsx";
-                 $("#pre-load").hide();
+                success: function () {
+                    window.location.href = "/phong-cdvt/quyet-dinh/dieu-chinh/export";
+                    $("#pre-load").hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $("#pre-load").hide();
+                }
             })
         });
     </script>
