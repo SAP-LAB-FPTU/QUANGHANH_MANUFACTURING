@@ -134,55 +134,62 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
             return Json(new { success = true, data = documentaryList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
-        public void ExportExcel()
+        [Auther(RightID = "38")]
+        [Route("phong-cdvt/quyet-dinh/dieu-dong/export")]
+        public ActionResult ExportExcel()
         {
-            string path = HostingEnvironment.MapPath("/excel/CDVT/danhsachsuachua_Template.xlsx");
-            FileInfo file = new FileInfo(path);
-
-            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            string fileName = HostingEnvironment.MapPath("/excel/CDVT/danhsachsuachua_Template.xlsx");
+            byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
+            using (var stream = new MemoryStream())
+            {
+                stream.Write(byteArray, 0, byteArray.Length);
+                using (ExcelPackage excelPackage = new ExcelPackage(stream))
             {
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
 
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    List<Documentary_Extend> documentaryList = (from document in db.Documentaries
+                    List<Documentary_Export> documentaryList = (from document in db.Documentaries
                                                                 where (document.documentary_type.Equals(3) && (document.documentary_code == "" || document.documentary_code == null))
                                                                 join detail in db.Documentary_moveline_details on document.documentary_id equals detail.documentary_id
                                                                 into temporary
-                                                                select new
+                                                                select new Documentary_Export
                                                                 {
-
-                                                                    document.date_created,
-                                                                    document.documentary_code,
-                                                                    document.person_created,
-                                                                    document.reason,
-                                                                    document.out_in_come,
+                                                                    date_created = document.date_created,
+                                                                    documentary_code = document.documentary_code,
+                                                                    person_created = document.person_created,
+                                                                    reason = document.reason,
+                                                                    out_in_come = document.out_in_come,
                                                                     count = temporary.Select(x => new { x.equipmentId }).Count()
-                                                                }).ToList().Select(p => new Documentary_Extend
-                                                                {
-
-                                                                    date_created = p.date_created,
-                                                                    documentary_code = p.documentary_code,
-                                                                    person_created = p.person_created,
-                                                                    reason = p.reason,
-                                                                    out_in_come = p.out_in_come,
-                                                                    count = p.count
                                                                 }).ToList();
-                    int k = 0;
-                    for (int i = 2; i < documentaryList.Count + 2; i++)
-                    {
-                        excelWorksheet.Cells[i, 1].Value = (k + 1);
-                        excelWorksheet.Cells[i, 2].Value = documentaryList.ElementAt(k).date_created.ToString("hh:mm tt dd/MM/yyyy");
-                        excelWorksheet.Cells[i, 3].Value = documentaryList.ElementAt(k).documentary_code;
-                        excelWorksheet.Cells[i, 4].Value = documentaryList.ElementAt(k).person_created;
-                        excelWorksheet.Cells[i, 5].Value = documentaryList.ElementAt(k).count;
-                        excelWorksheet.Cells[i, 6].Value = documentaryList.ElementAt(k).reason;
-                        excelWorksheet.Cells[i, 7].Value = documentaryList.ElementAt(k).out_in_come;
-                        k++;
+                        int k = 0;
+                        for (int i = 2; i < documentaryList.Count + 2; i++)
+                        {
+                            excelWorksheet.Cells[i, 1].Value = (k + 1);
+                            excelWorksheet.Cells[i, 2].Value = documentaryList.ElementAt(k).date_created.ToString("hh:mm tt dd/MM/yyyy");
+                            excelWorksheet.Cells[i, 3].Value = documentaryList.ElementAt(k).documentary_code;
+                            excelWorksheet.Cells[i, 4].Value = documentaryList.ElementAt(k).person_created;
+                            excelWorksheet.Cells[i, 5].Value = documentaryList.ElementAt(k).count;
+                            excelWorksheet.Cells[i, 6].Value = documentaryList.ElementAt(k).reason;
+                            excelWorksheet.Cells[i, 7].Value = documentaryList.ElementAt(k).out_in_come;
+                            k++;
+                        }
+
+                        stream.Position = 0;
+                        string handle = Guid.NewGuid().ToString();
+                        TempData[handle] = excelPackage.GetAsByteArray();
+
+                        if (TempData[handle] != null)
+                        {
+                            byte[] output = TempData[handle] as byte[];
+                            return File(output, "application/vnd.ms-excel", $"DieuDongThietBi.xlsx");
+                        }
+                        else
+                        {
+                            return new HttpStatusCodeResult(400);
+                        }
                     }
-                    string location = HostingEnvironment.MapPath("/excel/CDVT/download");
-                    excelPackage.SaveAs(new FileInfo(location + "/DieuDongThietBi.xlsx"));
                 }
             }
         }

@@ -267,17 +267,20 @@
         });
 //------------------------Export Excel------------------------
 
-            $("#ExportExcel").click(function () {
+        $("#ExportExcel").click(function () {
             $("#pre-load").show();
-            $("#pre-load").css("z-index", "9999");
             $.ajax({
                 url: '/phong-cdvt/quyet-dinh/thu-hoi/export',
                 type: 'POST',
-
-            }).done(function () {
-                window.location.href = "/excel/CDVT/download/ThuHoiThietBi.xlsx";
-                 $("#pre-load").hide();
-            })
+                success: function () {
+                    window.location.href = "/phong-cdvt/quyet-dinh/thu-hoi/export";
+                    $("#pre-load").hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $("#pre-load").hide();
+                }
+            });
         });
     </script>
 }

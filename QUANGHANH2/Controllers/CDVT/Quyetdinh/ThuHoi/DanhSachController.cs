@@ -11,21 +11,19 @@ using System.Linq;
 using System.Linq.Dynamic;
 using System.Threading.Tasks;
 using System.Web.Hosting;
-using System.Web.Mvc;using System.Web.Routing;
+using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
 {
     public class ThuhoiController : Controller
     {
-        [Auther(RightID = "30")]
+        [Auther(RightID = "39")]
         [Route("phong-cdvt/quyet-dinh/thu-hoi")]
         public ActionResult Index()
         {
-            return View("/Views/CDVT/Quyet_dinh/Quyet_dinh_thu_hoi.cshtml");
+            return View("/Views/CDVT/Quyetdinh/ThuHoi/DanhSach.cshtml");
         }
-
-
-       
 
         [Route("phong-cdvt/quyet-dinh/thu-hoi/edit")]
         [HttpPost]
@@ -83,9 +81,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                     message = "Trường mã quyết định là trường bắt buộc có"
                 }, JsonRequestBehavior.AllowGet);
             }
-            else
-
-                           if (String.IsNullOrEmpty(date_created))
+            else if (String.IsNullOrEmpty(date_created))
             {
                 return Json(new
                 {
@@ -93,9 +89,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                     message = "Trường mã quyết định là trường bắt buộc có"
                 }, JsonRequestBehavior.AllowGet);
             }
-            else
-
-                           if (String.IsNullOrEmpty(person_created))
+            else if (String.IsNullOrEmpty(person_created))
             {
                 return Json(new
                 {
@@ -103,9 +97,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                     message = "Trường người lập quyết định là trường bắt buộc có"
                 }, JsonRequestBehavior.AllowGet);
             }
-            else
-
-                           if (String.IsNullOrEmpty(reason))
+            else if (String.IsNullOrEmpty(reason))
             {
                 return Json(new
                 {
@@ -245,27 +237,21 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             }
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
-                documentaryList = (from document in db.Documentaries
-                                   where document.documentary_type.Equals(4) && (document.documentary_code == "" || document.documentary_code == null) && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
-                                   join detail in db.Documentary_revoke_details on document.documentary_id equals detail.documentary_id
-                             select new
-                             {
-                                 documentary_id = document.documentary_id,
-                                 documentary_code = document.documentary_code,
-                                 date_created = document.date_created,
-                                 person_created = document.person_created,
-                                 reason = document.reason,
-                                 out_in_come = document.out_in_come,
-                             }).ToList().Select(p => new Documentary_Extend
-                             {
-                                 documentary_id = p.documentary_id,
-                                 documentary_code = p.documentary_code,
-                                 date_created = p.date_created,
-                                 person_created = p.person_created,
-                                 reason = p.reason,
-                                 out_in_come = p.out_in_come
-                             }).ToList();
-           
+            documentaryList = (from document in db.Documentaries
+                               where document.documentary_type.Equals(4) && (document.documentary_code == "" || document.documentary_code == null) && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
+                               join detail in db.Documentary_revoke_details on document.documentary_id equals detail.documentary_id
+                               into temporary
+                               select new Documentary_Extend
+                               {
+                                   documentary_id = document.documentary_id,
+                                   documentary_code = document.documentary_code,
+                                   date_created = document.date_created,
+                                   person_created = document.person_created,
+                                   reason = document.reason,
+                                   out_in_come = document.out_in_come,
+                                   count = temporary.Select(x => new { x.equipmentId }).Count()
+                               }).ToList();
+
             foreach (var el in documentaryList)
             {
                 if (el.documentary_code == null || el.documentary_code.Equals(""))
@@ -290,63 +276,64 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             return Json(new { success = true, data = documentaryList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
+        [Auther(RightID = "39")]
         [Route("phong-cdvt/quyet-dinh/thu-hoi/export")]
-        public void ExportExcel()
+        public ActionResult ExportExcel()
         {
-            string path = HostingEnvironment.MapPath("/excel/CDVT/danhsachsuachua_Template.xlsx");
-            FileInfo file = new FileInfo(path);
-
-            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            string fileName = HostingEnvironment.MapPath("/excel/CDVT/danhsachsuachua_Template.xlsx");
+            byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
+            using (var stream = new MemoryStream())
             {
-                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
-                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                stream.Write(byteArray, 0, byteArray.Length);
+                using (ExcelPackage excelPackage = new ExcelPackage(stream))
                 {
-                    List<Documentary_Extend> documentaryList = (from document in db.Documentaries
-                                                          where (document.documentary_type.Equals(4) && (document.documentary_code == "" || document.documentary_code == null))
-                                                          join detail in db.Documentary_revoke_details on document.documentary_id equals detail.documentary_id
-                                                          into temporary
-                                                          select new
-                                                          {
-                                                             
-                                                              date_created = document.date_created,
-                                                              documentary_code = document.documentary_code,
-                                                              person_created = document.person_created,
-                                                              reason = document.reason,
-                                                              out_in_come = document.out_in_come,
-                                                              count = temporary.Select(x => new { x.equipmentId }).Count()
-                                                          }).ToList().Select(p => new Documentary_Extend
-                                                          {
-                                                            
-                                                              date_created = p.date_created,
-                                                              documentary_code = p.documentary_code,
-                                                              person_created = p.person_created,
-                                                              reason = p.reason,
-                                                              out_in_come = p.out_in_come,
-                                                              count = p.count
-                                                          }).ToList();
-                    int k = 0;
-                    for (int i = 2; i < documentaryList.Count + 2; i++)
+                    ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                    ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+
+                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                     {
-                        excelWorksheet.Cells[i, 1].Value = (k + 1);
-                        excelWorksheet.Cells[i, 2].Value = documentaryList.ElementAt(k).date_created.ToString("hh:mm tt dd/MM/yyyy");
-                        excelWorksheet.Cells[i, 3].Value = documentaryList.ElementAt(k).documentary_code;
-                        excelWorksheet.Cells[i, 4].Value = documentaryList.ElementAt(k).person_created;
-                        excelWorksheet.Cells[i, 5].Value = documentaryList.ElementAt(k).count;
-                        excelWorksheet.Cells[i, 6].Value = documentaryList.ElementAt(k).reason;
-                        excelWorksheet.Cells[i, 7].Value = documentaryList.ElementAt(k).out_in_come;
-                        k++;
+                        List<Documentary_Export> documentaryList = (from document in db.Documentaries
+                                                                    where (document.documentary_type.Equals(4) && (document.documentary_code == "" || document.documentary_code == null))
+                                                                    join detail in db.Documentary_revoke_details on document.documentary_id equals detail.documentary_id
+                                                                    into temporary
+                                                                    select new Documentary_Export
+                                                                    {
+                                                                        date_created = document.date_created,
+                                                                        documentary_code = document.documentary_code,
+                                                                        person_created = document.person_created,
+                                                                        reason = document.reason,
+                                                                        out_in_come = document.out_in_come,
+                                                                        count = temporary.Select(x => new { x.equipmentId }).Count()
+                                                                    }).ToList();
+                        int k = 0;
+                        for (int i = 2; i < documentaryList.Count + 2; i++)
+                        {
+                            excelWorksheet.Cells[i, 1].Value = (k + 1);
+                            excelWorksheet.Cells[i, 2].Value = documentaryList.ElementAt(k).date_created.ToString("hh:mm tt dd/MM/yyyy");
+                            excelWorksheet.Cells[i, 3].Value = documentaryList.ElementAt(k).documentary_code;
+                            excelWorksheet.Cells[i, 4].Value = documentaryList.ElementAt(k).person_created;
+                            excelWorksheet.Cells[i, 5].Value = documentaryList.ElementAt(k).count;
+                            excelWorksheet.Cells[i, 6].Value = documentaryList.ElementAt(k).reason;
+                            excelWorksheet.Cells[i, 7].Value = documentaryList.ElementAt(k).out_in_come;
+                            k++;
+                        }
+
+                        stream.Position = 0;
+                        string handle = Guid.NewGuid().ToString();
+                        TempData[handle] = excelPackage.GetAsByteArray();
+
+                        if (TempData[handle] != null)
+                        {
+                            byte[] output = TempData[handle] as byte[];
+                            return File(output, "application/vnd.ms-excel", $"ThuHoiThietBi.xlsx");
+                        }
+                        else
+                        {
+                            return new HttpStatusCodeResult(400);
+                        }
                     }
-                    string location = HostingEnvironment.MapPath("/excel/CDVT/download");
-                    excelPackage.SaveAs(new FileInfo(location + "/ThuHoiThietBi.xlsx"));
                 }
-
             }
-
         }
-
-
-
     }
 }
