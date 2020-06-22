@@ -24,14 +24,19 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         public ActionResult Index()
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Equipment> equipments = DBContext.Equipments.ToList();
+            string departID = Session["departID"].ToString();
+            List<Equipment> equipments = new List<Equipment>();
+            if (departID == "ĐK" || departID == "CV")
+                equipments = DBContext.Equipments.ToList();
+            else
+                equipments = DBContext.Equipments.Where(x => x.department_id.Equals(departID)).ToList();
             List<Department> departments = DBContext.Departments.ToList();
             ViewBag.equipments = equipments;
             ViewBag.departments = departments;
             return View("/Views/CDVT/Suco/SucoThietbi.cshtml");
         }
 
-        [Auther(RightID = "20,79")]
+        [Auther(RightID = "20,79,19,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/su-co/add")]
         [HttpPost]
         public ActionResult Add(string equipment, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd, string checkBox)
@@ -43,6 +48,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 try
                 {
                     Equipment e = DBContext.Equipments.Find(equipment);
+                    string departID = Session["departID"].ToString();
+                    if (departID != "CV" && departID != "ĐK" && e.department_id != departID)
+                        return Json(new { success = false, message = "Thiết bị không thuộc phân xưởng hiện tại" }, JsonRequestBehavior.AllowGet);
                     if (e.current_Status == 4)
                     {
                         transaction.Rollback();
@@ -91,7 +99,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
-        [Auther(RightID = "21,79")]
+        [Auther(RightID = "21,79,19,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/su-co/edit")]
         [HttpPost]
         public ActionResult Edit(int incident_id, string equipment, string department, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd)
@@ -129,7 +137,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
-        [Auther(RightID = "21,79")]
+        [Auther(RightID = "21,79,19,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/su-co/update")]
         [HttpPost]
         public ActionResult Update(int incident_id, string reason, int year, int month, int day, int hour, int minute)
@@ -213,7 +221,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             return Json(new { success = true, data = incidents, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
-        [Auther(RightID = "170,79")]
+        [Auther(RightID = "170,79,19,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/su-co/export")]
         public void Export()
         {
