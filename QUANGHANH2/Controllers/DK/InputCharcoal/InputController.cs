@@ -446,7 +446,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                         }
                         item.luyke_temp = (Math.Round(Convert.ToDouble(item.LuyKe), 2)).ToString();
                         item.tong = (Math.Round(Convert.ToDouble(item.KHDC) - Convert.ToDouble(item.luyke_temp), 2)).ToString();
-                        if (Convert.ToDouble(ngaySX - item.NgaySanXuat) <= 0)
+                        if (Convert.ToDouble(ngaySX - ngay_SX_now) <= 0)
                         {
                             item.OneDay = 0 + "";
                         }
