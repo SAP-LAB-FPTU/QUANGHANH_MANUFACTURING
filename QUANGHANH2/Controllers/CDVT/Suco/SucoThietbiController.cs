@@ -41,6 +41,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         [HttpPost]
         public ActionResult Add(string equipment, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd, string checkBox)
         {
+            if (reason == "" && checkBox == "no")
+                return Json(new { success = false, message = "Thiết bị không thuộc phân xưởng hiện tại" });
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             Incident i = new Incident();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
@@ -50,51 +52,53 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                     Equipment e = DBContext.Equipments.Find(equipment);
                     string departID = Session["departID"].ToString();
                     if (departID != "CV" && departID != "ĐK" && e.department_id != departID)
-                        return Json(new { success = false, message = "Thiết bị không thuộc phân xưởng hiện tại" }, JsonRequestBehavior.AllowGet);
+                        return Json(new { success = false, message = "Thiết bị không thuộc phân xưởng hiện tại" });
                     if (e.current_Status == 4)
                     {
                         transaction.Rollback();
-                        return Json(new { success = false, message = "Thiết bị đang có trạng thái hỏng\n không thể thêm sự cố" }, JsonRequestBehavior.AllowGet);
+                        return Json(new { success = false, message = "Thiết bị đang có trạng thái hỏng\n không thể thêm sự cố" });
                     }
                     DateTime start = new DateTime(yearStart, monthStart, dayStart, hourStart, minuteStart, 0);
                     DateTime end = new DateTime(yearEnd, monthEnd, dayEnd, hourEnd, minuteEnd, 0);
                     if (checkBox.Equals("no") && DateTime.Compare(start, end) >= 0)
-                        return Json(new { success = false, message = "Bạn đã nhập ngày bắt đầu lớn hơn ngày kết thúc" }, JsonRequestBehavior.AllowGet);
+                        return Json(new { success = false, message = "Bạn đã nhập ngày bắt đầu lớn hơn ngày kết thúc" });
                     i.department_id = e.department_id;
                     i.detail_location = detail;
                     i.equipmentId = equipment;
-                    i.reason = reason == null ? "" : reason;
+                    i.reason = reason ?? "";
                     i.start_time = start;
                     i.end_time = end;
                     if (checkBox == "yes")
                     {
                         e.current_Status = 4;
-                        i.reason = reason == null ? "" : reason;
+                        i.reason = reason ?? "";
                         i.end_time = null;
                     }
 
                     DBContext.Incidents.Add(i);
                     DBContext.SaveChanges();
 
-                    Notification nt = new Notification();
-                    nt.id_problem = i.incident_id;
-                    nt.description = "su co";
-                    nt.department_id = i.department_id;
-                    nt.date = DateTime.Now.Date;
-                    nt.isread = false;
+                    Notification nt = new Notification
+                    {
+                        id_problem = i.incident_id,
+                        description = "su co",
+                        department_id = i.department_id,
+                        date = DateTime.Now.Date,
+                        isread = false
+                    };
                     DBContext.Notifications.Add(nt);
                     DBContext.SaveChanges();
 
                     transaction.Commit();
-                    return Json(new { success = true, message = "Thêm thành công" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, message = "Thêm thành công" });
                 }
                 catch (Exception)
                 {
                     transaction.Rollback();
                     if (DBContext.Database.SqlQuery<Equipment>("SELECT * FROM Equipment WHERE equipmentId = N'" + equipment + "'").Count() == 0)
-                        return Json(new { success = false, message = "Mã thiết bị không tồn tại" }, JsonRequestBehavior.AllowGet);
+                        return Json(new { success = false, message = "Mã thiết bị không tồn tại" });
                     else
-                        return Json(new { success = false, message = "Có lỗi xảy ra, xin vui lòng thử lại" }, JsonRequestBehavior.AllowGet);
+                        return Json(new { success = false, message = "Có lỗi xảy ra, xin vui lòng thử lại" });
                 }
             }
         }
@@ -114,7 +118,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                     DateTime start = new DateTime(yearStart, monthStart, dayStart, hourStart, minuteStart, 0);
                     DateTime end = new DateTime(yearEnd, monthEnd, dayEnd, hourEnd, minuteEnd, 0);
                     if (DateTime.Compare(start, end) >= 0)
-                        return Json(new { success = false, message = "Bạn đã nhập ngày bắt đầu lớn hơn ngày kết thúc" }, JsonRequestBehavior.AllowGet);
+                        return Json(new { success = false, message = "Bạn đã nhập ngày bắt đầu lớn hơn ngày kết thúc" });
                     i.department_id = d.department_id;
                     i.detail_location = detail;
                     i.equipmentId = equipment;
@@ -124,15 +128,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
 
                     DBContext.SaveChanges();
                     transaction.Commit();
-                    return Json(new { success = true, message = "Chỉnh sửa thành công" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, message = "Chỉnh sửa thành công" });
                 }
                 catch (Exception)
                 {
                     transaction.Rollback();
                     if (DBContext.Database.SqlQuery<Equipment>("SELECT * FROM Equipment WHERE equipmentId = N'" + equipment + "'").Count() == 0)
-                        return Json(new { success = false, message = "Mã thiết bị không tồn tại" }, JsonRequestBehavior.AllowGet);
+                        return Json(new { success = false, message = "Mã thiết bị không tồn tại" });
                     else
-                        return Json(new { success = false, message = "Có lỗi xảy ra, xin vui lòng thử lại" }, JsonRequestBehavior.AllowGet);
+                        return Json(new { success = false, message = "Có lỗi xảy ra, xin vui lòng thử lại" });
                 }
             }
         }
