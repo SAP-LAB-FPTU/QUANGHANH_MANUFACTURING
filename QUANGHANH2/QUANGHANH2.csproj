@@ -464,6 +464,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Documentary_cam_repair_detailsDB.cs" />
+    <Compile Include="Models\Documentary_Export.cs" />
     <Compile Include="Models\Documentary_Improve_Detail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -6566,6 +6567,7 @@
     <Content Include="js\Custom JS\CDVT\Report\thuhoi.js" />
     <Content Include="js\Custom JS\CDVT\Report\WaterUsage.js" />
     <Content Include="js\Custom JS\CDVT\Synthetic\Synthetic_Supplies.js" />
+    <Content Include="js\Custom JS\CDVT\Vattu\validateInput.js" />
     <Content Include="js\Custom JS\CustomChart.js" />
     <Content Include="js\Custom JS\Custom_input_required.js" />
     <Content Include="js\Custom JS\decentralization_user.js" />
@@ -7446,7 +7448,7 @@
     <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_kiem_dinh.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\SuaChua\DanhSach.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\ThanhLy\DanhSach.cshtml" />
-    <Content Include="Views\CDVT\Quyet_dinh\Quyet_dinh_thu_hoi.cshtml" />
+    <Content Include="Views\CDVT\Quyetdinh\ThuHoi\DanhSach.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\DieuDong\ChonThietBi.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\DieuDong\Them.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\SuaChua\ChonThietBi.cshtml" />

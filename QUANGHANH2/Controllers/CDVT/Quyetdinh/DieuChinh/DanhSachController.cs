@@ -4,12 +4,10 @@ using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic;
-using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 
@@ -99,13 +97,12 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
 
                     using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                     {
-                        List<Documentary_Extend> documentaryList = (from document in db.Documentaries
+                        List<Documentary_Export> documentaryList = (from document in db.Documentaries
                                                                     where (document.documentary_type.Equals(7) && (document.documentary_code == "" || document.documentary_code == null))
                                                                     join detail in db.Documentary_Improve_Detail on document.documentary_id equals detail.documentary_id
                                                                     into temporary
-                                                                    select new Documentary_Extend
+                                                                    select new Documentary_Export
                                                                     {
-
                                                                         date_created = document.date_created,
                                                                         documentary_code = document.documentary_code,
                                                                         person_created = document.person_created,
@@ -125,11 +122,6 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                             excelWorksheet.Cells[i, 7].Value = documentaryList.ElementAt(k).out_in_come;
                             k++;
                         }
-                        //string docText = null;
-                        //using (StreamReader sr = new StreamReader(excelPackage.Stream))
-                        //{
-                        //    docText = sr.ReadToEnd();
-                        //}
 
                         stream.Position = 0;
                         string handle = Guid.NewGuid().ToString();

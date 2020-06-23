@@ -12,7 +12,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
     public class ChonThietBiController : Controller
     {
         [Auther(RightID = "87")]
-        [Route("phong-cdvt/dieu-dong")]
+        [Route("phong-cdvt/quyet-dinh/dieu-dong/chon-thiet-bi")]
         public ActionResult Index()
         {
             ViewBag.selected = Request["selected"] ?? "[]";
