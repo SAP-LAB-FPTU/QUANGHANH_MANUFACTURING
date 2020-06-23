@@ -799,6 +799,22 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         {
                             date = inspec.Split('/');
                             date_fix = date[1] + "/" + date[0] + "/" + date[2];
+
+                            string check = "select * from Equipment_Inspection e where e.equipmentId = @eid order by inspect_id desc";
+                            Equipment_Inspection checkNull = db.Database.SqlQuery<Equipment_Inspection>(check, new SqlParameter("eid", emp.equipmentId)).FirstOrDefault();
+                            if(checkNull == null)
+                            {
+                                Equipment_Inspection temp = new Equipment_Inspection();
+                                temp.equipmentId = emp.equipmentId;
+                                temp.inspect_date = Convert.ToDateTime(date_fix);
+                                db.Equipment_Inspection.Add(temp);
+                                db.SaveChanges();
+                            } else
+                            {
+                                checkNull.inspect_date = Convert.ToDateTime(date_fix);
+                                db.SaveChanges();
+                            }
+
                             emp.durationOfInspection = Convert.ToDateTime(date_fix);
                         }
                         //BuyOfInsurance
@@ -836,6 +852,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             date_fix = date[1] + "/" + date[0] + "/" + date[2];
                             emp.durationOfMaintainance = Convert.ToDateTime(date_fix);
                         }
+
+                        
 
                         if (sk != "" && sm != "")
                         {

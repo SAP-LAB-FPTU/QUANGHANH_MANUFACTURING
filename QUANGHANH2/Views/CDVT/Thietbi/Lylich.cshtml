@@ -67,10 +67,10 @@
                                                                         <tr>
                                                                             <td>@x.date_to.ToString("dd/MM/yyyy")</td>
                                                                             <td>@x.department_detail</td>
-                                                                            <td>@x.department_id</td>
+                                                                            <td>@x.department_id_to</td>
                                                                             <td><a href="/" style="color: dodgerblue;">@x.person_created</a></td>
                                                                             <td>@x.date_created.ToString("dd/MM/yyyy")</td>
-                                                                            <td>@x.documentary_id</td>
+                                                                            <td>@x.documentary_code</td>
                                                                             <td>@x.reason</td>
                                                                         </tr>
                                                                     </table>
@@ -437,7 +437,7 @@
                                                     <div class="timeline-section mytimeline">
                                                         <div class="timeline-date">
                                                             Từ: @x.date_created
-                                                            <span style="width: 105%">Đến: @x.finish_date_plan  <span style="background-color: deepskyblue">@x.documentary_id</span></span>
+                                                            <span style="width: 105%">Đến: @x.finish_date_plan  <span style="background-color: deepskyblue">@x.documentary_code</span></span>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-sm-12">
