@@ -30,7 +30,7 @@
                 <div class="col s12">
                     <button class="btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
                 </div>
-                <div class="col s12 left" style="margin-bottom:20px">
+                <div class="col left">
                     @{
                         foreach (var item in right)
                         {
@@ -225,7 +225,7 @@
                     },
                     {
                         "data": "tempId", "render": function (data) {
-                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" onclick=GetData('@Url.Action("LoadPage","ChitietThanhli")?id=" + data.split("^")[0] + "')>Chi&nbsp;tiết</a>";
+                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" href='/phong-cdvt/quyet-dinh/thanh-li-chi-tiet?id=" + data.split("^")[0] + "'>Chi&nbsp;tiết</a>";
                      },
                         "orderable": false,
                         "searchable":false,
@@ -265,16 +265,19 @@
         });
 //------------------------Export Excel------------------------
 
-            $("#ExportExcel").click(function () {
+        $("#ExportExcel").click(function () {
             $("#pre-load").show();
-            $("#pre-load").css("z-index", "9999");
             $.ajax({
                 url: '/phong-cdvt/quyet-dinh/thanh-ly/export',
                 type: 'POST',
-
-            }).done(function () {
-                window.location.href = "/excel/CDVT/download/ThanhLyThietBi.xlsx";
-                 $("#pre-load").hide();
+                success: function () {
+                    window.location.href = "/phong-cdvt/quyet-dinh/thanh-ly/export";
+                    $("#pre-load").hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $("#pre-load").hide();
+                }
             })
         });
     </script>

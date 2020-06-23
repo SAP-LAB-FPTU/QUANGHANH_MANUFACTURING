@@ -264,16 +264,19 @@
         });
 //------------------------Export Excel------------------------
 
-            $("#ExportExcel").click(function () {
+        $("#ExportExcel").click(function () {
             $("#pre-load").show();
-            $("#pre-load").css("z-index", "9999");
             $.ajax({
-                url: '@Url.Action("ExportExcel","QuyetDInh")',
+                url: '/phong-cdvt/quyet-dinh/dieu-dong/export',
                 type: 'POST',
-
-            }).done(function () {
-                window.location.href = "/excel/CDVT/download/DieuDongThietBi.xlsx";
-                 $("#pre-load").hide();
+                success: function () {
+                    window.location.href = "/phong-cdvt/quyet-dinh/dieu-dong/export";
+                    $("#pre-load").hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $("#pre-load").hide();
+                }
             })
         });
     </script>
