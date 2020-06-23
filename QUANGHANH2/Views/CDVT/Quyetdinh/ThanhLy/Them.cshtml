@@ -9,11 +9,7 @@
             <div class="col m12">
                 <h3 class="center"><b>CHI TIẾT THANH LÝ</b></h3>
                 <form method="post" id="myform">
-                    <div class="col s3 m3">
-                        <textarea name="data" hidden value="" id="json"></textarea>
-                        <label for="department_id_to">Phòng ban chịu trách nhiệm thanh lý <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
-                        <input id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
-                    </div>
+                    <textarea name="data" hidden value="" id="json"></textarea>
                     <div class="col s3 m3">
                         <label for="out_in_come">Nguồn vốn <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
                         <input id="out_in_come" name="out_in_come" class="form-control" type="text" />
@@ -226,7 +222,57 @@
         })
 
         $('#create').click(function () {
-            $('#myform').submit();
+            if ($('#reason').val() == "") {
+                errorAlert("Không được bỏ trống sữa chữa tại");
+                return;
+            }
+            if ($('#out_in_come').val() == "") {
+                errorAlert("Không được bỏ trống nguồn vốn");
+                return;
+            }
+            for (var i = 0; i < $('#mytable tbody tr').length; i++) {
+                output[i].type = $('#mytable tbody tr:eq(' + i + ') .type').val();
+                output[i].reason = $('#mytable tbody tr:eq(' + i + ') .reason').val();
+                output[i].date = $('#mytable tbody tr:eq(' + i + ') .minDate').val();
+                if (output[i].reason == "") {
+                    errorAlert("Không được bỏ trống lý do sửa chữa");
+                    return;
+                }
+                if (output[i].type == "") {
+                    errorAlert("Không được bỏ trống ngày dự kiến xong");
+                    return;
+                }
+            }
+            $('#pre-load').show();
+            $.ajax({
+                url: "/phong-cdvt/thanh-ly-chon",
+                method: "post",
+                dataType: "json",
+                cache: false,
+                data: {
+                    data: JSON.stringify(output),
+                    out_in_come: $('#out_in_come').val(),
+                    reason: $('#reason').val(),
+                    department_id_to: $('#department_id_to').val(),
+                },
+                success: function (response) {
+                    if (response.success) {
+                        successAlert("Tạo quyết định thành công", "Đang chuyển trang");
+                        $('#pre-load').hide();
+                        setTimeout(function () {
+                            window.location.href = "/phong-cdvt/quyet-dinh/thanh-ly";
+                        }, 2000);
+                    }
+                    else {
+                        errorAlert(response.message);
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $('#pre-load').hide();
+                }
+            })
         })
 
         $("#export-button").click(function () {

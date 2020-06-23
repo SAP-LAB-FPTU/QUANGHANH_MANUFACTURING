@@ -61,14 +61,16 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             {
                 try
                 {
-                    Documentary documentary = new Documentary();
-                    documentary.documentary_type = 4;
-                    documentary.department_id_to = "CDVT";
-                    documentary.date_created = DateTime.Now;
-                    documentary.person_created = Session["Name"] + "";
-                    documentary.reason = reason;
-                    documentary.out_in_come = out_in_come;
-                    documentary.documentary_status = 1;
+                    Documentary documentary = new Documentary
+                    {
+                        documentary_type = 4,
+                        department_id_to = "KHO",
+                        date_created = DateTime.Now,
+                        person_created = Session["Name"] + "",
+                        reason = reason,
+                        out_in_come = out_in_come,
+                        documentary_status = 1
+                    };
                     DBContext.Documentaries.Add(documentary);
                     DBContext.SaveChanges();
                     JObject json = JObject.Parse(data);
@@ -88,39 +90,39 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         List<Supply_DiKem> diKem = DBContext.Supply_DiKem.Where(x => x.equipmentId.Equals(equipmentId)).ToList();
                         foreach (Supply_DiKem supply in diKem)
                         {
-                            Supply_Documentary_Equipment s = new Supply_Documentary_Equipment();
-                            s.documentary_id = documentary.documentary_id;
-                            s.equipmentId = equipmentId;
-                            s.quantity_plan = supply.quantity;
-                            s.supplyStatus = supply.note;
-                            s.equipmentId_dikem = supply.equipmentId_dikem;
+                            Supply_Documentary_Equipment s = new Supply_Documentary_Equipment
+                            {
+                                documentary_id = documentary.documentary_id,
+                                equipmentId = equipmentId,
+                                quantity_plan = supply.quantity,
+                                supplyStatus = supply.note,
+                                equipmentId_dikem = supply.equipmentId_dikem
+                            };
                             DBContext.Supply_Documentary_Equipment.Add(s);
-                            DBContext.SaveChanges();
                         }
+                        DBContext.SaveChanges();
                         List<Supply_SCTX> duPhong = DBContext.Supply_SCTX.Where(x => x.equipmentId.Equals(equipmentId)).ToList();
                         foreach (Supply_SCTX supply in duPhong)
                         {
-                            Supply_Documentary_Equipment s = new Supply_Documentary_Equipment();
-                            s.documentary_id = documentary.documentary_id;
-                            s.equipmentId = equipmentId;
-                            s.quantity_plan = supply.quantity;
-                            s.supply_id = supply.supply_id;
+                            Supply_Documentary_Equipment s = new Supply_Documentary_Equipment
+                            {
+                                documentary_id = documentary.documentary_id,
+                                equipmentId = equipmentId,
+                                quantity_plan = supply.quantity,
+                                supply_id = supply.supply_id
+                            };
                             DBContext.Supply_Documentary_Equipment.Add(s);
-                            DBContext.SaveChanges();
                         }
+                        DBContext.SaveChanges();
                     }
                     DBContext.SaveChanges();
                     transaction.Commit();
-            
-                        return Redirect("quyet-dinh/thu-hoi");
-                    
-               
+                    return Json(new { success = true });
                 }
                 catch (Exception e)
                 {
                     transaction.Rollback();
-                    TempData["shortMessage"] = true;
-                    return Redirect("thu-hoi");
+                    return Json(new { success = false });
                     throw e;
                 }
             }

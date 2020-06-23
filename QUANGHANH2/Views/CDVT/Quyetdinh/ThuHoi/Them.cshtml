@@ -12,7 +12,7 @@
                     <div class="col s3 m3">
                         <textarea name="data" hidden value="" id="json"></textarea>
                         <label for="department_id_to">Thu hồi về <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
-                        <input readonly id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="CDVT" />
+                        <input readonly id="department_id_to" name="department_id_to" type="text" required class='form-control' list="departmentName" value="CV" />
                     </div>
                     <div class="col s3 m3">
                         <label for="out_in_come">Nguồn vốn <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
@@ -58,7 +58,7 @@
                 </form>
                 <div class="col l12 m12 s12 center">
                     <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
-                    <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận thu hồi thiết bị</a>
+                    <a id="submit" href="#confirm" class="btn blue darken-2 modal-trigger">Tạo quyết định thu hồi</a>
                     <a href="thu-hoi" class="btn blue darken-2 ">Quay lại</a>
                 </div>
             </div>
@@ -206,7 +206,43 @@
         })
 
         $('#create').click(function () {
-            $('#myform').submit();
+            if ($('#out_in_come').val() == "") {
+                errorAlert("Không được bỏ trống nguồn vốn");
+                return;
+            }
+            if ($('#department_id_to').val() == "") {
+                errorAlert("Không được bỏ trống nội dung");
+                return;
+            }
+            $('#pre-load').show();
+            $.ajax({
+                url: "/phong-cdvt/thu-hoi-chon",
+                method: "post",
+                dataType: "json",
+                cache: false,
+                data: {
+                    data: JSON.stringify(output),
+                    out_in_come: $('#out_in_come').val(),
+                    reason: $('#reason').val(),
+                },
+                success: function (response) {
+                    if (response.success) {
+                        successAlert("Tạo quyết định thành công", "Đang chuyển trang");
+                        $('#pre-load').hide();
+                        setTimeout(function () {
+                            window.location.href = "/phong-cdvt/quyet-dinh/thu-hoi";
+                        }, 2000);
+                    }
+                    else {
+                        errorAlert(response.message);
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $('#pre-load').hide();
+                }
+            })
         })
 
         $("#export-button").click(function () {

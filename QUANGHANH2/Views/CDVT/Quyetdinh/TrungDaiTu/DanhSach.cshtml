@@ -45,7 +45,7 @@
                     <a href="javascript:void(0);" id="ExportExcel" class="waves-effect waves-light btn blue darken-1 blue">Xuất Excel</a>
                 </div>
                 <div class="col s12 table_container">
-                    <table class="striped centered table-responsive mytable table-bordered" id="DocumnetaryTable">
+                    <table class="striped centered mytable table-bordered table-responsive" id="DocumnetaryTable">
                         <thead>
                             <tr>
                                 <th class="center">Ngày</th>
@@ -152,103 +152,103 @@
 <script src="~/js/Custom JS/CDVT/QuyetDinh/DanhSach.js"></script>
 @section scripts{
     <script>
-     	$("#pre-load").show();
+        $("#pre-load").show();
         $("#pre-load").css("z-index", "9999");
-            var Popup, dataTable;
+        var Popup, dataTable;
 
- //--------------Get Data--------------------
+        //--------------Get Data--------------------
         $(document).ready(function () {
             dataTable = $('#DocumnetaryTable').on('preXhr.dt', function (e, settings, data) {
 
-                    $("#pre-load").show();
-                    $("#pre-load").css("z-index", "9999");
-                })
+                $("#pre-load").show();
+                $("#pre-load").css("z-index", "9999");
+            })
                 .DataTable({
-                       "language": {
-                "emptyTable": "Không tìm thấy dữ liệu",
-                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
-                "paginate": {
-                    "first": "Trang đầu",
-                    "last": "Trang cuối",
-                    "next": "Trang sau",
-                    "previous": "Trang trước"
-                }
-            },
-                "ajax": {
+                    "language": {
+                        "emptyTable": "Không tìm thấy dữ liệu",
+                        "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                        "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                        "paginate": {
+                            "first": "Trang đầu",
+                            "last": "Trang cuối",
+                            "next": "Trang sau",
+                            "previous": "Trang trước"
+                        }
+                    },
+                    "ajax": {
 
-                    "url": "/phong-cdvt/quyet-dinh/trung-dai-tu",
-                    "type": "POST",
-                    "datatype": "json",
-            "error": function (XMLHttpRequest, textStatus, errorThrown) {
-                        $("#pre-load").hide();
-                        $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
-                    });
-                     },
-                     "data": {
-                         "documentary_code": function() { return $('#documentary_code-search').val() },
-                         "person_created": function() { return $('#person_created-search').val() },
-                         "dateStart": function() { return $('#date-start-search').val() },
-                         "dateEnd": function() { return $('#date-end-search').val() }
+                        "url": "/phong-cdvt/quyet-dinh/trung-dai-tu",
+                        "type": "POST",
+                        "datatype": "json",
+                        "error": function (XMLHttpRequest, textStatus, errorThrown) {
+                            $("#pre-load").hide();
+                            $.notify(XMLHttpRequest.responseText, {
+                                globalPosition: "top center",
+                                className: "error"
+                            });
+                        },
+                        "data": {
+                            "documentary_code": function () { return $('#documentary_code-search').val() },
+                            "person_created": function () { return $('#person_created-search').val() },
+                            "dateStart": function () { return $('#date-start-search').val() },
+                            "dateEnd": function () { return $('#date-end-search').val() }
                         }
                     },
                     "drawCallback": function () {
                         $("#pre-load").hide();
                     },
-                "columns": [
+                    "columns": [
 
-                    {
-                        "data": "date_created", "name": "date_created", "render": function (data) {
-                            return dateFormat2(data);
+                        {
+                            "data": "date_created", "name": "date_created", "render": function (data) {
+                                return dateFormat2(data);
+                            },
                         },
-                    },
-                    {
-                        "data": "documentary_id", "name": "documentary_id", "render": function (data) {
-                            return "";
+                        {
+                            "data": "documentary_id", "name": "documentary_id", "render": function (data) {
+                                return "";
 
-                     },
-                        "orderable": false,
-                        "searchable":false,
-                    },
-                    { "data": "person_created", "name": "person_created" },
-                    { "data": "count", "name": "count" },
-                    { "data": "reason" , "name" : "reason"},
-                    { "data": "out_in_come" , "name" :"out_in_come" },
-                 {
-                        "data": "documentary_id", "render": function (data) {
-                            return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-documentary-id=\"" + data + "\">Cập&nbsp;nhật</a>";
-                                    },
-                        "orderable": false,
-                        "searchable":false,
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                        },
+                        { "data": "person_created", "name": "person_created" },
+                        { "data": "count", "name": "count" },
+                        { "data": "reason", "name": "reason" },
+                        { "data": "out_in_come", "name": "out_in_come" },
+                        {
+                            "data": "documentary_id", "render": function (data) {
+                                return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-documentary-id=\"" + data + "\">Cập&nbsp;nhật</a>";
+                            },
+                            "orderable": false,
+                            "searchable": false,
 
-                    },
-                    {
-                        "data": "documentary_id", "render": function (data) {
-                            return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" href='/phong-cdvt/quyet-dinh/trung-dai-tu/chi-tiet?id=" + data + "'>Chi&nbsp;tiết</a>";
-                     },
-                        "orderable": false,
-                        "searchable":false,
+                        },
+                        {
+                            "data": "documentary_id", "render": function (data) {
+                                return " <a class=\"waves-effect waves-light btn blue darken-1 modal-trigger\" href='/phong-cdvt/quyet-dinh/trung-dai-tu/chi-tiet?id=" + data + "'>Chi&nbsp;tiết</a>";
+                            },
+                            "orderable": false,
+                            "searchable": false,
 
+                        }
+                    ],
+                    "serverSide": "true",
+                    "order": [0, "desc"],
+                    "lengthChange": false,
+                    "searching": false,
+                    "initComplete": function () {
+                        $("#pre-load").hide();
                     }
-                ],
-                "serverSide": "true",
-                "order": [0, "desc"],
-                "lengthChange": false,
-                "searching": false,
-                "initComplete": function () {
-                    $("#pre-load").hide();
-                }
-            });
+                });
 
         });
 
-            function GetData(url) {
+        function GetData(url) {
             window.location.href = url;
         }
-//-------------- format Date ------------------------------
-            function dateFormat2(d) {
+        //-------------- format Date ------------------------------
+        function dateFormat2(d) {
             var dateString = d.substr(6);
             var currentTime = new Date(parseInt(dateString));
             var month = currentTime.getMonth() + 1;
@@ -256,26 +256,29 @@
             var year = currentTime.getFullYear();
             var date = day + "/" + month + "/" + year;
             return (date);
-            }
+        }
 
 
-//---------------Search Data -----------------
+        //---------------Search Data -----------------
         $("#searchButton1").click(function () {
             $("#pre-load").show();
             dataTable.ajax.reload();
         });
-//------------------------Export Excel------------------------
+        //------------------------Export Excel------------------------
 
-            $("#ExportExcel").click(function () {
+        $("#ExportExcel").click(function () {
             $("#pre-load").show();
-            $("#pre-load").css("z-index", "9999");
             $.ajax({
-                url: '@Url.Action("ExportExcel","SuachuaQD")',
+                url: '/phong-cdvt/quyet-dinh/trung-dai-tu/export',
                 type: 'POST',
-
-            }).done(function () {
-                window.location.href = "/excel/CDVT/download/SuaChuaThietBi.xlsx";
-                 $("#pre-load").hide();
+                success: function () {
+                    window.location.href = "/phong-cdvt/quyet-dinh/trung-dai-tu/export";
+                    $("#pre-load").hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $("#pre-load").hide();
+                }
             })
         });
     </script>

@@ -103,6 +103,12 @@
                                                 <div class="col s12 m6">
                                                     <div class="form-group">
                                                         <label for="date">Thời gian bắt đầu sự cố : </label>
+                                                        <input type="text"
+                                                               data-range="true"
+                                                               data-multiple-dates-separator=" - "
+                                                               data-language="vi"
+                                                               class="datepicker-here form-control"
+                                                               data-timepicker="true"/>
                                                         <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-start-edit" />
                                                     </div>
                                                 </div>
@@ -630,10 +636,12 @@
 
 
         $(document).ready(function () {
-            var dataTable = $('#complex_header').DataTable();
-
             //ajax add
             $("#myaddform").submit(function (e) {
+                if ($('#reason-add').val() == "" && $('#checkbox-add').val() == "no") {
+                    errorAlert("Lý do sự cố không được bỏ trống");
+                    return false;
+                }
                 $("#pre-load").show();
                 $.ajax({
                     type: "POST",

@@ -26,6 +26,8 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuChinh
         [HttpGet]
         public ActionResult Index(String selected)
         {
+            ViewBag.selected = selected;
+
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;

@@ -16,7 +16,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.BaoDuong
         public ActionResult Index()
         {
             ViewBag.selected = Request["selected"] ?? "{}";
-            return View("/Views/CDVT/Quyetdinh/TrungDaiTu/ChonThietBi.cshtml");
+            return View("/Views/CDVT/Quyetdinh/BaoDuong/ChonThietBi.cshtml");
         }
 
         [Auther(RightID = "95")]
