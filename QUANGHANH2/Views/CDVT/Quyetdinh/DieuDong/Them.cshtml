@@ -58,9 +58,12 @@
                     </table>
                 </div>
                 <div class="col l12 m12 s12 center">
-                    <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
-                    <a id="submit" class="btn blue darken-2 modal-trigger">Tạo điều động thiết bị</a>
-                    <a href="dieu-dong" class="btn blue darken-2 ">Quay lại</a>
+                    <form action="/phong-cdvt/quyet-dinh/dieu-dong/chon-thiet-bi" method="get">
+                        <input name="selected" value='@Html.Raw(ViewBag.selected)' hidden />
+                        <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
+                        <a id="submit" class="btn blue darken-2 modal-trigger">Tạo điều động thiết bị</a>
+                        <button type="submit" class="btn blue darken-2 ">Quay lại</button>
+                    </form>
                 </div>
             </div>
         </div>
