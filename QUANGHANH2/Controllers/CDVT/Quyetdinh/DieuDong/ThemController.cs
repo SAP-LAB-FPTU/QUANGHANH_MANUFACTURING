@@ -27,6 +27,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
         public ActionResult Index()
         {
             List<string> listSelected = JArray.Parse(Request["selected"]).ToObject<List<string>>();
+            ViewBag.selected = Request["selected"];
             db.Configuration.LazyLoadingEnabled = false;
 
             var result = (from e in db.Equipments
