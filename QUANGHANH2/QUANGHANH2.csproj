@@ -6566,6 +6566,7 @@
     <Content Include="js\Custom JS\CDVT\Report\thuhoi.js" />
     <Content Include="js\Custom JS\CDVT\Report\WaterUsage.js" />
     <Content Include="js\Custom JS\CDVT\Synthetic\Synthetic_Supplies.js" />
+    <Content Include="js\Custom JS\CDVT\Vattu\validateInput.js" />
     <Content Include="js\Custom JS\CustomChart.js" />
     <Content Include="js\Custom JS\Custom_input_required.js" />
     <Content Include="js\Custom JS\decentralization_user.js" />
