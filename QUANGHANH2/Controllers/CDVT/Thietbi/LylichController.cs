@@ -233,7 +233,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             List<moveLineByYear> listDD = new List<moveLineByYear>();
             foreach (int year in yearDD)
             {
-                List<myMoveline> listMML = DBContext.Database.SqlQuery<myMoveline>("select dm.equipmentId, dm.date_to,dm.department_detail,d.department_id_to,d.person_created,dm.documentary_id,d.reason,d.date_created from Equipment e, Documentary_moveline_details dm, Documentary d where e.equipmentId = dm.equipmentId and d.documentary_id = dm.documentary_id and dm.equipmentId = @id and YEAR(d.date_created) = @year ", new SqlParameter("id", id), new SqlParameter("year", year)).ToList();
+                List<myMoveline> listMML = DBContext.Database.SqlQuery<myMoveline>("select d.documentary_code,dm.equipmentId, dm.date_to,dm.department_detail,d.department_id_to,d.person_created,dm.documentary_id,d.reason,d.date_created from Equipment e, Documentary_moveline_details dm, Documentary d where e.equipmentId = dm.equipmentId and d.documentary_id = dm.documentary_id and dm.equipmentId = @id and YEAR(d.date_created) = @year ", new SqlParameter("id", id), new SqlParameter("year", year)).ToList();
                 moveLineByYear MLY = new moveLineByYear();
                 foreach (var x in listMML)
                 {
@@ -247,17 +247,44 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
             ViewBag.listDD = listDD;
             //NK sua chua
-            var yearSC = DBContext.Database.SqlQuery<int>("select distinct YEAR(d.date_created) as years from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id and dr.isVisible = 1 order by years desc", new SqlParameter("id", id)).ToList<int>();
+            var yearSC = DBContext.Database.SqlQuery<int>(@"select distinct YEAR(d.date_created) as years 
+                                                            from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Repair_Equipment sd 
+                                                            where d.documentary_id = dr.documentary_id
+	                                                            and dr.documentary_repair_id = sd.documentary_repair_id
+	                                                            and sd.supply_id = s.supply_id
+	                                                            and dr.equipmentId = @id
+	                                                            and dr.isVisible = 1
+                                                            order by years desc", new SqlParameter("id", id)).ToList<int>();
             List<repairByYear> listSC = new List<repairByYear>();
             foreach (int year in yearSC)
             {
                 repairByYear rby = new repairByYear();
                 List<myRepair> listrp = new List<myRepair>();
-                var docID = DBContext.Database.SqlQuery<int>("select distinct d.documentary_id from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id and dr.isVisible = 1  and YEAR(d.date_created) = @year", new SqlParameter("id", id), new SqlParameter("year", year)).ToList<int>();
+                var docID = DBContext.Database.SqlQuery<int>(@"select distinct d.documentary_id
+                                                                from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Repair_Equipment sd 
+                                                                where dr.documentary_id = d.documentary_id 
+	                                                                and sd.supply_id = s.supply_id 
+	                                                                and sd.documentary_repair_id = dr.documentary_repair_id 
+	                                                                and dr.equipmentId = @id 
+	                                                                and dr.isVisible = 1  
+	                                                                and YEAR(d.date_created) = @year", new SqlParameter("id", id), new SqlParameter("year", year)).ToList<int>();
                 foreach (int doc in docID)
                 {
-                    myRepair rp = DBContext.Database.SqlQuery<myRepair>("select dr.*,d.date_created,dr.documentary_id from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id and dr.isVisible = 1  and dr.documentary_id = @doc", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).FirstOrDefault();
-                    List<mySup_Doc> listTT = DBContext.Database.SqlQuery<mySup_Doc>("select sd.*,s.unit,s.supply_name from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Equipment sd where sd.equipmentId = dr.equipmentId and dr.documentary_id = d.documentary_id and sd.supply_id = s.supply_id and sd.documentary_id = d.documentary_id and sd.equipmentId = @id  and dr.isVisible = 1 and dr.documentary_id = @doc and YEAR(d.date_created) = @year", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).ToList();
+                    myRepair rp = DBContext.Database.SqlQuery<myRepair>(@"select dr.*,d.date_created,dr.documentary_id,d.documentary_code 
+                                                                        from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Repair_Equipment sd 
+                                                                        where dr.documentary_id = d.documentary_id 
+	                                                                        and sd.supply_id = s.supply_id 
+	                                                                        and sd.documentary_repair_id = dr.documentary_repair_id 
+	                                                                        and dr.equipmentId = @id and dr.isVisible = 1  and dr.documentary_id = @doc", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).FirstOrDefault();
+                    List<mySup_Doc> listTT = DBContext.Database.SqlQuery<mySup_Doc>(@"select sd.*,s.unit,s.supply_name 
+                                                                                    from Documentary d, Documentary_repair_details dr, Supply s, Supply_Documentary_Repair_Equipment sd 
+                                                                                    where dr.documentary_id = d.documentary_id 
+	                                                                                    and sd.supply_id = s.supply_id 
+	                                                                                    and sd.documentary_repair_id = dr.documentary_repair_id 
+	                                                                                    and dr.equipmentId = @id  
+	                                                                                    and dr.isVisible = 1 
+	                                                                                    and dr.documentary_id = @doc 
+	                                                                                    and YEAR(d.date_created) = @year", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).ToList();
                     rp.rowCount = listTT.Count();
                     List<mySupply> listsp = new List<mySupply>();
                     for (int i = 0; i < rp.rowCount; i++)
@@ -878,6 +905,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
     public class myRepair : Documentary_repair_details
     {
+        public string documentary_code { get; set; }
         public string afterStatus { get; set; }
         public int rowCount { get; set; }
         public System.DateTime date_created { get; set; }
@@ -893,10 +921,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
     }
     public class myMoveline : Documentary_moveline_details
     {
+        public string documentary_code { get; set; }
         public string person_created { get; set; }
         public System.DateTime date_created { get; set; }
         public string reason { get; set; }
-        public string department_id { get; set; }
+        public string department_id_to { get; set; }
         public string date { get; set; }
     }
 

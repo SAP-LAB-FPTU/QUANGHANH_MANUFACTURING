@@ -87,6 +87,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 temp.equipmentId = ei.equipmentId;
                 temp.inspect_date = dtTemp;
                 DBContext.Equipment_Inspection.Add(temp);
+                e.durationOfInspection = dtTemp;
                 DBContext.SaveChanges();
                 return Json(new { success = true, message = "Cập nhật thành công" }, JsonRequestBehavior.AllowGet);
             }
