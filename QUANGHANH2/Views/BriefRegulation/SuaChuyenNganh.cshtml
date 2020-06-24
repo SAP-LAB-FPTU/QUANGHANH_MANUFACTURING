@@ -46,7 +46,7 @@
                     </label>
                     @Html.DropDownList("CapBac", (IEnumerable<SelectListItem>)ViewBag.List_CapBac, "Chọn Cấp Bậc", htmlAttributes: new { @class = "form-control", @id = "drps-cap-bac" })
                     @Html.ValidationMessageFor(model => model.CapBac, "", new { @class = "text-danger" })
-                    <input id="ins-cap-bac-khac" disabled class="form-control">
+                    @Html.EditorFor(model => model.CapBac, new { htmlAttributes = new { @class = "form-control", @disabled= "disabled", @id = "ins-cap-bac-khac"} })
                 </div>
             </div>
 
