@@ -25,29 +25,7 @@ namespace QUANGHANH2.Controllers.DK
             {
                 yearNum = int.Parse(yearStr);
                 DateTime dateNow = DateTime.Now;
-                //DateTime dateNumberNow = DateTime.Now.Date;
                 string queryTC = @"select t.MaTieuChi,n.MaNhomTieuChi,t.TenTieuChi,n.TenNhomTieuChi from TieuChi t inner join NhomTieuChi n on t.MaNhomTieuChi = n.MaNhomTieuChi order by n.MaNhomTieuChi";
-
-                //string queryYear = @"select TieuChi.MaTieuChi,TieuChi.TenTieuChi, 
-                //                    (case when table3.TongSLKH is NULL then 0 else table3.TongSLKH end) as TongSLKH,
-                //                    (case when table3.LKDenThang1 is NULL then 0 else table3.LKDenThang1 end) as LKDenThang1,
-                //                    (case when table3.BQConLai1Thang is NULL then 0 else table3.BQConLai1Thang end) as BQConLai1Thang from (									
-                //                    select table1.MaTieuChi,TongSLKH,TongThucHien as LKDenThang1, ROUND((TongSLKH - TongThucHien),0) as BQConLai1Thang , table1.Nam
-                //                    from (select a.HeaderID,a.MaTieuChi, b.Nam ,sum(a.SanLuongKeHoach) as TongSLKH from KeHoach_TieuChi_TheoNam as a INNER JOIN
-                //                    (select table1a.HeaderID, table1a.MaTieuChi, table1a.Nam, max(table1a.ThoiGianNhapCuoiCung) as ThoiGianNhapCuoiCung from
-                //                    (select k.HeaderID, k.MaTieuChi, hk.Nam, k.ThoiGianNhapCuoiCung from header_KeHoach_TieuChi_TheoNam hk inner join KeHoach_TieuChi_TheoNam k
-                //                    on hk.HeaderID = k.HeaderID) table1a group by table1a.HeaderID, table1a.MaTieuChi, table1a.Nam) b ON a.ThoiGianNhapCuoiCung = b.ThoiGianNhapCuoiCung and a.HeaderID = b.HeaderID 
-                //                    and a.MaTieuChi = b.MaTieuChi group by a.MaTieuChi,a.HeaderID,b.Nam) as table1 FULL OUTER JOIN 
-                //                    (SELECT dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi, sum(dbo.ThucHien_TieuChi_TheoNgay.SanLuong) as TongThucHien
-                //                    FROM dbo.ThucHien_TieuChi_TheoNgay INNER JOIN
-                //                    dbo.header_ThucHienTheoNgay ON dbo.ThucHien_TieuChi_TheoNgay.HeaderID = dbo.header_ThucHienTheoNgay.HeaderID INNER JOIN
-                //                    dbo.ThucHienTheoNgay ON dbo.header_ThucHienTheoNgay.NgayID = dbo.ThucHienTheoNgay.NgayID INNER JOIN
-                //                    dbo.TieuChi ON dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi = dbo.TieuChi.MaTieuChi
-                //                    where month(dbo.ThucHienTheoNgay.Ngay) = 1 and year(dbo.ThucHienTheoNgay.Ngay) = @year
-                //                    group by dbo.ThucHien_TieuChi_TheoNgay.MaTieuChi,dbo.TieuChi.TenTieuChi) as table2
-                //                    on table1.MaTieuChi = table2.MaTieuChi) as table3 INNER JOIN TieuChi 
-                //                    on table3.MaTieuChi = TieuChi.MaTieuChi
-                //                    where table3.Nam = @year";
 
                 string queryYear = @"select TieuChi.MaTieuChi,TieuChi.TenTieuChi, table3.Nam, TongSLKH, LKDenThang1, BQConLai1Thang from (									
                                     select 
