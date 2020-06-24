@@ -52,17 +52,17 @@
             </div>
             <div class="col s12 m6">
                 <label>Tên tiêu chí</label>
-                <input type="text" class="form-control" id="tentieuchi" required />
+                <input type="text" class="form-control" id="tentieuchi" disabled required />
             </div>
             <div class="col s12 m6">
                 <label>Đơn vị đo tiêu chí</label>
-                <input type="text" class="form-control" id="donvido" required />
+                <input type="text" class="form-control" id="donvido" disabled required />
             </div>
 
         </div>
     </div>
     <div class="modal-footer">
-        <button id="xacnhanthemtieuchi" class="btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="xacnhanthemtieuchi" disabled class="btn blue darken-2 btn-small">Xác nhận</button>
         <button id="dongthemtieuchi" class="btn red darken-2 btn-small modal-close">Đóng</button>
     </div>
 </div>
@@ -158,6 +158,17 @@
         });
     });
 
+    ////////////////////////////////////////////
+    $("#nhomtieuchi").change(function () {
+        if ($(this).val() == null) {
+            $("#tentieuchi").prop("disabled", true)
+            $("#donvido").prop("disabled", true)
+        } else {
+            $("#tentieuchi").prop("disabled", false)
+            $("#donvido").prop("disabled", false)
+            $("#xacnhanthemtieuchi").prop("disabled", false)
+        }
+    })
 </script>
 
 <!---------------------------------------------ADD------------------------------------------------>
