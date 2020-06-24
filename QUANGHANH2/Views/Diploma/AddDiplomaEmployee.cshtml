@@ -118,7 +118,7 @@
         })
     });
     $('#dip_empID_add').change(function () {
-        
+
       $.ajax({
             url:'@Url.Action("getName", "Diploma")',
             type: "POST",
@@ -182,7 +182,6 @@
             if (testDate(date_validate)) {
                 $('#message_date_dip_add').hide();
                 if (date_now < d) {
-
                     $('#message_date_error_dip_add').show();
                     $('#submit_form_add_dip_emp').attr("disabled", true);
                 } else {
@@ -213,4 +212,16 @@
 
         return false;
     }
+</script>
+
+<!--max date-->
+<script>
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
+    });
+
+    $('#start_time_dip_add').datepicker({
+        language: 'vi',
+        maxDate: new Date(new Date().setDate(new Date().getDate()))
+    });
 </script>

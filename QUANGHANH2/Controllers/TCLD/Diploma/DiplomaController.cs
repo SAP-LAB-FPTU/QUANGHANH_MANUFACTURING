@@ -101,7 +101,7 @@ namespace QUANGHANH2.Controllers.TCLD
             List<BangCap_GiayChungNhan_detailsDB> listdataDipEmp = new List<BangCap_GiayChungNhan_detailsDB>();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                listdataDipEmp = (from bc_chitiet in db.ChiTiet_BangCap_GiayChungNhan
+                listdataDipEmp = (from bc_chitiet in db.ChiTiet_BangCap_GiayChungNhan.DefaultIfEmpty()
                                   join nv in db.NhanViens on bc_chitiet.MaNV equals nv.MaNV into bc_gcn_nv1
                                   from sub_bc_gcn_nv1 in bc_gcn_nv1.DefaultIfEmpty()
                                   join bc in db.BangCap_GiayChungNhan on bc_chitiet.MaBangCap_GiayChungNhan equals bc.MaBangCap_GiayChungNhan into bc_gcn_nv2
@@ -110,9 +110,9 @@ namespace QUANGHANH2.Controllers.TCLD
                                   {
                                       SoHieu = bc_chitiet.SoHieu,
                                       MaBangCap_GiayChungNhan = bc_chitiet.MaBangCap_GiayChungNhan,
-                                      NgayCap = bc_chitiet.NgayCap ?? null,
+                                      NgayCap = bc_chitiet.NgayCap,
                                       MaNV = bc_chitiet.MaNV,
-                                      NgayTra = bc_chitiet.NgayTra ?? null,
+                                      NgayTra = bc_chitiet.NgayTra,
                                       TenBangCap = sub_bc_gcn_nv2.TenBangCap ?? String.Empty,
                                       TenNV = sub_bc_gcn_nv1.Ten ?? String.Empty,
                                   }).ToList().Select(dip => new BangCap_GiayChungNhan_detailsDB
