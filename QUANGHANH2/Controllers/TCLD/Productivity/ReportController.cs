@@ -156,10 +156,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     left outer join 
                                     (select hd.NgayDiemDanh, hdd.MaPhongBan, hdd.ThanThucHien, hdd.MetLoThucHien, hdd.XenThucHien, hdd.TotalEffort
                                      from 
-                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh from Header_DiemDanh_NangSuat_LaoDong 
+                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
                                      where NgayDiemDanh = @NgayDiemDanh
-                                     group by NgayDiemDanh) as hd 
-                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID ) as h
+                                     group by NgayDiemDanh, Ca) as hd 
+                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID) as h
                                     on a.department_id = h.MaPhongBan
                                     group by a.department_id) as b on a.department_id = b.department_id";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -311,10 +311,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     left outer join 
                                     (select hd.NgayDiemDanh, hdd.MaPhongBan, hdd.ThanThucHien, hdd.MetLoThucHien, hdd.XenThucHien, hdd.TotalEffort
                                      from 
-                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh from Header_DiemDanh_NangSuat_LaoDong 
+                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
                                      where NgayDiemDanh = @NgayDiemDanh
-                                     group by NgayDiemDanh) as hd 
-                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID ) as h
+                                     group by NgayDiemDanh, Ca) as hd 
+                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID) as h
                                     on a.department_id = h.MaPhongBan
                                     group by a.department_id) as b on a.department_id = b.department_id";
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -574,7 +574,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     nv_dd.MaNV
                                     from
                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
-                                     where MONTH(NgayDiemDanh) = @month AND YEAR(NgayDiemDanh) = @year AND Status = 1
+                                     where Month(NgayDiemDanh) = @month and Year(NgayDiemDanh) = @year and Status = 1
                                      group by NgayDiemDanh, Ca) as hd 
                                      join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
                                      join 
@@ -602,7 +602,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     nv_dd.LyDoVangMat
                                     from
                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
-                                     where MONTH(NgayDiemDanh) = @month AND YEAR(NgayDiemDanh) = @year AND Status = 1
+                                     where Month(NgayDiemDanh) = @month and Year(NgayDiemDanh) = @year and Status = 1
                                      group by NgayDiemDanh, Ca) as hd 
                                      join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
                                      join 
@@ -623,10 +623,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     left outer join 
                                     (select hd.NgayDiemDanh, hdd.MaPhongBan, hdd.ThanThucHien, hdd.MetLoThucHien, hdd.XenThucHien, hdd.TotalEffort
                                      from 
-                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh from Header_DiemDanh_NangSuat_LaoDong 
-                                     where MONTH(NgayDiemDanh) = @month AND YEAR(NgayDiemDanh) = @year
-                                     group by NgayDiemDanh) as hd 
-                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID ) as h
+                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
+                                     where Month(NgayDiemDanh) = @month and Year(NgayDiemDanh) = @year
+                                     group by NgayDiemDanh, Ca) as hd 
+                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID) as h
                                     on a.department_id = h.MaPhongBan
                                     group by a.department_id) as b on a.department_id = b.department_id";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
@@ -748,7 +748,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     nv_dd.MaNV
                                     from
                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
-                                     where MONTH(NgayDiemDanh) = @month AND YEAR(NgayDiemDanh) = @year AND Status = 1
+                                     where Month(NgayDiemDanh) = @month and Year(NgayDiemDanh) = @year and Status = 1
                                      group by NgayDiemDanh, Ca) as hd 
                                      join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
                                      join 
@@ -776,7 +776,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     nv_dd.LyDoVangMat
                                     from
                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
-                                     where MONTH(NgayDiemDanh) = @month AND YEAR(NgayDiemDanh) = @year AND Status = 1
+                                     where Month(NgayDiemDanh) = @month and Year(NgayDiemDanh) = @year and Status = 1
                                      group by NgayDiemDanh, Ca) as hd 
                                      join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
                                      join 
@@ -797,10 +797,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     left outer join 
                                     (select hd.NgayDiemDanh, hdd.MaPhongBan, hdd.ThanThucHien, hdd.MetLoThucHien, hdd.XenThucHien, hdd.TotalEffort
                                      from 
-                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh from Header_DiemDanh_NangSuat_LaoDong 
-                                     where MONTH(NgayDiemDanh) = @month AND YEAR(NgayDiemDanh) = @year
-                                     group by NgayDiemDanh) as hd 
-                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID ) as h
+                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
+                                     where Month(NgayDiemDanh) = @month and Year(NgayDiemDanh) = @year
+                                     group by NgayDiemDanh, Ca) as hd 
+                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID) as h
                                     on a.department_id = h.MaPhongBan
                                     group by a.department_id) as b on a.department_id = b.department_id";
                     using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
