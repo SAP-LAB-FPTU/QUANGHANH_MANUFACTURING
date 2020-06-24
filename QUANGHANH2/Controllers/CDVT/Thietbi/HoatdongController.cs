@@ -355,7 +355,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 "where e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name  and e.isAttach = 0 ";
             string queryTotalRow = @"SELECT count(e.[equipmentId])
                 FROM [Equipment] e LEFT JOIN Department d ON e.department_id = d.department_id LEFT JOIN Equipment_category ec ON e.Equipment_category_id = ec.Equipment_category_id LEFT JOIN Status s on e.current_Status = s.statusid left join Car c on e.equipmentId = c.equipmentId
-                where e.equipmentId LIKE '%%' AND e.equipment_name LIKE '%%' and c.equipmentId is null  and e.isAttach = 0 ";
+                where e.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name and c.equipmentId is null  and e.isAttach = 0 ";
 
             if (department != "" || quality != "" || dateStart != "" || dateEnd != "" || category != "" || sup != "" || att != "")
             {
