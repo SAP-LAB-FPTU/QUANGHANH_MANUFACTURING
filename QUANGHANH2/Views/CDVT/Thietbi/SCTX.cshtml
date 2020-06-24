@@ -151,7 +151,7 @@
                         <td><input type="text" class="form-control" placeholder="Tên thiết bị vật tư" id="supplyname_add1" readonly /></td>
                         <td><input type="text" class="form-control" placeholder="Số lượng còn" id="remaining_add1" readonly /></td>
                         <td><input type="text" class="form-control" placeholder="ĐVT" id="unit_add1" readonly /></td>
-                        <td><input type="number" class="form-control" placeholder="Số lượng sử dụng used" id="used1" /></td>
+                        <td><input type="number" class="form-control used" placeholder="Số lượng sử dụng " id="used1" /></td>
 
                         <td>
                             <input type='number' class='form-control thuhoi' id='thuhoi1' placeholder='Số lượng thu hồi' />
@@ -754,7 +754,7 @@
     
             //Chỉnh sửa
             $(document).on("click", ".open-EditMaintainModal", function () {
-                maintainid = $(this).data('maintainid');
+               var maintainid = $(this).data('maintainid');
                 $.ajax({
                     type: "POST",
                     url: "/phong-cdvt/thiet-bi/sctx/getMaintainCar",
