@@ -216,14 +216,14 @@ namespace QUANGHANH2.Controllers.DK
                             else
                             {
                                 excelWorksheet.Cells[i, 1].Value = count;
-                                excelWorksheet.Cells[i, 2].Value = reports[k].TenTieuChi;
-                                excelWorksheet.Cells[i, 3].Value = reports[k].BQQHDC;
-                                excelWorksheet.Cells[i, 4].Value = reports[k].Ca1;
-                                excelWorksheet.Cells[i, 5].Value = reports[k].Ca2;
-                                excelWorksheet.Cells[i, 6].Value = reports[k].Ca3;
-                                excelWorksheet.Cells[i, 7].Value = reports[k].TH;
-                                excelWorksheet.Cells[i, 8].Value = reports[k].KH;
-                                excelWorksheet.Cells[i, 9].Value = reports[k].chenhlech;
+                                excelWorksheet.Cells[i, 2].Value = string.Format("{0:0.00}", reports[k].TenTieuChi);
+                                excelWorksheet.Cells[i, 3].Value = string.Format("{0:0.00}", reports[k].BQQHDC);
+                                excelWorksheet.Cells[i, 4].Value = string.Format("{0:0.00}", reports[k].Ca1);
+                                excelWorksheet.Cells[i, 5].Value = string.Format("{0:0.00}", reports[k].Ca2);
+                                excelWorksheet.Cells[i, 6].Value = string.Format("{0:0.00}", reports[k].Ca3);
+                                excelWorksheet.Cells[i, 7].Value = string.Format("{0:0.00}", reports[k].TH);
+                                excelWorksheet.Cells[i, 8].Value = string.Format("{0:0.00}", reports[k].KH);
+                                excelWorksheet.Cells[i, 9].Value = string.Format("{0:0.00}", reports[k].chenhlech);
                                 if (reports[k].chenhlech > 0)
                                 {
                                     excelWorksheet.Cells[i, 9].Style.Font.Color.SetColor(Color.Green);
@@ -232,13 +232,14 @@ namespace QUANGHANH2.Controllers.DK
                                 {
                                     excelWorksheet.Cells[i, 9].Style.Font.Color.SetColor(Color.Red);
                                 }
-                                excelWorksheet.Cells[i, 10].Value = reports[k].percentage;
-                                excelWorksheet.Cells[i, 11].Value = reports[k].luyke;
-                                excelWorksheet.Cells[i, 12].Value = reports[k].KHDC;
-                                excelWorksheet.Cells[i, 13].Value = reports[k].percentageDC;
-                                excelWorksheet.Cells[i, 14].Value = reports[k].SUM;
-                                excelWorksheet.Cells[i, 15].Value = reports[k].perday;
-                                excelWorksheet.Cells[i, 16].Value = reports[k].GhiChu;
+                                excelWorksheet.Cells[i, 10].Value = string.Format("{0:0.00}", reports[k].percentage);
+                                excelWorksheet.Cells[i, 11].Value = string.Format("{0:0.00}", reports[k].luyke);
+                                excelWorksheet.Cells[i, 12].Value = string.Format("{0:0.00}", reports[k].KHBD);
+                                excelWorksheet.Cells[i, 13].Value = string.Format("{0:0.00}", reports[k].KHDC);
+                                excelWorksheet.Cells[i, 14].Value = string.Format("{0:0.00}", reports[k].percentageDC);
+                                excelWorksheet.Cells[i, 15].Value = string.Format("{0:0.00}", reports[k].SUM);
+                                excelWorksheet.Cells[i, 16].Value = string.Format("{0:0.00}", reports[k].perday);
+                                excelWorksheet.Cells[i, 17].Value = reports[k].GhiChu;
                                 count++;
                             }
                             k++;
