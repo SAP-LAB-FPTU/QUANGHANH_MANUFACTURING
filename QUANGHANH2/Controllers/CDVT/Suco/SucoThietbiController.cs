@@ -36,7 +36,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             return View("/Views/CDVT/Suco/SucoThietbi.cshtml");
         }
 
-        [Auther(RightID = "20,79,19,179,180,181,183,184,185,186,187,189,195,003")]
+        [Auther(RightID = "20,79")]
         [Route("phong-cdvt/su-co/add")]
         [HttpPost]
         public ActionResult Add(string equipment, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd, string checkBox)
@@ -103,7 +103,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
-        [Auther(RightID = "21,79,19,179,180,181,183,184,185,186,187,189,195,003")]
+        [Auther(RightID = "21,79")]
         [Route("phong-cdvt/su-co/edit")]
         [HttpPost]
         public ActionResult Edit(int incident_id, string equipment, string department, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd)
@@ -141,7 +141,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
-        [Auther(RightID = "21,79,19,179,180,181,183,184,185,186,187,189,195,003")]
+        [Auther(RightID = "21,79")]
         [Route("phong-cdvt/su-co/update")]
         [HttpPost]
         public ActionResult Update(int incident_id, string reason, int year, int month, int day, int hour, int minute)
