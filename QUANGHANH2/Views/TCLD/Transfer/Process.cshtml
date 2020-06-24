@@ -692,6 +692,8 @@
                         $(".thang").val(r.data.MucThangLuong);
                         $(".thang").data('mathangluong', r.data.MaThangLuong);
                         $(".phucap").val(AddComma(r.data.PhuCap) == "null" ? "0" : AddComma(r.data.PhuCap));
+                        $("#thang-selectAll").val(r.data.MucThangLuong)
+                        $("#phucap-selectAll").val(AddComma(r.data.PhuCap) == "null" ? "0" : AddComma(r.data.PhuCap))
                         var bacs = "";
                         $(".bac").empty();
                         $("#bac-selectAll").empty();
@@ -701,14 +703,10 @@
                         $(".bac").append(bacs);
                         $("#bac-selectAll").append(bacs);
                         $(".luong").val(AddComma(r.bacs[0].MucLuong));
-
                         $(".bac").change(function () {
                             let thisId = $(this).attr("id").split("-")[1];
                             $("#luong-" + thisId).val(AddComma($(this).find(":selected").data("mucluong")));
                         });
-
-
-
                         $("#pre-load").hide("slow", function () { });
                     } else {
 
@@ -926,17 +924,18 @@
             await getThangLuongAndPhuCapForAll("selectAll", $("#chucvu-selectAll").find(":selected").val());
             await $(".chucvu").val($("#chucvu-selectAll").val());
             //await $(".bac").empty();
-            //await await $(".bac").append($("#bac-selectAll").html());
+            //await $(".bac").append($("#bac-selectAll").html());
             //await (".bac").val($("#bac-selectAll").val());
         });
         $("#bac-selectAll").change(function () {
             $(".bac").empty();
             var html = $("#bac-selectAll").html();
+            //alert(html)
             $(".bac").append(html);
             $(".bac").val($("#bac-selectAll").val());
             $("#luong-selectAll").val(AddComma($(this).find(":selected").data("mucluong")));
             $(".luong").val(AddComma($("#luong-selectAll").val()));
-            $(".thang").val(AddComma($("#thang-selectAll").val()));
+            $(".thang").val($("#thang-selectAll").val());
             $(".phucap").val(AddComma($("#phucap-selectAll").val()));
         });
     </script>
