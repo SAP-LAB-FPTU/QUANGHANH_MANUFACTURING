@@ -175,41 +175,45 @@
 <script>
     $(document).ready(function () {
         $("#xacnhanthemtieuchi").click(function () {
-            $("#pre-load").show(),
-                $.ajax({
-                    url: "/phong-dieu-khien/quan-ly-tieu-chi/them-tieu-chi",
-                    type: "POST",
-                    datatype: "json",
-                    data: {
-                        "nhomtieuchi": $("#nhomtieuchi").val(),
-                        "tentieuchi": $("#tentieuchi").val(),
-                        "donvido": $("#donvido").val()
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            //arlet successful adding
-                            successAlert(response.title, response.message);
-                            //clear input in modal themmucluong
-                            $("#donvido").val("");
-                            $("#tentieuchi").val("");
-                            $("#nhomtieuchi option").prop("selected", function () {
-                                return this.defaultSelected;
-                            });
-                            //close modal themmucluong
-                            $("#dongthemtieuchi").click();
-                            //reload table
-                            table.ajax.reload();
-                            //hide the pre-loader
-                            $("#pre-load").hide();
-                        } else if (response.error) {
-                            errorAlert(response.title, response.message);
-                            $("#pre-load").hide();
+            if ($("#tentieuchi").val().trim() == "" || $("#donvido").val().trim() == "") {
+                errorAlert("Thông tin chưa nhập đủ", "Hãy nhập đủ tên tiêu chí & đơn vị đo tiêu chí");
+            } else {
+                $("#pre-load").show(),
+                    $.ajax({
+                        url: "/phong-dieu-khien/quan-ly-tieu-chi/them-tieu-chi",
+                        type: "POST",
+                        datatype: "json",
+                        data: {
+                            "nhomtieuchi": $("#nhomtieuchi").val(),
+                            "tentieuchi": $("#tentieuchi").val(),
+                            "donvido": $("#donvido").val()
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                //arlet successful adding
+                                successAlert(response.title, response.message);
+                                //clear input in modal themmucluong
+                                $("#donvido").val("");
+                                $("#tentieuchi").val("");
+                                $("#nhomtieuchi option").prop("selected", function () {
+                                    return this.defaultSelected;
+                                });
+                                //close modal themmucluong
+                                $("#dongthemtieuchi").click();
+                                //reload table
+                                table.ajax.reload();
+                                //hide the pre-loader
+                                $("#pre-load").hide();
+                            } else if (response.error) {
+                                errorAlert(response.title, response.message);
+                                $("#pre-load").hide();
+                            }
+                        },
+                        error: function (response) {
+                            alert(response.error)
                         }
-                    },
-                    error: function (response) {
-                        alert(response.error)
-                    }
-                });
+                    });
+            }
         });
     });
 </script>
