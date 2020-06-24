@@ -39,90 +39,88 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <br />
 
-        <div>
-            <a class="btn btn-small blue darken-2" id="export_excel_brief">Xuất ra file excel</a>
+            <div>
+                <a class="btn btn-small blue darken-2" id="export_excel_brief">Xuất ra file excel</a>
+            </div>
+
+            <br />
+            <table id="inside_table" class="table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th>Số thẻ</th>
+                        <th>Họ và tên</th>
+                        <th>Ngày sinh</th>
+                        <th>Người giao hồ sơ</th>
+                        <th>Ngày nhận hồ sơ</th>
+                        <th>Người giữ hồ sơ</th>
+                        <th colspan="2">Thao tác</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
 
-        <br />
-        <table id="inside_table" class="table-bordered table-responsive">
-            <thead>
-                <tr>
-                    <th>Số thẻ</th>
-                    <th>Họ và tên</th>
-                    <th>Ngày sinh</th>
-                    <th>Người giao hồ sơ</th>
-                    <th>Ngày nhận hồ sơ</th>
-                    <th>Người giữ hồ sơ</th>
-                    <th colspan="2">Thao tác</th>
-                </tr>
-            </thead>
-        </table>
+        <!----->
+        <div id="giayto">
+            <div class="col s12 m12 l12" style="margin-top:10px">
+                <div class="row center">
+                    <div class="col l3 m12 s12 input-field">
+                        <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV' id="searchMaNV" multiple />
+                    </div>
+                    <div class="col l3 m12 s12 input-field">
+                        <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name' id="searchTenNV" multiple />
+                    </div>
+                    <div class="col l3 m12 s12 input-field">
+                        <input type="text" placeholder="Tên giấy tờ" class='form-control autocomplete_Name' id="searchTenGT" multiple />
+                    </div>
+                    <div class="col l3 m12 s12 input-field">
+                        <select class="form-control" id="searchKieuGT">
+                            <option value="" selected>Kiểu giấy tờ</option>
+                            <option value="goc">Gốc</option>
+                            <option value="daudo">Dấu đỏ</option>
+                            <option value="sao">Sao,Công chứng</option>
+                            <option value="photo">Photo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col l3 offset-l5 m12 s12 input-field">
+                        <button class="waves-effect waves-light btn-small blue modal-trigger" id="searchButton_Doc"><i class="fas fas fa-search"></i>Tìm kiếm</button>
+                    </div>
+                </div>
+            </div>
+            <row>
+                <a class="waves-effect waves-light btn-small blue modal-trigger " data-target="myadd" style="margin-top:10px" onclick="PopupFormAdd('@Url.Action("themGiayTo","Brief")')"><i class="fa fa-plus"></i> Thêm</a>
+            </row>
+            <table class="table-bordered striped" id="equipmentTable" style="margin-top:10px">
+                <thead>
+                    <tr>
+                        <th>
+                            Mã nhân viên
+                        </th>
+                        <th>
+                            Tên nhân viên
+                        </th>
+                        <th>
+                            Tên giấy tờ
+                        </th>
+                        <th>
+                            Kiểu giấy tờ
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
     </div>
 </div>
-    </div>
 
 
-<div id="giayto">
-    <div class="col s12 m12 l12" style="margin-top:10px">
-        <div class="row center">
-            <div class="col l3 m12 s12 input-field">
-                <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV' id="searchMaNV" multiple />
-            </div>
-            <div class="col l3 m12 s12 input-field">
-                <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name' id="searchTenNV" multiple />
-            </div>
-            <div class="col l3 m12 s12 input-field">
-                <input type="text" placeholder="Tên giấy tờ" class='form-control autocomplete_Name' id="searchTenGT" multiple />
-            </div>
-            <div class="col l3 m12 s12 input-field">
-                <select class="form-control" id="searchKieuGT">
-                    <option value="" selected>Kiểu giấy tờ</option>
-                    <option value="goc">Gốc</option>
-                    <option value="daudo">Dấu đỏ</option>
-                    <option value="sao">Sao,Công chứng</option>
-                    <option value="photo">Photo</option>
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col l3 offset-l5 m12 s12 input-field">
-                <button class="waves-effect waves-light btn-small blue modal-trigger" id="searchButton_Doc"><i class="fas fas fa-search"></i>Tìm kiếm</button>
-            </div>
-        </div>
-    </div>
-    <row>
-        <a class="waves-effect waves-light btn-small blue modal-trigger " data-target="myadd" style="margin-top:10px" onclick="PopupFormAdd('@Url.Action("themGiayTo","Brief")')"><i class="fa fa-plus"></i> Thêm</a>
-    </row>
-    <table class="table-bordered striped" id="equipmentTable" style="margin-top:10px">
-        <thead>
-            <tr>
-                <th>
-                    Mã nhân viên
-                </th>
-                <th>
-                    Tên nhân viên
-                </th>
-                <th>
-                    Tên giấy tờ
-                </th>
-                <th>
-                    Kiểu giấy tờ
-                </th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-    </table>
-</div>
 
 @{
     List<string> right = (List<string>)Session["RightIDs"];
 }
-<script src="~/js/Custom JS/Disable_input_material.js"></script>
-<script src="~/js/Custom JS/TCLD/Brief/ManageBrief/DeletePopup.min.js"></script>
 <!---------------------------------------------------------------------------------->
 @foreach (var item in right)
 {
@@ -147,7 +145,6 @@
         </div>
     }
 }
-
 
 <script>
     //Gọi popup khi ấn nút Thêm
@@ -212,6 +209,8 @@
     }
 </script>
 @section scripts{
+    <script src="~/js/Custom JS/TCLD/Brief/ManageBrief/DeletePopup.min.js"></script>
+    <script src="~/js/Custom JS/Disable_input_material.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
         ////////////////////////////////////////////////////////////////////////
