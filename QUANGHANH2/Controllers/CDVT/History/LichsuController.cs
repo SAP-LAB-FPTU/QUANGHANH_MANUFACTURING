@@ -483,8 +483,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
                     DBContext.SaveChanges();
 
                     //update total_hour
-                    int count = DBContext.Database.SqlQuery<int>("select total_operating_hours from Equipment where equipmentid = @equipmentId", new SqlParameter("equipmentId", equipmentId)).First();
-                    if (count == 0)
+                    int? count = DBContext.Database.SqlQuery<int?>("select total_operating_hours from Equipment where equipmentid = @equipmentId", new SqlParameter("equipmentId", equipmentId)).First();
+                    if (count == 0 || count == null)
                     {
                         //add first
                         DBContext.Database.ExecuteSqlCommand("update Equipment set total_operating_hours = @hour where equipmentId = @equipmentId",
