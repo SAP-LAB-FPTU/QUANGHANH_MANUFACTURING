@@ -297,7 +297,7 @@
                                             </div>
                                             <div class="col s12 m4">
                                                 <div class="form-group">
-                                                    <label for= name>Lý do sự cố : </label>
+                                                    <label>Lý do sự cố : </label>
                                                     <input required type="text" name="reason" class="form-control" id="reason-update" />
                                                     <input type="hidden" value="" class="form-control" id="incident-update" />
                                                 </div>
@@ -360,118 +360,12 @@
 <datalist id="department_name">
     @foreach (var item in ViewBag.departments)
     {
-        <option>@item.department_name</option>
+        <option>@item</option>
     }
 </datalist>
 
 @section scripts{
-
     <script>
-        $(document).ready(function () {
-            setInterval(function () {
-                waittime++;
-                if (waittime > 2 && ck == true) {
-                    $("#ChangeIDForm").submit();
-                    waittime = 0;
-                    ck = false;
-                }
-                if (waittime > 10) {
-                    check = true;
-                }
-            }, 1000);
-
-        });
-        var check = true;
-        var waittime = 0;
-
-        function ChangeID(form) {
-
-            $.validator.unobtrusive.parse(form);
-            if ($(form).valid()) {
-                $.ajax({
-                    type: "POST",
-                    url: form.action,
-                    data: $(form).serialize(),
-                    success: function (data) {
-                        $("#listid-s").empty();
-                        var option = "";
-                        for (var i = 0; i < data.id.length; i++) {
-                            var s = data.id[i].equipmentId;
-                            var a = "<option value='" + s + "'>" + s + "</option>";
-                            option += a;
-                        }
-                        $("#listid-s").append(option);
-                    },
-                    error: function () {
-                        alert(response.data.message);
-
-                    }
-                });
-            }
-
-            return false;
-        }
-
-        $("#equipmentId-search").keyup(function (e) {
-            if (e.which == 13) {
-                $("#searchButton1").click();
-                $("#equipmentId-search").blur();
-            } else {
-                var text = $("#equipmentId-search").val();
-                $("#id-s").val(text);
-                $("#ck").val("0");
-                if (waittime > 1) {
-                    $("#ChangeIDForm").submit();
-                }
-            }
-        });
-
-        $("#equipmentName-search").keyup(function (e) {
-            if (e.which == 13) {
-                $("#searchButton1").click();
-                $("#person_created-search").blur();
-            } else {
-                var text = $("#equipmentName-search").val();
-                $("#id-s").val(text);
-                $("#ck").val("1");
-                if (waittime > 1) {
-                    $("#ChangeIDForm").submit();
-                    waittime = 0;
-                }
-            }
-        });
-
-        $("#detail-search").keyup(function (e) {
-            if (e.which == 13) {
-                $("#searchButton1").click();
-                $("#detail-search").blur();
-            } else {
-                var text = $("#detail-search").val();
-                $("#id-s").val(text);
-                $("#ck").val("2");
-                if (waittime > 1) {
-                    $("#ChangeIDForm").submit();
-                    waittime = 0;
-                }
-            }
-        });
-
-        $("#reason-search").keyup(function (e) {
-            if (e.which == 13) {
-                $("#searchButton1").click();
-                $("#reason-search").blur();
-            } else {
-                var text = $("#reason-search").val();
-                $("#id-s").val(text);
-                $("#ck").val("3");
-                if (waittime > 1) {
-                    $("#ChangeIDForm").submit();
-                    waittime = 0;
-                }
-            }
-        });
-
-
         $('.maxDate').datepicker({
             language: 'vi',
             maxDate: new Date(),
@@ -855,32 +749,6 @@
                 },
                 cache: false
             })
-        });
-
-        $('#equipment-add').keypress(function (event) {
-            var keycode = (event.keyCode ? event.keyCode : event.which);
-            if (keycode == '13') {
-                $.ajax({
-                    type: "POST",
-                    url: "/phong-cdvt/su-co/getDepartment",
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.success == false) {
-                            errorAlert('Lỗi', data.message);
-                        }
-                        else {
-                            $("#department-add").val(data.message);
-                        }
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        errorAlert('Lỗi', 'Có lỗi xảy ra');
-                    },
-                    data: {
-                        equipmentId: $(this).val()
-                    },
-                    cache: false
-                })
-            }
         });
     </script>
 }
