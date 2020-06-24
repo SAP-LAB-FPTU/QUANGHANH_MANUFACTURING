@@ -47,8 +47,8 @@ namespace QUANGHANH2.Controllers.DK
             item1.KHDC += item2.KHDC;
             item1.perday += item2.perday;
             //
-            item1.percentage = item1.KH == 0 ? 100 : Math.Round(item1.TH / item1.KH, 2, MidpointRounding.ToEven) * 100;
-            item1.percentageDC = item1.KHDC == 0 ? 100 : Math.Round(item1.luyke / item1.KHDC, 2, MidpointRounding.ToEven) * 100;
+            item1.percentage = item1.KH == 0 ? 100 : Math.Round(item1.TH / item1.KH, 1, MidpointRounding.ToEven) * 100;
+            item1.percentageDC = item1.KHDC == 0 ? 100 : Math.Round(item1.luyke / item1.KHDC, 1, MidpointRounding.ToEven) * 100;
             return item1;
         }
 
@@ -233,17 +233,17 @@ namespace QUANGHANH2.Controllers.DK
                 for (var index = 0; index < listReport.Count; index++)
                 {
                     listReport[index].KHDC = list_KHDC[index].SanLuong;
-                    listReport[index].BQQHDC = Math.Round(listReport[index].KHDC / (tongsongay), 2, MidpointRounding.ToEven);
+                    listReport[index].BQQHDC = Math.Round(listReport[index].KHDC / (tongsongay), 1, MidpointRounding.ToEven);
                     listReport[index].KH = list_KHDaily[index].SanLuong;
                 }
                 //
                 foreach (var item in listReport)
                 {
                     item.chenhlech = item.TH - item.KH;
-                    item.percentage = item.KH == 0 ? 100 : Math.Round(item.TH / item.KH, 2, MidpointRounding.ToEven) * 100;
-                    item.percentageDC = item.KHDC == 0 ? 100 : Math.Round(item.luyke / item.KHDC, 2, MidpointRounding.ToEven) * 100;
+                    item.percentage = item.KH == 0 ? 100 : Math.Round(item.TH / item.KH, 1, MidpointRounding.ToEven) * 100;
+                    item.percentageDC = item.KHDC == 0 ? 100 : Math.Round(item.luyke / item.KHDC, 1, MidpointRounding.ToEven) * 100;
                     item.SUM = item.KHDC - item.luyke;
-                    item.perday = Math.Round(item.SUM / (tongsongay - ngaylam), 2, MidpointRounding.ToEven);
+                    item.perday = Math.Round(item.SUM / (tongsongay - ngaylam), 1, MidpointRounding.ToEven);
                 }
                 //
                 List<string> listpxchinh = db.Database.SqlQuery<string>("select d.department_id from Department d where d.department_type = N'Phân xưởng sản xuất chính'").ToList();
