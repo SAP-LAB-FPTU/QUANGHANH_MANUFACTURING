@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
+using QUANGHANHCORE.Controllers.Phanxuong.phanxuong;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -29,12 +30,12 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortDirection = Request["order[0][dir]"];
             dynamic dataJson = JObject.Parse(data);
 
-            string name = dataJson.name==null?"": dataJson.name;
+            string name = dataJson.name == null ? "" : dataJson.name;
             name = name.Trim();
             string mnv = dataJson.mnv == null ? "" : dataJson.mnv;
             mnv = mnv.Trim();
             try { string[] d = mnv.Split(' '); mnv = ""; foreach (string i in d) { mnv += "'" + i + "',"; } mnv = mnv.Substring(0, mnv.Length - 1); mnv = mnv == "''" ? "" : mnv; } catch (Exception e) { }
-            string dept_id = dataJson.px==null?"": dataJson.px;
+            string dept_id = dataJson.px == null ? "" : dataJson.px;
             dept_id = dept_id.Trim();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -45,7 +46,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 List<NhanVien> listMaNV = db.Database.SqlQuery<NhanVien>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                     new SqlParameter("name", "%" + name + "%"),
                     new SqlParameter("phongban", dept_id)).ToList();
-                int totalrows = db.Database.SqlQuery<int>(sql.Replace("*","count(*)"), 
+                int totalrows = db.Database.SqlQuery<int>(sql.Replace("*", "count(*)"),
                     new SqlParameter("name", "%" + name + "%"),
                     new SqlParameter("phongban", dept_id)).ToList()[0];
                 return getData(listMaNV, totalrows);
@@ -456,16 +457,17 @@ namespace QUANGHANH2.Controllers.TCLD
                 int machungchi = 0;
                 try
                 {
-                    machungchi= int.Parse(Request["machungchi"]);
-                }catch(Exception e)
+                    machungchi = int.Parse(Request["machungchi"]);
+                }
+                catch (Exception e)
                 {
 
                 }
-                using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
                     ChungChi_NhanVien c = (from n in db.ChungChi_NhanVien
-                                        where ((n.MaNV == maNV) && (n.MaChungChi==machungchi))
-                                        select n).SingleOrDefault();
+                                           where ((n.MaNV == maNV) && (n.MaChungChi == machungchi))
+                                           select n).SingleOrDefault();
                     c.NgayCap = DateTime.Now;
                     db.SaveChanges();
                     string sql = @"select DATEDIFF(day,getDate()+1,DATEADD(month, chungchi.ThoiHan, getDate())) as songayconlai from chungchi 
@@ -476,7 +478,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
             catch (Exception e)
             {
-                return Json(new { success=false },JsonRequestBehavior.AllowGet);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
             return null;
         }
@@ -523,17 +525,17 @@ namespace QUANGHANH2.Controllers.TCLD
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 List<NhanVien> listMaNV = (from px in db.Departments
-                                                  join
-                                                  nv in db.NhanViens
-                                                  on px.department_id equals nv.MaPhongBan
-                                                  where nv.MaTrangThai != 2
-                                                  select nv).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
+                                           join
+                                           nv in db.NhanViens
+                                           on px.department_id equals nv.MaPhongBan
+                                           where nv.MaTrangThai != 2
+                                           select nv).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
                 int totalrows = db.NhanViens.Where(x => x.MaTrangThai != 2).ToList().Count;
                 return getData(listMaNV, totalrows);
             }
         }
 
-        public JsonResult getData(List<NhanVien> listMaNV,int totalrows)
+        public JsonResult getData(List<NhanVien> listMaNV, int totalrows)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
@@ -547,7 +549,7 @@ namespace QUANGHANH2.Controllers.TCLD
                             "DATEDIFF(day, getDate()+1, DATEADD(month, chungchi.ThoiHan, a.NgayCap))" +
                             "as songay," +
                             "chungchi.TenChungChi from chungchi,NhanVien,"
-                            + "(select * from chungchi_nhanvien "+(arrMaNV.Length<=0?"": " where manv in (" + arrMaNV.Substring(0, arrMaNV.Length - 1) + ")") +") a" +
+                            + "(select * from chungchi_nhanvien " + (arrMaNV.Length <= 0 ? "" : " where manv in (" + arrMaNV.Substring(0, arrMaNV.Length - 1) + ")") + ") a" +
                             " where chungchi.MaChungChi=a.MaChungChi and NhanVien.MaNV=a.MaNV and NhanVien.MaTrangThai!=2 order by a.MaNV";
                 List<ChungChi_NhanVien_Model> listNhanVien_ChungChi = db.Database.SqlQuery<ChungChi_NhanVien_Model>(sql).ToList();
 
@@ -567,7 +569,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 for (int j = 0; j < orders_chungchi.Count(); j++) { newOrder[j] = (int)orders_chungchi.ElementAt(j).MaChungChi; }
                 //sort list chứng chỉ theo như thứ tự ở bảng ngoài view luôn để tránh việc chạy nhiều vòng lặp và tiết kiệm bước xử lý
                 Dictionary<int, int> newOrderIndexedMap = Enumerable.Range(0, newOrder.Length).ToDictionary(r => newOrder[r], r => r);
-                listChungChiDefault = listChungChiDefault.OrderBy(test => newOrderIndexedMap[test.MaChungChi]).ToList();
+                //listChungChiDefault = listChungChiDefault.OrderBy(test => newOrderIndexedMap[test.MaChungChi]).ToList();
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////
                 List<NhanVienChungChiNewModel> list = new List<NhanVienChungChiNewModel>();
@@ -1089,102 +1091,26 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
-        public void ExportExcel(string pb = "")
+        public void ExportExcel(string searchObjJson)
         {
             string path = HostingEnvironment.MapPath("/excel/TCLD/Report_Job.xlsx");
             FileInfo file = new FileInfo(path);
 
             using (ExcelPackage excelPackage = new ExcelPackage(file))
             {
+
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-
+                List<NhanVienChungChiNewModel> list = new List<NhanVienChungChiNewModel>();
+                List<MyModal> model = new List<MyModal>(); ;
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    List<NhanVien_Extend> arrNhanVien = null;
-                    if (pb.Equals(""))
-                    {
-                        var temp = (from px in db.Departments
-                                    join
-                                    nv in db.NhanViens
-                                    on px.department_id equals nv.MaPhongBan
-                                    where nv.MaTrangThai != 2
-                                    select new
-                                    {
-                                        TenNhanVien = nv.Ten,
-                                        MaNhanVien = nv.MaNV
-                                    });
-                        arrNhanVien = temp.ToList().Select(p => new NhanVien_Extend { Ten = p.TenNhanVien, MaNV = p.MaNhanVien }).ToList();
-                    }
-                    else
-                    {
-                        var temp = (from px in db.Departments
-                                    join
-                                    nv in db.NhanViens
-                                    on px.department_id equals nv.MaPhongBan
-                                    where px.department_id.Equals(pb)
-                                    && nv.MaTrangThai != 2
-                                    select new
-                                    {
-                                        TenNhanVien = nv.Ten,
-                                        MaNhanVien = nv.MaNV
-                                    });
-                        arrNhanVien = temp.ToList().Select(p => new NhanVien_Extend { Ten = p.TenNhanVien, MaNV = p.MaNhanVien }).ToList();
-                    }
+                    var temp = (from a in db.Departments where a.department_type.Contains("chính") select new { MaPhanXuong = a.department_id, TenPhanXuong = a.department_name }).ToList();
 
-                    foreach (NhanVien_Extend nv in arrNhanVien)
-                    {
-                        foreach (ChiTiet_NhiemVu_NhanVien nvnv in db.ChiTiet_NhiemVu_NhanVien)
-                        {
-                            if (nv.MaNV.Equals(nvnv.MaNV) && nvnv.IsInProcess == true && Convert.ToBoolean(nvnv.IsUpdated) == false)
-                            {
-
-                                var mccTemp = (from nvunv in db.ChiTiet_NhiemVu_NhanVien
-                                               join NhiemVu nvu in db.NhiemVus
-                                               on nvunv.MaNhiemVu equals nvu.MaNhiemVu
-                                               join cc in db.ChungChis
-                                               on nvu.MaChungChi equals cc.MaChungChi
-                                               where nvu.MaNhiemVu.Equals(nvnv.MaNhiemVu)
-                                               select new { mcc = cc.MaChungChi }
-                                           ).FirstOrDefault();
-                                int mcc = mccTemp.mcc;
-                                TinhTrangChungChi ttcc = CheckTinhTrangChungChi(nv.MaNV, mcc);
-                                Chung_Chi_Nhan_Vien_Extend ccnv;
-                                if (ttcc == null)
-                                {
-                                    ccnv = new Chung_Chi_Nhan_Vien_Extend
-                                    {
-                                        MaNhiemVu = nvnv.MaNhiemVu,
-                                        TinhTrangChungChi = "Chưa có",
-                                        SoNgay = 0,
-                                        MaChungChi = mcc
-                                    };
-                                }
-                                else
-                                {
-                                    ccnv = new Chung_Chi_Nhan_Vien_Extend
-                                    {
-                                        MaNhiemVu = nvnv.MaNhiemVu,
-                                        TinhTrangChungChi = ttcc.TinhTrang,
-                                        SoNgay = ttcc.SoNgay,
-                                        MaChungChi = mcc
-                                    };
-                                }
-
-                                nv.MaNhiemVu.Add(nvnv.MaNhiemVu);
-                                nv.ChungChiNhiemVu.Add(ccnv);
-                            }
-                        }
-                    }
-                    excelWorksheet.Cells[1, 1, 2, 1].Merge = true;
-                    excelWorksheet.Cells[1, 1].Value = "Mã nhân viên";
-                    excelWorksheet.Cells[1, 2, 2, 2].Merge = true;
-                    excelWorksheet.Cells[1, 2].Value = "Tên nhân viên";
-
+                    IEnumerable<Department> arrPhanXuong = temp.Select(p => new Department { department_id = p.MaPhanXuong, department_name = p.TenPhanXuong });
+                    ViewBag.nameDepartment = "vld-antoan";
+                    ViewBag.PhanXuongs = arrPhanXuong;
                     IOrderedEnumerable<NhiemVu> arrNhiemVu = db.NhiemVus.ToList().OrderBy(n => n.Loai);
-
-                    List<MyModal> PhanXuongModel = new List<MyModal>();
-
 
                     MyModal tempModel = new MyModal();
 
@@ -1197,72 +1123,317 @@ namespace QUANGHANH2.Controllers.TCLD
                                 loai = v.Loai
                             };
                             tempModel.arrNV.Add(v);
-                            PhanXuongModel.Add(tempModel);
+                            model.Add(tempModel);
                         }
                         else
                         {
                             tempModel.arrNV.Add(v);
                         }
                     }
-                    int k = 0;
-                    int currentPonter = 3;
-                    for (int i = 3; i < PhanXuongModel.Count + 3; i++) //done
-                    {
-                        excelWorksheet.Cells[1, currentPonter, 1, currentPonter + PhanXuongModel.ElementAt(k).arrNV.Count - 1].Merge = true;
-                        excelWorksheet.Cells[1, currentPonter].Value = PhanXuongModel.ElementAt(k).loai;
-                        currentPonter += PhanXuongModel.ElementAt(k).arrNV.Count;
-                        k++;
-                    }
 
-                    int m = 3;
-                    for (int i = 0; i < PhanXuongModel.Count; i++)
-                    {
-                        k = 0;
-                        for (int j = 3; j < PhanXuongModel.ElementAt(i).arrNV.Count + 3; j++)
-                        {
-                            excelWorksheet.Cells[2, m].Value = PhanXuongModel.ElementAt(i).arrNV.ElementAt(k).TenNhiemVu;
-                            k++;
-                            m++;
-                        }
-                    }
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    dynamic dataJson = JObject.Parse(searchObjJson);
 
-                    int x = 3, y = 1;
-                    foreach (NhanVien_Extend nvien in arrNhanVien)
+                    string name = dataJson.name == null ? "" : dataJson.name;
+                    name = name.Trim();
+                    string mnv = dataJson.mnv == null ? "" : dataJson.mnv;
+                    mnv = mnv.Trim();
+                    try { string[] d = mnv.Split(' '); mnv = ""; foreach (string i in d) { mnv += "'" + i + "',"; } mnv = mnv.Substring(0, mnv.Length - 1); mnv = mnv == "''" ? "" : mnv; } catch (Exception e) { }
+                    string dept_id = dataJson.px == null ? "" : dataJson.px;
+                    dept_id = dept_id.Trim();
+                    string sql = @"select * from nhanvien nv join Department dp
+                    on nv.MaPhongBan=dp.department_id and nv.MaTrangThai<>2 and nv.Ten like @name";
+                    sql += mnv == "" ? "" : " and nv.MaNV in (" + mnv + ")";
+                    sql += dept_id == "" ? "" : " and nv.MaPhongBan=@phongban";
+                    List<NhanVien> listMaNV = db.Database.SqlQuery<NhanVien>(sql,
+                        new SqlParameter("name", "%" + name + "%"),
+                        new SqlParameter("phongban", dept_id)).ToList();
+                    int totalrows = db.Database.SqlQuery<int>(sql.Replace("*", "count(*)"),
+                        new SqlParameter("name", "%" + name + "%"),
+                        new SqlParameter("phongban", dept_id)).ToList()[0];
+
+
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    string arrMaNV = "";
+                    foreach (NhanVien n in listMaNV)
                     {
-                        y = 1;
-                        excelWorksheet.Cells[x, y].Value = nvien.MaNV;
-                        y++;
-                        excelWorksheet.Cells[x, y].Value = nvien.Ten;
-                        y++;
-                        foreach (MyModal px in PhanXuongModel)
+                        arrMaNV += "'" + n.MaNV + "',";
+                    }
+                    sql = "select a.SoHieu,a.NgayCap,a.MaNV,a.MaChungChi," +
+                                "NhanVien.Ten as TenNV," +
+                                "DATEDIFF(day, getDate()+1, DATEADD(month, chungchi.ThoiHan, a.NgayCap))" +
+                                "as songay," +
+                                "chungchi.TenChungChi from chungchi,NhanVien,"
+                                + "(select * from chungchi_nhanvien " + (arrMaNV.Length <= 0 ? "" : " where manv in (" + arrMaNV.Substring(0, arrMaNV.Length - 1) + ")") + ") a" +
+                                " where chungchi.MaChungChi=a.MaChungChi and NhanVien.MaNV=a.MaNV and NhanVien.MaTrangThai!=2 order by a.MaNV";
+                    List<ChungChi_NhanVien_Model> listNhanVien_ChungChi = db.Database.SqlQuery<ChungChi_NhanVien_Model>(sql).ToList();
+
+                    //lấy list tất cả các trạng thái và set giá trị status (ý là tình trạng) về false hết để làm sample
+                    List<TrangThaiChungChiNhanVienModel> listChungChiDefault =
+                        (from cc in db.ChungChis
+                         select new TrangThaiChungChiNhanVienModel
+                         {
+                             MaChungChi = cc.MaChungChi,
+                             TenChungChi = cc.TenChungChi,
+                             KieuChungChi = cc.KieuChungChi,
+                             ThoiHan = cc.ThoiHan,
+                         })
+                        .ToList<TrangThaiChungChiNhanVienModel>();
+                    IOrderedEnumerable<NhiemVu> orders_chungchi = db.NhiemVus.ToList().OrderBy(n => n.Loai);
+                    int[] newOrder = new int[orders_chungchi.Count()];
+                    for (int j = 0; j < orders_chungchi.Count(); j++) { newOrder[j] = (int)orders_chungchi.ElementAt(j).MaChungChi; }
+                    //sort list chứng chỉ theo như thứ tự ở bảng ngoài view luôn để tránh việc chạy nhiều vòng lặp và tiết kiệm bước xử lý
+                    Dictionary<int, int> newOrderIndexedMap = Enumerable.Range(0, newOrder.Length).ToDictionary(r => newOrder[r], r => r);
+                    //listChungChiDefault = listChungChiDefault.OrderBy(test => newOrderIndexedMap[test.MaChungChi]).ToList();
+
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                    foreach (NhanVien nv in listMaNV)
+                    {
+                        NhanVienChungChiNewModel a = new NhanVienChungChiNewModel();
+                        a.chungchi = listChungChiDefault.Select(x => (TrangThaiChungChiNhanVienModel)x.Clone()).ToList();
+                        a.Ten = nv.Ten;
+                        a.MaNV = nv.MaNV;
+                        foreach (TrangThaiChungChiNhanVienModel thisChungChi in a.chungchi)
                         {
-                            foreach (NhiemVu nvu in px.arrNV)
+                            foreach (ChungChi_NhanVien_Model ccnv in listNhanVien_ChungChi)
                             {
-                                if (nvien.MaNhiemVu.Contains(nvu.MaNhiemVu))
+                                if (ccnv.MaNV == nv.MaNV && ccnv.MaChungChi == thisChungChi.MaChungChi)
                                 {
-                                    excelWorksheet.Cells[x, y].Value = "Đang làm";
-                                    y++;
+                                    thisChungChi.songayconlai = ccnv.SoNgay;
                                 }
-                                else
-                                {
-                                    excelWorksheet.Cells[x, y].Value = "-";
-                                    y++;
-                                }
-
                             }
                         }
-                        x++;
+                        list.Add(a);
                     }
-                    string location = HostingEnvironment.MapPath("/excel/TCLD/download");
-                    if (pb.Equals(""))
-                    {
-                        excelPackage.SaveAs(new FileInfo(location + "/Report_Job_Total.xlsx"));
-                    }
-                    else
-                    {
-                        excelPackage.SaveAs(new FileInfo(location + "/Report_Job_" + pb + ".xlsx"));
-                    }
+                    int totalrowsafterfiltering = totalrows;
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 }
+
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////
+                excelWorksheet.Cells[1, 1, 2, 1].Merge = true;
+                excelWorksheet.Cells[1, 1].Value = "STT";
+
+                excelWorksheet.Cells[1, 2, 2, 2].Merge = true;
+                excelWorksheet.Cells[1, 2].Value = "Mã NV";
+
+                excelWorksheet.Cells[1, 3, 2, 3].Merge = true;
+                excelWorksheet.Cells[1, 3].Value = "Tên nhân viên";
+
+                int nv_cell_numbers = 4;
+                for (var i = 0; i < model.Count; i++)
+                {
+                    excelWorksheet.Cells[1, nv_cell_numbers, 1, nv_cell_numbers + model[i].arrNV.Count - 1].Merge = true;
+                    excelWorksheet.Cells[1, nv_cell_numbers].Value = model[i].loai;
+                    var temp = nv_cell_numbers;
+                    for (var j = 0; j < model[i].arrNV.Count; j++)
+                    {
+                        excelWorksheet.Cells[2, temp++].Value = model[i].arrNV[j].TenNhiemVu;
+                    }
+                    nv_cell_numbers += model[i].arrNV.Count;
+                }
+                /////////////////////////////////////////////////////////////////////////////////////////////
+
+                var row_index = 3;
+                for (var i = 0; i < list.Count; i++)
+                {
+                    var ten = list[i].Ten;
+                    var maNV = list[i].MaNV;
+                    var column_index = 4;
+                    excelWorksheet.Cells[row_index, 1].Value = (i + 1);
+                    excelWorksheet.Cells[row_index, 2].Value = maNV;
+                    excelWorksheet.Cells[row_index, 3].Value = ten;
+                    for (var j = 0; j < list[i].chungchi.Count; j++)
+                    {
+                        int? songayconlai = list[i].chungchi[j].songayconlai;
+                        if (songayconlai == null)
+                        {
+                            excelWorksheet.Cells[row_index, column_index++].Value = "-";
+                        }
+                        else if (songayconlai > 0 && songayconlai <= 7)
+                        {
+                            excelWorksheet.Cells[row_index, column_index++].Value = "Sắp hết hạn";
+                        }
+                        else if (songayconlai > 7)
+                        {
+                            excelWorksheet.Cells[row_index, column_index++].Value = "Còn hạn";
+                        }
+                        else
+                        {
+                            excelWorksheet.Cells[row_index, column_index++].Value = "Hết hạn";
+                        }
+                    }
+                    row_index++;
+                }
+                /////////////////////////////////////////////////////////////////////////////////////////////
+                excelWorksheet.Cells.AutoFitColumns();
+                string location = HostingEnvironment.MapPath("/excel/TCLD/download");
+                excelPackage.SaveAs(new FileInfo(location + "/Report_Job.xlsx"));
+                //using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                //{
+                //    List<NhanVien_Extend> arrNhanVien = null;
+                //    if (pb.Equals(""))
+                //    {
+                //        var temp = (from px in db.Departments
+                //                    join
+                //                    nv in db.NhanViens
+                //                    on px.department_id equals nv.MaPhongBan
+                //                    where nv.MaTrangThai != 2
+                //                    select new
+                //                    {
+                //                        TenNhanVien = nv.Ten,
+                //                        MaNhanVien = nv.MaNV
+                //                    });
+                //        arrNhanVien = temp.ToList().Select(p => new NhanVien_Extend { Ten = p.TenNhanVien, MaNV = p.MaNhanVien }).ToList();
+                //    }
+                //    else
+                //    {
+                //        var temp = (from px in db.Departments
+                //                    join
+                //                    nv in db.NhanViens
+                //                    on px.department_id equals nv.MaPhongBan
+                //                    where px.department_id.Equals(pb)
+                //                    && nv.MaTrangThai != 2
+                //                    select new
+                //                    {
+                //                        TenNhanVien = nv.Ten,
+                //                        MaNhanVien = nv.MaNV
+                //                    });
+                //        arrNhanVien = temp.ToList().Select(p => new NhanVien_Extend { Ten = p.TenNhanVien, MaNV = p.MaNhanVien }).ToList();
+                //    }
+
+                //    foreach (NhanVien_Extend nv in arrNhanVien)
+                //    {
+                //        foreach (ChiTiet_NhiemVu_NhanVien nvnv in db.ChiTiet_NhiemVu_NhanVien)
+                //        {
+                //            if (nv.MaNV.Equals(nvnv.MaNV) && nvnv.IsInProcess == true && Convert.ToBoolean(nvnv.IsUpdated) == false)
+                //            {
+                //                var mccTemp = (from nvunv in db.ChiTiet_NhiemVu_NhanVien
+                //                               join NhiemVu nvu in db.NhiemVus
+                //                               on nvunv.MaNhiemVu equals nvu.MaNhiemVu
+                //                               join cc in db.ChungChis
+                //                               on nvu.MaChungChi equals cc.MaChungChi
+                //                               where nvu.MaNhiemVu.Equals(nvnv.MaNhiemVu)
+                //                               select new { mcc = cc.MaChungChi }
+                //                           ).FirstOrDefault();
+                //                int mcc = mccTemp.mcc;
+                //                TinhTrangChungChi ttcc = CheckTinhTrangChungChi(nv.MaNV, mcc);
+                //                Chung_Chi_Nhan_Vien_Extend ccnv;
+                //                if (ttcc == null)
+                //                {
+                //                    ccnv = new Chung_Chi_Nhan_Vien_Extend
+                //                    {
+                //                        MaNhiemVu = nvnv.MaNhiemVu,
+                //                        TinhTrangChungChi = "Chưa có",
+                //                        SoNgay = 0,
+                //                        MaChungChi = mcc
+                //                    };
+                //                }
+                //                else
+                //                {
+                //                    ccnv = new Chung_Chi_Nhan_Vien_Extend
+                //                    {
+                //                        MaNhiemVu = nvnv.MaNhiemVu,
+                //                        TinhTrangChungChi = ttcc.TinhTrang,
+                //                        SoNgay = ttcc.SoNgay,
+                //                        MaChungChi = mcc
+                //                    };
+                //                }
+
+                //                nv.MaNhiemVu.Add(nvnv.MaNhiemVu);
+                //                nv.ChungChiNhiemVu.Add(ccnv);
+                //            }
+                //        }
+                //    }
+                //    excelWorksheet.Cells[1, 1, 2, 1].Merge = true;
+                //    excelWorksheet.Cells[1, 1].Value = "Mã nhân viên";
+                //    excelWorksheet.Cells[1, 2, 2, 2].Merge = true;
+                //    excelWorksheet.Cells[1, 2].Value = "Tên nhân viên";
+
+                //    IOrderedEnumerable<NhiemVu> arrNhiemVu = db.NhiemVus.ToList().OrderBy(n => n.Loai);
+
+                //    List<MyModal> PhanXuongModel = new List<MyModal>();
+
+
+                //    MyModal tempModel = new MyModal();
+
+                //    foreach (NhiemVu v in arrNhiemVu)
+                //    {
+                //        if (!v.Loai.Equals(tempModel.loai))
+                //        {
+                //            tempModel = new MyModal
+                //            {
+                //                loai = v.Loai
+                //            };
+                //            tempModel.arrNV.Add(v);
+                //            PhanXuongModel.Add(tempModel);
+                //        }
+                //        else
+                //        {
+                //            tempModel.arrNV.Add(v);
+                //        }
+                //    }
+                //    int k = 0;
+                //    int currentPonter = 3;
+                //    for (int i = 3; i < PhanXuongModel.Count + 3; i++) //done
+                //    {
+                //        excelWorksheet.Cells[1, currentPonter, 1, currentPonter + PhanXuongModel.ElementAt(k).arrNV.Count - 1].Merge = true;
+                //        excelWorksheet.Cells[1, currentPonter].Value = PhanXuongModel.ElementAt(k).loai;
+                //        currentPonter += PhanXuongModel.ElementAt(k).arrNV.Count;
+                //        k++;
+                //    }
+
+                //    int m = 3;
+                //    for (int i = 0; i < PhanXuongModel.Count; i++)
+                //    {
+                //        k = 0;
+                //        for (int j = 3; j < PhanXuongModel.ElementAt(i).arrNV.Count + 3; j++)
+                //        {
+                //            excelWorksheet.Cells[2, m].Value = PhanXuongModel.ElementAt(i).arrNV.ElementAt(k).TenNhiemVu;
+                //            k++;
+                //            m++;
+                //        }
+                //    }
+
+                //    int x = 3, y = 1;
+                //    foreach (NhanVien_Extend nvien in arrNhanVien)
+                //    {
+                //        y = 1;
+                //        excelWorksheet.Cells[x, y].Value = nvien.MaNV;
+                //        y++;
+                //        excelWorksheet.Cells[x, y].Value = nvien.Ten;
+                //        y++;
+                //        foreach (MyModal px in PhanXuongModel)
+                //        {
+                //            foreach (NhiemVu nvu in px.arrNV)
+                //            {
+                //                if (nvien.MaNhiemVu.Contains(nvu.MaNhiemVu))
+                //                {
+                //                    excelWorksheet.Cells[x, y].Value = "Đang làm";
+                //                    y++;
+                //                }
+                //                else
+                //                {
+                //                    excelWorksheet.Cells[x, y].Value = "-";
+                //                    y++;
+                //                }
+
+                //            }
+                //        }
+                //        x++;
+                //    }
+                //    string location = HostingEnvironment.MapPath("/excel/TCLD/download");
+                //    if (pb.Equals(""))
+                //    {
+                //        excelPackage.SaveAs(new FileInfo(location + "/Report_Job_Total.xlsx"));
+                //    }
+                //    else
+                //    {
+                //        excelPackage.SaveAs(new FileInfo(location + "/Report_Job_" + pb + ".xlsx"));
+                //    }
+                //}
             }
 
         }

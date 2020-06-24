@@ -3,6 +3,7 @@
     ViewData["Title"] = "XincapvattuTonghop";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
+
 <link href="~/dist/css/style.css" rel="stylesheet">
 <!-- This page CSS -->
 <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
@@ -13,7 +14,12 @@
 <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
 <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
 <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
-
+<style>
+    .checkBlank {
+        border: 1px solid red !important;
+        color: red !important;
+    }
+</style>
 <div class="card">
     <div class="card-content">
         <div class="container-fluid">
@@ -76,10 +82,12 @@
     <script src="~/js/Rowspan/jquery.rowspanizer.js"></script>
     <script src="~/js/Rowspan/jquery.rowspanizer.min.js"></script>
     <script src="~/assets/libs/jquery.rowspanizer.js"></script>
+    <script src="~/js/Custom JS/CDVT/Vattu/validateInput.js"></script>
     <script>
         var lists = [];
 
 
+        inputNumber(summary_tbl);
 
         var datatable;
         $(document).ready(function () {
@@ -90,46 +98,66 @@
                 else
                     drawTable();
             });
+        })
             $("#submit").click(function () {
-                var xincap = [];
-                for (var i = 0; i < lists.length; i++) {
-                    var newData = {}
-                    newData.SupplyQuantity = $("#quantity-" + lists[i].id).val();
-                    newData.Id = lists[i].id;
-                    xincap.push(newData);
-                }
-                var data = {
-                    values: xincap,
-                    departmentid: getCurrDepId(),
+                var $quantityid = $(".checkquantity");
+                $quantityid.each(function () {
+                    var value = $(this).val().trim();
+                    if (value == '') {
 
-
-                };
-                confirmAlert('Xác nhận', 'Duyệt đơn xin cấp mới cho đơn vị này?', function () {
-                    $("#pre-load").show();
-                    $.ajax({
-                        dataType: "json",
-                        contentType: "application/json, charset=utf-8",
-                        type: 'POST',
-                        url: '/phong-cdvt/xin-cap-vat-tu-sctx-summary/submit',
-                        data: JSON.stringify(data),
-                        success: function (res) {
-                            $("#pre-load").hide();
-                            if (res.success) {
-                                $.notify('Duyệt đơn thành công.', {
-                                    globalPosition: 'top center',
-                                    className: 'success'
-                                });
-                                $("#submit").attr("disabled", true);
-                            } else {
-                                $.notify('Duyệt đơn không thành công.', {
-                                    globalPosition: 'top center',
-                                    className: 'error'
-                                });
-                            }
-                        }
-                    });
+                        $(this).addClass("checkBlank");
+                    }
+                    else {
+                        $(this).removeClass("checkBlank");
+                    }
                 });
-            });
+                    if ($(".checkBlank").length > 0) {
+                        $("html body").animate({
+                            scrollTop: $(".checkBlank").offset().top
+                        }, 500);
+                        errorAlert('Lỗi', 'Vui lòng nhập những trường còn trống');
+                    } else {
+                        var xincap = [];
+                        for (var i = 0; i < lists.length; i++) {
+                            var newData = {}
+                            newData.SupplyQuantity = $("#quantity-" + lists[i].id).val();
+                            newData.Id = lists[i].id;
+                            xincap.push(newData);
+                        }
+                        var data = {
+                            values: xincap,
+                            departmentid: getCurrDepId(),
+
+
+                        };
+                        confirmAlert('Xác nhận', 'Duyệt đơn xin cấp mới cho đơn vị này?', function () {
+                            $("#pre-load").show();
+
+                            $.ajax({
+                                dataType: "json",
+                                contentType: "application/json, charset=utf-8",
+                                type: 'POST',
+                                url: '/phong-cdvt/xin-cap-vat-tu-sctx-summary/submit',
+                                data: JSON.stringify(data),
+                                success: function (res) {
+                                    $("#pre-load").hide();
+                                    if (res.success) {
+                                        $.notify('Duyệt đơn thành công.', {
+                                            globalPosition: 'top center',
+                                            className: 'success'
+                                        });
+                                        $("#submit").attr("disabled", true);
+                                    } else {
+                                        $.notify('Duyệt đơn không thành công.', {
+                                            globalPosition: 'top center',
+                                            className: 'error'
+                                        });
+                                    }
+                                }
+                            });
+                        });
+                   
+            }
         });
         function getCurrDepId() {
             return $("#department_search option:selected").val();
@@ -204,7 +232,7 @@
                                 "<td>" + resultArray[i].SupplyAverage + "</td>" +
                                 "<td>" + resultArray[i].SupplyPlan + "</td>" +
                                 "<td>" + resultArray[i].SupplyRemaining + "</td>" +
-                                "<td><input type='number' id='quantity-" + resultArray[i].Id + "'class='form-control'></td>" +
+                                "<td><input type='number' id='quantity-" + resultArray[i].Id + "'class='form-control checkquantity'></td>" +
                                 "<td>" + resultArray[i].SupplyUnit + "</td>" +
                                 "</tr>";
                             lists.push({
@@ -268,7 +296,7 @@
                                 "<td>" + resultArray[i].SupplyId + "</td>" +
                                 "<td>" + resultArray[i].SupplyName + "</td>" +
                                 "<td>" + resultArray[i].SupplyPlan + "</td>" +
-                                "<td><input type='text' id='quantity-" + resultArray[i].Id + "' class='form-control'> </td>" +
+                                "<td><input type='number' id='quantity-" + resultArray[i].Id + "' class='form-control checkquantity'> </td>" +
                                 "<td>" + resultArray[i].SupplyUnit + "</td>" +
                                 "</tr>";
                             lists.push({

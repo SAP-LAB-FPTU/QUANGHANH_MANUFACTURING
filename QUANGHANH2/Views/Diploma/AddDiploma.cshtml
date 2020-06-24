@@ -135,11 +135,6 @@
     })
     //click submit form
     $("#submit_form_diploma").click(function () {
-        //check validate input
-        //validate_truong_add();
-       // validate_chuyennganh_add();
-        //validate_trinhdo_add();
-        //validate_thoihan_add();
         validate_bangcap_add();
         var add_end = $("#add_dip").val();
         if (add_end == "Vĩnh viễn") {
@@ -263,22 +258,6 @@
             $('#message_tenbangcap').hide();
             $('#submit_form_diploma').attr("disabled", false);
         }
-        $.ajax({
-            url:'@Url.Action("validateNameDuplicateDiploma", "Diploma")',
-            type: "POST",
-                data: { name_diploma: $(this).val() },
-            success: (response) => {
-                if (response.success) {
-                    $('#message_error_duplicate').show();
-                    $('#submit_form_diploma').attr("disabled", true);
-                } else {
-                    $('#message_error_duplicate').hide();
-                    $('#submit_form_diploma').attr("disabled", false);
-                }
-            },
-                error: (response) => {
-
-            },
-        })
+        
      })
 </script>

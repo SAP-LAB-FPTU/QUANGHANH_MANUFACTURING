@@ -33,63 +33,152 @@
         <div class="row">
             <h3 class="center"><b>THÔNG TIN SỰ CỐ</b></h3>
             <hr>
-            <form action="" method="POST" id="mysearchform" role="form">
-                <div class="row center">
-                    <div class="col l4 m4 s12">
-                        <div class="row">
-                            <div class="col l10 m10 s12 input-field">
-                                <input list="equipmentId" type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search" />
-                            </div>
-                            <div class="col l10 m10 s12 input-field">
-                                <input list="equipment_name" type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
-                            </div>
-                            @{ if (!Session["departID"].ToString().Contains("PX"))
-                                {
-                                    <div class="col l10 m10 s12 input-field">
-                                        <input type="text" list="department_name" placeholder="Tìm kiếm theo phân xưởng chịu trách nhiệm" class='form-control' id="department-search" />
-                                    </div>
-                                }
+            <div class="row center">
+                <div class="col l4 m4 s12">
+                    <div class="row">
+                        <div class="col l10 m10 s12 input-field">
+                            <input list="equipmentId" type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search" />
+                        </div>
+                        <div class="col l10 m10 s12 input-field">
+                            <input list="equipment_name" type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
+                        </div>
+                        @{ if (!Session["departID"].ToString().Contains("PX"))
+                            {
+                                <div class="col l10 m10 s12 input-field">
+                                    <input type="text" list="department_name" placeholder="Tìm kiếm theo phân xưởng chịu trách nhiệm" class='form-control' id="department-search" />
+                                </div>
                             }
-                        </div>
+                        }
                     </div>
-                    <div class="col l4 m4 s12">
-                        <div class="row">
-                            <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center' id="date-start-search" data-language='vi' placeholder="thời gian bắt đầu sự cố (từ)" style="height: 34px" />
-                            </div>
-                            <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center' id="date-end-search" data-language='vi' placeholder="thời gian bắt đầu sự cố (đến)" style="height: 34px" />
-                            </div>
+                </div>
+                <div class="col l4 m4 s12">
+                    <div class="row">
+                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                            <i class="fas fa-calendar-alt icon"></i>
+                            <input type='text' class='datepicker-here center' id="date-start-search" data-language='vi' placeholder="thời gian bắt đầu sự cố (từ)" style="height: 34px" />
                         </div>
-                    </div>
-                    <div class="col l4 m4 s12">
-                        <div class="row">
-                            <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo vị trí chi tiết" class='form-control' id="detail-search" />
-                            </div>
-                            <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo lý do sự cố" class='form-control' id="reason-search" />
-                            </div>
-                            <div class="col l12 m12 s12 input-field center">
-                                <a class="waves-effect waves-light btn blue darken-2" id="searchButton1">Tìm kiếm</a>
-                            </div>
+                        <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
+                            <i class="fas fa-calendar-alt icon"></i>
+                            <input type='text' class='datepicker-here center' id="date-end-search" data-language='vi' placeholder="thời gian bắt đầu sự cố (đến)" style="height: 34px" />
                         </div>
                     </div>
                 </div>
-            </form>
+                <div class="col l4 m4 s12">
+                    <div class="row">
+                        <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                            <input type="text" placeholder="Tìm kiếm theo vị trí chi tiết" class='form-control' id="detail-search" />
+                        </div>
+                        <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                            <input type="text" placeholder="Tìm kiếm theo lý do sự cố" class='form-control' id="reason-search" />
+                        </div>
+                        <div class="col l12 m12 s12 input-field center">
+                            <a class="waves-effect waves-light btn blue darken-2" id="searchButton1">Tìm kiếm</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col s12 left row">
                 @{
-                    if (rights.Contains("20") || rights.Contains("79") || rights.Contains("179") || rights.Contains("180") || rights.Contains("181") || rights.Contains("182") || rights.Contains("183") || rights.Contains("185") || rights.Contains("186") || rights.Contains("184") || rights.Contains("187") || rights.Contains("188") || rights.Contains("189"))
+                    //if (rights.Contains("20") || rights.Contains("79") || rights.Contains("179") || rights.Contains("180") || rights.Contains("181") || rights.Contains("182") || rights.Contains("183") || rights.Contains("185") || rights.Contains("186") || rights.Contains("184") || rights.Contains("187") || rights.Contains("188") || rights.Contains("189"))
+                    if (rights.Contains("20") || rights.Contains("79"))
                     {
                         <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
+
+                        <form action="" method="POST" id="myaddform" role="form">
+                            <div class="modal" id="myadd">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">Thêm sự cố</h3>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col s12 m6">
+                                                <div class="col s12 m6">
+                                                    <div class="form-group">
+                                                        <label for="date">Thời gian bắt đầu sự cố : </label>
+                                                        <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-start-add" />
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m3">
+                                                    <div class="form-group">
+                                                        <label for="date">Giờ : </label>
+                                                        <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-start-add" />
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m3">
+                                                    <div class="form-group">
+                                                        <label for="date">Phút : </label>
+                                                        <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-start-add" />
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m12">
+                                                    <div class="form-group">
+                                                        <label for="date">Mã thiết bị : </label>
+                                                        <input required type="text" list="equipmentId" class="form-control" value="" id="equipment-add" />
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m12">
+                                                    <div class="form-group">
+                                                        <label for="id">Phân xưởng chịu trách nhiệm : </label>
+                                                        <input required type="text" readonly list="department_name" class="form-control" value="" id="department-add" />
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m12">
+                                                    <div class="form-group">
+                                                        <label for="id">Vị trí chi tiết : </label>
+                                                        <input required type="text" class="form-control" value="" id="detail-add" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col s12 m6">
+                                                <div class="col s12 m6">
+                                                    <div class="form-group">
+                                                        <label for="date">Thời gian kết thúc sự cố : </label>
+                                                        <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-end-add" />
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m3">
+                                                    <div class="form-group">
+                                                        <label for="date">Giờ : </label>
+                                                        <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-end-add" />
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m3">
+                                                    <div class="form-group">
+                                                        <label for="date">Phút : </label>
+                                                        <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-end-add" />
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m12">
+                                                    <div class="form-group">
+                                                        <label for="supplier">Lý do sự cố : </label>
+                                                        <input type="text" class="form-control" id="reason-add" />
+                                                    </div>
+                                                </div>
+                                                <div class="col s12 m12">
+                                                    <div class="form-group" style="padding-top: 29px;">
+                                                        <label class="custom-control custom-checkbox">
+                                                            <input type="checkbox" value="no" class="custom-control-input" id="checkbox-add" onclick="checkbox()">
+                                                            <span class="custom-control-label" for="chbxTerms">Thêm thời gian kết thúc và lý do sau</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</button>
+                                        <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     }
                     if (rights.Contains("170") || rights.Contains("79"))
                     {
                         <a class="waves-effect waves-light btn-small blue modal-trigger" id="export-button">Xuất ra Excel</a>
                     }
-                    if (rights.Contains("21") || rights.Contains("79") || rights.Contains("179") || rights.Contains("180") || rights.Contains("181") || rights.Contains("182") || rights.Contains("183") || rights.Contains("185") || rights.Contains("186") || rights.Contains("184") || rights.Contains("187") || rights.Contains("188") || rights.Contains("189"))
+                    if (rights.Contains("21") || rights.Contains("79"))
                     {
                         <form action="" method="POST" id="myeditform" role="form">
                             <div class="modal" id="myedit">
@@ -103,12 +192,12 @@
                                                 <div class="col s12 m6">
                                                     <div class="form-group">
                                                         <label for="date">Thời gian bắt đầu sự cố : </label>
-                                                        <input type="text"
-                                                               data-range="true"
-                                                               data-multiple-dates-separator=" - "
-                                                               data-language="vi"
-                                                               class="datepicker-here form-control"
-                                                               data-timepicker="true"/>
+                                                        @*<input type="text"
+                                                            data-range="true"
+                                                            data-multiple-dates-separator=" - "
+                                                            data-language="vi"
+                                                            class="datepicker-here form-control"
+                                                            data-timepicker="true"/>*@
                                                         <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-start-edit" />
                                                     </div>
                                                 </div>
@@ -208,7 +297,7 @@
                                             </div>
                                             <div class="col s12 m4">
                                                 <div class="form-group">
-                                                    <label for="name">Lý do sự cố : </label>
+                                                    <label for= name>Lý do sự cố : </label>
                                                     <input required type="text" name="reason" class="form-control" id="reason-update" />
                                                     <input type="hidden" value="" class="form-control" id="incident-update" />
                                                 </div>
@@ -223,9 +312,7 @@
                             </div>
                         </form>
                     }
-
                 }
-
             </div>
             <div class="col s12 table_container">
                 <table class="table-bordered striped table-responsive centered"
@@ -236,7 +323,10 @@
                             <th rowspan="2">Phân xưởng chịu trách nhiệm</th>
                             <th rowspan="2">Vị trí chi tiết</th>
                             <th colspan="4">Nội dung sự cố</th>
-                            <th rowspan="2"></th>
+                            @if (rights.Contains("21") || rights.Contains("79"))
+                            {
+                                <th rowspan="2"></th>
+                            }
                         </tr>
                         <tr>
                             <th class="text-center">Mã thiết bị</th>
@@ -252,96 +342,6 @@
         </div>
     </div>
 </div>
-
-<form action="" method="POST" id="myaddform" role="form">
-    <div class="modal" id="myadd">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Thêm sự cố</h3>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col s12 m6">
-                        <div class="col s12 m6">
-                            <div class="form-group">
-                                <label for="date">Thời gian bắt đầu sự cố : </label>
-                                <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-start-add" />
-                            </div>
-                        </div>
-                        <div class="col s12 m3">
-                            <div class="form-group">
-                                <label for="date">Giờ : </label>
-                                <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-start-add" />
-                            </div>
-                        </div>
-                        <div class="col s12 m3">
-                            <div class="form-group">
-                                <label for="date">Phút : </label>
-                                <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-start-add" />
-                            </div>
-                        </div>
-                        <div class="col s12 m12">
-                            <div class="form-group">
-                                <label for="date">Mã thiết bị : </label>
-                                <input required type="text" list="equipmentId" class="form-control" value="" id="equipment-add" />
-                            </div>
-                        </div>
-                        <div class="col s12 m12">
-                            <div class="form-group">
-                                <label for="id">Phân xưởng chịu trách nhiệm : </label>
-                                <input required type="text" readonly list="department_name" class="form-control" value="" id="department-add" />
-                            </div>
-                        </div>
-                        <div class="col s12 m12">
-                            <div class="form-group">
-                                <label for="id">Vị trí chi tiết : </label>
-                                <input required type="text" class="form-control" value="" id="detail-add" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m6">
-                        <div class="col s12 m6">
-                            <div class="form-group">
-                                <label for="date">Thời gian kết thúc sự cố : </label>
-                                <input required type='text' class='datepicker-here form-control minDate' data-language='vi' id="date-end-add" />
-                            </div>
-                        </div>
-                        <div class="col s12 m3">
-                            <div class="form-group">
-                                <label for="date">Giờ : </label>
-                                <input type="number" name="hour" class="form-control" min="0" max="23" value="0" id="hour-end-add" />
-                            </div>
-                        </div>
-                        <div class="col s12 m3">
-                            <div class="form-group">
-                                <label for="date">Phút : </label>
-                                <input type="number" name="minute" class="form-control" min="0" max="59" value="0" id="minute-end-add" />
-                            </div>
-                        </div>
-                        <div class="col s12 m12">
-                            <div class="form-group">
-                                <label for="supplier">Lý do sự cố : </label>
-                                <input type="text" class="form-control" id="reason-add" />
-                            </div>
-                        </div>
-                        <div class="col s12 m12">
-                            <div class="form-group" style="padding-top: 29px;">
-                                <label class="custom-control custom-checkbox">
-                                    <input type="checkbox" value="no" class="custom-control-input" id="checkbox-add" onclick="checkbox()">
-                                    <span class="custom-control-label" for="chbxTerms">Thêm thời gian kết thúc và lý do sau</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</button>
-                <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</button>
-            </div>
-        </div>
-    </div>
-</form>
 
 <datalist id="equipmentId">
     @foreach (QUANGHANH2.Models.Equipment item in ViewBag.equipments)
@@ -364,11 +364,6 @@
     }
 </datalist>
 
-<!-- ============================================================== -->
-<!-- Apps -->
-<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-<!-- ============================================================== -->
 @section scripts{
 
     <script>
@@ -519,9 +514,6 @@
         });
 
         $('#checkbox-add').on('click', function (e) {
-
-            // prevents the event from bubbling up the DOM tree
-            // eg the modal from cancelling the event
             e.stopImmediatePropagation();
 
             var checked = (e.currentTarget.checked) ? false : true;
@@ -584,24 +576,25 @@
                     "cache": false
                 },
                 "columns": [
-                    { "data": "equipmentId", "name": "equipmentId" },
-                    { "data": "equipment_name", "name": "equipment_name" },
-                    { "data": "department_name", "name": "department_name" },
-                    { "data": "detail_location", "name": "detail_location" },
-                    { "data": "stringStartTime", "name": "start_time" },
-                    { "data": "stringEndTime", "name": "end_time" },
-                    { "data": "stringDiffTime", "name": "time_different" },
-                    { "data": "reason", "name": "reason" },
-                    {
-                        "data": "editAble", "render": function (data) {
-                            if (data.split("^")[1] == "false")
-                                return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.split("^")[0] + "\">Cập&nbsp;nhật</a>";
-                            else
-                                return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-incident-id=\"" + data.split("^")[0] + "\">Chỉnh&nbsp;sửa</a>";
-                        },
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "150px"
+                    { data: "equipmentId", name: "equipmentId" },
+                    { data: "equipment_name", name: "equipment_name" },
+                    { data: "department_name", name: "department_name" },
+                    { data: "detail_location", name: "detail_location" },
+                    { data: "stringStartTime", name: "start_time" },
+                    { data: "stringEndTime", name: "end_time" },
+                    { data: "stringDiffTime", name: "time_different" },
+                    { data: "reason", name: "reason" },
+                    @if(rights.Contains("21") || rights.Contains("79")) {
+                    @Html.Raw("{ data: \"editAble\", render: function (data) {" +
+                            " if (data.split(\"^\")[1] == \"false\")" +
+                                " return \"<a href='#myupdate' data-toggle='modal' class='open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger' data-incident-id=\" + data.split('^')[0] + \">Cập&nbsp;nhật</a>\";" +
+                            " else" +
+                                " return \"<a href='#myedit' data-toggle='modal' class='open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger' data-incident-id=\" + data.split('^')[0] + \">Chỉnh&nbsp;sửa</a>\";" +
+                        " }," +
+                        " orderable: false," +
+                        " searchable: false," +
+                        " width: \"150px\"" +
+                    " }")
                     }
                 ],
                 "serverSide": "true",

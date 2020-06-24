@@ -70,7 +70,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
 (case when a.department_name is null then b.department_name else a.department_name end) 'DepartmentName', 
 (case when b.quantity_provide is null then 0 else b.quantity_provide end) 'SupplyProvide',
 (case when b.quantity is null then 0 else b.quantity end) 'SupplyQuantity',
-
 (case when a.unit is null then b.unit else a.unit end) 'SupplyUnit',
 sum(case when a.used is null then 0 else a.used end) 'SupplyUsed', 
 sum(case when a.thuhoi is null then 0 else a.thuhoi end) 'SupplyEviction'
@@ -99,41 +98,6 @@ on s.supply_id = fac.fuel_type
 and MONTH(fac.[date]) = @month AND YEAR(fac.[date]) = @year 
 inner join Department d on d.department_id = fac.department_id
 group by s.supply_id, s.supply_name, fac.department_id, d.department_name, s.unit
-union all
-select s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary d
-on d.documentary_id = sde.documentary_id  and d.documentary_type not in (3,4,5) and MONTH(d.date_created) = @month AND YEAR(d.date_created) = @year inner join Department de
-on d.department_id_to = de.department_id
-group by s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit
-union all
-select s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Big_Maintain_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary_big_maintain_details dbd
-on dbd.documentary_big_maintain_id = sde.documentary_big_maintain_id inner join Documentary d
-on d.documentary_id = dbd.documentary_id and MONTH(d.date_created) = @month AND YEAR(d.date_created) = @year inner join Department de
-on d.department_id_to = de.department_id
-group by s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit
-union all
-select s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Maintain_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary_maintain_details dbd
-on dbd.documentary_maintain_id = sde.documentary_maintain_id inner join Documentary d
-on d.documentary_id = dbd.documentary_id and MONTH(d.date_created) = @month AND YEAR(d.date_created) = @year inner join Department de
-on d.department_id_to = de.department_id
-group by s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit
-union all
-select s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Repair_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary_repair_details dbd
-on dbd.documentary_repair_id = sde.documentary_repair_id inner join Documentary d
-on d.documentary_id = dbd.documentary_id and MONTH(d.date_created) = @month AND YEAR(d.date_created) = @year inner join Department de
-on d.department_id_to = de.department_id
-group by s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit
 ) as a 
 full outer join 
 (select sp.supplyid, s.supply_name, sp.departmentid, d.department_name, sum(sp.quantity) 'quantity',sum(sp.quantity_provide) 'quantity_provide', s.unit
@@ -193,41 +157,7 @@ on s.supply_id = fac.fuel_type
  AND YEAR(fac.[date]) = @year 
 inner join Department d on d.department_id = fac.department_id
 group by s.supply_id, s.supply_name, fac.department_id, d.department_name, s.unit
-union all
-select s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary d
-on d.documentary_id = sde.documentary_id  and d.documentary_type not in (3,4,5)  AND YEAR(d.date_created) = @year inner join Department de
-on d.department_id_to = de.department_id
-group by s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit
-union all
-select s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Big_Maintain_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary_big_maintain_details dbd
-on dbd.documentary_big_maintain_id = sde.documentary_big_maintain_id inner join Documentary d
-on d.documentary_id = dbd.documentary_id AND YEAR(d.date_created) = @year inner join Department de
-on d.department_id_to = de.department_id
-group by s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit
-union all
-select s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Maintain_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary_maintain_details dbd
-on dbd.documentary_maintain_id = sde.documentary_maintain_id inner join Documentary d
-on d.documentary_id = dbd.documentary_id  AND YEAR(d.date_created) = @year inner join Department de
-on d.department_id_to = de.department_id
-group by s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit
-union all
-select s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Repair_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary_repair_details dbd
-on dbd.documentary_repair_id = sde.documentary_repair_id inner join Documentary d
-on d.documentary_id = dbd.documentary_id  AND YEAR(d.date_created) = @year inner join Department de
-on d.department_id_to = de.department_id
-group by s.supply_id, s.supply_name, de.department_id, de.department_name, s.unit
+
 ) as a 
 full outer join 
 (select sp.supplyid, s.supply_name, sp.departmentid, d.department_name, sum(sp.quantity) 'quantity',sum(sp.quantity_provide) 'quantity_provide', s.unit
@@ -292,39 +222,7 @@ on s.supply_id = fac.fuel_type
 and MONTH(fac.[date]) = @month AND YEAR(fac.[date]) = @year 
 
 group by s.supply_id, s.supply_name,  s.unit
-union all
-select s.supply_id, s.supply_name,  s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary d
-on d.documentary_id = sde.documentary_id  and d.documentary_type not in (3,4,5) and MONTH(d.date_created) = @month AND YEAR(d.date_created) = @year 
 
-group by s.supply_id, s.supply_name, s.unit
-union all
-select s.supply_id, s.supply_name,  s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Big_Maintain_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary_big_maintain_details dbd
-on dbd.documentary_big_maintain_id = sde.documentary_big_maintain_id inner join Documentary d
-on d.documentary_id = dbd.documentary_id and MONTH(d.date_created) = @month AND YEAR(d.date_created) = @year
-group by s.supply_id, s.supply_name, s.unit
-union all
-select s.supply_id, s.supply_name, s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Maintain_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary_maintain_details dbd
-on dbd.documentary_maintain_id = sde.documentary_maintain_id inner join Documentary d
-on d.documentary_id = dbd.documentary_id and MONTH(d.date_created) = @month AND YEAR(d.date_created) = @year 
-
-group by s.supply_id, s.supply_name,  s.unit
-union all
-select s.supply_id, s.supply_name,  s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Repair_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary_repair_details dbd
-on dbd.documentary_repair_id = sde.documentary_repair_id inner join Documentary d
-on d.documentary_id = dbd.documentary_id and MONTH(d.date_created) = @month AND YEAR(d.date_created) = @year 
-group by s.supply_id, s.supply_name,  s.unit
 ) as a 
 full outer join 
 (select sp.supplyid, s.supply_name, sum(sp.quantity) 'quantity',sum(sp.quantity_provide) 'quantity_provide', s.unit
@@ -337,7 +235,8 @@ on  a.supply_id = b.supplyid
 where (a.supply_id like @supplyid or b.supplyid  like @supplyid ) 
 and (a.supply_name like @supplyname  or b.supply_name like @supplyname ) 
 group by a.supply_id, b.supplyid,b.quantity,  a.supply_name, b.supply_name,
- a.unit, b.unit,b.quantity_provide"; 
+ a.unit, b.unit,b.quantity_provide
+"; 
                  var details = context.Database.SqlQuery<DataTieuHao>(sql, 
                                                                             new SqlParameter("month",val[1]),
                                                                             new SqlParameter("year",val[2]),
@@ -384,37 +283,7 @@ on s.supply_id = fac.fuel_type
  AND YEAR(fac.[date]) = @year 
 
 group by s.supply_id, s.supply_name,  s.unit
-union all
-select s.supply_id, s.supply_name, s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary d
-on d.documentary_id = sde.documentary_id  and d.documentary_type not in (3,4,5)  AND YEAR(d.date_created) = @year 
-group by s.supply_id, s.supply_name, s.unit
-union all
-select s.supply_id, s.supply_name, s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Big_Maintain_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary_big_maintain_details dbd
-on dbd.documentary_big_maintain_id = sde.documentary_big_maintain_id inner join Documentary d
-on d.documentary_id = dbd.documentary_id AND YEAR(d.date_created) = @year 
-group by s.supply_id, s.supply_name, s.unit
-union all
-select s.supply_id, s.supply_name, s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Maintain_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary_maintain_details dbd
-on dbd.documentary_maintain_id = sde.documentary_maintain_id inner join Documentary d
-on d.documentary_id = dbd.documentary_id  AND YEAR(d.date_created) = @year
-group by s.supply_id, s.supply_name,  s.unit
-union all
-select s.supply_id, s.supply_name, s.unit,
-sum(sde.quantity_used) 'used', sum(sde.quantity_out) 'thuhoi'
-from Supply s inner join Supply_Documentary_Repair_Equipment sde
-on s.supply_id = sde.supply_id inner join Documentary_repair_details dbd
-on dbd.documentary_repair_id = sde.documentary_repair_id inner join Documentary d
-on d.documentary_id = dbd.documentary_id  AND YEAR(d.date_created) = @year 
-group by s.supply_id, s.supply_name, s.unit
+
 ) as a 
 full outer join 
 (select sp.supplyid, s.supply_name,  sum(sp.quantity) 'quantity',sum(sp.quantity_provide) 'quantity_provide', s.unit

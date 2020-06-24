@@ -36,7 +36,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             return View("/Views/CDVT/Suco/SucoThietbi.cshtml");
         }
 
-        [Auther(RightID = "20,79,19,179,180,181,183,184,185,186,187,189,195,003")]
+        [Auther(RightID = "20,79")]
         [Route("phong-cdvt/su-co/add")]
         [HttpPost]
         public ActionResult Add(string equipment, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd, string checkBox)
@@ -103,7 +103,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
-        [Auther(RightID = "21,79,19,179,180,181,183,184,185,186,187,189,195,003")]
+        [Auther(RightID = "21,79")]
         [Route("phong-cdvt/su-co/edit")]
         [HttpPost]
         public ActionResult Edit(int incident_id, string equipment, string department, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd)
@@ -141,7 +141,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
-        [Auther(RightID = "21,79,19,179,180,181,183,184,185,186,187,189,195,003")]
+        [Auther(RightID = "21,79")]
         [Route("phong-cdvt/su-co/update")]
         [HttpPost]
         public ActionResult Update(int incident_id, string reason, int year, int month, int day, int hour, int minute)
@@ -197,7 +197,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 "where i.start_time BETWEEN @dtStart AND @dtEnd AND i.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name " +
                 "AND d.department_name LIKE @department_name AND i.detail_location LIKE @detail_location AND i.reason LIKE @reason";
             string department_id = Session["departID"].ToString();
-            if (Session["departName"].ToString().Contains("Phân xưởng")) query += " AND d.department_id = '" + department_id + "'";
+            if (Session["departName"].ToString().Contains("Phân xưởng")) query += " AND d.department_id = @depart";
             List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(base_select + query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
@@ -205,7 +205,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 new SqlParameter("detail_location", '%' + detail + '%'),
                 new SqlParameter("reason", '%' + reason + '%'),
                 new SqlParameter("dtStart", dtStart),
-                new SqlParameter("dtEnd", dtEnd)).ToList();
+                new SqlParameter("dtEnd", dtEnd),
+                new SqlParameter("depart", department_id)).ToList();
             int totalrows = DBContext.Database.SqlQuery<int>("select count(e.equipment_name) " + query,
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
@@ -213,7 +214,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 new SqlParameter("detail_location", '%' + detail + '%'),
                 new SqlParameter("reason", '%' + reason + '%'),
                 new SqlParameter("dtStart", dtStart),
-                new SqlParameter("dtEnd", dtEnd)).FirstOrDefault();
+                new SqlParameter("dtEnd", dtEnd),
+                new SqlParameter("depart", department_id)).FirstOrDefault();
             foreach (IncidentDB item in incidents)
             {
                 item.stringStartTime = item.start_time.ToString("HH:mm dd/MM/yyyy");

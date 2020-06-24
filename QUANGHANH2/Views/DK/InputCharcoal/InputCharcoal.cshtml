@@ -138,7 +138,7 @@
         <div class="card-content">
             <div class="modal-header row">
                 <h4 class="col l6">Nhập ngày sản xuất hôm nay</h4>
-                <input id="nsx" class="form-control col l6" type="text" value="0" />
+                <input id="nsx" class="form-control col l6" type="number" value="0" />
                 @*<button id="butluu">Lưu</button>*@
             </div>
 
@@ -154,7 +154,7 @@
         <div class="card-content">
             <div class="modal-header row">
                 <h4 class="col l6">Chỉnh sửa ngày sản xuất hôm nay</h4>
-                <input id="nsx_edit" class="form-control col l6" type="text" />
+                <input id="nsx_edit" class="form-control col l6" type="number" />
                 @*<button id="butluu">Lưu</button>*@
             </div>
 
@@ -219,19 +219,17 @@
         $("#butluu_edit").prop('disabled', true)
     }
     //////////////////////////////////////////////////////////////////////////////////////////////
-    accept_Keycode_table = [96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 8, 9, 37, 40, 39, 38, 190]
+    accept_Keycode_table = [96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 8, 9, 37, 40, 39, 38, 190, 189]
     char_not_accept = ['!', '#', '$', '%', '^', '&', '*', '(', ')', '@@']
+
     $(document).on('keydown', '#Mytable .validate-input', function (e) {
-        //alert('@@')
         if (!accept_Keycode_table.includes(e.keyCode)) {
             e.preventDefault()
         }
-        //alert(e.target.value);
-    });
+    })
 
     $(document).on('keyup', '#Mytable .validate-input', function (e) {
-
-        e.target.value = e.target.value.split(/!|@@|#|\$|%|\^|&|\*|\(|\)/).join('');
+        e.target.value = e.target.value.split(/!|@@|#|\$|%|\^|&|\*|\(|\)|_|\=|\+|\//).join('');
 
     });
 
@@ -368,6 +366,7 @@
                                     $('#butluu').prop('disabled', true);
                                     $("#butsnlv").click();
                                     $("#butsnlvedit").hide();
+                                    $("#butsnlv").show();
                                 }
                                 else {
                                     $("#butsnlv").hide();
@@ -448,6 +447,7 @@
                             $('#butluu').prop('disabled', true);
                             $("#butsnlv").click();
                             $("#butsnlvedit").hide();
+                            $("#butsnlv").show();
                         }
                         else {
                             $("#butsnlv").hide();

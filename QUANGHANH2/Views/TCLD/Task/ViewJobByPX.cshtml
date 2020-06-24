@@ -341,7 +341,6 @@
         }
 
         function search() {
-
             var name = $("#name_search").val()
             var mnv = $("#mnv_search").val()
             var px = $("#sl_phan_xuong").val()
@@ -375,19 +374,36 @@
             $("#pre-load").show();
             $("#pre-load").css("z-index", "9999");
             var pb = $("#sl_phan_xuong").val();
+            ///////////////////
+            var name = $("#name_search").val()
+            var mnv = $("#mnv_search").val()
+            var px = $("#sl_phan_xuong").val()
+            nameNormalized = normailize(name);
+            mnvNormalized = normailize(mnv)
+            if (nameNormalized == "") {
+                nameNormalized = null;
+            }
+            if (mnvNormalized == "") {
+                mnvNormalized = null;
+            }
+            $("#pre-load").show()
+            var searchObj = {
+                name: nameNormalized,
+                mnv: mnvNormalized,
+                px: px
+            }
+            var searchObjJson = JSON.stringify(searchObj)
+            ////////////////
+
             $.ajax({
                 url: '@Url.Action("ExportExcel", "Task")',
                 type: 'POST',
                 data: {
-                    pb : pb
+                    searchObjJson: searchObjJson
                 },
             }).done(function () {
-                if (pb != null && pb != "") {
-                    window.location.href = "/excel/TCLD/download/Report_Job_" + pb + ".xlsx";
-                } else {
-                    window.location.href = "/excel/TCLD/download/Report_Job_Total.xlsx";
-                }
-                 $("#pre-load").hide();
+                window.location.href = "/excel/TCLD/download/Report_Job.xlsx";
+                $("#pre-load").hide();
             })
         });
 

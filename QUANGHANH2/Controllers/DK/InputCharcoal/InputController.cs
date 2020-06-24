@@ -51,21 +51,18 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             ngay = temp[1] + "/" + temp[0] + "/" + temp[2];
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                int thang = Convert.ToInt32(temp[1]);
+                int nam = Convert.ToInt32(temp[2]);
+                var ngaySX = db.KeHoachTungThangs.Where(x => x.ThangKeHoach == thang && x.NamKeHoach == nam).Select(x => x.SoNgayLamViec).FirstOrDefault();
                 string sql = "select case when Max(NgaySanXuat) is null then 0 else Max(NgaySanXuat) end as 'check' from ThucHienTheoNgay where year(Ngay) = @year and month(Ngay) = @month";
-                //int check = db.Database.SqlQuery<int>(sql, new SqlParameter("year", temp[2]), new SqlParameter("month", temp[1])).FirstOrDefault();
-                //if (check >= nsx)
-                //{
-                //    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất không thể bé hơn ngày hôm trước." });
-                //}
-                //else if (nsx - check > 1)
-                //{
-                //    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất không thể nhảy cách hai ngày." });
-                //}
                 sql = "select * from ThucHienTheoNgay where Ngay = @day";
                 ThucHienTheoNgay checkadd = db.Database.SqlQuery<ThucHienTheoNgay>(sql, new SqlParameter("day", ngay)).FirstOrDefault();
                 if (checkadd != null)
                 {
                     return Json(new { success = false, title = "Thêm không thành công", message = "Đã có ngày sản xuất." });
+                } else if(nsx <= 0 || nsx > ngaySX)
+                {
+                    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất phải trong khoảng 1 - " + ngaySX + "." });
                 }
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
@@ -97,22 +94,14 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             ngay = temp[1] + "/" + temp[0] + "/" + temp[2];
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+                int thang = Convert.ToInt32(temp[1]);
+                int nam = Convert.ToInt32(temp[2]);
+                var ngaySX = db.KeHoachTungThangs.Where(x => x.ThangKeHoach == thang && x.NamKeHoach == nam).Select(x => x.SoNgayLamViec).FirstOrDefault();
                 string sql = "select case when Max(NgaySanXuat) is null then 0 else Max(NgaySanXuat) end as 'check' from ThucHienTheoNgay where year(Ngay) = @year and month(Ngay) = @month";
-                //int check = db.Database.SqlQuery<int>(sql, new SqlParameter("year", temp[2]), new SqlParameter("month", temp[1])).FirstOrDefault();
-                //if (check >= nsx)
-                //{
-                //    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất không thể bé hơn ngày hôm trước." });
-                //}
-                //else if (nsx - check > 1)
-                //{
-                //    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất không thể nhảy cách hai ngày." });
-                //}
-                //sql = "select * from ThucHienTheoNgay where Ngay = @day";
-                //ThucHienTheoNgay checkadd = db.Database.SqlQuery<ThucHienTheoNgay>(sql, new SqlParameter("day", ngay)).FirstOrDefault();
-                //if (checkadd != null)
-                //{
-                //    return Json(new { success = false, title = "Thêm không thành công", message = "Đã có ngày sản xuất." });
-                //}
+                if (nsx <= 0 || nsx > ngaySX)
+                {
+                    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất phải trong khoảng 1 - " + ngaySX + "." });
+                }
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
                     try
