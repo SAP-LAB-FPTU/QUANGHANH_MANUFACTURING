@@ -49,7 +49,7 @@ namespace QUANGHANH2.Controllers.BGD.ReportHuman.Summary
                     left join CongViec cv on nv.MaCongViec = cv.MaCongViec 
                     left join CongViec_NhomCongViec cv_ncv on cv.MaCongViec = cv_ncv.MaCongViec
                     join NhomCongViec ncv on ncv.MaNhomCongViec = cv_ncv.MaNhomCongViec
-                    where nv.MaTrangThai = 1) tb2 on tb1.MaNV = tb2.MaNV
+                    where nv.MaTrangThai != 2) tb2 on tb1.MaNV = tb2.MaNV
                     where MaNhomCongViec = 6 or MaNhomCongViec = 7
                     group by DiLam , TenNhomCongViec , MaPhongBan";
 

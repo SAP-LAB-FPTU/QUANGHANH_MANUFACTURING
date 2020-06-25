@@ -132,7 +132,7 @@
                 <div class="col s12 m6">
                     <div class="form-group">
                         <label for="date">Mã thiết bị : </label>
-                        <input type="text" class="form-control" id="equipmentId-add" list="eqID" onchange="getname()"/>
+                        <input type="text" class="form-control" id="equipmentId-add" list="eqID" onchange="getEQNameAdd()"/>
                     </div>
                     <div class="form-group">
                         <label for="supplier">Công việc :</label>
@@ -179,7 +179,7 @@
                         <div class="form-group">
                             <label for="date">Mã thiet bi : </label>
                             <div class="linedisplay">
-                                <input type="text" class="form-control" id="equipmentId-edit" list="eqID" onchange="getEquipmentname1()" />
+                                <input type="text" class="form-control" id="equipmentId-edit" list="eqID" onchange="getEQNameEdit()" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -232,25 +232,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    //$('#myacti').keydown(function (e) {
-    //    if (e.keyCode === 13)
-    //        e.preventDefault();
-    //});
-    //$("#equipmentId-edit").keydown(function (e) {
-    //    if (e.keyCode === 13)
-    //        getEquipmentname1();
-    //})
-    //$('#myaddacti').keydown(function (e) {
-    //    if (e.keyCode === 13)
-    //        e.preventDefault();
-    //});
-    //$("#equipmentId-add").keydown(function (e) {
-    //    if (e.keyCode === 13)
-    //        getname();
-    //})
-</script>
 
 <script>
     //function for date.
@@ -490,8 +471,9 @@
             })
             return false;
         });
+
         //getName after enter ID input
-        function getname() {
+        function getEQNameAdd() {
             var id = document.getElementById("equipmentId-add").value;
             var em = { id: id };
             $.ajax({
@@ -532,8 +514,9 @@
                 }
             });
         }
+
         //get equipment name in edit activity
-        function getEquipmentname1() {
+        function getEQNameEdit() {
             var id = document.getElementById("equipmentId-edit").value;
             var em = { id: id };
             $.ajax({

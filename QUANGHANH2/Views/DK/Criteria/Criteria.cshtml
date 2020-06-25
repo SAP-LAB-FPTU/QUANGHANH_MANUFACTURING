@@ -52,17 +52,17 @@
             </div>
             <div class="col s12 m6">
                 <label>Tên tiêu chí</label>
-                <input type="text" class="form-control" id="tentieuchi" required />
+                <input type="text" class="form-control" id="tentieuchi" disabled required />
             </div>
             <div class="col s12 m6">
                 <label>Đơn vị đo tiêu chí</label>
-                <input type="text" class="form-control" id="donvido" required />
+                <input type="text" class="form-control" id="donvido" disabled required />
             </div>
 
         </div>
     </div>
     <div class="modal-footer">
-        <button id="xacnhanthemtieuchi" class="btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="xacnhanthemtieuchi" disabled class="btn blue darken-2 btn-small">Xác nhận</button>
         <button id="dongthemtieuchi" class="btn red darken-2 btn-small modal-close">Đóng</button>
     </div>
 </div>
@@ -158,47 +158,62 @@
         });
     });
 
+    ////////////////////////////////////////////
+    $("#nhomtieuchi").change(function () {
+        if ($(this).val() == null) {
+            $("#tentieuchi").prop("disabled", true)
+            $("#donvido").prop("disabled", true)
+        } else {
+            $("#tentieuchi").prop("disabled", false)
+            $("#donvido").prop("disabled", false)
+            $("#xacnhanthemtieuchi").prop("disabled", false)
+        }
+    })
 </script>
 
 <!---------------------------------------------ADD------------------------------------------------>
 <script>
     $(document).ready(function () {
         $("#xacnhanthemtieuchi").click(function () {
-            $("#pre-load").show(),
-                $.ajax({
-                    url: "/phong-dieu-khien/quan-ly-tieu-chi/them-tieu-chi",
-                    type: "POST",
-                    datatype: "json",
-                    data: {
-                        "nhomtieuchi": $("#nhomtieuchi").val(),
-                        "tentieuchi": $("#tentieuchi").val(),
-                        "donvido": $("#donvido").val()
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            //arlet successful adding
-                            successAlert(response.title, response.message);
-                            //clear input in modal themmucluong
-                            $("#donvido").val("");
-                            $("#tentieuchi").val("");
-                            $("#nhomtieuchi option").prop("selected", function () {
-                                return this.defaultSelected;
-                            });
-                            //close modal themmucluong
-                            $("#dongthemtieuchi").click();
-                            //reload table
-                            table.ajax.reload();
-                            //hide the pre-loader
-                            $("#pre-load").hide();
-                        } else if (response.error) {
-                            errorAlert(response.title, response.message);
-                            $("#pre-load").hide();
+            if ($("#tentieuchi").val().trim() == "" || $("#donvido").val().trim() == "") {
+                errorAlert("Thông tin chưa nhập đủ", "Hãy nhập đủ tên tiêu chí & đơn vị đo tiêu chí");
+            } else {
+                $("#pre-load").show(),
+                    $.ajax({
+                        url: "/phong-dieu-khien/quan-ly-tieu-chi/them-tieu-chi",
+                        type: "POST",
+                        datatype: "json",
+                        data: {
+                            "nhomtieuchi": $("#nhomtieuchi").val(),
+                            "tentieuchi": $("#tentieuchi").val(),
+                            "donvido": $("#donvido").val()
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                //arlet successful adding
+                                successAlert(response.title, response.message);
+                                //clear input in modal themmucluong
+                                $("#donvido").val("");
+                                $("#tentieuchi").val("");
+                                $("#nhomtieuchi option").prop("selected", function () {
+                                    return this.defaultSelected;
+                                });
+                                //close modal themmucluong
+                                $("#dongthemtieuchi").click();
+                                //reload table
+                                table.ajax.reload();
+                                //hide the pre-loader
+                                $("#pre-load").hide();
+                            } else if (response.error) {
+                                errorAlert(response.title, response.message);
+                                $("#pre-load").hide();
+                            }
+                        },
+                        error: function (response) {
+                            alert(response.error)
                         }
-                    },
-                    error: function (response) {
-                        alert(response.error)
-                    }
-                });
+                    });
+            }
         });
     });
 </script>

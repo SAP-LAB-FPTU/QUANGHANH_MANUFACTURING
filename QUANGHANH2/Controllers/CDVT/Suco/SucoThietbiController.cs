@@ -27,22 +27,38 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             string departID = Session["departID"].ToString();
             List<Equipment> equipments = new List<Equipment>();
             if (departID == "ĐK" || departID == "CV")
-                equipments = DBContext.Equipments.ToList();
+                equipments = DBContext.Equipments.Select(x => new
+                {
+                    x.equipmentId,
+                    x.equipment_name
+                }).ToList().Select(x => new Equipment
+                {
+                    equipmentId = x.equipmentId,
+                    equipment_name = x.equipment_name
+                }).ToList();
             else
-                equipments = DBContext.Equipments.Where(x => x.department_id.Equals(departID)).ToList();
-            List<Department> departments = DBContext.Departments.ToList();
+                equipments = DBContext.Equipments.Where(x => x.department_id.Equals(departID)).Select(x => new
+                {
+                    x.equipmentId,
+                    x.equipment_name
+                }).ToList().Select(x => new Equipment
+                {
+                    equipmentId = x.equipmentId,
+                    equipment_name = x.equipment_name
+                }).ToList();
+            List<string> departments = DBContext.Departments.Select(x => x.department_name).ToList();
             ViewBag.equipments = equipments;
             ViewBag.departments = departments;
             return View("/Views/CDVT/Suco/SucoThietbi.cshtml");
         }
 
-        [Auther(RightID = "20,79,19,179,180,181,183,184,185,186,187,189,195,003")]
+        [Auther(RightID = "20,79")]
         [Route("phong-cdvt/su-co/add")]
         [HttpPost]
         public ActionResult Add(string equipment, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd, string checkBox)
         {
             if (reason == "" && checkBox == "no")
-                return Json(new { success = false, message = "Thiết bị không thuộc phân xưởng hiện tại" });
+                return Json(new { success = false, message = "Vui lòng nhập trường lý do" });
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             Incident i = new Incident();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
@@ -61,7 +77,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                     DateTime start = new DateTime(yearStart, monthStart, dayStart, hourStart, minuteStart, 0);
                     DateTime end = new DateTime(yearEnd, monthEnd, dayEnd, hourEnd, minuteEnd, 0);
                     if (checkBox.Equals("no") && DateTime.Compare(start, end) >= 0)
-                        return Json(new { success = false, message = "Bạn đã nhập ngày bắt đầu lớn hơn ngày kết thúc" });
+                        return Json(new { success = false, message = "Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc" });
                     i.department_id = e.department_id;
                     i.detail_location = detail;
                     i.equipmentId = equipment;
@@ -103,23 +119,25 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
-        [Auther(RightID = "21,79,19,179,180,181,183,184,185,186,187,189,195,003")]
+        [Auther(RightID = "21,79")]
         [Route("phong-cdvt/su-co/edit")]
         [HttpPost]
         public ActionResult Edit(int incident_id, string equipment, string department, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
+            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
             {
                 try
                 {
-                    Incident i = DBContext.Incidents.Find(incident_id);
-                    Department d = DBContext.Database.SqlQuery<Department>("SELECT * FROM Department WHERE department_name = N'" + department + "'").First();
+                    string department_id = DBContext.Departments.Where(x => x.department_name == department).Select(x => x.department_id).FirstOrDefault();
+                    if (department_id == null)
+                        return Json(new { success = false, message = "Phòng ban không tồn tại" });
                     DateTime start = new DateTime(yearStart, monthStart, dayStart, hourStart, minuteStart, 0);
                     DateTime end = new DateTime(yearEnd, monthEnd, dayEnd, hourEnd, minuteEnd, 0);
                     if (DateTime.Compare(start, end) >= 0)
-                        return Json(new { success = false, message = "Bạn đã nhập ngày bắt đầu lớn hơn ngày kết thúc" });
-                    i.department_id = d.department_id;
+                        return Json(new { success = false, message = "Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc" });
+
+                    Incident i = DBContext.Incidents.Find(incident_id);
+                    i.department_id = department_id;
                     i.detail_location = detail;
                     i.equipmentId = equipment;
                     i.reason = reason;
@@ -127,13 +145,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                     i.end_time = end;
 
                     DBContext.SaveChanges();
-                    transaction.Commit();
                     return Json(new { success = true, message = "Chỉnh sửa thành công" });
                 }
                 catch (Exception)
                 {
-                    transaction.Rollback();
-                    if (DBContext.Database.SqlQuery<Equipment>("SELECT * FROM Equipment WHERE equipmentId = N'" + equipment + "'").Count() == 0)
+                    if (DBContext.Equipments.Find(equipment) == null)
                         return Json(new { success = false, message = "Mã thiết bị không tồn tại" });
                     else
                         return Json(new { success = false, message = "Có lỗi xảy ra, xin vui lòng thử lại" });
@@ -141,37 +157,34 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             }
         }
 
-        [Auther(RightID = "21,79,19,179,180,181,183,184,185,186,187,189,195,003")]
+        [Auther(RightID = "21,79")]
         [Route("phong-cdvt/su-co/update")]
         [HttpPost]
         public ActionResult Update(int incident_id, string reason, int year, int month, int day, int hour, int minute)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
+            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
             {
                 try
                 {
                     Incident i = DBContext.Incidents.Find(incident_id);
                     DateTime end = new DateTime(year, month, day, hour, minute, 0);
                     if (DateTime.Compare(i.start_time, end) >= 0)
-                        return Json(new { success = false, message = "Bạn đã nhập ngày kết thúc nhỏ hơn ngày bắt đầu" });
+                        return Json(new { success = false, message = "Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc" });
                     if (i == null)
                     {
-                        return Json(new { success = false, message = "Có lỗi xảy ra, xin vui lòng thử lại" });
+                        return Json(new { success = false, message = "Mã sự cố sai" });
                     }
                     else
                     {
                         i.reason = reason;
                         i.end_time = new DateTime(year, month, day, hour, minute, 0);
-                        DBContext.Database.ExecuteSqlCommand("update Equipment set current_Status = 1 where equipmentId = @equipmentId", new SqlParameter("equipmentId", i.equipmentId));
+                        i.Equipment.current_Status = 1;
                         DBContext.SaveChanges();
-                        transaction.Commit();
                         return Json(new { success = true, message = "Cập nhật thành công" });
                     }
                 }
                 catch (Exception)
                 {
-                    transaction.Rollback();
                     return Json(new { success = false, message = "Có lỗi xảy ra, xin vui lòng thử lại" });
                 }
             }
@@ -197,7 +210,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 "where i.start_time BETWEEN @dtStart AND @dtEnd AND i.equipmentId LIKE @equipmentId AND e.equipment_name LIKE @equipment_name " +
                 "AND d.department_name LIKE @department_name AND i.detail_location LIKE @detail_location AND i.reason LIKE @reason";
             string department_id = Session["departID"].ToString();
-            if (Session["departName"].ToString().Contains("Phân xưởng")) query += " AND d.department_id = '" + department_id + "'";
+            if (Session["departName"].ToString().Contains("Phân xưởng")) query += " AND d.department_id = @depart";
             List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(base_select + query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
@@ -205,7 +218,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 new SqlParameter("detail_location", '%' + detail + '%'),
                 new SqlParameter("reason", '%' + reason + '%'),
                 new SqlParameter("dtStart", dtStart),
-                new SqlParameter("dtEnd", dtEnd)).ToList();
+                new SqlParameter("dtEnd", dtEnd),
+                new SqlParameter("depart", department_id)).ToList();
             int totalrows = DBContext.Database.SqlQuery<int>("select count(e.equipment_name) " + query,
                 new SqlParameter("equipmentId", '%' + equipmentId + '%'),
                 new SqlParameter("equipment_name", '%' + equipmentName + '%'),
@@ -213,7 +227,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 new SqlParameter("detail_location", '%' + detail + '%'),
                 new SqlParameter("reason", '%' + reason + '%'),
                 new SqlParameter("dtStart", dtStart),
-                new SqlParameter("dtEnd", dtEnd)).FirstOrDefault();
+                new SqlParameter("dtEnd", dtEnd),
+                new SqlParameter("depart", department_id)).FirstOrDefault();
             foreach (IncidentDB item in incidents)
             {
                 item.stringStartTime = item.start_time.ToString("HH:mm dd/MM/yyyy");
@@ -238,14 +253,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
 
                 using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
                 {
-                    //var incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.Equipment_category_id, e.*, i.*, d.department_name " +
-                    //    "FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId " +
-                    //    "inner join Department d on d.department_id = i.department_id " +
-                    //    "inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id").ToList();
                     var incidents = (from i in DBContext.Incidents
                                      join e in DBContext.Equipments on i.equipmentId equals e.equipmentId
                                      join d in DBContext.Departments on i.department_id equals d.department_id
-                                     //join ec in DBContext.Equipment_category on e.Equipment_category_id equals ec.Equipment_category_id
                                      select new IncidentDB
                                      {
                                          Equipment_category_id = e.Equipment_category_id,
@@ -290,34 +300,19 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             try
             {
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                IncidentDB incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d " +
-                    "on d.department_id = i.department_id where i.incident_id = @incident_id", new SqlParameter("incident_id", incident_id)).First();
+                IncidentDB incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different " +
+                    "FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId " +
+                    "inner join Department d on d.department_id = i.department_id " +
+                    "where i.incident_id = @incident_id", new SqlParameter("incident_id", incident_id)).FirstOrDefault();
+
                 incidents.stringStartTime = incidents.start_time.ToString("HH:mm dd/MM/yyyy");
-                DateTime temp;
-                DateTime.TryParse(incidents.end_time.ToString(), out temp);
+                DateTime.TryParse(incidents.end_time.ToString(), out DateTime temp);
                 incidents.stringEndTime = temp.ToString("HH:mm dd/MM/yyyy");
                 return Json(incidents);
             }
             catch (Exception)
             {
                 return Json(new { success = false, message = "Có lỗi xảy ra\nxin vui lòng thử lại" }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [Route("phong-cdvt/su-co/getDepartment")]
-        [HttpPost]
-        public ActionResult getDepartment(string equipmentId)
-        {
-            try
-            {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                Equipment e = DBContext.Equipments.Find(equipmentId);
-                Department d = DBContext.Departments.Find(e.department_id);
-                return Json(new { success = true, message = d.department_name }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception)
-            {
-                return Json(new { success = false, message = "Mã thiết bị không tồn tại\nxin vui lòng thử lại" }, JsonRequestBehavior.AllowGet);
             }
         }
     }
@@ -340,8 +335,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             if (end_time == null) return "";
             else
             {
-                DateTime temp;
-                DateTime.TryParse(end_time.ToString(), out temp);
+                DateTime.TryParse(end_time.ToString(), out DateTime temp);
                 return temp.ToString("HH:mm dd/MM/yyyy");
             }
         }
@@ -351,8 +345,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             if (end_time == null) return "";
             else
             {
-                DateTime temp;
-                DateTime.TryParse(end_time.ToString(), out temp);
+                DateTime.TryParse(end_time.ToString(), out DateTime temp);
                 TimeSpan timespan = temp.Subtract(start_time);
                 string output = "";
                 if (timespan.Days != 0) output += timespan.Days + " ngày ";
