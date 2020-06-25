@@ -381,10 +381,6 @@
             //
         }
 
-        function validateInput() {
-
-        }
-
         function loadDatatableWith(url) {
             return new Promise((resolve, reject) => {
                 $("#attendanceTable").DataTable().ajax.url(url).load(function () {
@@ -597,10 +593,6 @@
         $(document).ready(function () {
             updateTimeFetchSuccessfully();
         });
-
-        function loadingAfterFetchingAPI() {
-            loadDatatableWith("/phan-xuong/diem-danh/lay-thong-tin");
-        }
 
         function updateTimeFetchSuccessfully() {
             $.ajax({

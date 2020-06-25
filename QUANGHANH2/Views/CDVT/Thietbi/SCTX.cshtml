@@ -241,37 +241,6 @@
     </div>
 </div>
 
-@*<div id="myaleart" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Xác nhận muốn chỉnh sửa mục này</h3>
-        </div>
-        <div class="modal-body">
-            <p class="red-text">Dữ liệu không thể phục hồi sau thao tác này</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" id="submitedit" class="btn blue darken-2 modal-close">Lưu</button>
-            <button type="button" class="btn red modal-close" id="close">Hủy</button>
-        </div>
-    </div>
-</div>
-
-<div id="myaleart1" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Xác nhận muốn chỉnh sửa mục này</h3>
-        </div>
-        <div class="modal-body">
-            <p class="red-text">Dữ liệu không thể phục hồi sau thao tác này</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" id="submitedit1" class="btn blue darken-2 ">Lưu</button>
-            <button type="button" class="btn red modal-close" id="close1">Hủy</button>
-        </div>
-    </div>
-</div>*@
-
-
 <datalist id="getEqName">
     @foreach (var item in ViewBag.listEQ)
     {
@@ -753,59 +722,61 @@
             });
     
             //Chỉnh sửa
-            $(document).on("click", ".open-EditMaintainModal", function () {
-               var maintainid = $(this).data('maintainid');
-                $.ajax({
-                    type: "POST",
-                    url: "/phong-cdvt/thiet-bi/sctx/getMaintainCar",
-                    dataType: "json",
-                    success: function (data) {
-                        $("#equipmentedit").val(data.equipmentId);
+        $(document).on("click", ".open-EditMaintainModal", function () {
+            var maintainid = $(this).data('maintainid');
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/thiet-bi/sctx/getMaintainCar",
+                dataType: "json",
+                success: function (data) {
+                    $("#equipmentedit").val(data.equipmentId);
 
-                        $('#equipmentname_edit').val(data.equipment_name);
-                        $('#maintain_contend_edit').val(data.maintain_content);
-                        $('#date_edit').val(data.stringDate);
-                        $('#maintainid').val(data.maintain_id);
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        errorAlert('Lỗi', 'Có lỗi xảy ra');
-                    },
-                    data: {
-                        maintainid: Number(maintainid)
-                    },
-                    cache: false
-                })
-            });
-            $("#submitedit").click(function (e) {
-                $.ajax({
-                    type: "POST",
-                    url: "/phong-cdvt/thiet-bi/sctx/edit",
-                    dataType: "text",
-                    success: function () {
-                        dataTable.ajax.reload();
-                        successAlert('Thành công', 'Chỉnh sửa thành công');
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        $('#pre-load').hide();
-                        errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
-                        $('#close').click();
-                    },
-                    data: {
-                        date: $('#date_edit').val(),
-                        equipmentId: $('#equipmentedit').val(),
+                    $('#equipmentname_edit').val(data.equipment_name);
+                    $('#maintain_contend_edit').val(data.maintain_content);
+                    $('#date_edit').val(data.stringDate);
+                    $('#maintainid').val(data.maintain_id);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi', 'Có lỗi xảy ra');
+                },
+                data: {
+                    maintainid: Number(maintainid)
+                },
+                cache: false
+            })
+        });
 
-                        maintain_content: $('#maintain_contend_edit').val(),
-                        maintainid: Number($('#maintainid').val())
-                    },
-                    cache: false
-                }).done(function () {
-                    $('#closeForm').click();
+        $("#submitedit").click(function (e) {
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/thiet-bi/sctx/edit",
+                dataType: "text",
+                success: function () {
+                    dataTable.ajax.reload();
+                    successAlert('Thành công', 'Chỉnh sửa thành công');
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    errorAlert('Lỗi', 'Có lỗi xảy ra , vui lòng nhập lại');
                     $('#close').click();
+                },
+                data: {
+                    date: $('#date_edit').val(),
+                    equipmentId: $('#equipmentedit').val(),
 
-                })
-                return false;
+                    maintain_content: $('#maintain_contend_edit').val(),
+                    maintainid: Number($('#maintainid').val())
+                },
+                cache: false
+            }).done(function () {
+                $('#closeForm').click();
+                $('#close').click();
 
-            });
+            })
+            return false;
+
+        });
+
         $("#submitedit1").click(function (e) {
             var $supplyid = $(".supply_edit");
             var listsupplyid = [];
@@ -862,8 +833,8 @@
                 })
                 return false;
             }
-        
-            });
+
+        });
 
             //ajax CRUD
             $(document).ready(function () {
@@ -875,31 +846,7 @@
                 });
             });
 
-            //get supply name and unit in add fuel
-            //error : id : supply_id1
-            //function getsupplyname() {
-            //    var id = document.getElementById("supplyid_edit").value;
-            //    var tmp = {
-            //        fuel_type: id
-            //    };
-            //    $.ajax({
-            //        url: "/returnsupplyName",
-            //        type: "POST",
-            //        data: JSON.stringify(tmp),
-            //        contentType: "application/json;charset=utf-8",
-            //        dataType: "json",
-            //        success: function (data) {
-            //            document.getElementById("supplyname_edit").value = data.split("^")[0];
-            //            document.getElementById("unit-edit").value = data.split("^")[1];
-            //        },
-            //        error: function () {
-            //            //alert("fail");
-            //        }
-            //    });
-            //}
-
             //get equipment name to edit
-            //error :
             function getEquipmentnameEdit() {
                 var id = document.getElementById("equipmentedit").value;
                 var em = { id: id };
@@ -919,7 +866,6 @@
             }
 
             //get equipment name to add
-            //error :
             function getEquipmentnameAdd() {
                 var id = document.getElementById("equipmentID-add").value;
                 var em = { id: id };
@@ -937,15 +883,6 @@
                     }
                 });
             }
-            //function deleterow(tableID) {
-            //    var table = document.getElementById(tableID);
-            //    table.deleteRow(-1);
-            //    dem1--;
-            //}
-            //function deleterowedit(tableID) {
-            //    var table = document.getElementById(tableID);
-            //    table.deleteRow(-1);
-            //    dem--;
-            //}
+
     </script>
 }
