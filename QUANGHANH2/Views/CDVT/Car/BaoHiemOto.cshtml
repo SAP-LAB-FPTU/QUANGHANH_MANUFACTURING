@@ -42,7 +42,8 @@
                             <th>Mã thiết bị</th>
                             <th>Tên thiết bị</th>
                             <th>Tình trạng hiện tại</th>
-                            <th>Thời gian hết hạn bảo hiểm</th>
+                            <th>Ngày mua bảo hiểm</th>
+                            <th>Ngày hết hạn bảo hiểm</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -56,14 +57,20 @@
     <div id="myedit" class="modal">
         <div class="modal-content">
             <div class="modal-header center">
-                <h3><b>Cập nhật bảo hiểm</b></h3>
+                <h3><b>Thêm bảo hiểm</b></h3>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col s12 m6">
+                    <div class="col s12 m6 l6">
                         <div class="form-group">
-                            <label for="date">Thời gian bảo hiểm dự tính sau: </label>
-                            <input required type='text' class='datepicker-here form-control minDate' data-language='vi' value="" id="date-temp-edit" />
+                            <label for="date">Ngày mua bảo hiểm: </label>
+                            <input required type='text' class='datepicker-here form-control minDate' data-language='vi' value="" id="start-date-edit" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <div class="form-group">
+                            <label for="date">Ngày hết hạn bảo hiểm: </label>
+                            <input required type='text' class='datepicker-here form-control minDate' data-language='vi' value="" id="end-date-edit" />
                         </div>
                     </div>
                 </div>
@@ -76,106 +83,11 @@
         </div>
     </div>
 </form>
-@using (Html.BeginForm("ChangeID", "Hoatdong", FormMethod.Post, new
-{
-    id = "ChangeIDForm",
-    enctype = "multipart/form-data",
-    onSubmit = "return ChangeID(this);",
-    data_restUrl = Url.Action("ChangeID", "Hoatdong", new { id = "" })
-}))
-{
-    <input type="hidden" id="id-s" name="id" value=" " />
-    <input type="hidden" id="ck" name="ck" value="0" />
-}
 
 <script>
-    var ck = true;
-    var waittime = 0;
-   $(document).ready(function () {
-        setInterval(function () {
-            waittime++;
-            if (waittime > 2 && ck == true) {
-                $("#ChangeIDForm").submit();
-                waittime = 0;
-                ck = false;
-            }
-            if (waittime > 10) {
-                ck = true;
-            }
-        }, 1000); 
-    });
-
-    $("#equipmentId-search").keyup(function (e) {
-        if (e.which == 13) {
-            $("#searchButton1").click();
-            $("#documentary_code-search").blur();
-        } else {
-            var text = $("#equipmentId-search").val();
-            $("#id-s").val(text);
-            $("#ck").val("0");
-            if (waittime > 1) {
-                $("#ChangeIDForm").submit();
-                waittime = 0;
-            } else {
-                waittime = 0;
-            }
-
-
-        }
-    });
-
-    $("#equipmentName-search").keyup(function (e) {
-        if (e.which == 13) {
-            $("#searchButton1").click();
-            $("#documentary_code-search").blur();
-        } else {
-            var text = $("#equipmentName-search").val();
-            $("#id-s").val(text);
-            $("#ck").val("1");
-            if (waittime > 1) {
-                $("#ChangeIDForm").submit();
-                waittime = 0;
-            } else {
-                waittime = 0;
-            }
-
-
-        }
-    });
-
-    function ChangeID(form) {
-
-        $.validator.unobtrusive.parse(form);
-        if ($(form).valid()) {
-            $.ajax({
-                type: "POST",
-                url: form.action,
-                data: $(form).serialize(),
-                success: function (data) {
-                    $("#listid-s").empty();
-                    var option = "";
-                    for (var i = 0; i < data.id.length; i++) {
-                        var s = data.id[i].equipmentId;
-                        var a = "<option value='" + s + "'>" + s + "</option>";
-                        option += a;
-                    }
-                    $("#listid-s").append(option);
-                },
-                error: function () {
-                    alert(response.data.message);
-
-                }
-            });
-        }
-
-        return false;
-    }
-
-
     $(document).ready(function () {
-        $('#date-temp-edit').datepicker({
-            language: 'vi',
-            minDate: new Date()
+        $('#start-date-edit').datepicker({
+            language: 'vi'
         })
 
         $('.datepicker-inline').remove();
@@ -218,7 +130,7 @@
 </script>
 @section scripts{
     <script>
-        var Popup, dataTable;
+        var dataTable, equipmentId;
         $("#pre-load").show();
 
         $(document).ready(function () {
@@ -250,10 +162,11 @@
                     { "data": "equipmentId", "name": "equipmentId" },
                     { "data": "equipment_name", "name": "equipment_name" },
                     { "data": "statusname", "name": "statusname" },
-                    { "data": "stringExpectedTime", "name": "inspect_date" },
+                    { "data": "stringStartDate", "name": "insurance_start_date" },
+                    { "data": "stringEndDate", "name": "insurance_end_date" },
                     {
                         "data": {}, "render": function (data) {
-                            return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-equipmentId=\"" + data.equipmentId + "\" data-inspect_id=\"" + data.inspect_id + "\">Cập&nbsp;nhật</a>";
+                            return "<a href=\"#myedit\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-equipmentId=\"" + data.equipmentId + "\">Cập&nbsp;nhật</a>";
                         },
                         "orderable": false,
                         "searchable": false,
@@ -277,10 +190,28 @@
             });
         });
 
+        //get data and push to modal edit
+        $(document).on("click", ".open-EditModal", function () {
+            equipmentId = $(this).data('equipmentid');
+            $('#myedit h3').text("Thêm bảo hiểm cho thiết bị " + equipmentId);
+            var inspect_id = $(this).data('inspect_id');
+            $('#id-edit').val(inspect_id);
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+
+            var yyyy = today.getFullYear();
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            var today = dd + '/' + mm + '/' + (yyyy + 1);
+            $('#myedit .minDate').val(today);
+        });
 
         $(document).ready(function () {
-            var dataTable = $('#complex_header').DataTable();
-
             //ajax add
             $("#myeditform").submit(function (e) {
                 $("#pre-load").show();
@@ -301,8 +232,9 @@
                         errorAlert('Lỗi', 'Có lỗi xảy ra');
                     },
                     data: {
-                        inspect_id: $('#id-edit').val(),
-                        dateTemp: $('#date-temp-edit').val()
+                        equipmentId: equipmentId,
+                        stringStartDate: $('#start-date-edit').val(),
+                        stringEndDate: $('#end-date-edit').val(),
                     },
                     cache: false
                 }).done(function () {
@@ -319,26 +251,6 @@
                     $("#pre-load").hide();
                 })
             });
-        });
-
-        //get data and push to modal edit
-        $(document).on("click", ".open-EditModal", function () {
-            $('#myedit h3').text("Cập nhật bảo hiểm cho thiết bị " + $(this).data('equipmentid'));
-            var inspect_id = $(this).data('inspect_id');
-            $('#id-edit').val(inspect_id);
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1; //January is 0!
-
-            var yyyy = today.getFullYear();
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-            var today = dd + '/' + mm + '/' + (yyyy + 1);
-            $('#myedit .minDate').val(today);
         });
     </script>
 }
