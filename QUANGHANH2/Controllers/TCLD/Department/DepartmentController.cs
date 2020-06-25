@@ -34,13 +34,12 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult listDepartment()
         {
-            var department_id = Request["department_id"].ToString();
-            var department_name = Request["department_name"].ToString();
-            var department_type = Request["department_type"].ToString();
+            var department_id = Request["department_id"].ToString().Trim();
+            var department_name = Request["department_name"].ToString().Trim();
+            var department_type = Request["department_type"].ToString().Trim();
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-
                 int start = Convert.ToInt32(Request["start"]);
                 int length = Convert.ToInt32(Request["length"]);
                 string searchValue = Request["search[value]"];
