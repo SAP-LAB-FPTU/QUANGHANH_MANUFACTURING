@@ -719,7 +719,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 on h.HeaderID = hd.HeaderID
                                 where h.NgayDiemDanh = @date and h.Ca = @session and hd.MaPhongBan = @departmentID) as header
                                 left join DiemDanh_NangSuatLaoDong as dd on header.HeaderID = dd.HeaderID) as b
-                                right join(select * from NhanVien where MaPhongBan = @departmentID and MaNV like @manv and Ten like @tennv) as nv on b.MaNV = nv.MaNV";
+                                right join(select * from NhanVien where MaPhongBan = @departmentID and MaNV like @manv and Ten like @tennv and MaTrangThai != 2) as nv on b.MaNV = nv.MaNV";
                     var listAttended = db.Database.SqlQuery<attendanceEntity>(query,
                         new SqlParameter("date", date),
                         new SqlParameter("session", session),
@@ -775,7 +775,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 								join 
 								(select dd.*, nv.MaPhongBan
 								from DiemDanh_NangSuatLaoDong dd
-								join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
+								join NhanVien nv on dd.MaNV = nv.MaNV and nv.MaTrangThai != 2) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
 								where nv_dd.MaPhongBan = @departmentID) as 'TongDiLam',
                                 sum(case when (ncv.LoaiNhomCongViec = N'CNKT') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CNKT',
                                 sum(case when (ncv.LoaiNhomCongViec = N'CNCĐ') and d.MaPhongBan = @departmentID and c.DiLam = 1 then 1 else 0 end) as 'DiLam_CNCD',
@@ -784,7 +784,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 (select Min(h.HeaderID) as 'HeaderID' from Header_DiemDanh_NangSuat_LaoDong h
                                 where NgayDiemDanh = @date and Ca = @session and h.Status = 1) as a 
                                 left join DiemDanh_NangSuatLaoDong c on c.HeaderID = a.HeaderID
-                                left join NhanVien d on c.MaNV = d.MaNV
+                                left join NhanVien d on c.MaNV = d.MaNV and d.MaTrangThai != 2
                                 left join CongViec_NhomCongViec cv_ncv on cv_ncv.MaCongViec = d.MaCongViec
                                 left join NhomCongViec ncv on ncv.MaNhomCongViec = cv_ncv.MaNhomCongViec) as hd) as dilam,
                                 (select
@@ -807,7 +807,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 								left join 
 								(select dd.* from DiemDanh_NangSuatLaoDong dd 
 								left join NhanVien nv on dd.MaNV = nv.MaNV
-								where MaPhongBan = @departmentID) as d on hd.HeaderID = d.HeaderID) as nghi";
+								where MaPhongBan = @departmentID and MaTrangThai != 2) as d on hd.HeaderID = d.HeaderID) as nghi";
                     var listSum = db.Database.SqlQuery<SoLuongDiLam_Vang>(mysql,
                                                                         new SqlParameter("departmentID", departmentID.ToString()),
                                                                         new SqlParameter("date", date.ToString("yyyy-MM-dd")),
