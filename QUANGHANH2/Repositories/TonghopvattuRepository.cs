@@ -23,9 +23,9 @@ namespace QUANGHANH2.Repositories
             return departments;
         }
 
-        public IList<TonghopvattuDetailModelView> GetDetails(TonghopVattuSearchModelView search)
+        public IList<TonghopvattuDetailModelView> GetDetails(TonghopVattuSearchModelView search, string sortColumnName, string sortDirection, int start, int length)
         {
-            
+
             //string query = $"SELECT tmp.SupplyId, s.supply_name SupplyName, s.unit SupplyUnit, tmp.SupplyAverage, st.quantity SupplyQuantity " +
             //    $"FROM (SELECT supplyid SupplyId, SUM(dinh_muc) AS SupplyAverage FROM SupplyPlan WHERE departmentid = '{search.DepartmentId}' AND YEAR([date]) = {monthPicked.Year} AND MONTH([date]) = {monthPicked.Month} AND [status] = 1 GROUP BY supplyid) tmp, Supply s, Supply_tieuhao st " +
             //    $"WHERE st.supplyid = tmp.SupplyId AND s.supply_id = tmp.SupplyId AND " +
@@ -34,30 +34,107 @@ namespace QUANGHANH2.Repositories
             //    $"s.supply_name LIKE N'%{search.SupplyName}%'";
             var val = search.MonthPicked.Split(' ');
             string query = "select  SUM(quantity) SupplyQuantity,supply_name as SupplyName, unit as SupplyUnit " +
-                            "from SupplyPlan inner join Supply "+
-                          " on SupplyPlan.supplyid = supply.supply_id "+
+                            "from SupplyPlan inner join Supply " +
+                          " on SupplyPlan.supplyid = supply.supply_id " +
+                          "  where departmentid = @DepartmentId AND [status] = 1  and YEAR([date]) = @year AND MONTH([date]) = @month " +
+                          " and supply_name LIKE @name" +
+                          " group by supplyplan.supplyid,supply_name,unit" +
+                          " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
+            var details = context.Database.SqlQuery<TonghopvattuDetailModelView>(query, new SqlParameter("DepartmentId", search.DepartmentId),
+                                                                                       new SqlParameter("year", val[2]),
+                                                                                       new SqlParameter("month", val[1]),
+                                                                                       new SqlParameter("name", "%" + search.SupplyName + "%")).ToList();
+            return details;
+        }
+        public IList<TonghopvattuDetailModelView> ExcelDetails(TonghopVattuSearchModelView search)
+        {
+
+            //string query = $"SELECT tmp.SupplyId, s.supply_name SupplyName, s.unit SupplyUnit, tmp.SupplyAverage, st.quantity SupplyQuantity " +
+            //    $"FROM (SELECT supplyid SupplyId, SUM(dinh_muc) AS SupplyAverage FROM SupplyPlan WHERE departmentid = '{search.DepartmentId}' AND YEAR([date]) = {monthPicked.Year} AND MONTH([date]) = {monthPicked.Month} AND [status] = 1 GROUP BY supplyid) tmp, Supply s, Supply_tieuhao st " +
+            //    $"WHERE st.supplyid = tmp.SupplyId AND s.supply_id = tmp.SupplyId AND " +
+            //    $"st.departmentid = '{search.DepartmentId}' AND " +
+            //    $"s.supply_id LIKE N'%{search.SupplyId}%' AND " +
+            //    $"s.supply_name LIKE N'%{search.SupplyName}%'";
+            var val = search.MonthPicked.Split(' ');
+            string query = "select  SUM(quantity) SupplyQuantity,supply_name as SupplyName, unit as SupplyUnit " +
+                            "from SupplyPlan inner join Supply " +
+                          " on SupplyPlan.supplyid = supply.supply_id " +
                           "  where departmentid = @DepartmentId AND [status] = 1  and YEAR([date]) = @year AND MONTH([date]) = @month " +
                           " and supply_name LIKE @name" +
                           " group by supplyplan.supplyid,supply_name,unit";
-            var details = context.Database.SqlQuery<TonghopvattuDetailModelView>(query,new SqlParameter("DepartmentId", search.DepartmentId),
+
+            var details = context.Database.SqlQuery<TonghopvattuDetailModelView>(query, new SqlParameter("DepartmentId", search.DepartmentId),
                                                                                        new SqlParameter("year", val[2]),
                                                                                        new SqlParameter("month", val[1]),
                                                                                        new SqlParameter("name", "%" + search.SupplyName + "%")).ToList();
             return details;
         }
 
-        public IList<TonghopvattuSummaryModelView> GetSummary(TonghopVattuSearchModelView search)
+        public IList<TonghopvattuSummaryModelView> GetSummary(TonghopVattuSearchModelView search, string sortColumnName, string sortDirection, int start, int length)
         {
             var val = search.MonthPicked.Split(' ');
+
+            //sortColumnName = sortColumnName ?? "tmp.SupplyId";
+            //sortDirection = sortDirection ?? "asc";
+            //DateTime monthPicked = DateTime.ParseExact(search.MonthPicked,"dd/MM/yyyy",null);
+            string query = "SELECT tmp.SupplyId, tmp.SupplyQuantity, s.supply_name SupplyName, s.unit SupplyUnit " +
+                "FROM (SELECT st.supplyid SupplyId, SUM(st.quantity) SupplyQuantity FROM SupplyPlan st, Supply s WHERE st.supplyid = s.supply_id AND YEAR([date]) = @year AND MONTH([date]) = @month GROUP BY st.supplyid) tmp, Supply s " +
+                "WHERE tmp.SupplyId = s.supply_id AND " +
+                "s.supply_name LIKE @name" +
+                " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
+
+            var summary = context.Database.SqlQuery<TonghopvattuSummaryModelView>(query, new SqlParameter("year", val[2]),
+                                                                                       new SqlParameter("month", val[1]),
+                                                                                       new SqlParameter("name", "%" + search.SupplyName + "%")).ToList();
+
+            return summary;
+        }
+        public IList<TonghopvattuSummaryModelView> ExcelSummary(TonghopVattuSearchModelView search)
+        {
+            var val = search.MonthPicked.Split(' ');
+
+            //sortColumnName = sortColumnName ?? "tmp.SupplyId";
+            //sortDirection = sortDirection ?? "asc";
             //DateTime monthPicked = DateTime.ParseExact(search.MonthPicked,"dd/MM/yyyy",null);
             string query = "SELECT tmp.SupplyId, tmp.SupplyQuantity, s.supply_name SupplyName, s.unit SupplyUnit " +
                 "FROM (SELECT st.supplyid SupplyId, SUM(st.quantity) SupplyQuantity FROM SupplyPlan st, Supply s WHERE st.supplyid = s.supply_id AND YEAR([date]) = @year AND MONTH([date]) = @month GROUP BY st.supplyid) tmp, Supply s " +
                 "WHERE tmp.SupplyId = s.supply_id AND " +
                 "s.supply_name LIKE @name";
-            var summary = context.Database.SqlQuery<TonghopvattuSummaryModelView>(query,new SqlParameter("year", val[2]),
+
+            var summary = context.Database.SqlQuery<TonghopvattuSummaryModelView>(query, new SqlParameter("year", val[2]),
                                                                                        new SqlParameter("month", val[1]),
-                                                                                       new SqlParameter("name", "%" + search.SupplyName+"%" )).ToList();
+                                                                                       new SqlParameter("name", "%" + search.SupplyName + "%")).ToList();
+
             return summary;
+
+
         }
+        public int CountDetails(TonghopVattuSearchModelView search)
+        {
+            var val = search.MonthPicked.Split(' ');
+            int recordsTotal = context.Database.SqlQuery<int>(@"select count (SupplyName) from(select  SUM(quantity) SupplyQuantity,supply_name as SupplyName, unit as SupplyUnit  
+                            from SupplyPlan inner join Supply  
+                           on SupplyPlan.supplyid = supply.supply_id  
+                            where departmentid = @DepartmentId AND [status] = 1  and YEAR([date]) = @year AND MONTH([date]) = @month  
+                           and supply_name LIKE @name 
+                           group by supplyplan.supplyid,supply_name,unit) as t ", new SqlParameter("DepartmentId", search.DepartmentId),
+                                                                                       new SqlParameter("year", val[2]),
+                                                                                       new SqlParameter("month", val[1]),
+                                                                                       new SqlParameter("name", "%" + search.SupplyName + "%")).FirstOrDefault();
+            return recordsTotal;
+        }
+        public int CountSummary(TonghopVattuSearchModelView search)
+        {
+            var val = search.MonthPicked.Split(' ');
+            int recordsTotal = context.Database.SqlQuery<int>(@"select count (SupplyName) from(SELECT tmp.SupplyId, tmp.SupplyQuantity, s.supply_name SupplyName, s.unit SupplyUnit  
+                FROM (SELECT st.supplyid SupplyId, SUM(st.quantity) SupplyQuantity FROM SupplyPlan st, Supply s WHERE st.supplyid = s.supply_id AND YEAR([date]) = @year AND MONTH([date]) = @month GROUP BY st.supplyid) tmp, Supply s  
+                WHERE tmp.SupplyId = s.supply_id AND  
+                s.supply_name LIKE @name) as t ", new SqlParameter("year", val[2]),
+                                                                                       new SqlParameter("month", val[1]),
+                                                                                       new SqlParameter("name", "%" + search.SupplyName + "%")).FirstOrDefault();
+            return recordsTotal;
+        }
+
+
     }
 }
