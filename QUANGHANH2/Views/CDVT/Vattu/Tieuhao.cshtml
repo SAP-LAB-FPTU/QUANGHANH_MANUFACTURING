@@ -248,7 +248,7 @@
                 $('#dropdown1').removeAttr('style');
                 document.getElementById('searchtype').value = "year";
             }
-            var tbl_detail, tbl_summary, currTab = 0, exportPayload = [], isFirstInit = true, exportSearch = [];
+            var tbl_detail, tbl_summary, currTab = 0, /*exportPayload = [],*/ isFirstInit = true/*, exportSearch = []*/;
             $(document).ready(function () {
                 $("#pre-load").show();
                 tbl_detail = $('#tbl_detail').DataTable({
@@ -261,7 +261,7 @@
                             "DepartmentId": function () { return $('#departmentId').val() },
                             "DeparmentName": function () { return $('#departmentName').val() },
                             "SupplyId": function () { return $('#supplyId').val() },
-                            "SupplyName": function () {  return $('#supplyName').val() },
+                            "SupplyName": function () { return $('#supplyName').val() },
                             "type": function () { return document.getElementById('searchtype').value },
                             "month": function () {
                                 var val = document.getElementById("txtmonth").value;
@@ -269,57 +269,58 @@
                             },
                             "year": function () { return $('#txtyear').val() },
                         },
-                        "dataSrc": function (json) {
-                        index = 1;
-                        if (isFirstInit) {
-                            exportSearch = json.data;
-                            isFirstInit = false;
-                        } else {
-                            exportSearch = [];
-                            exportSearch = json.data;
-                        }
-                        return json.data;
-                    }
-                },
-               
-                    "columns": [
-                        { "data": "SupplyId", "name": "SupplyId" },
-                        { "data": "SupplyName", "name": "SupplyName" },
-                        { "data": "DepartmentName", "name": "DepartmentName" },
-                        { "data": "SupplyProvide", "name": "SupplyProvide" },
-                        { "data": "SupplyQuantity", "name": "SupplyQuantity" },
-                        { "data": "SupplyUnit", "name": "SupplyUnit" },
-                        { "data": "SupplyUsed", "name": "SupplyUseds" },
-                        { "data": "SupplyEviction", "name": "SupplyEviction" },
-                        {
-                            "data": {}, "render": function (data) {
-                            return "<a href=\"#mysupplydetail\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\"  data-supply=\"" + data.SupplyId+"^"+data.DepartmentName+ "\">Chi&nbsp;Tiết&nbsp;Tiêu&nbsp;Hao</a>";
+                        //        "dataSrc": function (json) {
+                        //        index = 1;
+                        //        if (isFirstInit) {
+                        //            exportSearch = json.data;
+                        //            isFirstInit = false;
+                        //        } else {
+                        //            exportSearch = [];
+                        //            exportSearch = json.data;
+                        //        }
+                        //        return json.data;
+                        //    }
                         },
-                        "orderable": false,
-                        "searchable": false,
-                        "width": "150px"
-                    },
-                    ],
-                    "serverSide": true,
-                    "order": [0, "asc"],
-                    "rowId": "SupplyId",
-                    "lengthChange": false,
-                    "searching": false,
-                    "initComplete": function (settings, json) {
-                         $("#pre-load").hide("slow", function () {
-                    });
-                    },
-                    "language": {
-                        "emptyTable": "Không tìm thấy dữ liệu",
-                        "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                        "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
-                        "paginate": {
-                            "first": "Trang đầu",
-                            "last": "Trang cuối",
-                            "next": "Trang sau",
-                            "previous": "Trang trước"
+
+                        "columns": [
+                            { "data": "SupplyId", "name": "SupplyId" },
+                            { "data": "SupplyName", "name": "SupplyName" },
+                            { "data": "DepartmentName", "name": "DepartmentName" },
+                            { "data": "SupplyProvide", "name": "SupplyProvide" },
+                            { "data": "SupplyQuantity", "name": "SupplyQuantity" },
+                            { "data": "SupplyUnit", "name": "SupplyUnit" },
+                            { "data": "SupplyUsed", "name": "SupplyUseds" },
+                            { "data": "SupplyEviction", "name": "SupplyEviction" },
+                            {
+                                "data": {}, "render": function (data) {
+                                    return "<a href=\"#mysupplydetail\" data-toggle=\"modal\" class=\"open-EditModal waves-effect waves-light btn blue darken-1 modal-trigger\"  data-supply=\"" + data.SupplyId + "^" + data.DepartmentName + "\">Chi&nbsp;Tiết&nbsp;Tiêu&nbsp;Hao</a>";
+                                },
+                                "orderable": false,
+                                "searchable": false,
+                                "width": "150px"
+                            },
+                        ],
+                        "serverSide": true,
+                        "order": [0, "asc"],
+                        "rowId": "SupplyId",
+                        "lengthChange": false,
+                        "searching": false,
+                        "initComplete": function (settings, json) {
+                            $("#pre-load").hide("slow", function () {
+                            });
+                        },
+                        "language": {
+                            "emptyTable": "Không tìm thấy dữ liệu",
+                            "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                            "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                            "paginate": {
+                                "first": "Trang đầu",
+                                "last": "Trang cuối",
+                                "next": "Trang sau",
+                                "previous": "Trang trước"
+                            }
                         }
-                    }
+                    
                 });
 
                 tbl_summary = $('#tbl_summary').DataTable({
@@ -339,19 +340,19 @@
                                 return val
                             },
                             "year": function () { return $('#txtyear').val() },
-                    },
+                                  },
                    
-                       "dataSrc": function (json) {
-                        index = 1;
-                        if (isFirstInit) {
-                            exportPayload = json.data;
-                            isFirstInit = false;
-                        } else {
-                            exportPayload = [];
-                            exportPayload = json.data;
-                        }
-                        return json.data;
-                    }
+                    //   "dataSrc": function (json) {
+                    //    index = 1;
+                    //    if (isFirstInit) {
+                    //        exportPayload = json.data;
+                    //        isFirstInit = false;
+                    //    } else {
+                    //        exportPayload = [];
+                    //        exportPayload = json.data;
+                    //    }
+                    //    return json.data;
+                    //}
                 },
                     "columns": [
                         { "data": "SupplyId", "name": "SupplyId" },
@@ -363,6 +364,7 @@
                         { "data": "SupplyEviction", "name": "SupplyEviction" },
                     ],
                     "serverSide": true,
+                    "processing": true,
                     "order": [0, "asc"],
                     "rowId": "SupplyId",
                     "lengthChange": false,
@@ -402,12 +404,22 @@
                 $('#searchBtn').click(search);
                 $("#export_excel").click(function () {
                     $("#pre-load").show();
+                    var data = {
+                        DepartmentId: $('#departmentId').val(),
+                        DeparmentName: $('#departmentName').val(),
+                        SupplyId: $('#supplyId').val(),
+                        SupplyName: $('#supplyName').val(),
+                        type: document.getElementById('searchtype').value,
+                        month: document.getElementById("txtmonth").value,
+                        year: $('#txtyear').val()
+
+                    };
                     $.ajax({
                         dataType: "json",
                         contentType: "application/json, charset=utf-8",
                         type: 'POST',
                         url: '/phong-cdvt/vat-tu/tieu-hao/export',
-                        data: JSON.stringify(exportPayload),
+                        data: JSON.stringify(data),
                         success: function (res) {
                             if (res.success) {
                                 var response = JSON.parse(JSON.stringify(res.data));
@@ -422,12 +434,22 @@
                 })
                 $("#export_exceldetail").click(function () {
                     $("#pre-load").show();
+                    var data = {
+                        DepartmentId: $('#departmentId').val(),
+                        DeparmentName: $('#departmentName').val(),
+                        SupplyId: $('#supplyId').val(),
+                        SupplyName: $('#supplyName').val(),
+                        type: document.getElementById('searchtype').value,
+                        month: document.getElementById("txtmonth").value,
+                        year: $('#txtyear').val()
+
+                    };
                     $.ajax({
                         dataType: "json",
                         contentType: "application/json, charset=utf-8",
                         type: 'POST',
                         url: '/phong-cdvt/vat-tu/tieu-hao/exportdetail',
-                        data: JSON.stringify(exportSearch),
+                        data: JSON.stringify(data),
                         success: function (res) {
                             if (res.success) {
                                 var response = JSON.parse(JSON.stringify(res.data));
