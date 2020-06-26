@@ -339,30 +339,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     try
                     {
-
                         ChungChi chungChi = db.ChungChis.Where(x => x.MaChungChi == id).FirstOrDefault<ChungChi>();
-
-                        db.ChungChis.Remove(chungChi);
-                        //List<ChungChi_NhanVien> ccnv = new List<ChungChi_NhanVien>();
-                        var ccnv = from item in db.ChungChi_NhanVien
-                                   where item.MaChungChi == id
-                                   select item;
-                        var nhiemvu = db.NhiemVus.Where(x => x.MaChungChi==id).ToList();
-                        //var chungchi_nvs = db.ChungChi_NhanVien.Where(x => x.MaChungChi == id).FirstOrDefault<ChungChi_NhanVien>();
-                        if (ccnv != null)
+                        var ccnv = db.ChungChi_NhanVien.Where(x => x.MaChungChi == id).ToList();
+                        if (ccnv.Count != 0)
                         {
-                            
-                            db.ChungChi_NhanVien.RemoveRange(db.ChungChi_NhanVien.Where(x => x.MaChungChi == id));
-                        }
-                        if (nhiemvu != null)
+                            return Json(new { error = true, title = "Lỗi", message = "Chứng chỉ đã được chỉ định với nhiệm vụ củ thể. Không thể xóa" });
+                        } else
                         {
-
-                            nhiemvu.ForEach(item => item.MaChungChi = null);
+                            db.ChungChis.Remove(chungChi);
+                            db.SaveChanges();
+                            transaction.Commit();
+                            return Json(new { success = true, message = "Xóa thành công" }, JsonRequestBehavior.AllowGet);
                         }
-
-                        db.SaveChanges();
-                        transaction.Commit();
-                        return Json(new { success = true, message = "Xóa thành công" }, JsonRequestBehavior.AllowGet);
                     }
                     catch (Exception ex)
                     {

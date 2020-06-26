@@ -597,6 +597,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     sum(case when nghi.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') then 1 else 0 end) as 'nghidai_om_tnld'
                                     from
                                     (select
+                                    distinct
                                     hdd.MaPhongBan,
                                     nv_dd.MaNV,
                                     nv_dd.LyDoVangMat
@@ -605,12 +606,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                      where Month(NgayDiemDanh) = @month and Year(NgayDiemDanh) = @year and Status = 1
                                      group by NgayDiemDanh, Ca) as hd 
                                      join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
-                                     join 
-	                                    (select dd.*, nv.MaPhongBan
-	                                    from DiemDanh_NangSuatLaoDong dd
-	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
-	                                    where nv_dd.DiLam = 0
-	                                    group by hdd.MaPhongBan, nv_dd.MaNV, nv_dd.LyDoVangMat) as nghi
+                                     join DiemDanh_NangSuatLaoDong nv_dd on nv_dd.HeaderID = hd.HeaderID
+									 where hdd.MaPhongBan = 'KT1'
+	                                 group by hdd.MaPhongBan, nv_dd.MaNV, nv_dd.LyDoVangMat, hd.NgayDiemDanh, hd.Ca
+
+                                    ) as nghi
                                     group by nghi.MaPhongBan) as nghi on dilam.MaPhongBan = nghi.MaPhongBan) as b
                                     on a.department_id = b.MaPhongBan) as a 
                                     inner join
@@ -771,6 +771,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     sum(case when nghi.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') then 1 else 0 end) as 'nghidai_om_tnld'
                                     from
                                     (select
+                                    distinct
                                     hdd.MaPhongBan,
                                     nv_dd.MaNV,
                                     nv_dd.LyDoVangMat
@@ -779,12 +780,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                      where Month(NgayDiemDanh) = @month and Year(NgayDiemDanh) = @year and Status = 1
                                      group by NgayDiemDanh, Ca) as hd 
                                      join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
-                                     join 
-	                                    (select dd.*, nv.MaPhongBan
-	                                    from DiemDanh_NangSuatLaoDong dd
-	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
-	                                    where nv_dd.DiLam = 0
-	                                    group by hdd.MaPhongBan, nv_dd.MaNV, nv_dd.LyDoVangMat) as nghi
+                                     join DiemDanh_NangSuatLaoDong nv_dd on nv_dd.HeaderID = hd.HeaderID
+									 where hdd.MaPhongBan = 'KT1'
+	                                 group by hdd.MaPhongBan, nv_dd.MaNV, nv_dd.LyDoVangMat, hd.NgayDiemDanh, hd.Ca
+
+                                    ) as nghi
                                     group by nghi.MaPhongBan) as nghi on dilam.MaPhongBan = nghi.MaPhongBan) as b
                                     on a.department_id = b.MaPhongBan) as a 
                                     inner join

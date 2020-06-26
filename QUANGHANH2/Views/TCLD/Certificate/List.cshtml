@@ -466,6 +466,8 @@
                             //})
 
                             successAlert('Thành công', 'Xóa chứng chỉ thành công');
+                        } else if (data.error) {
+                            errorAlert(data.title, data.message);
                         }
                         else {
                             errorAlert('Bạn không có quyền hạn này', '');
