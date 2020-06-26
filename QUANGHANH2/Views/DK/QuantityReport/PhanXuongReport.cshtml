@@ -180,7 +180,7 @@
                                                     {
                                                         <p>
                                                             <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                            <a href="/phan-xuong/download-file?location=PhanXuongLenDK/@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
+                                                            <a href="/phan-xuong/download-file?location=@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
                                                             @if (listFiles[i].chuthich != "")
                                                             {
                                                                 <i> (Ghi chú: @listFiles[i].chuthich )</i>
@@ -241,7 +241,7 @@
                                                     {
                                                         <p>
                                                             <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                            <a href="/phan-xuong/download-file?location=PhanXuongLenDK/@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
+                                                            <a href="/phan-xuong/download-file?location=@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
                                                             @if (listFiles[i].chuthich != "")
                                                             {
                                                                 <i> (Ghi chú: @listFiles[i].chuthich )</i>
@@ -303,7 +303,7 @@
                                                     {
                                                         <p>
                                                             <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                            <a href="/phan-xuong/download-file?location=PhanXuongLenDK/@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
+                                                            <a href="/phan-xuong/download-file?location=@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
                                                             @if (listFiles[i].chuthich != "")
                                                             {
                                                                 <i> (Ghi chú: @listFiles[i].chuthich )</i>
@@ -385,7 +385,7 @@
                                                     <td>@(i + 1)</td>
                                                     <td class="file-td">
                                                         <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
-                                                        <a href="/phan-xuong/download-file?location=@(allFilesList[i].department_id!="KCS"?"PhanXuongLenDK":"KCS")/@allFilesList[i].fileName&fileName=@allFilesList[i].fileNameDisplay">@allFilesList[i].fileNameDisplay</a>
+                                                        <a href="/phan-xuong/download-file?location=@allFilesList[i].fileName&fileName=@allFilesList[i].fileNameDisplay">@allFilesList[i].fileNameDisplay</a>
                                                     </td>
                                                     <td>@allFilesList[i].chuthich</td>
                                                     <td>@allFilesList[i].department_name</td>
