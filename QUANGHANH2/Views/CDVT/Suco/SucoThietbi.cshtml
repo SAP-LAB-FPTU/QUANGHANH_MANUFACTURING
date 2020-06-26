@@ -82,8 +82,6 @@
                     //if (rights.Contains("20") || rights.Contains("79") || rights.Contains("179") || rights.Contains("180") || rights.Contains("181") || rights.Contains("182") || rights.Contains("183") || rights.Contains("185") || rights.Contains("186") || rights.Contains("184") || rights.Contains("187") || rights.Contains("188") || rights.Contains("189"))
                     if (rights.Contains("20") || rights.Contains("79"))
                     {
-                        <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
-
                         <form action="" method="POST" id="myaddform" role="form">
                             <div class="modal" id="myadd">
                                 <div class="modal-content">
@@ -173,6 +171,8 @@
                                 </div>
                             </div>
                         </form>
+
+                        <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
                     }
                     if (rights.Contains("170") || rights.Contains("79"))
                     {
@@ -344,14 +344,14 @@
 </div>
 
 <datalist id="equipmentId">
-    @foreach (QUANGHANH2.Models.Equipment item in ViewBag.equipments)
+    @foreach (var item in ViewBag.equipments)
     {
-        <option>@item.equipmentId</option>
+        <option data-depart="@item.department_name">@item.equipmentId</option>
     }
 </datalist>
 
 <datalist id="equipment_name">
-    @foreach (QUANGHANH2.Models.Equipment item in ViewBag.equipments)
+    @foreach (var item in ViewBag.equipments)
     {
         <option>@item.equipment_name</option>
     }
@@ -749,6 +749,14 @@
                 },
                 cache: false
             })
+        });
+
+        $("#equipment-add").focusout(function () {
+            let equipmentId = $(this).val();
+            let department_name = $('#equipmentId option').filter(function () {
+                return $(this).html() == equipmentId;
+            }).data("depart");
+            $("#department-add").val(department_name)
         });
     </script>
 }

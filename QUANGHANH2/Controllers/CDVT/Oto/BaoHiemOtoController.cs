@@ -36,31 +36,38 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             DateTime dtStart = dateStart.Equals("") ? DateTime.ParseExact("01/01/1753", "MM/dd/yyyy", null) : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
             DateTime dtEnd = dateEnd.Equals("") ? DateTime.MaxValue : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
-            var list = (from ei in db.Equipment_Insurance.GroupBy(x => x.equipmentId).Select(x => new
-            {
-                equipmentId = x.Key,
-                insurance_id = x.Max(row => row.insurance_id)
-            })
-                        join ei2 in db.Equipment_Insurance on ei.equipmentId equals ei2.equipmentId
+            var list = (from a in db.Equipment_Insurance
+                        group a by a.equipmentId into ei
+                        join ei2 in db.Equipment_Insurance on ei.Max(s => s.insurance_id) equals ei2.insurance_id
                         where ei2.insurance_end_date >= dtStart && ei2.insurance_end_date <= dtEnd
-                        join c in db.Cars.Where(c => c.equipmentId.Contains(equipmentId)) on ei.equipmentId equals c.equipmentId
-                        join e in db.Equipments.Where(e => e.equipment_name.Contains(equipmentName)) on ei.equipmentId equals e.equipmentId
+                        join c in db.Cars.Where(c => c.equipmentId.Contains(equipmentId)) on ei2.equipmentId equals c.equipmentId
+                        join e in db.Equipments.Where(e => e.equipment_name.Contains(equipmentName)) on ei2.equipmentId equals e.equipmentId
                         join s in db.Status on e.current_Status equals s.statusid
                         select new Equipment_InsuranceDB
                         {
-                            equipmentId = ei.equipmentId,
+                            equipmentId = ei2.equipmentId,
                             equipment_name = e.equipment_name,
                             insurance_id = ei2.insurance_id,
                             statusname = s.statusname,
                             insurance_start_date = ei2.insurance_start_date,
                             insurance_end_date = ei2.insurance_end_date,
                         }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
-            int totalrows = (from ei in db.Equipment_Insurance.GroupBy(x => x.equipmentId).Select(x => x.FirstOrDefault())
-                             where ei.insurance_end_date >= dtStart && ei.insurance_end_date <= dtEnd
-                             join c in db.Cars.Where(c => c.equipmentId.Contains(equipmentId)) on ei.equipmentId equals c.equipmentId
-                             join e in db.Equipments.Where(e => e.equipment_name.Contains(equipmentName)) on ei.equipmentId equals e.equipmentId
+            int totalrows = (from a in db.Equipment_Insurance
+                             group a by a.equipmentId into ei
+                             join ei2 in db.Equipment_Insurance on ei.Max(s => s.insurance_id) equals ei2.insurance_id
+                             where ei2.insurance_end_date >= dtStart && ei2.insurance_end_date <= dtEnd
+                             join c in db.Cars.Where(c => c.equipmentId.Contains(equipmentId)) on ei2.equipmentId equals c.equipmentId
+                             join e in db.Equipments.Where(e => e.equipment_name.Contains(equipmentName)) on ei2.equipmentId equals e.equipmentId
                              join s in db.Status on e.current_Status equals s.statusid
-                             select ei).Count();
+                             select new Equipment_InsuranceDB
+                             {
+                                 equipmentId = ei2.equipmentId,
+                                 equipment_name = e.equipment_name,
+                                 insurance_id = ei2.insurance_id,
+                                 statusname = s.statusname,
+                                 insurance_start_date = ei2.insurance_start_date,
+                                 insurance_end_date = ei2.insurance_end_date,
+                             }).Count();
             foreach (var item in list)
             {
                 item.stringStartDate = item.insurance_start_date.ToString("dd/MM/yyyy");
