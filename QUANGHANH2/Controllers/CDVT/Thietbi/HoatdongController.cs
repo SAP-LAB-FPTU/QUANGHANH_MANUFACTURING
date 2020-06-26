@@ -343,11 +343,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             DateTime dtEnd = DateTime.MaxValue;
             if (!dateStart.Equals(""))
             {
-                dtStart = DateTime.ParseExact(dateStart, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                String[] date = dateStart.Split('/');
+                String date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                dtStart = Convert.ToDateTime(date_fix);
             }
             if (!dateEnd.Equals(""))
             {
-                dtEnd = DateTime.ParseExact(dateEnd, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                String[] date = dateEnd.Split('/');
+                String date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                dtEnd = Convert.ToDateTime(date_fix);
             }
             //Hầu như tất cả các trường đều chuyển thành allow NULL, nếu để like sẽ không thể hiện ra
             string query = "SELECT e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +

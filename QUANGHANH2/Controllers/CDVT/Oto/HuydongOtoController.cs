@@ -211,7 +211,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
             if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !quality.Equals("") || !category.Equals("") || !sup.Equals("") || dateStart != "" || dateEnd != "")
             {
-                if (dateStart != "" || dateEnd != "") query += "AND e.usedDay between @start_time1 and @start_time2 ";
+                if (dateStart != "" || dateEnd != "") query += "e.usedDay between @start_time1 and @start_time2 AND ";
                 if (!equipmentId.Equals("")) query += "e.equipmentId LIKE @equipmentId AND ";
                 if (!equipmentName.Equals("")) query += "e.equipment_name LIKE @equipment_name AND ";
                 if (!department.Equals("")) query += "d.department_id = @department_name AND ";
