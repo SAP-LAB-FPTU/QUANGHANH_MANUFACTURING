@@ -130,7 +130,7 @@
                                 <tr>
                                     <th class="center-align">Mã Thiết Bị</th>
                                     <th class="center-align">Tên Thiết Bị</th>
-                                   
+
                                     <th class="center-align">Vật tư SCTX</th>
                                 </tr>
                             </thead>
@@ -230,7 +230,8 @@
     <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
     <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
     <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
-   
+
+    <script src="~/js/Custom JS/CDVT/Vattu/validateInput.js"></script>
     <script>
 
         $(document).ready(function () {
@@ -532,6 +533,7 @@
 
         }
         var equipmentId_duyetcap;
+        inputNumber(mysupplyconfirm);
         var lists = [];
         $(document).on("click", ".open-EditModalConfirm", function () {
             lists = [];
@@ -556,7 +558,7 @@
                             "<td>" + resultArray[i].unit + "</td>" +
                             "<td>" + resultArray[i].quantity_plan + "</td>" +
                             "<td>" + resultArray[i].quantity_provide + "</td>" +
-                            "<td><input type='number' id='quantity-" + resultArray[i].id +  "'class='form-control' value='" + resultArray[i].quantity + "'></td>" +
+                            "<td><input type='number' id='quantity-" + resultArray[i].id + "'class='form-control' value='" + resultArray[i].quantity + "'></td>" +
 
                             "</tr>";
                         lists.push({

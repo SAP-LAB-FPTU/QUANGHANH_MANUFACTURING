@@ -83,9 +83,11 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 DateTime dtTemp = DateTime.ParseExact(dateTemp, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 ei.inspect_date = DateTime.Now;
                 Equipment e = DBContext.Equipments.Find(ei.equipmentId);
-                Equipment_Inspection temp = new Equipment_Inspection();
-                temp.equipmentId = ei.equipmentId;
-                temp.inspect_date = dtTemp;
+                Equipment_Inspection temp = new Equipment_Inspection
+                {
+                    equipmentId = ei.equipmentId,
+                    inspect_date = dtTemp
+                };
                 DBContext.Equipment_Inspection.Add(temp);
                 e.durationOfInspection = dtTemp;
                 DBContext.SaveChanges();

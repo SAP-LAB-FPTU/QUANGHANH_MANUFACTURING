@@ -241,40 +241,6 @@
     <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
     <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
     <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
-    <script>
-        //$("#equipmentId-edit").keydown(function (e) {
-        //    if (e.keyCode === 13)
-        //        getEquipmentname1();
-        //})
-        //$("#equipmentId-add").keydown(function (e) {
-        //    if (e.keyCode === 13)
-        //        getname();
-        //})
-        //$('#myfuel').keydown(function (e) {
-        //    if (e.keyCode === 13)
-        //        e.preventDefault();
-        //});
-        //$("#fuel-edit").keydown(function (e) {
-        //    if (e.keyCode === 13)
-        //        getsupplynameinedit();
-        //})
-        //$("#equipmentIdfuel-edit").keydown(function (e) {
-        //    if (e.keyCode === 13)
-        //        getEquipmentnameOnEditFuel();
-        //})
-        //$('#myaddfuel').keydown(function (e) {
-        //    if (e.keyCode === 13)
-        //        e.preventDefault();
-        //});
-        //$("#fuelId-add").keydown(function (e) {
-        //    if (e.keyCode === 13)
-        //        getsupplyname();
-        //})
-        //$("#equipmentidfuel-add").keydown(function (e) {
-        //    if (e.keyCode === 13)
-        //        getEquipmentnameOnAddFuel();
-        //})
-    </script>
 
     <script>
         //function for date.
@@ -556,25 +522,6 @@
             return false;
         });
 
-        //getName after enter ID input
-        function getname() {
-            var id = document.getElementById("equipmentId-add").value;
-            var em = { id: id };
-            $.ajax({
-                url: "/phong-cdvt/cap-nhat-hoat-dong/getEQname",
-                type: "POST",
-                data: JSON.stringify(em),
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    document.getElementById("equipmentname").value = data;
-                },
-                error: function () {
-                    //alert("fail");
-                }
-            });
-        }
-
         //get supply name and unit in add fuel
         function getsupplyname() {
             var id = document.getElementById("fuelId-add").value;
@@ -658,25 +605,6 @@
                 dataType: "json",
                 success: function (data) {
                     document.getElementById("equipmentnamefuel-edit").value = data;
-                },
-                error: function () {
-                    //alert("fail");
-                }
-            });
-        }
-
-        //get equipment name in edit activity
-        function getEquipmentname1() {
-            var id = document.getElementById("equipmentId-edit").value;
-            var em = { id: id };
-            $.ajax({
-                url: "/phong-cdvt/cap-nhat-hoat-dong/getEQname",
-                type: "POST",
-                data: JSON.stringify(em),
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    document.getElementById("equipmentname-edit").value = data;
                 },
                 error: function () {
                     //alert("fail");

@@ -25,6 +25,7 @@ namespace QUANGHANH2.ModelViews
         public double EstimatePrice { get; set; }
         public string Note { get; set; }
     }
+   
 
     public class TonghopvattuDepartmentModelView
     {
