@@ -23,33 +23,36 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         [HttpGet]
         public ActionResult Index()
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             string departID = Session["departID"].ToString();
-            List<Equipment> equipments = new List<Equipment>();
+            List<EquipWithDepart> equipments = new List<EquipWithDepart>();
             if (departID == "ĐK" || departID == "CV")
-                equipments = DBContext.Equipments.Select(x => new
-                {
-                    x.equipmentId,
-                    x.equipment_name
-                }).ToList().Select(x => new Equipment
-                {
-                    equipmentId = x.equipmentId,
-                    equipment_name = x.equipment_name
-                }).ToList();
+                equipments = (from x in db.Equipments
+                              join d in db.Departments on x.department_id equals d.department_id
+                              select new EquipWithDepart
+                              {
+                                  equipmentId = x.equipmentId,
+                                  equipment_name = x.equipment_name,
+                                  department_name = d.department_name
+                              }).ToList();
             else
-                equipments = DBContext.Equipments.Where(x => x.department_id.Equals(departID)).Select(x => new
-                {
-                    x.equipmentId,
-                    x.equipment_name
-                }).ToList().Select(x => new Equipment
+                equipments = db.Equipments.Where(x => x.department_id.Equals(departID)).Select(x => new EquipWithDepart
                 {
                     equipmentId = x.equipmentId,
-                    equipment_name = x.equipment_name
+                    equipment_name = x.equipment_name,
+                    department_name = Session["departName"].ToString()
                 }).ToList();
-            List<string> departments = DBContext.Departments.Select(x => x.department_name).ToList();
+            List<string> departments = db.Departments.Select(x => x.department_name).ToList();
             ViewBag.equipments = equipments;
             ViewBag.departments = departments;
             return View("/Views/CDVT/Suco/SucoThietbi.cshtml");
+        }
+
+        public class EquipWithDepart
+        {
+            public string equipmentId { get; set; }
+            public string equipment_name { get; set; }
+            public string department_name { get; set; }
         }
 
         [Auther(RightID = "20,79")]
