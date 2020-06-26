@@ -14,28 +14,27 @@
                         <h3 class="center"><b>DANH SÁCH THIẾT BỊ ĐÃ NGHIỆM THU</b></h3>
                         <hr>
                         <div class="row center">
-                            <div class="col l1 m12 s12 input-field">
-
+                            <div class="col l4 m12 s12">
+                                <div class="col s12 input-field">
+                                    <i class="fas fa-calendar-alt icon"></i>
+                                    <input type='text' class='datepicker-here center maxDate' id="min_Date" data-language='vi' value="Nhập ngày bắt đầu (từ)" style="height: 24px" />
+                                </div>
+                                <div class="col s12 input-field">
+                                    <i class="fas fa-calendar-alt icon"></i>
+                                    <input type='text' class='datepicker-here center minDate' id="max_Date" data-language='vi' value="Nhập ngày kết thúc (đến)" style="height: 24px" />
+                                </div>
                             </div>
-                            <div class="col l2 m12 s12 input-field">
-                                <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center maxDate' id="min_Date" data-language='vi' value="Nhập ngày bắt đầu (từ)" style="height: 24px" />
+                            <div class="col l4 m12 s12 input-field">
+                                <input type="text" placeholder="Tìm kiếm theo mã thiết bị" id="equimentid" class='form-control' />
                             </div>
-                            <div class="col l2 m12 s12 input-field">
-                                <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center minDate' id="max_Date" data-language='vi' value="Nhập ngày kết thúc (đến)" style="height: 24px" />
-                            </div>
-                            <div class="col l2 m12 s12 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo mã quyết định" id="doccumentid" class='form-control' />
-                            </div>
-                            <div class="col l2 m12 s12 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo mã tài sản cố định" id="equimentid" class='form-control' />
-                            </div>
-                            <div class="col l2 m12 s12 input-field">
+                            <div class="col l4 m12 s12 input-field">
                                 <input type="text" placeholder="Tìm kiếm theo tên thiết bị" id="equimentname" class='form-control' />
                             </div>
-                            <div class="col l2 m12 s12 input-field">
-                                <button class="btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
+                            <div class="col l4 m12 s12 input-field">
+                                <input type="text" placeholder="Tìm kiếm theo mã quyết định" id="doccumentid" class='form-control' />
+                            </div>
+                            <div class="col s12 input-field">
+                                <button class="center btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
                             </div>
 
                         </div>

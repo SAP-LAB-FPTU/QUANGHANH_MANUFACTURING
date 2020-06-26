@@ -74,7 +74,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         [Auther(RightID = "171")]
         [Route("phong-cdvt/kiem-dinh/add")]
         [HttpPost]
-        public ActionResult Edit(int inspect_id, string dateTemp)
+        public ActionResult Add(int inspect_id, string dateTemp)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             try

@@ -17,7 +17,8 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
         [HttpGet]
         public ActionResult Index()
         {
-            //  Bảo hiểm và kiểm định là 1
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            ViewBag.equipmentId = db.Cars.Select(x => x.equipmentId).ToList();
             return View("/Views/CDVT/Car/BaoHiemOto.cshtml");
         }
 
@@ -35,48 +36,50 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             DateTime dtStart = dateStart.Equals("") ? DateTime.ParseExact("01/01/1753", "MM/dd/yyyy", null) : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
             DateTime dtEnd = dateEnd.Equals("") ? DateTime.MaxValue : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
-            var list = (from ei in db.Equipment_Insurance.GroupBy(x => x.equipmentId).Select(x => new
-            {
-                equipmentId = x.Key,
-                insurance_end_date = x.Max(row => row.insurance_end_date)
-            })
-                        where ei.insurance_end_date >= dtStart && ei.insurance_end_date <= dtEnd
-                        join ei2 in db.Equipment_Insurance on ei.equipmentId equals ei2.equipmentId
-                        where ei2.insurance_end_date == ei.insurance_end_date
-                        join c in db.Cars.Where(c => c.equipmentId.Contains(equipmentId)) on ei.equipmentId equals c.equipmentId
-                        join e in db.Equipments.Where(e => e.equipment_name.Contains(equipmentName)) on ei.equipmentId equals e.equipmentId
+            var list = (from a in db.Equipment_Insurance
+                        group a by a.equipmentId into ei
+                        join ei2 in db.Equipment_Insurance on ei.Max(s => s.insurance_id) equals ei2.insurance_id
+                        where ei2.insurance_end_date >= dtStart && ei2.insurance_end_date <= dtEnd
+                        join c in db.Cars.Where(c => c.equipmentId.Contains(equipmentId)) on ei2.equipmentId equals c.equipmentId
+                        join e in db.Equipments.Where(e => e.equipment_name.Contains(equipmentName)) on ei2.equipmentId equals e.equipmentId
                         join s in db.Status on e.current_Status equals s.statusid
-                        select new
+                        select new Equipment_InsuranceDB
                         {
-                            ei.equipmentId,
-                            ei.insurance_end_date,
-                            ei2.insurance_id,
-                            ei2.insurance_start_date,
-                            s.statusname,
-                            e.equipment_name
-                        }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList().Select(p => new Equipment_InsuranceDB
-                        {
-                            equipmentId = p.equipmentId,
-                            equipment_name = p.equipment_name,
-                            insurance_end_date = p.insurance_end_date,
-                            insurance_id = p.insurance_id,
-                            statusname = p.statusname,
-                            stringEndDate = p.insurance_end_date.ToString("dd/MM/yyyy"),
-                            stringStartDate = p.insurance_start_date.ToString("dd/MM/yyyy")
-                        }).ToList();
-            int totalrows = (from ei in db.Equipment_Insurance.GroupBy(x => x.equipmentId).Select(x => x.FirstOrDefault())
-                             where ei.insurance_end_date >= dtStart && ei.insurance_end_date <= dtEnd
-                             join c in db.Cars.Where(c => c.equipmentId.Contains(equipmentId)) on ei.equipmentId equals c.equipmentId
-                             join e in db.Equipments.Where(e => e.equipment_name.Contains(equipmentName)) on ei.equipmentId equals e.equipmentId
+                            equipmentId = ei2.equipmentId,
+                            equipment_name = e.equipment_name,
+                            insurance_id = ei2.insurance_id,
+                            statusname = s.statusname,
+                            insurance_start_date = ei2.insurance_start_date,
+                            insurance_end_date = ei2.insurance_end_date,
+                        }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
+            int totalrows = (from a in db.Equipment_Insurance
+                             group a by a.equipmentId into ei
+                             join ei2 in db.Equipment_Insurance on ei.Max(s => s.insurance_id) equals ei2.insurance_id
+                             where ei2.insurance_end_date >= dtStart && ei2.insurance_end_date <= dtEnd
+                             join c in db.Cars.Where(c => c.equipmentId.Contains(equipmentId)) on ei2.equipmentId equals c.equipmentId
+                             join e in db.Equipments.Where(e => e.equipment_name.Contains(equipmentName)) on ei2.equipmentId equals e.equipmentId
                              join s in db.Status on e.current_Status equals s.statusid
-                             select ei).Count();
+                             select new Equipment_InsuranceDB
+                             {
+                                 equipmentId = ei2.equipmentId,
+                                 equipment_name = e.equipment_name,
+                                 insurance_id = ei2.insurance_id,
+                                 statusname = s.statusname,
+                                 insurance_start_date = ei2.insurance_start_date,
+                                 insurance_end_date = ei2.insurance_end_date,
+                             }).Count();
+            foreach (var item in list)
+            {
+                item.stringStartDate = item.insurance_start_date.ToString("dd/MM/yyyy");
+                item.stringEndDate = item.insurance_end_date.ToString("dd/MM/yyyy");
+            }
             return Json(new { success = true, data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
         [Auther(RightID = "171")]
         [Route("phong-cdvt/oto/bao-hiem/add")]
         [HttpPost]
-        public ActionResult Edit(string equipmentId, string stringStartDate, string stringEndDate)
+        public ActionResult Add(string equipmentId, string stringStartDate, string stringEndDate)
         {
             try
             {
@@ -102,6 +105,37 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
                     db.SaveChanges();
                 }
                 return Json(new { success = true, message = "Cập nhật thành công" });
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra\nxin vui lòng thử lại" });
+            }
+        }
+
+        [Auther(RightID = "171")]
+        [Route("phong-cdvt/oto/bao-hiem/edit")]
+        [HttpPost]
+        public ActionResult Edit(string insurance_id, string stringStartDate, string stringEndDate)
+        {
+            try
+            {
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                {
+                    Equipment_Insurance ei = db.Equipment_Insurance.Find(insurance_id);
+                    DateTime start = DateTime.ParseExact(stringStartDate, "dd/MM/yyyy", null);
+                    DateTime end = DateTime.ParseExact(stringEndDate, "dd/MM/yyyy", null);
+                    if (ei == null)
+                        return Json(new { success = false, message = "Lịch sử không tồn tại" });
+                    if (DateTime.Compare(start, end) >= 0)
+                        return Json(new { success = false, message = "Ngày mua phải nhỏ hơn ngày hết hạn" });
+
+                    ei.insurance_start_date = start;
+                    ei.insurance_end_date = end;
+                    ei.Equipment.insurance_date = start;
+                    ei.Equipment.durationOfInsurance = end;
+                    db.SaveChanges();
+                }
+                return Json(new { success = true, message = "Chỉnh sửa thành công" });
             }
             catch (Exception)
             {

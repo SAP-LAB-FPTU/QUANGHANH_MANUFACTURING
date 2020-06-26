@@ -2,6 +2,7 @@
 using QUANGHANH2.SupportClass;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.IO;
@@ -175,14 +176,14 @@ namespace QUANGHANHCORE.Controllers.KCS
                                 string Fextension = Path.GetExtension(fileName);
                                 var timeStamp = DateTime.Now.ToFileTime();
                                 fileName = ngayNhap.Replace("/", "") + phanxuong + timeStamp + Fextension;
-                                string path = "/FileContainer/KCS/";
-                                if (!Directory.Exists(HostingEnvironment.MapPath(path)))
+                                string uploadDir = ConfigurationManager.AppSettings["phanxuongFileReportsPath"].ToString();
+                                if (!Directory.Exists(HostingEnvironment.MapPath(uploadDir)))
                                 {
-                                    Directory.CreateDirectory(HostingEnvironment.MapPath(path));
+                                    Directory.CreateDirectory(HostingEnvironment.MapPath(uploadDir));
                                 }
                                 if (file.ContentLength > 0)
                                 {
-                                    file.SaveAs(HostingEnvironment.MapPath(path + fileName));
+                                    file.SaveAs(HostingEnvironment.MapPath(uploadDir + fileName));
                                 }
                                 sql = "insert into FileBaoCao(baoCaoID,fileName,fileNameDisplay,nguoinhap_id,uploadTime,chuthich)\n" +
                                     "values(@ID,@filename,@fileNameDisplay,@nguoinhap,@time,@chuthich)";
@@ -230,9 +231,10 @@ namespace QUANGHANHCORE.Controllers.KCS
                     {
                         try
                         {
+                            string uploadDir = ConfigurationManager.AppSettings["phanxuongFileReportsPath"].ToString();
                             string sql = "select * from filebaocao where id=@ID";
                             string fileName = db.Database.SqlQuery<FileBaoCao>(sql, new SqlParameter("id", Int32.Parse(id))).ToList<FileBaoCao>()[0].fileName;
-                            string path = HostingEnvironment.MapPath(@"/FileContainer/PhanXuongLenDK/" + fileName);
+                            string path = HostingEnvironment.MapPath(uploadDir + fileName);
                             if (System.IO.File.Exists(path))
                             {
                                 System.IO.File.Delete(path);

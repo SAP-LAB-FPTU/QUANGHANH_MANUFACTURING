@@ -343,11 +343,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             DateTime dtEnd = DateTime.MaxValue;
             if (!dateStart.Equals(""))
             {
-                dtStart = DateTime.ParseExact(dateStart, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                String[] date = dateStart.Split('/');
+                String date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                dtStart = Convert.ToDateTime(date_fix);
             }
             if (!dateEnd.Equals(""))
             {
-                dtEnd = DateTime.ParseExact(dateEnd, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+                String[] date = dateEnd.Split('/');
+                String date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                dtEnd = Convert.ToDateTime(date_fix);
             }
             //Hầu như tất cả các trường đều chuyển thành allow NULL, nếu để like sẽ không thể hiện ra
             string query = "SELECT e.[equipmentId],[equipment_name],[supplier],[date_import],[durationOfMaintainance],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
@@ -836,6 +840,39 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         {
                             date = Insua.Split('/');
                             date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                            DateTime buyDate;
+
+                            string check = "select * from Equipment_Insurance e where e.equipmentId = @eid order by insurance_id desc";
+                            Equipment_Insurance checkNull = db.Database.SqlQuery<Equipment_Insurance>(check, new SqlParameter("eid", emp.equipmentId)).FirstOrDefault();
+                            if (checkNull == null)
+                            {
+                                if(emp.insurance_date != null)
+                                {
+                                    buyDate = emp.insurance_date.Value;
+                                } else
+                                {
+                                    int yearBuy = Convert.ToInt32(date[2]) - 1;
+                                    String dateTemp = date[1] + "/" + date[0] + "/" + yearBuy;
+                                    buyDate = Convert.ToDateTime(dateTemp);
+                                }
+                                Equipment_Insurance temp = new Equipment_Insurance
+                                {
+                                    equipmentId = emp.equipmentId,
+                                    insurance_start_date = buyDate,
+                                    insurance_end_date = Convert.ToDateTime(date_fix),
+                            };
+                                db.Equipment_Insurance.Add(temp);
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                db.Database.ExecuteSqlCommand("Update Equipment_Insurance set insurance_end_date = @date where insurance_id = @id"
+                                    , new SqlParameter("date", Convert.ToDateTime(date_fix))
+                                    , new SqlParameter("id", checkNull.insurance_id));
+                                //checkNull.insurance_end_date = Convert.ToDateTime(date_fix);
+                                db.SaveChanges();
+                            }
+
                             emp.durationOfInsurance = Convert.ToDateTime(date_fix);
                         }
                         //usedDay

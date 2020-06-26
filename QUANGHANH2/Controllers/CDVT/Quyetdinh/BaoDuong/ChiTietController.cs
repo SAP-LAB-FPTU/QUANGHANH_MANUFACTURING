@@ -43,7 +43,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.BaoDuong
                 details.ForEach(x => x.equipment_name = dict[x.equipmentId]);
                 ViewBag.details = details;
             }
-            return View("/Views/CDVT/Quyetdinh/SuaChua/ChiTiet.cshtml");
+            return View("/Views/CDVT/Quyetdinh/BaoDuong/ChiTiet.cshtml");
         }
 
         [Auther(RightID = "30,84,179,180,181,183,184,185,186,187,189,195,003")]

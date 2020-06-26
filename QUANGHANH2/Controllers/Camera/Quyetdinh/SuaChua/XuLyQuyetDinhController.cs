@@ -50,7 +50,6 @@ namespace QUANGHANH2.Controllers.Camera
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
@@ -126,9 +125,9 @@ namespace QUANGHANH2.Controllers.Camera
             }
             return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
         }
-        [Route("cap-nhat/camera/quyet-dinh/GetSupply2")]
+        [Route("cap-nhat/camera/quyet-dinh/GetSupply")]
         [HttpPost]
-        public ActionResult GetSupply2(string documentary_id, int room_id)
+        public ActionResult GetSupply2(string documentary_id, string room_id)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             List<Supply_Documentary_CameraDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_CameraDB>("SELECT s1.*, s2.supply_name FROM Supply_Documentary_Camera s1 inner join Supply s2 on s1.supply_id = s2.supply_id WHERE room_id = @room_id AND documentary_id = @documentary_id",
@@ -163,15 +162,17 @@ namespace QUANGHANH2.Controllers.Camera
 
                         if (temp == null)
                         {
-                            temp = new Supply_Documentary_Camera();
-                            temp.documentary_id = documentary_id;
-                            temp.room_id = room_id;
-                            temp.quantity_in = (int)item["quantity_in"];
-                            temp.quantity_out = (int)item["quantity_out"];
-                            temp.quantity_plan = (int)item["quantity_plan"];
-                            temp.quantity_used = (int)item["quantity_used"];
-                            temp.supplyStatus = (string)item["supplyStatus"];
-                            temp.supply_id = (string)item["supply_id"];
+                            temp = new Supply_Documentary_Camera
+                            {
+                                documentary_id = documentary_id,
+                                room_id = room_id,
+                                quantity_in = (int)item["quantity_in"],
+                                quantity_out = (int)item["quantity_out"],
+                                quantity_plan = (int)item["quantity_plan"],
+                                quantity_used = (int)item["quantity_used"],
+                                supplyStatus = (string)item["supplyStatus"],
+                                supply_id = (string)item["supply_id"]
+                            };
                             DBContext.Supply_Documentary_Camera.Add(temp);
                         }
                         else
@@ -193,17 +194,6 @@ namespace QUANGHANH2.Controllers.Camera
                     return Json(new { success = false, message = "Có lỗi xảy ra" });
                 }
             }
-        }
-
-        [Route("cap-nhat/camera/quyet-dinh/GetSupply")]
-        [HttpPost]
-        public ActionResult GetSupply(string documentary_id, string equipmentId)
-        {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            List<Supply_Documentary_CameraDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_CameraDB>("SELECT * FROM Supply_Documentary_Camera doc INNER JOIN Supply s on doc.supply_id = s.supply_id WHERE doc.camera_id = @equipmentId AND doc.documentary_id = @documentary_id AND doc.supply_documentary_status = 0",
-                new SqlParameter("equipmentId", equipmentId),
-                new SqlParameter("documentary_id", documentary_id)).ToList();
-            return Json(supplies);
         }
 
         public class Supply_Documentary_CameraDB : Supply_Documentary_Camera
