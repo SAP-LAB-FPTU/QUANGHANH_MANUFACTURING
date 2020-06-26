@@ -80,6 +80,11 @@
 </body>
 </html>
 <script>
+    //prevent keydown add Modal
+    $("#edit_start_time_diploma").keydown(function (e) {
+        e.preventDefault();
+    });
+
     $(document).ready(function () {
         var date_start_edit = $("#date_start_dip_edit").val();
         $("#edit_start_time_diploma").val(formatDate(date_start_edit));
