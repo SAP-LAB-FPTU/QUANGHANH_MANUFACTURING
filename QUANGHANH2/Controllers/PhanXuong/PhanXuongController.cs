@@ -226,6 +226,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         public ActionResult uploadLenDK()
         {
             HttpFileCollectionBase files = Request.Files;
+            string uploadDir = ConfigurationManager.AppSettings["phanxuongFileReportsPath"].ToString();
             string temp = Request["notes"];
             string[] notes = temp.Split(',');
             string ngayNhap = Request["ngayNhap"];
@@ -285,14 +286,13 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 string Fextension = Path.GetExtension(fileName);
                                 var timeStamp = DateTime.Now.ToFileTime();
                                 fileName = ngayNhap.Replace("/", "") + ca + phanxuong + timeStamp + Fextension;
-                                string path = @"D:\QLSX_FileContainer\PhanXuongLenDK\";
-                                if (!Directory.Exists(path))
+                                if (!Directory.Exists(uploadDir))
                                 {
-                                    Directory.CreateDirectory(path);
+                                    Directory.CreateDirectory(uploadDir);
                                 }
                                 if (file.ContentLength > 0)
                                 {
-                                    file.SaveAs(path + fileName);
+                                    file.SaveAs(uploadDir + fileName);
                                 }
                                 sql = "insert into FileBaoCao(baoCaoID,fileName,fileNameDisplay,nguoinhap_id,uploadTime,chuthich)\n" +
                                     "values(@ID,@filename,@fileNameDisplay,@nguoinhap,@time,@chuthich)";
@@ -337,6 +337,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             //var phanxuong = Session["departId"];
             //string ngay = Request["ngay"];
             //string ca = Request["ca"];
+            string uploadDir = ConfigurationManager.AppSettings["phanxuongFileReportsPath"].ToString();
             String id = Request["id"];
             if (id != null)
             {
@@ -348,7 +349,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                         {
                             string sql = "select * from filebaocao where id=@ID";
                             string fileName = db.Database.SqlQuery<FileBaoCao>(sql, new SqlParameter("id", Int32.Parse(id))).ToList<FileBaoCao>()[0].fileName;
-                            string path = @"D:\QLSX_FileContainer\PhanXuongLenDK\" + fileName;
+                            string path = uploadDir + fileName;
                             if (System.IO.File.Exists(path))
                             {
                                 System.IO.File.Delete(path);
@@ -392,7 +393,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         {
             string path = ConfigurationManager.AppSettings["phanxuongFileReportsPath"].ToString();
             MemoryStream memoryStream = new MemoryStream();
-            location = path + location;
+            location = path +"/"+ location;
             string handle = Guid.NewGuid().ToString();
             using (FileStream fileStream = new FileStream(location, FileMode.Open, FileAccess.Read))
             {
