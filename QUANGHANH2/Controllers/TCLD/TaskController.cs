@@ -531,6 +531,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                            where nv.MaTrangThai != 2
                                            select nv).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
                 int totalrows = db.NhanViens.Where(x => x.MaTrangThai != 2).ToList().Count;
+                
                 return getData(listMaNV, totalrows);
             }
         }
@@ -569,7 +570,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 for (int j = 0; j < orders_chungchi.Count(); j++) { newOrder[j] = (int)orders_chungchi.ElementAt(j).MaChungChi; }
                 //sort list chứng chỉ theo như thứ tự ở bảng ngoài view luôn để tránh việc chạy nhiều vòng lặp và tiết kiệm bước xử lý
                 Dictionary<int, int> newOrderIndexedMap = Enumerable.Range(0, newOrder.Length).ToDictionary(r => newOrder[r], r => r);
-                //listChungChiDefault = listChungChiDefault.OrderBy(test => newOrderIndexedMap[test.MaChungChi]).ToList();
+                listChungChiDefault = listChungChiDefault.OrderBy(test => newOrderIndexedMap[test.MaChungChi]).ToList();
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////
                 List<NhanVienChungChiNewModel> list = new List<NhanVienChungChiNewModel>();
@@ -1185,7 +1186,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     for (int j = 0; j < orders_chungchi.Count(); j++) { newOrder[j] = (int)orders_chungchi.ElementAt(j).MaChungChi; }
                     //sort list chứng chỉ theo như thứ tự ở bảng ngoài view luôn để tránh việc chạy nhiều vòng lặp và tiết kiệm bước xử lý
                     Dictionary<int, int> newOrderIndexedMap = Enumerable.Range(0, newOrder.Length).ToDictionary(r => newOrder[r], r => r);
-                    //listChungChiDefault = listChungChiDefault.OrderBy(test => newOrderIndexedMap[test.MaChungChi]).ToList();
+                    listChungChiDefault = listChungChiDefault.OrderBy(test => newOrderIndexedMap[test.MaChungChi]).ToList();
 
                     /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
