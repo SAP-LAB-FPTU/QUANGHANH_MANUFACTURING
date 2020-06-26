@@ -15,6 +15,11 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh
         [Route("camera/sua-chua")]
         public ActionResult AddSuaChua()
         {
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                ViewBag.room_name = db.Rooms.Select(x => x.room_name).ToList();
+                ViewBag.department_name = db.Departments.Select(x => x.department_name).ToList();
+            }
             ViewBag.ListSelected = Request["ListSelected"];
             return View("/Views/Camera/Quyetdinh/SuaChua/ChonThietBi.cshtml");
         }
