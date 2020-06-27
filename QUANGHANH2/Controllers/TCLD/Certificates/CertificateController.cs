@@ -341,10 +341,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     {
                         ChungChi chungChi = db.ChungChis.Where(x => x.MaChungChi == id).FirstOrDefault<ChungChi>();
                         var ccnv = db.ChungChi_NhanVien.Where(x => x.MaChungChi == id).ToList();
+                        var nv = db.NhiemVus.Where(x => x.MaChungChi == id).ToList();
                         if (ccnv.Count != 0)
                         {
+                            return Json(new { error = true, title = "Lỗi", message = "Chứng chỉ đã được chỉ định với nhân viên củ thể. Không thể xóa" });
+                        } else if (nv.Count != 0) {
                             return Json(new { error = true, title = "Lỗi", message = "Chứng chỉ đã được chỉ định với nhiệm vụ củ thể. Không thể xóa" });
-                        } else
+                        } else 
                         {
                             db.ChungChis.Remove(chungChi);
                             db.SaveChanges();
