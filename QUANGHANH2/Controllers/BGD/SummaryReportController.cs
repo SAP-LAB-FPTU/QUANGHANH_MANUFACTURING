@@ -47,12 +47,11 @@ namespace QUANGHANHCORE.Controllers.BGD
                 "AND NgayQuyetDinh = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))";
                 try
                 {
-                    temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
-                    soLuotHuyDong = temp != null ? temp : 0;
+                    soLuotHuyDong = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
                 }
                 catch (Exception e)
                 {
-
+                    e.Message.ToString();
                 }
                 ////////////////////////////GET SO LUONG TAI NAN///////////////////////////////////////////
                 sql = "select (case when Count(tn.MaNV) is null then 0 else Count(tn.MaNV) end )  from \n" +
