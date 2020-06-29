@@ -115,7 +115,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 	                                    from DiemDanh_NangSuatLaoDong dd
 	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
 	                                    where nv_dd.DiLam = 1
-	                                    group by hdd.MaPhongBan, nv_dd.MaNV) as dilam
+	                                    group by hdd.MaPhongBan, nv_dd.MaNV, hd.NgayDiemDanh, hd.Ca) as dilam
 	                                    group by dilam.MaPhongBan) as dilam
                                     left outer join
                                     (select
@@ -270,7 +270,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 	                                    from DiemDanh_NangSuatLaoDong dd
 	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
 	                                    where nv_dd.DiLam = 1
-	                                    group by hdd.MaPhongBan, nv_dd.MaNV) as dilam
+	                                    group by hdd.MaPhongBan, nv_dd.MaNV, hd.NgayDiemDanh, hd.Ca) as dilam
 	                                    group by dilam.MaPhongBan) as dilam
                                     left outer join
                                     (select
@@ -550,7 +550,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id
                                     join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec
                                     join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec
-                                    where a.department_type like N'%chính%' and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%')
+                                    where a.department_type like N'%chính%' 
+										and n.MaTrangThai != 2
+										and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%')
                                     group by a.department_id) as a 
                                     left outer join 
                                     (select 
@@ -582,7 +584,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 	                                    from DiemDanh_NangSuatLaoDong dd
 	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
 	                                    where nv_dd.DiLam = 1
-	                                    group by hdd.MaPhongBan, nv_dd.MaNV) as dilam
+	                                    group by hdd.MaPhongBan, nv_dd.MaNV, hd.NgayDiemDanh, hd.Ca) as dilam
 	                                    group by dilam.MaPhongBan) as dilam
                                     left outer join
                                     (select
@@ -629,9 +631,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                      group by NgayDiemDanh, Ca) as hd 
                                      join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID) as h
                                     on a.department_id = h.MaPhongBan
-                                    group by a.department_id) as b on a.department_id = b.department_id
-
-";
+                                    group by a.department_id) as b on a.department_id = b.department_id";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 List<BaoCaoNgayDB> all = db.Database.SqlQuery<BaoCaoNgayDB>(varname1,
@@ -727,7 +727,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     from Department a left outer join NhanVien n on n.MaPhongBan = a.department_id
                                     join CongViec_NhomCongViec cn on n.MaCongViec = cn.MaCongViec
                                     join NhomCongViec ncv on cn.MaNhomCongViec = ncv.MaNhomCongViec
-                                    where a.department_type like N'%chính%' and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%')
+                                    where a.department_type like N'%chính%' 
+										and n.MaTrangThai != 2
+										and (a.department_id like N'%ĐL%' or a.department_id like N'%VTL%' or a.department_id like N'%KT%')
                                     group by a.department_id) as a 
                                     left outer join 
                                     (select 
@@ -759,7 +761,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 	                                    from DiemDanh_NangSuatLaoDong dd
 	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
 	                                    where nv_dd.DiLam = 1
-	                                    group by hdd.MaPhongBan, nv_dd.MaNV) as dilam
+	                                    group by hdd.MaPhongBan, nv_dd.MaNV, hd.NgayDiemDanh, hd.Ca) as dilam
 	                                    group by dilam.MaPhongBan) as dilam
                                     left outer join
                                     (select
