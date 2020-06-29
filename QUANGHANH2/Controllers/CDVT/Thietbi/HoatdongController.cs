@@ -179,7 +179,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             //
@@ -510,16 +509,20 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 ViewBag.listStatus = listStatus;
                 ViewBag.listDepeartment = listDepeartment;
                 ViewBag.listCategory = listCategory;
-                List<SelectListItem> listQuality = new List<SelectListItem>();
-                listQuality.Add(new SelectListItem { Text = "Không có chất lượng", Value = "" });
-                listQuality.Add(new SelectListItem { Text = "A", Value = "A" });
-                listQuality.Add(new SelectListItem { Text = "B", Value = "B" });
-                listQuality.Add(new SelectListItem { Text = "C", Value = "C" });
+                List<SelectListItem> listQuality = new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Không có chất lượng", Value = "" },
+                    new SelectListItem { Text = "A", Value = "A" },
+                    new SelectListItem { Text = "B", Value = "B" },
+                    new SelectListItem { Text = "C", Value = "C" }
+                };
                 ViewBag.listQuality = listQuality;
 
-                List<SelectListItem> listDN = new List<SelectListItem>();
-                listDN.Add(new SelectListItem { Text = "Đường kế toán", Value = "Đường kế toán" });
-                listDN.Add(new SelectListItem { Text = "Đường vật tư", Value = "Đường vật tư" });
+                List<SelectListItem> listDN = new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Đường kế toán", Value = "Đường kế toán" },
+                    new SelectListItem { Text = "Đường vật tư", Value = "Đường vật tư" }
+                };
                 ViewBag.listDN = listDN;
 
                 string script = "select * from Equipment_category_attribute where Equipment_category_id = (select top 1 Equipment_category_id from Equipment_category)";
@@ -531,11 +534,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         [HttpGet]
         public ActionResult AddCategory()
         {
-            List<SelectListItem> listType = new List<SelectListItem>();
-            listType.Add(new SelectListItem { Text = "Lộ thiên", Value = "Lộ thiên" });
-            listType.Add(new SelectListItem { Text = "Hầm lò", Value = "Hầm lò" });
-            listType.Add(new SelectListItem { Text = "Sàng tuyển", Value = "Sàng tuyển" });
-            listType.Add(new SelectListItem { Text = "Cung cấp điện, truyền dẫn", Value = "Cung cấp điện, truyền dẫn" });
+            List<SelectListItem> listType = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Lộ thiên", Value = "Lộ thiên" },
+                new SelectListItem { Text = "Hầm lò", Value = "Hầm lò" },
+                new SelectListItem { Text = "Sàng tuyển", Value = "Sàng tuyển" },
+                new SelectListItem { Text = "Cung cấp điện, truyền dẫn", Value = "Cung cấp điện, truyền dẫn" }
+            };
             ViewBag.listType = listType;
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             List<Supply> listSup = db.Supplies.ToList<Supply>();
@@ -564,11 +569,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             {
                                 Equipment_category_attribute ea = db.Equipment_category_attribute.Find(id[i]);
                                 if (ea != null) continue;
-                                ea = new Equipment_category_attribute();
-                                ea.Equipment_category_id = ec.Equipment_category_id;
-                                ea.Equipment_category_attribute_id = id[i];
-                                ea.unit = unit[i];
-                                ea.Equipment_category_attribute_name = name[i];
+                                ea = new Equipment_category_attribute
+                                {
+                                    Equipment_category_id = ec.Equipment_category_id,
+                                    Equipment_category_attribute_id = id[i],
+                                    unit = unit[i],
+                                    Equipment_category_attribute_name = name[i]
+                                };
                                 db.Equipment_category_attribute.Add(ea);
                             }
 
@@ -635,12 +642,14 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             {
                                 if (!id[i].Equals(""))
                                 {
-                                    Equipment_attribute ea = new Equipment_attribute();
-                                    ea.equipmentId = emp.equipmentId;
-                                    ea.Equipment_attribute_id = id[i];
-                                    ea.unit = unit[i];
-                                    ea.value = value[i];
-                                    ea.Equipment_attribute_name = name[i];
+                                    Equipment_attribute ea = new Equipment_attribute
+                                    {
+                                        equipmentId = emp.equipmentId,
+                                        Equipment_attribute_id = id[i],
+                                        unit = unit[i],
+                                        value = value[i],
+                                        Equipment_attribute_name = name[i]
+                                    };
                                     db.Equipment_attribute.Add(ea);
                                 }
 
@@ -648,10 +657,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         }
                         if (sk != "" && sm != "")
                         {
-                            Car ca = new Car();
-                            ca.equipmentId = emp.equipmentId;
-                            ca.sokhung = sk;
-                            ca.somay = sm;
+                            Car ca = new Car
+                            {
+                                equipmentId = emp.equipmentId,
+                                sokhung = sk,
+                                somay = sm
+                            };
                             if (gps.Equals("1"))
                             {
                                 ca.GPS = true;
@@ -681,11 +692,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             {
                                 if (!attri[i].Equals(""))
                                 {
-                                    Category_attribute_value cav = new Category_attribute_value();
-                                    cav.Value = attri[i];
-                                    cav.equipmentId = emp.equipmentId;
-                                    cav.Equipment_category_id = emp.Equipment_category_id;
-                                    cav.Equipment_category_attribute_id = list.ElementAt(i).Equipment_category_attribute_id;
+                                    Category_attribute_value cav = new Category_attribute_value
+                                    {
+                                        Value = attri[i],
+                                        equipmentId = emp.equipmentId,
+                                        Equipment_category_id = emp.Equipment_category_id,
+                                        Equipment_category_attribute_id = list.ElementAt(i).Equipment_category_attribute_id
+                                    };
                                     db.Category_attribute_value.Add(cav);
                                 }
                             }
@@ -808,9 +821,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                             Equipment_Inspection checkNull = db.Database.SqlQuery<Equipment_Inspection>(check, new SqlParameter("eid", emp.equipmentId)).FirstOrDefault();
                             if(checkNull == null)
                             {
-                                Equipment_Inspection temp = new Equipment_Inspection();
-                                temp.equipmentId = emp.equipmentId;
-                                temp.inspect_date = Convert.ToDateTime(date_fix);
+                                Equipment_Inspection temp = new Equipment_Inspection
+                                {
+                                    equipmentId = emp.equipmentId,
+                                    inspect_date = Convert.ToDateTime(date_fix)
+                                };
                                 db.Equipment_Inspection.Add(temp);
                                 db.SaveChanges();
                             } else
@@ -973,16 +988,20 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 }
                 //listForSelect.Add(new SelectListItem { Text = "Your text", Value = "TRAI" });
                 ViewBag.listStatus = listStatus;
-                List<SelectListItem> listQuality = new List<SelectListItem>();
-                listQuality.Add(new SelectListItem { Text = "Không có chất lượng", Value = "" });
-                listQuality.Add(new SelectListItem { Text = "A", Value = "A" });
-                listQuality.Add(new SelectListItem { Text = "B", Value = "B" });
-                listQuality.Add(new SelectListItem { Text = "C", Value = "C" });
+                List<SelectListItem> listQuality = new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Không có chất lượng", Value = "" },
+                    new SelectListItem { Text = "A", Value = "A" },
+                    new SelectListItem { Text = "B", Value = "B" },
+                    new SelectListItem { Text = "C", Value = "C" }
+                };
                 ViewBag.listQuality = listQuality;
 
-                List<SelectListItem> listDN = new List<SelectListItem>();
-                listDN.Add(new SelectListItem { Text = "Đường kế toán", Value = "Đường kế toán" });
-                listDN.Add(new SelectListItem { Text = "Đường vật tư", Value = "Đường vật tư" });
+                List<SelectListItem> listDN = new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Đường kế toán", Value = "Đường kế toán" },
+                    new SelectListItem { Text = "Đường vật tư", Value = "Đường vật tư" }
+                };
                 ViewBag.listDN = listDN;
                 string query = "SELECT e.department_id,e.Equipment_category_id,e.[equipmentId],e.insurance_date,e.inspect_date,e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name,a.sokhung, a.somay, a.GPS, a.nhienlieu, a.namsanxuat " +
                 "from Equipment e left outer join Car a on a.equipmentId = e.equipmentId, Department d, Equipment_category ec,Status s " +

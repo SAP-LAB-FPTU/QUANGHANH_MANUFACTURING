@@ -405,7 +405,7 @@
         }
 
         $('#save-add').click(function () {
-            if ($("#location-add").val() == "" || $('#quantity-add').val() < 1 || $('#capacity-add').val() < 1 || $('#resial-add').val() == "" || $('#status-add').val() == "" || room_id == "") {
+            if ($("#location-add").val() == "" || $('#quantity-add').val() < 1 || $('#capacity-add').val() < 1 || $('#resial-add').val() == "" || $('#status-add').val() == "" || $('#id-add') == "") {
                 toastr.error("Xin điền đầy đủ thông tin");
                 return;
             }
@@ -618,12 +618,12 @@
                     if (data.success) {
                         dataTable.ajax.reload();
                         successAlert(data.message);
+                        room_id = "";
                         $("#mydelete .modal-close").click();
                     }
                     else {
                         errorAlert(data.message);
                     }
-                    room_id = "";
                     $('#pre-load').hide();
                 }
             })
