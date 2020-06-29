@@ -596,20 +596,21 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     sum(case when nghi.LyDoVangMat in (N'Tạm hoãn lao động') then 1 else 0 end) as 'nghidai_thhd',
                                     sum(case when nghi.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') then 1 else 0 end) as 'nghidai_om_tnld'
                                     from
-                                    (select
-                                    distinct
-                                    hdd.MaPhongBan,
-                                    nv_dd.MaNV,
-                                    nv_dd.LyDoVangMat
-                                    from
-                                    (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
-                                     where Month(NgayDiemDanh) = @month and Year(NgayDiemDanh) = @year and Status = 1
-                                     group by NgayDiemDanh, Ca) as hd 
-                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
-                                     join DiemDanh_NangSuatLaoDong nv_dd on nv_dd.HeaderID = hd.HeaderID
-									 where hdd.MaPhongBan = 'KT1'
-	                                 group by hdd.MaPhongBan, nv_dd.MaNV, nv_dd.LyDoVangMat, hd.NgayDiemDanh, hd.Ca
-
+                                    (select 
+									nv.MaPhongBan,
+									dd_nsld.MaNV,
+									hd.NgayDiemDanh,
+									hd.Ca,
+									dd_nsld.LyDoVangMat
+									 from
+									(select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca
+									from Header_DiemDanh_NangSuat_LaoDong
+									where Month(NgayDiemDanh) = @month and Year(NgayDiemDanh) = @year and Status = 1
+									group by NgayDiemDanh, Ca) as hd
+									JOIN
+									DiemDanh_NangSuatLaoDong dd_nsld on hd.HeaderID = dd_nsld.ActualHeaderFetched
+									JOIN
+									NhanVien nv on nv.MaNV = dd_nsld.MaNV
                                     ) as nghi
                                     group by nghi.MaPhongBan) as nghi on dilam.MaPhongBan = nghi.MaPhongBan) as b
                                     on a.department_id = b.MaPhongBan) as a 
@@ -628,7 +629,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                      group by NgayDiemDanh, Ca) as hd 
                                      join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID) as h
                                     on a.department_id = h.MaPhongBan
-                                    group by a.department_id) as b on a.department_id = b.department_id";
+                                    group by a.department_id) as b on a.department_id = b.department_id
+
+";
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 List<BaoCaoNgayDB> all = db.Database.SqlQuery<BaoCaoNgayDB>(varname1,
@@ -770,20 +773,21 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     sum(case when nghi.LyDoVangMat in (N'Tạm hoãn lao động') then 1 else 0 end) as 'nghidai_thhd',
                                     sum(case when nghi.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') then 1 else 0 end) as 'nghidai_om_tnld'
                                     from
-                                    (select
-                                    distinct
-                                    hdd.MaPhongBan,
-                                    nv_dd.MaNV,
-                                    nv_dd.LyDoVangMat
-                                    from
-                                    (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
-                                     where Month(NgayDiemDanh) = @month and Year(NgayDiemDanh) = @year and Status = 1
-                                     group by NgayDiemDanh, Ca) as hd 
-                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
-                                     join DiemDanh_NangSuatLaoDong nv_dd on nv_dd.HeaderID = hd.HeaderID
-									 where hdd.MaPhongBan = 'KT1'
-	                                 group by hdd.MaPhongBan, nv_dd.MaNV, nv_dd.LyDoVangMat, hd.NgayDiemDanh, hd.Ca
-
+                                    (select 
+									nv.MaPhongBan,
+									dd_nsld.MaNV,
+									hd.NgayDiemDanh,
+									hd.Ca,
+									dd_nsld.LyDoVangMat
+									 from
+									(select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca
+									from Header_DiemDanh_NangSuat_LaoDong
+									where Month(NgayDiemDanh) = @month and Year(NgayDiemDanh) = @year and Status = 1
+									group by NgayDiemDanh, Ca) as hd
+									JOIN
+									DiemDanh_NangSuatLaoDong dd_nsld on hd.HeaderID = dd_nsld.ActualHeaderFetched
+									JOIN
+									NhanVien nv on nv.MaNV = dd_nsld.MaNV
                                     ) as nghi
                                     group by nghi.MaPhongBan) as nghi on dilam.MaPhongBan = nghi.MaPhongBan) as b
                                     on a.department_id = b.MaPhongBan) as a 
