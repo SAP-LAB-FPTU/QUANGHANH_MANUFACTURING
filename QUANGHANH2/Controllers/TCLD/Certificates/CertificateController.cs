@@ -114,13 +114,23 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
+
                 if (chungChi != null)
                 {
-
-                    db.ChungChis.Add(chungChi);
-                    db.SaveChanges();
+                    List<ChungChi> check_list = db.ChungChis.Where(x => x.KieuChungChi.Equals(chungChi.KieuChungChi) 
+                && x.TenChungChi.Equals(chungChi.TenChungChi) && x.ThoiHan == chungChi.ThoiHan).ToList();
+                    if (check_list.Count == 0)
+                    {
+                        db.ChungChis.Add(chungChi);
+                        db.SaveChanges();
+                        return RedirectToAction("List", "Certificate");
+                    }
+                    else
+                    {
+                        return Json(new { success = 1 }, JsonRequestBehavior.AllowGet);
+                    }
                 }
-                return RedirectToAction("List", "Certificate");
+                return Json(new { success = 0 }, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -139,7 +149,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 List<ChungChi> listdata_chungchi = db.ChungChis.ToList<ChungChi>();
                 List<NhanVien> listdata_nv = db.NhanViens.ToList<NhanVien>();
-                var result = listdata_nv.Where(s => s.MaTrangThai!=2);
+                var result = listdata_nv.Where(s => s.MaTrangThai != 2);
 
                 SelectList listCirtificate = new SelectList(listdata_chungchi, "MaChungChi", "TenChungChi");
                 SelectList listEmployee = new SelectList(result, "MaNV", "MaNV");
@@ -215,7 +225,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var chungchi_nvs = db.NhanViens.Where(x =>( x.MaNV == id)&&(x.MaTrangThai!=2)).FirstOrDefault<NhanVien>();
+                var chungchi_nvs = db.NhanViens.Where(x => (x.MaNV == id) && (x.MaTrangThai != 2)).FirstOrDefault<NhanVien>();
                 if (chungchi_nvs != null)
                 {
                     return Json(new { data = chungchi_nvs.Ten, success = true, message = "success" }, JsonRequestBehavior.AllowGet);
@@ -345,9 +355,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         if (ccnv.Count != 0)
                         {
                             return Json(new { error = true, title = "Lỗi", message = "Chứng chỉ đã được chỉ định với nhân viên củ thể. Không thể xóa" });
-                        } else if (nv.Count != 0) {
+                        }
+                        else if (nv.Count != 0)
+                        {
                             return Json(new { error = true, title = "Lỗi", message = "Chứng chỉ đã được chỉ định với nhiệm vụ củ thể. Không thể xóa" });
-                        } else 
+                        }
+                        else
                         {
                             db.ChungChis.Remove(chungChi);
                             db.SaveChanges();
@@ -362,7 +375,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     }
                 }
                 return RedirectToAction("List");
-                
+
 
             }
         }
@@ -495,7 +508,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult ExporTotExcel()
         {
-            try { 
+            try
+            {
                 string path = HostingEnvironment.MapPath("/excel/TCLD/Certificate/Chứng chỉ của cả công ty.xlsx");
                 string saveAsPath = ("/excel/TCLD/download/Chứng chỉ của cả công ty.xlsx");
                 FileInfo file = new FileInfo(path);
@@ -535,9 +549,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 }
                 return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex )
+            catch (Exception ex)
             {
-                return Json(new { success = false}, JsonRequestBehavior.AllowGet);
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
             }
         }
         [Route("phong-tcld/chung-chi/danh-sach-chung-chi-cua-nhan-vien/xuat-file-excel")]
@@ -556,7 +570,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     List<ChungChi_NhanVien_Model> listdata_certificate_Emp = new List<ChungChi_NhanVien_Model>();
                     using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                     {
-                    
+
                         listdata_certificate_Emp = (from ccnv in db.ChungChi_NhanVien
                                                     join cc in db.ChungChis on ccnv.MaChungChi equals cc.MaChungChi
                                                     join nv in db.NhanViens on ccnv.MaNV equals nv.MaNV
