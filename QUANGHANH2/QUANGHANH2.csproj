@@ -7418,8 +7418,6 @@
     <Content Include="Views\TCLD\Shutdown\NotYet.cshtml" />
     <Content Include="Views\TCLD\Transfer\Temporary.cshtml" />
     <Content Include="Views\TCLD\CommonRecord.cshtml" />
-    <Content Include="Views\suachuaQD\EditSuachua.cshtml" />
-    <Content Include="Views\suachuaQD\Edit.cshtml" />
     <Content Include="Views\Certificate\AddCertificate.cshtml" />
     <Content Include="Views\Certificate\EditCertificate.cshtml" />
     <Content Include="Views\Certificate\AddCertificateEmployee.cshtml" />

@@ -97,12 +97,11 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         join DiemDanh_NangSuatLaoDong b on a.HeaderID = b.HeaderID";
                 try
                 {
-                    temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
-                    nghiVLD = temp != null ? temp : 0;
+                    nghiVLD = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
                 }
                 catch (Exception e)
                 {
-
+                    e.ToString();
                 }
                 /////////////////////////////////////////////////////////////////////////////////////////////
 

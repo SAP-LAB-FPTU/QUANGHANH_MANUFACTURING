@@ -9,6 +9,7 @@ using System.Linq.Dynamic;
 using QUANGHANH2.SupportClass;
 using System.Data.SqlClient;
 using Newtonsoft.Json.Linq;
+using Microsoft.Ajax.Utilities;
 
 namespace QUANGHANH2.Controllers.Camera
 {
@@ -17,18 +18,29 @@ namespace QUANGHANH2.Controllers.Camera
         [Auther(RightID = "193")]
         [Route("phong-cdvt/camera/xu-ly/sua-chua")]
         [HttpGet]
-        public ActionResult Index(string id)
+        public ActionResult Index(int id)
         {
             try
             {
                 QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                Documentary documentary;
+                DBContext.Configuration.LazyLoadingEnabled = false;
+                Documentary documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_camera_repair_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id",
+                    new SqlParameter("documentary_id", id)).FirstOrDefault();
 
-                documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_camera_repair_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id",
-                    new SqlParameter("documentary_id", id)).First();
+                if (documentary == null)
+                    return Redirect("/phong-cdvt/camera/xu-ly");
 
-                List<Supply> supplies = DBContext.Supplies.ToList();
+                List<Supply> supplies = DBContext.Supplies.Select(x => new
+                {
+                    x.supply_id,
+                    x.supply_name
+                }).ToList().Select(x => new Supply
+                {
+                    supply_id = x.supply_id,
+                    supply_name = x.supply_name
+                }).ToList();
                 ViewBag.Supplies = supplies;
+
                 if (documentary.documentary_status == 1) ViewBag.AddAble = true;
                 else ViewBag.AddAble = false;
                 ViewBag.id = documentary.documentary_id;
@@ -71,10 +83,11 @@ namespace QUANGHANH2.Controllers.Camera
             equips = equips.Skip(start).Take(length).ToList<Documentary_cam_repair_detailsDB>();
             return Json(new { success = true, data = equips, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
+
         [Auther(RightID = "193")]
         [Route("cap-nhat/camera/quyet-dinh/sua-chua/edit")]
         [HttpPost]
-        public ActionResult editpost(string edit, int id)
+        public ActionResult Update(string edit, int id)
         {
             if (edit != "")
             {
@@ -104,7 +117,7 @@ namespace QUANGHANH2.Controllers.Camera
                         if (DBContext.Database.SqlQuery<int>(@"select count(details.Documentary_camera_repair_status) 
                             from Documentary docu
                             inner join Documentary_camera_repair_details details on details.documentary_id = docu.documentary_id
-                            where docu.documentary_type = 8 and details.documentary_id = @documentary_id and Documentary_camera_repair_status = '0'", 
+                            where docu.documentary_type = 8 and details.documentary_id = @documentary_id and Documentary_camera_repair_status = '0'",
                             new SqlParameter("documentary_id", id)).FirstOrDefault() == 0)
                         {
                             Documentary docu = DBContext.Documentaries.Find(id);
@@ -125,9 +138,10 @@ namespace QUANGHANH2.Controllers.Camera
             }
             return Json(new { success = true, message = "Lưu thành công" }, JsonRequestBehavior.AllowGet);
         }
+
         [Route("cap-nhat/camera/quyet-dinh/GetSupply")]
         [HttpPost]
-        public ActionResult GetSupply2(string documentary_id, string room_id)
+        public ActionResult GetSupply(string documentary_id, string room_id)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             List<Supply_Documentary_CameraDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_CameraDB>("SELECT s1.*, s2.supply_name FROM Supply_Documentary_Camera s1 inner join Supply s2 on s1.supply_id = s2.supply_id WHERE room_id = @room_id AND documentary_id = @documentary_id",
@@ -140,24 +154,27 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpPost]
         public ActionResult AddSupply(string list, int documentary_id, string room_id)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-            using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
+            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 try
                 {
-                    Documentary_camera_repair_details detail = DBContext.Documentary_camera_repair_details
+                    Documentary_camera_repair_details detail = db.Documentary_camera_repair_details
                         .Where(x => x.room_id == room_id && x.documentary_id == documentary_id && x.Documentary_camera_repair_status == 0).FirstOrDefault();
                     if (detail == null)
                         return Json(new { success = false, message = "Không thể chỉnh sửa quyết định đã xử lý" });
 
                     JObject json = JObject.Parse(list);
                     JArray arr = (JArray)json.SelectToken("list");
+
+                    List<string> supply_ids = arr.Select(x => x["supply_id"].ToString()).ToList();
+                    if (db.Supplies.Where(x => supply_ids.Contains(x.supply_id)).Count() != supply_ids.Count)
+                        return Json(new { success = false, message = "Mã vật tư không tồn tại" });
+
                     foreach (JObject item in arr)
                     {
                         string supply_id = (string)item["supply_id"];
-                        if (DBContext.Supplies.Find(supply_id) == null)
-                            return Json(new { success = false, message = "Mã vật tư không tồn tại" });
-                        Supply_Documentary_Camera temp = DBContext.Supply_Documentary_Camera
+                        Supply_Documentary_Camera temp = db.Supply_Documentary_Camera
                             .Where(a => a.documentary_id == documentary_id && a.room_id.Equals(room_id) && a.supply_id == supply_id).FirstOrDefault();
 
                         if (temp == null)
@@ -173,7 +190,7 @@ namespace QUANGHANH2.Controllers.Camera
                                 supplyStatus = (string)item["supplyStatus"],
                                 supply_id = (string)item["supply_id"]
                             };
-                            DBContext.Supply_Documentary_Camera.Add(temp);
+                            db.Supply_Documentary_Camera.Add(temp);
                         }
                         else
                         {
@@ -182,9 +199,9 @@ namespace QUANGHANH2.Controllers.Camera
                             temp.quantity_used = item["quantity_used"] == null ? 0 : (int)item["quantity_used"];
                             temp.supplyStatus = (string)item["supplyStatus"];
                         }
-                        DBContext.SaveChanges();
+                        db.SaveChanges();
                     }
-                    DBContext.SaveChanges();
+                    db.SaveChanges();
                     transaction.Commit();
                     return Json(new { success = true, message = "Cập nhật thành công" });
                 }
