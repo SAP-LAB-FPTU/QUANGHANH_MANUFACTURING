@@ -19,6 +19,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 {
     public class HoatdongController : Controller
     {
+        private static List<EquipWithName> exportList;
+
         [Auther(RightID = "3")]
         [Route("phong-cdvt/huy-dong/export")]
         public ActionResult export()
@@ -34,13 +36,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
 
-                    var equipList = db.Database.SqlQuery<EquipWithName>("SELECT e.[equipmentId],[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
-                        "FROM [Equipment] e, Status s, Department d, Equipment_category ec " +
-                        "where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid and e.isAttach = 0 " +
-                        "except " +
-                        "select e.[equipmentId],[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel], s.statusname, d.department_name, ec.Equipment_category_name " +
-                        "FROM[Equipment] e, Status s, Department d, Equipment_category ec, Car c " +
-                        "where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid and e.isAttach = 0 and e.equipmentId = c.equipmentId").ToList();
+                    //var equipList = db.Database.SqlQuery<EquipWithName>("SELECT e.[equipmentId],[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
+                    //    "FROM [Equipment] e, Status s, Department d, Equipment_category ec " +
+                    //    "where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid and e.isAttach = 0 " +
+                    //    "except " +
+                    //    "select e.[equipmentId],[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[durationOfInspection],[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel], s.statusname, d.department_name, ec.Equipment_category_name " +
+                    //    "FROM[Equipment] e, Status s, Department d, Equipment_category ec, Car c " +
+                    //    "where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id and e.current_Status = s.statusid and e.isAttach = 0 and e.equipmentId = c.equipmentId").ToList();
+
+                    var equipList = exportList;
 
                     int k = 2;
                     for (int i = 0; i < equipList.Count; i++)
@@ -435,6 +439,17 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 new SqlParameter("sup", '%' + sup + '%'),
                 new SqlParameter("att", '%' + att + '%')
                 ).FirstOrDefault();
+            exportList = DBContext.Database.SqlQuery<EquipWithName>(query,
+                new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                new SqlParameter("department_name", '%' + department),
+                new SqlParameter("quality", '%' + quality + '%'),
+                new SqlParameter("start_time1", dtStart),
+                new SqlParameter("start_time2", dtEnd),
+                new SqlParameter("cate", '%' + category + '%'),
+                new SqlParameter("sup", '%' + sup + '%'),
+                new SqlParameter("att", '%' + att + '%')
+                ).ToList(); ;
             return Json(new { success = true, data = equiplist, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
