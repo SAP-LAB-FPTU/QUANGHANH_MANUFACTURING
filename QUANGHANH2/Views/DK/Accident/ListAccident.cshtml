@@ -89,7 +89,7 @@
                         <div class="center col s12" style="margin-bottom: 20px">
                             <i class="fas fa-calendar-alt icon"></i>
                             <input type='text' class='datepicker-here center' id="date" data-language='vi' />
-                            <a class="btn blue darken-2" onclick="getInformation()">XEM</a>
+                            <a id="getInfor_button" class="btn blue darken-2" onclick="getInformation()">XEM</a>
 
                         </div>
                         <div class="row">
@@ -106,14 +106,13 @@
                                 </table>
                             </div>
                             <div class="col s12 m12 l12 input-field right row">
-
                                 <a class="left"><button id="them" onclick="addRows()" type="submit" class="btn light-blue lighten-1"><i class="large material-icons">add</i></button></a>
                                 <a class="left"><button id="remove" onclick="deleterow('aspectDetailTable')" class="btn light-blue lighten-1"><i class="large material-icons">remove</i></button></a>
                             </div>
 
                         </div>
                         <div class="col s12 m12 l12 input-field center row">
-                            <button class="btn blue darken-2" type="submit" id="EditSaveBtn" @*onclick="EditOrUpdate()*@>CHỈNH SỬA</button>
+                            <button class="btn blue darken-2" type="submit" id="EditSaveBtn">Lưu</button>
                         </div>
                     </div>
 
@@ -282,14 +281,14 @@
     </div>
 </div>
 @*<script src="~/assets/sweetalert/sweetalert2.min.js"></script>s
-<script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>*@
+    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>*@
 
 <!--Stacked Bar Chart JS-->
 <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
 @*<script src="~/js/Custom JS/Disable_input_material.js"></script>*@
 <script src="~/Scripts/notify.min.js"></script>
 @*<script src="~/js/Custom JS/TCLD/Brief/ManageBrief/DeletePopup.min.js"></script>
-<link href="~/assets/Custom css/TCLD/Brief/ManageBrief/DeletePopup.css" rel="stylesheet" />*@
+    <link href="~/assets/Custom css/TCLD/Brief/ManageBrief/DeletePopup.css" rel="stylesheet" />*@
 <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script>
@@ -475,7 +474,7 @@
             function () {
                 getDeleteIdEmp(MaTaiNan);
             }
-        )    
+        )
     }
 
 
@@ -648,13 +647,40 @@
 
 <!--JavaScript cho Hiện trạng lò-->
 <script>
-    $(document).ready(function () {
+    //hide button when not click button XEM
+    function hideButton() {
+        $("#them").hide();
+        $("#remove").hide();
+        $("#EditSaveBtn").hide();
+    }
 
+    //show button when activate button XEM
+    function showButton() {
+        $("#them").show();
+        $("#remove").show();
+        $("#EditSaveBtn").show();
+    }
+
+    $(document).ready(function () {
         $('select').formSelect();
         mode = 0;
         //$('#addRowsbtn').hide();
         listAspectDepartments = [];
+        hideButton();
     });
+
+    //Disable remove button when table is empty
+    function checkButton() {
+        var rowCount = $("#aspectDetailTable tr").length;
+        if (rowCount == 1) {
+            $("#remove").hide();
+            $("#EditSaveBtn").hide();
+        } else {
+            $("#remove").show();
+            $("#EditSaveBtn").show();
+        }
+    }
+
     var dem;
     function addRows() {
         dem++;
@@ -673,6 +699,7 @@
         content = "<tr><td class=\"aspectAdded center\"> " + selectContent + "</td><td><input type=\"text\" id=\"note" + dem + "\"  ><input type=\"hidden\" id=\"MaAnToan" + dem + "\"  ></td></tr>";
 
         tableBody.append(content);
+        checkButton();
     }
 
 
@@ -727,6 +754,8 @@
 
                 //ViewMode();
                 $('#pre-load').hide();
+                showButton();
+                checkButton();
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 errorAlert('Lỗi', 'Có lỗi xảy ra');
@@ -736,7 +765,7 @@
 
             },
             cache: false
-        })
+        });
     }
 
     $("#EditSaveBtn").click(function (e) {
@@ -753,10 +782,8 @@
             var x = document.getElementById("MaPhongBan" + i);
             maintainCar.MaPhongBan = x.options[x.selectedIndex].value;
 
-
             maintainCar.MaCongTacAnToan = document.getElementById("MaAnToan" + i).value;
             antoan.push(maintainCar);
-
         });
         $.ajax({
             type: "POST",
@@ -767,7 +794,8 @@
             success: function () {
                 dataTable.ajax.reload();
                 successAlert('Thành công', 'Chỉnh sửa thành công');
-
+                showButton();
+                checkButton();
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 $('#pre-load').hide();
@@ -780,14 +808,13 @@
             $('#closeForm1').click();
             $('#close1').click();
 
-        })
-        return false;
-
+        });
     });
     function deleterow(tableID) {
         var table = document.getElementById(tableID);
         table.deleteRow(-1);
         dem--;
+        checkButton();
     }
 
 </script>
