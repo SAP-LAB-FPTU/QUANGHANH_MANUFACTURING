@@ -50,7 +50,7 @@ namespace QUANGHANH2.Controllers.Camera
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                string query = @"select d.documentary_id, d.documentary_code, t.documentary_name, r.room_name, r.room_id, detail.broken_camera_quantity, c.isAcceptance, convert(varchar, d.date_created, 103) as string_created, convert(varchar, c.acceptance_date, 103) as acceptance_date, d.person_created, (case when i.ID is null THEN CAST(0 AS BIT) ELSE CAST(1 AS BIT) END) as QDQT
+                string query = @"select distinct d.documentary_id, d.documentary_code, t.documentary_name, r.room_name, r.room_id, detail.broken_camera_quantity, c.isAcceptance, convert(varchar, d.date_created, 103) as string_created, convert(varchar, c.acceptance_date, 103) as acceptance_date, d.person_created, (case when i.ID is null THEN CAST(0 AS BIT) ELSE CAST(1 AS BIT) END) as QDQT
                     from Documentary d
                     inner join Camera_Acceptance c on d.documentary_id = c.documentary_id
                     inner join Room r on c.room_id = r.room_id

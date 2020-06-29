@@ -25,6 +25,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
             string departID = Session["departID"].ToString();
+            string departName = Session["departName"].ToString();
             List<EquipWithDepart> equipments = new List<EquipWithDepart>();
             if (departID == "ĐK" || departID == "CV")
                 equipments = (from x in db.Equipments
@@ -40,7 +41,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 {
                     equipmentId = x.equipmentId,
                     equipment_name = x.equipment_name,
-                    department_name = Session["departName"].ToString()
+                    department_name = departName
                 }).ToList();
             List<string> departments = db.Departments.Select(x => x.department_name).ToList();
             ViewBag.equipments = equipments;
