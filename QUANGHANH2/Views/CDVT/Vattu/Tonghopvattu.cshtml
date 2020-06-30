@@ -229,11 +229,9 @@
                         "MonthPicked": function () { return $('#txtmonth').val() }
                     },
                     "dataSrc": function (json) {
-                        index = 1;
-                        if (isFirstInit) {
-                            exportPayload = json.calculator;
-                            isFirstInit = false;
-                        }
+                       
+                            exportPayload = json.data;
+                          
                         return json.data;
                     }
 
