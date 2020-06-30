@@ -198,7 +198,11 @@
                     }
                 },
                 { "data": "room_name", "name": "room_name", className: "room_name" },
-                { "data": "department_name", "name": "department_name", className: "department_name" },
+                {
+                    "data": {}, "name": "department_name", render: function (data) {
+                        return "<span class='department_name' data-department='" + data.department_id + "'>" + data.department_name + "</span>"
+                    }
+                },
                 { "data": "login_information", "name": "login_information", className: "login_information" },
                 {
                     "data": {}, "name": "camera_quantity", className: "camera_quantity", render: function (data) {
@@ -705,7 +709,7 @@
         $(document).on('click', '.edit-room', function () {
             let $tr = $(this).closest('tr');
             $('#location-edit').val($tr.find(".room_name").text());
-            $('#department-edit').val($tr.find(".department_name").text());
+            $('#department-edit').val($tr.find(".department_name").data("department"));
             $('#login-edit').val($tr.find(".login_information").text());
             $('#quantity-edit').val($tr.find(".camera_quantity").text().split('/')[1]);
             $('#status-edit').val($tr.find(".disk_status").text());
@@ -739,6 +743,7 @@
                 success: function (data) {
                     if (data.success) {
                         $('#exit-edit').click();
+                        room_id = "";
                         dataTable.ajax.reload();
                         successAlert(data.message);
                     }
@@ -746,7 +751,6 @@
                         errorAlert(data.message);
                         $('#pre-load').hide();
                     }
-                    room_id = "";
                 }
             })
         })
