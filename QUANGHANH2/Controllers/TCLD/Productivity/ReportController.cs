@@ -120,7 +120,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     left outer join
                                     (select
                                     nghi.MaPhongBan,
-                                    sum(case when nghi.LyDoVangMat like N'Vô lý do' then 1 else 0 end) as 'vld',
+                                    sum(case when nghi.LyDoVangMat like N'Vô lý do' and nghi.DiLam = 0 then 1 else 0 end) as 'vld',
                                     sum(case when nghi.LyDoVangMat like N'Ốm' then 1 else 0 end) as 'om',
                                     sum(case when nghi.LyDoVangMat like N'Nghỉ phép' then 1 else 0 end) as 'phep',
                                     sum(case when nghi.LyDoVangMat like N'Khác' then 1 else 0 end) as 'khac',
@@ -130,20 +130,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     sum(case when nghi.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') then 1 else 0 end) as 'nghidai_om_tnld'
                                     from
                                     (select
-                                    hdd.MaPhongBan,
-                                    nv_dd.MaNV,
-                                    nv_dd.LyDoVangMat
+                                    nv.MaPhongBan,
+                                    dd_nsld.MaNV,
+                                    dd_nsld.LyDoVangMat,
+									dd_nsld.DiLam
                                     from
                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
                                      where NgayDiemDanh = @NgayDiemDanh and Status = 1
                                      group by NgayDiemDanh, Ca) as hd 
-                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
-                                     join 
-	                                    (select dd.*, nv.MaPhongBan
-	                                    from DiemDanh_NangSuatLaoDong dd
-	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
-	                                    where nv_dd.DiLam = 0
-	                                    group by hdd.MaPhongBan, nv_dd.MaNV, nv_dd.LyDoVangMat) as nghi
+                                    JOIN
+									DiemDanh_NangSuatLaoDong dd_nsld on hd.HeaderID = dd_nsld.HeaderID
+									JOIN
+									NhanVien nv on nv.MaNV = dd_nsld.MaNV and nv.MaTrangThai != 2) as nghi
                                     group by nghi.MaPhongBan) as nghi on dilam.MaPhongBan = nghi.MaPhongBan) as b
                                     on a.department_id = b.MaPhongBan) as a 
                                     inner join
@@ -275,7 +273,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     left outer join
                                     (select
                                     nghi.MaPhongBan,
-                                    sum(case when nghi.LyDoVangMat like N'Vô lý do' then 1 else 0 end) as 'vld',
+                                    sum(case when nghi.LyDoVangMat like N'Vô lý do' and nghi.DiLam = 0 then 1 else 0 end) as 'vld',
                                     sum(case when nghi.LyDoVangMat like N'Ốm' then 1 else 0 end) as 'om',
                                     sum(case when nghi.LyDoVangMat like N'Nghỉ phép' then 1 else 0 end) as 'phep',
                                     sum(case when nghi.LyDoVangMat like N'Khác' then 1 else 0 end) as 'khac',
@@ -285,20 +283,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     sum(case when nghi.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') then 1 else 0 end) as 'nghidai_om_tnld'
                                     from
                                     (select
-                                    hdd.MaPhongBan,
-                                    nv_dd.MaNV,
-                                    nv_dd.LyDoVangMat
+                                    nv.MaPhongBan,
+                                    dd_nsld.MaNV,
+                                    dd_nsld.LyDoVangMat,
+									dd_nsld.DiLam
                                     from
                                     (select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca from Header_DiemDanh_NangSuat_LaoDong 
                                      where NgayDiemDanh = @NgayDiemDanh and Status = 1
                                      group by NgayDiemDanh, Ca) as hd 
-                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
-                                     join 
-	                                    (select dd.*, nv.MaPhongBan
-	                                    from DiemDanh_NangSuatLaoDong dd
-	                                    join NhanVien nv on dd.MaNV = nv.MaNV) as nv_dd on nv_dd.HeaderID = hd.HeaderID and nv_dd.MaPhongBan = hdd.MaPhongBan
-	                                    where nv_dd.DiLam = 0
-	                                    group by hdd.MaPhongBan, nv_dd.MaNV, nv_dd.LyDoVangMat) as nghi
+                                    JOIN
+									DiemDanh_NangSuatLaoDong dd_nsld on hd.HeaderID = dd_nsld.HeaderID
+									JOIN
+									NhanVien nv on nv.MaNV = dd_nsld.MaNV and nv.MaTrangThai != 2) as nghi
                                     group by nghi.MaPhongBan) as nghi on dilam.MaPhongBan = nghi.MaPhongBan) as b
                                     on a.department_id = b.MaPhongBan) as a 
                                     inner join

@@ -45,7 +45,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
                 TonghopVattuSearchModelView search = new TonghopVattuSearchModelView
                 {
                     DepartmentId = DepartmentId.Trim(),
-
                     SupplyName = SupplyName.Trim(),
                     MonthPicked = MonthPicked.Trim()
                 };
@@ -94,8 +93,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
 
             TonghopVattuSearchModelView search = new TonghopVattuSearchModelView
             {
-
-                
                 SupplyName = SupplyName.Trim(),
                 MonthPicked = MonthPicked.Trim()
             };
@@ -107,7 +104,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             
             search.SupplyName = string.IsNullOrWhiteSpace(search.SupplyName) ? string.Empty : search.SupplyName;
             IList<TonghopvattuSummaryModelView> summary = _repository.GetSummary(search,  sortColumnName, sortDirection, start, length);
-           
 
             int recordsTotal =_repository.CountSummary(search);
             int recordsFiltered = recordsTotal;

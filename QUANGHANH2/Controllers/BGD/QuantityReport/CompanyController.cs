@@ -33,7 +33,6 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
             return View("/Views/BGD/QuantityReport/CompanyReport.cshtml");
         }
 
-
         public reportEntity addUp(reportEntity item1, reportEntity item2)
         {
             item1.Ca1 += item2.Ca1;
