@@ -20,7 +20,7 @@ namespace QUANGHANH2.Controllers.Camera
             public string room_id { get; set; }
             public string room_name { get; set; }
             public string documentary_name { get; set; }
-            public int broken_camera_quantity { get; set; }
+            public int acceptance_camera_quantity { get; set; }
             public bool isAcceptance { get; set; }
             public string string_created { get; set; }
             public string acceptance_date { get; set; }
@@ -50,12 +50,11 @@ namespace QUANGHANH2.Controllers.Camera
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                string query = @"select distinct d.documentary_id, d.documentary_code, t.documentary_name, r.room_name, r.room_id, detail.broken_camera_quantity, c.isAcceptance, convert(varchar, d.date_created, 103) as string_created, convert(varchar, c.acceptance_date, 103) as acceptance_date, d.person_created, (case when i.ID is null THEN CAST(0 AS BIT) ELSE CAST(1 AS BIT) END) as QDQT
+                string query = @"select distinct d.documentary_id, d.documentary_code, t.documentary_name, r.room_name, r.room_id, c.acceptance_camera_quantity, c.isAcceptance, convert(varchar, d.date_created, 103) as string_created, convert(varchar, c.acceptance_date, 103) as acceptance_date, d.person_created, (case when i.ID is null THEN CAST(0 AS BIT) ELSE CAST(1 AS BIT) END) as QDQT
                     from Documentary d
                     inner join Camera_Acceptance c on d.documentary_id = c.documentary_id
                     inner join Room r on c.room_id = r.room_id
                     inner join DocumentaryType t on d.documentary_type = t.documentary_type
-                    inner join Documentary_camera_repair_details detail on detail.room_id = r.room_id
 					left join Important_Documentary i on d.documentary_id = i.documentary_id
                     where d.documentary_code like @documentary_code and r.room_name like @room_name and c.acceptance_date between @min_date and @max_date";
                 List<Documentary_Extend_Cam> docList = db.Database.SqlQuery<Documentary_Extend_Cam>(query + " order by " + sortColumnName + " " + sortDirection + " offset " + start + " rows fetch next " + length + " rows only",
@@ -63,7 +62,7 @@ namespace QUANGHANH2.Controllers.Camera
                     new SqlParameter("room_name", "%" + room_name + "%"),
                     new SqlParameter("min_date", min_date),
                     new SqlParameter("max_date", max_date)).ToList();
-                int totalrows = db.Database.SqlQuery<int>(query.Replace("d.documentary_id, d.documentary_code, t.documentary_name, r.room_name, r.room_id, detail.broken_camera_quantity, c.isAcceptance, convert(varchar, d.date_created, 103) as string_created, convert(varchar, c.acceptance_date, 103) as acceptance_date, d.person_created, (case when i.ID is null THEN CAST(0 AS BIT) ELSE CAST(1 AS BIT) END) as QDQT", "count(d.documentary_id)"),
+                int totalrows = db.Database.SqlQuery<int>(query.Replace("distinct d.documentary_id, d.documentary_code, t.documentary_name, r.room_name, r.room_id, c.acceptance_camera_quantity, c.isAcceptance, convert(varchar, d.date_created, 103) as string_created, convert(varchar, c.acceptance_date, 103) as acceptance_date, d.person_created, (case when i.ID is null THEN CAST(0 AS BIT) ELSE CAST(1 AS BIT) END) as QDQT", "count(d.documentary_id)"),
                     new SqlParameter("documentary_code", "%" + documentary_code + "%"),
                     new SqlParameter("room_name", "%" + room_name + "%"),
                     new SqlParameter("min_date", min_date),
