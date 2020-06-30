@@ -22,8 +22,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.MaTruong, "Mã Trường", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.MaTruong, new { htmlAttributes = new { @class = "form-control", @id = "validate_truong" } })
-                @Html.ValidationMessageFor(model => model.MaTruong, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.MaTruong, new { htmlAttributes = new { @class = "form-control", @id = "validate_ma_truong" } })
                 <p hidden style="color:red" id="messageT">Mã trường đã tồn tại. Hãy nhập lại</p>
                 <p hidden style="color:red" id="messageTNull">Không được để trống ô này</p>
             </div>
@@ -32,8 +31,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TenTruong, "Tên Trường", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TenTruong, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TenTruong, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.TenTruong, new { htmlAttributes = new { @class = "form-control", @id = "validate_ten_truong" } })
+                <p hidden style="color:red" id="messageN">Tên trường đã tồn tại. Hãy nhập lại</p>
+                <p hidden style="color:red" id="messageNNull">Không được để trống ô này</p>
             </div>
         </div>
         <br />
@@ -48,31 +48,61 @@
 </body>
 </html>
 <script>
-    $('#validate_truong').blur(function () {
+    $('#validate_ma_truong').blur(function () {
         if ($(this).val() == null || $(this).val() == "") {
             $('#messageTNull').show();
             $('#messageT').hide();
+            $('#btn_saveT_doc').attr("disabled", true);
             return false;
         }
-            $.ajax({
-                url:'@Url.Action("validateIDTruong", "BriefRegulation")',
-                type: "POST",
-                data: { id: $(this).val() },
-                success: (response) => {
-                    if (response.success) {
-                        $('#messageT').hide();
-                        $('#messageTNull').hide();
-                        $('#btn_saveT_doc').attr("disabled", false);
-                    } else {
-                        $('#btn_saveT_doc').attr("disabled", true);
-                        $('#messageT').show();
-                        $('#messageTNull').hide();
-                    }
-                
-                },
-                error: (response) => {
-                    alert("error")
-                },
-                })
-         })
+        validateAjax();
+    });
+
+    $('#validate_ten_truong').blur(function () {
+        if ($(this).val() == null || $(this).val() == "") {
+            $('#messageNNull').show();
+            $('#messageN').hide();
+            $('#btn_saveT_doc').attr("disabled", true);
+            return false;
+        }
+        validateAjax();
+    });
+
+    function validateAjax() {
+        $.ajax({
+            url: '@Url.Action("validateIDTruong", "BriefRegulation")',
+            type: "POST",
+            data: {
+                id: $("#validate_ma_truong").val(),
+                name: $("#validate_ten_truong").val()
+            },
+            success: (response) => {
+                if (response.dup_id) {
+                    $('#btn_saveT_doc').attr("disabled", true);
+                    $('#messageT').show();
+                    $('#messageTNull').hide();
+                }
+                else {
+                    $('#messageT').hide();
+                    $('#messageTNull').hide();
+                }
+                if (response.dup_name) {
+                    $('#btn_saveT_doc').attr("disabled", true);
+                    $('#messageN').show();
+                    $('#messageNNull').hide();
+                }
+                else {
+                    $('#messageN').hide();
+                    $('#messageNNull').hide();
+                }
+                if (!response.dup_id && !response.dup_name && $("#validate_ma_truong").val() != "" && $("#validate_ten_truong").val() != "") {
+                    $('#btn_saveT_doc').attr("disabled", false);
+                }
+
+            },
+            error: (response) => {
+                alert("error")
+            },
+        });
+    }
 </script>

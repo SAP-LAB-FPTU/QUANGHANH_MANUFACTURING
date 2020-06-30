@@ -13,6 +13,7 @@ using System.Linq.Dynamic;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -278,16 +279,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 var data = temp1.ToList().Select(p => new ChuyenNganh { CapBac = p.capbac }).ToList();
                 SelectList sl = new SelectList(data, "CapBac", "CapBac");
                 ViewBag.List_CapBac = sl;
-                if(temp != null)
+                if (temp != null)
                 {
-                    
+
                     String tenNganh = getTenNganh1(temp.MaNganh);
                     ViewBag.TenNganh = tenNganh;
                 }
-                
+
                 ViewBag.List_nganh = listNganh;
-                
-               
+
+
                 return View(temp);
             }
         }
@@ -412,7 +413,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 if (truong != null)
                 {
-                    db.Truongs.Add(truong);
+                    if (db.Truongs.Where(x => x.TenTruong.Equals(truong.TenTruong) || x.MaTruong.Equals(truong.MaTruong)).Count() == 0)
+                        db.Truongs.Add(truong);
                     db.SaveChanges();
                 }
             }
@@ -467,7 +469,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 if (nganh != null)
                 {
-                   string tenNganh = nganh.TenNganh;
+                    string tenNganh = nganh.TenNganh;
                     return tenNganh;
                 }
                 else
@@ -509,19 +511,23 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
         }
         [HttpPost]
-        public ActionResult validateIDTruong(string id)
+        public ActionResult validateIDTruong(string id, string name)
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var mt = db.Truongs.Where(x => x.MaTruong.ToString().Equals(id)).FirstOrDefault<Truong>();
-                if (mt == null)
+                db.Configuration.LazyLoadingEnabled = false;
+                var mt = db.Truongs.Where(x => x.MaTruong.ToString().Equals(id) || x.TenTruong.Equals(name)).ToList();
+                bool dup_id = false;
+                bool dup_name = false;
+                if (mt.Where(x => x.MaTruong.ToString().Equals(id)).Any())
                 {
-                    return Json(new { success = true, message = "id has been exist" }, JsonRequestBehavior.AllowGet);
+                    dup_id = true;
                 }
-                else
+                if (mt.Where(x => x.TenTruong.ToString().Equals(name)).Any())
                 {
-                    return Json(new { success = false, message = "right id" }, JsonRequestBehavior.AllowGet);
+                    dup_name = true;
                 }
+                return Json(new { dup_id, dup_name });
             }
         }
 

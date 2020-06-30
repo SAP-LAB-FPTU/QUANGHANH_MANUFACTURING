@@ -102,36 +102,42 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                         string equipmentId = (string)item.Value["id"];
                         string buyer = (string)item.Value["buyer"];
                         string equipment_liquidation_reason = (string)item.Value["equipment_liquidation_reason"];
-                        Documentary_liquidation_details drd = new Documentary_liquidation_details();
                         Equipment e = DBContext.Equipments.Find(equipmentId);
-                        drd.department_id_from = e.department_id;
-                        drd.equipment_liquidation_status = 0;
-                        drd.buyer = buyer;
-                        drd.equipment_liquidation_reason = equipment_liquidation_reason;
-                        drd.documentary_id = documentary.documentary_id;
-                        drd.equipmentId = equipmentId;
+                        Documentary_liquidation_details drd = new Documentary_liquidation_details
+                        {
+                            department_id_from = e.department_id,
+                            equipment_liquidation_status = 0,
+                            buyer = buyer,
+                            equipment_liquidation_reason = equipment_liquidation_reason,
+                            documentary_id = documentary.documentary_id,
+                            equipmentId = equipmentId
+                        };
                         DBContext.Documentary_liquidation_details.Add(drd);
                         DBContext.SaveChanges();
                         List<Supply_DiKem> diKem = DBContext.Supply_DiKem.Where(x => x.equipmentId.Equals(equipmentId)).ToList();
                         foreach (Supply_DiKem supply in diKem)
                         {
-                            Supply_Documentary_Equipment s = new Supply_Documentary_Equipment();
-                            s.documentary_id = documentary.documentary_id;
-                            s.equipmentId = equipmentId;
-                            s.equipmentId_dikem = supply.equipmentId_dikem;
-                            s.supplyStatus = supply.note;
-                            s.quantity_plan = supply.quantity;
+                            Supply_Documentary_Equipment s = new Supply_Documentary_Equipment
+                            {
+                                documentary_id = documentary.documentary_id,
+                                equipmentId = equipmentId,
+                                equipmentId_dikem = supply.equipmentId_dikem,
+                                supplyStatus = supply.note,
+                                quantity_plan = supply.quantity
+                            };
                             DBContext.Supply_Documentary_Equipment.Add(s);
                             DBContext.SaveChanges();
                         }
                         List<Supply_SCTX> duPhong = DBContext.Supply_SCTX.Where(x => x.equipmentId.Equals(equipmentId)).ToList();
                         foreach (Supply_SCTX supply in duPhong)
                         {
-                            Supply_Documentary_Equipment s = new Supply_Documentary_Equipment();
-                            s.documentary_id = documentary.documentary_id;
-                            s.equipmentId = equipmentId;
-                            s.quantity_plan = supply.quantity;
-                            s.supply_id = supply.supply_id;
+                            Supply_Documentary_Equipment s = new Supply_Documentary_Equipment
+                            {
+                                documentary_id = documentary.documentary_id,
+                                equipmentId = equipmentId,
+                                quantity_plan = supply.quantity,
+                                supply_id = supply.supply_id
+                            };
                             DBContext.Supply_Documentary_Equipment.Add(s);
                             DBContext.SaveChanges();
                         }
