@@ -29,7 +29,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             string departid = Session["departID"].ToString();
