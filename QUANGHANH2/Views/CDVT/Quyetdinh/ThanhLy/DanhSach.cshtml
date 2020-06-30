@@ -269,9 +269,14 @@
             $("#pre-load").show();
             $.ajax({
                 url: '/phong-cdvt/quyet-dinh/thanh-ly/export',
-                type: 'POST',
+                data: {
+                    person_created: function () { return $('#person_created-search').val() },
+                    dateStart: function () { return $('#date-start-search').val() },
+                    dateEnd: function () { return $('#date-end-search').val() }
+                },
                 success: function () {
-                    window.location.href = "/phong-cdvt/quyet-dinh/thanh-ly/export";
+                    window.location.href = "/phong-cdvt/quyet-dinh/thanh-ly/export?person_created=" + $('#person_created-search').val() +
+                        "&dateStart=" + $('#date-start-search').val() + "&dateEnd=" + $('#date-end-search').val();
                     $("#pre-load").hide();
                 },
                 error: function () {
