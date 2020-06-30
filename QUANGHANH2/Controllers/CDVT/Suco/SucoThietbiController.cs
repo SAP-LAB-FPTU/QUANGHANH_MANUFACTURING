@@ -246,52 +246,73 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
 
         [Auther(RightID = "170,79,19,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/su-co/export")]
-        public void Export()
+        public ActionResult Export(string equipmentId, string equipmentName, string department, string detail, string reason, string dateStart, string dateEnd)
         {
-            string path = HostingEnvironment.MapPath("/excel/CDVT/download/su-co.xlsx");
-            FileInfo file = new FileInfo(path);
-            using (ExcelPackage excelPackage = new ExcelPackage(file))
-            {
-                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
-                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+            DateTime dtStart = (dateStart == null || dateStart.Equals("")) ? DateTime.ParseExact("01/01/1900", "dd/MM/yyyy", null) : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
+            DateTime dtEnd = (dateEnd == null || dateEnd.Equals("")) ? DateTime.Now : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
 
-                using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+            string fileName = HostingEnvironment.MapPath("/excel/CDVT/download/su-co.xlsx");
+            byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
+            FileInfo file = new FileInfo(fileName);
+            using (var stream = new MemoryStream())
+            {
+                stream.Write(byteArray, 0, byteArray.Length);
+                using (ExcelPackage excelPackage = new ExcelPackage(stream))
                 {
-                    var incidents = (from i in DBContext.Incidents
-                                     join e in DBContext.Equipments on i.equipmentId equals e.equipmentId
-                                     join d in DBContext.Departments on i.department_id equals d.department_id
-                                     select new IncidentDB
-                                     {
-                                         Equipment_category_id = e.Equipment_category_id,
-                                         equipment_name = e.equipment_name,
-                                         mark_code = e.mark_code,
-                                         equipmentId = e.equipmentId,
-                                         fabrication_number = e.fabrication_number,
-                                         detail_location = i.detail_location,
-                                         department_name = d.department_name,
-                                         start_time = i.start_time,
-                                         end_time = i.end_time,
-                                         reason = i.reason
-                                     }).ToList();
-                    int k = 0;
-                    for (int i = 5; i < incidents.Count + 5; i++)
+                    ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                    ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+
+                    using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
                     {
-                        excelWorksheet.Cells[i, 1].Value = (k + 1);
-                        excelWorksheet.Cells[i, 2].Value = incidents.ElementAt(k).Equipment_category_id;
-                        excelWorksheet.Cells[i, 3].Value = incidents.ElementAt(k).equipment_name;
-                        excelWorksheet.Cells[i, 4].Value = incidents.ElementAt(k).mark_code;
-                        excelWorksheet.Cells[i, 5].Value = incidents.ElementAt(k).equipmentId;
-                        excelWorksheet.Cells[i, 6].Value = incidents.ElementAt(k).fabrication_number;
-                        excelWorksheet.Cells[i, 7].Value = incidents.ElementAt(k).detail_location;
-                        excelWorksheet.Cells[i, 8].Value = incidents.ElementAt(k).department_name;
-                        excelWorksheet.Cells[i, 9].Value = incidents.ElementAt(k).start_time.ToString("HH:mm dd/MM/yyyy");
-                        excelWorksheet.Cells[i, 10].Value = incidents.ElementAt(k).getEndtime();
-                        excelWorksheet.Cells[i, 11].Value = incidents.ElementAt(k).getDiffTime();
-                        excelWorksheet.Cells[i, 12].Value = incidents.ElementAt(k).reason;
-                        k++;
+                        var incidents = (from i in DBContext.Incidents
+                                         join e in DBContext.Equipments on i.equipmentId equals e.equipmentId
+                                         join d in DBContext.Departments on i.department_id equals d.department_id
+                                         where e.equipmentId.Contains(equipmentId) && e.equipment_name.Contains(equipmentName) && d.department_name.Contains(department) && i.detail_location.Contains(detail) && i.reason.Contains(reason) && i.start_time >= dtStart && i.start_time <= dtEnd
+                                         select new IncidentDB
+                                         {
+                                             Equipment_category_id = e.Equipment_category_id,
+                                             equipment_name = e.equipment_name,
+                                             mark_code = e.mark_code,
+                                             equipmentId = e.equipmentId,
+                                             fabrication_number = e.fabrication_number,
+                                             detail_location = i.detail_location,
+                                             department_name = d.department_name,
+                                             start_time = i.start_time,
+                                             end_time = i.end_time,
+                                             reason = i.reason
+                                         }).ToList();
+                        int k = 0;
+                        for (int i = 5; i < incidents.Count + 5; i++)
+                        {
+                            excelWorksheet.Cells[i, 1].Value = (k + 1);
+                            excelWorksheet.Cells[i, 2].Value = incidents.ElementAt(k).Equipment_category_id;
+                            excelWorksheet.Cells[i, 3].Value = incidents.ElementAt(k).equipment_name;
+                            excelWorksheet.Cells[i, 4].Value = incidents.ElementAt(k).mark_code;
+                            excelWorksheet.Cells[i, 5].Value = incidents.ElementAt(k).equipmentId;
+                            excelWorksheet.Cells[i, 6].Value = incidents.ElementAt(k).fabrication_number;
+                            excelWorksheet.Cells[i, 7].Value = incidents.ElementAt(k).detail_location;
+                            excelWorksheet.Cells[i, 8].Value = incidents.ElementAt(k).department_name;
+                            excelWorksheet.Cells[i, 9].Value = incidents.ElementAt(k).start_time.ToString("HH:mm dd/MM/yyyy");
+                            excelWorksheet.Cells[i, 10].Value = incidents.ElementAt(k).getEndtime();
+                            excelWorksheet.Cells[i, 11].Value = incidents.ElementAt(k).getDiffTime();
+                            excelWorksheet.Cells[i, 12].Value = incidents.ElementAt(k).reason;
+                            k++;
+                        }
+
+                        stream.Position = 0;
+                        string handle = Guid.NewGuid().ToString();
+                        TempData[handle] = excelPackage.GetAsByteArray();
+
+                        if (TempData[handle] != null)
+                        {
+                            byte[] output = TempData[handle] as byte[];
+                            return File(output, "application/vnd.ms-excel", $"Sự cố thiết bị.xlsx");
+                        }
+                        else
+                        {
+                            return new HttpStatusCodeResult(400);
+                        }
                     }
-                    string location = HostingEnvironment.MapPath("/excel/CDVT/download");
-                    excelPackage.SaveAs(new FileInfo(location + "/su-co_temp.xlsx"));
                 }
             }
         }

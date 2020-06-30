@@ -92,25 +92,25 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.BaoDuong
             {
                 stream.Write(byteArray, 0, byteArray.Length);
                 using (ExcelPackage excelPackage = new ExcelPackage(stream))
-            {
-                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
-                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    List<Documentary_Export> documentaryList = (from document in db.Documentaries
-                                                                where (document.documentary_type.Equals(2) && (document.documentary_code == "" || document.documentary_code == null))
-                                                                join detail in db.Documentary_maintain_details on document.documentary_id equals detail.documentary_id
-                                                                into temporary
-                                                                select new Documentary_Export
-                                                                {
-                                                                    date_created = document.date_created,
-                                                                    documentary_code = document.documentary_code,
-                                                                    person_created = document.person_created,
-                                                                    reason = document.reason,
-                                                                    out_in_come = document.out_in_come,
-                                                                    count = temporary.Select(x => new { x.equipmentId }).Count()
-                                                                }).ToList();
+                    ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                    ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+
+                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    {
+                        List<Documentary_Export> documentaryList = (from document in db.Documentaries
+                                                                    where (document.documentary_type.Equals(2) && (document.documentary_code == "" || document.documentary_code == null))
+                                                                    join detail in db.Documentary_maintain_details on document.documentary_id equals detail.documentary_id
+                                                                    into temporary
+                                                                    select new Documentary_Export
+                                                                    {
+                                                                        date_created = document.date_created,
+                                                                        documentary_code = document.documentary_code,
+                                                                        person_created = document.person_created,
+                                                                        reason = document.reason,
+                                                                        out_in_come = document.out_in_come,
+                                                                        count = temporary.Select(x => new { x.equipmentId }).Count()
+                                                                    }).ToList();
                         int k = 0;
                         for (int i = 2; i < documentaryList.Count + 2; i++)
                         {
