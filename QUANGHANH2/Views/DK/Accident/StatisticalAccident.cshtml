@@ -345,12 +345,33 @@
 
             $("#export_excel").click(function () {
                 $("#pre-load").show();
+                var tmp = {
+                    DepartmentId:  $('#departmentId').val() ,
+
+                    loai: $('#loaitainan').val() ,
+
+                    type:  document.getElementById('searchtype').value ,
+                    month1: document.getElementById("txtmonth1").value,
+                       
+                    month2:document.getElementById("txtmonth2").value,
+                       
+                    year1:$('#txtyear1').val() ,
+
+                    year2: $('#txtyear2').val() ,
+
+                    quarter1: $('#txtquarter1').val() ,
+
+                    quarter2:  $('#txtquarter2').val() ,
+                    quateryear1:  $('#quateryear1').val() ,
+
+                    quateryear2:   $('#quateryear2').val() ,
+                };
                 $.ajax({
                     dataType: "json",
                     contentType: "application/json, charset=utf-8",
                     type: 'POST',
                     url: '/phong-dieu-khien/thong-ke-tai-nan/exportdetail',
-                    data: JSON.stringify(exportSearch),
+                    data: JSON.stringify(tmp),
                     success: function (res) {
 
                             var response = JSON.parse(JSON.stringify(res.data));

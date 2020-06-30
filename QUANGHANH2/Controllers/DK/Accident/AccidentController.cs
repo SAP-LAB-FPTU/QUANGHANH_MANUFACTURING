@@ -342,10 +342,48 @@ namespace QUANGHANH2.Controllers.DK
         //[Auther(RightID = "35")]
         [HttpPost]
         [Route("phong-dieu-khien/bao-cao-tai-nan/export")]
-        public ActionResult ExportDetail(List<TaiNanDB> accidentSummaries)
+        public ActionResult ExportDetail(string employeeID, string EmployeeName, string timeFrom, string timeTo)
         {
             try
             {
+                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                if (timeFrom.Trim() == "")
+                {
+                    timeFrom = "01/01/1900";
+                }
+                DateTime timeF = DateTime.ParseExact(timeFrom, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                //validate timeTo when input blank
+                DateTime timeT;
+                if (timeTo.Trim() == "")
+                {
+                    timeT = DateTime.Now;
+                }
+                else
+                {
+                    timeT = DateTime.ParseExact(timeTo, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                }
+                List<TaiNanDB> listTainan = (from tainan in db.TaiNans
+                                             join nhanvien in db.NhanViens on tainan.MaNV equals nhanvien.MaNV
+                                             join depart in db.Departments on nhanvien.MaPhongBan equals depart.department_id into output
+                                             from a in output.DefaultIfEmpty()
+                                             select new TaiNanDB
+                                             {
+                                                 MaTaiNan = tainan.MaTaiNan,
+                                                 MaNV = tainan.MaNV,
+                                                 Ten = nhanvien.Ten,
+                                                 department_name = a.department_name == null ? "" : a.department_name,
+                                                 LyDo = tainan.LyDo,
+                                                 Loai = tainan.Loai,
+                                                 Ca_Name = tainan.Ca == 1 ? "CA 1" : tainan.Ca == 2 ? "CA 2" : "CA 3",
+                                                 Ngay = tainan.Ngay
+
+                                             }
+                                  ).Where(x => x.MaNV.Contains(employeeID) && x.Ten.Contains(EmployeeName) && x.Ngay >= timeF && x.Ngay <= timeT).ToList();
+                foreach (TaiNanDB item in listTainan)
+                {
+                    item.stringDate = item.Ngay.Value.ToString("dd/MM/yyyy");
+                }
                 string path = HostingEnvironment.MapPath("/excel/DK/");
                 string templateFilename = "DanhSachTaiNan.xlsx";
                 string downloadFilename = "DanhSachTaiNan-download.xlsx";
@@ -355,7 +393,7 @@ namespace QUANGHANH2.Controllers.DK
                     int index = 2;
                     ExcelWorkbook excelWorkbook = workbook.Workbook;
                     ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                    foreach (var acci in accidentSummaries)
+                    foreach (var acci in listTainan)
                     {
 
                         excelWorksheet.Cells[index, 1].Value = acci.MaNV;

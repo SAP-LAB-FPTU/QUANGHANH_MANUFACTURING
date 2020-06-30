@@ -408,12 +408,18 @@
 
     $("#export_excel").click(function () {
         $("#pre-load").show();
+        var tmp = {
+            employeeID:  $('#equipmentId-search').val() ,
+            EmployeeName:$('#equipmentName-search').val() ,
+            timeFrom:  $('#timeFrom-search').val() ,
+            timeTo:  $('#timeTo-search').val() 
+        };
         $.ajax({
             dataType: "json",
             contentType: "application/json, charset=utf-8",
             type: 'POST',
             url: '/phong-dieu-khien/bao-cao-tai-nan/export',
-            data: JSON.stringify(exportSearch),
+            data: JSON.stringify(tmp),
             success: function (res) {
 
                 var response = JSON.parse(JSON.stringify(res.data));
