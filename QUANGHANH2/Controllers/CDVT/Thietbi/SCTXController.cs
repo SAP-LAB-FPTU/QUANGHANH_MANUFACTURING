@@ -64,7 +64,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                         sub_insert = string.Empty;
                         //update Equipment_SCTX_Detail.
                         sub_insert = $"insert into Equipment_SCTX_Detail(maintain_id, supplyid, used, thuhoi) " +
-                              $"VALUES((select top 1 maintain_id from Equipment_SCTX order by maintain_id desc), '{item.supplyid}', {item.used}, {item.thuhoi})"; 
+                              $"VALUES((select top 1 maintain_id from Equipment_SCTX order by maintain_id desc), N'{item.supplyid}', {item.used}, {item.thuhoi})"; 
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
 
 
@@ -382,7 +382,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                         if (item.maintain_detail_id == 0)
                         {
                             sub_insert = $"insert into Equipment_SCTX_Detail(maintain_id, supplyid, used, thuhoi) " +
-                              $"VALUES((select top 1 maintain_id from Equipment_SCTX order by maintain_id desc), '{item.supplyid}', {item.used}, {item.thuhoi})";
+                              $"VALUES((select top 1 maintain_id from Equipment_SCTX order by maintain_id desc), N'{item.supplyid}', {item.used}, {item.thuhoi})";
                             bulk_insert = string.Concat(bulk_insert, sub_insert);
 
 
@@ -431,7 +431,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                             " end " +
                             "else " +
                             "begin " +
-                            $" insert into Equipment_SCTX_Detail(maintain_id, supplyid, used, thuhoi) VALUES({item.maintain_id}, '{item.supplyid}', {item.used}, {item.thuhoi}) " +
+                            $" insert into Equipment_SCTX_Detail(maintain_id, supplyid, used, thuhoi) VALUES({item.maintain_id}, N'{item.supplyid}', {item.used}, {item.thuhoi}) " +
                             "end; ";
                             bulk_insert = string.Concat(bulk_insert, sub_insert);
 

@@ -101,8 +101,11 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
 
         [Auther(RightID = "38")]
         [Route("phong-cdvt/quyet-dinh/dieu-dong/export")]
-        public ActionResult ExportExcel()
+        public ActionResult ExportExcel(string person_created, string dateStart, string dateEnd)
         {
+            DateTime dtStart = (dateStart == null || dateStart.Equals("")) ? DateTime.ParseExact("01/01/1900", "dd/MM/yyyy", null) : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
+            DateTime dtEnd = (dateEnd == null || dateEnd.Equals("")) ? DateTime.Now : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
+
             string fileName = HostingEnvironment.MapPath("/excel/CDVT/danhsachsuachua_Template.xlsx");
             byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
             using (var stream = new MemoryStream())
@@ -119,6 +122,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
                                                                 where (document.documentary_type.Equals(3) && (document.documentary_code == "" || document.documentary_code == null))
                                                                 join detail in db.Documentary_moveline_details on document.documentary_id equals detail.documentary_id
                                                                 into temporary
+                                                                where document.person_created.Contains(person_created) && document.date_created >= dtStart && document.date_created <= dtEnd
                                                                 select new Documentary_Export
                                                                 {
                                                                     date_created = document.date_created,

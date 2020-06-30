@@ -84,33 +84,37 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.BaoDuong
 
         [Auther(RightID = "31")]
         [Route("phong-cdvt/quyet-dinh/bao-duong/export")]
-        public ActionResult ExportExcel()
+        public ActionResult ExportExcel(string person_created, string dateStart, string dateEnd)
         {
+            DateTime dtStart = (dateStart == null || dateStart.Equals("")) ? DateTime.ParseExact("01/01/1900", "dd/MM/yyyy", null) : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
+            DateTime dtEnd = (dateEnd == null || dateEnd.Equals("")) ? DateTime.Now : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
+
             string fileName = HostingEnvironment.MapPath("/excel/CDVT/danhsachsuachua_Template.xlsx");
             byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
             using (var stream = new MemoryStream())
             {
                 stream.Write(byteArray, 0, byteArray.Length);
                 using (ExcelPackage excelPackage = new ExcelPackage(stream))
-            {
-                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
-                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    List<Documentary_Export> documentaryList = (from document in db.Documentaries
-                                                                where (document.documentary_type.Equals(2) && (document.documentary_code == "" || document.documentary_code == null))
-                                                                join detail in db.Documentary_maintain_details on document.documentary_id equals detail.documentary_id
-                                                                into temporary
-                                                                select new Documentary_Export
-                                                                {
-                                                                    date_created = document.date_created,
-                                                                    documentary_code = document.documentary_code,
-                                                                    person_created = document.person_created,
-                                                                    reason = document.reason,
-                                                                    out_in_come = document.out_in_come,
-                                                                    count = temporary.Select(x => new { x.equipmentId }).Count()
-                                                                }).ToList();
+                    ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                    ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+
+                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    {
+                        List<Documentary_Export> documentaryList = (from document in db.Documentaries
+                                                                    where (document.documentary_type.Equals(2) && (document.documentary_code == "" || document.documentary_code == null))
+                                                                    join detail in db.Documentary_maintain_details on document.documentary_id equals detail.documentary_id
+                                                                    into temporary
+                                                                    where document.person_created.Contains(person_created) && document.date_created >= dtStart && document.date_created <= dtEnd
+                                                                    select new Documentary_Export
+                                                                    {
+                                                                        date_created = document.date_created,
+                                                                        documentary_code = document.documentary_code,
+                                                                        person_created = document.person_created,
+                                                                        reason = document.reason,
+                                                                        out_in_come = document.out_in_come,
+                                                                        count = temporary.Select(x => new { x.equipmentId }).Count()
+                                                                    }).ToList();
                         int k = 0;
                         for (int i = 2; i < documentaryList.Count + 2; i++)
                         {
