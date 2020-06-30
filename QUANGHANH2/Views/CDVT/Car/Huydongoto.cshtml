@@ -552,6 +552,36 @@
                 type: "POST",
                 url: "/phong-cdvt/oto/huy-dong/export",
                 cache: false,
+                datatype: "json",
+                data: {
+                    "equipmentId": function () {
+                        return $('#equipmentId-search').val();
+                    },
+                    "equipmentName": function () {
+                        return $('#equipmentName-search').val();
+                    },
+                    "department": function () {
+                        return $('#department-search').val();
+                    },
+                    "quality": function () {
+                        return $('#equipmentQuality-search').val();
+                    },
+                    "dateStart": function () {
+                        return $('#date-start-search').val();
+                    },
+                    "dateEnd": function () {
+                        return $('#date-end-search').val();
+                    },
+                    "category": function () {
+                        return $('#category-search').val();
+                    },
+                    "sup": function () {
+                        return $('#supplier-search').val();
+                    },
+                    "att": function () {
+                        return $('#equipmentAttach-search').val();
+                    }
+                },
                 success: function (response) {
                     if (response.success) {
                         window.location.href = response.location;
