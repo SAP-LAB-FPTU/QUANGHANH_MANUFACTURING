@@ -122,12 +122,6 @@
 }
 <script>
     var DocumentaryType = 1
-    $("#documentary_code-search").keyup(function (e) {
-        if (e.which == 13) {
-            $("#searchButton1").click();
-            $("#documentary_code-search").blur();
-        }
-    });
 
     $("#person_created-search").keyup(function (e) {
         if (e.which == 13) {
@@ -188,7 +182,6 @@
                             });
                         },
                         "data": {
-                            "documentary_code": function () { return $('#documentary_code-search').val() },
                             "person_created": function () { return $('#person_created-search').val() },
                             "dateStart": function () { return $('#date-start-search').val() },
                             "dateEnd": function () { return $('#date-end-search').val() }
@@ -270,9 +263,14 @@
             $("#pre-load").show();
             $.ajax({
                 url: '/phong-cdvt/quyet-dinh/bao-duong/export',
-                type: 'POST',
+                data: {
+                    person_created: function () { return $('#person_created-search').val() },
+                    dateStart: function () { return $('#date-start-search').val() },
+                    dateEnd: function () { return $('#date-end-search').val() }
+                },
                 success: function () {
-                    window.location.href = "/phong-cdvt/quyet-dinh/bao-duong/export";
+                    window.location.href = "/phong-cdvt/quyet-dinh/bao-duong/export?person_created=" + $('#person_created-search').val() +
+                        "&dateStart=" + $('#date-start-search').val() + "&dateEnd=" + $('#date-end-search').val();
                     $("#pre-load").hide();
                 },
                 error: function () {

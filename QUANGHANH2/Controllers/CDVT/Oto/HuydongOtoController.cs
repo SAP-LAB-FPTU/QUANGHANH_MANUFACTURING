@@ -118,7 +118,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         }
 
         [Route("phong-cdvt/oto/huy-dong/export")]
-        public ActionResult export()
+        public ActionResult export(string equipmentId, string equipmentName, string department, string quality, string dateStart, string dateEnd, string category, string sup, string att)
         {
             string path = HostingEnvironment.MapPath("/excel/CDVT/download/");
             string filename = "huy-dong-oto.xlsx";
@@ -130,13 +130,48 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
                 using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    //    string sql = @"select e.*, c.sokhung, c.somay, c.GPS, ec.Equipment_category_name, d.Department_Name
-                    //            from Equipment e inner join Car c on e.equipmentId = c.equipmentId
-                    //inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id
-                    //inner join Department d on e.department_id = d.department_id";
-                    //    var equipList = db.Database.SqlQuery<EquipWithName>(sql).ToList();
+                    DateTime dtStart = DateTime.Parse("1800-1-1");
+                    DateTime dtEnd = DateTime.MaxValue;
+                    if (!dateStart.Equals(""))
+                    {
+                        String[] date = dateStart.Split('/');
+                        String date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        dtStart = Convert.ToDateTime(date_fix);
+                    }
+                    if (!dateEnd.Equals(""))
+                    {
+                        String[] date = dateEnd.Split('/');
+                        String date_fix = date[1] + "/" + date[0] + "/" + date[2];
+                        dtEnd = Convert.ToDateTime(date_fix);
+                    }
 
-                    var equipList = exportList;
+                    string query = @"SELECT e.[equipmentId],e.[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,case when ec.Equipment_category_name is null then '' else ec.Equipment_category_name end as 'Equipment_category_name',a.sokhung, a.somay, a.GPS
+                            from Equipment e left outer join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id , Department d, Status s, Car a
+                             where a.equipmentId = e.equipmentId and d.department_id != 'kho' and e.department_id = d.department_id AND e.current_Status = s.statusid AND ";
+
+                    if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !quality.Equals("") || !category.Equals("") || !sup.Equals("") || dateStart != "" || dateEnd != "")
+                    {
+                        if (dateStart != "" || dateEnd != "") query += "e.usedDay between @start_time1 and @start_time2 AND ";
+                        if (!equipmentId.Equals("")) query += "e.equipmentId LIKE @equipmentId AND ";
+                        if (!equipmentName.Equals("")) query += "e.equipment_name LIKE @equipment_name AND ";
+                        if (!department.Equals("")) query += "d.department_id = @department_name AND ";
+                        if (!quality.Equals("")) query += "e.quality_type LIKE @quality AND ";
+                        if (!category.Equals("")) query += "ec.Equipment_category_name LIKE @cate AND ";
+                        if (!sup.Equals("")) query += "e.supplier LIKE @sup AND ";
+                    }
+                    query = query.Substring(0, query.Length - 5);
+
+                    var equipList = db.Database.SqlQuery<EquipWithName>(query,
+                                        new SqlParameter("equipmentId", '%' + equipmentId + '%'),
+                                        new SqlParameter("equipment_name", '%' + equipmentName + '%'),
+                                        new SqlParameter("department_name", '%' + department),
+                                        new SqlParameter("quality", '%' + quality + '%'),
+                                        new SqlParameter("start_time1", dtStart),
+                                        new SqlParameter("start_time2", dtEnd),
+                                        new SqlParameter("cate", '%' + category + '%'),
+                                        new SqlParameter("sup", '%' + sup + '%'),
+                                        new SqlParameter("att", '%' + att + '%')
+                                        ).ToList();
 
                     int k = 2;
                     for (int i = 0; i < equipList.Count; i++)
