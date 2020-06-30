@@ -64,7 +64,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
                     Documentary documentary = new Documentary
                     {
                         documentary_type = 4,
-                        department_id_to = "KHO",
+                        department_id_to = "CV",
                         date_created = DateTime.Now,
                         person_created = Session["Name"] + "",
                         reason = reason,
