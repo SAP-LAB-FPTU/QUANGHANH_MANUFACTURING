@@ -589,28 +589,29 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     left outer join
                                     (select
                                     nghi.MaPhongBan,
-                                    sum(case when nghi.LyDoVangMat like N'Vô lý do' then 1 else 0 end) as 'vld',
-                                    sum(case when nghi.LyDoVangMat like N'Ốm' then 1 else 0 end) as 'om',
-                                    sum(case when nghi.LyDoVangMat like N'Nghỉ phép' then 1 else 0 end) as 'phep',
-                                    sum(case when nghi.LyDoVangMat like N'Khác' then 1 else 0 end) as 'khac',
-                                    sum(case when nghi.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai',
-                                    sum(case when nghi.LyDoVangMat in (N'Vô lý do dài') then 1 else 0 end) as 'nghidai_vld',
-                                    sum(case when nghi.LyDoVangMat in (N'Tạm hoãn lao động') then 1 else 0 end) as 'nghidai_thhd',
-                                    sum(case when nghi.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') then 1 else 0 end) as 'nghidai_om_tnld'
+                                    sum(case when nghi.LyDoVangMat like N'Vô lý do' and nghi.DiLam = 0 then 1 else 0 end) as 'vld',
+                                    sum(case when nghi.LyDoVangMat like N'Ốm' and nghi.DiLam = 0 then 1 else 0 end) as 'om',
+                                    sum(case when nghi.LyDoVangMat like N'Nghỉ phép' and nghi.DiLam = 0 then 1 else 0 end) as 'phep',
+                                    sum(case when nghi.LyDoVangMat like N'Khác' and nghi.DiLam = 0 then 1 else 0 end) as 'khac',
+                                    sum(case when nghi.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Tạm hoãn lao động',N'Vô lý do dài') and nghi.DiLam = 0 then 1 else 0 end) as 'tong_nghidai',
+                                    sum(case when nghi.LyDoVangMat in (N'Vô lý do dài') and nghi.DiLam = 0 then 1 else 0 end)  as 'nghidai_vld',
+                                    sum(case when nghi.LyDoVangMat in (N'Tạm hoãn lao động') and nghi.DiLam = 0 then 1 else 0 end) as 'nghidai_thhd',
+                                    sum(case when nghi.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') and nghi.DiLam = 0 then 1 else 0 end) as 'nghidai_om_tnld'
                                     from
                                     (select 
 									nv.MaPhongBan,
 									dd_nsld.MaNV,
 									hd.NgayDiemDanh,
 									hd.Ca,
-									dd_nsld.LyDoVangMat
+									dd_nsld.LyDoVangMat,
+									dd_nsld.DiLam
 									 from
 									(select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca
 									from Header_DiemDanh_NangSuat_LaoDong
 									where Month(NgayDiemDanh) = @month and Year(NgayDiemDanh) = @year and Status = 1
 									group by NgayDiemDanh, Ca) as hd
 									JOIN
-									DiemDanh_NangSuatLaoDong dd_nsld on hd.HeaderID = dd_nsld.ActualHeaderFetched
+									DiemDanh_NangSuatLaoDong dd_nsld on hd.HeaderID = dd_nsld.HeaderID
 									JOIN
 									NhanVien nv on nv.MaNV = dd_nsld.MaNV
                                     ) as nghi
@@ -766,28 +767,29 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                     left outer join
                                     (select
                                     nghi.MaPhongBan,
-                                    sum(case when nghi.LyDoVangMat like N'Vô lý do' then 1 else 0 end) as 'vld',
-                                    sum(case when nghi.LyDoVangMat like N'Ốm' then 1 else 0 end) as 'om',
-                                    sum(case when nghi.LyDoVangMat like N'Nghỉ phép' then 1 else 0 end) as 'phep',
-                                    sum(case when nghi.LyDoVangMat like N'Khác' then 1 else 0 end) as 'khac',
-                                    sum(case when nghi.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Tạm hoãn lao động',N'Vô lý do dài') then 1 else 0 end) as 'tong_nghidai',
-                                    sum(case when nghi.LyDoVangMat in (N'Vô lý do dài') then 1 else 0 end) as 'nghidai_vld',
-                                    sum(case when nghi.LyDoVangMat in (N'Tạm hoãn lao động') then 1 else 0 end) as 'nghidai_thhd',
-                                    sum(case when nghi.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') then 1 else 0 end) as 'nghidai_om_tnld'
+                                    sum(case when nghi.LyDoVangMat like N'Vô lý do' and nghi.DiLam = 0 then 1 else 0 end) as 'vld',
+                                    sum(case when nghi.LyDoVangMat like N'Ốm' and nghi.DiLam = 0 then 1 else 0 end) as 'om',
+                                    sum(case when nghi.LyDoVangMat like N'Nghỉ phép' and nghi.DiLam = 0 then 1 else 0 end) as 'phep',
+                                    sum(case when nghi.LyDoVangMat like N'Khác' and nghi.DiLam = 0 then 1 else 0 end) as 'khac',
+                                    sum(case when nghi.LyDoVangMat in (N'Tai nạn lao động',N'Ốm dài',N'Tạm hoãn lao động',N'Vô lý do dài') and nghi.DiLam = 0 then 1 else 0 end) as 'tong_nghidai',
+                                    sum(case when nghi.LyDoVangMat in (N'Vô lý do dài') and nghi.DiLam = 0 then 1 else 0 end)  as 'nghidai_vld',
+                                    sum(case when nghi.LyDoVangMat in (N'Tạm hoãn lao động') and nghi.DiLam = 0 then 1 else 0 end) as 'nghidai_thhd',
+                                    sum(case when nghi.LyDoVangMat in (N'Ốm dài', N'Tai nạn lao động') and nghi.DiLam = 0 then 1 else 0 end) as 'nghidai_om_tnld'
                                     from
                                     (select 
 									nv.MaPhongBan,
 									dd_nsld.MaNV,
 									hd.NgayDiemDanh,
 									hd.Ca,
-									dd_nsld.LyDoVangMat
+									dd_nsld.LyDoVangMat,
+									dd_nsld.DiLam
 									 from
 									(select Min(HeaderID) as 'HeaderID', NgayDiemDanh, Ca
 									from Header_DiemDanh_NangSuat_LaoDong
 									where Month(NgayDiemDanh) = @month and Year(NgayDiemDanh) = @year and Status = 1
 									group by NgayDiemDanh, Ca) as hd
 									JOIN
-									DiemDanh_NangSuatLaoDong dd_nsld on hd.HeaderID = dd_nsld.ActualHeaderFetched
+									DiemDanh_NangSuatLaoDong dd_nsld on hd.HeaderID = dd_nsld.HeaderID
 									JOIN
 									NhanVien nv on nv.MaNV = dd_nsld.MaNV
                                     ) as nghi

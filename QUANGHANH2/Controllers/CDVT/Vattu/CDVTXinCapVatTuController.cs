@@ -89,12 +89,12 @@ where departmentid='CV' and status=0 and month(date)=month(getdate())";
                      string sub_insert = $"if exists (select * from SupplyPlan  where id='{listsupplyplanid[i]}')  "+
                                             " begin "+
                                            " update SupplyPlan set "+
-                                           $" supplyid = '{listsupplyid[i]}' , date = getdate(),quantity_plan = {Int32.Parse(listxin_cap[i])} "+
+                                           $" supplyid = N'{listsupplyid[i]}' , date = getdate(),quantity_plan = {Int32.Parse(listxin_cap[i])} "+
                                           $" where id = '{listsupplyplanid[i]}'"+
                                           " end "+
                                           " else "+
                                          " begin  "+
-                                         $" insert into Supplyplan(supplyid, departmentid, [date], quantity_plan,quantity, [status]) VALUES('{listsupplyid[i]}', 'CV', getdate(), {Int32.Parse(listxin_cap[i])},0, 0) "+
+                                         $" insert into Supplyplan(supplyid, departmentid, [date], quantity_plan,quantity, [status]) VALUES(N'{listsupplyid[i]}', 'CV', getdate(), {Int32.Parse(listxin_cap[i])},0, 0) "+
                                          " end;  ";
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
 

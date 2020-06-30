@@ -59,6 +59,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
 
                 search.SupplyName = string.IsNullOrWhiteSpace(search.SupplyName) ? string.Empty : search.SupplyName;
                 IList<TonghopvattuDetailModelView> details = _repository.GetDetails(search, sortColumnName, sortDirection, start, length);
+
                 int recordsTotal =_repository.CountDetails(search);
                 int recordsFiltered = recordsTotal;
 
@@ -106,7 +107,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             
             search.SupplyName = string.IsNullOrWhiteSpace(search.SupplyName) ? string.Empty : search.SupplyName;
             IList<TonghopvattuSummaryModelView> summary = _repository.GetSummary(search,  sortColumnName, sortDirection, start, length);
-
+           
 
             int recordsTotal =_repository.CountSummary(search);
             int recordsFiltered = recordsTotal;
@@ -115,6 +116,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
             {
                 success = true,
                 data = summary,
+              
                 recordsTotal,
                 recordsFiltered
             }, JsonRequestBehavior.AllowGet);
