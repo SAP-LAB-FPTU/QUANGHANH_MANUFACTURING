@@ -227,7 +227,16 @@
                         "SupplyId": function () { return $('#supplyId').val() },
                         "SupplyName": function () { return $('#supply_search').val() },
                         "MonthPicked": function () { return $('#txtmonth').val() }
+                    },
+                    "dataSrc": function (json) {
+                        index = 1;
+                        if (isFirstInit) {
+                            exportPayload = json.calculator;
+                            isFirstInit = false;
+                        }
+                        return json.data;
                     }
+
                 },
                 "columns": [
                    
@@ -363,6 +372,7 @@
             }
         }
 
+
         function parse2PosNum(value) {
             var value = parseFloat(value);
             if (value < 0) {
@@ -426,7 +436,6 @@
 
             $("#pre-load").hide();
         }
-
         function calCurrPrice() {
             let value = 0;
             for (let i = 0; i < exportPayload.length; i++) {
@@ -438,7 +447,6 @@
             }
             updateCurrPrice(value);
         }
-
         function updateCurrPrice(value) {
             $('#total_curr_price').text(value + " VNĐ");
         }
