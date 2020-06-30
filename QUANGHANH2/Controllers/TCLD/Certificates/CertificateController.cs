@@ -117,7 +117,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 if (chungChi != null)
                 {
-                    List<ChungChi> check_list = db.ChungChis.Where(x => x.KieuChungChi.Equals(chungChi.KieuChungChi) 
+                    List<ChungChi> check_list = db.ChungChis.Where(x => x.KieuChungChi.Equals(chungChi.KieuChungChi)
                 && x.TenChungChi.Equals(chungChi.TenChungChi) && x.ThoiHan == chungChi.ThoiHan).ToList();
                     if (check_list.Count == 0)
                     {
@@ -142,16 +142,30 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return View();
 
         }
+        private class Chung_Chi_Display : ChungChi
+        {
+            public String TenChungChiDisplay { get; set; }
+        }
         public void getListInforEmployeeCirtificate()
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-
-                List<ChungChi> listdata_chungchi = db.ChungChis.ToList<ChungChi>();
+                String query = @"select * from ChungChi";
+                List<Chung_Chi_Display> listdata_chungchi = db.Database.SqlQuery<Chung_Chi_Display>(query).ToList();
                 List<NhanVien> listdata_nv = db.NhanViens.ToList<NhanVien>();
                 var result = listdata_nv.Where(s => s.MaTrangThai != 2);
-
-                SelectList listCirtificate = new SelectList(listdata_chungchi, "MaChungChi", "TenChungChi");
+                foreach (var item in listdata_chungchi)
+                {
+                    if (item.ThoiHan == -1)
+                    {
+                        item.TenChungChiDisplay = item.TenChungChi + " - Vĩnh viễn - " + item.KieuChungChi;
+                    }
+                    else
+                    {
+                        item.TenChungChiDisplay = item.TenChungChi + " - " + item.ThoiHan + " tháng - " + item.KieuChungChi;
+                    }
+                }
+                SelectList listCirtificate = new SelectList(listdata_chungchi, "MaChungChi", "TenChungChiDisplay");
                 SelectList listEmployee = new SelectList(result, "MaNV", "MaNV");
 
                 ViewBag.List_chungchi = listCirtificate;
