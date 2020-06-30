@@ -512,13 +512,28 @@
         $("#export-button").click(function () {
             $("#pre-load").show();
             $.ajax({
-                type: "POST",
                 url: "/phong-cdvt/su-co/export",
-                cache: false
-            }).done(function () {
-                window.location.href = "/excel/CDVT/download/su-co_temp.xlsx";
-                $("#pre-load").hide();
-            })
+                cache: false,
+                data: {
+                    equipmentId: function () { return $('#equipmentId-search').val() },
+                    equipmentName: function () { return $('#equipmentName-search').val() },
+                    department: function () { return $('#department-search').val() },
+                    detail: function () { return $('#detail-search').val() },
+                    reason: function () { return $('#reason-search').val() },
+                    dateStart: function () { return $('#date-start-search').val() },
+                    dateEnd: function () { return $('#date-end-search').val() }
+                },
+                success: function () {
+                    window.location.href = "/phong-cdvt/su-co/export?equipmentId=" + $('#equipmentId-search').val() + "&equipmentName=" + $('#equipmentName-search').val()
+                        + "&department=" + $('#department-search').val() + "&detail=" + $('#detail-search').val() + "&reason=" + $('#reason-search').val()
+                        + "&dateStart=" + $('#date-start-search').val() + "&dateEnd=" + $('#date-end-search').val();
+                    $("#pre-load").hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $("#pre-load").hide();
+                }
+            });
         });
 
 
