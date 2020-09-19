@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Quyet_dinh_cai_tien";
+    ViewBag.Title = "Danh sách quyết định điều chỉnh";
     Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
 }
 @{
@@ -122,12 +122,6 @@
 }
 <script>
     var DocumentaryType = 7
-    $("#documentary_code-search").keyup(function (e) {
-        if (e.which == 13) {
-            $("#searchButton1").click();
-            $("#documentary_code-search").blur();
-        }
-    });
 
     $("#person_created-search").keyup(function (e) {
         if (e.which == 13) {
@@ -256,9 +250,14 @@
             $("#pre-load").show();
             $.ajax({
                 url: '/phong-cdvt/quyet-dinh/dieu-chinh/export',
-                type: 'POST',
+                data: {
+                    person_created: function () { return $('#person_created-search').val() },
+                    dateStart: function () { return $('#date-start-search').val() },
+                    dateEnd: function () { return $('#date-end-search').val() }
+                },
                 success: function () {
-                    window.location.href = "/phong-cdvt/quyet-dinh/dieu-chinh/export";
+                    window.location.href = "/phong-cdvt/quyet-dinh/dieu-chinh/export?person_created=" + $('#person_created-search').val() +
+                        "&dateStart=" + $('#date-start-search').val() + "&dateEnd=" + $('#date-end-search').val();
                     $("#pre-load").hide();
                 },
                 error: function () {

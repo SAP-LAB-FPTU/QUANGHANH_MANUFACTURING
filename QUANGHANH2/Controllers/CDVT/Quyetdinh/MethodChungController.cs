@@ -1,9 +1,11 @@
-﻿using DocumentFormat.OpenXml.Packaging;
+﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Newtonsoft.Json.Linq;
 using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.IO;
@@ -106,7 +108,8 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                     var supply = db.Supplies
                         .Where(x => x.supply_id.Contains(supply_id))
                         .Take(10)
-                        .Select(x => new {
+                        .Select(x => new
+                        {
                             x.supply_id,
                             x.supply_name
                         })
@@ -131,7 +134,8 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
                     var supply = db.Supplies
                         .Where(x => x.supply_name.Contains(supply_name))
                         .Take(10)
-                        .Select(x => new {
+                        .Select(x => new
+                        {
                             x.supply_id,
                             x.supply_name
                         })
@@ -171,51 +175,66 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
 
                         if (doc.documentary_code != null)
                         {
-                            Notification noti = new Notification();
-                            noti.description = "";
+                            Notification noti = new Notification
+                            {
+                                description = ""
+                            };
                             switch (doc.documentary_type)
                             {
                                 case 1:
-                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 3
-where equipmentId in
-(select equipmentId from Documentary_repair_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
+                                    (from a in db.Equipments
+                                     join b in db.Documentary_repair_details on a.equipmentId equals b.equipmentId
+                                     where b.documentary_id == documentary_id
+                                     select a).ToList().ForEach(x => x.current_Status = 3);
+
                                     noti.description = "sua chua";
                                     break;
                                 case 2:
-                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 5
-where equipmentId in
-(select equipmentId from Documentary_maintain_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
+                                    (from a in db.Equipments
+                                     join b in db.Documentary_maintain_details on a.equipmentId equals b.equipmentId
+                                     where b.documentary_id == documentary_id
+                                     select a).ToList().ForEach(x => x.current_Status = 5);
+
                                     noti.description = "bao duong";
                                     break;
                                 case 3:
-                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 6
-where equipmentId in
-(select equipmentId from Documentary_moveline_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
-                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 6
-where equipmentId in
-(select distinct equipmentId_dikem from Supply_Documentary_Equipment where documentary_id = @documentary_id and equipmentId_dikem is not null)", new SqlParameter("documentary_id", documentary_id));
+                                    (from a in db.Equipments
+                                     join b in db.Documentary_moveline_details on a.equipmentId equals b.equipmentId
+                                     where b.documentary_id == documentary_id
+                                     select a).ToList().ForEach(x => x.current_Status = 6);
+
                                     noti.description = "dieu dong";
                                     break;
                                 case 4:
-                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 7
-where equipmentId in
-(select equipmentId from Documentary_revoke_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
+                                    (from a in db.Equipments
+                                     join b in db.Documentary_revoke_details on a.equipmentId equals b.equipmentId
+                                     where b.documentary_id == documentary_id
+                                     select a).ToList().ForEach(x => x.current_Status = 7);
+
+                                    noti.description = "thu hoi";
                                     break;
                                 case 5:
-                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 8
-where equipmentId in
-(select equipmentId from Documentary_liquidation_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
+                                    (from a in db.Equipments
+                                     join b in db.Documentary_liquidation_details on a.equipmentId equals b.equipmentId
+                                     where b.documentary_id == documentary_id
+                                     select a).ToList().ForEach(x => x.current_Status = 8);
+
+                                    noti.description = "thanh ly";
                                     break;
                                 case 6:
-                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 9
-where equipmentId in 
-(select equipmentId from Documentary_big_maintain_details where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
+                                    (from a in db.Equipments
+                                     join b in db.Documentary_big_maintain_details on a.equipmentId equals b.equipmentId
+                                     where b.documentary_id == documentary_id
+                                     select a).ToList().ForEach(x => x.current_Status = 9);
+
                                     noti.description = "trung dai tu";
                                     break;
                                 case 7:
-                                    db.Database.ExecuteSqlCommand(@"update Equipment set current_Status = 16
-where equipmentId in
-(select equipmentId from Documentary_Improve_Detail where documentary_id = @documentary_id)", new SqlParameter("documentary_id", documentary_id));
+                                    (from a in db.Equipments
+                                     join b in db.Documentary_Improve_Detail on a.equipmentId equals b.equipmentId
+                                     where b.documentary_id == documentary_id
+                                     select a).ToList().ForEach(x => x.current_Status = 16);
+
                                     noti.description = "cai tien";
                                     break;
                                 case 8:
@@ -251,41 +270,27 @@ where equipmentId in
         [HttpPost]
         public ActionResult Delete()
         {
-            int documentary_id = int.Parse(Request["documentary_id"]);
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            try
             {
-                Documentary doc = db.Documentaries.Find(documentary_id);
-                if (doc == null)
-                    return Json(new { success = false, message = "Mã quyết định không tồn tại" });
-
-                if (doc.documentary_code != null)
-                    return Json(new { success = false, message = "Bạn không được xóa quyết định này" });
-
-                using (DbContextTransaction trans = db.Database.BeginTransaction())
+                int documentary_id = int.Parse(Request["documentary_id"]);
+                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
                 {
-                    try
-                    {
-                        switch (doc.documentary_type)
-                        {
-                            case 8:
-                                db.Database.ExecuteSqlCommand("DELETE FROM Supply_Documentary_Camera WHERE documentary_id = " + documentary_id);
-                                db.Database.ExecuteSqlCommand("DELETE FROM Documentary_camera_repair_details WHERE documentary_id = " + documentary_id);
-                                db.Database.ExecuteSqlCommand("DELETE FROM Documentary WHERE documentary_id = " + documentary_id);
-                                break;
-                            default:
-                                db.Documentaries.Remove(doc);
-                                break;
-                        }
-                        db.SaveChanges();
-                        trans.Commit();
-                    }
-                    catch (Exception)
-                    {
-                        trans.Rollback();
-                        return Json(new { success = false, message = "Có lỗi xảy ra" });
-                    }
+                    Documentary doc = db.Documentaries.Find(documentary_id);
+                    if (doc == null)
+                        return Json(new { success = false, message = "Mã quyết định không tồn tại" });
+
+                    if (doc.documentary_code != null)
+                        return Json(new { success = false, message = "Bạn không được xóa quyết định này" });
+
+                    db.Documentaries.Remove(doc);
+                    db.SaveChanges();
+                    return Json(new { success = true, message = "Xóa thành công" });
                 }
-                return Json(new { success = true, message = "Xóa thành công" });
+
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra" });
             }
         }
 

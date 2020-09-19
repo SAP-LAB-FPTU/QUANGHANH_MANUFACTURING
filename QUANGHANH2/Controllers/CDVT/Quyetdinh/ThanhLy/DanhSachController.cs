@@ -25,155 +25,9 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
             return View("/Views/CDVT/Quyetdinh/ThanhLy/DanhSach.cshtml");
         }
 
-
-
-
-        [Route("phong-cdvt/quyet-dinh/thanh-ly/update")]
-        public ActionResult UpdateID(int documentary_id, string documentary_code, string date_created, string person_created, string reason, string out_in_come)
-        {
-
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-
-            Documentary i = DBContext.Documentaries.Find(documentary_id);
-
-            if (String.IsNullOrEmpty(documentary_code))
-            {
-                return Json(new
-                {
-                    success = false,
-                    message = "Trường mã quyết định là trường bắt buộc có"
-                }, JsonRequestBehavior.AllowGet);
-            }
-            else if (String.IsNullOrEmpty(date_created))
-            {
-                return Json(new
-                {
-                    success = false,
-                    message = "Trường mã quyết định là trường bắt buộc có"
-                }, JsonRequestBehavior.AllowGet);
-            }
-            else if (String.IsNullOrEmpty(person_created))
-            {
-                return Json(new
-                {
-                    success = false,
-                    message = "Trường người lập quyết định là trường bắt buộc có"
-                }, JsonRequestBehavior.AllowGet);
-            }
-            else if (String.IsNullOrEmpty(reason))
-            {
-                return Json(new
-                {
-                    success = false,
-                    message = "Trường lý do quyết định là trường bắt buộc có"
-                }, JsonRequestBehavior.AllowGet);
-            }
-
-            if (String.IsNullOrEmpty(out_in_come))
-            {
-                return Json(new
-                {
-                    success = false,
-                    message = "Trường nguồn vốn là trường bắt buộc có"
-                }, JsonRequestBehavior.AllowGet);
-            }
-
-            else
-            {
-                try
-                {
-                    var query = (from x in DBContext.Documentaries
-                                 where x.documentary_code == documentary_code
-                                 select x).First();
-                    return Json(new
-                    {
-                        success = false,
-                        message = "Mã số quyết định đã tồn tại"
-                    }, JsonRequestBehavior.AllowGet);
-                }
-                catch
-                {
-                    using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
-                    {
-                        try
-                        {
-                            List<Documentary_liquidation_details> details = DBContext.Documentary_liquidation_details.Where(x => x.documentary_id == documentary_id).ToList();
-                            foreach (Documentary_liquidation_details item in details)
-                            {
-                                Equipment e = DBContext.Equipments.Find(item.equipmentId);
-                                e.current_Status = 8;
-                            }
-                            documentary_code = documentary_code.Replace(" ", String.Empty);
-                            i.documentary_code = documentary_code;
-                            i.date_created = DateTime.Parse(date_created);
-                            i.person_created = person_created;
-                            i.reason = reason;
-                            i.out_in_come = out_in_come;
-                            DBContext.SaveChanges();
-                            transaction.Commit();
-                            return Json(new
-                            {
-                                success = true,
-                            }, JsonRequestBehavior.AllowGet);
-                        }
-                        catch (Exception)
-                        {
-                            transaction.Rollback();
-                            return Json(new
-                            {
-                                success = false,
-                                message = "Có lỗi xảy ra"
-                            }, JsonRequestBehavior.AllowGet);
-                        }
-                    }
-                }
-            }
-        }
-
-
-        [Route("phong-cdvt/quyet-dinh/thanh-ly/getdata")]
-        [HttpPost]
-        public ActionResult GetById(List<String> docID)
-        {
-            string id = docID[0];
-
-            try
-            {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
-                Documentary_Extend documentaryList = DBContext.Database.SqlQuery<Documentary_Extend>("Select documentary_id,documentary_code,department_id,person_created,date_created,reason, [out/in_come] as out_in_come from Documentary where documentary_id = @documentary_id", new SqlParameter("documentary_id", id)).First();
-                documentaryList.tempId = id;
-                documentaryList.date_created = DateTime.Now;
-                ViewBag.ID = id;
-                return Json(documentaryList);
-            }
-            catch (Exception)
-            {
-                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
-                return new HttpStatusCodeResult(400);
-            }
-        }
-        [Route("phong-cdvt/quyet-dinh/thanh-ly/delete")]
-        [HttpPost]
-        public ActionResult DeleteDoc(int docID)
-        {
-
-
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
-            {
-                Documentary doc = db.Documentaries.Where(x => x.documentary_id == docID).FirstOrDefault<Documentary>();
-                db.Documentaries.Remove(doc);
-                db.SaveChanges();
-                Response.Write("Xóa thành công!");
-                return new HttpStatusCodeResult(201);
-            }
-
-
-        }
-
-
         [Route("phong-cdvt/quyet-dinh/thanh-ly/search")]
         [HttpPost]
-        public ActionResult Search(string documentary_code, string person_created, string dateStart, string dateEnd)
+        public ActionResult Search(string person_created, string dateStart, string dateEnd)
         {
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
@@ -250,8 +104,11 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
 
         [Auther(RightID = "40")]
         [Route("phong-cdvt/quyet-dinh/thanh-ly/export")]
-        public ActionResult ExportExcel()
+        public ActionResult ExportExcel(string person_created, string dateStart, string dateEnd)
         {
+            DateTime dtStart = (dateStart == null || dateStart.Equals("")) ? DateTime.ParseExact("01/01/1900", "dd/MM/yyyy", null) : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
+            DateTime dtEnd = (dateEnd == null || dateEnd.Equals("")) ? DateTime.Now : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
+
             string fileName = HostingEnvironment.MapPath("/excel/CDVT/danhsachsuachua_Template.xlsx");
             byte[] byteArray = System.IO.File.ReadAllBytes(fileName);
             using (var stream = new MemoryStream())
@@ -268,6 +125,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Quyetdinh
                                                                 where (document.documentary_type.Equals(5) && (document.documentary_code == "" || document.documentary_code == null))
                                                                 join detail in db.Documentary_liquidation_details on document.documentary_id equals detail.documentary_id
                                                                 into temporary
+                                                                where document.person_created.Contains(person_created) && document.date_created >= dtStart && document.date_created <= dtEnd
                                                                 select new Documentary_Export
                                                                 {
                                                                     date_created = document.date_created,

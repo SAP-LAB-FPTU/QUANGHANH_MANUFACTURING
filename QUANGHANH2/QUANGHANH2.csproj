@@ -176,7 +176,6 @@
     <Compile Include="Controllers\BGD\DK\ManufacturingController.cs" />
     <Compile Include="Controllers\BGD\ReportHuman\Summary\Human_Department_DailyController.cs" />
     <Compile Include="Controllers\Camera\CapNhatTheoCaController.cs" />
-    <Compile Include="Controllers\Camera\Quyetdinh\DaNghiemThuController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ChiTietController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ThemQuyetDinhController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\XuLyQuyetDinhController.cs" />
@@ -689,6 +688,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supply_tieuhao.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaiNan.cs">
@@ -7221,6 +7223,7 @@
     <Content Include="js\Custom JS\jquery-freeze-table-master\README.md" />
     <Content Include="js\Custom JS\jquery-freeze-table-master\RECOMMENDATIONS.md" />
     <Content Include="doc\CDVT\QD\quyetdinh-dieudong-template.docx" />
+    <Content Include="excel\DK\SuCoThietBi.xlsx" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -7228,7 +7231,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="excel\DK\SuCoThietBi.xlsx" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\QUANGHANH220190918114955 - Web Deploy.pubxml" />
@@ -7418,8 +7420,6 @@
     <Content Include="Views\TCLD\Shutdown\NotYet.cshtml" />
     <Content Include="Views\TCLD\Transfer\Temporary.cshtml" />
     <Content Include="Views\TCLD\CommonRecord.cshtml" />
-    <Content Include="Views\suachuaQD\EditSuachua.cshtml" />
-    <Content Include="Views\suachuaQD\Edit.cshtml" />
     <Content Include="Views\Certificate\AddCertificate.cshtml" />
     <Content Include="Views\Certificate\EditCertificate.cshtml" />
     <Content Include="Views\Certificate\AddCertificateEmployee.cshtml" />

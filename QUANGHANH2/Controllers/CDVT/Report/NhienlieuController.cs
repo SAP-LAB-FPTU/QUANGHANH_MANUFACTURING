@@ -253,7 +253,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             string query = "";
             if (type == null)
             {
-                var ngay = DateTime.Now.Date.Day;
+                var ngay = DateTime.Now.Date;
                 query = "select MONTH(fa.date) as Thang, YEAR(fa.date) as Nam,e.equipmentId as MaThietBi, " +
                 "equipment_name as TenThietBi, supply_name as LoaiNhienLieu,consumption_value as " +
                 "LuongTieuThu, unit as DonVi " +

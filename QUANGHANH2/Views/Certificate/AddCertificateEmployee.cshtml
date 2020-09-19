@@ -75,7 +75,7 @@
                         <div class="form-group col s12 m12 l12">
                             <br />
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Thêm" class=" waves-light btn blue darken-2 white-text " id="submit_form" />
+                                <input type="submit" value="Thêm" class=" waves-light btn blue darken-2 white-text " id="submit_form" disabled />
                             </div>
                         </div>
                     </div>
@@ -96,84 +96,99 @@
 
 </html>
 <script>
-    $(document).ready(function () {
-
-        $("#start_time").datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true });
-
-
+    //prevent keydown add Modal
+    $("#start_time").keydown(function (e) {
+        e.preventDefault();
     });
+
+    $(document).ready(function () {
+        $("#start_time").datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true });
+    });
+
+    var validate_sohieu = true;
     $('#sohieu').blur(function () {
         $.ajax({
-            url:'@Url.Action("validateID", "Certificate")',
+            url: '@Url.Action("validateID", "Certificate")',
             type: "POST",
-            data: { id: $(this).val() },
+            data: {
+                id: () => { return $(this).val() }},
             success: (response) => {
                 if (response.success) {
                     $('#message').show();
-                    $('#submit_form').attr("disabled", true);
+                    validate_sohieu = false;
+                    //$('#submit_form').attr("disabled", true);
                 } else {
                     $('#message').hide();
-                $('#submit_form').attr("disabled", false);
+                    validate_sohieu = true;
+                    //$('#submit_form').attr("disabled", false);
                 }
+                validateSubmitButton();
             },
             error: (response) => {
 
             },
-        })
+        });
     });
 
+    var validate_manv = true;
     $('#manv_add').change(function () {
         var manv = $(this).val();
-      $.ajax({
-            url:'@Url.Action("getNameEmployee", "Certificate")',
+        $.ajax({
+            url: '@Url.Action("getNameEmployee", "Certificate")',
             type: "POST",
             data: { id: $(this).val() },
             success: (response) => {
                 if (response.success) {
                     $('#nameEmp_add').val(response.data);
                     $('#message_checkNameExist').hide();
-                    $('#submit_form').attr("disabled", false);
+                    validate_manv = true;
+                    //$('#submit_form').attr("disabled", false);
                 } else {
                     $('#nameEmp_add').val(response.data);
                     $('#message_checkNameExist').show();
-                    $('#submit_form').attr("disabled", true);
+                    validate_manv = false;
+                    //$('#submit_form').attr("disabled", true);
                 }
+                validateSubmitButton();
             },
             error: (response) => {
 
-            },
-        })
-
+            }
+        });
     });
-    $('#manv_add').blur(function () {
-        var manv = $(this).val();
+
+    var validate_machungchi = true;
+    $('#machungchi').blur(function () {
+        var manv = $("#manv_add").val();
         var first_cir = "";
-        $('#machungchi').blur(function () {
-            $.ajax({
-            url:'@Url.Action("validateExistCirtificateOfEmp", "Certificate")',
+        $.ajax({
+            url: '@Url.Action("validateExistCirtificateOfEmp", "Certificate")',
             type: "POST",
-                data: {
-                    id: $(this).val(),
-                    manv: manv,
-                    first_cir: first_cir,
-                },
+            data: {
+                id: $(this).val(),
+                manv: manv,
+                first_cir: first_cir,
+            },
             success: (response) => {
                 if (response.success) {
                     $('#message_cirt_emp').show();
-                    $('#submit_form').attr("disabled", true);
+                    validate_machungchi = false;
+                    //$('#submit_form').attr("disabled", true);
                 } else {
                     $('#message_cirt_emp').hide();
-                    $('#submit_form').attr("disabled", false);
+                    validate_machungchi = true;
+                    //$('#submit_form').attr("disabled", false);
                 }
+                validateSubmitButton();
             },
             error: (response) => {
 
             },
-        })
-        })
-    })
+        });
+    });
+
+    var validate_start_time = true;
     $('#start_time').blur(function () {
-        //alert("adasds");
         var date_validate = $('#start_time').val();
 
         var arr = date_validate.split('/');
@@ -186,26 +201,39 @@
                 $('#message_date_add').hide();
                 if (millis < d) {
                     $('#message_date_error_add').show();
-                    $('#submit_form').attr("disabled", true);
+                    validate_start_time = false;
+                    //$('#submit_form').attr("disabled", true);
                 }
                 else {
                     $('#message_date_error_add').hide();
-                    $('#submit_form').attr("disabled", false);
+                    validate_start_time = true;
+                    //$('#submit_form').attr("disabled", false);
                 }
-
             }
             else {
                 $('#message_date_error_add').hide();
                 $('#message_date_add').show();
-                $('#submit_form').attr("disabled", true);
+                validate_start_time = false;
+                //$('#submit_form').attr("disabled", true);
             }
         }
         else {
             $('#message_date_add').hide();
             $('#message_date_error_add').hide();
-            $('#submit_form').attr("disabled", false);
-        }
+            validate_start_time = true;
+            //$('#submit_form').attr("disabled", false);
+        };
+        validateSubmitButton();
     });
+
+    function validateSubmitButton() {
+        if (validate_sohieu && validate_manv && validate_start_time && validate_machungchi) {
+            $('#submit_form').attr("disabled", false);
+        } else {
+            $('#submit_form').attr("disabled", true);
+        }
+    }
+
     function testDate(str) {
 
         var t = str.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
@@ -232,4 +260,14 @@
     //})
 </script>
 
+<!--max date-->
+<script>
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
+    });
 
+    $('#start_time').datepicker({
+        language: 'vi',
+        maxDate: new Date(new Date().setDate(new Date().getDate()))
+    });
+</script>

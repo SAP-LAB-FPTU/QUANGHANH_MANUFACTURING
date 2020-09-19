@@ -15,6 +15,11 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh
         [Route("camera/sua-chua")]
         public ActionResult AddSuaChua()
         {
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            {
+                ViewBag.room_name = db.Rooms.Select(x => x.room_name).ToList();
+                ViewBag.department_name = db.Departments.Select(x => x.department_name).ToList();
+            }
             ViewBag.ListSelected = Request["ListSelected"];
             return View("/Views/Camera/Quyetdinh/SuaChua/ChonThietBi.cshtml");
         }
@@ -34,7 +39,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh
             {
                 string query = "select r.room_id, r.room_name, d.department_name, r.camera_available, r.camera_quantity " +
                     "from Room r inner join Department d on r.department_id = d.department_id " +
-                    "where r.room_name like @room_name and d.department_name like @department_name";
+                    "where r.room_name like @room_name and d.department_name like @department_name and r.camera_quantity > 0 and r.camera_available < r.camera_quantity";
                 List<RoomList> rooms = db.Database.SqlQuery<RoomList>(query + " order by " + sortColumnName + " " + sortDirection + " offset " + start + " rows fetch next " + length + "rows only",
                     new SqlParameter("room_name", '%' + room_name + '%'),
                     new SqlParameter("department_name", '%' + department_name + '%')).ToList();

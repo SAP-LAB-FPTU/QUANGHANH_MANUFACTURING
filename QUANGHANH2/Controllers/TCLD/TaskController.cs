@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json.Linq;
 using OfficeOpenXml;
 using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
@@ -531,6 +532,7 @@ namespace QUANGHANH2.Controllers.TCLD
                                            where nv.MaTrangThai != 2
                                            select nv).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
                 int totalrows = db.NhanViens.Where(x => x.MaTrangThai != 2).ToList().Count;
+                
                 return getData(listMaNV, totalrows);
             }
         }
@@ -565,11 +567,21 @@ namespace QUANGHANH2.Controllers.TCLD
                      })
                     .ToList<TrangThaiChungChiNhanVienModel>();
                 IOrderedEnumerable<NhiemVu> orders_chungchi = db.NhiemVus.ToList().OrderBy(n => n.Loai);
+                List<TrangThaiChungChiNhanVienModel> temp = listChungChiDefault.Select(item => (TrangThaiChungChiNhanVienModel)item.Clone()).ToList();
+
                 int[] newOrder = new int[orders_chungchi.Count()];
                 for (int j = 0; j < orders_chungchi.Count(); j++) { newOrder[j] = (int)orders_chungchi.ElementAt(j).MaChungChi; }
+                //////////////////////////////////////////////////////////////////////////
+                foreach (TrangThaiChungChiNhanVienModel tt in temp) {
+                    if (!(newOrder.Contains(tt.MaChungChi)))
+                    {
+                        var itemToRemove = listChungChiDefault.Single(r => r.MaChungChi == tt.MaChungChi);
+                        listChungChiDefault.Remove(itemToRemove);
+                    }
+                }
                 //sort list chứng chỉ theo như thứ tự ở bảng ngoài view luôn để tránh việc chạy nhiều vòng lặp và tiết kiệm bước xử lý
                 Dictionary<int, int> newOrderIndexedMap = Enumerable.Range(0, newOrder.Length).ToDictionary(r => newOrder[r], r => r);
-                //listChungChiDefault = listChungChiDefault.OrderBy(test => newOrderIndexedMap[test.MaChungChi]).ToList();
+                listChungChiDefault = listChungChiDefault.OrderBy(test => newOrderIndexedMap[test.MaChungChi]).ToList();
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////
                 List<NhanVienChungChiNewModel> list = new List<NhanVienChungChiNewModel>();
@@ -1181,11 +1193,24 @@ namespace QUANGHANH2.Controllers.TCLD
                          })
                         .ToList<TrangThaiChungChiNhanVienModel>();
                     IOrderedEnumerable<NhiemVu> orders_chungchi = db.NhiemVus.ToList().OrderBy(n => n.Loai);
+
+                    List<TrangThaiChungChiNhanVienModel> tempo = listChungChiDefault.Select(item => (TrangThaiChungChiNhanVienModel)item.Clone()).ToList();
+
                     int[] newOrder = new int[orders_chungchi.Count()];
                     for (int j = 0; j < orders_chungchi.Count(); j++) { newOrder[j] = (int)orders_chungchi.ElementAt(j).MaChungChi; }
+                    //////////////////////////////////////////////////////////////////////////
+                    foreach (TrangThaiChungChiNhanVienModel tt in tempo)
+                    {
+                        if (!(newOrder.Contains(tt.MaChungChi)))
+                        {
+                            var itemToRemove = listChungChiDefault.Single(r => r.MaChungChi == tt.MaChungChi);
+                            listChungChiDefault.Remove(itemToRemove);
+                        }
+                    }
+
                     //sort list chứng chỉ theo như thứ tự ở bảng ngoài view luôn để tránh việc chạy nhiều vòng lặp và tiết kiệm bước xử lý
                     Dictionary<int, int> newOrderIndexedMap = Enumerable.Range(0, newOrder.Length).ToDictionary(r => newOrder[r], r => r);
-                    //listChungChiDefault = listChungChiDefault.OrderBy(test => newOrderIndexedMap[test.MaChungChi]).ToList();
+                    listChungChiDefault = listChungChiDefault.OrderBy(test => newOrderIndexedMap[test.MaChungChi]).ToList();
 
                     /////////////////////////////////////////////////////////////////////////////////////////////////////////
 

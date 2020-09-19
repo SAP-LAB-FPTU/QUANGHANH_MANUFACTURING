@@ -111,10 +111,25 @@ group by department_name,Loai";
         }
         [HttpPost]
         [Route("phong-dieu-khien/thong-ke-tai-nan/exportdetail")]
-        public ActionResult ExportDetail(List<AccidentSummary> accidentSummaries)
+        public ActionResult ExportDetail(string type, string month1, string quarter1, string year1, string month2, string quarter2, string year2, string quateryear1, string quateryear2, string DepartmentId, string loai)
         {
             try
             {
+                var search = new Detail
+                {
+                    DepartmentId = DepartmentId.Trim(),
+                    type = type.Trim(),
+                    month1 = month1.Trim(),
+                    month2 = month2.Trim(),
+                    year1 = year1.Trim(),
+                    year2 = year2.Trim(),
+                    quarter1 = quarter1.Trim(),
+                    quarter2 = quarter2.Trim(),
+                    quarteryear1 = quateryear1.Trim(),
+                    quarteryear2 = quateryear2.Trim(),
+                    loai = loai.Trim(),
+                };
+                var details = GetDetails(search);
                 string path = HostingEnvironment.MapPath("/excel/DK/");
                 string templateFilename = "Thong-ke-tai-nan.xlsx";
                 string downloadFilename = "Thong-ke-tai-nan-download.xlsx";
@@ -124,7 +139,7 @@ group by department_name,Loai";
                     int index = 2;
                     ExcelWorkbook excelWorkbook = workbook.Workbook;
                     ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                    foreach (var acci in accidentSummaries)
+                    foreach (var acci in details)
                     {
 
                         excelWorksheet.Cells[index, 1].Value = acci.department_name;

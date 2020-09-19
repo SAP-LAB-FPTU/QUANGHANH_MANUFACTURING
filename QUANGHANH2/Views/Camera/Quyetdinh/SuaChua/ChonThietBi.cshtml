@@ -9,19 +9,19 @@
 <div class="card">
     <div class="card-content">
         <div class="row">
-            <h3 class="center"><b>CHỌN HỆ THỐNG CAMERA</b></h3>
+            <h3 class="center"><b>CHỌN HỆ THỐNG CAMERA HỎNG</b></h3>
             <hr>
             <div class="col l6 m6 s12">
                 <div class="row">
                     <div class="col l10 m10 offset-l2 offset-m2 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo tên hệ thống" class='form-control' id="room_name" />
+                        <input list="room" type="text" placeholder="Tìm kiếm theo tên hệ thống" class='form-control' id="room_name" />
                     </div>
                 </div>
             </div>
             <div class="col l6 m6 s12">
                 <div class="row">
                     <div class="col l10 m10 s12 input-field">
-                        <input type="text" placeholder="Tìm kiếm theo đơn vị trực thuộc" class='form-control' id="department_id" />
+                        <input list="department" type="text" placeholder="Tìm kiếm theo đơn vị trực thuộc" class='form-control' id="department_name" />
                     </div>
                 </div>
             </div>
@@ -61,6 +61,20 @@
         </text>
     }
 </script>
+
+<datalist id="department">
+    @foreach (var item in ViewBag.department_name)
+    {
+        <option>@item</option>
+    }
+</datalist>
+
+<datalist id="room">
+    @foreach (var item in ViewBag.room_name)
+    {
+        <option>@item</option>
+    }
+</datalist>
 
 @section scripts{
     <script src="~/assets/sweetalert/sweetalert2.min.js"></script>

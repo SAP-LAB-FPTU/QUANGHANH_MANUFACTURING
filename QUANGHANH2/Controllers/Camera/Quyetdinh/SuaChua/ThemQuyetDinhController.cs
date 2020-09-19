@@ -34,27 +34,36 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                               join r in db.Rooms on a.room_id equals r.room_id
                               join d in db.Departments on r.department_id equals d.department_id
                               where r.camera_available < r.camera_quantity && r.camera_quantity != 0
-                              select new
+                              select new RoomList
                               {
-                                  a.room_id,
-                                  a.room_name,
-                                  d.department_name,
-                                  r.department_id,
-                                  r.camera_available,
-                                  r.camera_quantity
-                              }).ToList().Select(s => new RoomList
-                              {
-                                  room_id = s.room_id,
-                                  room_name = s.room_name,
-                                  department_name = s.department_name,
-                                  department_id = s.department_id,
-                                  camera_available = s.camera_available,
-                                  camera_quantity = s.camera_quantity
+                                  room_id = a.room_id,
+                                  room_name = a.room_name,
+                                  department_name = d.department_name,
+                                  department_id = r.department_id,
+                                  camera_available = r.camera_available,
+                                  camera_quantity = r.camera_quantity
                               }).ToList();
                 ViewBag.DataThietBi = result;
 
-                List<Supply> supplies = db.Supplies.ToList();
-                List<Department> departments = db.Departments.ToList();
+                List<Supply> supplies = db.Supplies.Select(x => new
+                {
+                    x.supply_id,
+                    x.supply_name
+                }).ToList().Select(x => new Supply
+                {
+                    supply_id = x.supply_id,
+                    supply_name = x.supply_name
+                }).ToList();
+
+                List<Department> departments = db.Departments.Select(x => new
+                {
+                    x.department_id,
+                    x.department_name
+                }).ToList().Select(x => new Department
+                {
+                    department_id = x.department_id,
+                    department_name = x.department_name
+                }).ToList();
 
                 ViewBag.ListSelected = abc;
                 ViewBag.Supplies = supplies;
@@ -65,7 +74,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
 
         [Route("camera/sua-chua-chon/add")]
         [HttpPost]
-        public ActionResult GetData(string out_in_come, string data, string department_id, string reason)
+        public ActionResult Add(string out_in_come, string data, string department_id, string reason)
         {
             QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
@@ -78,7 +87,6 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                         date_created = DateTime.Now,
                         person_created = Session["Name"] + ""
                     };
-                    ;
                     documentary.reason = reason;
                     documentary.out_in_come = out_in_come;
                     documentary.department_id_to = department_id;

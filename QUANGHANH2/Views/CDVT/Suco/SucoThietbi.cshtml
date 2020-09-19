@@ -82,8 +82,6 @@
                     //if (rights.Contains("20") || rights.Contains("79") || rights.Contains("179") || rights.Contains("180") || rights.Contains("181") || rights.Contains("182") || rights.Contains("183") || rights.Contains("185") || rights.Contains("186") || rights.Contains("184") || rights.Contains("187") || rights.Contains("188") || rights.Contains("189"))
                     if (rights.Contains("20") || rights.Contains("79"))
                     {
-                        <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
-
                         <form action="" method="POST" id="myaddform" role="form">
                             <div class="modal" id="myadd">
                                 <div class="modal-content">
@@ -173,6 +171,8 @@
                                 </div>
                             </div>
                         </form>
+
+                        <a class="waves-effect waves-light btn-small blue modal-trigger" href="#myadd">Thêm</a>
                     }
                     if (rights.Contains("170") || rights.Contains("79"))
                     {
@@ -344,14 +344,14 @@
 </div>
 
 <datalist id="equipmentId">
-    @foreach (QUANGHANH2.Models.Equipment item in ViewBag.equipments)
+    @foreach (var item in ViewBag.equipments)
     {
-        <option>@item.equipmentId</option>
+        <option data-depart="@item.department_name">@item.equipmentId</option>
     }
 </datalist>
 
 <datalist id="equipment_name">
-    @foreach (QUANGHANH2.Models.Equipment item in ViewBag.equipments)
+    @foreach (var item in ViewBag.equipments)
     {
         <option>@item.equipment_name</option>
     }
@@ -512,13 +512,28 @@
         $("#export-button").click(function () {
             $("#pre-load").show();
             $.ajax({
-                type: "POST",
                 url: "/phong-cdvt/su-co/export",
-                cache: false
-            }).done(function () {
-                window.location.href = "/excel/CDVT/download/su-co_temp.xlsx";
-                $("#pre-load").hide();
-            })
+                cache: false,
+                data: {
+                    equipmentId: function () { return $('#equipmentId-search').val() },
+                    equipmentName: function () { return $('#equipmentName-search').val() },
+                    department: function () { return $('#department-search').val() },
+                    detail: function () { return $('#detail-search').val() },
+                    reason: function () { return $('#reason-search').val() },
+                    dateStart: function () { return $('#date-start-search').val() },
+                    dateEnd: function () { return $('#date-end-search').val() }
+                },
+                success: function () {
+                    window.location.href = "/phong-cdvt/su-co/export?equipmentId=" + $('#equipmentId-search').val() + "&equipmentName=" + $('#equipmentName-search').val()
+                        + "&department=" + $('#department-search').val() + "&detail=" + $('#detail-search').val() + "&reason=" + $('#reason-search').val()
+                        + "&dateStart=" + $('#date-start-search').val() + "&dateEnd=" + $('#date-end-search').val();
+                    $("#pre-load").hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $("#pre-load").hide();
+                }
+            });
         });
 
 
@@ -749,6 +764,14 @@
                 },
                 cache: false
             })
+        });
+
+        $("#equipment-add").focusout(function () {
+            let equipmentId = $(this).val();
+            let department_name = $('#equipmentId option').filter(function () {
+                return $(this).html() == equipmentId;
+            }).data("depart");
+            $("#department-add").val(department_name)
         });
     </script>
 }

@@ -151,24 +151,6 @@
     #table-container {
         overflow: scroll;
     }
-
-    #yearCalendar {
-        width: 20% !important;
-        float: right;
-    }
-
-    #view-btn {
-        width: 170px;
-        float: left;
-    }
-    /*.sticky + .table-content {
-      padding-top: 102px;
-    }
-        .sticky {
-      position: fixed;
-      top: 0;
-      width: 100%;
-    }*/
 </style>
 
 <div class="card">
@@ -177,21 +159,21 @@
             <div class="center black-text row">
                 <h3>
                     <b>
-                        BÁO CÁO CÁC PHÂN XƯỞNG THEO NGÀY
+                        BÁO CÁO SẢN LƯỢNG TIÊU CHÍ TOÀN CÔNG TY
                     </b>
                 </h3>
 
                 <div class="row">
                     <h3>
-                        <div class="col l6 m6 s6">
-                            <input id="yearCalendar" class=" datepicker-here datepicker-add center"
+                        <div class="col l2 m2 s12 offset-l4">
+                            <input id="yearCalendar" autocomplete="off" class="form-control datepicker-here datepicker-add center"
                                    data-language='vi'
                                    data-date-format="dd-mm-yyyy"
                                    required />
                         </div>
                     </h3>
-                    <div class="col l6 m6 s6">
-                        <a id="view-btn" class="waves-effect waves-light btn blue darken-2" onclick="getInformation()">XEM</a>
+                    <div class="col l2 m2 s12">
+                        <a id="view-btn" class="left waves-effect waves-light btn btn-small blue darken-2" onclick="getInformation()">XEM</a>
                     </div>
                 </div>
             </div>

@@ -9,7 +9,7 @@ namespace QUANGHANH2.Models
     {
         public string equipment_name { get; set; }
         public string statusname { get; set; }
-        public string stringStartDate { get { return insurance_start_date.ToString("dd/MM/yyyy"); } }
-        public string stringEndDate { get { return insurance_end_date.ToString("dd/MM/yyyy"); } }
+        public string stringStartDate { get; set; }
+        public string stringEndDate { get; set; }
     }
 }

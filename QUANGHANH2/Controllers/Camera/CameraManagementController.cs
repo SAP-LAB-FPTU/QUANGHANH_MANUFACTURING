@@ -1,19 +1,15 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Linq.Dynamic;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Linq.Dynamic;
-using System.Threading;
-using System.IO;
-using System.Web.Hosting;
-using OfficeOpenXml;
-using System.Data.SqlClient;
-using QUANGHANH2.SupportClass;
-using System.Drawing;
 
 namespace QUANGHANH2.Controllers.Camera
 {
@@ -26,7 +22,7 @@ namespace QUANGHANH2.Controllers.Camera
         {
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                ViewBag.departs = db.Departments.ToList().Select(x => new Department { department_id = x.department_id, department_name = x.department_name}).ToList();
+                ViewBag.departs = db.Departments.ToList().Select(x => new Department { department_id = x.department_id, department_name = x.department_name }).ToList();
                 return View("/Views/Camera/DanhSachCamera.cshtml");
             }
         }
@@ -106,8 +102,8 @@ namespace QUANGHANH2.Controllers.Camera
 
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                var sql = "select r.*, d.department_name from Room r " + 
-                    "inner join Department d on r.department_id = d.department_id " + 
+                var sql = "select r.*, d.department_name from Room r " +
+                    "inner join Department d on r.department_id = d.department_id " +
                     "where r.room_name like @room_name and r.disk_status like @disk_status and r.department_id like @department_id and r.camera_quantity != 0";
                 if (reason != "")
                     sql += " and r.signal_loss_reason like @signal_loss_reason";
@@ -207,20 +203,24 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpPost]
         public ActionResult Delete()
         {
-            try
+            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                try
                 {
-                    Room r = db.Rooms.Find(Request["room_id"]);
-                    r.camera_quantity = 0;
-                    r.camera_available = 0;
-                    db.SaveChanges();
+                    db.Database.ExecuteSqlCommand("delete from Room where room_id = @room_id", new SqlParameter("room_id", Request["room_id"]));
                     return Json(new { success = true, message = "Xóa thành công" });
                 }
-            }
-            catch (Exception)
-            {
-                return Json(new { success = false, message = "Có lỗi xảy ra" });
+                catch (Exception)
+                {
+                    Room r = db.Rooms.Find(Request["room_id"]);
+                    if (r != null)
+                    {
+                        r.camera_quantity = 0;
+                        r.camera_available = 0;
+                        db.SaveChanges();
+                    }
+                    return Json(new { success = true, message = "Xóa thành công" });
+                }
             }
         }
 

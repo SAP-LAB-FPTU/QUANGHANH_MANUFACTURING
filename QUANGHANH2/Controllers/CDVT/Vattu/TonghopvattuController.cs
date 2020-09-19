@@ -18,7 +18,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
     {
 
         private readonly ITonghopvattuRepository _repository;
-
+       
         public TonghopvattuController(ITonghopvattuRepository repo)
         {
             _repository = repo;
@@ -40,31 +40,37 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
         [Route("phong-cdvt/tong-hop-vat-tu/details")]
         public ActionResult Details(string DepartmentId, string SupplyName, string MonthPicked)
         {
-            TonghopVattuSearchModelView search = new TonghopVattuSearchModelView
+            using (QUANGHANHABCEntities context = new QUANGHANHABCEntities())
             {
-                DepartmentId = DepartmentId.Trim(),
-               
-                SupplyName = SupplyName.Trim(),
-                MonthPicked = MonthPicked.Trim()
-            };
-            //Server Side Parameter
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            search.DepartmentId = string.IsNullOrWhiteSpace(search.DepartmentId) ? string.Empty : search.DepartmentId;
-            search.MonthPicked = string.IsNullOrWhiteSpace(search.MonthPicked) ? "Tháng"+" " +DateTime.Now.Month +" "+ @DateTime.Now.Year : search.MonthPicked;
-          
-            search.SupplyName = string.IsNullOrWhiteSpace(search.SupplyName) ? string.Empty : search.SupplyName;
-            IList<TonghopvattuDetailModelView> details = _repository.GetDetails(search);
-            int recordsTotal = details.Count;
-            int recordsFiltered = details.Count;
-            details = details.Skip(start).Take(length).ToList();
-            return Json(new
-            {
-                success = true,
-                data = details,
-                recordsTotal,
-                recordsFiltered
-            }, JsonRequestBehavior.AllowGet);
+                TonghopVattuSearchModelView search = new TonghopVattuSearchModelView
+                {
+                    DepartmentId = DepartmentId.Trim(),
+                    SupplyName = SupplyName.Trim(),
+                    MonthPicked = MonthPicked.Trim()
+                };
+                //Server Side Parameter
+                int start = Convert.ToInt32(Request["start"]);
+                int length = Convert.ToInt32(Request["length"]);
+                string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                string sortDirection = Request["order[0][dir]"];
+                search.DepartmentId = string.IsNullOrWhiteSpace(search.DepartmentId) ? string.Empty : search.DepartmentId;
+                search.MonthPicked = string.IsNullOrWhiteSpace(search.MonthPicked) ? "Tháng" + " " + DateTime.Now.Month + " " + @DateTime.Now.Year : search.MonthPicked;
+
+                search.SupplyName = string.IsNullOrWhiteSpace(search.SupplyName) ? string.Empty : search.SupplyName;
+                IList<TonghopvattuDetailModelView> details = _repository.GetDetails(search, sortColumnName, sortDirection, start, length);
+
+                int recordsTotal =_repository.CountDetails(search);
+                int recordsFiltered = recordsTotal;
+
+                return Json(new
+                {
+                    success = true,
+                    data = details,
+                    recordsTotal,
+                    recordsFiltered
+                }, JsonRequestBehavior.AllowGet);
+            }
+        
         }
 
         [Route("phong-cdvt/tong-hop-vat-tu/departments")]
@@ -81,34 +87,57 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
         [Auther(RightID = "28")]
         [HttpGet]
         [Route("phong-cdvt/tong-hop-vat-tu/summary")]
-        public ActionResult Summary(string DepartmentId,  string SupplyName, string MonthPicked)
+        public ActionResult Summary( string SupplyName, string MonthPicked)
         {
+            QUANGHANHABCEntities context = new QUANGHANHABCEntities();
+
             TonghopVattuSearchModelView search = new TonghopVattuSearchModelView
             {
-                DepartmentId = DepartmentId.Trim(),
-                
                 SupplyName = SupplyName.Trim(),
                 MonthPicked = MonthPicked.Trim()
             };
-            search.DepartmentId = string.IsNullOrWhiteSpace(search.DepartmentId) ? string.Empty : search.DepartmentId;
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
             search.MonthPicked = string.IsNullOrWhiteSpace(search.MonthPicked) ? "Tháng" +" "+ DateTime.Now.Month +" "+ @DateTime.Now.Year : search.MonthPicked;
             
             search.SupplyName = string.IsNullOrWhiteSpace(search.SupplyName) ? string.Empty : search.SupplyName;
-            IList<TonghopvattuSummaryModelView> details = _repository.GetSummary(search);
+            IList<TonghopvattuSummaryModelView> summary = _repository.GetSummary(search,  sortColumnName, sortDirection, start, length);
+
+            int recordsTotal =_repository.CountSummary(search);
+            int recordsFiltered = recordsTotal;
+
             return Json(new
             {
                 success = true,
-                data = details
+                data = summary,
+              
+                recordsTotal,
+                recordsFiltered
             }, JsonRequestBehavior.AllowGet);
         }
 
         [Auther(RightID = "28")]
         [HttpPost]
         [Route("phong-cdvt/tong-hop-vat-tu/export")]
-        public ActionResult Export(List<TonghopvattuSummaryModelView> vattus)
+        public ActionResult Export(string DepartmentId, string SupplyName, string MonthPicked)
         {
             try
             {
+                TonghopVattuSearchModelView search = new TonghopVattuSearchModelView
+                {
+                    DepartmentId = DepartmentId.Trim(),
+
+                    SupplyName = SupplyName.Trim(),
+                    MonthPicked = MonthPicked.Trim()
+                };
+                search.DepartmentId = string.IsNullOrWhiteSpace(search.DepartmentId) ? string.Empty : search.DepartmentId;
+                search.MonthPicked = string.IsNullOrWhiteSpace(search.MonthPicked) ? "Tháng" + " " + DateTime.Now.Month + " " + @DateTime.Now.Year : search.MonthPicked;
+
+                search.SupplyName = string.IsNullOrWhiteSpace(search.SupplyName) ? string.Empty : search.SupplyName;
+                
+                IList<TonghopvattuSummaryModelView> details = _repository.ExcelSummary(search);
                 string path = HostingEnvironment.MapPath("/excel/CDVT/download/");
                 string templateFilename = "tong-hop-vat-tu.xlsx";
                 string downloadFilename = "tong-hop-vat-tu-download.xlsx";
@@ -118,7 +147,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
                     int index = 2;
                     ExcelWorkbook excelWorkbook = workbook.Workbook;
                     ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                    foreach (var vattu in vattus)
+                    foreach (var vattu in details)
                     {
                         excelWorksheet.Cells[index, 1].Value = vattu.SupplyId;
                         excelWorksheet.Cells[index, 2].Value = vattu.SupplyName;
@@ -173,10 +202,24 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
         [Auther(RightID = "28")]
         [HttpPost]
         [Route("phong-cdvt/tong-hop-vat-tu/exportdetail")]
-        public ActionResult ExportDetail (List<TonghopvattuSummaryModelView> vattus)
+        public ActionResult ExportDetail (string DepartmentId, string SupplyName, string MonthPicked)
         {
             try
             {
+                TonghopVattuSearchModelView search = new TonghopVattuSearchModelView
+                {
+                    DepartmentId = DepartmentId.Trim(),
+
+                    SupplyName = SupplyName.Trim(),
+                    MonthPicked = MonthPicked.Trim()
+                };
+                //Server Side Parameter
+            
+                search.DepartmentId = string.IsNullOrWhiteSpace(search.DepartmentId) ? string.Empty : search.DepartmentId;
+                search.MonthPicked = string.IsNullOrWhiteSpace(search.MonthPicked) ? "Tháng" + " " + DateTime.Now.Month + " " + @DateTime.Now.Year : search.MonthPicked;
+
+                search.SupplyName = string.IsNullOrWhiteSpace(search.SupplyName) ? string.Empty : search.SupplyName;
+                IList<TonghopvattuDetailModelView> details = _repository.ExcelDetails(search);
                 string path = HostingEnvironment.MapPath("/excel/CDVT/download/");
                 string templateFilename = "tong-hop-vat-tu-chi-tiet.xlsx";
                 string downloadFilename = "tong-hop-vat-tu-chi-tiet-download.xlsx";
@@ -186,7 +229,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
                     int index = 2;
                     ExcelWorkbook excelWorkbook = workbook.Workbook;
                     ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                    foreach (var vattu in vattus)
+                    foreach (var vattu in details)
                     {
                         
                         excelWorksheet.Cells[index, 1].Value = vattu.SupplyName;

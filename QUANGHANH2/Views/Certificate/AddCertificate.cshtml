@@ -22,9 +22,8 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.TenChungChi, "Tên chứng chỉ", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.TenChungChi, new { htmlAttributes = new { @class = "form-control", @id = "tenchungchi" } })
+                    @Html.EditorFor(model => model.TenChungChi, new { htmlAttributes = new { @class = "form-control", @id = "tenchungchi" , @autocomplete = "off"} })
                     @Html.ValidationMessageFor(model => model.TenChungChi, "", new { @class = "text-danger" })
-                    <p hidden style="color:red" id="message_validate">Tên chứng chỉ đã tồn tại. Hãy nhập lại</p>
                     <p hidden style="color:red" id="message_empty">Không được để trống</p>
                 </div>
             </div>
@@ -38,8 +37,8 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.ThoiHan, "Thời hạn (Tháng)", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    <input id="add_cert" class="form-control" />
-                    @Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control editform", @id = "addform" } })
+                    <input id="add_cert" class="form-control" autocomplete = "off"/>
+                    @Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control editform", @id = "addform", @autocomplete = "off" } })
                     @Html.ValidationMessageFor(model => model.ThoiHan, "", new { @class = "text-danger" })
                     @*@Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @id = "show" } })
                     @Html.ValidationMessageFor(model => model.ThoiHan, "", new { @class = "text-danger" })
@@ -77,9 +76,6 @@
             data: { name: $(this).val() },
             success: (response) => {
                 if (response.success) {
-                    $('#message_validate').show();
-                    $('#submit_cirtificate_btn').attr("disabled", true);
-                } else {
                     $('#message_validate').hide();
                     $('#submit_cirtificate_btn').attr("disabled", false);
                 }

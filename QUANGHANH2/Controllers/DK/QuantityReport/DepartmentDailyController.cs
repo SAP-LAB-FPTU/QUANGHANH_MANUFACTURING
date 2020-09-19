@@ -159,12 +159,20 @@ namespace QUANGHANH2.Controllers.DK
         [HttpPost]
         public ActionResult GetData()
         {
-            DateTime timeEnd = Convert.ToDateTime(Request["date"]);
-            var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
-            var reports = getListReport(timeStart, timeEnd);
-            JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-            var result = JsonConvert.SerializeObject(reports, Formatting.Indented, jss);
-            return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+            var date = Request["date"];
+            if (date == null || date == "")
+            {
+                return Json(new { error = true, title = "Lỗi", message = "Chưa chọn ngày xem sản xuất" });
+            }
+            else
+            {
+                DateTime timeEnd = Convert.ToDateTime(date);
+                var timeStart = Convert.ToDateTime("" + timeEnd.Year + "-" + timeEnd.Month + "-1");
+                var reports = getListReport(timeStart, timeEnd);
+                JsonSerializerSettings jss = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+                var result = JsonConvert.SerializeObject(reports, Formatting.Indented, jss);
+                return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [Route("phong-dieu-khien/bao-cao-san-xuat-than/export-excel")]
@@ -174,7 +182,7 @@ namespace QUANGHANH2.Controllers.DK
             var date = Request["date"];
             if (date == null || date == "")
             {
-                return Json(new { error = true, title = "Lỗi", message = "Chưa chọn ngày" });
+                return Json(new { error = true, title = "Lỗi", message = "Chưa chọn ngày xem sản xuất" });
             }
             else
             {
