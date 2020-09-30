@@ -29,11 +29,11 @@
                 <div class="col s12 m12 l12 input-field">
                     <a class="btn btn-small blue darken-2" id="exportExcel"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
                 </div>
-                
+
                 @*<div class="col s12 m12 l12" id="btn-fix-save">
-            <a class="btn btn-small blue darken-2 input-field" id="btn-fix">Chỉnh sửa</a>
-            <a class="btn btn-small blue darken-2 modal-trigger input-field" id="btn-save" href="#modal1">Lưu</a>
-        </div>*@
+                        <a class="btn btn-small blue darken-2 input-field" id="btn-fix">Chỉnh sửa</a>
+                        <a class="btn btn-small blue darken-2 modal-trigger input-field" id="btn-save" href="#modal1">Lưu</a>
+                    </div>*@
 
 
                 <div class="col s12  table-responsive">
@@ -62,44 +62,44 @@
         </div>
     </div>
 </div>
-    <div id="pre-load" hidden>
-        <div class="loading">
-            <div class="preloader-wrapper big active">
-                <div class="spinner-layer spinner-blue-only">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div><div class="gap-patch">
-                        <div class="circle"></div>
-                    </div><div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
+<div id="pre-load" hidden>
+    <div class="loading">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 
 
 
-    <!--Javascript-->
-    <script src="~/js/Custom JS/TCLD/Brief/Briefs_List.js"></script>
-    <script src="~/js/advancedsearch/advancedsearch.js"></script>
-    <script src="~/js/Custom JS/form-input-border.js"></script>
-    <link href="~/css/advancedsearch/advancedsearch.css" rel="stylesheet" />
-    <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
-    <!--Advance search js-->
-    @*<script src="~/js/advancedsearch/advancedsearchList.js"></script>
+<!--Javascript-->
+<script src="~/js/Custom JS/TCLD/Brief/Briefs_List.js"></script>
+<script src="~/js/advancedsearch/advancedsearch.js"></script>
+<script src="~/js/Custom JS/form-input-border.js"></script>
+<link href="~/css/advancedsearch/advancedsearch.css" rel="stylesheet" />
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+<!--Advance search js-->
+@*<script src="~/js/advancedsearch/advancedsearchList.js"></script>
 
-        <script src="~/js/Custom JS/TCLD/Brief/ManageBrief/Brief_Outside.js"></script>*@
+    <script src="~/js/Custom JS/TCLD/Brief/ManageBrief/Brief_Outside.js"></script>*@
 
-    @*<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
-        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>*@
+@*<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>*@
 
 
 
-    @section scripts{
-        <script>
+@section scripts{
+    <script>
                 var table;
                 $(document).ready(function () {
                     console.log('ready');
@@ -124,7 +124,7 @@
                             next: "Trang sau",
                             first: "|<",
                             last: ">|",
-                                                  
+
                         },
                         info: "Đang hiện START đến END của TOTAL bản ghi",
                         infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
@@ -198,7 +198,6 @@
 
                 // click search
             function search() {
-
                 console.log('search');
                 var object = {
                     "manv": $('#searchMa').val(),
@@ -210,22 +209,16 @@
                 });
                 $("#pre-load").css("z-index", "99999");
                 table.ajax.url('@Url.Action("searchOutSide", "Brief")?data=' + x).load(() => { $("#pre-load").hide() }, false);
-
-
-
-
             }
                 $('#searchButton').click(function (e) {
                     console.log("Click search");
                     e.preventDefault();
                     search();
-
-
                 });
 
              function exportExcel() {
-        
-       
+
+
         $.ajax({
             type: 'POST',
             url: '/Brief/ExportExcel',
@@ -254,8 +247,8 @@
     });
 
 
-        </script>
+    </script>
 
-    }
+}
 
 

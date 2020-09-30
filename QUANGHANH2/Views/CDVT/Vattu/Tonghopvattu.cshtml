@@ -31,13 +31,13 @@
                                 </div>
                             </div>
                             @*<div class="col l3 m3 s10">
-                                <div class="row">
-                                    <div class="col l10 m10 s10 input-field">
-                                        <input type="text" placeholder="Tìm kiếm theo mã vật tư" class='form-control' id="supplyId"
-                                               multiple />
+                                    <div class="row">
+                                        <div class="col l10 m10 s10 input-field">
+                                            <input type="text" placeholder="Tìm kiếm theo mã vật tư" class='form-control' id="supplyId"
+                                                   multiple />
+                                        </div>
                                     </div>
-                                </div>
-                            </div>*@
+                                </div>*@
                             <div class="col l3 m3 s10">
                                 <div class="col l10 m10 s10 input-field">
                                     <input list="supply_namelist" type="text" placeholder="Tìm kiếm theo tên vật tư" class='form-control' id="supply_search"
@@ -84,11 +84,11 @@
                             <table id="tbl_detail" class="striped centered table-bordered mytable" width="100%">
                                 <thead>
                                     <tr>
-                                       
+
 
                                         <th class="center-align">Tên vật tư</th>
                                         <th class="center-align">ĐVT</th>
-                                       <th class="center-align">Số lượng thực lĩnh</th>
+                                        <th class="center-align">Số lượng thực lĩnh</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -105,7 +105,7 @@
                                     <thead>
                                         <tr>
                                             <th>Chi phí hiện tại /</th>
-                                            <th>Chi phí ước tínhs</th>
+                                            <th>Chi phí ước tính</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -119,7 +119,7 @@
                             <table id="tbl_summary" class="striped centered table-bordered mytable" width="100%">
                                 <thead>
                                     <tr>
-                                      
+
                                         <th>Mã vật tư</th>
                                         <th>Tên vật tư</th>
                                         <th>ĐVT</th>
@@ -138,7 +138,7 @@
 </div>
 <datalist id="supply_namelist">
 </datalist>
-	@using (Html.BeginForm("ChangeID", "Tonghopvattu", FormMethod.Post, new
+@using (Html.BeginForm("ChangeID", "Tonghopvattu", FormMethod.Post, new
 {
     id = "ChangeNameForm",
     enctype = "multipart/form-data",
@@ -168,9 +168,9 @@
          $("#txtmonth").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
         var tbl_detail, tbl_summary, currTab = 0, exportPayload = [], isFirstInit = true, exportSearch = [];
         $(document).ready(function () {
-            
-         
-       
+
+
+
             setDepartments();
             tbl_detail = $('#tbl_detail').DataTable({
                 "ajax": {
@@ -184,10 +184,10 @@
                         "SupplyName": function () { return $('#supply_search').val() },
                         "MonthPicked": function () { return $('#txtmonth').val() }
                     }
-                   
+
                 },
                 "columns": [
-                 
+
 
                     { "data": "SupplyName", "name": "SupplyName" },
                     { "data": "SupplyUnit", "name": "SupplyUnit" },
@@ -216,6 +216,20 @@
                 },
             });
 
+            var supply = {
+                'SupplyID': "",
+                'SupplyName': "",
+                'SupplyUnit': "",
+                'SupplyQuantity': "",
+                'EstimatePrice': "",
+                'Note': ""
+            };
+            var list_Supply = [];
+
+            function getListSupply_Client() {
+                $("#")
+            }
+
             tbl_summary = $('#tbl_summary').DataTable({
                 "ajax": {
                     "url": "/phong-cdvt/tong-hop-vat-tu/summary",
@@ -226,18 +240,21 @@
                         "DepartmentId": function () { return $('#departments_search option:selected').val() },
                         "SupplyId": function () { return $('#supplyId').val() },
                         "SupplyName": function () { return $('#supply_search').val() },
-                        "MonthPicked": function () { return $('#txtmonth').val() }
+                        "MonthPicked": function () { return $('#txtmonth').val() },
+                        "List_Supply": function () {
+                            //clear list of supply before take to server
+                            list_Supply = [];
+                            
+                        }
                     },
                     "dataSrc": function (json) {
-                       
                             exportPayload = json.data;
-                          
                         return json.data;
                     }
 
                 },
                 "columns": [
-                   
+
                     { "data": "SupplyId", "name": "SupplyId" },
                     { "data": "SupplyName", "name": "SupplyName" },
                     { "data": "SupplyUnit", "name": "SupplyUnit" },
@@ -289,11 +306,11 @@
             $("#export_excel").click(function () {
                 $("#pre-load").show();
                 var data = {
-                    DepartmentId: $('#departments_search option:selected').val() ,
+                    DepartmentId: $('#departments_search option:selected').val(),
                     SupplyId: $('#supplyId').val(),
                     SupplyName: $('#supply_search').val(),
-                        MonthPicked: $('#txtmonth').val()
-                  
+                    MonthPicked: $('#txtmonth').val()
+
 
                 };
                 $.ajax({
@@ -313,7 +330,8 @@
                     }
                 });
                 $("#pre-load").hide();
-            })
+            });
+
             $("#export_exceldetail").click(function () {
                 $("#pre-load").show();
                 var data = {
@@ -321,8 +339,6 @@
                     SupplyId: $('#supplyId').val(),
                     SupplyName: $('#supply_search').val(),
                     MonthPicked: $('#txtmonth').val()
-
-
                 };
                 $.ajax({
                     dataType: "json",
@@ -383,11 +399,11 @@
             $("#pre-load").show();
             if (currTab == 0) {
                 tbl_detail.ajax.reload(function () {
-                    
+
                 });
             } else {
                 tbl_summary.ajax.reload(function () {
-                  
+
                     for (let i = 0; i < exportPayload.length; i++) {
                         if (document.getElementById('estimate_' + exportPayload[i].SupplyId)) {
                             $('#estimate_' + exportPayload[i].SupplyId).val(exportPayload[i].EstimatePrice);
@@ -470,7 +486,7 @@ $(document).ready(function () {
             if (waittime > 10) {
                 ck = true;
             }
-        }, 1000); 
+        }, 1000);
     	});
         $("#supply_search").keyup(function (e) {
         if (e.which == 13) {
@@ -492,7 +508,6 @@ $(document).ready(function () {
  });
 
 	function ChangeID(form) {
-
         $.validator.unobtrusive.parse(form);
         if ($(form).valid()) {
             $.ajax({
@@ -511,13 +526,11 @@ $(document).ready(function () {
                 },
                 error: function () {
                     alert(response.data.message);
-
                 }
             });
         }
-
         return false;
- }
+    }
 
 
     </script>
