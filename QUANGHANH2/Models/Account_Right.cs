@@ -26,8 +26,8 @@ namespace QUANGHANH2.Models
         public string Right { get; set; }
         public Nullable<bool> isBasic { get; set; }
     
+        public virtual Module Module { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Account_Right_Detail> Account_Right_Detail { get; set; }
-        public virtual Module Module { get; set; }
     }
 }
