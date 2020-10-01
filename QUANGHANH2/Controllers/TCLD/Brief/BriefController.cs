@@ -336,7 +336,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             QUANGHANHABCEntities db = new QUANGHANHABCEntities();
 
-
             var HoSoByMaNV = from hs in db.HoSoes
                              join nv in db.NhanViens on hs.MaNV equals nv.MaNV
                              where nv.MaNV == id_
@@ -350,8 +349,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                  camKetTuyenDung = hs.CamKetTuyenDung,
                                  quyetDinhTiepNhan = hs.QuyetDinhTiepNhanDVC,
                                  nguoiBanGiaoBangNhapKho = hs.NguoiBanGiaoBangNhapKho,
-
-
                                  quyetDinhTiepNhanDVC = hs.QuyetDinhTiepNhanDVC,
                                  ngayQDTiepNhan = hs.NgayQuyetDinhTuyenDung,
                                  ngayDiLam = hs.NgayDiLam,
@@ -360,14 +357,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                  ngayQDChamDut = hs.NgayQuyetDinhChamDut,
                                  ngayChamDut = hs.NgayChamDut,
                                  donViKyChamDut = hs.DonViKyQuyetDinhChamDut
-
-
-
                              };
             var dataJson = Json(new { success = true, data = HoSoByMaNV });
-
-
-
 
             string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
 
@@ -767,8 +758,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult searchlistAllBrief(string searchList)
         {
-
-
             using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
@@ -857,9 +846,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty")]
         public ActionResult Outside()
         {
-
             return View("/Views/TCLD/Brief/ManageBrief/Outside.cshtml");
-
         }
         [HttpPost]
         public ActionResult Outside(String mnv)
@@ -1324,8 +1311,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult ExportExcel()
         {
-
-
             string path = HostingEnvironment.MapPath("/excel/TCLD/Hoso/ho-so-ngoai.xlsx");
 
             string saveAsPath = ("/excel/TCLD/download/ho-so-ngoai.xlsx");
@@ -1592,14 +1577,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             left join QuanHeGiaDinh m on a.MaNV = m.MaNV
                             left join LichSuBoSungSYLL n on a.MaNV = n.MaNV
                             where a.MaTrangThai = 1";
-
-
+                        
                         List<InsideExcel> dic = new List<InsideExcel>();
-
                         dic = db.Database.SqlQuery<InsideExcel>(query).ToList();
-
-
-
                         int rowStart = 3;
                         foreach (var l in dic)
                         {
