@@ -14,11 +14,12 @@ namespace QUANGHANH2.Models
     
     public partial class FakeAPI
     {
-        public string MaNV { get; set; }
-        public System.DateTime NgayDiemDanh { get; set; }
-        public int CaDiemDanh { get; set; }
-        public Nullable<System.DateTime> GioDiemDanh { get; set; }
+        public string employee_id { get; set; }
+        public Nullable<System.DateTime> attendance_date { get; set; }
+        public int shifts_id { get; set; }
+        public Nullable<System.DateTime> attendance_time { get; set; }
     
-        public virtual NhanVien NhanVien { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual Shift Shift { get; set; }
     }
 }

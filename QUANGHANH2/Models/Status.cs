@@ -14,16 +14,11 @@ namespace QUANGHANH2.Models
     
     public partial class Status
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Status()
-        {
-            this.Equipments = new HashSet<Equipment>();
-        }
+        public string room_id { get; set; }
+        public System.DateTime date { get; set; }
+        public int session { get; set; }
+        public bool fully_function { get; set; }
     
-        public int statusid { get; set; }
-        public string statusname { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Equipment> Equipments { get; set; }
+        public virtual Room Room { get; set; }
     }
 }
