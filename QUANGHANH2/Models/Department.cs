@@ -17,37 +17,35 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Department()
         {
-            this.BaoCaoFiles = new HashSet<BaoCaoFile>();
-            this.CongTacAnToans = new HashSet<CongTacAnToan>();
-            this.DieuDong_NhanVien = new HashSet<DieuDong_NhanVien>();
-            this.DieuDong_NhanVien1 = new HashSet<DieuDong_NhanVien>();
-            this.Documentaries = new HashSet<Documentary>();
-            this.Documentary_big_maintain_details = new HashSet<Documentary_big_maintain_details>();
-            this.Documentary_camera_repair_details = new HashSet<Documentary_camera_repair_details>();
-            this.Documentary_Improve_Detail = new HashSet<Documentary_Improve_Detail>();
-            this.Documentary_liquidation_details = new HashSet<Documentary_liquidation_details>();
-            this.Documentary_maintain_details = new HashSet<Documentary_maintain_details>();
-            this.Documentary_moveline_details = new HashSet<Documentary_moveline_details>();
-            this.Documentary_repair_details = new HashSet<Documentary_repair_details>();
-            this.Documentary_revoke_details = new HashSet<Documentary_revoke_details>();
-            this.Equipment_SCTX = new HashSet<Equipment_SCTX>();
-            this.Equipments = new HashSet<Equipment>();
-            this.Fuel_activities_consumption = new HashSet<Fuel_activities_consumption>();
-            this.Header_DiemDanh_NangSuat_LaoDong_Detail = new HashSet<Header_DiemDanh_NangSuat_LaoDong_Detail>();
-            this.header_KeHoach_TieuChi_TheoNam = new HashSet<header_KeHoach_TieuChi_TheoNam>();
-            this.header_KeHoach_TieuChi_TheoNgay = new HashSet<header_KeHoach_TieuChi_TheoNgay>();
-            this.header_KeHoachTungThang = new HashSet<header_KeHoachTungThang>();
-            this.Incidents = new HashSet<Incident>();
-            this.Maintain_Car = new HashSet<Maintain_Car>();
-            this.MealRegistrations = new HashSet<MealRegistration>();
-            this.NhanViens = new HashSet<NhanVien>();
-            this.PhongBan_TieuChi = new HashSet<PhongBan_TieuChi>();
             this.Rooms = new HashSet<Room>();
-            this.Supply_tieuhao = new HashSet<Supply_tieuhao>();
-            this.SupplyPlans = new HashSet<SupplyPlan>();
-            this.SupplyPlans1 = new HashSet<SupplyPlan>();
-            this.header_ThucHienTheoNgay = new HashSet<header_ThucHienTheoNgay>();
-            this.PhongBan_TieuChi_TheoNam = new HashSet<PhongBan_TieuChi_TheoNam>();
+            this.BigMaintainDetails = new HashSet<BigMaintainDetail>();
+            this.CameraRepairDetails = new HashSet<CameraRepairDetail>();
+            this.Documentaries = new HashSet<Documentary>();
+            this.ImproveDetails = new HashSet<ImproveDetail>();
+            this.LiquidationDetails = new HashSet<LiquidationDetail>();
+            this.MaintainDetails = new HashSet<MaintainDetail>();
+            this.MovelineDetails = new HashSet<MovelineDetail>();
+            this.RepairDetails = new HashSet<RepairDetail>();
+            this.RevokeDetails = new HashSet<RevokeDetail>();
+            this.CarMaintenances = new HashSet<CarMaintenance>();
+            this.Equipments = new HashSet<Equipment>();
+            this.FuelActivitiesConsumptions = new HashSet<FuelActivitiesConsumption>();
+            this.Incident1 = new HashSet<Incident1>();
+            this.RepairRegularlies = new HashSet<RepairRegularly>();
+            this.DepartmentAttendanceAndProductivities = new HashSet<DepartmentAttendanceAndProductivity>();
+            this.HeaderPlanManufacturingByMonths = new HashSet<HeaderPlanManufacturingByMonth>();
+            this.HeaderPlanManufacturingByShifts = new HashSet<HeaderPlanManufacturingByShift>();
+            this.HeaderPlanManufacturingByYears = new HashSet<HeaderPlanManufacturingByYear>();
+            this.HeaderRealityManufacturings = new HashSet<HeaderRealityManufacturing>();
+            this.MealRegistrations = new HashSet<MealRegistration>();
+            this.Recruitments = new HashSet<Recruitment>();
+            this.ReportFiles = new HashSet<ReportFile>();
+            this.Consumptions = new HashSet<Consumption>();
+            this.MonthlyPlans = new HashSet<MonthlyPlan>();
+            this.MonthlyPlans1 = new HashSet<MonthlyPlan>();
+            this.Transfers = new HashSet<Transfer>();
+            this.Transfers1 = new HashSet<Transfer>();
+            this.Employees = new HashSet<Employee>();
         }
     
         public string department_id { get; set; }
@@ -57,66 +55,62 @@ namespace QUANGHANH2.Models
         public Nullable<int> index { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BaoCaoFile> BaoCaoFiles { get; set; }
+        public virtual ICollection<Room> Rooms { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CongTacAnToan> CongTacAnToans { get; set; }
+        public virtual ICollection<BigMaintainDetail> BigMaintainDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DieuDong_NhanVien> DieuDong_NhanVien { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DieuDong_NhanVien> DieuDong_NhanVien1 { get; set; }
+        public virtual ICollection<CameraRepairDetail> CameraRepairDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Documentary> Documentaries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_big_maintain_details> Documentary_big_maintain_details { get; set; }
+        public virtual ICollection<ImproveDetail> ImproveDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_camera_repair_details> Documentary_camera_repair_details { get; set; }
+        public virtual ICollection<LiquidationDetail> LiquidationDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_Improve_Detail> Documentary_Improve_Detail { get; set; }
+        public virtual ICollection<MaintainDetail> MaintainDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_liquidation_details> Documentary_liquidation_details { get; set; }
+        public virtual ICollection<MovelineDetail> MovelineDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_maintain_details> Documentary_maintain_details { get; set; }
+        public virtual ICollection<RepairDetail> RepairDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_moveline_details> Documentary_moveline_details { get; set; }
+        public virtual ICollection<RevokeDetail> RevokeDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_repair_details> Documentary_repair_details { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_revoke_details> Documentary_revoke_details { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Equipment_SCTX> Equipment_SCTX { get; set; }
+        public virtual ICollection<CarMaintenance> CarMaintenances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipment> Equipments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Fuel_activities_consumption> Fuel_activities_consumption { get; set; }
+        public virtual ICollection<FuelActivitiesConsumption> FuelActivitiesConsumptions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Header_DiemDanh_NangSuat_LaoDong_Detail> Header_DiemDanh_NangSuat_LaoDong_Detail { get; set; }
+        public virtual ICollection<Incident1> Incident1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<header_KeHoach_TieuChi_TheoNam> header_KeHoach_TieuChi_TheoNam { get; set; }
+        public virtual ICollection<RepairRegularly> RepairRegularlies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<header_KeHoach_TieuChi_TheoNgay> header_KeHoach_TieuChi_TheoNgay { get; set; }
+        public virtual ICollection<DepartmentAttendanceAndProductivity> DepartmentAttendanceAndProductivities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<header_KeHoachTungThang> header_KeHoachTungThang { get; set; }
+        public virtual ICollection<HeaderPlanManufacturingByMonth> HeaderPlanManufacturingByMonths { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Incident> Incidents { get; set; }
+        public virtual ICollection<HeaderPlanManufacturingByShift> HeaderPlanManufacturingByShifts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Maintain_Car> Maintain_Car { get; set; }
+        public virtual ICollection<HeaderPlanManufacturingByYear> HeaderPlanManufacturingByYears { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HeaderRealityManufacturing> HeaderRealityManufacturings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MealRegistration> MealRegistrations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NhanVien> NhanViens { get; set; }
+        public virtual ICollection<Recruitment> Recruitments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhongBan_TieuChi> PhongBan_TieuChi { get; set; }
+        public virtual ICollection<ReportFile> ReportFiles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Room> Rooms { get; set; }
+        public virtual ICollection<Consumption> Consumptions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_tieuhao> Supply_tieuhao { get; set; }
+        public virtual ICollection<MonthlyPlan> MonthlyPlans { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplyPlan> SupplyPlans { get; set; }
+        public virtual ICollection<MonthlyPlan> MonthlyPlans1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplyPlan> SupplyPlans1 { get; set; }
+        public virtual ICollection<Transfer> Transfers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<header_ThucHienTheoNgay> header_ThucHienTheoNgay { get; set; }
+        public virtual ICollection<Transfer> Transfers1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhongBan_TieuChi_TheoNam> PhongBan_TieuChi_TheoNam { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

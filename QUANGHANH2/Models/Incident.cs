@@ -15,14 +15,14 @@ namespace QUANGHANH2.Models
     public partial class Incident
     {
         public int incident_id { get; set; }
+        public string room_id { get; set; }
+        public int incident_camera_quantity { get; set; }
         public System.DateTime start_time { get; set; }
         public Nullable<System.DateTime> end_time { get; set; }
-        public string detail_location { get; set; }
         public string reason { get; set; }
-        public string equipmentId { get; set; }
-        public string department_id { get; set; }
+        public bool disk_saveable { get; set; }
+        public string disk_status { get; set; }
     
-        public virtual Department Department { get; set; }
-        public virtual Equipment Equipment { get; set; }
+        public virtual Room Room { get; set; }
     }
 }
