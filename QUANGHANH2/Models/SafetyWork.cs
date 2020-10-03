@@ -18,7 +18,7 @@ namespace QUANGHANH2.Models
         public string employee_id { get; set; }
         public string reason { get; set; }
         public Nullable<System.DateTime> date { get; set; }
-        public Nullable<int> shifts_id { get; set; }
+        public Nullable<int> shift_id { get; set; }
         public Nullable<int> safety_work_type_id { get; set; }
         public string note { get; set; }
     

@@ -18,12 +18,12 @@ namespace QUANGHANH2.Models
         public Record()
         {
             this.AdditionalHistoryResumes = new HashSet<AdditionalHistoryResume>();
-            this.RecordsGettingAuthorizes = new HashSet<RecordsGettingAuthorize>();
-            this.RecordsPapers = new HashSet<RecordsPaper>();
+            this.RecordGettingAuthorizes = new HashSet<RecordGettingAuthorize>();
+            this.RecordPapers = new HashSet<RecordPaper>();
         }
     
-        public int records_id { get; set; }
-        public Nullable<int> records_status_id { get; set; }
+        public int record_id { get; set; }
+        public Nullable<int> record_status_id { get; set; }
         public Nullable<System.DateTime> received_date { get; set; }
         public string delivery_employee_id { get; set; }
         public string handover_employee_id { get; set; }
@@ -36,10 +36,10 @@ namespace QUANGHANH2.Models
         public virtual Employee Employee1 { get; set; }
         public virtual Employee Employee2 { get; set; }
         public virtual Employee Employee3 { get; set; }
-        public virtual RecordsStatu RecordsStatu { get; set; }
+        public virtual RecordStatu RecordStatu { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RecordsGettingAuthorize> RecordsGettingAuthorizes { get; set; }
+        public virtual ICollection<RecordGettingAuthorize> RecordGettingAuthorizes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RecordsPaper> RecordsPapers { get; set; }
+        public virtual ICollection<RecordPaper> RecordPapers { get; set; }
     }
 }

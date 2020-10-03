@@ -17,7 +17,7 @@ namespace QUANGHANH2.Models
         public int header_reality_manufacturing_id { get; set; }
         public string department_id { get; set; }
         public Nullable<int> reality_manufacturing_day_information_id { get; set; }
-        public Nullable<int> shifts_id { get; set; }
+        public Nullable<int> shift_id { get; set; }
     
         public virtual Department Department { get; set; }
         public virtual RealityManufacturingDayInformation RealityManufacturingDayInformation { get; set; }

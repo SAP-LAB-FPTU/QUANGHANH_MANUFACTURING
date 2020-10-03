@@ -22,7 +22,7 @@ namespace QUANGHANH2.Models
     
         public int report_file_id { get; set; }
         public Nullable<System.DateTime> report_file_date { get; set; }
-        public Nullable<int> shifts_id { get; set; }
+        public Nullable<int> shift_id { get; set; }
         public string department_id { get; set; }
         public Nullable<bool> @lock { get; set; }
     

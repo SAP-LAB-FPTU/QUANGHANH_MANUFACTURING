@@ -12,14 +12,14 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class RecordsGettingAuthorize
+    public partial class RecordGettingAuthorize
     {
-        public int records_getting_authorize_id { get; set; }
+        public int record_getting_authorize_id { get; set; }
         public string full_name { get; set; }
         public string identity_card_number { get; set; }
         public string phone_number { get; set; }
         public string permanent_address { get; set; }
-        public Nullable<int> records_id { get; set; }
+        public Nullable<int> record_id { get; set; }
         public Nullable<int> family_relationship_id { get; set; }
     
         public virtual FamilyRelationship FamilyRelationship { get; set; }

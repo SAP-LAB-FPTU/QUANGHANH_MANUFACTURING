@@ -12,29 +12,29 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class RecordsPaper
+    public partial class RecordPaper
     {
-        public int records_papers_id { get; set; }
+        public int record_paper_id { get; set; }
         public string school_id { get; set; }
-        public Nullable<int> specializations_id { get; set; }
+        public Nullable<int> specialization_id { get; set; }
         public string career_id { get; set; }
         public Nullable<System.DateTime> date_start { get; set; }
         public Nullable<System.DateTime> date_end { get; set; }
         public string trained_forms { get; set; }
         public string papers_number { get; set; }
         public int papers_id { get; set; }
-        public Nullable<int> papers_storage_type_id { get; set; }
+        public Nullable<int> paper_storage_type_id { get; set; }
         public string qualification_id { get; set; }
         public string duration { get; set; }
         public Nullable<int> duration_type_id { get; set; }
         public Nullable<System.DateTime> received_date { get; set; }
         public Nullable<System.DateTime> given_date { get; set; }
-        public Nullable<int> records_id { get; set; }
+        public Nullable<int> record_id { get; set; }
     
         public virtual Career Career { get; set; }
         public virtual DurationType DurationType { get; set; }
         public virtual Paper Paper { get; set; }
-        public virtual PapersStorageType PapersStorageType { get; set; }
+        public virtual PaperStorageType PaperStorageType { get; set; }
         public virtual Qualification Qualification { get; set; }
         public virtual Record Record { get; set; }
         public virtual School School { get; set; }

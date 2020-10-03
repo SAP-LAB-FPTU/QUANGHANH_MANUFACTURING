@@ -18,7 +18,7 @@ namespace QUANGHANH2.Models
         public FamilyRelationship()
         {
             this.Families = new HashSet<Family>();
-            this.RecordsGettingAuthorizes = new HashSet<RecordsGettingAuthorize>();
+            this.RecordGettingAuthorizes = new HashSet<RecordGettingAuthorize>();
         }
     
         public int family_relationship_id { get; set; }
@@ -27,6 +27,6 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Family> Families { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RecordsGettingAuthorize> RecordsGettingAuthorizes { get; set; }
+        public virtual ICollection<RecordGettingAuthorize> RecordGettingAuthorizes { get; set; }
     }
 }

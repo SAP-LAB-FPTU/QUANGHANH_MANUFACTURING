@@ -12,19 +12,18 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PapersType
+    public partial class StatusEmployee
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PapersType()
+        public StatusEmployee()
         {
-            this.Papers = new HashSet<Paper>();
+            this.Employees = new HashSet<Employee>();
         }
     
-        public int papers_type_id { get; set; }
+        public int status_employee_id { get; set; }
         public string name { get; set; }
-        public Nullable<bool> is_trained_papers { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Paper> Papers { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

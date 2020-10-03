@@ -616,17 +616,10 @@
     <Property Name="PERSONAL_HISTORY_detail" Type="nvarchar(max)" />
     <Property Name="PERSONAL_HISTORY_related_organization" Type="nvarchar(max)" />
     <Property Name="PERSONAL_HISTORY_relatives" Type="nvarchar(max)" />
-    <Property Name="current_employee_status_id" Type="int" />
+    <Property Name="current_status_employee_id" Type="int" />
     <Property Name="current_department_id" Type="nvarchar" MaxLength="150" />
     <Property Name="current_salary_id" Type="int" />
     <Property Name="current_work_id" Type="int" />
-  </EntityType>
-  <EntityType Name="EmployeeStatus">
-    <Key>
-      <PropertyRef Name="employee_status_id" />
-    </Key>
-    <Property Name="employee_status_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
   <EntityType Name="EmployeeTask">
     <Key>
@@ -669,28 +662,28 @@
     <Property Name="family_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
-  <EntityType Name="Papers">
+  <EntityType Name="Paper">
     <Key>
-      <PropertyRef Name="papers_id" />
+      <PropertyRef Name="paper_id" />
     </Key>
-    <Property Name="papers_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="paper_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="100" />
-    <Property Name="papers_type_id" Type="int" />
+    <Property Name="paper_type_id" Type="int" />
   </EntityType>
-  <EntityType Name="PapersStorageType">
+  <EntityType Name="PaperStorageType">
     <Key>
-      <PropertyRef Name="papers_storage_type_id" />
+      <PropertyRef Name="paper_storage_type_id" />
     </Key>
-    <Property Name="papers_storage_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="paper_storage_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
-  <EntityType Name="PapersType">
+  <EntityType Name="PaperType">
     <Key>
-      <PropertyRef Name="papers_type_id" />
+      <PropertyRef Name="paper_type_id" />
     </Key>
-    <Property Name="papers_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="paper_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="100" />
-    <Property Name="is_trained_papers" Type="bit" />
+    <Property Name="is_trained_paper" Type="bit" />
   </EntityType>
   <EntityType Name="PayRate">
     <Key>
@@ -715,56 +708,56 @@
     <Property Name="qualification_id" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
-  <EntityType Name="Records">
+  <EntityType Name="Record">
     <Key>
-      <PropertyRef Name="records_id" />
+      <PropertyRef Name="record_id" />
     </Key>
-    <Property Name="records_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="records_status_id" Type="int" />
+    <Property Name="record_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="record_status_id" Type="int" />
     <Property Name="received_date" Type="date" />
     <Property Name="delivery_employee_id" Type="nvarchar" MaxLength="100" />
     <Property Name="handover_employee_id" Type="nvarchar" MaxLength="100" />
     <Property Name="management_employee_id" Type="nvarchar" MaxLength="100" />
     <Property Name="employee_id" Type="nvarchar" MaxLength="100" />
   </EntityType>
-  <EntityType Name="RecordsGettingAuthorize">
+  <EntityType Name="RecordGettingAuthorize">
     <Key>
-      <PropertyRef Name="records_getting_authorize_id" />
+      <PropertyRef Name="record_getting_authorize_id" />
     </Key>
-    <Property Name="records_getting_authorize_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="record_getting_authorize_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="full_name" Type="nvarchar" MaxLength="100" />
     <Property Name="identity_card_number" Type="nvarchar" MaxLength="100" />
     <Property Name="phone_number" Type="nvarchar" MaxLength="100" />
     <Property Name="permanent_address" Type="nvarchar" MaxLength="100" />
-    <Property Name="records_id" Type="int" />
+    <Property Name="record_id" Type="int" />
     <Property Name="family_relationship_id" Type="int" />
   </EntityType>
-  <EntityType Name="RecordsPapers">
+  <EntityType Name="RecordPaper">
     <Key>
-      <PropertyRef Name="records_papers_id" />
+      <PropertyRef Name="record_paper_id" />
     </Key>
-    <Property Name="records_papers_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="record_paper_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="school_id" Type="nvarchar" MaxLength="100" />
-    <Property Name="specializations_id" Type="int" />
+    <Property Name="specialization_id" Type="int" />
     <Property Name="career_id" Type="nvarchar" MaxLength="100" />
     <Property Name="date_start" Type="date" />
     <Property Name="date_end" Type="date" />
     <Property Name="trained_forms" Type="nvarchar" MaxLength="100" />
     <Property Name="papers_number" Type="nvarchar" MaxLength="100" />
     <Property Name="papers_id" Type="int" Nullable="false" />
-    <Property Name="papers_storage_type_id" Type="int" />
+    <Property Name="paper_storage_type_id" Type="int" />
     <Property Name="qualification_id" Type="nvarchar" MaxLength="100" />
     <Property Name="duration" Type="nvarchar" MaxLength="100" />
     <Property Name="duration_type_id" Type="int" />
     <Property Name="received_date" Type="date" />
     <Property Name="given_date" Type="date" />
-    <Property Name="records_id" Type="int" />
+    <Property Name="record_id" Type="int" />
   </EntityType>
-  <EntityType Name="RecordsStatus">
+  <EntityType Name="RecordStatus">
     <Key>
-      <PropertyRef Name="records_status_id" />
+      <PropertyRef Name="record_status_id" />
     </Key>
-    <Property Name="records_status_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="record_status_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
   <EntityType Name="Recruitment">
@@ -807,15 +800,22 @@
     <Property Name="school_id" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="100" />
   </EntityType>
-  <EntityType Name="Specializations">
+  <EntityType Name="Specialization">
     <Key>
-      <PropertyRef Name="specializations_id" />
+      <PropertyRef Name="specialization_id" />
     </Key>
-    <Property Name="specializations_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="specializations_number" Type="nvarchar" MaxLength="100" />
+    <Property Name="specialization_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="specialization_number" Type="nvarchar" MaxLength="100" />
     <Property Name="name" Type="nvarchar(max)" />
     <Property Name="career_id" Type="nvarchar" MaxLength="100" />
     <Property Name="education_level_id" Type="int" />
+  </EntityType>
+  <EntityType Name="StatusEmployee">
+    <Key>
+      <PropertyRef Name="status_employee_id" />
+    </Key>
+    <Property Name="status_employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
   <EntityType Name="Task">
     <Key>
@@ -1008,7 +1008,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.DepartmentCri
     </Key>
     <Property Name="header_attendance_and_productivity_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="attendance_date" Type="date" />
-    <Property Name="shifts_id" Type="int" />
+    <Property Name="shift_id" Type="int" />
     <Property Name="is_created_manually" Type="bit" />
     <Property Name="status" Type="nvarchar" MaxLength="100" />
     <Property Name="message" Type="nvarchar(max)" />
@@ -1023,13 +1023,13 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.DepartmentCri
     <Property Name="department_id" Type="nvarchar" MaxLength="150" />
     <Property Name="plan_manufacturing_month_information_id" Type="int" />
   </EntityType>
-  <EntityType Name="HeaderPlanManufacturingByShifts">
+  <EntityType Name="HeaderPlanManufacturingByShift">
     <Key>
       <PropertyRef Name="header_phan_manufacturing_by_shifts_id" />
     </Key>
     <Property Name="header_phan_manufacturing_by_shifts_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="department_id" Type="nvarchar" MaxLength="150" />
-    <Property Name="shifts_id" Type="int" />
+    <Property Name="shift_id" Type="int" />
     <Property Name="date" Type="date" />
   </EntityType>
   <EntityType Name="HeaderPlanManufacturingByYear">
@@ -1048,7 +1048,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.DepartmentCri
     <Property Name="header_reality_manufacturing_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="department_id" Type="nvarchar" MaxLength="150" />
     <Property Name="reality_manufacturing_day_information_id" Type="int" />
-    <Property Name="shifts_id" Type="int" />
+    <Property Name="shift_id" Type="int" />
   </EntityType>
   <EntityType Name="MealRegistration">
     <Key>
@@ -1079,13 +1079,13 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.DepartmentCri
     <Property Name="last_time_update" Type="datetime" Nullable="false" />
     <Property Name="note" Type="nvarchar(max)" />
   </EntityType>
-  <EntityType Name="PlanManufacturingByShifts">
+  <EntityType Name="PlanManufacturingByShift">
     <Key>
-      <PropertyRef Name="header_phan_manufacturing_by_shifts_id" />
+      <PropertyRef Name="header_phan_manufacturing_by_shift_id" />
       <PropertyRef Name="criteria_id" />
       <PropertyRef Name="last_time_update" />
     </Key>
-    <Property Name="header_phan_manufacturing_by_shifts_id" Type="int" Nullable="false" />
+    <Property Name="header_phan_manufacturing_by_shift_id" Type="int" Nullable="false" />
     <Property Name="criteria_id" Type="int" Nullable="false" />
     <Property Name="plan_quantity" Type="nvarchar" MaxLength="100" />
     <Property Name="last_time_update" Type="datetime" Nullable="false" />
@@ -1134,7 +1134,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
     </Key>
     <Property Name="report_file_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="report_file_date" Type="date" />
-    <Property Name="shifts_id" Type="int" />
+    <Property Name="shift_id" Type="int" />
     <Property Name="department_id" Type="nvarchar" MaxLength="150" />
     <Property Name="lock" Type="bit" />
   </EntityType>
@@ -1146,7 +1146,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
     <Property Name="employee_id" Type="nvarchar" MaxLength="100" />
     <Property Name="reason" Type="nvarchar(max)" />
     <Property Name="date" Type="date" />
-    <Property Name="shifts_id" Type="int" />
+    <Property Name="shift_id" Type="int" />
     <Property Name="safety_work_type_id" Type="int" />
     <Property Name="note" Type="nvarchar(max)" />
   </EntityType>
@@ -1157,11 +1157,11 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
     <Property Name="safety_work_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
-  <EntityType Name="Shifts">
+  <EntityType Name="Shift">
     <Key>
-      <PropertyRef Name="shifts_id" />
+      <PropertyRef Name="shift_id" />
     </Key>
-    <Property Name="shifts_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="shift_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="time_start" Type="int" />
     <Property Name="time_end" Type="int" />
@@ -1400,11 +1400,11 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Additiona__recor__67DE6983">
-    <End Role="Records" Type="Self.Records" Multiplicity="0..1" />
+    <End Role="Record" Type="Self.Record" Multiplicity="0..1" />
     <End Role="AdditionalHistoryResume" Type="Self.AdditionalHistoryResume" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Records">
-        <PropertyRef Name="records_id" />
+      <Principal Role="Record">
+        <PropertyRef Name="record_id" />
       </Principal>
       <Dependent Role="AdditionalHistoryResume">
         <PropertyRef Name="records_id" />
@@ -1904,14 +1904,14 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Employee__status__68D28DBC">
-    <End Role="EmployeeStatus" Type="Self.EmployeeStatus" Multiplicity="0..1" />
+    <End Role="StatusEmployee" Type="Self.StatusEmployee" Multiplicity="0..1" />
     <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="EmployeeStatus">
-        <PropertyRef Name="employee_status_id" />
+      <Principal Role="StatusEmployee">
+        <PropertyRef Name="status_employee_id" />
       </Principal>
       <Dependent Role="Employee">
-        <PropertyRef Name="current_employee_status_id" />
+        <PropertyRef Name="current_status_employee_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2036,11 +2036,11 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__FakeAPI__shifts___25DB9BFC">
-    <End Role="Shifts" Type="Self.Shifts" Multiplicity="1" />
+    <End Role="Shift" Type="Self.Shift" Multiplicity="1" />
     <End Role="FakeAPI" Type="Self.FakeAPI" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Shifts">
-        <PropertyRef Name="shifts_id" />
+      <Principal Role="Shift">
+        <PropertyRef Name="shift_id" />
       </Principal>
       <Dependent Role="FakeAPI">
         <PropertyRef Name="shifts_id" />
@@ -2144,14 +2144,14 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__HeaderAtt__shift__28B808A7">
-    <End Role="Shifts" Type="Self.Shifts" Multiplicity="0..1" />
+    <End Role="Shift" Type="Self.Shift" Multiplicity="0..1" />
     <End Role="HeaderAttendanceAndProductivity" Type="Self.HeaderAttendanceAndProductivity" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Shifts">
-        <PropertyRef Name="shifts_id" />
+      <Principal Role="Shift">
+        <PropertyRef Name="shift_id" />
       </Principal>
       <Dependent Role="HeaderAttendanceAndProductivity">
-        <PropertyRef Name="shifts_id" />
+        <PropertyRef Name="shift_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2169,12 +2169,12 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
   </Association>
   <Association Name="FK__HeaderPla__depar__2B947552">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-    <End Role="HeaderPlanManufacturingByShifts" Type="Self.HeaderPlanManufacturingByShifts" Multiplicity="*" />
+    <End Role="HeaderPlanManufacturingByShift" Type="Self.HeaderPlanManufacturingByShift" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Department">
         <PropertyRef Name="department_id" />
       </Principal>
-      <Dependent Role="HeaderPlanManufacturingByShifts">
+      <Dependent Role="HeaderPlanManufacturingByShift">
         <PropertyRef Name="department_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -2204,14 +2204,14 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__HeaderPla__shift__2C88998B">
-    <End Role="Shifts" Type="Self.Shifts" Multiplicity="0..1" />
-    <End Role="HeaderPlanManufacturingByShifts" Type="Self.HeaderPlanManufacturingByShifts" Multiplicity="*" />
+    <End Role="Shift" Type="Self.Shift" Multiplicity="0..1" />
+    <End Role="HeaderPlanManufacturingByShift" Type="Self.HeaderPlanManufacturingByShift" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Shifts">
-        <PropertyRef Name="shifts_id" />
+      <Principal Role="Shift">
+        <PropertyRef Name="shift_id" />
       </Principal>
-      <Dependent Role="HeaderPlanManufacturingByShifts">
-        <PropertyRef Name="shifts_id" />
+      <Dependent Role="HeaderPlanManufacturingByShift">
+        <PropertyRef Name="shift_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2240,14 +2240,14 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__HeaderRea__shift__30592A6F">
-    <End Role="Shifts" Type="Self.Shifts" Multiplicity="0..1" />
+    <End Role="Shift" Type="Self.Shift" Multiplicity="0..1" />
     <End Role="HeaderRealityManufacturing" Type="Self.HeaderRealityManufacturing" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Shifts">
-        <PropertyRef Name="shifts_id" />
+      <Principal Role="Shift">
+        <PropertyRef Name="shift_id" />
       </Principal>
       <Dependent Role="HeaderRealityManufacturing">
-        <PropertyRef Name="shifts_id" />
+        <PropertyRef Name="shift_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2540,14 +2540,14 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Papers__papers_t__6E8B6712">
-    <End Role="PapersType" Type="Self.PapersType" Multiplicity="0..1" />
-    <End Role="Papers" Type="Self.Papers" Multiplicity="*" />
+    <End Role="PaperType" Type="Self.PaperType" Multiplicity="0..1" />
+    <End Role="Paper" Type="Self.Paper" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="PapersType">
-        <PropertyRef Name="papers_type_id" />
+      <Principal Role="PaperType">
+        <PropertyRef Name="paper_type_id" />
       </Principal>
-      <Dependent Role="Papers">
-        <PropertyRef Name="papers_type_id" />
+      <Dependent Role="Paper">
+        <PropertyRef Name="paper_type_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2565,12 +2565,12 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
   </Association>
   <Association Name="FK__PlanManuf__crite__3429BB53">
     <End Role="Criteria" Type="Self.Criteria" Multiplicity="1" />
-    <End Role="PlanManufacturingByShifts" Type="Self.PlanManufacturingByShifts" Multiplicity="*" />
+    <End Role="PlanManufacturingByShift" Type="Self.PlanManufacturingByShift" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Criteria">
         <PropertyRef Name="criteria_id" />
       </Principal>
-      <Dependent Role="PlanManufacturingByShifts">
+      <Dependent Role="PlanManufacturingByShift">
         <PropertyRef Name="criteria_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -2600,14 +2600,14 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__PlanManuf__heade__351DDF8C">
-    <End Role="HeaderPlanManufacturingByShifts" Type="Self.HeaderPlanManufacturingByShifts" Multiplicity="1" />
-    <End Role="PlanManufacturingByShifts" Type="Self.PlanManufacturingByShifts" Multiplicity="*" />
+    <End Role="HeaderPlanManufacturingByShift" Type="Self.HeaderPlanManufacturingByShift" Multiplicity="1" />
+    <End Role="PlanManufacturingByShift" Type="Self.PlanManufacturingByShift" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="HeaderPlanManufacturingByShifts">
+      <Principal Role="HeaderPlanManufacturingByShift">
         <PropertyRef Name="header_phan_manufacturing_by_shifts_id" />
       </Principal>
-      <Dependent Role="PlanManufacturingByShifts">
-        <PropertyRef Name="header_phan_manufacturing_by_shifts_id" />
+      <Dependent Role="PlanManufacturingByShift">
+        <PropertyRef Name="header_phan_manufacturing_by_shift_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -2631,168 +2631,168 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
         <Association Name="FK__RealityMa__heade__38EE7070" />-->
   <Association Name="FK__Records__deliver__6F7F8B4B">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-    <End Role="Records" Type="Self.Records" Multiplicity="*" />
+    <End Role="Record" Type="Self.Record" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
         <PropertyRef Name="employee_id" />
       </Principal>
-      <Dependent Role="Records">
+      <Dependent Role="Record">
         <PropertyRef Name="delivery_employee_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Records__employe__7073AF84">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-    <End Role="Records" Type="Self.Records" Multiplicity="*" />
+    <End Role="Record" Type="Self.Record" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
         <PropertyRef Name="employee_id" />
       </Principal>
-      <Dependent Role="Records">
+      <Dependent Role="Record">
         <PropertyRef Name="employee_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Records__handove__7167D3BD">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-    <End Role="Records" Type="Self.Records" Multiplicity="*" />
+    <End Role="Record" Type="Self.Record" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
         <PropertyRef Name="employee_id" />
       </Principal>
-      <Dependent Role="Records">
+      <Dependent Role="Record">
         <PropertyRef Name="handover_employee_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Records__managem__725BF7F6">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-    <End Role="Records" Type="Self.Records" Multiplicity="*" />
+    <End Role="Record" Type="Self.Record" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
         <PropertyRef Name="employee_id" />
       </Principal>
-      <Dependent Role="Records">
+      <Dependent Role="Record">
         <PropertyRef Name="management_employee_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Records__records__73501C2F">
-    <End Role="RecordsStatus" Type="Self.RecordsStatus" Multiplicity="0..1" />
-    <End Role="Records" Type="Self.Records" Multiplicity="*" />
+    <End Role="RecordStatus" Type="Self.RecordStatus" Multiplicity="0..1" />
+    <End Role="Record" Type="Self.Record" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="RecordsStatus">
-        <PropertyRef Name="records_status_id" />
+      <Principal Role="RecordStatus">
+        <PropertyRef Name="record_status_id" />
       </Principal>
-      <Dependent Role="Records">
-        <PropertyRef Name="records_status_id" />
+      <Dependent Role="Record">
+        <PropertyRef Name="record_status_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__RecordsGe__famil__74444068">
     <End Role="FamilyRelationship" Type="Self.FamilyRelationship" Multiplicity="0..1" />
-    <End Role="RecordsGettingAuthorize" Type="Self.RecordsGettingAuthorize" Multiplicity="*" />
+    <End Role="RecordGettingAuthorize" Type="Self.RecordGettingAuthorize" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="FamilyRelationship">
         <PropertyRef Name="family_relationship_id" />
       </Principal>
-      <Dependent Role="RecordsGettingAuthorize">
+      <Dependent Role="RecordGettingAuthorize">
         <PropertyRef Name="family_relationship_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__RecordsGe__recor__753864A1">
-    <End Role="Records" Type="Self.Records" Multiplicity="0..1" />
-    <End Role="RecordsGettingAuthorize" Type="Self.RecordsGettingAuthorize" Multiplicity="*" />
+    <End Role="Record" Type="Self.Record" Multiplicity="0..1" />
+    <End Role="RecordGettingAuthorize" Type="Self.RecordGettingAuthorize" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Records">
-        <PropertyRef Name="records_id" />
+      <Principal Role="Record">
+        <PropertyRef Name="record_id" />
       </Principal>
-      <Dependent Role="RecordsGettingAuthorize">
-        <PropertyRef Name="records_id" />
+      <Dependent Role="RecordGettingAuthorize">
+        <PropertyRef Name="record_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__RecordsPa__caree__762C88DA">
     <End Role="Career" Type="Self.Career" Multiplicity="0..1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Career">
         <PropertyRef Name="career_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
+      <Dependent Role="RecordPaper">
         <PropertyRef Name="career_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__RecordsPa__durat__7720AD13">
     <End Role="DurationType" Type="Self.DurationType" Multiplicity="0..1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="DurationType">
         <PropertyRef Name="duration_type_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
+      <Dependent Role="RecordPaper">
         <PropertyRef Name="duration_type_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__RecordsPa__paper__7814D14C">
-    <End Role="Papers" Type="Self.Papers" Multiplicity="1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
+    <End Role="Paper" Type="Self.Paper" Multiplicity="1" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Papers">
-        <PropertyRef Name="papers_id" />
+      <Principal Role="Paper">
+        <PropertyRef Name="paper_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
+      <Dependent Role="RecordPaper">
         <PropertyRef Name="papers_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__RecordsPa__paper__7908F585">
-    <End Role="PapersStorageType" Type="Self.PapersStorageType" Multiplicity="0..1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
+    <End Role="PaperStorageType" Type="Self.PaperStorageType" Multiplicity="0..1" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="PapersStorageType">
-        <PropertyRef Name="papers_storage_type_id" />
+      <Principal Role="PaperStorageType">
+        <PropertyRef Name="paper_storage_type_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
-        <PropertyRef Name="papers_storage_type_id" />
+      <Dependent Role="RecordPaper">
+        <PropertyRef Name="paper_storage_type_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__RecordsPa__quali__79FD19BE">
     <End Role="Qualification" Type="Self.Qualification" Multiplicity="0..1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Qualification">
         <PropertyRef Name="qualification_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
+      <Dependent Role="RecordPaper">
         <PropertyRef Name="qualification_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__RecordsPa__recor__7AF13DF7">
-    <End Role="Records" Type="Self.Records" Multiplicity="0..1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
+    <End Role="Record" Type="Self.Record" Multiplicity="0..1" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Records">
-        <PropertyRef Name="records_id" />
+      <Principal Role="Record">
+        <PropertyRef Name="record_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
-        <PropertyRef Name="records_id" />
+      <Dependent Role="RecordPaper">
+        <PropertyRef Name="record_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__RecordsPa__schoo__7BE56230">
     <End Role="School" Type="Self.School" Multiplicity="0..1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="School">
         <PropertyRef Name="school_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
+      <Dependent Role="RecordPaper">
         <PropertyRef Name="school_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -3074,14 +3074,14 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__ReportFil__shift__3AD6B8E2">
-    <End Role="Shifts" Type="Self.Shifts" Multiplicity="0..1" />
+    <End Role="Shift" Type="Self.Shift" Multiplicity="0..1" />
     <End Role="ReportFile" Type="Self.ReportFile" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Shifts">
-        <PropertyRef Name="shifts_id" />
+      <Principal Role="Shift">
+        <PropertyRef Name="shift_id" />
       </Principal>
       <Dependent Role="ReportFile">
-        <PropertyRef Name="shifts_id" />
+        <PropertyRef Name="shift_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3134,14 +3134,14 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__SafetyWor__shift__3DB3258D">
-    <End Role="Shifts" Type="Self.Shifts" Multiplicity="0..1" />
+    <End Role="Shift" Type="Self.Shift" Multiplicity="0..1" />
     <End Role="SafetyWork" Type="Self.SafetyWork" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Shifts">
-        <PropertyRef Name="shifts_id" />
+      <Principal Role="Shift">
+        <PropertyRef Name="shift_id" />
       </Principal>
       <Dependent Role="SafetyWork">
-        <PropertyRef Name="shifts_id" />
+        <PropertyRef Name="shift_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3183,24 +3183,24 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
   </Association>
   <Association Name="FK__Specializ__caree__66B53B20">
     <End Role="Career" Type="Self.Career" Multiplicity="0..1" />
-    <End Role="Specializations" Type="Self.Specializations" Multiplicity="*" />
+    <End Role="Specialization" Type="Self.Specialization" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Career">
         <PropertyRef Name="career_id" />
       </Principal>
-      <Dependent Role="Specializations">
+      <Dependent Role="Specialization">
         <PropertyRef Name="career_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Specializ__educa__67A95F59">
     <End Role="EducationLevel" Type="Self.EducationLevel" Multiplicity="0..1" />
-    <End Role="Specializations" Type="Self.Specializations" Multiplicity="*" />
+    <End Role="Specialization" Type="Self.Specialization" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="EducationLevel">
         <PropertyRef Name="education_level_id" />
       </Principal>
-      <Dependent Role="Specializations">
+      <Dependent Role="Specialization">
         <PropertyRef Name="education_level_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -3302,11 +3302,11 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Task__papers_id__084B3915">
-    <End Role="Papers" Type="Self.Papers" Multiplicity="0..1" />
+    <End Role="Paper" Type="Self.Paper" Multiplicity="0..1" />
     <End Role="Task" Type="Self.Task" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Papers">
-        <PropertyRef Name="papers_id" />
+      <Principal Role="Paper">
+        <PropertyRef Name="paper_id" />
       </Principal>
       <Dependent Role="Task">
         <PropertyRef Name="papers_id" />
@@ -3578,23 +3578,23 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_RecordsPapers_Specializations">
-    <End Role="Specializations" Type="Self.Specializations" Multiplicity="0..1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
+    <End Role="Specialization" Type="Self.Specialization" Multiplicity="0..1" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Specializations">
-        <PropertyRef Name="specializations_id" />
+      <Principal Role="Specialization">
+        <PropertyRef Name="specialization_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
-        <PropertyRef Name="specializations_id" />
+      <Dependent Role="RecordPaper">
+        <PropertyRef Name="specialization_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Recruitment_Specializations">
-    <End Role="Specializations" Type="Self.Specializations" Multiplicity="0..1" />
+    <End Role="Specialization" Type="Self.Specialization" Multiplicity="0..1" />
     <End Role="Recruitment" Type="Self.Recruitment" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Specializations">
-        <PropertyRef Name="specializations_id" />
+      <Principal Role="Specialization">
+        <PropertyRef Name="specialization_id" />
       </Principal>
       <Dependent Role="Recruitment">
         <PropertyRef Name="specializations_id" />
@@ -3653,26 +3653,26 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
     <EntitySet Name="DurationType" EntityType="Self.DurationType" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="EducationLevel" EntityType="Self.EducationLevel" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="Employee" EntityType="Self.Employee" Schema="HumanResources" store:Type="Tables" />
-    <EntitySet Name="EmployeeStatus" EntityType="Self.EmployeeStatus" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="EmployeeTask" EntityType="Self.EmployeeTask" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="Family" EntityType="Self.Family" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="FamilyRelationship" EntityType="Self.FamilyRelationship" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="FamilyType" EntityType="Self.FamilyType" Schema="HumanResources" store:Type="Tables" />
-    <EntitySet Name="Papers" EntityType="Self.Papers" Schema="HumanResources" store:Type="Tables" />
-    <EntitySet Name="PapersStorageType" EntityType="Self.PapersStorageType" Schema="HumanResources" store:Type="Tables" />
-    <EntitySet Name="PapersType" EntityType="Self.PapersType" Schema="HumanResources" store:Type="Tables" />
+    <EntitySet Name="Paper" EntityType="Self.Paper" Schema="HumanResources" store:Type="Tables" />
+    <EntitySet Name="PaperStorageType" EntityType="Self.PaperStorageType" Schema="HumanResources" store:Type="Tables" />
+    <EntitySet Name="PaperType" EntityType="Self.PaperType" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="PayRate" EntityType="Self.PayRate" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="PayTable" EntityType="Self.PayTable" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="Qualification" EntityType="Self.Qualification" Schema="HumanResources" store:Type="Tables" />
-    <EntitySet Name="Records" EntityType="Self.Records" Schema="HumanResources" store:Type="Tables" />
-    <EntitySet Name="RecordsGettingAuthorize" EntityType="Self.RecordsGettingAuthorize" Schema="HumanResources" store:Type="Tables" />
-    <EntitySet Name="RecordsPapers" EntityType="Self.RecordsPapers" Schema="HumanResources" store:Type="Tables" />
-    <EntitySet Name="RecordsStatus" EntityType="Self.RecordsStatus" Schema="HumanResources" store:Type="Tables" />
+    <EntitySet Name="Record" EntityType="Self.Record" Schema="HumanResources" store:Type="Tables" />
+    <EntitySet Name="RecordGettingAuthorize" EntityType="Self.RecordGettingAuthorize" Schema="HumanResources" store:Type="Tables" />
+    <EntitySet Name="RecordPaper" EntityType="Self.RecordPaper" Schema="HumanResources" store:Type="Tables" />
+    <EntitySet Name="RecordStatus" EntityType="Self.RecordStatus" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="Recruitment" EntityType="Self.Recruitment" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="Salary" EntityType="Self.Salary" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="SalaryProcess" EntityType="Self.SalaryProcess" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="School" EntityType="Self.School" Schema="HumanResources" store:Type="Tables" />
-    <EntitySet Name="Specializations" EntityType="Self.Specializations" Schema="HumanResources" store:Type="Tables" />
+    <EntitySet Name="Specialization" EntityType="Self.Specialization" Schema="HumanResources" store:Type="Tables" />
+    <EntitySet Name="StatusEmployee" EntityType="Self.StatusEmployee" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="Task" EntityType="Self.Task" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="TaskType" EntityType="Self.TaskType" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="Termination" EntityType="Self.Termination" Schema="HumanResources" store:Type="Tables" />
@@ -3692,20 +3692,20 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
     <EntitySet Name="File" EntityType="Self.File" Schema="Manufacturing" store:Type="Tables" />
     <EntitySet Name="HeaderAttendanceAndProductivity" EntityType="Self.HeaderAttendanceAndProductivity" Schema="Manufacturing" store:Type="Tables" />
     <EntitySet Name="HeaderPlanManufacturingByMonth" EntityType="Self.HeaderPlanManufacturingByMonth" Schema="Manufacturing" store:Type="Tables" />
-    <EntitySet Name="HeaderPlanManufacturingByShifts" EntityType="Self.HeaderPlanManufacturingByShifts" Schema="Manufacturing" store:Type="Tables" />
+    <EntitySet Name="HeaderPlanManufacturingByShift" EntityType="Self.HeaderPlanManufacturingByShift" Schema="Manufacturing" store:Type="Tables" />
     <EntitySet Name="HeaderPlanManufacturingByYear" EntityType="Self.HeaderPlanManufacturingByYear" Schema="Manufacturing" store:Type="Tables" />
     <EntitySet Name="HeaderRealityManufacturing" EntityType="Self.HeaderRealityManufacturing" Schema="Manufacturing" store:Type="Tables" />
     <EntitySet Name="MealRegistration" EntityType="Self.MealRegistration" Schema="Manufacturing" store:Type="Tables" />
     <EntitySet Name="MeasureUnit" EntityType="Self.MeasureUnit" Schema="Manufacturing" store:Type="Tables" />
     <EntitySet Name="PlanManufacturingByMonth" EntityType="Self.PlanManufacturingByMonth" Schema="Manufacturing" store:Type="Tables" />
-    <EntitySet Name="PlanManufacturingByShifts" EntityType="Self.PlanManufacturingByShifts" Schema="Manufacturing" store:Type="Tables" />
+    <EntitySet Name="PlanManufacturingByShift" EntityType="Self.PlanManufacturingByShift" Schema="Manufacturing" store:Type="Tables" />
     <EntitySet Name="PlanManufacturingByYear" EntityType="Self.PlanManufacturingByYear" Schema="Manufacturing" store:Type="Tables" />
     <EntitySet Name="PlanManufacturingMonthInformation" EntityType="Self.PlanManufacturingMonthInformation" Schema="Manufacturing" store:Type="Tables" />
     <EntitySet Name="RealityManufacturingDayInformation" EntityType="Self.RealityManufacturingDayInformation" Schema="Manufacturing" store:Type="Tables" />
     <EntitySet Name="ReportFile" EntityType="Self.ReportFile" Schema="Manufacturing" store:Type="Tables" />
     <EntitySet Name="SafetyWork" EntityType="Self.SafetyWork" Schema="Manufacturing" store:Type="Tables" />
     <EntitySet Name="SafetyWorkType" EntityType="Self.SafetyWorkType" Schema="Manufacturing" store:Type="Tables" />
-    <EntitySet Name="Shifts" EntityType="Self.Shifts" Schema="Manufacturing" store:Type="Tables" />
+    <EntitySet Name="Shift" EntityType="Self.Shift" Schema="Manufacturing" store:Type="Tables" />
     <EntitySet Name="BigMaintainEquipment" EntityType="Self.BigMaintainEquipment" Schema="Supply" store:Type="Tables" />
     <EntitySet Name="Consumption" EntityType="Self.Consumption" Schema="Supply" store:Type="Tables" />
     <EntitySet Name="ImproveEquipment" EntityType="Self.ImproveEquipment" Schema="Supply" store:Type="Tables" />
@@ -3756,7 +3756,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="Activity" EntitySet="Activity" />
     </AssociationSet>
     <AssociationSet Name="FK__Additiona__recor__67DE6983" Association="Self.FK__Additiona__recor__67DE6983">
-      <End Role="Records" EntitySet="Records" />
+      <End Role="Record" EntitySet="Record" />
       <End Role="AdditionalHistoryResume" EntitySet="AdditionalHistoryResume" />
     </AssociationSet>
     <AssociationSet Name="FK__Attribute__equip__5006DFF2" Association="Self.FK__Attribute__equip__5006DFF2">
@@ -3916,7 +3916,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="RevokeDetails" EntitySet="RevokeDetails" />
     </AssociationSet>
     <AssociationSet Name="FK__Employee__status__68D28DBC" Association="Self.FK__Employee__status__68D28DBC">
-      <End Role="EmployeeStatus" EntitySet="EmployeeStatus" />
+      <End Role="StatusEmployee" EntitySet="StatusEmployee" />
       <End Role="Employee" EntitySet="Employee" />
     </AssociationSet>
     <AssociationSet Name="FK__EmployeeA__absen__2116E6DF" Association="Self.FK__EmployeeA__absen__2116E6DF">
@@ -3960,7 +3960,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="FakeAPI" EntitySet="FakeAPI" />
     </AssociationSet>
     <AssociationSet Name="FK__FakeAPI__shifts___25DB9BFC" Association="Self.FK__FakeAPI__shifts___25DB9BFC">
-      <End Role="Shifts" EntitySet="Shifts" />
+      <End Role="Shift" EntitySet="Shift" />
       <End Role="FakeAPI" EntitySet="FakeAPI" />
     </AssociationSet>
     <AssociationSet Name="FK__Family__employee__6BAEFA67" Association="Self.FK__Family__employee__6BAEFA67">
@@ -3996,7 +3996,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="FuelActivitiesConsumption" EntitySet="FuelActivitiesConsumption" />
     </AssociationSet>
     <AssociationSet Name="FK__HeaderAtt__shift__28B808A7" Association="Self.FK__HeaderAtt__shift__28B808A7">
-      <End Role="Shifts" EntitySet="Shifts" />
+      <End Role="Shift" EntitySet="Shift" />
       <End Role="HeaderAttendanceAndProductivity" EntitySet="HeaderAttendanceAndProductivity" />
     </AssociationSet>
     <AssociationSet Name="FK__HeaderPla__depar__29AC2CE0" Association="Self.FK__HeaderPla__depar__29AC2CE0">
@@ -4005,7 +4005,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
     </AssociationSet>
     <AssociationSet Name="FK__HeaderPla__depar__2B947552" Association="Self.FK__HeaderPla__depar__2B947552">
       <End Role="Department" EntitySet="Department" />
-      <End Role="HeaderPlanManufacturingByShifts" EntitySet="HeaderPlanManufacturingByShifts" />
+      <End Role="HeaderPlanManufacturingByShift" EntitySet="HeaderPlanManufacturingByShift" />
     </AssociationSet>
     <AssociationSet Name="FK__HeaderPla__depar__2D7CBDC4" Association="Self.FK__HeaderPla__depar__2D7CBDC4">
       <End Role="Department" EntitySet="Department" />
@@ -4016,8 +4016,8 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="HeaderPlanManufacturingByMonth" EntitySet="HeaderPlanManufacturingByMonth" />
     </AssociationSet>
     <AssociationSet Name="FK__HeaderPla__shift__2C88998B" Association="Self.FK__HeaderPla__shift__2C88998B">
-      <End Role="Shifts" EntitySet="Shifts" />
-      <End Role="HeaderPlanManufacturingByShifts" EntitySet="HeaderPlanManufacturingByShifts" />
+      <End Role="Shift" EntitySet="Shift" />
+      <End Role="HeaderPlanManufacturingByShift" EntitySet="HeaderPlanManufacturingByShift" />
     </AssociationSet>
     <AssociationSet Name="FK__HeaderRea__depar__2E70E1FD" Association="Self.FK__HeaderRea__depar__2E70E1FD">
       <End Role="Department" EntitySet="Department" />
@@ -4028,7 +4028,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="HeaderRealityManufacturing" EntitySet="HeaderRealityManufacturing" />
     </AssociationSet>
     <AssociationSet Name="FK__HeaderRea__shift__30592A6F" Association="Self.FK__HeaderRea__shift__30592A6F">
-      <End Role="Shifts" EntitySet="Shifts" />
+      <End Role="Shift" EntitySet="Shift" />
       <End Role="HeaderRealityManufacturing" EntitySet="HeaderRealityManufacturing" />
     </AssociationSet>
     <AssociationSet Name="FK__Important__docum__38EE7070" Association="Self.FK__Important__docum__38EE7070">
@@ -4128,8 +4128,8 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="MovelineDetails" EntitySet="MovelineDetails" />
     </AssociationSet>
     <AssociationSet Name="FK__Papers__papers_t__6E8B6712" Association="Self.FK__Papers__papers_t__6E8B6712">
-      <End Role="PapersType" EntitySet="PapersType" />
-      <End Role="Papers" EntitySet="Papers" />
+      <End Role="PaperType" EntitySet="PaperType" />
+      <End Role="Paper" EntitySet="Paper" />
     </AssociationSet>
     <AssociationSet Name="FK__PlanManuf__crite__324172E1" Association="Self.FK__PlanManuf__crite__324172E1">
       <End Role="Criteria" EntitySet="Criteria" />
@@ -4137,7 +4137,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
     </AssociationSet>
     <AssociationSet Name="FK__PlanManuf__crite__3429BB53" Association="Self.FK__PlanManuf__crite__3429BB53">
       <End Role="Criteria" EntitySet="Criteria" />
-      <End Role="PlanManufacturingByShifts" EntitySet="PlanManufacturingByShifts" />
+      <End Role="PlanManufacturingByShift" EntitySet="PlanManufacturingByShift" />
     </AssociationSet>
     <AssociationSet Name="FK__PlanManuf__crite__361203C5" Association="Self.FK__PlanManuf__crite__361203C5">
       <End Role="Criteria" EntitySet="Criteria" />
@@ -4148,8 +4148,8 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="PlanManufacturingByMonth" EntitySet="PlanManufacturingByMonth" />
     </AssociationSet>
     <AssociationSet Name="FK__PlanManuf__heade__351DDF8C" Association="Self.FK__PlanManuf__heade__351DDF8C">
-      <End Role="HeaderPlanManufacturingByShifts" EntitySet="HeaderPlanManufacturingByShifts" />
-      <End Role="PlanManufacturingByShifts" EntitySet="PlanManufacturingByShifts" />
+      <End Role="HeaderPlanManufacturingByShift" EntitySet="HeaderPlanManufacturingByShift" />
+      <End Role="PlanManufacturingByShift" EntitySet="PlanManufacturingByShift" />
     </AssociationSet>
     <AssociationSet Name="FK__PlanManuf__heade__370627FE" Association="Self.FK__PlanManuf__heade__370627FE">
       <End Role="HeaderPlanManufacturingByYear" EntitySet="HeaderPlanManufacturingByYear" />
@@ -4157,59 +4157,59 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
     </AssociationSet>
     <AssociationSet Name="FK__Records__deliver__6F7F8B4B" Association="Self.FK__Records__deliver__6F7F8B4B">
       <End Role="Employee" EntitySet="Employee" />
-      <End Role="Records" EntitySet="Records" />
+      <End Role="Record" EntitySet="Record" />
     </AssociationSet>
     <AssociationSet Name="FK__Records__employe__7073AF84" Association="Self.FK__Records__employe__7073AF84">
       <End Role="Employee" EntitySet="Employee" />
-      <End Role="Records" EntitySet="Records" />
+      <End Role="Record" EntitySet="Record" />
     </AssociationSet>
     <AssociationSet Name="FK__Records__handove__7167D3BD" Association="Self.FK__Records__handove__7167D3BD">
       <End Role="Employee" EntitySet="Employee" />
-      <End Role="Records" EntitySet="Records" />
+      <End Role="Record" EntitySet="Record" />
     </AssociationSet>
     <AssociationSet Name="FK__Records__managem__725BF7F6" Association="Self.FK__Records__managem__725BF7F6">
       <End Role="Employee" EntitySet="Employee" />
-      <End Role="Records" EntitySet="Records" />
+      <End Role="Record" EntitySet="Record" />
     </AssociationSet>
     <AssociationSet Name="FK__Records__records__73501C2F" Association="Self.FK__Records__records__73501C2F">
-      <End Role="RecordsStatus" EntitySet="RecordsStatus" />
-      <End Role="Records" EntitySet="Records" />
+      <End Role="RecordStatus" EntitySet="RecordStatus" />
+      <End Role="Record" EntitySet="Record" />
     </AssociationSet>
     <AssociationSet Name="FK__RecordsGe__famil__74444068" Association="Self.FK__RecordsGe__famil__74444068">
       <End Role="FamilyRelationship" EntitySet="FamilyRelationship" />
-      <End Role="RecordsGettingAuthorize" EntitySet="RecordsGettingAuthorize" />
+      <End Role="RecordGettingAuthorize" EntitySet="RecordGettingAuthorize" />
     </AssociationSet>
     <AssociationSet Name="FK__RecordsGe__recor__753864A1" Association="Self.FK__RecordsGe__recor__753864A1">
-      <End Role="Records" EntitySet="Records" />
-      <End Role="RecordsGettingAuthorize" EntitySet="RecordsGettingAuthorize" />
+      <End Role="Record" EntitySet="Record" />
+      <End Role="RecordGettingAuthorize" EntitySet="RecordGettingAuthorize" />
     </AssociationSet>
     <AssociationSet Name="FK__RecordsPa__caree__762C88DA" Association="Self.FK__RecordsPa__caree__762C88DA">
       <End Role="Career" EntitySet="Career" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="RecordPaper" EntitySet="RecordPaper" />
     </AssociationSet>
     <AssociationSet Name="FK__RecordsPa__durat__7720AD13" Association="Self.FK__RecordsPa__durat__7720AD13">
       <End Role="DurationType" EntitySet="DurationType" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="RecordPaper" EntitySet="RecordPaper" />
     </AssociationSet>
     <AssociationSet Name="FK__RecordsPa__paper__7814D14C" Association="Self.FK__RecordsPa__paper__7814D14C">
-      <End Role="Papers" EntitySet="Papers" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="Paper" EntitySet="Paper" />
+      <End Role="RecordPaper" EntitySet="RecordPaper" />
     </AssociationSet>
     <AssociationSet Name="FK__RecordsPa__paper__7908F585" Association="Self.FK__RecordsPa__paper__7908F585">
-      <End Role="PapersStorageType" EntitySet="PapersStorageType" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="PaperStorageType" EntitySet="PaperStorageType" />
+      <End Role="RecordPaper" EntitySet="RecordPaper" />
     </AssociationSet>
     <AssociationSet Name="FK__RecordsPa__quali__79FD19BE" Association="Self.FK__RecordsPa__quali__79FD19BE">
       <End Role="Qualification" EntitySet="Qualification" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="RecordPaper" EntitySet="RecordPaper" />
     </AssociationSet>
     <AssociationSet Name="FK__RecordsPa__recor__7AF13DF7" Association="Self.FK__RecordsPa__recor__7AF13DF7">
-      <End Role="Records" EntitySet="Records" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="Record" EntitySet="Record" />
+      <End Role="RecordPaper" EntitySet="RecordPaper" />
     </AssociationSet>
     <AssociationSet Name="FK__RecordsPa__schoo__7BE56230" Association="Self.FK__RecordsPa__schoo__7BE56230">
       <End Role="School" EntitySet="School" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="RecordPaper" EntitySet="RecordPaper" />
     </AssociationSet>
     <AssociationSet Name="FK__Recruitme__decis__7DCDAAA2" Association="Self.FK__Recruitme__decis__7DCDAAA2">
       <End Role="Decision" EntitySet="Decision" />
@@ -4304,7 +4304,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="ReportFile" EntitySet="ReportFile" />
     </AssociationSet>
     <AssociationSet Name="FK__ReportFil__shift__3AD6B8E2" Association="Self.FK__ReportFil__shift__3AD6B8E2">
-      <End Role="Shifts" EntitySet="Shifts" />
+      <End Role="Shift" EntitySet="Shift" />
       <End Role="ReportFile" EntitySet="ReportFile" />
     </AssociationSet>
     <AssociationSet Name="FK__RevokeDet__depar__4B422AD5" Association="Self.FK__RevokeDet__depar__4B422AD5">
@@ -4324,7 +4324,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="SafetyWork" EntitySet="SafetyWork" />
     </AssociationSet>
     <AssociationSet Name="FK__SafetyWor__shift__3DB3258D" Association="Self.FK__SafetyWor__shift__3DB3258D">
-      <End Role="Shifts" EntitySet="Shifts" />
+      <End Role="Shift" EntitySet="Shift" />
       <End Role="SafetyWork" EntitySet="SafetyWork" />
     </AssociationSet>
     <AssociationSet Name="FK__Salary__pay_rate__047AA831" Association="Self.FK__Salary__pay_rate__047AA831">
@@ -4341,11 +4341,11 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
     </AssociationSet>
     <AssociationSet Name="FK__Specializ__caree__66B53B20" Association="Self.FK__Specializ__caree__66B53B20">
       <End Role="Career" EntitySet="Career" />
-      <End Role="Specializations" EntitySet="Specializations" />
+      <End Role="Specialization" EntitySet="Specialization" />
     </AssociationSet>
     <AssociationSet Name="FK__Specializ__educa__67A95F59" Association="Self.FK__Specializ__educa__67A95F59">
       <End Role="EducationLevel" EntitySet="EducationLevel" />
-      <End Role="Specializations" EntitySet="Specializations" />
+      <End Role="Specialization" EntitySet="Specialization" />
     </AssociationSet>
     <AssociationSet Name="FK__Status__room_id__27F8EE98" Association="Self.FK__Status__room_id__27F8EE98">
       <End Role="Room" EntitySet="Room" />
@@ -4380,7 +4380,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="MonthlyPlan" EntitySet="MonthlyPlan" />
     </AssociationSet>
     <AssociationSet Name="FK__Task__papers_id__084B3915" Association="Self.FK__Task__papers_id__084B3915">
-      <End Role="Papers" EntitySet="Papers" />
+      <End Role="Paper" EntitySet="Paper" />
       <End Role="Task" EntitySet="Task" />
     </AssociationSet>
     <AssociationSet Name="FK__Task__task_type___093F5D4E" Association="Self.FK__Task__task_type___093F5D4E">
@@ -4472,11 +4472,11 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="Important_Documentary" EntitySet="Important_Documentary" />
     </AssociationSet>
     <AssociationSet Name="FK_RecordsPapers_Specializations" Association="Self.FK_RecordsPapers_Specializations">
-      <End Role="Specializations" EntitySet="Specializations" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="Specialization" EntitySet="Specialization" />
+      <End Role="RecordPaper" EntitySet="RecordPaper" />
     </AssociationSet>
     <AssociationSet Name="FK_Recruitment_Specializations" Association="Self.FK_Recruitment_Specializations">
-      <End Role="Specializations" EntitySet="Specializations" />
+      <End Role="Specialization" EntitySet="Specialization" />
       <End Role="Recruitment" EntitySet="Recruitment" />
     </AssociationSet>
   </EntityContainer>

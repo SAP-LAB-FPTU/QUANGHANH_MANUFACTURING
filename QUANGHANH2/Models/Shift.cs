@@ -25,7 +25,7 @@ namespace QUANGHANH2.Models
             this.SafetyWorks = new HashSet<SafetyWork>();
         }
     
-        public int shifts_id { get; set; }
+        public int shift_id { get; set; }
         public string name { get; set; }
         public Nullable<int> time_start { get; set; }
         public Nullable<int> time_end { get; set; }

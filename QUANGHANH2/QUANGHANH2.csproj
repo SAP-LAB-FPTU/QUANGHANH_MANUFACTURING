@@ -471,9 +471,6 @@
     <Compile Include="Models\EmployeeAttendanceAndProductivity.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\EmployeeStatu.cs">
-      <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\EmployeeTask.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
@@ -580,10 +577,10 @@
     <Compile Include="Models\Paper.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PapersStorageType.cs">
+    <Compile Include="Models\PaperStorageType.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PapersType.cs">
+    <Compile Include="Models\PaperType.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PayRate.cs">
@@ -628,13 +625,13 @@
     <Compile Include="Models\Record.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\RecordsGettingAuthorize.cs">
+    <Compile Include="Models\RecordGettingAuthorize.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\RecordsPaper.cs">
+    <Compile Include="Models\RecordPaper.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\RecordsStatu.cs">
+    <Compile Include="Models\RecordStatu.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Recruitment.cs">
@@ -695,6 +692,9 @@
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Status1.cs">
+      <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StatusEmployee.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supply.cs">

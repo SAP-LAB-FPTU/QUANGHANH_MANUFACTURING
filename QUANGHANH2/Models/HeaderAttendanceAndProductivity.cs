@@ -24,7 +24,7 @@ namespace QUANGHANH2.Models
     
         public int header_attendance_and_productivity_id { get; set; }
         public Nullable<System.DateTime> attendance_date { get; set; }
-        public Nullable<int> shifts_id { get; set; }
+        public Nullable<int> shift_id { get; set; }
         public Nullable<bool> is_created_manually { get; set; }
         public string status { get; set; }
         public string message { get; set; }
