@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bafae459565a4c279d1bb0175598d0fa" Name="Diagram1" ZoomLevel="72">
+      <Diagram DiagramId="8a1563ce31dc45629ffc09718029e32b" Name="Diagram1">
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Account" Width="1.5" PointX="22.25" PointY="92.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Account_Right" Width="1.5" PointX="25.25" PointY="86.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Account_Right_Detail" Width="1.5" PointX="27.5" PointY="94.25" IsExpanded="true" />
@@ -51,38 +51,38 @@
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Notification" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.UserActionLog" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.AdditionalHistoryResume" Width="1.5" PointX="27.5" PointY="97.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.Career" Width="1.5" PointX="11.75" PointY="69.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.Career" Width="1.5" PointX="11.75" PointY="68.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Decision" Width="1.5" PointX="14" PointY="84.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.DurationType" Width="1.5" PointX="28.25" PointY="87.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.EducationLevel" Width="1.5" PointX="11.75" PointY="71.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.EducationLevel" Width="1.5" PointX="11.75" PointY="70.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Employee" Width="1.5" PointX="14" PointY="95.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.EmployeeStatu" Width="1.5" PointX="11.75" PointY="75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.EmployeeTask" Width="1.5" PointX="22.25" PointY="106" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Family" Width="1.5" PointX="22.25" PointY="109.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.FamilyRelationship" Width="1.5" PointX="28.25" PointY="120.375" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.FamilyType" Width="1.5" PointX="20" PointY="123.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Paper" Width="1.5" PointX="28.25" PointY="83" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.PapersStorageType" Width="1.5" PointX="28.25" PointY="114.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.PapersType" Width="1.5" PointX="26" PointY="83.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.PayRate" Width="1.5" PointX="9.5" PointY="130.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.PayTable" Width="1.5" PointX="9.5" PointY="132.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.PaperStorageType" Width="1.5" PointX="28.25" PointY="114.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.PaperType" Width="1.5" PointX="26" PointY="83.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.PayRate" Width="1.5" PointX="9.5" PointY="73" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.PayTable" Width="1.5" PointX="9.5" PointY="75.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Qualification" Width="1.5" PointX="14" PointY="75.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Record" Width="1.5" PointX="25.25" PointY="101.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.RecordsGettingAuthorize" Width="1.5" PointX="30.5" PointY="101.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.RecordsPaper" Width="1.5" PointX="30.5" PointY="95.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.RecordsStatu" Width="1.5" PointX="23" PointY="117.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.RecordGettingAuthorize" Width="1.5" PointX="30.5" PointY="101.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.RecordPaper" Width="1.5" PointX="30.5" PointY="95.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.RecordStatu" Width="1.5" PointX="23" PointY="117.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Recruitment" Width="1.5" PointX="16.25" PointY="101.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.Salary" Width="1.5" PointX="11.75" PointY="131" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.Salary" Width="1.5" PointX="11.75" PointY="73.625" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.SalaryProcess" Width="1.5" PointX="16.25" PointY="120.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.School" Width="1.5" PointX="28.25" PointY="117.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.Specialization" Width="1.5" PointX="14" PointY="70" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.Specialization" Width="1.5" PointX="14" PointY="69" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.StatusEmployee" Width="1.5" PointX="11.75" PointY="130.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Task" Width="1.5" PointX="20" PointY="130.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.TaskType" Width="1.5" PointX="17.75" PointY="130.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Termination" Width="1.5" PointX="25.25" PointY="98.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.TerminationType" Width="1.5" PointX="23" PointY="89.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Transfer" Width="1.5" PointX="19.25" PointY="101.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.Work" Width="1.5" PointX="11.75" PointY="135.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.WorkGroup" Width="1.5" PointX="14" PointY="136.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.Work" Width="1.5" PointX="11.75" PointY="132.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.WorkGroup" Width="1.5" PointX="14" PointY="133.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.WorkingProcess" Width="1.5" PointX="16.25" PointY="126" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.AbsenceReason" Width="1.5" PointX="23" PointY="120.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.AbsenceReasonType" Width="1.5" PointX="20.75" PointY="120.375" IsExpanded="true" />

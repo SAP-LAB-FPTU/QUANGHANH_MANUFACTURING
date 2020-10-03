@@ -17,7 +17,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Qualification()
         {
-            this.RecordsPapers = new HashSet<RecordsPaper>();
+            this.RecordPapers = new HashSet<RecordPaper>();
             this.Recruitments = new HashSet<Recruitment>();
         }
     
@@ -25,7 +25,7 @@ namespace QUANGHANH2.Models
         public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RecordsPaper> RecordsPapers { get; set; }
+        public virtual ICollection<RecordPaper> RecordPapers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Recruitment> Recruitments { get; set; }
     }

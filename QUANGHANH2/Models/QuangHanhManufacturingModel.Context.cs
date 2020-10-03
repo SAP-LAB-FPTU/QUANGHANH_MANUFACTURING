@@ -76,26 +76,26 @@ namespace QUANGHANH2.Models
         public virtual DbSet<DurationType> DurationTypes { get; set; }
         public virtual DbSet<EducationLevel> EducationLevels { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<EmployeeStatu> EmployeeStatus { get; set; }
         public virtual DbSet<EmployeeTask> EmployeeTasks { get; set; }
         public virtual DbSet<Family> Families { get; set; }
         public virtual DbSet<FamilyRelationship> FamilyRelationships { get; set; }
         public virtual DbSet<FamilyType> FamilyTypes { get; set; }
         public virtual DbSet<Paper> Papers { get; set; }
-        public virtual DbSet<PapersStorageType> PapersStorageTypes { get; set; }
-        public virtual DbSet<PapersType> PapersTypes { get; set; }
+        public virtual DbSet<PaperStorageType> PaperStorageTypes { get; set; }
+        public virtual DbSet<PaperType> PaperTypes { get; set; }
         public virtual DbSet<PayRate> PayRates { get; set; }
         public virtual DbSet<PayTable> PayTables { get; set; }
         public virtual DbSet<Qualification> Qualifications { get; set; }
         public virtual DbSet<Record> Records { get; set; }
-        public virtual DbSet<RecordsGettingAuthorize> RecordsGettingAuthorizes { get; set; }
-        public virtual DbSet<RecordsPaper> RecordsPapers { get; set; }
-        public virtual DbSet<RecordsStatu> RecordsStatus { get; set; }
+        public virtual DbSet<RecordGettingAuthorize> RecordGettingAuthorizes { get; set; }
+        public virtual DbSet<RecordPaper> RecordPapers { get; set; }
+        public virtual DbSet<RecordStatu> RecordStatus { get; set; }
         public virtual DbSet<Recruitment> Recruitments { get; set; }
         public virtual DbSet<Salary> Salaries { get; set; }
         public virtual DbSet<SalaryProcess> SalaryProcesses { get; set; }
         public virtual DbSet<School> Schools { get; set; }
         public virtual DbSet<Specialization> Specializations { get; set; }
+        public virtual DbSet<StatusEmployee> StatusEmployees { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<TaskType> TaskTypes { get; set; }
         public virtual DbSet<Termination> Terminations { get; set; }

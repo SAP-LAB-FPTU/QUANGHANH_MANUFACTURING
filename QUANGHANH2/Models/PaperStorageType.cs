@@ -12,18 +12,18 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class EmployeeStatu
+    public partial class PaperStorageType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public EmployeeStatu()
+        public PaperStorageType()
         {
-            this.Employees = new HashSet<Employee>();
+            this.RecordPapers = new HashSet<RecordPaper>();
         }
     
-        public int employee_status_id { get; set; }
+        public int paper_storage_type_id { get; set; }
         public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employees { get; set; }
+        public virtual ICollection<RecordPaper> RecordPapers { get; set; }
     }
 }

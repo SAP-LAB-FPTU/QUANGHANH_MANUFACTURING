@@ -17,17 +17,17 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Paper()
         {
-            this.RecordsPapers = new HashSet<RecordsPaper>();
+            this.RecordPapers = new HashSet<RecordPaper>();
             this.Tasks = new HashSet<Task>();
         }
     
-        public int papers_id { get; set; }
+        public int paper_id { get; set; }
         public string name { get; set; }
-        public Nullable<int> papers_type_id { get; set; }
+        public Nullable<int> paper_type_id { get; set; }
     
-        public virtual PapersType PapersType { get; set; }
+        public virtual PaperType PaperType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RecordsPaper> RecordsPapers { get; set; }
+        public virtual ICollection<RecordPaper> RecordPapers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Task> Tasks { get; set; }
     }

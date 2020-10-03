@@ -22,7 +22,7 @@ namespace QUANGHANH2.Models
     
         public int header_phan_manufacturing_by_shifts_id { get; set; }
         public string department_id { get; set; }
-        public Nullable<int> shifts_id { get; set; }
+        public Nullable<int> shift_id { get; set; }
         public Nullable<System.DateTime> date { get; set; }
     
         public virtual Department Department { get; set; }

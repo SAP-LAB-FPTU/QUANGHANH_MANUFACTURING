@@ -14,7 +14,7 @@ namespace QUANGHANH2.Models
     
     public partial class PlanManufacturingByShift
     {
-        public int header_phan_manufacturing_by_shifts_id { get; set; }
+        public int header_phan_manufacturing_by_shift_id { get; set; }
         public int criteria_id { get; set; }
         public string plan_quantity { get; set; }
         public System.DateTime last_time_update { get; set; }

@@ -661,7 +661,7 @@
     <NavigationProperty Name="RepairRegularlies" Relationship="Self.FK__RepairReg__depar__640DD89F" FromRole="Department" ToRole="RepairRegularly" />
     <NavigationProperty Name="DepartmentAttendanceAndProductivities" Relationship="Self.FK__Departmen__depar__1B5E0D89" FromRole="Department" ToRole="DepartmentAttendanceAndProductivity" />
     <NavigationProperty Name="HeaderPlanManufacturingByMonths" Relationship="Self.FK__HeaderPla__depar__29AC2CE0" FromRole="Department" ToRole="HeaderPlanManufacturingByMonth" />
-    <NavigationProperty Name="HeaderPlanManufacturingByShifts" Relationship="Self.FK__HeaderPla__depar__2B947552" FromRole="Department" ToRole="HeaderPlanManufacturingByShifts" />
+    <NavigationProperty Name="HeaderPlanManufacturingByShifts" Relationship="Self.FK__HeaderPla__depar__2B947552" FromRole="Department" ToRole="HeaderPlanManufacturingByShift" />
     <NavigationProperty Name="HeaderPlanManufacturingByYears" Relationship="Self.FK__HeaderPla__depar__2D7CBDC4" FromRole="Department" ToRole="HeaderPlanManufacturingByYear" />
     <NavigationProperty Name="HeaderRealityManufacturings" Relationship="Self.FK__HeaderRea__depar__2E70E1FD" FromRole="Department" ToRole="HeaderRealityManufacturing" />
     <NavigationProperty Name="MealRegistrations" Relationship="Self.FK__MealRegis__depar__7A3223E8" FromRole="Department" ToRole="MealRegistration" />
@@ -706,7 +706,7 @@
     <Property Name="additional_history_resume_year" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="records_id" Type="Int32" />
-    <NavigationProperty Name="Record" Relationship="Self.FK__Additiona__recor__67DE6983" FromRole="AdditionalHistoryResume" ToRole="Records" />
+    <NavigationProperty Name="Record" Relationship="Self.FK__Additiona__recor__67DE6983" FromRole="AdditionalHistoryResume" ToRole="Record" />
   </EntityType>
   <EntityType Name="Career">
     <Key>
@@ -714,8 +714,8 @@
     </Key>
     <Property Name="career_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="RecordsPapers" Relationship="Self.FK__RecordsPa__caree__762C88DA" FromRole="Career" ToRole="RecordsPapers" />
-    <NavigationProperty Name="Specializations" Relationship="Self.FK__Specializ__caree__66B53B20" FromRole="Career" ToRole="Specializations" />
+    <NavigationProperty Name="RecordPapers" Relationship="Self.FK__RecordsPa__caree__762C88DA" FromRole="Career" ToRole="RecordPaper" />
+    <NavigationProperty Name="Specializations" Relationship="Self.FK__Specializ__caree__66B53B20" FromRole="Career" ToRole="Specialization" />
   </EntityType>
   <EntityType Name="Decision">
     <Key>
@@ -734,7 +734,7 @@
     </Key>
     <Property Name="duration_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="RecordsPapers" Relationship="Self.FK__RecordsPa__durat__7720AD13" FromRole="DurationType" ToRole="RecordsPapers" />
+    <NavigationProperty Name="RecordPapers" Relationship="Self.FK__RecordsPa__durat__7720AD13" FromRole="DurationType" ToRole="RecordPaper" />
   </EntityType>
   <EntityType Name="EducationLevel">
     <Key>
@@ -742,7 +742,7 @@
     </Key>
     <Property Name="education_level_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Specializations" Relationship="Self.FK__Specializ__educa__67A95F59" FromRole="EducationLevel" ToRole="Specializations" />
+    <NavigationProperty Name="Specializations" Relationship="Self.FK__Specializ__educa__67A95F59" FromRole="EducationLevel" ToRole="Specialization" />
   </EntityType>
   <EntityType Name="Employee">
     <Key>
@@ -799,21 +799,21 @@
     <Property Name="PERSONAL_HISTORY_detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="PERSONAL_HISTORY_related_organization" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="PERSONAL_HISTORY_relatives" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="current_employee_status_id" Type="Int32" />
+    <Property Name="current_status_employee_id" Type="Int32" />
     <Property Name="current_department_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
     <Property Name="current_salary_id" Type="Int32" />
     <Property Name="current_work_id" Type="Int32" />
     <NavigationProperty Name="Accounts" Relationship="Self.FK__Account__NVID__1F63A897" FromRole="Employee" ToRole="Account" />
     <NavigationProperty Name="Department" Relationship="Self.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
-    <NavigationProperty Name="EmployeeStatu" Relationship="Self.FK__Employee__status__68D28DBC" FromRole="Employee" ToRole="EmployeeStatus" />
+    <NavigationProperty Name="StatusEmployee" Relationship="Self.FK__Employee__status__68D28DBC" FromRole="Employee" ToRole="StatusEmployee" />
     <NavigationProperty Name="EmployeeAttendanceAndProductivities" Relationship="Self.FK__EmployeeA__emplo__22FF2F51" FromRole="Employee" ToRole="EmployeeAttendanceAndProductivity" />
     <NavigationProperty Name="EmployeeTasks" Relationship="Self.FK__EmployeeT__emplo__69C6B1F5" FromRole="Employee" ToRole="EmployeeTask" />
     <NavigationProperty Name="FakeAPIs" Relationship="Self.FK__FakeAPI__employe__24E777C3" FromRole="Employee" ToRole="FakeAPI" />
     <NavigationProperty Name="Families" Relationship="Self.FK__Family__employee__6BAEFA67" FromRole="Employee" ToRole="Family" />
-    <NavigationProperty Name="Records" Relationship="Self.FK__Records__deliver__6F7F8B4B" FromRole="Employee" ToRole="Records" />
-    <NavigationProperty Name="Records1" Relationship="Self.FK__Records__employe__7073AF84" FromRole="Employee" ToRole="Records" />
-    <NavigationProperty Name="Records2" Relationship="Self.FK__Records__handove__7167D3BD" FromRole="Employee" ToRole="Records" />
-    <NavigationProperty Name="Records3" Relationship="Self.FK__Records__managem__725BF7F6" FromRole="Employee" ToRole="Records" />
+    <NavigationProperty Name="Records" Relationship="Self.FK__Records__deliver__6F7F8B4B" FromRole="Employee" ToRole="Record" />
+    <NavigationProperty Name="Records1" Relationship="Self.FK__Records__employe__7073AF84" FromRole="Employee" ToRole="Record" />
+    <NavigationProperty Name="Records2" Relationship="Self.FK__Records__handove__7167D3BD" FromRole="Employee" ToRole="Record" />
+    <NavigationProperty Name="Records3" Relationship="Self.FK__Records__managem__725BF7F6" FromRole="Employee" ToRole="Record" />
     <NavigationProperty Name="Recruitments" Relationship="Self.FK__Recruitme__emplo__7FB5F314" FromRole="Employee" ToRole="Recruitment" />
     <NavigationProperty Name="SafetyWorks" Relationship="Self.FK__SafetyWor__emplo__3BCADD1B" FromRole="Employee" ToRole="SafetyWork" />
     <NavigationProperty Name="SalaryProcesses" Relationship="Self.FK__SalaryPro__emplo__0662F0A3" FromRole="Employee" ToRole="SalaryProcess" />
@@ -822,14 +822,6 @@
     <NavigationProperty Name="WorkingProcesses" Relationship="Self.FK__WorkingPr__emplo__15A53433" FromRole="Employee" ToRole="WorkingProcess" />
     <NavigationProperty Name="Salary" Relationship="Self.FK_Employee_Salary" FromRole="Employee" ToRole="Salary" />
     <NavigationProperty Name="Work" Relationship="Self.FK_Employee_Work" FromRole="Employee" ToRole="Work" />
-  </EntityType>
-  <EntityType Name="EmployeeStatu">
-    <Key>
-      <PropertyRef Name="employee_status_id" />
-    </Key>
-    <Property Name="employee_status_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__status__68D28DBC" FromRole="EmployeeStatus" ToRole="Employee" />
   </EntityType>
   <EntityType Name="EmployeeTask">
     <Key>
@@ -870,7 +862,7 @@
     <Property Name="family_relationship_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="Families" Relationship="Self.FK__Family__family_r__6CA31EA0" FromRole="FamilyRelationship" ToRole="Family" />
-    <NavigationProperty Name="RecordsGettingAuthorizes" Relationship="Self.FK__RecordsGe__famil__74444068" FromRole="FamilyRelationship" ToRole="RecordsGettingAuthorize" />
+    <NavigationProperty Name="RecordGettingAuthorizes" Relationship="Self.FK__RecordsGe__famil__74444068" FromRole="FamilyRelationship" ToRole="RecordGettingAuthorize" />
   </EntityType>
   <EntityType Name="FamilyType">
     <Key>
@@ -882,31 +874,31 @@
   </EntityType>
   <EntityType Name="Paper">
     <Key>
-      <PropertyRef Name="papers_id" />
+      <PropertyRef Name="paper_id" />
     </Key>
-    <Property Name="papers_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="paper_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="papers_type_id" Type="Int32" />
-    <NavigationProperty Name="PapersType" Relationship="Self.FK__Papers__papers_t__6E8B6712" FromRole="Papers" ToRole="PapersType" />
-    <NavigationProperty Name="RecordsPapers" Relationship="Self.FK__RecordsPa__paper__7814D14C" FromRole="Papers" ToRole="RecordsPapers" />
-    <NavigationProperty Name="Tasks" Relationship="Self.FK__Task__papers_id__084B3915" FromRole="Papers" ToRole="Task" />
+    <Property Name="paper_type_id" Type="Int32" />
+    <NavigationProperty Name="PaperType" Relationship="Self.FK__Papers__papers_t__6E8B6712" FromRole="Paper" ToRole="PaperType" />
+    <NavigationProperty Name="RecordPapers" Relationship="Self.FK__RecordsPa__paper__7814D14C" FromRole="Paper" ToRole="RecordPaper" />
+    <NavigationProperty Name="Tasks" Relationship="Self.FK__Task__papers_id__084B3915" FromRole="Paper" ToRole="Task" />
   </EntityType>
-  <EntityType Name="PapersStorageType">
+  <EntityType Name="PaperStorageType">
     <Key>
-      <PropertyRef Name="papers_storage_type_id" />
+      <PropertyRef Name="paper_storage_type_id" />
     </Key>
-    <Property Name="papers_storage_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="paper_storage_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="RecordsPapers" Relationship="Self.FK__RecordsPa__paper__7908F585" FromRole="PapersStorageType" ToRole="RecordsPapers" />
+    <NavigationProperty Name="RecordPapers" Relationship="Self.FK__RecordsPa__paper__7908F585" FromRole="PaperStorageType" ToRole="RecordPaper" />
   </EntityType>
-  <EntityType Name="PapersType">
+  <EntityType Name="PaperType">
     <Key>
-      <PropertyRef Name="papers_type_id" />
+      <PropertyRef Name="paper_type_id" />
     </Key>
-    <Property Name="papers_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="paper_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="is_trained_papers" Type="Boolean" />
-    <NavigationProperty Name="Papers" Relationship="Self.FK__Papers__papers_t__6E8B6712" FromRole="PapersType" ToRole="Papers" />
+    <Property Name="is_trained_paper" Type="Boolean" />
+    <NavigationProperty Name="Papers" Relationship="Self.FK__Papers__papers_t__6E8B6712" FromRole="PaperType" ToRole="Paper" />
   </EntityType>
   <EntityType Name="PayRate">
     <Key>
@@ -933,79 +925,79 @@
     </Key>
     <Property Name="qualification_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="RecordsPapers" Relationship="Self.FK__RecordsPa__quali__79FD19BE" FromRole="Qualification" ToRole="RecordsPapers" />
+    <NavigationProperty Name="RecordPapers" Relationship="Self.FK__RecordsPa__quali__79FD19BE" FromRole="Qualification" ToRole="RecordPaper" />
     <NavigationProperty Name="Recruitments" Relationship="Self.FK__Recruitme__quali__00AA174D" FromRole="Qualification" ToRole="Recruitment" />
   </EntityType>
   <EntityType Name="Record">
     <Key>
-      <PropertyRef Name="records_id" />
+      <PropertyRef Name="record_id" />
     </Key>
-    <Property Name="records_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="records_status_id" Type="Int32" />
+    <Property Name="record_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="record_status_id" Type="Int32" />
     <Property Name="received_date" Type="DateTime" Precision="0" />
     <Property Name="delivery_employee_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="handover_employee_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="management_employee_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="employee_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="AdditionalHistoryResumes" Relationship="Self.FK__Additiona__recor__67DE6983" FromRole="Records" ToRole="AdditionalHistoryResume" />
-    <NavigationProperty Name="Employee" Relationship="Self.FK__Records__deliver__6F7F8B4B" FromRole="Records" ToRole="Employee" />
-    <NavigationProperty Name="Employee1" Relationship="Self.FK__Records__employe__7073AF84" FromRole="Records" ToRole="Employee" />
-    <NavigationProperty Name="Employee2" Relationship="Self.FK__Records__handove__7167D3BD" FromRole="Records" ToRole="Employee" />
-    <NavigationProperty Name="Employee3" Relationship="Self.FK__Records__managem__725BF7F6" FromRole="Records" ToRole="Employee" />
-    <NavigationProperty Name="RecordsStatu" Relationship="Self.FK__Records__records__73501C2F" FromRole="Records" ToRole="RecordsStatus" />
-    <NavigationProperty Name="RecordsGettingAuthorizes" Relationship="Self.FK__RecordsGe__recor__753864A1" FromRole="Records" ToRole="RecordsGettingAuthorize" />
-    <NavigationProperty Name="RecordsPapers" Relationship="Self.FK__RecordsPa__recor__7AF13DF7" FromRole="Records" ToRole="RecordsPapers" />
+    <NavigationProperty Name="AdditionalHistoryResumes" Relationship="Self.FK__Additiona__recor__67DE6983" FromRole="Record" ToRole="AdditionalHistoryResume" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK__Records__deliver__6F7F8B4B" FromRole="Record" ToRole="Employee" />
+    <NavigationProperty Name="Employee1" Relationship="Self.FK__Records__employe__7073AF84" FromRole="Record" ToRole="Employee" />
+    <NavigationProperty Name="Employee2" Relationship="Self.FK__Records__handove__7167D3BD" FromRole="Record" ToRole="Employee" />
+    <NavigationProperty Name="Employee3" Relationship="Self.FK__Records__managem__725BF7F6" FromRole="Record" ToRole="Employee" />
+    <NavigationProperty Name="RecordStatu" Relationship="Self.FK__Records__records__73501C2F" FromRole="Record" ToRole="RecordStatus" />
+    <NavigationProperty Name="RecordGettingAuthorizes" Relationship="Self.FK__RecordsGe__recor__753864A1" FromRole="Record" ToRole="RecordGettingAuthorize" />
+    <NavigationProperty Name="RecordPapers" Relationship="Self.FK__RecordsPa__recor__7AF13DF7" FromRole="Record" ToRole="RecordPaper" />
   </EntityType>
-  <EntityType Name="RecordsGettingAuthorize">
+  <EntityType Name="RecordGettingAuthorize">
     <Key>
-      <PropertyRef Name="records_getting_authorize_id" />
+      <PropertyRef Name="record_getting_authorize_id" />
     </Key>
-    <Property Name="records_getting_authorize_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="record_getting_authorize_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="full_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="identity_card_number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="phone_number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="permanent_address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="records_id" Type="Int32" />
+    <Property Name="record_id" Type="Int32" />
     <Property Name="family_relationship_id" Type="Int32" />
-    <NavigationProperty Name="FamilyRelationship" Relationship="Self.FK__RecordsGe__famil__74444068" FromRole="RecordsGettingAuthorize" ToRole="FamilyRelationship" />
-    <NavigationProperty Name="Record" Relationship="Self.FK__RecordsGe__recor__753864A1" FromRole="RecordsGettingAuthorize" ToRole="Records" />
+    <NavigationProperty Name="FamilyRelationship" Relationship="Self.FK__RecordsGe__famil__74444068" FromRole="RecordGettingAuthorize" ToRole="FamilyRelationship" />
+    <NavigationProperty Name="Record" Relationship="Self.FK__RecordsGe__recor__753864A1" FromRole="RecordGettingAuthorize" ToRole="Record" />
   </EntityType>
-  <EntityType Name="RecordsPaper">
+  <EntityType Name="RecordPaper">
     <Key>
-      <PropertyRef Name="records_papers_id" />
+      <PropertyRef Name="record_paper_id" />
     </Key>
-    <Property Name="records_papers_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="record_paper_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="school_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="specializations_id" Type="Int32" />
+    <Property Name="specialization_id" Type="Int32" />
     <Property Name="career_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="date_start" Type="DateTime" Precision="0" />
     <Property Name="date_end" Type="DateTime" Precision="0" />
     <Property Name="trained_forms" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="papers_number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="papers_id" Type="Int32" Nullable="false" />
-    <Property Name="papers_storage_type_id" Type="Int32" />
+    <Property Name="paper_storage_type_id" Type="Int32" />
     <Property Name="qualification_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="duration" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="duration_type_id" Type="Int32" />
     <Property Name="received_date" Type="DateTime" Precision="0" />
     <Property Name="given_date" Type="DateTime" Precision="0" />
-    <Property Name="records_id" Type="Int32" />
-    <NavigationProperty Name="Career" Relationship="Self.FK__RecordsPa__caree__762C88DA" FromRole="RecordsPapers" ToRole="Career" />
-    <NavigationProperty Name="DurationType" Relationship="Self.FK__RecordsPa__durat__7720AD13" FromRole="RecordsPapers" ToRole="DurationType" />
-    <NavigationProperty Name="Paper" Relationship="Self.FK__RecordsPa__paper__7814D14C" FromRole="RecordsPapers" ToRole="Papers" />
-    <NavigationProperty Name="PapersStorageType" Relationship="Self.FK__RecordsPa__paper__7908F585" FromRole="RecordsPapers" ToRole="PapersStorageType" />
-    <NavigationProperty Name="Qualification" Relationship="Self.FK__RecordsPa__quali__79FD19BE" FromRole="RecordsPapers" ToRole="Qualification" />
-    <NavigationProperty Name="Record" Relationship="Self.FK__RecordsPa__recor__7AF13DF7" FromRole="RecordsPapers" ToRole="Records" />
-    <NavigationProperty Name="School" Relationship="Self.FK__RecordsPa__schoo__7BE56230" FromRole="RecordsPapers" ToRole="School" />
-    <NavigationProperty Name="Specialization" Relationship="Self.FK_RecordsPapers_Specializations" FromRole="RecordsPapers" ToRole="Specializations" />
+    <Property Name="record_id" Type="Int32" />
+    <NavigationProperty Name="Career" Relationship="Self.FK__RecordsPa__caree__762C88DA" FromRole="RecordPaper" ToRole="Career" />
+    <NavigationProperty Name="DurationType" Relationship="Self.FK__RecordsPa__durat__7720AD13" FromRole="RecordPaper" ToRole="DurationType" />
+    <NavigationProperty Name="Paper" Relationship="Self.FK__RecordsPa__paper__7814D14C" FromRole="RecordPaper" ToRole="Paper" />
+    <NavigationProperty Name="PaperStorageType" Relationship="Self.FK__RecordsPa__paper__7908F585" FromRole="RecordPaper" ToRole="PaperStorageType" />
+    <NavigationProperty Name="Qualification" Relationship="Self.FK__RecordsPa__quali__79FD19BE" FromRole="RecordPaper" ToRole="Qualification" />
+    <NavigationProperty Name="Record" Relationship="Self.FK__RecordsPa__recor__7AF13DF7" FromRole="RecordPaper" ToRole="Record" />
+    <NavigationProperty Name="School" Relationship="Self.FK__RecordsPa__schoo__7BE56230" FromRole="RecordPaper" ToRole="School" />
+    <NavigationProperty Name="Specialization" Relationship="Self.FK_RecordsPapers_Specializations" FromRole="RecordPaper" ToRole="Specialization" />
   </EntityType>
-  <EntityType Name="RecordsStatu">
+  <EntityType Name="RecordStatu">
     <Key>
-      <PropertyRef Name="records_status_id" />
+      <PropertyRef Name="record_status_id" />
     </Key>
-    <Property Name="records_status_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="record_status_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="Records" Relationship="Self.FK__Records__records__73501C2F" FromRole="RecordsStatus" ToRole="Records" />
+    <NavigationProperty Name="Records" Relationship="Self.FK__Records__records__73501C2F" FromRole="RecordStatus" ToRole="Record" />
   </EntityType>
   <EntityType Name="Recruitment">
     <Key>
@@ -1026,7 +1018,7 @@
     <NavigationProperty Name="Qualification" Relationship="Self.FK__Recruitme__quali__00AA174D" FromRole="Recruitment" ToRole="Qualification" />
     <NavigationProperty Name="Salary" Relationship="Self.FK__Recruitme__salar__019E3B86" FromRole="Recruitment" ToRole="Salary" />
     <NavigationProperty Name="Work" Relationship="Self.FK__Recruitme__work___038683F8" FromRole="Recruitment" ToRole="Work" />
-    <NavigationProperty Name="Specialization" Relationship="Self.FK_Recruitment_Specializations" FromRole="Recruitment" ToRole="Specializations" />
+    <NavigationProperty Name="Specialization" Relationship="Self.FK_Recruitment_Specializations" FromRole="Recruitment" ToRole="Specialization" />
   </EntityType>
   <EntityType Name="Salary">
     <Key>
@@ -1060,21 +1052,29 @@
     </Key>
     <Property Name="school_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="RecordsPapers" Relationship="Self.FK__RecordsPa__schoo__7BE56230" FromRole="School" ToRole="RecordsPapers" />
+    <NavigationProperty Name="RecordPapers" Relationship="Self.FK__RecordsPa__schoo__7BE56230" FromRole="School" ToRole="RecordPaper" />
   </EntityType>
   <EntityType Name="Specialization">
     <Key>
-      <PropertyRef Name="specializations_id" />
+      <PropertyRef Name="specialization_id" />
     </Key>
-    <Property Name="specializations_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="specializations_number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="specialization_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="specialization_number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="career_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="education_level_id" Type="Int32" />
-    <NavigationProperty Name="Career" Relationship="Self.FK__Specializ__caree__66B53B20" FromRole="Specializations" ToRole="Career" />
-    <NavigationProperty Name="EducationLevel" Relationship="Self.FK__Specializ__educa__67A95F59" FromRole="Specializations" ToRole="EducationLevel" />
-    <NavigationProperty Name="RecordsPapers" Relationship="Self.FK_RecordsPapers_Specializations" FromRole="Specializations" ToRole="RecordsPapers" />
-    <NavigationProperty Name="Recruitments" Relationship="Self.FK_Recruitment_Specializations" FromRole="Specializations" ToRole="Recruitment" />
+    <NavigationProperty Name="Career" Relationship="Self.FK__Specializ__caree__66B53B20" FromRole="Specialization" ToRole="Career" />
+    <NavigationProperty Name="EducationLevel" Relationship="Self.FK__Specializ__educa__67A95F59" FromRole="Specialization" ToRole="EducationLevel" />
+    <NavigationProperty Name="RecordPapers" Relationship="Self.FK_RecordsPapers_Specializations" FromRole="Specialization" ToRole="RecordPaper" />
+    <NavigationProperty Name="Recruitments" Relationship="Self.FK_Recruitment_Specializations" FromRole="Specialization" ToRole="Recruitment" />
+  </EntityType>
+  <EntityType Name="StatusEmployee">
+    <Key>
+      <PropertyRef Name="status_employee_id" />
+    </Key>
+    <Property Name="status_employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__status__68D28DBC" FromRole="StatusEmployee" ToRole="Employee" />
   </EntityType>
   <EntityType Name="Task">
     <Key>
@@ -1085,7 +1085,7 @@
     <Property Name="task_type_id" Type="Int32" />
     <Property Name="papers_id" Type="Int32" />
     <NavigationProperty Name="EmployeeTasks" Relationship="Self.FK__EmployeeT__task___6ABAD62E" FromRole="Task" ToRole="EmployeeTask" />
-    <NavigationProperty Name="Paper" Relationship="Self.FK__Task__papers_id__084B3915" FromRole="Task" ToRole="Papers" />
+    <NavigationProperty Name="Paper" Relationship="Self.FK__Task__papers_id__084B3915" FromRole="Task" ToRole="Paper" />
     <NavigationProperty Name="TaskType" Relationship="Self.FK__Task__task_type___093F5D4E" FromRole="Task" ToRole="TaskType" />
   </EntityType>
   <EntityType Name="TaskType">
@@ -1206,7 +1206,7 @@
     <NavigationProperty Name="CriteriaGroup" Relationship="Self.FK__Criteria__criter__1975C517" FromRole="Criteria" ToRole="CriteriaGroup" />
     <NavigationProperty Name="MeasureUnit" Relationship="Self.FK__Criteria__measur__1A69E950" FromRole="Criteria" ToRole="MeasureUnit" />
     <NavigationProperty Name="PlanManufacturingByMonths" Relationship="Self.FK__PlanManuf__crite__324172E1" FromRole="Criteria" ToRole="PlanManufacturingByMonth" />
-    <NavigationProperty Name="PlanManufacturingByShifts" Relationship="Self.FK__PlanManuf__crite__3429BB53" FromRole="Criteria" ToRole="PlanManufacturingByShifts" />
+    <NavigationProperty Name="PlanManufacturingByShifts" Relationship="Self.FK__PlanManuf__crite__3429BB53" FromRole="Criteria" ToRole="PlanManufacturingByShift" />
     <NavigationProperty Name="PlanManufacturingByYears" Relationship="Self.FK__PlanManuf__crite__361203C5" FromRole="Criteria" ToRole="PlanManufacturingByYear" />
   </EntityType>
   <EntityType Name="CriteriaGroup">
@@ -1265,7 +1265,7 @@
     <Property Name="shifts_id" Type="Int32" Nullable="false" />
     <Property Name="attendance_time" Type="DateTime" Precision="3" />
     <NavigationProperty Name="Employee" Relationship="Self.FK__FakeAPI__employe__24E777C3" FromRole="FakeAPI" ToRole="Employee" />
-    <NavigationProperty Name="Shift" Relationship="Self.FK__FakeAPI__shifts___25DB9BFC" FromRole="FakeAPI" ToRole="Shifts" />
+    <NavigationProperty Name="Shift" Relationship="Self.FK__FakeAPI__shifts___25DB9BFC" FromRole="FakeAPI" ToRole="Shift" />
   </EntityType>
   <EntityType Name="File">
     <Key>
@@ -1287,7 +1287,7 @@
     </Key>
     <Property Name="header_attendance_and_productivity_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="attendance_date" Type="DateTime" Precision="0" />
-    <Property Name="shifts_id" Type="Int32" />
+    <Property Name="shift_id" Type="Int32" />
     <Property Name="is_created_manually" Type="Boolean" />
     <Property Name="status" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -1296,7 +1296,7 @@
     <NavigationProperty Name="DepartmentAttendanceAndProductivities" Relationship="Self.FK__Departmen__heade__1C5231C2" FromRole="HeaderAttendanceAndProductivity" ToRole="DepartmentAttendanceAndProductivity" />
     <NavigationProperty Name="EmployeeAttendanceAndProductivities" Relationship="Self.FK__EmployeeA__actua__220B0B18" FromRole="HeaderAttendanceAndProductivity" ToRole="EmployeeAttendanceAndProductivity" />
     <NavigationProperty Name="EmployeeAttendanceAndProductivities1" Relationship="Self.FK__EmployeeA__heade__23F3538A" FromRole="HeaderAttendanceAndProductivity" ToRole="EmployeeAttendanceAndProductivity" />
-    <NavigationProperty Name="Shift" Relationship="Self.FK__HeaderAtt__shift__28B808A7" FromRole="HeaderAttendanceAndProductivity" ToRole="Shifts" />
+    <NavigationProperty Name="Shift" Relationship="Self.FK__HeaderAtt__shift__28B808A7" FromRole="HeaderAttendanceAndProductivity" ToRole="Shift" />
   </EntityType>
   <EntityType Name="HeaderPlanManufacturingByMonth">
     <Key>
@@ -1315,11 +1315,11 @@
     </Key>
     <Property Name="header_phan_manufacturing_by_shifts_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="department_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-    <Property Name="shifts_id" Type="Int32" />
+    <Property Name="shift_id" Type="Int32" />
     <Property Name="date" Type="DateTime" Precision="0" />
-    <NavigationProperty Name="Department" Relationship="Self.FK__HeaderPla__depar__2B947552" FromRole="HeaderPlanManufacturingByShifts" ToRole="Department" />
-    <NavigationProperty Name="Shift" Relationship="Self.FK__HeaderPla__shift__2C88998B" FromRole="HeaderPlanManufacturingByShifts" ToRole="Shifts" />
-    <NavigationProperty Name="PlanManufacturingByShifts" Relationship="Self.FK__PlanManuf__heade__351DDF8C" FromRole="HeaderPlanManufacturingByShifts" ToRole="PlanManufacturingByShifts" />
+    <NavigationProperty Name="Department" Relationship="Self.FK__HeaderPla__depar__2B947552" FromRole="HeaderPlanManufacturingByShift" ToRole="Department" />
+    <NavigationProperty Name="Shift" Relationship="Self.FK__HeaderPla__shift__2C88998B" FromRole="HeaderPlanManufacturingByShift" ToRole="Shift" />
+    <NavigationProperty Name="PlanManufacturingByShifts" Relationship="Self.FK__PlanManuf__heade__351DDF8C" FromRole="HeaderPlanManufacturingByShift" ToRole="PlanManufacturingByShift" />
   </EntityType>
   <EntityType Name="HeaderPlanManufacturingByYear">
     <Key>
@@ -1339,10 +1339,10 @@
     <Property Name="header_reality_manufacturing_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="department_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
     <Property Name="reality_manufacturing_day_information_id" Type="Int32" />
-    <Property Name="shifts_id" Type="Int32" />
+    <Property Name="shift_id" Type="Int32" />
     <NavigationProperty Name="Department" Relationship="Self.FK__HeaderRea__depar__2E70E1FD" FromRole="HeaderRealityManufacturing" ToRole="Department" />
     <NavigationProperty Name="RealityManufacturingDayInformation" Relationship="Self.FK__HeaderRea__reali__2F650636" FromRole="HeaderRealityManufacturing" ToRole="RealityManufacturingDayInformation" />
-    <NavigationProperty Name="Shift" Relationship="Self.FK__HeaderRea__shift__30592A6F" FromRole="HeaderRealityManufacturing" ToRole="Shifts" />
+    <NavigationProperty Name="Shift" Relationship="Self.FK__HeaderRea__shift__30592A6F" FromRole="HeaderRealityManufacturing" ToRole="Shift" />
   </EntityType>
   <EntityType Name="MealRegistration">
     <Key>
@@ -1379,17 +1379,17 @@
   </EntityType>
   <EntityType Name="PlanManufacturingByShift">
     <Key>
-      <PropertyRef Name="header_phan_manufacturing_by_shifts_id" />
+      <PropertyRef Name="header_phan_manufacturing_by_shift_id" />
       <PropertyRef Name="criteria_id" />
       <PropertyRef Name="last_time_update" />
     </Key>
-    <Property Name="header_phan_manufacturing_by_shifts_id" Type="Int32" Nullable="false" />
+    <Property Name="header_phan_manufacturing_by_shift_id" Type="Int32" Nullable="false" />
     <Property Name="criteria_id" Type="Int32" Nullable="false" />
     <Property Name="plan_quantity" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="last_time_update" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Criterion" Relationship="Self.FK__PlanManuf__crite__3429BB53" FromRole="PlanManufacturingByShifts" ToRole="Criteria" />
-    <NavigationProperty Name="HeaderPlanManufacturingByShift" Relationship="Self.FK__PlanManuf__heade__351DDF8C" FromRole="PlanManufacturingByShifts" ToRole="HeaderPlanManufacturingByShifts" />
+    <NavigationProperty Name="Criterion" Relationship="Self.FK__PlanManuf__crite__3429BB53" FromRole="PlanManufacturingByShift" ToRole="Criteria" />
+    <NavigationProperty Name="HeaderPlanManufacturingByShift" Relationship="Self.FK__PlanManuf__heade__351DDF8C" FromRole="PlanManufacturingByShift" ToRole="HeaderPlanManufacturingByShift" />
   </EntityType>
   <EntityType Name="PlanManufacturingByYear">
     <Key>
@@ -1430,12 +1430,12 @@
     </Key>
     <Property Name="report_file_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="report_file_date" Type="DateTime" Precision="0" />
-    <Property Name="shifts_id" Type="Int32" />
+    <Property Name="shift_id" Type="Int32" />
     <Property Name="department_id" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
     <Property Name="lock" Type="Boolean" />
     <NavigationProperty Name="Department" Relationship="Self.FK__ReportFil__depar__39E294A9" FromRole="ReportFile" ToRole="Department" />
     <NavigationProperty Name="Files" Relationship="Self.FK__File__report_fil__27C3E46E" FromRole="ReportFile" ToRole="File" />
-    <NavigationProperty Name="Shift" Relationship="Self.FK__ReportFil__shift__3AD6B8E2" FromRole="ReportFile" ToRole="Shifts" />
+    <NavigationProperty Name="Shift" Relationship="Self.FK__ReportFil__shift__3AD6B8E2" FromRole="ReportFile" ToRole="Shift" />
   </EntityType>
   <EntityType Name="SafetyWork">
     <Key>
@@ -1445,12 +1445,12 @@
     <Property Name="employee_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="date" Type="DateTime" Precision="0" />
-    <Property Name="shifts_id" Type="Int32" />
+    <Property Name="shift_id" Type="Int32" />
     <Property Name="safety_work_type_id" Type="Int32" />
     <Property Name="note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Employee" Relationship="Self.FK__SafetyWor__emplo__3BCADD1B" FromRole="SafetyWork" ToRole="Employee" />
     <NavigationProperty Name="SafetyWorkType" Relationship="Self.FK__SafetyWor__safet__3CBF0154" FromRole="SafetyWork" ToRole="SafetyWorkType" />
-    <NavigationProperty Name="Shift" Relationship="Self.FK__SafetyWor__shift__3DB3258D" FromRole="SafetyWork" ToRole="Shifts" />
+    <NavigationProperty Name="Shift" Relationship="Self.FK__SafetyWor__shift__3DB3258D" FromRole="SafetyWork" ToRole="Shift" />
   </EntityType>
   <EntityType Name="SafetyWorkType">
     <Key>
@@ -1462,18 +1462,18 @@
   </EntityType>
   <EntityType Name="Shift">
     <Key>
-      <PropertyRef Name="shifts_id" />
+      <PropertyRef Name="shift_id" />
     </Key>
-    <Property Name="shifts_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="shift_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="time_start" Type="Int32" />
     <Property Name="time_end" Type="Int32" />
-    <NavigationProperty Name="FakeAPIs" Relationship="Self.FK__FakeAPI__shifts___25DB9BFC" FromRole="Shifts" ToRole="FakeAPI" />
-    <NavigationProperty Name="HeaderAttendanceAndProductivities" Relationship="Self.FK__HeaderAtt__shift__28B808A7" FromRole="Shifts" ToRole="HeaderAttendanceAndProductivity" />
-    <NavigationProperty Name="HeaderPlanManufacturingByShifts" Relationship="Self.FK__HeaderPla__shift__2C88998B" FromRole="Shifts" ToRole="HeaderPlanManufacturingByShifts" />
-    <NavigationProperty Name="HeaderRealityManufacturings" Relationship="Self.FK__HeaderRea__shift__30592A6F" FromRole="Shifts" ToRole="HeaderRealityManufacturing" />
-    <NavigationProperty Name="ReportFiles" Relationship="Self.FK__ReportFil__shift__3AD6B8E2" FromRole="Shifts" ToRole="ReportFile" />
-    <NavigationProperty Name="SafetyWorks" Relationship="Self.FK__SafetyWor__shift__3DB3258D" FromRole="Shifts" ToRole="SafetyWork" />
+    <NavigationProperty Name="FakeAPIs" Relationship="Self.FK__FakeAPI__shifts___25DB9BFC" FromRole="Shift" ToRole="FakeAPI" />
+    <NavigationProperty Name="HeaderAttendanceAndProductivities" Relationship="Self.FK__HeaderAtt__shift__28B808A7" FromRole="Shift" ToRole="HeaderAttendanceAndProductivity" />
+    <NavigationProperty Name="HeaderPlanManufacturingByShifts" Relationship="Self.FK__HeaderPla__shift__2C88998B" FromRole="Shift" ToRole="HeaderPlanManufacturingByShift" />
+    <NavigationProperty Name="HeaderRealityManufacturings" Relationship="Self.FK__HeaderRea__shift__30592A6F" FromRole="Shift" ToRole="HeaderRealityManufacturing" />
+    <NavigationProperty Name="ReportFiles" Relationship="Self.FK__ReportFil__shift__3AD6B8E2" FromRole="Shift" ToRole="ReportFile" />
+    <NavigationProperty Name="SafetyWorks" Relationship="Self.FK__SafetyWor__shift__3DB3258D" FromRole="Shift" ToRole="SafetyWork" />
   </EntityType>
   <EntityType Name="BigMaintainEquipment">
     <Key>
@@ -2758,12 +2758,12 @@
   </Association>
   <Association Name="FK__HeaderPla__depar__2B947552">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
-    <End Role="HeaderPlanManufacturingByShifts" Type="Self.HeaderPlanManufacturingByShift" Multiplicity="*" />
+    <End Role="HeaderPlanManufacturingByShift" Type="Self.HeaderPlanManufacturingByShift" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Department">
         <PropertyRef Name="department_id" />
       </Principal>
-      <Dependent Role="HeaderPlanManufacturingByShifts">
+      <Dependent Role="HeaderPlanManufacturingByShift">
         <PropertyRef Name="department_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -2901,11 +2901,11 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Additiona__recor__67DE6983">
-    <End Role="Records" Type="Self.Record" Multiplicity="0..1" />
+    <End Role="Record" Type="Self.Record" Multiplicity="0..1" />
     <End Role="AdditionalHistoryResume" Type="Self.AdditionalHistoryResume" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Records">
-        <PropertyRef Name="records_id" />
+      <Principal Role="Record">
+        <PropertyRef Name="record_id" />
       </Principal>
       <Dependent Role="AdditionalHistoryResume">
         <PropertyRef Name="records_id" />
@@ -2914,24 +2914,24 @@
   </Association>
   <Association Name="FK__RecordsPa__caree__762C88DA">
     <End Role="Career" Type="Self.Career" Multiplicity="0..1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPaper" Multiplicity="*" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Career">
         <PropertyRef Name="career_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
+      <Dependent Role="RecordPaper">
         <PropertyRef Name="career_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Specializ__caree__66B53B20">
     <End Role="Career" Type="Self.Career" Multiplicity="0..1" />
-    <End Role="Specializations" Type="Self.Specialization" Multiplicity="*" />
+    <End Role="Specialization" Type="Self.Specialization" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Career">
         <PropertyRef Name="career_id" />
       </Principal>
-      <Dependent Role="Specializations">
+      <Dependent Role="Specialization">
         <PropertyRef Name="career_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -2974,37 +2974,37 @@
   </Association>
   <Association Name="FK__RecordsPa__durat__7720AD13">
     <End Role="DurationType" Type="Self.DurationType" Multiplicity="0..1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPaper" Multiplicity="*" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="DurationType">
         <PropertyRef Name="duration_type_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
+      <Dependent Role="RecordPaper">
         <PropertyRef Name="duration_type_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Specializ__educa__67A95F59">
     <End Role="EducationLevel" Type="Self.EducationLevel" Multiplicity="0..1" />
-    <End Role="Specializations" Type="Self.Specialization" Multiplicity="*" />
+    <End Role="Specialization" Type="Self.Specialization" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="EducationLevel">
         <PropertyRef Name="education_level_id" />
       </Principal>
-      <Dependent Role="Specializations">
+      <Dependent Role="Specialization">
         <PropertyRef Name="education_level_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Employee__status__68D28DBC">
-    <End Role="EmployeeStatus" Type="Self.EmployeeStatu" Multiplicity="0..1" />
+    <End Role="StatusEmployee" Type="Self.StatusEmployee" Multiplicity="0..1" />
     <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="EmployeeStatus">
-        <PropertyRef Name="employee_status_id" />
+      <Principal Role="StatusEmployee">
+        <PropertyRef Name="status_employee_id" />
       </Principal>
       <Dependent Role="Employee">
-        <PropertyRef Name="current_employee_status_id" />
+        <PropertyRef Name="current_status_employee_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3058,48 +3058,48 @@
   </Association>
   <Association Name="FK__Records__deliver__6F7F8B4B">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-    <End Role="Records" Type="Self.Record" Multiplicity="*" />
+    <End Role="Record" Type="Self.Record" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
         <PropertyRef Name="employee_id" />
       </Principal>
-      <Dependent Role="Records">
+      <Dependent Role="Record">
         <PropertyRef Name="delivery_employee_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Records__employe__7073AF84">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-    <End Role="Records" Type="Self.Record" Multiplicity="*" />
+    <End Role="Record" Type="Self.Record" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
         <PropertyRef Name="employee_id" />
       </Principal>
-      <Dependent Role="Records">
+      <Dependent Role="Record">
         <PropertyRef Name="employee_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Records__handove__7167D3BD">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-    <End Role="Records" Type="Self.Record" Multiplicity="*" />
+    <End Role="Record" Type="Self.Record" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
         <PropertyRef Name="employee_id" />
       </Principal>
-      <Dependent Role="Records">
+      <Dependent Role="Record">
         <PropertyRef Name="handover_employee_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Records__managem__725BF7F6">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
-    <End Role="Records" Type="Self.Record" Multiplicity="*" />
+    <End Role="Record" Type="Self.Record" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Employee">
         <PropertyRef Name="employee_id" />
       </Principal>
-      <Dependent Role="Records">
+      <Dependent Role="Record">
         <PropertyRef Name="management_employee_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -3238,46 +3238,46 @@
   </Association>
   <Association Name="FK__RecordsGe__famil__74444068">
     <End Role="FamilyRelationship" Type="Self.FamilyRelationship" Multiplicity="0..1" />
-    <End Role="RecordsGettingAuthorize" Type="Self.RecordsGettingAuthorize" Multiplicity="*" />
+    <End Role="RecordGettingAuthorize" Type="Self.RecordGettingAuthorize" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="FamilyRelationship">
         <PropertyRef Name="family_relationship_id" />
       </Principal>
-      <Dependent Role="RecordsGettingAuthorize">
+      <Dependent Role="RecordGettingAuthorize">
         <PropertyRef Name="family_relationship_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Papers__papers_t__6E8B6712">
-    <End Role="PapersType" Type="Self.PapersType" Multiplicity="0..1" />
-    <End Role="Papers" Type="Self.Paper" Multiplicity="*" />
+    <End Role="PaperType" Type="Self.PaperType" Multiplicity="0..1" />
+    <End Role="Paper" Type="Self.Paper" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="PapersType">
-        <PropertyRef Name="papers_type_id" />
+      <Principal Role="PaperType">
+        <PropertyRef Name="paper_type_id" />
       </Principal>
-      <Dependent Role="Papers">
-        <PropertyRef Name="papers_type_id" />
+      <Dependent Role="Paper">
+        <PropertyRef Name="paper_type_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__RecordsPa__paper__7814D14C">
-    <End Role="Papers" Type="Self.Paper" Multiplicity="1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPaper" Multiplicity="*" />
+    <End Role="Paper" Type="Self.Paper" Multiplicity="1" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Papers">
-        <PropertyRef Name="papers_id" />
+      <Principal Role="Paper">
+        <PropertyRef Name="paper_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
+      <Dependent Role="RecordPaper">
         <PropertyRef Name="papers_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Task__papers_id__084B3915">
-    <End Role="Papers" Type="Self.Paper" Multiplicity="0..1" />
+    <End Role="Paper" Type="Self.Paper" Multiplicity="0..1" />
     <End Role="Task" Type="Self.Task" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Papers">
-        <PropertyRef Name="papers_id" />
+      <Principal Role="Paper">
+        <PropertyRef Name="paper_id" />
       </Principal>
       <Dependent Role="Task">
         <PropertyRef Name="papers_id" />
@@ -3285,14 +3285,14 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__RecordsPa__paper__7908F585">
-    <End Role="PapersStorageType" Type="Self.PapersStorageType" Multiplicity="0..1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPaper" Multiplicity="*" />
+    <End Role="PaperStorageType" Type="Self.PaperStorageType" Multiplicity="0..1" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="PapersStorageType">
-        <PropertyRef Name="papers_storage_type_id" />
+      <Principal Role="PaperStorageType">
+        <PropertyRef Name="paper_storage_type_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
-        <PropertyRef Name="papers_storage_type_id" />
+      <Dependent Role="RecordPaper">
+        <PropertyRef Name="paper_storage_type_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3334,12 +3334,12 @@
   </Association>
   <Association Name="FK__RecordsPa__quali__79FD19BE">
     <End Role="Qualification" Type="Self.Qualification" Multiplicity="0..1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPaper" Multiplicity="*" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Qualification">
         <PropertyRef Name="qualification_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
+      <Dependent Role="RecordPaper">
         <PropertyRef Name="qualification_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -3357,62 +3357,62 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Records__records__73501C2F">
-    <End Role="RecordsStatus" Type="Self.RecordsStatu" Multiplicity="0..1" />
-    <End Role="Records" Type="Self.Record" Multiplicity="*" />
+    <End Role="RecordStatus" Type="Self.RecordStatu" Multiplicity="0..1" />
+    <End Role="Record" Type="Self.Record" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="RecordsStatus">
-        <PropertyRef Name="records_status_id" />
+      <Principal Role="RecordStatus">
+        <PropertyRef Name="record_status_id" />
       </Principal>
-      <Dependent Role="Records">
-        <PropertyRef Name="records_status_id" />
+      <Dependent Role="Record">
+        <PropertyRef Name="record_status_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__RecordsGe__recor__753864A1">
-    <End Role="Records" Type="Self.Record" Multiplicity="0..1" />
-    <End Role="RecordsGettingAuthorize" Type="Self.RecordsGettingAuthorize" Multiplicity="*" />
+    <End Role="Record" Type="Self.Record" Multiplicity="0..1" />
+    <End Role="RecordGettingAuthorize" Type="Self.RecordGettingAuthorize" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Records">
-        <PropertyRef Name="records_id" />
+      <Principal Role="Record">
+        <PropertyRef Name="record_id" />
       </Principal>
-      <Dependent Role="RecordsGettingAuthorize">
-        <PropertyRef Name="records_id" />
+      <Dependent Role="RecordGettingAuthorize">
+        <PropertyRef Name="record_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__RecordsPa__recor__7AF13DF7">
-    <End Role="Records" Type="Self.Record" Multiplicity="0..1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPaper" Multiplicity="*" />
+    <End Role="Record" Type="Self.Record" Multiplicity="0..1" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Records">
-        <PropertyRef Name="records_id" />
+      <Principal Role="Record">
+        <PropertyRef Name="record_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
-        <PropertyRef Name="records_id" />
+      <Dependent Role="RecordPaper">
+        <PropertyRef Name="record_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__RecordsPa__schoo__7BE56230">
     <End Role="School" Type="Self.School" Multiplicity="0..1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPaper" Multiplicity="*" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="School">
         <PropertyRef Name="school_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
+      <Dependent Role="RecordPaper">
         <PropertyRef Name="school_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_RecordsPapers_Specializations">
-    <End Role="Specializations" Type="Self.Specialization" Multiplicity="0..1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPaper" Multiplicity="*" />
+    <End Role="Specialization" Type="Self.Specialization" Multiplicity="0..1" />
+    <End Role="RecordPaper" Type="Self.RecordPaper" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Specializations">
-        <PropertyRef Name="specializations_id" />
+      <Principal Role="Specialization">
+        <PropertyRef Name="specialization_id" />
       </Principal>
-      <Dependent Role="RecordsPapers">
-        <PropertyRef Name="specializations_id" />
+      <Dependent Role="RecordPaper">
+        <PropertyRef Name="specialization_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3441,11 +3441,11 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Recruitment_Specializations">
-    <End Role="Specializations" Type="Self.Specialization" Multiplicity="0..1" />
+    <End Role="Specialization" Type="Self.Specialization" Multiplicity="0..1" />
     <End Role="Recruitment" Type="Self.Recruitment" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Specializations">
-        <PropertyRef Name="specializations_id" />
+      <Principal Role="Specialization">
+        <PropertyRef Name="specialization_id" />
       </Principal>
       <Dependent Role="Recruitment">
         <PropertyRef Name="specializations_id" />
@@ -3586,12 +3586,12 @@
   </Association>
   <Association Name="FK__PlanManuf__crite__3429BB53">
     <End Role="Criteria" Type="Self.Criterion" Multiplicity="1" />
-    <End Role="PlanManufacturingByShifts" Type="Self.PlanManufacturingByShift" Multiplicity="*" />
+    <End Role="PlanManufacturingByShift" Type="Self.PlanManufacturingByShift" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Criteria">
         <PropertyRef Name="criteria_id" />
       </Principal>
-      <Dependent Role="PlanManufacturingByShifts">
+      <Dependent Role="PlanManufacturingByShift">
         <PropertyRef Name="criteria_id" />
       </Dependent>
     </ReferentialConstraint>
@@ -3645,11 +3645,11 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__FakeAPI__shifts___25DB9BFC">
-    <End Role="Shifts" Type="Self.Shift" Multiplicity="1" />
+    <End Role="Shift" Type="Self.Shift" Multiplicity="1" />
     <End Role="FakeAPI" Type="Self.FakeAPI" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Shifts">
-        <PropertyRef Name="shifts_id" />
+      <Principal Role="Shift">
+        <PropertyRef Name="shift_id" />
       </Principal>
       <Dependent Role="FakeAPI">
         <PropertyRef Name="shifts_id" />
@@ -3669,14 +3669,14 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__HeaderAtt__shift__28B808A7">
-    <End Role="Shifts" Type="Self.Shift" Multiplicity="0..1" />
+    <End Role="Shift" Type="Self.Shift" Multiplicity="0..1" />
     <End Role="HeaderAttendanceAndProductivity" Type="Self.HeaderAttendanceAndProductivity" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Shifts">
-        <PropertyRef Name="shifts_id" />
+      <Principal Role="Shift">
+        <PropertyRef Name="shift_id" />
       </Principal>
       <Dependent Role="HeaderAttendanceAndProductivity">
-        <PropertyRef Name="shifts_id" />
+        <PropertyRef Name="shift_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3705,26 +3705,26 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__HeaderPla__shift__2C88998B">
-    <End Role="Shifts" Type="Self.Shift" Multiplicity="0..1" />
-    <End Role="HeaderPlanManufacturingByShifts" Type="Self.HeaderPlanManufacturingByShift" Multiplicity="*" />
+    <End Role="Shift" Type="Self.Shift" Multiplicity="0..1" />
+    <End Role="HeaderPlanManufacturingByShift" Type="Self.HeaderPlanManufacturingByShift" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Shifts">
-        <PropertyRef Name="shifts_id" />
+      <Principal Role="Shift">
+        <PropertyRef Name="shift_id" />
       </Principal>
-      <Dependent Role="HeaderPlanManufacturingByShifts">
-        <PropertyRef Name="shifts_id" />
+      <Dependent Role="HeaderPlanManufacturingByShift">
+        <PropertyRef Name="shift_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__PlanManuf__heade__351DDF8C">
-    <End Role="HeaderPlanManufacturingByShifts" Type="Self.HeaderPlanManufacturingByShift" Multiplicity="1" />
-    <End Role="PlanManufacturingByShifts" Type="Self.PlanManufacturingByShift" Multiplicity="*" />
+    <End Role="HeaderPlanManufacturingByShift" Type="Self.HeaderPlanManufacturingByShift" Multiplicity="1" />
+    <End Role="PlanManufacturingByShift" Type="Self.PlanManufacturingByShift" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="HeaderPlanManufacturingByShifts">
+      <Principal Role="HeaderPlanManufacturingByShift">
         <PropertyRef Name="header_phan_manufacturing_by_shifts_id" />
       </Principal>
-      <Dependent Role="PlanManufacturingByShifts">
-        <PropertyRef Name="header_phan_manufacturing_by_shifts_id" />
+      <Dependent Role="PlanManufacturingByShift">
+        <PropertyRef Name="header_phan_manufacturing_by_shift_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3753,26 +3753,26 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__HeaderRea__shift__30592A6F">
-    <End Role="Shifts" Type="Self.Shift" Multiplicity="0..1" />
+    <End Role="Shift" Type="Self.Shift" Multiplicity="0..1" />
     <End Role="HeaderRealityManufacturing" Type="Self.HeaderRealityManufacturing" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Shifts">
-        <PropertyRef Name="shifts_id" />
+      <Principal Role="Shift">
+        <PropertyRef Name="shift_id" />
       </Principal>
       <Dependent Role="HeaderRealityManufacturing">
-        <PropertyRef Name="shifts_id" />
+        <PropertyRef Name="shift_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__ReportFil__shift__3AD6B8E2">
-    <End Role="Shifts" Type="Self.Shift" Multiplicity="0..1" />
+    <End Role="Shift" Type="Self.Shift" Multiplicity="0..1" />
     <End Role="ReportFile" Type="Self.ReportFile" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Shifts">
-        <PropertyRef Name="shifts_id" />
+      <Principal Role="Shift">
+        <PropertyRef Name="shift_id" />
       </Principal>
       <Dependent Role="ReportFile">
-        <PropertyRef Name="shifts_id" />
+        <PropertyRef Name="shift_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3789,14 +3789,14 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__SafetyWor__shift__3DB3258D">
-    <End Role="Shifts" Type="Self.Shift" Multiplicity="0..1" />
+    <End Role="Shift" Type="Self.Shift" Multiplicity="0..1" />
     <End Role="SafetyWork" Type="Self.SafetyWork" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Shifts">
-        <PropertyRef Name="shifts_id" />
+      <Principal Role="Shift">
+        <PropertyRef Name="shift_id" />
       </Principal>
       <Dependent Role="SafetyWork">
-        <PropertyRef Name="shifts_id" />
+        <PropertyRef Name="shift_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3964,26 +3964,26 @@
     <EntitySet Name="DurationTypes" EntityType="Self.DurationType" />
     <EntitySet Name="EducationLevels" EntityType="Self.EducationLevel" />
     <EntitySet Name="Employees" EntityType="Self.Employee" />
-    <EntitySet Name="EmployeeStatus" EntityType="Self.EmployeeStatu" />
     <EntitySet Name="EmployeeTasks" EntityType="Self.EmployeeTask" />
     <EntitySet Name="Families" EntityType="Self.Family" />
     <EntitySet Name="FamilyRelationships" EntityType="Self.FamilyRelationship" />
     <EntitySet Name="FamilyTypes" EntityType="Self.FamilyType" />
     <EntitySet Name="Papers" EntityType="Self.Paper" />
-    <EntitySet Name="PapersStorageTypes" EntityType="Self.PapersStorageType" />
-    <EntitySet Name="PapersTypes" EntityType="Self.PapersType" />
+    <EntitySet Name="PaperStorageTypes" EntityType="Self.PaperStorageType" />
+    <EntitySet Name="PaperTypes" EntityType="Self.PaperType" />
     <EntitySet Name="PayRates" EntityType="Self.PayRate" />
     <EntitySet Name="PayTables" EntityType="Self.PayTable" />
     <EntitySet Name="Qualifications" EntityType="Self.Qualification" />
     <EntitySet Name="Records" EntityType="Self.Record" />
-    <EntitySet Name="RecordsGettingAuthorizes" EntityType="Self.RecordsGettingAuthorize" />
-    <EntitySet Name="RecordsPapers" EntityType="Self.RecordsPaper" />
-    <EntitySet Name="RecordsStatus" EntityType="Self.RecordsStatu" />
+    <EntitySet Name="RecordGettingAuthorizes" EntityType="Self.RecordGettingAuthorize" />
+    <EntitySet Name="RecordPapers" EntityType="Self.RecordPaper" />
+    <EntitySet Name="RecordStatus" EntityType="Self.RecordStatu" />
     <EntitySet Name="Recruitments" EntityType="Self.Recruitment" />
     <EntitySet Name="Salaries" EntityType="Self.Salary" />
     <EntitySet Name="SalaryProcesses" EntityType="Self.SalaryProcess" />
     <EntitySet Name="Schools" EntityType="Self.School" />
     <EntitySet Name="Specializations" EntityType="Self.Specialization" />
+    <EntitySet Name="StatusEmployees" EntityType="Self.StatusEmployee" />
     <EntitySet Name="Tasks" EntityType="Self.Task" />
     <EntitySet Name="TaskTypes" EntityType="Self.TaskType" />
     <EntitySet Name="Terminations" EntityType="Self.Termination" />
@@ -4399,7 +4399,7 @@
     </AssociationSet>
     <AssociationSet Name="FK__HeaderPla__depar__2B947552" Association="Self.FK__HeaderPla__depar__2B947552">
       <End Role="Department" EntitySet="Departments" />
-      <End Role="HeaderPlanManufacturingByShifts" EntitySet="HeaderPlanManufacturingByShifts" />
+      <End Role="HeaderPlanManufacturingByShift" EntitySet="HeaderPlanManufacturingByShifts" />
     </AssociationSet>
     <AssociationSet Name="FK__HeaderPla__depar__2D7CBDC4" Association="Self.FK__HeaderPla__depar__2D7CBDC4">
       <End Role="Department" EntitySet="Departments" />
@@ -4446,16 +4446,16 @@
       <End Role="Employee" EntitySet="Employees" />
     </AssociationSet>
     <AssociationSet Name="FK__Additiona__recor__67DE6983" Association="Self.FK__Additiona__recor__67DE6983">
-      <End Role="Records" EntitySet="Records" />
+      <End Role="Record" EntitySet="Records" />
       <End Role="AdditionalHistoryResume" EntitySet="AdditionalHistoryResumes" />
     </AssociationSet>
     <AssociationSet Name="FK__RecordsPa__caree__762C88DA" Association="Self.FK__RecordsPa__caree__762C88DA">
       <End Role="Career" EntitySet="Careers" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="RecordPaper" EntitySet="RecordPapers" />
     </AssociationSet>
     <AssociationSet Name="FK__Specializ__caree__66B53B20" Association="Self.FK__Specializ__caree__66B53B20">
       <End Role="Career" EntitySet="Careers" />
-      <End Role="Specializations" EntitySet="Specializations" />
+      <End Role="Specialization" EntitySet="Specializations" />
     </AssociationSet>
     <AssociationSet Name="FK__Recruitme__decis__7DCDAAA2" Association="Self.FK__Recruitme__decis__7DCDAAA2">
       <End Role="Decision" EntitySet="Decisions" />
@@ -4471,14 +4471,14 @@
     </AssociationSet>
     <AssociationSet Name="FK__RecordsPa__durat__7720AD13" Association="Self.FK__RecordsPa__durat__7720AD13">
       <End Role="DurationType" EntitySet="DurationTypes" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="RecordPaper" EntitySet="RecordPapers" />
     </AssociationSet>
     <AssociationSet Name="FK__Specializ__educa__67A95F59" Association="Self.FK__Specializ__educa__67A95F59">
       <End Role="EducationLevel" EntitySet="EducationLevels" />
-      <End Role="Specializations" EntitySet="Specializations" />
+      <End Role="Specialization" EntitySet="Specializations" />
     </AssociationSet>
     <AssociationSet Name="FK__Employee__status__68D28DBC" Association="Self.FK__Employee__status__68D28DBC">
-      <End Role="EmployeeStatus" EntitySet="EmployeeStatus" />
+      <End Role="StatusEmployee" EntitySet="StatusEmployees" />
       <End Role="Employee" EntitySet="Employees" />
     </AssociationSet>
     <AssociationSet Name="FK__EmployeeA__emplo__22FF2F51" Association="Self.FK__EmployeeA__emplo__22FF2F51">
@@ -4499,19 +4499,19 @@
     </AssociationSet>
     <AssociationSet Name="FK__Records__deliver__6F7F8B4B" Association="Self.FK__Records__deliver__6F7F8B4B">
       <End Role="Employee" EntitySet="Employees" />
-      <End Role="Records" EntitySet="Records" />
+      <End Role="Record" EntitySet="Records" />
     </AssociationSet>
     <AssociationSet Name="FK__Records__employe__7073AF84" Association="Self.FK__Records__employe__7073AF84">
       <End Role="Employee" EntitySet="Employees" />
-      <End Role="Records" EntitySet="Records" />
+      <End Role="Record" EntitySet="Records" />
     </AssociationSet>
     <AssociationSet Name="FK__Records__handove__7167D3BD" Association="Self.FK__Records__handove__7167D3BD">
       <End Role="Employee" EntitySet="Employees" />
-      <End Role="Records" EntitySet="Records" />
+      <End Role="Record" EntitySet="Records" />
     </AssociationSet>
     <AssociationSet Name="FK__Records__managem__725BF7F6" Association="Self.FK__Records__managem__725BF7F6">
       <End Role="Employee" EntitySet="Employees" />
-      <End Role="Records" EntitySet="Records" />
+      <End Role="Record" EntitySet="Records" />
     </AssociationSet>
     <AssociationSet Name="FK__Recruitme__emplo__7FB5F314" Association="Self.FK__Recruitme__emplo__7FB5F314">
       <End Role="Employee" EntitySet="Employees" />
@@ -4559,23 +4559,23 @@
     </AssociationSet>
     <AssociationSet Name="FK__RecordsGe__famil__74444068" Association="Self.FK__RecordsGe__famil__74444068">
       <End Role="FamilyRelationship" EntitySet="FamilyRelationships" />
-      <End Role="RecordsGettingAuthorize" EntitySet="RecordsGettingAuthorizes" />
+      <End Role="RecordGettingAuthorize" EntitySet="RecordGettingAuthorizes" />
     </AssociationSet>
     <AssociationSet Name="FK__Papers__papers_t__6E8B6712" Association="Self.FK__Papers__papers_t__6E8B6712">
-      <End Role="PapersType" EntitySet="PapersTypes" />
-      <End Role="Papers" EntitySet="Papers" />
+      <End Role="PaperType" EntitySet="PaperTypes" />
+      <End Role="Paper" EntitySet="Papers" />
     </AssociationSet>
     <AssociationSet Name="FK__RecordsPa__paper__7814D14C" Association="Self.FK__RecordsPa__paper__7814D14C">
-      <End Role="Papers" EntitySet="Papers" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="Paper" EntitySet="Papers" />
+      <End Role="RecordPaper" EntitySet="RecordPapers" />
     </AssociationSet>
     <AssociationSet Name="FK__Task__papers_id__084B3915" Association="Self.FK__Task__papers_id__084B3915">
-      <End Role="Papers" EntitySet="Papers" />
+      <End Role="Paper" EntitySet="Papers" />
       <End Role="Task" EntitySet="Tasks" />
     </AssociationSet>
     <AssociationSet Name="FK__RecordsPa__paper__7908F585" Association="Self.FK__RecordsPa__paper__7908F585">
-      <End Role="PapersStorageType" EntitySet="PapersStorageTypes" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="PaperStorageType" EntitySet="PaperStorageTypes" />
+      <End Role="RecordPaper" EntitySet="RecordPapers" />
     </AssociationSet>
     <AssociationSet Name="FK__Salary__pay_rate__047AA831" Association="Self.FK__Salary__pay_rate__047AA831">
       <End Role="PayRate" EntitySet="PayRates" />
@@ -4591,31 +4591,31 @@
     </AssociationSet>
     <AssociationSet Name="FK__RecordsPa__quali__79FD19BE" Association="Self.FK__RecordsPa__quali__79FD19BE">
       <End Role="Qualification" EntitySet="Qualifications" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="RecordPaper" EntitySet="RecordPapers" />
     </AssociationSet>
     <AssociationSet Name="FK__Recruitme__quali__00AA174D" Association="Self.FK__Recruitme__quali__00AA174D">
       <End Role="Qualification" EntitySet="Qualifications" />
       <End Role="Recruitment" EntitySet="Recruitments" />
     </AssociationSet>
     <AssociationSet Name="FK__Records__records__73501C2F" Association="Self.FK__Records__records__73501C2F">
-      <End Role="RecordsStatus" EntitySet="RecordsStatus" />
-      <End Role="Records" EntitySet="Records" />
+      <End Role="RecordStatus" EntitySet="RecordStatus" />
+      <End Role="Record" EntitySet="Records" />
     </AssociationSet>
     <AssociationSet Name="FK__RecordsGe__recor__753864A1" Association="Self.FK__RecordsGe__recor__753864A1">
-      <End Role="Records" EntitySet="Records" />
-      <End Role="RecordsGettingAuthorize" EntitySet="RecordsGettingAuthorizes" />
+      <End Role="Record" EntitySet="Records" />
+      <End Role="RecordGettingAuthorize" EntitySet="RecordGettingAuthorizes" />
     </AssociationSet>
     <AssociationSet Name="FK__RecordsPa__recor__7AF13DF7" Association="Self.FK__RecordsPa__recor__7AF13DF7">
-      <End Role="Records" EntitySet="Records" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="Record" EntitySet="Records" />
+      <End Role="RecordPaper" EntitySet="RecordPapers" />
     </AssociationSet>
     <AssociationSet Name="FK__RecordsPa__schoo__7BE56230" Association="Self.FK__RecordsPa__schoo__7BE56230">
       <End Role="School" EntitySet="Schools" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="RecordPaper" EntitySet="RecordPapers" />
     </AssociationSet>
     <AssociationSet Name="FK_RecordsPapers_Specializations" Association="Self.FK_RecordsPapers_Specializations">
-      <End Role="Specializations" EntitySet="Specializations" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+      <End Role="Specialization" EntitySet="Specializations" />
+      <End Role="RecordPaper" EntitySet="RecordPapers" />
     </AssociationSet>
     <AssociationSet Name="FK__Recruitme__salar__019E3B86" Association="Self.FK__Recruitme__salar__019E3B86">
       <End Role="Salary" EntitySet="Salaries" />
@@ -4626,7 +4626,7 @@
       <End Role="Recruitment" EntitySet="Recruitments" />
     </AssociationSet>
     <AssociationSet Name="FK_Recruitment_Specializations" Association="Self.FK_Recruitment_Specializations">
-      <End Role="Specializations" EntitySet="Specializations" />
+      <End Role="Specialization" EntitySet="Specializations" />
       <End Role="Recruitment" EntitySet="Recruitments" />
     </AssociationSet>
     <AssociationSet Name="FK__Transfer__new_sa__0FEC5ADD" Association="Self.FK__Transfer__new_sa__0FEC5ADD">
@@ -4675,7 +4675,7 @@
     </AssociationSet>
     <AssociationSet Name="FK__PlanManuf__crite__3429BB53" Association="Self.FK__PlanManuf__crite__3429BB53">
       <End Role="Criteria" EntitySet="Criteria" />
-      <End Role="PlanManufacturingByShifts" EntitySet="PlanManufacturingByShifts" />
+      <End Role="PlanManufacturingByShift" EntitySet="PlanManufacturingByShifts" />
     </AssociationSet>
     <AssociationSet Name="FK__PlanManuf__crite__361203C5" Association="Self.FK__PlanManuf__crite__361203C5">
       <End Role="Criteria" EntitySet="Criteria" />
@@ -4694,7 +4694,7 @@
       <End Role="EmployeeAttendanceAndProductivity" EntitySet="EmployeeAttendanceAndProductivities" />
     </AssociationSet>
     <AssociationSet Name="FK__FakeAPI__shifts___25DB9BFC" Association="Self.FK__FakeAPI__shifts___25DB9BFC">
-      <End Role="Shifts" EntitySet="Shifts" />
+      <End Role="Shift" EntitySet="Shifts" />
       <End Role="FakeAPI" EntitySet="FakeAPIs" />
     </AssociationSet>
     <AssociationSet Name="FK__File__report_fil__27C3E46E" Association="Self.FK__File__report_fil__27C3E46E">
@@ -4702,7 +4702,7 @@
       <End Role="File" EntitySet="Files" />
     </AssociationSet>
     <AssociationSet Name="FK__HeaderAtt__shift__28B808A7" Association="Self.FK__HeaderAtt__shift__28B808A7">
-      <End Role="Shifts" EntitySet="Shifts" />
+      <End Role="Shift" EntitySet="Shifts" />
       <End Role="HeaderAttendanceAndProductivity" EntitySet="HeaderAttendanceAndProductivities" />
     </AssociationSet>
     <AssociationSet Name="FK__HeaderPla__plan___2AA05119" Association="Self.FK__HeaderPla__plan___2AA05119">
@@ -4714,12 +4714,12 @@
       <End Role="PlanManufacturingByMonth" EntitySet="PlanManufacturingByMonths" />
     </AssociationSet>
     <AssociationSet Name="FK__HeaderPla__shift__2C88998B" Association="Self.FK__HeaderPla__shift__2C88998B">
-      <End Role="Shifts" EntitySet="Shifts" />
-      <End Role="HeaderPlanManufacturingByShifts" EntitySet="HeaderPlanManufacturingByShifts" />
+      <End Role="Shift" EntitySet="Shifts" />
+      <End Role="HeaderPlanManufacturingByShift" EntitySet="HeaderPlanManufacturingByShifts" />
     </AssociationSet>
     <AssociationSet Name="FK__PlanManuf__heade__351DDF8C" Association="Self.FK__PlanManuf__heade__351DDF8C">
-      <End Role="HeaderPlanManufacturingByShifts" EntitySet="HeaderPlanManufacturingByShifts" />
-      <End Role="PlanManufacturingByShifts" EntitySet="PlanManufacturingByShifts" />
+      <End Role="HeaderPlanManufacturingByShift" EntitySet="HeaderPlanManufacturingByShifts" />
+      <End Role="PlanManufacturingByShift" EntitySet="PlanManufacturingByShifts" />
     </AssociationSet>
     <AssociationSet Name="FK__PlanManuf__heade__370627FE" Association="Self.FK__PlanManuf__heade__370627FE">
       <End Role="HeaderPlanManufacturingByYear" EntitySet="HeaderPlanManufacturingByYears" />
@@ -4730,11 +4730,11 @@
       <End Role="HeaderRealityManufacturing" EntitySet="HeaderRealityManufacturings" />
     </AssociationSet>
     <AssociationSet Name="FK__HeaderRea__shift__30592A6F" Association="Self.FK__HeaderRea__shift__30592A6F">
-      <End Role="Shifts" EntitySet="Shifts" />
+      <End Role="Shift" EntitySet="Shifts" />
       <End Role="HeaderRealityManufacturing" EntitySet="HeaderRealityManufacturings" />
     </AssociationSet>
     <AssociationSet Name="FK__ReportFil__shift__3AD6B8E2" Association="Self.FK__ReportFil__shift__3AD6B8E2">
-      <End Role="Shifts" EntitySet="Shifts" />
+      <End Role="Shift" EntitySet="Shifts" />
       <End Role="ReportFile" EntitySet="ReportFiles" />
     </AssociationSet>
     <AssociationSet Name="FK__SafetyWor__safet__3CBF0154" Association="Self.FK__SafetyWor__safet__3CBF0154">
@@ -4742,7 +4742,7 @@
       <End Role="SafetyWork" EntitySet="SafetyWorks" />
     </AssociationSet>
     <AssociationSet Name="FK__SafetyWor__shift__3DB3258D" Association="Self.FK__SafetyWor__shift__3DB3258D">
-      <End Role="Shifts" EntitySet="Shifts" />
+      <End Role="Shift" EntitySet="Shifts" />
       <End Role="SafetyWork" EntitySet="SafetyWorks" />
     </AssociationSet>
     <AssociationSet Name="FK__BigMainta__suppl__408F9238" Association="Self.FK__BigMainta__suppl__408F9238">
