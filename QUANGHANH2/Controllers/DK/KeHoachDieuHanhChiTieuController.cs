@@ -88,7 +88,7 @@ namespace QUANGHANH2.Controllers.DK
                                             where year(Ngay) = @year and Ngay <= @date
                                             group by month(Ngay)) as tb2 on tb1.Ngay = tb2.lastdate) as tb4
                                             on tb3.ThangKeHoach = tb4.Thang";
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     List <TCEntities> listTC = db.Database.SqlQuery<TCEntities>(queryTC).ToList();
                     List <displayTC> listTCdisplay = new List<displayTC>();
@@ -131,7 +131,7 @@ namespace QUANGHANH2.Controllers.DK
                     //compare new with oldGroupCrit.
 
                     //diff => addGroupCrit 
-                    if (item.MaNhomTieuChi != oldGroupCriteria)
+                    if (item.criteria_group_id != oldGroupCriteria)
                     {
                         //addGroupCrit 
                         displayTC newDisplayTC = new displayTC();
@@ -142,8 +142,8 @@ namespace QUANGHANH2.Controllers.DK
                         displayTC newDisplayTC2 = new displayTC();
                         newDisplayTC2.TT = "-";
                         newDisplayTC2.HangTieuChi = 3;
-                        newDisplayTC2.NoiDung = item.TenTieuChi;
-                        newDisplayTC2.MaTieuChi = item.MaTieuChi;
+                        newDisplayTC2.NoiDung = item.name;
+                        newDisplayTC2.MaTieuChi = item.criteria_id;
 
                         listTCdisplay.Add(newDisplayTC);
                         listTCdisplay.Add(newDisplayTC2);
@@ -154,8 +154,8 @@ namespace QUANGHANH2.Controllers.DK
                         displayTC newDisplayTC = new displayTC();
                         newDisplayTC.TT = "-";
                         newDisplayTC.HangTieuChi = 3;
-                        newDisplayTC.NoiDung = item.TenTieuChi;
-                        newDisplayTC.MaTieuChi = item.MaTieuChi;
+                        newDisplayTC.NoiDung = item.name;
+                        newDisplayTC.MaTieuChi = item.criteria_id;
                         listTCdisplay.Add(newDisplayTC);
                     }
                 } 
@@ -169,13 +169,13 @@ namespace QUANGHANH2.Controllers.DK
                      newDisplayTC.TT = "" + TT;
                      newDisplayTC.HangTieuChi = 1;
                      newDisplayTC.NoiDung = item.TenNhomTieuChi;
-                     newDisplayTC.MaTieuChi = item.MaTieuChi;
+                     newDisplayTC.MaTieuChi = item.criteria_id;
                      listTCdisplay.Add(newDisplayTC);
                 } 
                 else 
                 {
                     //compare new with oldGroupCrit.
-                    if (item.MaNhomTieuChi != oldGroupCriteria)
+                    if (item.criteria_group_id != oldGroupCriteria)
                     {
                         //addGroupCrit 
                         displayTC newDisplayTC = new displayTC();
@@ -188,8 +188,8 @@ namespace QUANGHANH2.Controllers.DK
                         displayTC newDisplayTC2 = new displayTC();
                         newDisplayTC2.TT = "" + TT + "." + (smallTT++);
                         newDisplayTC2.HangTieuChi = 2;
-                        newDisplayTC2.NoiDung = item.TenTieuChi;
-                        newDisplayTC2.MaTieuChi = item.MaTieuChi;
+                        newDisplayTC2.NoiDung = item.name;
+                        newDisplayTC2.MaTieuChi = item.criteria_id;
 
                         listTCdisplay.Add(newDisplayTC);
                         listTCdisplay.Add(newDisplayTC2);
@@ -199,12 +199,12 @@ namespace QUANGHANH2.Controllers.DK
                         displayTC newDisplayTC = new displayTC();
                         newDisplayTC.TT = "" + TT + "." + (smallTT++);
                         newDisplayTC.HangTieuChi = 2;
-                        newDisplayTC.NoiDung = item.TenTieuChi;
-                        newDisplayTC.MaTieuChi = item.MaTieuChi;
+                        newDisplayTC.NoiDung = item.name;
+                        newDisplayTC.MaTieuChi = item.criteria_id;
                         listTCdisplay.Add(newDisplayTC);
                     }
                 }
-                oldGroupCriteria = (int)item.MaNhomTieuChi;
+                oldGroupCriteria = (int)item.criteria_group_id;
             }
         }
 
@@ -243,7 +243,7 @@ namespace QUANGHANH2.Controllers.DK
         public int NgayCuoi { get; set; }
     }
 
-    public class TCEntities : TieuChi
+    public class TCEntities : Criterion
     {
         public string TenNhomTieuChi { get; set; }
     }

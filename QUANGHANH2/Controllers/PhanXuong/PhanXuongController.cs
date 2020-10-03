@@ -45,7 +45,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         public ActionResult HuydongPhanxuong()
         {
 
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<SelectListItem> listStatus = new List<SelectListItem>();
             var statsu = db.Status.ToList<Status>();
             foreach (Status item in statsu)
@@ -68,7 +68,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             DateTime dtStart = Convert.ToDateTime("01/01/2000");
             DateTime dtEnd = DateTime.Today;
             if (!dateStart.Equals(""))
@@ -143,7 +143,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             bool? ca1IsLock = false;
             bool? ca2IsLock = false;
             bool? ca3IsLock = false;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
@@ -239,7 +239,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
 
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
@@ -341,7 +341,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             String id = Request["id"];
             if (id != null)
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     using (DbContextTransaction transaction = db.Database.BeginTransaction())
                     {
@@ -465,7 +465,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                     convert_shift = Convert.ToInt32(shift);
                 }
 
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     //get list_nsld
                     var mysql = @"select 
@@ -520,7 +520,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         [HttpPost]
         public ActionResult saveNSLD()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 DbContextTransaction transaction = db.Database.BeginTransaction();
                 try
@@ -542,7 +542,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                     from Header_DiemDanh_NangSuat_LaoDong hd
                                     join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID
                                     where hd.NgayDiemDanh = @date and hd.Ca = @shift and hdd.MaPhongBan = @departmentID";
-                    var checkHeader = db.Database.SqlQuery<Header_DiemDanh_NangSuat_LaoDong>(myCheck,
+                    var checkHeader = db.Database.SqlQuery<HeaderAttendanceAndProductivity>(myCheck,
                                                                                         new SqlParameter("@date", date),
                                                                                         new SqlParameter("@shift", shift),
                                                                                         new SqlParameter("@departmentID", departmentID)).FirstOrDefault();
@@ -550,20 +550,20 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                     if (checkHeader != null)
                     {
                         //save to Header_DiemDanh_NangSuat_LaoDong
-                        var header_detail = db.Header_DiemDanh_NangSuat_LaoDong_Detail.Find(checkHeader.HeaderID, departmentID);
-                        header_detail.TotalEffort = Convert.ToDouble(arrES[0]["TongDiemLuong"]);
-                        header_detail.ThanThucHien = Convert.ToDouble(arrES[0]["TongThan"]);
-                        header_detail.MetLoThucHien = Convert.ToDouble(arrES[0]["TongMetLo"]);
-                        header_detail.XenThucHien = Convert.ToDouble(arrES[0]["TongXen"]);
+                        var header_detail = db.DepartmentAttendanceAndProductivities.Find(checkHeader.header_attendance_and_productivity_id, departmentID);
+                        //header_detail.total_effort = Convert.ToDouble(arrES[0]["TongDiemLuong"]);
+                        //header_detail.total_mined_coal = Convert.ToDouble(arrES[0]["TongThan"]);
+                        //header_detail.total_mined_meter = Convert.ToDouble(arrES[0]["TongMetLo"]);
+                        //header_detail.total_cropped_meter = Convert.ToDouble(arrES[0]["TongXen"]);
 
                         //save to DiemDanh_NangSuat_LaoDong
-                        var headerID = Convert.ToInt32(checkHeader.HeaderID);
+                        var headerID = Convert.ToInt32(checkHeader.header_attendance_and_productivity_id);
                         foreach (var row in arrTB)
                         {
                             string nhanvien_id = (String)row["mathe"];
                             double diemluong = Convert.ToDouble(row["diemluong"]);
-                            DiemDanh_NangSuatLaoDong effort = db.DiemDanh_NangSuatLaoDong.Find(nhanvien_id, headerID);
-                            effort.DiemLuong = Convert.ToDouble(diemluong);
+                            EmployeeAttendanceAndProductivity effort = db.EmployeeAttendanceAndProductivities.Find(nhanvien_id, headerID);
+                            //effort.productivity_point = Convert.ToDouble(diemluong);
                             db.SaveChanges();
                         }
                         transaction.Commit();
@@ -709,7 +709,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     db.Configuration.LazyLoadingEnabled = false;
                     var query = @"select b.DiLam as [status], b.HeaderID as headerID,nv.MaNV,nv.Ten as tenNV,b.ThoiGianThucTeDiemDanh as timeAttendance,b.reason,[b].[description]
@@ -741,7 +741,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     //take sum attendance and not attendance
                     var mysql = @"select
@@ -840,7 +840,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
             //update header => headerdetail and diemdanh.
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 DateTime actualTime = DateTime.Now;
@@ -879,7 +879,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             SoLuongDiLam_Vang listAtten_NotAtten;
             using (var transaction = new TransactionScope())
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var headerIDmin = getFirstSuccessfullyFetch(dateAtt, session);
 
@@ -889,34 +889,34 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                         {
                             if (item.isEnvolved) //isEnvolved => isEnvolved
                             {
-                                DiemDanh_NangSuatLaoDong oldDN = db.DiemDanh_NangSuatLaoDong.Find(item.maNV, item.headerID);
-                                oldDN.DiLam = item.status;
-                                oldDN.LyDoVangMat = item.reason;
-                                oldDN.ThoiGianThucTeDiemDanh = item.timeAttendance != "" ? (DateTime?)Convert.ToDateTime(item.timeAttendance) : null;
-                                oldDN.GhiChu = item.description;
-                                oldDN.isChangedManually = true;
+                                EmployeeAttendanceAndProductivity oldDN = db.EmployeeAttendanceAndProductivities.Find(item.maNV, item.headerID);
+                                oldDN.do_work = item.status;
+                                //oldDN.absence_reason_id = item.reason;
+                                oldDN.real_time_attendance = item.timeAttendance != "" ? (DateTime?)Convert.ToDateTime(item.timeAttendance) : null;
+                                oldDN.note = item.description;
+                                oldDN.is_changed_manually = true;
                                 db.Entry(oldDN).State = EntityState.Modified;
                             }
                             else //isEnvolved => isNotEnvolved
                             {
-                                db.DiemDanh_NangSuatLaoDong.Remove(db.DiemDanh_NangSuatLaoDong.Find(item.maNV, item.headerID));
+                                db.EmployeeAttendanceAndProductivities.Remove(db.EmployeeAttendanceAndProductivities.Find(item.maNV, item.headerID));
                             }
                         }
                         else //Past : isNotEnvolved.
                         {
                             if (item.isEnvolved) //isNotEnvolved => isEnvolved
                             {
-                                DiemDanh_NangSuatLaoDong dn = new DiemDanh_NangSuatLaoDong();
-                                dn.HeaderID = headerIDmin;
-                                dn.MaNV = item.maNV;
-                                dn.DiLam = item.status;
-                                dn.LyDoVangMat = item.reason;
-                                dn.ThoiGianThucTeDiemDanh = item.timeAttendance != "" ? (DateTime?)Convert.ToDateTime(item.timeAttendance) : null;
-                                dn.GhiChu = item.description;
-                                dn.isChangedManually = true;
-                                dn.isFilledFromAPI = false;
-                                dn.ActualHeaderFetched = headerIDmin;
-                                db.DiemDanh_NangSuatLaoDong.Add(dn);
+                                EmployeeAttendanceAndProductivity dn = new EmployeeAttendanceAndProductivity();
+                                dn.header_attendance_and_productivity_id = headerIDmin;
+                                dn.employee_id = item.maNV;
+                                dn.do_work = item.status;
+                                //dn.absence_reason_id = item.reason;
+                                dn.real_time_attendance = item.timeAttendance != "" ? (DateTime?)Convert.ToDateTime(item.timeAttendance) : null;
+                                dn.note = item.description;
+                                dn.is_changed_manually = true;
+                                dn.is_filled_from_api = false;
+                                dn.actual_header_fetched = headerIDmin;
+                                db.EmployeeAttendanceAndProductivities.Add(dn);
                             }
                         }
                     }
@@ -945,32 +945,32 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             var dateAtt = Convert.ToDateTime(Request["date"]);
             int session = Int32.Parse(Request["session"]);
             SoLuongDiLam_Vang listAtten_NotAtten;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 //fix 15/6
-                var listAttendance = (from emp in db.NhanViens
-                                        .Where(emp => emp.MaPhongBan == departmentID)
-                                      join per in db.DiemDanh_NangSuatLaoDong
-                                      on emp.MaNV equals per.MaNV into tmp1
+                var listAttendance = (from emp in db.Employees
+                                        .Where(emp => emp.current_department_id == departmentID)
+                                      join per in db.EmployeeAttendanceAndProductivities
+                                      on emp.employee_id equals per.employee_id into tmp1
                                       from tmp2 in tmp1.DefaultIfEmpty()
-                                        .Where(per => ((workAll ? (per.DiLam == true) : (per.DiLam == false || per.DiLam == null)) || (notWorkAll ? (per.DiLam == false || per.DiLam == null) : (per.DiLam == true))) && (workAll || notWorkAll))
-                                      join header in db.Header_DiemDanh_NangSuat_LaoDong
-                                        .Where(h => h.Ca == session && h.NgayDiemDanh == dateAtt)
-                                      on tmp2.HeaderID equals header.HeaderID 
-                                      join headerDetail  in db.Header_DiemDanh_NangSuat_LaoDong_Detail
-                                      .Where(h => h.MaPhongBan == departmentID)
-                                      on header.HeaderID equals headerDetail.HeaderID into attendance
+                                        .Where(per => ((workAll ? (per.do_work == true) : (per.do_work == false || per.do_work == null)) || (notWorkAll ? (per.do_work == false || per.do_work == null) : (per.do_work == true))) && (workAll || notWorkAll))
+                                      join header in db.HeaderAttendanceAndProductivities
+                                        .Where(h => h.shifts_id == session && h.attendance_date == dateAtt)
+                                      on tmp2.header_attendance_and_productivity_id equals header.header_attendance_and_productivity_id
+                                      join headerDetail  in db.DepartmentAttendanceAndProductivities
+                                      .Where(h => h.department_id == departmentID)
+                                      on header.header_attendance_and_productivity_id equals headerDetail.header_attendance_and_productivity_id into attendance
                                       from att in attendance.DefaultIfEmpty()
                                       select new
                                       {
-                                          headerID = tmp2.HeaderID,
-                                          maNV = emp.MaNV,
-                                          tenNV = emp.Ten,
-                                          status = (bool?)tmp2.DiLam,
-                                          timeAttendance = tmp2.ThoiGianThucTeDiemDanh,
-                                          reason = tmp2.LyDoVangMat,
-                                          description = tmp2.GhiChu
+                                          headerID = tmp2.header_attendance_and_productivity_id,
+                                          maNV = emp.employee_id,
+                                          tenNV = emp.BASIC_INFO_full_name,
+                                          status = (bool?)tmp2.do_work,
+                                          timeAttendance = tmp2.real_time_attendance,
+                                          reason = tmp2.absence_reason_id,
+                                          description = tmp2.note
                                       }).OrderBy(att => att.status).ToList();
 
 
@@ -989,7 +989,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
             DateTime realTimeNow = DateTime.Now;
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (var transaction = db.Database.BeginTransaction())
                 {
@@ -1021,7 +1021,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                             }
 
                             var listHaveNotAdded = getUnExistItemList(dataReceived.data, headerIDMin);
-                            List<DiemDanh_NangSuatLaoDong> attendanceList = new List<DiemDanh_NangSuatLaoDong>();
+                            List<EmployeeAttendanceAndProductivity> attendanceList = new List<EmployeeAttendanceAndProductivity>();
 
                             //check invalid data API
                             bool valid;
@@ -1038,15 +1038,15 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                                 }
                                 if (valid)
                                 {
-                                    DiemDanh_NangSuatLaoDong ddEntity = new DiemDanh_NangSuatLaoDong();
-                                    ddEntity.HeaderID = headerIDMin;
-                                    ddEntity.MaNV = item.MaNhanVien;
-                                    ddEntity.ActualHeaderFetched = currentHeaderID;
-                                    ddEntity.DiLam = true;
-                                    ddEntity.isFilledFromAPI = true;
-                                    ddEntity.isChangedManually = false;
-                                    ddEntity.ThoiGianXuongLo = item.startTime;
-                                    ddEntity.ThoiGianLenLo = item.endTime;
+                                    EmployeeAttendanceAndProductivity ddEntity = new EmployeeAttendanceAndProductivity();
+                                    ddEntity.header_attendance_and_productivity_id = headerIDMin;
+                                    ddEntity.employee_id = item.MaNhanVien;
+                                    ddEntity.actual_header_fetched = currentHeaderID;
+                                    ddEntity.do_work = true;
+                                    ddEntity.is_filled_from_api = true;
+                                    ddEntity.is_changed_manually = false;
+                                    ddEntity.down_time = item.startTime;
+                                    ddEntity.up_time = item.endTime;
                                     attendanceList.Add(ddEntity);
                                 }
 
@@ -1073,13 +1073,13 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             }
         }
 
-        private void InsertAttendanceAPI(List<DiemDanh_NangSuatLaoDong> listAttendance)
+        private void InsertAttendanceAPI(List<EmployeeAttendanceAndProductivity> listAttendance)
         {
-            using (var db = new QUANGHANHABCEntities())
+            using (var db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
-                    db.DiemDanh_NangSuatLaoDong.AddRange(listAttendance);
+                    db.EmployeeAttendanceAndProductivities.AddRange(listAttendance);
                     db.SaveChanges();
                 }
                 catch (Exception ex)
@@ -1095,7 +1095,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         {
             try
             {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 string query = "select max(FetchDataTime) from Header_DiemDanh_NangSuat_LaoDong where isCreatedManually = 0 and Status = 1";
                 DateTime timeFetch = db.Database.SqlQuery<DateTime>(query).FirstOrDefault();
                 if (timeFetch != null)
@@ -1121,7 +1121,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             }
             else
             {
-                using (var db = new QUANGHANHABCEntities())
+                using (var db = new QuangHanhManufacturingEntities())
                 {
                     var listIDString = $"{listID[0].MaNhanVien}";
                     for (int index = 1; index < listID.Count; index++)
@@ -1199,7 +1199,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             }
             catch (Exception ex)
             {
-                await Task.Run(() => {
+                await System.Threading.Tasks.Task.Run(() => {
                     dataPostBack.success = false;
                     dataPostBack.message = ex.Message;
                 });
@@ -1213,19 +1213,19 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         private void InsertHeaderDetail(int headerID)
         {
             string sqlQuery = @"select department_id from Department";
-            using (var db = new QUANGHANHABCEntities())
+            using (var db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
                     List<String> departmentList = db.Database.SqlQuery<String>(sqlQuery).ToList();
                     foreach (var departmentID in departmentList)
                     {
-                        Header_DiemDanh_NangSuat_LaoDong_Detail header_detail = new Header_DiemDanh_NangSuat_LaoDong_Detail()
+                        DepartmentAttendanceAndProductivity header_detail = new DepartmentAttendanceAndProductivity()
                         {
-                            HeaderID = headerID,
-                            MaPhongBan = departmentID
+                            header_attendance_and_productivity_id = headerID,
+                            department_id = departmentID
                         };
-                        db.Header_DiemDanh_NangSuat_LaoDong_Detail.Add(header_detail);
+                        db.DepartmentAttendanceAndProductivities.Add(header_detail);
                         db.SaveChanges();
                     }
                 }
@@ -1239,19 +1239,19 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         private void InsertHeaderDetailAPI(int headerID)
         {
             string sqlQuery = @"select department_id from Department";
-            using (var db = new QUANGHANHABCEntities())
+            using (var db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
                     List<String> departmentList = db.Database.SqlQuery<String>(sqlQuery).ToList();
                     foreach (var departmentID in departmentList)
                     {
-                        Header_DiemDanh_NangSuat_LaoDong_Detail header_detail = new Header_DiemDanh_NangSuat_LaoDong_Detail()
+                        DepartmentAttendanceAndProductivity header_detail = new DepartmentAttendanceAndProductivity()
                         {
-                            HeaderID = headerID,
-                            MaPhongBan = departmentID
+                            header_attendance_and_productivity_id = headerID,
+                            department_id = departmentID
                         };
-                        db.Header_DiemDanh_NangSuat_LaoDong_Detail.Add(header_detail);
+                        db.DepartmentAttendanceAndProductivities.Add(header_detail);
                         db.SaveChanges();
                     }
                 }
@@ -1264,19 +1264,19 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
         private void InsertHeader(DateTime dateAtt, DateTime actualTime, int session)
         {
-            Header_DiemDanh_NangSuat_LaoDong header = new Header_DiemDanh_NangSuat_LaoDong();
-            header.NgayDiemDanh = dateAtt;
-            header.Ca = session;
-            header.Status = true;
-            header.Message = null;
-            header.VERSION = null;
-            header.FetchDataTime = actualTime;
-            header.isCreatedManually = true;
-            using (var db = new QUANGHANHABCEntities())
+            HeaderAttendanceAndProductivity header = new HeaderAttendanceAndProductivity();
+            header.attendance_date = dateAtt;
+            header.shifts_id = session;
+            //header.status = true;
+            header.message = null;
+            header.version = null;
+            header.fetch_data_time = actualTime;
+            header.is_created_manually = true;
+            using (var db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
-                    db.Header_DiemDanh_NangSuat_LaoDong.Add(header);
+                    db.HeaderAttendanceAndProductivities.Add(header);
                     db.SaveChanges();
                 }
                 catch (Exception ex)
@@ -1288,18 +1288,18 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
         private void InsertHeaderAPI(Result data)
         {
-            Header_DiemDanh_NangSuat_LaoDong header = new Header_DiemDanh_NangSuat_LaoDong();
-            header.NgayDiemDanh = data.dateFetching;
-            header.Ca = data.Session;
-            header.Status = data.success;
-            header.Message = data.message;
-            header.VERSION = data.VERSION;
-            header.FetchDataTime = data.actualTimeFetching;
-            using (var db = new QUANGHANHABCEntities())
+            HeaderAttendanceAndProductivity header = new HeaderAttendanceAndProductivity();
+            header.attendance_date = data.dateFetching;
+            header.shifts_id = data.Session;
+            //header.status = data.success;
+            header.message = data.message;
+            header.version = data.VERSION;
+            header.fetch_data_time = data.actualTimeFetching;
+            using (var db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
-                    db.Header_DiemDanh_NangSuat_LaoDong.Add(header);
+                    db.HeaderAttendanceAndProductivities.Add(header);
                     db.SaveChanges();
                 }
                 catch (Exception ex)
@@ -1311,7 +1311,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
         private int getFirstSuccessfullyFetch(DateTime datePicked, int session)
         {
-            using (var db = new QUANGHANHABCEntities())
+            using (var db = new QuangHanhManufacturingEntities())
             {
                 string sqlQuery = @"select headerId from Header_DiemDanh_NangSuat_LaoDong 
                               where FetchDataTime = (Select Min(FetchDataTime) from Header_DiemDanh_NangSuat_LaoDong where NgayDiemDanh = @date and Ca = @session and (Status = 1 or isCreatedManually =1)) ";
@@ -1330,7 +1330,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
         public int getHeader(DateTime date, int session, DateTime timefetching)
         {
-            using (var db = new QUANGHANHABCEntities())
+            using (var db = new QuangHanhManufacturingEntities())
             {
                 try
                 {

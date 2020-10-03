@@ -19,7 +19,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
         [Route("phong-dieu-khien/nhap-lieu-san-xuat")]
         public ActionResult InputCharcoal()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
             //var ngaySX = db.header_KeHoachTungThang.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
@@ -30,13 +30,14 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                 new SqlParameter("departmentType_1", "Phân xưởng sản xuất chính"),
                 new SqlParameter("departmentType_2", "Đơn vị sản xuất thuê ngoài")).ToList<Department>();
             ViewBag.listDepartments = listDepartments;
-            var ngaySX = db.KeHoachTungThangs.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
-            ViewBag.SoNgaySX = ngaySX;
+
+            //var ngaySX = db.PlanManufacturingMonthInformations.Where(x => x.month == month && x.year == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
+            //ViewBag.SoNgaySX = ngaySX;
             string sqlchecknsx = @"select t.*
                                 from ThucHienTheoNgay t 
                                 where t.Ngay = @month";
-            ThucHienTheoNgay th = db.Database.SqlQuery<ThucHienTheoNgay>(sqlchecknsx, new SqlParameter("month", DateTime.Now.ToString("MM-dd-yyyy"))).FirstOrDefault();
-            if (th != null) ViewBag.NgaySX = th.NgaySanXuat;
+            RealityManufacturingDayInformation th = db.Database.SqlQuery<RealityManufacturingDayInformation>(sqlchecknsx, new SqlParameter("month", DateTime.Now.ToString("MM-dd-yyyy"))).FirstOrDefault();
+            if (th != null) ViewBag.NgaySX = th.no_date_manufacturing;
             else ViewBag.NgaySX = 0;
             return View("/Views/DK/InputCharcoal/InputCharcoal.cshtml");
         }
@@ -49,29 +50,29 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             string ngay = Request["ngay"];
             string[] temp = ngay.Split('/');
             ngay = temp[1] + "/" + temp[0] + "/" + temp[2];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 int thang = Convert.ToInt32(temp[1]);
                 int nam = Convert.ToInt32(temp[2]);
-                var ngaySX = db.KeHoachTungThangs.Where(x => x.ThangKeHoach == thang && x.NamKeHoach == nam).Select(x => x.SoNgayLamViec).FirstOrDefault();
+                //var ngaySX = db.KeHoachTungThangs.Where(x => x.ThangKeHoach == thang && x.NamKeHoach == nam).Select(x => x.SoNgayLamViec).FirstOrDefault();
                 string sql = "select case when Max(NgaySanXuat) is null then 0 else Max(NgaySanXuat) end as 'check' from ThucHienTheoNgay where year(Ngay) = @year and month(Ngay) = @month";
                 sql = "select * from ThucHienTheoNgay where Ngay = @day";
-                ThucHienTheoNgay checkadd = db.Database.SqlQuery<ThucHienTheoNgay>(sql, new SqlParameter("day", ngay)).FirstOrDefault();
-                if (checkadd != null)
-                {
-                    return Json(new { success = false, title = "Thêm không thành công", message = "Đã có ngày sản xuất." });
-                } else if(nsx <= 0 || nsx > ngaySX)
-                {
-                    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất phải trong khoảng 1 - " + ngaySX + "." });
-                }
+                RealityManufacturingDayInformation checkadd = db.Database.SqlQuery<RealityManufacturingDayInformation>(sql, new SqlParameter("day", ngay)).FirstOrDefault();
+                //if (checkadd != null)
+                //{
+                //    return Json(new { success = false, title = "Thêm không thành công", message = "Đã có ngày sản xuất." });
+                //} else if(nsx <= 0 || nsx > ngaySX)
+                //{
+                //    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất phải trong khoảng 1 - " + ngaySX + "." });
+                //}
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
                     try
                     {
-                        ThucHienTheoNgay kh = new ThucHienTheoNgay();
-                        kh.Ngay = DateTime.Parse(ngay);
-                        kh.NgaySanXuat = nsx;
-                        db.ThucHienTheoNgays.Add(kh);
+                    RealityManufacturingDayInformation kh = new RealityManufacturingDayInformation();
+                        kh.date = DateTime.Parse(ngay);
+                        //kh.no_date_manufacturing = nsx;
+                        db.RealityManufacturingDayInformations.Add(kh);
                         db.SaveChanges();
                         transaction.Commit();
                     }
@@ -92,23 +93,23 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             string ngay = Request["ngay"];
             string[] temp = ngay.Split('/');
             ngay = temp[1] + "/" + temp[0] + "/" + temp[2];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 int thang = Convert.ToInt32(temp[1]);
                 int nam = Convert.ToInt32(temp[2]);
-                var ngaySX = db.KeHoachTungThangs.Where(x => x.ThangKeHoach == thang && x.NamKeHoach == nam).Select(x => x.SoNgayLamViec).FirstOrDefault();
+                //var ngaySX = db.KeHoachTungThangs.Where(x => x.ThangKeHoach == thang && x.NamKeHoach == nam).Select(x => x.SoNgayLamViec).FirstOrDefault();
                 string sql = "select case when Max(NgaySanXuat) is null then 0 else Max(NgaySanXuat) end as 'check' from ThucHienTheoNgay where year(Ngay) = @year and month(Ngay) = @month";
-                if (nsx <= 0 || nsx > ngaySX)
-                {
-                    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất phải trong khoảng 1 - " + ngaySX + "." });
-                }
+                //if (nsx <= 0 || nsx > ngaySX)
+                //{
+                //    return Json(new { success = false, title = "Thêm không thành công", message = "Ngày sản xuất phải trong khoảng 1 - " + ngaySX + "." });
+                //}
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
                     try
                     {
                         sql = "select * from ThucHienTheoNgay where Ngay = @date";
-                        ThucHienTheoNgay kh = db.Database.SqlQuery<ThucHienTheoNgay>(sql, new SqlParameter("date", ngay)).FirstOrDefault();
-                        kh.NgaySanXuat = nsx;
+                        RealityManufacturingDayInformation kh = db.Database.SqlQuery<RealityManufacturingDayInformation>(sql, new SqlParameter("date", ngay)).FirstOrDefault();
+                        //kh.no_date_manufacturing = nsx;
                         db.Entry(kh).State = EntityState.Modified;
                         db.SaveChanges();
                         transaction.Commit();
@@ -149,7 +150,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
         public JsonResult Change(string px_value, string ca_value, string date)
         {
             List<SanXuat> tcList = null;
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
             List<SanXuat> LK = null;
@@ -174,12 +175,12 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                     string sqltemp = @"select th.*, h.Ca, h.HeaderID, h.MaPhongBan
                                     from ThucHienTheoNgay th join header_ThucHienTheoNgay h on th.NgayID = h.NgayID
                                     where h.Ca = @ca and h.MaPhongBan = @px and th.Ngay = @date";
-                    List<header_ThucHienTheoNgay> checkList = db.Database.SqlQuery<header_ThucHienTheoNgay>(sqltemp, new SqlParameter("ca", ca), new SqlParameter("px", px_value), new SqlParameter("date", date_sql2)).ToList();
-                    List<header_KeHoach_TieuChi_TheoNgay> checkList2 = db.header_KeHoach_TieuChi_TheoNgay.Where(x => x.MaPhongBan == px_value && x.Ca == ca && x.NgayNhapKH == dateTime).ToList();
+                    List<HeaderRealityManufacturing> checkList = db.Database.SqlQuery<HeaderRealityManufacturing>(sqltemp, new SqlParameter("ca", ca), new SqlParameter("px", px_value), new SqlParameter("date", date_sql2)).ToList();
+                    List<HeaderPlanManufacturingByShift> checkList2 = db.HeaderPlanManufacturingByShifts.Where(x => x.department_id == px_value && x.shifts_id == ca && x.date == dateTime).ToList();
                     sqltemp = @"select h.*
                                 from header_KeHoachTungThang h join KeHoachTungThang kh on h.ThangID = kh.ThangID
                                 where h.MaPhongBan = @px and kh.ThangKeHoach = @month and kh.NamKeHoach = @year";
-                    List<header_KeHoachTungThang> checkList3 = db.Database.SqlQuery<header_KeHoachTungThang>(sqltemp, new SqlParameter("px", px_value), new SqlParameter("month", month), new SqlParameter("year", year)).ToList();
+                    List<HeaderPlanManufacturingByMonth> checkList3 = db.Database.SqlQuery<HeaderPlanManufacturingByMonth>(sqltemp, new SqlParameter("px", px_value), new SqlParameter("month", month), new SqlParameter("year", year)).ToList();
 
                     if (checkList.Count <= 0)
                     {
@@ -395,13 +396,13 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             string sqltmep = @"select *
                                 from ThucHienTheoNgay
                                 where Ngay = @date";
-            ThucHienTheoNgay thtt = db.Database.SqlQuery<ThucHienTheoNgay>(sqltmep, new SqlParameter("date", date_sql2)).FirstOrDefault();
+            RealityManufacturingDayInformation thtt = db.Database.SqlQuery<RealityManufacturingDayInformation>(sqltmep, new SqlParameter("date", date_sql2)).FirstOrDefault();
             string temp = "0";
             if (thtt != null)
             {
-                temp = thtt.NgaySanXuat.ToString();
+                temp = thtt.no_date_manufacturing.ToString();
             }
-            var ngaySX = db.KeHoachTungThangs.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
+            //var ngaySX = db.PlanManufacturingMonthInformations.Where(x => x.month == month && x.year == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
             ViewBag.SoNgaySX = ngaySX;
 
             if (listSX != null) ViewBag.dem = listSX.Count();
@@ -472,11 +473,11 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
                 ngay = date.Split('/')[0]
             }, JsonRequestBehavior.AllowGet);
         }
-        public class MaxKHDate : KeHoach_TieuChi_TheoThang
+        public class MaxKHDate : PlanManufacturingByMonth
         {
             public DateTime Max { get; set; }
         }
-        public class Save_TH : header_ThucHienTheoNgay
+        public class Save_TH : HeaderRealityManufacturing
         {
             public int MaTieuChi { get; set; }
         }
@@ -488,7 +489,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             List<int> tcList = new List<int>();
             List<int> pbtcList = new List<int>();
 
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             int ca = 0;
             if (!ca_value.Equals(""))
             {
