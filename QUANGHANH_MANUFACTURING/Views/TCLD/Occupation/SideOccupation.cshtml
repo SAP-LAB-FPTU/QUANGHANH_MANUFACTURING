@@ -1,0 +1,262 @@
+﻿@{
+    ViewBag.Title = "SideOccupation";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <h3 class="center"><b>DANH SÁCH DIỆN CÔNG VIỆC</b></h3>
+            <div>
+                <a class="waves-effects waves-light btn blue darken-2 btn-small input-field modal-trigger" href="#modal_themDienCongViec">Thêm</a>
+            </div>
+            <div>
+                <table id="diencongviec" class="table table-bordered responsive-table center">
+                    <thead>
+                        <tr>
+                            <th>Diện công việc</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal themDienCongViec-->
+<div id="modal_themDienCongViec" class="modal">
+    <div class="modal-content">
+        <h4 class="center"><b>Thêm Diện Công Việc</b></h4>
+        <div class="row">
+            <div class="col s1 m1 l1"></div>
+            <div class="col s12 m10 l10">
+                <label>Tên diện công việc</label>
+                <input type="text" class="form-control" id="tenDienCongViec_them" />
+            </div>
+            <div class="col s1 m1 l1"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="xacNhanThemDienCongViec" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="dongThemDienCongViec" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
+    </div>
+</div>
+<!--Modal suaDienCongViec-->
+<div id="modal_suaDienCongViec" class="modal">
+    <div class="modal-content">
+        <h4 class="center"><b>Sửa Diện Công Việc</b></h4>
+        <div class="row">
+            <div class="col s1 m1 l1"></div>
+            <div class="col s12 m10 l10">
+                <label>Tên diện công việc</label>
+                <input type="text" class="form-control" id="tenDienCongViec_sua" />
+            </div>
+            <div class="col s1 m1 l1"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="waves-effects waves-light btn blue darken-2 btn-small" id="xacNhanSuaDienCongViec">Xác nhận</button>
+        <button class="waves-effects waves-light btn red darken-2 btn-small modal-close" id="dongSuaDienCongViec">Đóng</button>
+    </div>
+</div>
+
+<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<!-------------------LIST------------------->
+<script>
+    var table;
+    $(document).ready(function () {
+        $('#pre-load').show();
+        table = $('#diencongviec').DataTable({
+            "ajax": {
+                "url": "/phong-tcld/quan-ly-dien-cong-viec/danh-sach-dien-cong-viec",
+                "type": "GET",
+                "datatype": "json",
+                "cache": "false",
+                "dataSrc": function (json) {
+                    return json["sqlList"];
+                }
+            },
+            "columns": [
+                { "data": "TenDienCongViec" },
+                {
+                    "data": "", "render": function (data, type, row) {
+                        return "<a id=\"suaDienCongViec\" name=\"" + row["MaDienCongViec"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_suaDienCongViec\">Sửa</a>";
+                    }
+                },
+                {
+                    "data": "", "render": function (data, type, row) {
+                        return "<a id=\"xoaDienCongViec\" name=\"" + row["MaDienCongViec"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-trigger\">Xóa</a>";
+                    }
+                }
+            ],
+            "language": {
+                "emptyTable": "Không tìm thấy dữ liệu"
+            },
+            "lengthChange": false,
+            "ordering": false,
+            "paging": false,
+            "searching": false,
+            "info": false,
+            "initComplete": function (settings, json) {
+                $('#pre-load').hide();
+            }
+        });
+    });
+</script>
+<!---------------------ADD-------------------->
+<script>
+    $(document).ready(function () {
+        $("#xacNhanThemDienCongViec").click(function () {
+            $("pre-load").show(),
+                $.ajax({
+                    url: "/phong-tcld/quan-ly-dien-cong-viec/them-dien-cong-viec",
+                    type: "POST",
+                    datatype: "json",
+                    data: {
+                        "TenDienCongViec": $("#tenDienCongViec_them").val()
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            successAlert('Thành công', response.message);
+                            //close popup
+                            $("#dongThemDienCongViec").click();
+                            //clear input
+                            $("#tenDienCongViec_them").val("");
+                            //reload table after add successfully
+                            table.ajax.reload();
+                            $('#pre-load').hide();
+                        } else if (response.error) {
+                            errorAlert("Có lỗi", response.message);
+                            $('#pre-load').hide();
+                        }
+                    },
+                    error: function (response) {
+
+                    }
+                });
+        });
+    });
+</script>
+<!---------------------EDIT------------------------>
+<script>
+    $(document).ready(function () {
+        var madiencongviec = "";
+        //get data
+        $("#diencongviec").on("click", "#suaDienCongViec", function () {
+            madiencongviec = $(this).attr("name");
+            //get data by MaDienCongViec and auto fill to popup input
+            getData(madiencongviec);
+        });
+
+        //update
+        $("#xacNhanSuaDienCongViec").click(function () {
+            var tendiencongviec = $("#tenDienCongViec_sua").val();
+            update(madiencongviec, tendiencongviec);
+        });
+
+    });
+</script>
+<!-----Get TenDienCongViec by MaDienCongViec----->
+<script>
+    function getData(MaDienCongViec) {
+        $('#pre-load').show(),
+            $.ajax({
+                url: "/phong-tcld/quan-ly-dien-cong-viec/lay-tendiencongviec-theo-madiencongviec",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "MaDienCongViec": MaDienCongViec
+                },
+                success: function (response) {
+                    if (response.success) {
+                        //auto fill TenDienCongViec
+                        $(document).ready(function () {
+                            $("#tenDienCongViec_sua").val(response.TenDienCongViec);
+                            $('#pre-load').hide();
+                        });
+                    }
+                },
+                error: function (response) {
+
+                }
+            });
+    }
+</script>
+<!------------Update---------------->
+<script>
+    function update(MaDienCongViec, TenDienCongViec) {
+        $("#pre-load").show(),
+            $.ajax({
+                url: "/phong-tcld/quan-ly-dien-cong-viec/cap-nhat-tendiencongviec",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "MaDienCongViec": MaDienCongViec,
+                    "TenDienCongViec": TenDienCongViec
+                },
+                success: function (response) {
+                    if (response.success) {
+                        successAlert("Thành công", response.message);
+                        //clear input filed
+                        $("#tenDienCongViec_sua").val("");
+                        //close popup modal
+                        $("#dongSuaDienCongViec").click();
+                        //reload table after add successfully
+                        table.ajax.reload();
+                        $("#pre-load").hide();
+                    } else if (response.error) {
+                        errorAlert("Có lỗi", response.message);
+                        $("#pre-load").hide();
+                    }
+                },
+                error: function (response) {
+
+                }
+            });
+    }
+</script>
+<!---------DELETE---------->
+<script>
+    $(document).ready(function () {
+        var madiencongviec = "";
+        $("#diencongviec").on("click", "#xoaDienCongViec", function () {
+            madiencongviec = $(this).attr("name");
+            //popup confirm
+            confirmAlert("Xác nhận xóa?", "Xóa diện công việc",
+                function () {
+                    delete_DienCongViec(madiencongviec);
+                }
+            )
+        });
+    });
+</script>
+<script>
+    function delete_DienCongViec(MaDienCongViec) {
+        $("#pre-load").show(),
+            $.ajax({
+                url: "/phong-tcld/quan-ly-dien-cong-viec/xoa-diencongviec",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "MaDienCongViec": MaDienCongViec
+                },
+                success: function (response) {
+                    if (response.success) {
+                        successAlert("Thành công", response.message);
+                        //reload table
+                        table.ajax.reload();
+                        $("#pre-load").hide();
+                    } else if (response.error) {
+                        errorAlert("Có lỗi", response.message);
+                        $("#pre-load").hide();
+                    }
+                },
+                error: function (response) {
+
+                }
+            });
+    }
+</script>

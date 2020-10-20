@@ -1,0 +1,386 @@
+﻿
+@{
+    ViewData["Title"] = "Frequency";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+<link href="~/css/tuan_css/css/kcs_css/style.css" rel="stylesheet" />
+<link href="~/css/TABLE_BORDERED.css" rel="stylesheet" />
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="center">
+                    <h3>
+                        <b>
+                            Báo cáo tăng giảm lao động <a href="javascript:void(0);" data-target='dropdown_quy' class="btn blue darken-2 dropdown-trigger">Quý I</a> <input type="text"
+                                                                                                                                                                            class="datepicker-here center"
+                                                                                                                                                                            data-language='vi'
+                                                                                                                                                                            data-min-view="years"
+                                                                                                                                                                            data-view="years"
+                                                                                                                                                                            data-date-format="Năm yyyy" value="Năm 2019" />
+                        </b>
+                    </h3>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <table class="table-bordered">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">STT</th>
+                                    <th rowspan="2">Danh mục</th>
+                                    <th colspan="2">Quý I năm 2019</th>
+                                    <th colspan="2">Cộng dồn năm 2019</th>
+                                    <th rowspan="2">Ghi chú</th>
+                                </tr>
+                                <tr>
+                                    <th>Tổng số</th>
+                                    <th>Trong đó: Nữ</th>
+                                    <th>Tổng số</th>
+                                    <th>Trong đó: Nữ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="non_editable column_title"><b>I</b></td>
+                                    <td class="non_editable column_title"><b class="left">Lao động danh sách đầu kỳ</b></td>
+                                    <td><b>3127</b></td>
+                                    <td><b>422</b></td>
+                                    <td><b>3127</b></td>
+                                    <td><b>422</b></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"></td>
+                                    <td class="non_editable column_title"><span class="left">+ LĐHĐ KXĐ thời hạn</span></td>
+                                    <td>3127</td>
+                                    <td>422</td>
+                                    <td>3127</td>
+                                    <td>422</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"></td>
+                                    <td class="non_editable column_title"><span class="left">+ LĐHĐ từ 1-3 năm</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title">*</td>
+                                    <td class="non_editable column_title"><span class="left">Lao động mùa vụ, thử việc, HSTT</span></td>
+                                    <td>100</td>
+                                    <td></td>
+                                    <td>100</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"></td>
+                                    <td class="non_editable column_title"><span class="left">+ Học sinh thực tập</span></td>
+                                    <td>100</td>
+                                    <td></td>
+                                    <td>100</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b>II</b></td>
+                                    <td class="non_editable column_title"><b class="left">Số tăng trong kỳ</b></td>
+                                    <td><b>77</b></td>
+                                    <td></td>
+                                    <td><b>77</b></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"></td>
+                                    <td class="non_editable column_title"><span class="left">1/ Ra trường theo chi tiêu đào tạo của Cty</span></td>
+                                    <td>61</td>
+                                    <td></td>
+                                    <td>61</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"></td>
+                                    <td class="non_editable column_title"><span class="left">2/ Tuyển mới</span></td>
+                                    <td>33</td>
+                                    <td></td>
+                                    <td>33</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"></td>
+                                    <td class="non_editable column_title"><span class="left">+ Bộ đội, công an đến</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"></td>
+                                    <td class="non_editable column_title"><span class="left">3/ Đơn vị khác đến</span></td>
+                                    <td>4</td>
+                                    <td></td>
+                                    <td>4</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"></td>
+                                    <td class="non_editable column_title"><span class="left">+ Tiếp nhận từ các đơn vị trong TKV</span></td>
+                                    <td>3</td>
+                                    <td></td>
+                                    <td>3</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"></td>
+                                    <td class="non_editable column_title"><span class="left">+ Tiếp nhận từ các đơn vị ngoài TKV</span></td>
+                                    <td>1</td>
+                                    <td></td>
+                                    <td>1</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"></td>
+                                    <td class="non_editable column_title"><span class="left">4/ Hoàn thành NVQS về</span></td>
+                                    <td>5</td>
+                                    <td></td>
+                                    <td>5</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"></td>
+                                    <td class="non_editable column_title"><span class="left">5/ Các trường hợp khác</span></td>
+                                    <td>4</td>
+                                    <td></td>
+                                    <td>4</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"></td>
+                                    <td class="non_editable column_title"><span class="left">+ Tái tuyển, tiếp nhận lại</span></td>
+                                    <td>4</td>
+                                    <td></td>
+                                    <td>4</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"></td>
+                                    <td class="non_editable column_title"><span class="left">+ Trường hợp khác</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b>III</b></td>
+                                    <td class="non_editable column_title"><b class="left">Số giảm trong kỳ</b></td>
+                                    <td><b>30</b></td>
+                                    <td><b>1</b></td>
+                                    <td><b>30</b></td>
+                                    <td><b>1</b></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">1/ Đi học</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">2/ Hưu trí</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">3/ Xin chấm dứt HĐLĐ, thôi việc</span></td>
+                                    <td>10</td>
+                                    <td>1</td>
+                                    <td>10</td>
+                                    <td>1</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">4/ Sa thải</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">5/ Đơn phương chấm dứt HĐLĐ, bỏ việc</span></td>
+                                    <td>16</td>
+                                    <td></td>
+                                    <td>16</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">6/ Đi nghĩa vụ quân sự</span></td>
+                                    <td>4</td>
+                                    <td></td>
+                                    <td>4</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">7/ Đi đơn vị ngoài</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">+ Đi các đơn vị trong TKV</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">+ Đi các đơn vị ngoài TKV</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">8/ Ốm chết rủi ro</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">9/ Chết do tai nạn lao động</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">10/ Các trường hợp khác</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">+ Hết hạn HĐLĐ</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">+ Các trường hợp khác</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b>IV</b></td>
+                                    <td class="non_editable column_title"><b class="left">Số lao động danh sách cuối kỳ</b></td>
+                                    <td><b>3174</b></td>
+                                    <td><b>421</b></td>
+                                    <td><b>3174</b></td>
+                                    <td><b>421</b></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">+ LĐHĐ KXĐ thời hạn</span></td>
+                                    <td>3174</td>
+                                    <td>421</td>
+                                    <td>3174</td>
+                                    <td>421</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">+ LĐHĐ từ 1-3 năm</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title">*</td>
+                                    <td class="non_editable column_title"><span class="left">Lao động mùa vụ, thử việc, HSTT</span></td>
+                                    <td>133</td>
+                                    <td></td>
+                                    <td>133</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="non_editable column_title"><b></b></td>
+                                    <td class="non_editable column_title"><span class="left">+ Học sinh thực tập</span></td>
+                                    <td>133</td>
+                                    <td></td>
+                                    <td>133</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col s12 m12 l12">
+                    <br />
+                    <a class="btn darken-2" style="background-color:#273146" id="export">Xuất ra excel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul id='dropdown_quy' class='dropdown-content'>
+    <li><a class="dropdown-child-quy" href="#!" name="quy1">Quý I</a></li>
+    <li><a class="dropdown-child-quy" href="#!" name="quy2">Quý II</a></li>
+    <li><a class="dropdown-child-quy" href="#!" name="quy3">Quý III</a></li>
+    <li><a class="dropdown-child-quy" href="#!" name="quy4">Quý IV</a></li>
+</ul>
+

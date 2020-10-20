@@ -1,0 +1,279 @@
+﻿@{
+    ViewData["Title"] = "layout_phanxuong";
+    Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+}
+
+<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+<script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+<hr />
+<div class="card">
+    <div class="card-content">
+        <h3 class="center">
+        </h3>
+         
+        <div class="row">
+            <div id="nhap-hoat-dong-hang-ngay" onclick="window.location.href='/phong-cdvt/cap-nhat-hoat-dong'" class="waves btn-nhap col l6 m12 s12">
+                <div class="card info-gradient card-hover">
+                    <div class="card-content">
+                        <div class="d-flex no-block align-items-center">
+                            <div>
+                                <h3 class="white-text m-b-5">Nhập hoạt động hằng ngày</h3>
+                                <h6 class="white-text op-1"></h6>
+                                <br>
+                            </div>
+                            <div class="ml-auto">
+                                <span class="white-text display-6">
+                                    <i class="material-icons">receipt</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="nhap-xin-cap-vat-tu" onclick="window.location.href='/phan-xuong/xin-cap-vat-tu-sctx'" class="btn-nhap col l6 m12 s12">
+                <div class="card info-gradient card-hover">
+                    <div class="card-content">
+                        <div class="d-flex no-block align-items-center">
+                            <div>
+                                <h3 class="white-text m-b-5">Nhập xin cấp vật tư</h3>
+                                <h6 class="white-text op-1"></h6>
+                                <br>
+                            </div>
+                            <div class="ml-auto">
+                                <span class="white-text display-6">
+                                    <i class="material-icons">build</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="nhap-su-co" onclick="window.location.href='/phong-cdvt/su-co'" class="btn-nhap col l6 m12 s12">
+                <div class="card info-gradient card-hover">
+                    <div class="card-content">
+                        <div class="d-flex no-block align-items-center">
+                            <div>
+                                <h3 class="white-text m-b-5">Xem sự cố</h3>
+                                <h6 class="white-text op-1"></h6>
+                                <br>
+                            </div>
+                            <div class="ml-auto">
+                                <span class="white-text display-6">
+                                    <i class="material-icons">receipt</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="nhap-nhien-lieu-hang-ngay" onclick="window.location.href='/phong-cdvt/cap-nhat-tieu-thu'" class="btn-nhap col l6 m12 s12">
+                <div class="card info-gradient card-hover">
+                    <div class="card-content">
+                        <div class="d-flex no-block align-items-center">
+                            <div>
+                                <h3 class="white-text m-b-5">Nhập nhiên liệu hằng ngày</h3>
+                                <h6 class="white-text op-1"></h6>
+                                <br>
+                            </div>
+                            <div class="ml-auto">
+                                <span class="white-text display-6">
+                                    <i class="material-icons">receipt</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="xu-li-quyet-dinh" onclick="window.location.href='/phong-cdvt/cap-nhat/quyet-dinh'" class="btn-nhap col l6 m12 s12">
+                <div class="card info-gradient card-hover">
+                    <div class="card-content">
+                        <div class="d-flex no-block align-items-center">
+                            <div>
+                                <h3 class="white-text m-b-5">Xử lí quyết định</h3>
+                                <h6 class="white-text op-1"></h6>
+                                <br>
+                            </div>
+                            <div class="ml-auto">
+                                <span class="white-text display-6">
+                                    <i class="material-icons">receipt</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @{
+                if (Session["departID"].ToString().Equals("PXCBT"))
+                {
+                    <div id="xu-li-quyet-dinh" onclick="window.location.href='/phong-cdvt/oto/bao-duong-hang-ngay'" class="btn-nhap col l6 m12 s12">
+                        <div class="card info-gradient card-hover">
+                            <div class="card-content">
+                                <div class="d-flex no-block align-items-center">
+                                    <div>
+                                        <h3 class="white-text m-b-5">Bảo dưỡng hàng ngày</h3>
+                                        <h6 class="white-text op-1"></h6>
+                                        <br>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span class="white-text display-6">
+                                            <i class="material-icons">receipt</i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div id="xu-li-quyet-dinh" onclick="window.location.href='/phong-cdvt/thiet-bi/sctx'" class="btn-nhap col l6 m12 s12">
+                        <div class="card info-gradient card-hover">
+                            <div class="card-content">
+                                <div class="d-flex no-block align-items-center">
+                                    <div>
+                                        <h3 class="white-text m-b-5">Sửa chữa thường xuyên</h3>
+                                        <h6 class="white-text op-1"></h6>
+                                        <br>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span class="white-text display-6">
+                                            <i class="material-icons">receipt</i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            <div class="col l12 m12 s12">
+                <hr />
+            </div>
+            <div id="diem-danh" onclick="window.location.href='/phan-xuong/diem-danh'" class="btn-nhap col l6 m12 s12">
+                <div class="card success-gradient card-hover">
+                    <div class="card-content">
+                        <div class="d-flex no-block align-items-center">
+                            <div>
+                                <h3 class="white-text m-b-5">Điểm danh</h3>
+                                <h6 class="white-text op-1"></h6>
+                                <br>
+                            </div>
+                            <div class="ml-auto">
+                                <span class="white-text display-6">
+                                    <i class="material-icons">receipt</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="xu-li-quyet-dinh" onclick="window.location.href='/phan-xuong/nhap-bao-cao-len-phong-dk'" class="btn-nhap col l6 m12 s12">
+                <div class="card success-gradient card-hover">
+                    <div class="card-content">
+                        <div class="d-flex no-block align-items-center">
+                            <div>
+                                <h3 class="white-text m-b-5">Nhập báo cáo lên Điều Khiển</h3>
+                                <h6 class="white-text op-1"></h6>
+                                <br>
+                            </div>
+                            <div class="ml-auto">
+                                <span class="white-text display-6">
+                                    <i class="material-icons">receipt</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="nsld-tien-luong" onclick="window.location.href='/phan-xuong/nang-suat-lao-dong'" class="btn-nhap col l6 m12 s12">
+                <div class="card success-gradient card-hover">
+                    <div class="card-content">
+                        <div class="d-flex no-block align-items-center">
+                            <div>
+                                <h3 class="white-text m-b-5">Nhập NSLD và tiền lương</h3>
+                                <h6 class="white-text op-1"></h6>
+                                <br>
+                            </div>
+                            <div class="ml-auto">
+                                <span class="white-text display-6">
+                                    <i class="material-icons">receipt</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dang-ki-nhiem-vu" onclick="window.location.href='/phan-xuong/dang-ki-nhiem-vu'" class="btn-nhap col l6 m12 s12">
+                <div class="card success-gradient card-hover">
+                    <div class="card-content">
+                        <div class="d-flex no-block align-items-center">
+                            <div>
+                                <h3 class="white-text m-b-5">Đăng kí nhiệm vụ</h3>
+                                <h6 class="white-text op-1"></h6>
+                                <br>
+                            </div>
+                            <div class="ml-auto">
+                                <span class="white-text display-6">
+                                    <i class="material-icons">receipt</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @{
+                if (ViewBag.phanxuong == "ĐS")
+                {
+                    <div class="col l12 m12 s12">
+                        <hr />
+                    </div>
+                    <div id="xu-li-quyet-dinh" onclick="window.location.href='/phan-xuong-doi-song/dang-ky-suat-an'" class="btn-nhap col l6 m12 s12">
+                        <div class="card success-gradient card-hover">
+                            <div class="card-content">
+                                <div class="d-flex no-block align-items-center">
+                                    <div>
+                                        <h3 class="white-text m-b-5">Đăng ký suất ăn</h3>
+                                        <h6 class="white-text op-1"></h6>
+                                        <br>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span class="white-text display-6">
+                                            <i class="material-icons">receipt</i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="xu-li-quyet-dinh" onclick="window.location.href='/phan-xuong-doi-song/theo-doi-suat-an'" class="btn-nhap col l6 m12 s12">
+                        <div class="card success-gradient card-hover">
+                            <div class="card-content">
+                                <div class="d-flex no-block align-items-center">
+                                    <div>
+                                        <h3 class="white-text m-b-5">Theo dõi suất ăn</h3>
+                                        <h6 class="white-text op-1"></h6>
+                                        <br>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span class="white-text display-6">
+                                            <i class="material-icons">receipt</i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+﻿table {
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd; 
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+
+.header {
+    background-color: #00CCCC;
+    color: white;
+    text-align:center;
+}
+table tr td span {
+   color:black;
+}
+
+th:first-child {
+    text-align: center;
+}
+table label {
+    width:50px;
+}
+
+

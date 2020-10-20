@@ -1,0 +1,333 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Report";
+    Layout = "~/Views/Shared/_Layout_KCS.cshtml";
+}
+<link href="~/assets/uploader/dropzone.min.css" rel="stylesheet" />
+<link href="~/assets/uploader/icons.min.css" rel="stylesheet" />
+<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+<link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet">
+<style>
+    .file-description {
+        width: 120px !important;
+    }
+
+    .dropzone .dz-preview .dz-progress .dz-upload {
+        background: #29bb22 !important;
+        background: linear-gradient(to bottom, #7ceb69, #29bb22) !important;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        -webkit-transition: width 300ms ease-in-out;
+        -moz-transition: width 300ms ease-in-out;
+        -ms-transition: width 300ms ease-in-out;
+        -o-transition: width 300ms ease-in-out;
+        transition: width 300ms ease-in-out;
+    }
+</style>
+@{
+    //var listFiles =@Html.Raw(Json.Encode(ViewBag.listFiles));
+    var listFiles = ViewBag.listFiles;
+}
+<div class="card">
+    <div class="card-content">
+        <div class="container-fluid">
+            <link rel="stylesheet" href="~/css/tuan_css/css/baocaoluong_css/style.css" />
+            <link rel="stylesheet" href="~/css/tuan_css/css/kcs_css/style.css" />
+            <div class="row">
+                <div class="row">
+                    <h4 class="report_title">
+                        <B>BÁO CÁO CHẤT LƯỢNG THAN TỒN KHO - TIÊU THỤ VÀ THAN SẠCH SẢN XUẤT</B>
+                        <br />
+                        <i class="fas fa-calendar-alt icon"></i>
+                        <input type='text' class='datepicker-here center' id="ngay-chon" data-language='vi' />
+                        <br /><br />
+                    </h4>
+                    <hr />
+                </div>
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="col s12">
+                                @{
+                                    if (listFiles.Count == 0 && ViewBag.isLock==false)
+                                    {
+                                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
+                                            <div class="fallback">
+                                                <input type="file" id="fUpload" name="file" class="form-control" single />
+                                            </div>
+                                            <div class="dz-message needsclick">
+                                                <i class="medium material-icons dp48">cloud_upload</i>
+                                                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                                                <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
+                                            </div>
+                                        </form>
+                                        <br />
+                                        <div class="clearfix text-right mt-3">
+                                            <button type="button"
+                                                    class="btn-danger blue waves-effect waves-light btn"
+                                                    id="btnUpload">
+                                                <i class="material-icons dp48">send</i>
+                                                Tải lên
+                                            </button>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        for (int i = 0; i < listFiles.Count; i++)
+                                        {
+                                            <p>
+                                                <img width="25" style="vertical-align:middle" src="~/assets/uploader/file-icon.png" />
+                                                <a href="/phan-xuong/download-file?location=~/FileContainer/KCS/@listFiles[i].fileName&fileName=@listFiles[i].fileNameDisplay">@listFiles[i].fileNameDisplay</a>
+                                                @if (listFiles[i].chuthich != "")
+                                                {
+                                                    <i> (Ghi chú: @listFiles[i].chuthich )</i>
+                                                }
+                                                @if (ViewBag.isLock==false)
+                                                {
+                                                    <i onclick="deleteFile(@listFiles[i].id)" style="color:red; cursor:pointer" class="fas fa-times-circle"></i>
+                                                }
+                                            </p>
+                                        }
+                                        if (ViewBag.isLock==false)
+                                        {
+                                            <div data-target="modal1" style="margin-right:10px" class="modal-trigger waves-effect blue waves-light btn">
+                                                <i class="fas fa-plus-circle"></i><span> Thêm báo cáo</span>
+                                            </div>
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="row">
+                    <div class="col l4 m4 s12">
+                        <div class="input-field col s12">
+                            <div class="file-field">
+                                <div data-target="modal1" class="modal-trigger btn cyan">
+                                    <i class="fas fa-file-excel"></i><span> Nhập từ Excel</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l8 m8 s12">
+                        <div class="input-field col s12 ">
+                            <div class="file-field right">
+                                <div class=" btn cyan">
+                                    <i class="fas fa-save"></i> Lưu báo cáo</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+
+        </div>
+    </div>
+
+</div>
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
+            <div class="fallback">
+                <input type="file" id="fUpload" name="file" class="form-control" single />
+            </div>
+            <div class="dz-message needsclick">
+                <i class="medium material-icons dp48">cloud_upload</i>
+                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
+            </div>
+        </form>
+        <br />
+        <div class="clearfix text-right mt-3">
+            <button type="button"
+                    class="btn-danger blue waves-effect waves-light btn"
+                    id="btnUpload">
+                <i class="material-icons dp48">send</i>
+                Tải lên
+            </button>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
+    </div>
+</div>
+<script>
+    $(function () {
+        $(".select-dropdown").remove();
+        $(".caret").remove();
+        //////////////////////////////////////
+        var date = new Date();
+        var selectedDate = "";
+        selectedDate="@ViewBag.ngay";
+        if (selectedDate === "0"||selectedDate==="") {
+            $("#ngay-chon").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
+        } else {
+            $("#ngay-chon").val(selectedDate);
+        }
+
+        $(".datepicker-inline").remove();
+
+    })
+</script>
+<script>
+    $("#ngay-chon").datepicker({
+        toggleSelected: false,
+        language: 'vi'
+    });
+</script>
+<script>
+    $(function () {
+        $(".datepicker-inline").remove();
+    })
+</script>
+<script>
+    var prevDay;
+    $('#ngay-chon').datepicker({
+        language: 'vi',
+        maxDate: new Date(new Date().setDate(new Date().getDate())), // Now can select only dates, which goes after today
+        onSelect: function (fd, d, picker) {
+            if (!d) return;
+            var day = d.getDay();
+            if (prevDay != undefined && prevDay == day) return;
+            prevDay = day;
+
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
+
+            window.location.href = '?ngay=' + $("#ngay-chon").val();
+        }
+    })
+</script>
+
+<script src="~/dist/js/pages/forms/jquery.validate.min.js"></script>
+<!--uPLOADER-->
+<script src="~/assets/uploader/dropzoneMultiple.js"></script>
+<script src="~/assets/extra-libs/prism/prism.js"></script>
+<script src="~/assets/libs/toastr/build/toastr.min.js"></script>
+<script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
+<script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+<script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+<script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+
+<!--Ca 1-->
+<script>
+    var count = 0;
+    var data = new FormData();
+
+
+    //Create by TUANKQ
+Dropzone.options.myAwesomeDropzone = {
+    paramName: "file", // The name that will be used to transfer the file
+    maxFilesize: 10, // MB
+    addRemoveLinks: true,
+    autoProcessQueue: false,
+    dictRemoveFile: 'Hủy',
+    clickable: true,
+    //acceptedFiles: 'application/xls,.xlsx,image/*,application/pdf',
+    maxFiles: 10,
+    uploadMultiple: true,
+    parallelUploads: 10,
+    maxfilesexceeded: function() {
+        //for (var i = 0; i < this.files.length; i++){
+        //   this.removeFile(this.files[i]);
+        //}
+        var myDropzone = this;
+        errorAlert("Chọn tối đa 10 file", "");
+        myDropzone.removeAllFiles();
+    },
+    init: function () {
+        this.on("addedfile", function () {
+            $(".dz-preview").last().append("<input class=\"file-description form-control\" placeholder=\"Chú thích file\" type=\"text\"/> \n ");
+        });
+        var myDropzone = this;
+        // Update selector to match your button
+        $("#btnUpload").click(function (e) {
+            e.preventDefault();
+            myDropzone.processQueue();
+        });
+        //this.on("processing", function (file) {
+
+        //});
+        this.on('sending', function (file, xhr, formData) {
+
+                count++;
+
+                data.append("file", file);
+
+                $("#pre-load").show("slow", function () {
+                });
+
+            var n = myDropzone.getAcceptedFiles().length;
+            if (count === n) {
+                var ngaynhap = $("#ngay-chon").val();
+                data.append("ngayNhap", ngaynhap);
+
+                var link = window.location.href;
+
+                var notes = [];
+                $(".file-description").each(function () {
+                    notes.push($(this).val());
+                });
+                data.append("notes", notes);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/phong-kcs/upload-file",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN",
+                            $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                         $("#pre-load").hide("slow", function () {
+                         });
+                        if (data.success) {
+                            reloadAlert("Tải lên thành công!", 1000);
+                        } else {
+                            errorAlert("Lỗi!", 1000);
+                            window.location.reload();
+                        }
+                    },
+                });
+            }
+        });
+    },
+    dictResponseError: "Lỗi (Code: {{statusCode}})",
+    dictFileTooBig: "Kích cỡ file quá lớn ({{filesize}}MB). Kích cỡ file tối đa: {{maxFilesize}}MB ",
+    dictInvalidFileType: "File không hợp lệ. Hãy chọn một file Excel (xls, xlsx)",
+};
+
+</script>
+<!--DELETE FILE-->
+<script>
+    function deleteFile(id) {
+        confirmAlert("Xác nhận xóa file", "", function () {
+            $.ajax({
+                url: '/phan-xuong/delete-file-bao-cao',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    'id': id
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $("#pre-load").hide("slow", function () { });
+                        window.location.reload();
+                    } else {
+                        $("#pre-load").hide("slow", function () { });
+                        errorAlert(response.message, "");
+                    }
+                }
+            });
+        });
+    }
+</script>

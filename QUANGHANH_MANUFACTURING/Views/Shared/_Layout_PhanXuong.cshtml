@@ -1,0 +1,631 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+@{
+    List<string> rights = (List<string>)Session["RightIDs"];
+}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/favicon.png">
+    <title>Phân Xưởng</title>
+    <!-- chartist CSS -->
+    <link href="~/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+    <link href="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+    <link href="~/dist/css/style.css" rel="stylesheet">
+    <link href="~/css/TABLE_BORDERED.css" rel="stylesheet">
+
+    @*<link href="~/dist/css/custom.css" rel="stylesheet">*@
+    <!-- This page CSS -->
+    <link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
+
+    <!--Custom Datepicker CSS-->
+    <link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+    <link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+    <link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+    <link href="~/css/preloader/css.css" rel="stylesheet" />
+    <link href="~/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
+
+
+    <link href="~/dist/css/pages/dashboard1.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- ============================================================== -->
+    <!-- All Required js -->
+    <!-- ============================================================== -->
+    <script src="~/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="~/dist/js/materialize.min.js"></script>
+    <script src="~/assets/libs/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js"></script>
+    <!-- ============================================================== -->
+    <!-- Apps -->
+    <!-- ============================================================== -->
+    <script src="~/dist/js/app.js"></script>
+    <script src="~/dist/js/app.init.js"></script>
+    <script src="~/dist/js/app-style-switcher.js"></script>
+    <!-- ============================================================== -->
+    <!-- Custom js -->
+    <!-- ============================================================== -->
+    <script src="~/dist/js/custom.min.js"></script>
+    <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+    <!-- ============================================================== -->
+    <!-- This page plugin js -->
+    <!-- ============================================================== -->
+    <script src="~/assets/libs/chartist/dist/chartist.min.js"></script>
+    <script src="~/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+    <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
+    <script src="~/dist/js/pages/dashboards/dashboard1.js"></script>
+    <script src="~/js/Flexible_user_icon.js"></script>
+    <script src="~/js/Custom JS/form-input-border.js"></script>
+
+    <script src="~/Scripts/notify.min.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <!--Custom Datepicker JS-->
+    <script src="~/lib/datepicker_src/dist/js/datepicker.js"></script>
+    <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+    <style>
+        .btn-nhap {
+            cursor: pointer;
+        }
+    </style>
+    <!-- ============================================================== -->
+    <!-- Sweet alert -->
+    <!-- ============================================================== -->
+    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+    <link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="main-wrapper" id="main-wrapper">
+        <div id="pre-load" hidden>
+            <div class="loading">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Preloader - style you can find in spinners.css -->
+        <!-- ============================================================== -->
+        <div class="preloader">
+            <div class="loading">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Preloader - style you can find in spinners.css -->
+        <!-- ============================================================== -->
+        <header class="topbar">
+            <!-- ============================================================== -->
+            <!-- Navbar scss in header.scss -->
+            <!-- ============================================================== -->
+            <nav>
+                <div class="nav-wrapper">
+                    <!-- ============================================================== -->
+                    <!-- Logo you can find that scss in header.scss -->
+                    <!-- ============================================================== -->
+                    <a href="javascript:void(0)" class="brand-logo">
+                        <span class="icon">
+                            <img class="light-logo" src="~/assets/images/logo-light-icon.png">
+                            <img class="dark-logo" src="~/assets/images/logo-icon.png">
+                        </span>
+                        <span class="text">
+                            <img class="light-logo" src="~/assets/images/logo-light-text.png">
+                            <img class="dark-logo" src="~/assets/images/logo-text.png">
+                        </span>
+                    </a>
+                    <!-- ============================================================== -->
+                    <!-- Logo you can find that scss in header.scss -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- Left topbar icon scss in header.scss -->
+                    <!-- ============================================================== -->
+                    <ul class="left">
+                        <li class="hide-on-med-and-down">
+                            <a href="javascript: void(0);" class="nav-toggle">
+                                <span class="bars bar1"></span>
+                                <span class="bars bar2"></span>
+                                <span class="bars bar3"></span>
+                            </a>
+                        </li>
+                        <li class="hide-on-large-only">
+                            <a href="javascript: void(0);" class="sidebar-toggle">
+                                <span class="bars bar1"></span>
+                                <span class="bars bar2"></span>
+                                <span class="bars bar3"></span>
+                            </a>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- Notification icon scss in header.scss -->
+                        <!-- ============================================================== -->
+                        <li>
+                            <a class="dropdown-trigger" href="javascript: void(0);" data-target="noti_dropdown">
+                                <i class="small material-icons">notifications</i>
+                            </a>
+                            <ul id="noti_dropdown" class="mailbox dropdown-content">
+                                <li>
+                                    <div class="drop-title">Thông Báo</div>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- Comment topbar icon scss in header.scss -->
+                        <!-- ============================================================== -->
+  
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- Left topbar icon scss in header.scss -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- Right topbar icon scss in header.scss -->
+                    <!-- ============================================================== -->
+
+                    <ul class="right">
+                        <!-- ============================================================== -->
+                        <!-- Profile icon scss in header.scss -->
+                        <!-- ============================================================== -->
+                        <li>
+                            <a class="dropdown-trigger" href="javascript: void(0);" data-target="user_dropdown"><img src="/assets/images/users/2.jpg" alt="user" class="circle profile-pic"></a>
+                            <ul id="user_dropdown" class="mailbox dropdown-content dropdown-user">
+                                <li>
+                                    <div class="dw-user-box">
+                                        <div class="u-img"><img src="/assets/images/users/2.jpg" alt="user"></div>
+                                        <div class="u-text">
+                                            <h4>@Session["Name"]</h4>
+                                            <p>@Session["username"]</p>
+                                            <a class="waves-effect waves-light btn-small red white-text">Xem Hồ Sơ</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="@Url.Action("Detail", "LogIn")"><i class="small material-icons">account_circle</i> Hồ Sơ Của Tôi</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#"><i class="small material-icons">settings</i> Cài Đặt Tài Khoản</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="@Url.Action("Logout","LogIn")"><i class="small material-icons">power_settings_new</i>Đăng Xuất</a></li>
+                            </ul>
+                        </li>
+                        <li id="user-icon"><a href="">@Session["Name"] <span class="new badge red" data-badge-caption="@Session["Position"]"></span></a></li>
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- Right topbar icon scss in header.scss -->
+                    <!-- ============================================================== -->
+                </div>
+            </nav>
+            <!-- ============================================================== -->
+            <!-- Navbar scss in header.scss -->
+            <!-- ============================================================== -->
+        </header>
+        <!-- ============================================================== -->
+        <!-- Sidebar scss in sidebar.scss -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar">
+            <ul id="slide-out" class="sidenav">
+                <li>
+                    <ul class="collapsible">
+                        <li>
+                            <a href="javascript: void(0);" class="collapsible-header"><i class="material-icons">directions_car</i><span class="hide-menu">Phân xưởng</span></a>
+
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+        <!-- ============================================================== -->
+        <!-- Sidebar scss in sidebar.scss -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar">
+            <ul id="slide-out" class="sidenav">
+                <li>
+                    <ul class="collapsible slidebar">
+                        @foreach (var item in rights)
+                        {
+                            if (item.Equals("179"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Khai Thác
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("180"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxdl" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Đào Lò
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("181"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxvt" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Vận Tải
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("195"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxst" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Chế Biến Than
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("183"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxpv" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Phục Vụ
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("184"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxds" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Đời Sống
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("185"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxcdm" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Cơ Điện Mỏ
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("186"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxtg" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Thông Gió-Quản Lí Mỏ
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("187"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxxd" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Xây Dựng
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            if (item.Equals("189"))
+                            {
+                                <li>
+                                    <a href="/phan-xuong/chon-bao-cao?phanxuong=pxck" class="collapsible-header">
+                                        <i class="material-icons">home</i><span class="hide-menu">
+                                            Phân Xưởng Cơ Khí,Sửa Chữa
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                        }
+                        <li>
+                            <a href="/phan-xuong/huy-dong-thiet-bi" class="collapsible-header">
+                                <i class="material-icons">adjust</i><span class="hide-menu">
+                                    Huy động thiết bị
+                                </span>
+                            </a>
+                        </li>
+
+                        @{
+                            if (Session["Position"].ToString().Equals("Trưởng phòng"))
+                            {
+                                //set cứng báo cáo bên giám đốc cho các trường phòng
+                                <li>
+                                    <a href="/ban-giam-doc/bao-cao-nhanh-san-xuat" class="collapsible-header">
+                                        <i class="material-icons">assignment</i><span class="hide-menu">
+                                            Báo cáo nhanh sản xuất
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/ban-giam-doc/bao-cao-san-xuat-than/san-luong-toan-cong-ty" class="collapsible-header">
+                                        <i class="material-icons">assignment</i><span class="hide-menu">
+                                            Sản lượng toàn công ty
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/ban-giam-doc/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-thang-quy" class="collapsible-header">
+                                        <i class="material-icons">assignment</i><span class="hide-menu">Sản lượng theo tháng, quý</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/ban-giam-doc/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-phan-xuong" class="collapsible-header">
+                                        <i class="material-icons">assignment</i><span class="hide-menu">Sản lượng theo phân xưởng</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" class="collapsible-header has-arrow">
+                                        <i class="material-icons">person</i><span class="hide-menu">Báo cáo nhân lực</span>
+                                    </a>
+                                    <div class="collapsible-body">
+                                        <ul>
+                                            <li>
+                                                <a href="/ban-giam-doc/bao-cao-nhan-luc/bao-cao-tong-hop-nhan-luc-theo-ngay">
+                                                    <i class="material-icons">view_day</i><span class="hide-menu">
+                                                        Tổng nhân lực theo ngày
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="/ban-giam-doc/bao-cao-nhan-luc/bao-cao-tong-hop-nhan-theo-phan-xuong-theo-ngay">
+                                                    <i class="material-icons">view_day</i><span class="hide-menu">
+                                                        Tổng nhân lực-PX-ngày
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- ============================================================== -->
+        <!-- Page wrapper scss in scafholding.scss -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Title and breadcrumb -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Container fluid scss in scafholding.scss -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="center">
+                            <h1><b>@Session["departName"].ToString().ToUpper()</b></h1>
+                        </div>
+                        @RenderBody()
+                        @RenderSection("scripts", required: false)
+                        @*<div class="card">
+                                <div class="card-content">
+                                    <div class="row">
+                                        <div class="center col l6 m6 s12">
+                                            <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                                        </div>
+                                        <div class="center col l6 m6 s12">
+                                            <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                                        </div>
+                                        <div class="center col l6 m6 s12">
+                                            <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                                        </div>
+                                        <div class="center col l6 m6 s12">
+                                            <button type="button" class="button-nhap btn light-blue lighten-1 modal-close" id="closeForm">Thoát</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+                    </div>
+
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- Container fluid scss in scafholding.scss -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ==========================<div==================================== -->
+        <!-- Page wrapper scss in scafholding.scss -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Right Sidebar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Right Sidebar -->
+        <!-- ============================================================== -->
+    </div>
+    <div class="modal fade" id="notifi">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="title-noti"></h2>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <h4 id="text-noti"></h4>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn blue darken-2 modal-close save-category" onclick="updateStatus()">Xác nhận</button>
+                <button type="button" class="btn light-blue lighten-1 modal-close">Đóng</button>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="ids" />
+    <script>
+        $("#nhap-hoat-dong-hang-ngay").click(function () {
+            window.location.href = "#";
+        });
+    </script>
+    <script>
+        $(window).resize(function () {
+            if ($(window).width() <= 600) {
+                $("#searchButton1").hide();
+                $("#searchButton2").show();
+            } else {
+                $("#searchButton1").show();
+                $("#searchButton2").hide();
+            }
+        });</script>
+    <script>
+        $(".loading").css("z-index", 99999);
+        $('body').css('overflow', '');
+    </script>
+    <script>
+        $(".datepicker-here").keydown(function (e) {
+            e.preventDefault();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            if (@DateTime.Now.Date.Day == 21) {
+                $.ajax({
+                    url: "/Notifi/notifi21",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+            }
+            $.ajax({
+                url: "/Notifi/notifiQD",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
+                    if (result.text != '') {
+                        if ($('#notifi').is(':visible')) {
+                        } else {
+                            document.getElementById('ids').value = result.id;
+                            $("#title-noti").text(result.title);
+                            $("#text-noti").text(result.text);
+                            $("#notifi").modal('open');
+                        }
+                    }
+                },
+                error: function (errormessage) {
+                }
+            });
+
+            $.ajax({
+                url: "/Notifi/notifiNonXC",
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
+                    if (result.text != '') {
+                        if ($('#notifi').is(':visible')) {
+                        } else {
+                            document.getElementById('ids').value = result.id;
+                            $("#title-noti").text(result.title);
+                            $("#text-noti").text(result.text);
+                            $("#notifi").modal('open');
+                        }
+                    }
+                },
+                error: function (errormessage) {
+                }
+            });
+
+            setInterval(function () {
+                $.ajax({
+                    url: "/Notifi/notifiQD",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.text != '') {
+                            if ($('#notifi').is(':visible')) {
+                            } else {
+                                document.getElementById('ids').value = result.id;
+                                $("#title-noti").text(result.title);
+                                $("#text-noti").text(result.text);
+                                $("#notifi").modal('open');
+                            }
+                        }
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+            }, 15000);
+
+            setInterval(function () {
+                $.ajax({
+                    url: "/Notifi/notifiNonXC",
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result.text != '') {
+                            if ($('#notifi').is(':visible')) {
+                            } else {
+                                document.getElementById('ids').value = result.id;
+                                $("#title-noti").text(result.title);
+                                $("#text-noti").text(result.text);
+                                $("#notifi").modal('open');
+                            }
+                        }
+                    },
+                    error: function (errormessage) {
+                    }
+                });
+            }, 15000);
+
+        });
+        function updateStatus() {
+            var empObj = {
+                id: document.getElementById("ids").value
+            };
+            $.ajax({
+                url: "/Notifi/updateStatus",
+                data: JSON.stringify(empObj),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                success: function (result) {
+
+                },
+                error: function (errormessage) {
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

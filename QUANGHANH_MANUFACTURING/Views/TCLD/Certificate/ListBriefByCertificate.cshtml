@@ -1,0 +1,329 @@
+﻿@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+<link href="~/assets/Custom css/TCLD/Certificate/Certificate.css" rel="stylesheet" />
+<link href="~/lib/mutiple select/slimselect.css" rel="stylesheet" />
+<div class="user-roll card" id="vld-antoan">
+    <div class="card-content">
+        <div class="row">
+            <h3 class="black-text"><b>DANH SÁCH CHỨNG CHỈ LAO ĐỘNG</b></h3>
+        </div>
+        <div class="row center">
+
+            <div class="col s12 m12 l5 input-field">
+                <select class="form-control">
+                    <option selected disabled>Đơn vị</option>
+                    <option>Đào lò 3</option>
+                    <option>Đào lò 5</option>
+                    <option>Đào lò 7</option>
+                </select>
+            </div>
+            <div class="col s12 m12 l5 input-field">
+                <select class="form-control">
+                    <option selected disabled>Thời hạn</option>
+                    <option>Tất cả</option>
+                    <option>Còn hạn</option>
+                    <option>Hết hạn</option>
+                </select>
+            </div>
+            <div class="col l5 m12 s12 input-field">
+                <select id="departure" class="form-control">
+                    <option value="" disabled selected>Chọn phòng ban</option>
+                    <option value="1">Phòng tổ chức lao động</option>
+                    <option value="2">Phòng cơ điện vận tải</option>
+                    <option value="2">Phòng an toàn</option>
+                    <option value="2">Phân xưởng khai thác 1</option>
+                    <option value="2">Phân xưởng khai thác 2</option>
+                    <option value="2">Phân xưởng khai thác 3</option>
+                    <option value="2">Phân xưởng khai thác 5</option>
+                    <option value="2">Phân xưởng đào lò 1</option>
+                    <option value="2">Phân xưởng đào lò 2</option>
+                    <option value="2">Phân xưởng đào lò 3</option>
+                    <option value="2">Phân xưởng đào lò 5</option>
+                </select>
+            </div>
+            <div class="col l5 m12 s12 input-field">
+                <select id="position" class="form-control">
+                    <option value="" disabled selected>Chọn phòng chức vụ</option>
+                    <option value="1">Trưởng phòng</option>
+                    <option value="2">Nhân viên kinh doanh</option>
+                    <option value="2">Phó quản đốc</option>
+                    <option value="2">Quản đốc</option>
+                </select>
+            </div>
+            <div class="col l2 m12 s12 input-field">
+                <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col s6 m6 l6 ">
+                <a class="btn btn-small blue darken-2 modal-trigger btn-mg" href="#modal1">Thêm nhân viên</a>
+                <a class="btn btn-small blue darken-2 btn-mg" href="~/excel/TCLD/Certificate/Danh sách nhân viên có chứng chỉ kiểm định kỹ thuật an toan lao động.xlsx">Xuất ra file excel</a>
+            </div>
+
+            <div class="col s12 m12 l12">
+                <div class="responsive-table">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Số thẻ</th>
+                                <th>Họ và tên</th>
+                                <th>Đơn vị</th>
+                                <th>Ngày hiệu lực</th>
+                                <th>Ngày hết hạn</th>
+                                <th>Tình trạng</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><a href="#">SA1320</a></td>
+                                <td><a href="#">Nguyễn Văn Long</a></td>
+                                <td>Đào lò 3</td>
+                                <td>25/07/2007</td>
+                                <td>25/07/2019</td>
+                                <td>Hết hạn</td>
+                                <td><a class="waves-effect waves-light btn-small blue darken-2 modal-trigger" href="#chinhsua">Chỉnh sửa</a></td>
+                                <td><a class="waves-effect waves-light btn-small red modal-trigger" href="#deleteCertificate">Xóa</a></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><a href="#">SB1321</a></td>
+                                <td><a href="#">Nguyễn Văn Sơn</a></td>
+                                <td>Đào lò 5</td>
+                                <td>29/10/2007</td>
+                                <td>29/10/2019</td>
+                                <td>Còn hạn</td>
+                                <td><a class="waves-effect waves-light btn-small blue darken-2 modal-trigger" href="#chinhsua">Chỉnh sửa</a></td>
+                                <td><a class="waves-effect waves-light btn-small red modal-trigger" href="#deleteCertificate">Xóa</a></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><a href="#">SC1322</a></td>
+                                <td><a href="#">Nguyễn Văn Tuấn</a></td>
+                                <td>Đào lò 7</td>
+                                <td>30/10/2007</td>
+                                <td>30/10/2019</td>
+                                <td>Còn hạn</td>
+                                <td><a class="waves-effect waves-light btn-small blue darken-2 modal-trigger" href="#chinhsua">Chỉnh sửa</a></td>
+                                <td><a class="waves-effect waves-light btn-small red modal-trigger" href="#deleteCertificate">Xóa</a></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><a href="#">SA1323</a></td>
+                                <td><a href="#">Nguyễn Văn Duy</a></td>
+                                <td>Đào lò 5</td>
+                                <td>27/10/2007</td>
+                                <td>27/10/2019</td>
+                                <td>Còn hạn</td>
+                                <td><a class="waves-effect waves-light btn-small blue darken-2 modal-trigger" href="#chinhsua">Chỉnh sửa</a></td>
+                                <td><a class="waves-effect waves-light btn-small red modal-trigger" href="#deleteCertificate">Xóa</a></td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><a href="#">SB1324</a></td>
+                                <td><a href="#">Vũ Văn Đức</a></td>
+                                <td>Đào lò 3</td>
+                                <td>01/11/2007</td>
+                                <td>01/01/2019</td>
+                                <td>Còn hạn</td>
+                                <td><a class="waves-effect waves-light btn-small blue darken-2 modal-trigger" href="#chinhsua">Chỉnh sửa</a></td>
+                                <td><a class="waves-effect waves-light btn-small red modal-trigger" href="#deleteCertificate">Xóa</a></td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td><a href="#">SC1325</a></td>
+                                <td><a href="#">Vũ Văn Hoàng</a></td>
+                                <td>Đào lò 7</td>
+                                <td>02/11/2007</td>
+                                <td>02/11/2019</td>
+                                <td>Còn hạn</td>
+                                <td><a class="waves-effect waves-light btn-small blue darken-2 modal-trigger" href="#chinhsua">Chỉnh sửa</a></td>
+                                <td><a class="waves-effect waves-light btn-small red modal-trigger" href="#deleteCertificate">Xóa</a></td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td><a href="#">SC1326</a></td>
+                                <td><a href="#">Nguyễn Văn Hải</a></td>
+                                <td>Đào lò 3</td>
+                                <td>03/11/2007</td>
+                                <td>03/11/2019</td>
+                                <td>Còn hạn</td>
+                                <td><a class="waves-effect waves-light btn-small blue darken-2 modal-trigger" href="#chinhsua">Chỉnh sửa</a></td>
+                                <td><a class="waves-effect waves-light btn-small red modal-trigger" href="#deleteCertificate">Xóa</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="col l12 s12 m12 center paging_container">
+            <ul class="pagination">
+                <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect"><a href="#!">2</a></li>
+                <li class="waves-effect"><a href="#!">3</a></li>
+                <li class="waves-effect"><a href="#!">4</a></li>
+                <li class="waves-effect"><a href="#!">5</a></li>
+                <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <div class="modal-container">
+            <!-- Page Content goes here -->
+            <div class="row">
+                <div class="col s12 center">
+                    <h3 class="font-medium">Thêm chứng chỉ</h3>
+                </div>
+            </div>
+            <form class="row">
+                <div class="col s3 m3 l3">
+                    <div class="select-header">
+                        <strong><i class="fas fa-calendar-alt icon"></i>&nbsp;Chọn ngày</strong>
+                    </div>
+                    <input class='datepicker-here center form-control resize-form' data-language='vi' value="dd/mm/yyyy" />
+                </div>
+            </form>
+            <!--Certificate-name-->
+            <form>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <strong for="worker-numb"><i class="far fa-id-card" aria-hidden="true"></i>&nbsp;Số thẻ công nhân:</strong>
+                        </div>
+                        <input id="worker-numb" class="form-control" type="text" placeholder="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <strong for="worker-name"><i class="fas fa-user" aria-hidden="true"></i>&nbsp;Họ và tên:</strong>
+                        </div>
+                        <input id="worker-name" class="form-control" placeholder="" type="text" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <Strong for="worker-unit"><i class="fas fa-crosshairs"></i>&nbsp;Đơn vị:</Strong>
+                        </div>
+                        <input id="worker-unit" class="form-control" placeholder="" type="text" disabled>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!--Button-->
+        <a href="javascript:void(0);" id="dinhkem" class="btn blue darken-2 left">Đính kèm</a>
+        <a class="waves-effect waves-light btn red modal-close">Hủy</a>
+        <a class="waves-effect waves-light btn blue darken-2">Lưu</a>
+    </div>
+</div>
+<!-- Modal Structure -->
+<div id="chinhsua" class="modal">
+    <div class="modal-content">
+        <div class="modal-container">
+            <!-- Page Content goes here -->
+            <div class="row">
+                <div class="col s12 center">
+                    <h3 class="font-medium">Sửa chứng chỉ</h3>
+                </div>
+            </div>
+            <form class="row">
+                <div class="input-field col s4 m4 l4">
+                    <div class="select-header">
+                        <strong><i class="fas fa-calendar-alt icon"></i>&nbsp;Chọn ngày</strong>
+                    </div>
+                    <input type='text' class='datepicker-here center form-control resize-form' data-language='vi' value="19/10/2019" />
+                </div>
+                <div class="input-field col s4 m4 l4">
+                    <div class="select-header">
+                        <strong>Tình trạng</strong>
+                        <input type="text" class="form-control" value="Hết hạn"/>
+                    </div>
+                </div>
+                <div class="input-field col s4 m4 l4">
+                    <a href="javascript:void(0);" class="btn blue darken-2">Đính kèm</a>
+                </div>
+            </form>
+            <!--Certificate-name-->
+            <form>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <strong for="worker-numb"><i class="far fa-id-card" aria-hidden="true"></i>&nbsp;Số thẻ công nhân:</strong>
+                        </div>
+                        <input id="worker-numb" class="form-control" type="text" placeholder="SA1320" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <strong for="worker-name"><i class="fas fa-user" aria-hidden="true"></i>&nbsp;Họ và tên:</strong>
+                        </div>
+                        <input id="worker-name" class="form-control" placeholder="Nguyễn Văn Long" type="text" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="select-header">
+                            <strong for="worker-unit"><i class="fas fa-crosshairs"></i>&nbsp;Đơn vị:</strong>
+                        </div>
+                        <input id="worker-unit" class="form-control" placeholder="Đào lò 3" type="text" disabled>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!--                Button-->
+        <a class="waves-effect waves-light btn red modal-close">Hủy</a>
+        <a class="waves-effect waves-light btn blue darken-2">Lưu</a>
+    </div>
+</div>
+<div id="deleteCertificate" class="modal open">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Xác nhận xóa chứng chỉ</h3>
+        </div>
+        <div class="modal-body">
+            <p class="red-text">Bạn có muốn xóa chứng chỉ này?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2 modal-close">Xóa</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+<script src="~/js/Custom JS/TCLD/Certificate/certificate.js"></script>
+<script src="~/js/Custom JS/form-input-border.js"></script>
+<script src="~/lib/mutiple select/slimselect.js"></script>
+<script>
+    $(document).ready(function () {
+        new SlimSelect({
+            select: '#demo',
+            placeholder: 'Chọn chứng chỉ',
+            searchText: 'Sorry couldnt find anything',
+        })
+        new SlimSelect({
+            select: '#demo2',
+            placeholder: 'Chọn chứng chỉ',
+            searchText: 'Sorry couldnt find anything',
+        })
+    });
+</script>
+

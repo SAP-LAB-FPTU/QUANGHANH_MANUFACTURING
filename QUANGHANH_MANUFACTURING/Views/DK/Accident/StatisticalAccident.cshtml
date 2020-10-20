@@ -1,0 +1,387 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout_DK.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="col s12">
+            <div class="center">
+                <h3 class="centered" style="padding-top:20px"><b>BÁO CÁO THU HỒI THIẾT BỊ</b></h3>
+                <div class="row center">
+                    <div>
+                        <h5><b>THEO</b></h5>
+                        <a id="typeview" class='dropdown-trigger btn input-field' href='#' data-target='dropdown1' style="background-color:#273146; width: 300px">Xem Theo tháng</a>
+                    </div>
+
+                    <!--By Month-->
+                    <div class="col s12 m12 l12">
+                        <div class="col s12 m4 l4"></div>
+                        <div class="col s2 m2 l2 month" id="visiblemonth1" style="display: none">
+                            <h5><b>TỪ</b></h5>
+                            <input type="text"
+                                   id="txtmonth1"
+                                   class="datepicker-here center form-control"
+                                   data-language='vi'
+                                   data-min-view="months"
+                                   data-view="months"
+                                   data-date-format="MM yyyy" />
+                        </div>
+                        <div class="col s2 m2 l2 month" id="visiblemonth2" style="display: none">
+                            <h5><b>ĐẾN</b></h5>
+                            <input type="text"
+                                   id="txtmonth2"
+                                   class="datepicker-here center form-control"
+                                   data-language='vi'
+                                   data-min-view="months"
+                                   data-view="months"
+                                   data-date-format="MM yyyy" />
+                        </div>
+                        <div class="col s12 m4 l4"></div>
+                    </div>
+                    <!--By Quarter-->
+                    <div class="col s12 m12 l12 input-field">
+                        <div class="quarter" id="visiblequater1" style="display: none">
+                            <div class="col s4 m4 l4"><h5 class="right"><b>TỪ</b></h5></div>
+                            <div class="col s2 m2 l2">
+                                <select class="form-control" id="txtquarter1">
+                                    <option value="1">Quý I</option>
+                                    <option value="2">Quý II</option>
+                                    <option value="3">Quý III</option>
+                                    <option value="4">Quý IV</option>
+                                </select>
+                            </div>
+                            <div class="col s2 m2 l2">
+                                <input type="text"
+                                       id="quateryear1"
+                                       class="datepicker-here center form-control"
+                                       data-language='vi'
+                                       data-min-view="years"
+                                       data-view="years"
+                                       data-date-format="yyyy" value="@DateTime.Now.Year" />
+                            </div>
+                            <div class="col s4 m4 l4"></div>
+                        </div>
+                    </div>
+
+                    <div class="col s12 m12 l12">
+                        <div class="quarter" id="visiblequater2" style="display: none">
+                            <div class="col s4 m4 l4"><h5 class="right"><b>ĐẾN</b></h5></div>
+                            <div class="col s2 m2 l2">
+                                <select class="form-control" id="txtquarter2">
+                                    <option value="1">Quý I</option>
+                                    <option value="2">Quý II</option>
+                                    <option value="3">Quý III</option>
+                                    <option value="4">Quý IV</option>
+                                </select>
+                            </div>
+                            <div class="col s2 m2 l2">
+                                <input type="text"
+                                       id="quateryear2"
+                                       class="datepicker-here center form-control"
+                                       data-language='vi'
+                                       data-min-view="years"
+                                       data-view="years"
+                                       data-date-format="yyyy" value="@DateTime.Now.Year" />
+                            </div>
+                            <div class="col s4 m4 l4"></div>
+                        </div>
+                    </div>
+
+                    <!--By Year-->
+                    <div class="col s12 m12 l12">
+                        <div class="col s4 m4 l4"></div>
+                        <div class="col s2 m2 l2 year" id="visibleyear1" style="display: none">
+                            <h5><b>TỪ</b></h5>
+                            <input type="text"
+                                   id="txtyear1"
+                                   class="datepicker-here center form-control"
+                                   data-language='vi'
+                                   data-min-view="years"
+                                   data-view="years"
+                                   data-date-format="yyyy" />
+                        </div>
+                        <div class="col s2 m2 l2 year" id="visibleyear2" style="display: none">
+                            <h5><b>ĐẾN</b></h5>
+                            <input type="text"
+                                   id="txtyear2"
+                                   class="datepicker-here center form-control"
+                                   data-language='vi'
+                                   data-min-view="years"
+                                   data-view="years"
+                                   data-date-format="yyyy" />
+                        </div>
+                        <div class="col s4 m4 l4"></div>
+                    </div>
+                </div>
+
+                <!--SEARCH-->
+
+                <div class="row">
+                    <div class="col s2 m2 l2"></div>
+                    <div class="col s3 m3 l3 input-field">
+                        <input type="text" placeholder="Tìm kiếm theo mã phân xưởng" class='form-control' id="departmentId"
+                               multiple />
+                    </div>
+                    <div class="col s3 m3 l3 input-field">
+                        <select class="form-control" id="loaitainan">
+                            <option value="" selected>Tất cả</option>
+                            <option value="Nặng">Nặng</option>
+                            <option value="Nhẹ">Nhẹ</option>
+                            <option value="Nghiêm trọng">Nghiêm trọng</option>
+                        </select>
+                    </div>
+                    <div class="col s2 m2 l2 input-field">
+                        <button class="btn blue darken-2 btn-small" id="searchBtn">Tìm kiếm</button>
+                    </div>
+                    <div class="col s2 m2 l2"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <div>
+                    <a id="export_excel" class="btn blue export input-field"> Xuất ra Excel</a>
+                    <table id="content-table" class="table-bordered striped responsive-table centered">
+                        <thead>
+                            <tr>
+                                <th>Đơn vị</th>
+                                <th>Loại tai nạn</th>
+                                <th>Số lượng </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<ul id='dropdown1' class='dropdown-content'>
+    <li onclick="ViewbyMonth();"><a id="month">Xem Theo Tháng</a></li>
+    <li onclick="ViewbyQuarter();"><a id="quarter">Xem Theo Quý</a></li>
+    <li onclick="ViewbyYear();"><a id="year" ;>Xem Theo Năm</a></li>
+</ul>
+<input type="hidden" id="searchtype" />
+
+@section scripts{
+    <script src="~/js/fixingSelectFault.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+    <script>
+
+    $(document).ready(function () {
+        $("#txtmonth1").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
+        $("#txtmonth2").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
+        $("#txtyear1").val("@DateTime.Now.Year");
+        $("#txtyear2").val("@DateTime.Now.Year");
+        $("#quateryear1").val("@DateTime.Now.Year");
+        $("#quateryear2").val("@DateTime.Now.Year");
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var c = url.searchParams.get("type");
+
+        $("#type").html("Xem Theo tháng");
+        if (c == null) {
+            ViewbyMonth();
+        }
+        });
+
+    </script>
+    <script type="text/javascript">
+      function ViewbyMonth() {
+            document.getElementById("typeview").innerText = "Xem Theo Tháng";
+            document.getElementById("visiblequater1").style.display = "none";
+            document.getElementById("visiblequater2").style.display = "none";
+            document.getElementById("visibleyear1").style.display = "none";
+            document.getElementById("visibleyear2").style.display = "none";
+            document.getElementById("visiblemonth1").style.display = "inline";
+            document.getElementById("visiblemonth2").style.display = "inline";
+            $("#txtmonth1").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
+            $("#txtmonth2").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
+            $('#dropdown1').removeAttr('style');
+            document.getElementById('searchtype').value = "month";
+        };
+
+        function ViewbyYear() {
+            document.getElementById("typeview").innerText = "Xem Theo Năm";
+           document.getElementById("visiblequater1").style.display = "none";
+            document.getElementById("visiblequater2").style.display = "none";
+            document.getElementById("visibleyear1").style.display = "inline";
+            document.getElementById("visibleyear2").style.display = "inline";
+            document.getElementById("visiblemonth1").style.display = "none";
+             document.getElementById("visiblemonth2").style.display = "none";
+               $("#txtyear1").val("@DateTime.Now.Year");
+               $("#txtyear2").val("@DateTime.Now.Year");
+                $('#dropdown1').removeAttr('style');
+                document.getElementById('searchtype').value = "year";
+        };
+           @*function ViewbyQuater() {
+            document.getElementById("typeview").innerText = "Xem Theo Năm";
+           document.getElementById("visiblequater1").style.display = "none";
+            document.getElementById("visiblequater2").style.display = "none";
+            document.getElementById("visibleyear1").style.display = "inline";
+            document.getElementById("visibleyear2").style.display = "inline";
+            document.getElementById("visiblemonth1").style.display = "none";
+             document.getElementById("visiblemonth2").style.display = "none";
+               $("#txtyear1").val("@DateTime.Now.Year");
+               $("#txtyear2").val("@DateTime.Now.Year");
+                $('#dropdown1').removeAttr('style');
+                document.getElementById('searchtype').value = "year";
+            }*@
+        function ViewbyQuarter() {
+            document.getElementById("typeview").innerText = "Xem Theo Quý";
+            document.getElementById("visiblequater1").style.display = "inline";
+            document.getElementById("visiblequater2").style.display = "inline";
+            document.getElementById("visibleyear1").style.display = "none";
+            document.getElementById("visibleyear2").style.display = "none";
+            document.getElementById("visiblemonth1").style.display = "none";
+            document.getElementById("visiblemonth2").style.display = "none";
+            $("#quateryear1").val("@DateTime.Now.Year");
+            $("#quateryear2").val("@DateTime.Now.Year");
+            $('#dropdown1').removeAttr('style');
+            document.getElementById('searchtype').value = "quarter";
+        };
+
+        var tbl_detail, currTab = 0, isFirstInit = true, exportSearch = [];
+
+       $(document).ready(function () {
+            tbl_detail = $('#content-table').on('preXhr.dt', function (e, settings, data) {
+                $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+            }).DataTable({
+                "ajax": {
+                    "url": "/phong-dieu-khien/thong-ke-tai-nan/getinfor",
+                    "type": "Post",
+                    "datatype": "json",
+                    "cache": "false",
+                    "data": {
+                        "DepartmentId": function () { return $('#departmentId').val() },
+
+                        "loai": function () { return $('#loaitainan').val() },
+
+                        "type": function () { return document.getElementById('searchtype').value },
+                        "month1": function () {
+                            var val = document.getElementById("txtmonth1").value;
+                            return val
+                        },
+                        "month2": function () {
+                            var val = document.getElementById("txtmonth2").value;
+                            return val
+                        },
+                        "year1": function () { return $('#txtyear1').val() },
+
+                        "year2": function () { return $('#txtyear2').val() },
+
+                        "quarter1": function () { return $('#txtquarter1').val() },
+
+                        "quarter2": function () { return $('#txtquarter2').val() },
+                        "quateryear1": function () { return $('#quateryear1').val() },
+
+                        "quateryear2": function () { return $('#quateryear2').val() },
+                    },
+                    "dataSrc": function (json) {
+                        index = 1;
+                        if (isFirstInit) {
+                            exportSearch = json.data;
+                            isFirstInit = false;
+                        } else {
+                            exportSearch = [];
+                            exportSearch = json.data;
+                        }
+                        return json.data;
+                    }
+                },
+                "drawCallback": function (settings) {
+                    ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    ////////////////////////////////////////////////
+                },
+                "columns": [
+                    { "data": "department_name", "name": "department_name" },
+                    { "data": "Loai", "name": "Loai" },
+                    { "data": "number", "name": "number" }
+
+                ],
+                "bFilter": false,
+                "serverSide": true,
+                "rowId": "activityid",
+                "lengthChange": false,
+                "bAutoWidth": false,
+                "order": [0, "asc"],
+                "initComplete": function (settings, json) {
+                    $("#pre-load").hide("slow", function () {
+                    });
+                },
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                        "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                     "paginate": {
+                        "first": "Trang đầu",
+                        "last": "Trang cuối",
+                        "next": "Trang sau",
+                        "previous": "Trang trước"
+                    }
+                }
+
+            });
+
+
+            $("#searchBtn").click(function () {
+                $.ajax({
+                    success: function () {
+                       $('#content-table').DataTable().ajax.reload();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        errorAlert('Lỗi', 'Có lỗi xảy ra');
+                    }
+                });
+            });
+
+            $("#export_excel").click(function () {
+                $("#pre-load").show();
+                var tmp = {
+                    DepartmentId:  $('#departmentId').val() ,
+
+                    loai: $('#loaitainan').val() ,
+
+                    type:  document.getElementById('searchtype').value ,
+                    month1: document.getElementById("txtmonth1").value,
+                       
+                    month2:document.getElementById("txtmonth2").value,
+                       
+                    year1:$('#txtyear1').val() ,
+
+                    year2: $('#txtyear2').val() ,
+
+                    quarter1: $('#txtquarter1').val() ,
+
+                    quarter2:  $('#txtquarter2').val() ,
+                    quateryear1:  $('#quateryear1').val() ,
+
+                    quateryear2:   $('#quateryear2').val() ,
+                };
+                $.ajax({
+                    dataType: "json",
+                    contentType: "application/json, charset=utf-8",
+                    type: 'POST',
+                    url: '/phong-dieu-khien/thong-ke-tai-nan/exportdetail',
+                    data: JSON.stringify(tmp),
+                    success: function (res) {
+
+                            var response = JSON.parse(JSON.stringify(res.data));
+                            window.location = '/phong-dieu-khien/thong-ke-tai-nan/downloaddetail?fileGuid=' + response.FileGuid
+                                + '&filename=' + response.FileName;
+
+                    }
+                });
+                $("#pre-load").hide();
+            });
+        });
+    </script>
+}

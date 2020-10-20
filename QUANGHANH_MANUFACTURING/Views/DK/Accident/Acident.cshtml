@@ -1,0 +1,202 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout_DK.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="center">
+                    <h3><b>QUẢN LÝ CÔNG TÁC AN TOÀN</b></h3>
+                </div>
+                <div class="modal-content">
+                    <table id="accident_add" class="centered striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>TT</th>
+                                <th>Mã Nhân Viên</th>
+                                <th>Tên Nhân Viên</th>
+                                <th>Đơn vị</th>
+                                <th>Lý do tai nạn</th>
+                                <th>Ca</th>
+                                <th>Ngày</th>
+
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td id="count">1</td>
+                                <td><input list="EmployeeID" type="text" class="form-control" placeholder="Mã nhân viên" id="employeeId1" onkeydown=" searchMaNV(this)" /></td>
+                                <td><input type="text" class="form-control" placeholder="Tên nhân viên" id="employeeName1" readonly /></td>
+                                <td><input type="text" class="form-control" placeholder="Phân xưởng" id="department1" readonly /></td>
+                                <td><input type="text" class="form-control" placeholder="Lý do tai nạn" id="reason1" /></td>
+                                <td>
+                                    <select class="form-control" id="ca_add1">
+                                        <option value="1">CA 1</option>
+                                        <option value="2">CA 2</option>
+                                        <option value="3">CA 3</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class=" datepicker-here form-control" placeholder="Ngày" id="date1" /></td>
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <a class="left"><button id="them" type="submit" class="btn light-blue lighten-1"><i class="large material-icons">add</i></button></a>
+                    <a class="left"><button id="remove" onclick="deleterow('accident_add')" class="btn  light-blue lighten-1"><i class="large material-icons">remove</i></button></a>
+                    <button type="submit" class="btn blue right darken-2 modal-close save-category" onclick="addMaintainCar()">Xác Nhận</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <datalist id="EmployeeID">
+        @foreach (var item in ViewBag.listNhanVien)
+        {
+            <option value="@item.MaNV">@item.Ten</option>
+        }
+    </datalist>
+</div>
+
+<!--Stacked Bar Chart JS-->
+<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+<script src="~/js/Custom JS/CustomChart.js"></script>
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script>
+
+
+
+    $(document).ready(function () {
+
+
+        count = 1;
+        $("#them").click(function () {
+            count++;
+            $("#accident_add").append("<tr><td>" + count + "</td>" +
+                " <td> <input list='EmployeeID' type='text' class='form-control myclass' placeholder='Mã nhân viên' id='employeeId" + count + "' onkeydown='searchMaNV(this)'/></td >" +
+                "<td><input type='text' class='form-control' placeholder='Tên nhân viên' id='employeeName" + count + "'readonly /></td>" +
+                "<td><input type='text' class='form-control' placeholder='Phân xưởng' id='department" + count + "' readonly /></td >" +
+                "<td><input type='text' class='form-control' placeholder='Lý do tai nạn' id='reason" + count + "' /></td>" +
+                " <td> <select class='form-control' id='ca_add" + count + "'><option value='1'>CA 1</option><option value='2'>CA 2</option><option value='3'>CA 3</option></select></td >" +
+                "<td><input type='text' class='datepicker-here form-control' placeholder='Ngày' id='date" + count + "' /></td></tr> ");
+        });
+    });
+
+    $(document).on("click", ".datepicker-here", function () {
+        $(this).datepicker({
+            language: 'vi'
+        }).focus();
+    });
+
+
+    function addMaintainCar() {
+        $('#pre-load').show();
+        //Loop through the Table rows and build a JSON array.
+        var maintain = new Array();
+
+        var i = 0;
+
+        $("#accident_add TBODY TR").each(function () {
+            i++;
+            var row = $(this);
+
+            var maintainCar = {};
+            maintainCar.MaNV = document.getElementById("employeeId" + i).value;
+            maintainCar.LyDo = document.getElementById("reason" + i).value;
+            maintainCar.Ca = document.getElementById("ca_add" + i).value;
+            maintainCar.stringDate = document.getElementById("date" + i).value;
+            maintain.push(maintainCar);
+        });
+
+
+
+
+
+        //Send the JSON array to Controller using AJAX.
+        $.ajax({
+
+            type: "POST",
+            url: "/phong-dieu-khien/bao-cao-tai-nan/insertaccident",
+            data: JSON.stringify(maintain),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (r) {
+                $("#accident_add").find("tr:gt(1)").remove(); 
+                 var i = 0;
+            $("#accident_add TBODY TR").each(function () {
+                i++;
+               
+                document.getElementById("employeeId"+i).value='';
+                    document.getElementById("reason"+i).value='';
+                    document.getElementById("ca_add"+i).value=1;
+                document.getElementById("date" + i).value = '';
+                document.getElementById("employeeName" + i).value = '';
+                  document.getElementById("department"+i).value='';
+
+            });
+                count = 1;
+                $.notify("Thao tác thành công", {
+                    globalPosition: "top center",
+                    className: "success"
+                });
+                 $('#pre-load').hide();
+
+            }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                //alert("fail");
+                $.notify(XMLHttpRequest.responseText, {
+                    globalPosition: "top center",
+                    className: "error"
+                });
+                $('#pre-load').hide();
+            }
+
+        });
+    }
+    function deleterow(tableID) {
+        var table = document.getElementById(tableID);
+        table.deleteRow(-1);
+        count--;
+    }
+
+
+    function searchMaNV(txtMaNV) {
+        var tmp = {
+            MaNV: txtMaNV.value
+        };
+        if (event.key === 'Enter') {
+            $.ajax({
+                type: "POST",
+                url: "/phong-dieu-khien/bao-cao-tai-nan/returnEmployeeName",
+                data: JSON.stringify(tmp),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    document.getElementById("employeeName" + txtMaNV.id.slice(-1)).value = r.Ten;
+                    document.getElementById("department" + txtMaNV.id.slice(-1)).value = r.department_name;
+
+                }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    //alert("fail");
+
+                }
+            });
+        }
+    }
+</script>
+<script src="~/dist/js/app.js"></script>
+<script src="~/dist/js/app.init.js"></script>
+<script src="~/dist/js/app-style-switcher.js"></script>
+<!-- ============================================================== -->
+<!-- This page plugin js -->
+<!-- ============================================================== -->
+@*<script src="~/assets/extra-libs/Datatables/datatables.min.js"></script>
+    <script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>*@
+<link href="~/css/transfer_mobilize_history_timeline.css" rel="stylesheet" />
+<script src="~/js/Briefs_List.js"></script>
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />

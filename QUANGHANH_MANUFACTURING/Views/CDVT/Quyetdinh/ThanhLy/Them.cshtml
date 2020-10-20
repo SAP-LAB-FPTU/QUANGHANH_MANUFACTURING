@@ -1,0 +1,285 @@
+﻿@{
+    ViewData["Title"] = "ThanhLyThietBi";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col m12">
+                <h3 class="center"><b>CHI TIẾT THANH LÝ</b></h3>
+                <form method="post" id="myform">
+                    <textarea name="data" hidden value="" id="json"></textarea>
+                    <div class="col s3 m3">
+                        <label for="out_in_come">Nguồn vốn <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                        <input id="out_in_come" name="out_in_come" class="form-control" type="text" />
+                    </div>
+                    <div class="col s3 m3">
+                        <label for="reason">Nội dung <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                        <input id="reason" name="reason" class="form-control" type="text" required />
+                    </div>
+                    <div class="col s12 table_container">
+                        <table id="mytablevattu" class="striped table-responsive centered table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="center-align">Mã thiết bị<span></span></th>
+                                    <th class="center-align">Tên thiết bị<span></span></th>
+                                    <th class="center-align">Tình trạng thiết bị<span></span></th>
+                                    <th class="center-align">Đơn vị mua bán<span></span></th>
+                                    <th class="center-align">Lý do thanh lý (không bắt buộc)<span></span></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < ViewBag.DataThietBi.Count; i++)
+                                {
+                                    <tr id="@i">
+                                        <td>@ViewBag.DataThietBi[i].equipmentId</td>
+                                        <td>@ViewBag.DataThietBi[i].equipment_name</td>
+                                        <td>@ViewBag.DataThietBi[i].statusname</td>
+                                        <td>
+                                            <input type='text' required class='form-control' />
+                                        </td>
+                                        <td>
+                                            <input type='text' class='form-control' />
+                                        </td>
+                                        <td>
+                                            <a class="btn blue darken-2 modal-trigger open-Modal" data-id="@i" href="#mylist">VT đi kèm</a>
+                                        </td>
+                                        <td>
+                                            <a class="btn blue darken-2 modal-trigger open-Modal2" data-id="@i" href="#mylist">VT dự phòng</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+                <div class="col l12 m12 s12 center">
+                    <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
+                    <a id="submit" class="btn blue darken-2 modal-trigger">Xác nhận thanh lý thiết bị</a>
+                    <a href="thanh-ly" class="btn blue darken-2 ">Quay lại</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="mylist">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="listId"></h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <form>
+                    <table id="test" class="striped table-responsive center table-bordered mytable">
+                        <thead>
+                            <tr>
+                                <th>Mã vật tư</th>
+                                <th>Số lượng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type='text' list='supplyID' class='form-control required' /></td>
+                                <td><input type='number' min='1' value='1' class='form-control' /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <input type="hidden" id="rownumber" disabled />
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="confirm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Bạn có muốn tạo quyết định này không?</h3>
+        </div>
+        <div class="modal-footer">
+            <a id="create" class="waves-effect waves-light btn blue darken-2 center">Tạo</a>
+            <a class="btn light-blue lighten-1 modal-close center">Thoát</a>
+        </div>
+    </div>
+</div>
+
+<datalist id="supplyID">
+    @foreach (var item in ViewBag.Supplies)
+    {
+        <option value="@item.supply_id">@item.supply_name</option>
+    }
+</datalist>
+
+<datalist id="departmentName">
+    @foreach (var item in ViewBag.Departments)
+    {
+        <option value="@item.department_id">@item.department_name</option>
+    }
+</datalist>
+
+<script src="~/js/Custom JS/CDVT/QuyetDinh/datePicker.js"></script>
+<script>
+    var output = {};
+
+    $(document).ready(function () {
+        $('input[required]').each(function myfunction() {
+            $(this).attr("oninvalid", "setCustomValidity('Không được bỏ trống ô này')");
+            $(this).attr("oninput", "this.setCustomValidity('')");
+        })
+    })
+
+    $(document).ready(function () {
+        for (var i = 0; i < $('#mytablevattu tbody tr').length; i++) {
+            var thietbi = {};
+            var arr = [];
+            thietbi.id = $('#mytablevattu tbody tr:nth-child(' + (i + 1) + ') td').eq(0).text();
+            thietbi.vattu = arr;
+            output[i] = thietbi;
+        }
+        $('#json').val(JSON.stringify(output))
+    })
+</script>
+@section scripts{
+    <script>
+        //đọc lại json rồi apply vào modal
+        $(document).on("click", ".open-Modal", function () {
+            $('#pre-load').show();
+            var id = $(this).data('id');
+            $('#rownumber').val(id);
+            $("#test").find("tr:gt(0)").remove();
+            var equipmentId = $('#' + id + ' td:first-child').text();
+            $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + equipmentId)
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/thiet-bi/get-attached-equipment",
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        var $tr = $('<tr>').append(
+                            $('<td>').text(item.equipmentId_dikem),
+                            $('<td>').text(item.quantity_dikem)
+                        );
+                        $tr.appendTo('#test tbody');
+                    });
+                    $('#pre-load').hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                },
+                data: {
+                    equipmentId: equipmentId
+                },
+                cache: false
+            })
+        })
+
+        $(document).on("click", ".open-Modal2", function () {
+            $('#pre-load').show();
+            var id = $(this).data('id');
+            $('#rownumber').val(id);
+            $("#test").find("tr:gt(0)").remove();
+            var equipmentId = $('#' + id + ' td:first-child').text();
+            $('#listId').text("Danh sách vật tư đi kèm của thiết bị " + equipmentId)
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/thiet-bi/get-supply2",
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (i, item) {
+                        var $tr = $('<tr>').append(
+                            $('<td>').text(item.supply_id),
+                            $('<td>').text(item.quantity)
+                        );
+                        $tr.appendTo('#test tbody');
+                    });
+                    $('#pre-load').hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                },
+                data: {
+                    equipmentId: equipmentId
+                },
+                cache: false
+            })
+        })
+
+        //validate
+        $('#submit').click(function () {
+            for (var key in output) {
+                output[key].buyer = $('#' + key + ' input').eq(0).val();
+                output[key].equipment_liquidation_reason = $('#' + key + ' input').eq(1).val();
+            }
+            $('#json').val(JSON.stringify(output))
+            $('#confirm').modal("open");
+        })
+
+        $('#create').click(function () {
+            if ($('#reason').val() == "") {
+                errorAlert("Không được bỏ trống sữa chữa tại");
+                return;
+            }
+            if ($('#out_in_come').val() == "") {
+                errorAlert("Không được bỏ trống nguồn vốn");
+                return;
+            }
+            for (var i = 0; i < $('#mytable tbody tr').length; i++) {
+                output[i].type = $('#mytable tbody tr:eq(' + i + ') .type').val();
+                output[i].reason = $('#mytable tbody tr:eq(' + i + ') .reason').val();
+                output[i].date = $('#mytable tbody tr:eq(' + i + ') .minDate').val();
+                if (output[i].reason == "") {
+                    errorAlert("Không được bỏ trống lý do sửa chữa");
+                    return;
+                }
+                if (output[i].type == "") {
+                    errorAlert("Không được bỏ trống ngày dự kiến xong");
+                    return;
+                }
+            }
+            $('#pre-load').show();
+            $.ajax({
+                url: "/phong-cdvt/thanh-ly-chon",
+                method: "post",
+                dataType: "json",
+                cache: false,
+                data: {
+                    data: JSON.stringify(output),
+                    out_in_come: $('#out_in_come').val(),
+                    reason: $('#reason').val(),
+                    department_id_to: $('#department_id_to').val(),
+                },
+                success: function (response) {
+                    if (response.success) {
+                        successAlert("Tạo quyết định thành công", "Đang chuyển trang");
+                        $('#pre-load').hide();
+                        setTimeout(function () {
+                            window.location.href = "/phong-cdvt/quyet-dinh/thanh-ly";
+                        }, 2000);
+                    }
+                    else {
+                        errorAlert(response.message);
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $('#pre-load').hide();
+                }
+            })
+        })
+
+        $("#export-button").click(function () {
+            window.location = '/phong-cdvt/quyet-dinh/export-word?data=' + $('#json').val()
+                + '&title=' + $('input[name = "reason"]').val() + '&department_id='
+                + $('#department_id_to').val() + '&documentary_type=' + 5
+                + '&fileName=Quyết định thanh lý.docx' + '&resource=' + $('input[name = "out_in_come"]').val()
+        });
+    </script>
+}

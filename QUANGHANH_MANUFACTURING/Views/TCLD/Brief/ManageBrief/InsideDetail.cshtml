@@ -1,0 +1,696 @@
+﻿@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+
+        <div class="row">
+            <h3 class="center black-text">Thông tin cơ bản của hồ sơ</h3>
+            <div class="row">
+                <div class="col m4">
+                    <label class='custom-label'>Mã nhân viên</label>
+                    <input disabled type="text" id="cb_maNV" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Họ và tên</label>
+                    <input disabled type="text" id="cb_ten" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Ngày sinh</label>
+                    <input disabled type="text" id="cb_ngaySinh" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Số chứng minh thư</label>
+                    <input disabled type="text" id="cb_cmt" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Số bảo hiểm xã hội</label>
+                    <input disabled type="text" id="cb_bhxh" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Số điện thoại</label>
+                    <input disabled type="text" id="cb_sodienthoai" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Quê quán</label>
+                    <input disabled type="text" id="cb_quequan" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Nơi ở hiện tại</label>
+                    <input disabled type="text" id="cb_noiohientai" class="inputEdit form-control" />
+                </div>
+                <div class="col m4">
+                    <label class='custom-label'>Trình độ học vấn</label>
+                    <input disabled type="text" id="cb_trinhdohocvan" class="inputEdit form-control" />
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <h3 class="center black-text">Chi tiết hồ sơ</h3>
+            <div id="hosotrongcty">
+                <div class="row table-responsive">
+                    <br />
+                    <table id="hoso_detail" class="table table-bordered table-responsive centered highlight">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Người giữ hồ sơ</th>
+                                <th rowspan="2">Ngày nhận hồ sơ</th>
+                                <th rowspan="2">Người giao hồ sơ</th>
+                                <th rowspan="2">Cam kết tuyển dụng</th>
+                                <th rowspan="2">Người bàn giao bằng nhập kho</th>
+                                <th colspan="4">Quyết định tiếp nhận đơn vị cũ</th>
+                                <th colspan="4">Quyết định chấm dứt đơn vị cũ</th>
+                                <th rowspan="2">Sửa</th>
+                            </tr>
+                            <tr>
+
+                                <th>Kiểu</th>
+                                <th>Ngày QD</th>
+                                <th>Ngày đi làm</th>
+                                <th>Đơn vị ký quyết định tiếp nhận</th>
+                                <th>Kiểu</th>
+                                <th>Ngày quyết định chấm dứt</th>
+                                <th>Ngày chấm dứt</th>
+                                <th>Đơn vị ký chấm dứt</th>
+
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <h3 class="center black-text">Chi tiết giấy tờ</h3>
+            <div id="hoso_giayto">
+                <div class="row table-responsive">
+                    <br />
+                    <table id="giayto_detail" class="table table-bordered table-responsive centered highlight">
+                        <thead>
+                            <tr>
+
+                                <th>Tên giấy tờ</th>
+                                <th>Kiểu giấy tờ</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <br />
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        <div class="row">
+            <h3 class="center black-text">Chi tiết bằng cấp và giấy chứng nhận</h3>
+            <div id="bang_cap_chitiet">
+                <div class="row table-responsive">
+                    <br />
+                    <table id="bangcap_detail" class="table table-bordered table-responsive centered highlight">
+                        <thead>
+                            <tr>
+                                <th>Số hiệu</th>
+                                <th>Loại</th>
+                                <th>Tên bằng cấp</th>
+                                <th>Kiểu</th>
+                                <th>Trường</th>
+                                <th>Chuyên ngành</th>
+                                <th>Ngành</th>
+                                <th>Ngày cấp</th>
+                                <th>Thời hạn</th>
+
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <br />
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <h3 class="center black-text">Chi tiết chứng chỉ</h3>
+            <div id="">
+                <div class="row table-responsive">
+                    <br />
+                    <table id="chung_chi_chi_tiet" class="table table-bordered table-responsive centered highlight">
+                        <thead>
+                            <tr>
+                                <th>Số hiệu</th>
+                                <th>Tên chứng chỉ</th>
+                                <th>Loại</th>
+                                <th>Ngày cấp</th>
+
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+            <h3 class="center black-text">Quan hệ gia đình</h3>
+            <div id="quan_he_gia_dinh">
+                <div class="row table-responsive">
+                    <br />
+                    <table id="quanhe_detail" class="table table-bordered table-responsive centered highlight">
+                        <thead>
+                            <tr>
+                                <th>Loại gia đình</th>
+                                <th>Mối quan hệ</th>
+                                <th>Tên</th>
+
+                                <th>Ngày sinh</th>
+                                <th>Lý lịch</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <hr />
+
+        <div class="row">
+
+            <h3 class="center black-text">Sơ yếu lý lịch</h3>
+            <div id="so_yeu_ly_lich">
+                <div class="row table-responsive">
+                    <br />
+                    <a class='waves-effect waves-light btn-small blue modal-trigger' data-target="AddSyll" style='margin-left:5px' id="add_so_yeu_ly_lich"> Thêm</a>
+                    <br />
+                    <table id="syll_detail" class="table table-bordered table-responsive centered highlight">
+                        <thead>
+                            <tr>
+                                <th>Năm bổ sung</th>
+                                <th>Sửa</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="myedit_suahoso" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa hồ sơ</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("EditHoSo", "Brief")
+        </div>
+    </div>
+</div>
+
+<div id="myedit_suabangcap" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa bằng cấp</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("EditHoSo", "Brief")
+        </div>
+    </div>
+</div>
+
+
+<div id="EditLichSuBoSung" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa lịch sử bổ sung</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("EditLichSuBoSung", "Brief")
+        </div>
+    </div>
+</div>
+
+<div id="EditQuanHeGiaDinh" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa quan hệ gia đình</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("EditQuanHeGiaDinh", "Brief")
+        </div>
+    </div>
+</div>
+
+<div id="AddSyll" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Thêm sơ yếu lý lịch</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("AddLichSuBoSung", "Brief")
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+
+<script>
+    $("#pre-load").show();
+
+
+
+    var datatable_hs, stt;
+
+        $(document).ready(function () {
+            datatable_hs = $('#hoso_detail').DataTable({
+                "ajax": {
+                    "url": '@Url.Action("listHoSo","Brief")',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "nguoiGiuHoSo", "name": "nguoiGiuHoSo" },
+                    {
+                        "data": "ngayNhanHoSo", "name": "ngayNhanHoSo", "render": function (data) {
+                            return dateFormat(data);
+                        },
+                    },
+                    { "data": "nguoiGiaoHoSo", "name": "nguoiGiaoHoSo" },
+                    { "data": "camKetTuyenDung", "name": "camKetTuyenDung" },
+
+                    { "data": "nguoiBanGiaoBangNhapKho", "name": "nguoiBanGiaoBangNhapKho" },
+
+                    { "data": "quyetDinhTiepNhanDVC", "name": "quyetDinhTiepNhanDVC" },
+
+                    {
+                        "data": "ngayQDTiepNhan", "name": "ngayQDTiepNhan", "render": function (data) {
+                            return dateFormat(data);
+                        },
+                    },
+                    {
+                        "data": "ngayDiLam", "name": "ngayDiLam", "render": function (data) {
+                            return dateFormat(data);
+                        },
+                    },
+                    { "data": "donViKyQuyetDinhTiepNhan", "name": "donViKyQuyetDinhTiepNhan" },
+                    { "data": "quyetDinhChamDut", "name": "quyetDinhChamDut" },
+
+                    {
+                        "data": "ngayQDChamDut", "name": "ngayQDChamDut", "render": function (data) {
+                            return dateFormat(data);
+                        },
+                    },
+
+                    {
+                        "data": "ngayChamDut", "name": "ngayChamDut", "render": function (data) {
+                            return dateFormat(data);
+                        },
+                    },
+                    { "data": "donViKyChamDut", "name": "donViKyChamDut" },
+                                    {
+                    "data": "MaNV", "render": function (data) {
+                        return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit_suahoso' style='margin-left:5px' onclick=getEditHs('"+data+"') ><i class=''></i> Sửa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "150px"
+                }
+                ],
+                "serverSide": "true",
+                "order": [0, "asc"],
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "bAutoWidth": false,
+                "language": {
+                    "zeroRecords": "Không có dữ liệu",
+                },
+                "initComplete": function () {
+
+                }, "bPaginate": false
+            });
+
+            datatable_hs.ajax.reload();
+            $("#pre-load").hide();
+        });
+
+        function getEditHs(id) {
+
+            if (id != null) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("EditHoSo", "Brief")/' + id,
+                    success: function (data) {
+                        $("#hoso_edit_model").html(data)
+                    }
+
+                });
+            }
+    }
+
+</script>
+
+<script>
+
+    var datatable_chitiet, stt;
+    $("#pre-load").show();
+    $(document).ready(function () {
+        getBasicInfo();
+        datatable_chitiet = $('#giayto_detail').DataTable({
+            "ajax": {
+                "url": '@Url.Action("listGiayTo", "Brief")',
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+
+                { "data": "tenGiayTo", "name": "tenGiayTo" },
+                { "data": "kieuGiayTo", "name": "kieuGiayTo" },
+
+            ],
+            "language": {
+                "zeroRecords": "Không có dữ liệu",
+            },
+            "serverSide": "true",
+            "order": [0, "asc"],
+            "bLengthChange": false,
+            "bFilter": false,
+            "bInfo": false,
+            "bAutoWidth": false,
+
+            "initComplete": function () {
+                $("#pre-load").hide();
+            }, "bPaginate": false
+        });
+
+        datatable_chitiet.ajax.reload();
+        $("#pre-load").hide();
+    });
+    function getBasicInfo() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("listNhanVien","Brief")',
+            dataType: "json",
+            success: function (data) {
+                $('#cb_maNV').val(data.data[0].maNV);
+                $('#cb_ten').val(data.data[0].ten);
+                $('#cb_ngaySinh').val(dateFormat(data.data[0].ngaySinh));
+                $('#cb_cmt').val(data.data[0].soCMND);
+                $('#cb_bhxh').val(data.data[0].soBHXH);
+                $('#cb_sodienthoai').val(data.data[0].soDT);
+                $('#cb_quequan').val(data.data[0].queQuan);
+                $('#cb_noiohientai').val(data.data[0].noiOHientai);
+                $('#cb_trinhdohocvan').val(data.data[0].trinhDoHocVan);
+            }
+        });
+    }
+
+    var chungchichitiet, stt;
+    $("#pre-load").show();
+    $(document).ready(function () {
+
+        datatable_chitiet = $('#chung_chi_chi_tiet').DataTable({
+            "ajax": {
+                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-chung-chi",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "soHieu", "name": "soHieu" },
+                { "data": "tenChungChi", "name": "tenChungChi" },
+                { "data": "loai", "name": "loai" },
+                {
+                    "data": "ngayCap", "name": "ngayCap", "render": function (data) {
+                        return dateFormat(data);
+                    },
+                }
+
+
+
+
+            ],
+            "serverSide": "true",
+            "order": [0, "asc"],
+            "bLengthChange": false,
+            "bFilter": false,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "language": {
+                "zeroRecords": "Không có dữ liệu",
+            },
+            "initComplete": function () {
+                $("#pre-load").hide();
+            }, "bPaginate": false
+        });
+
+        datatable_chitiet.ajax.reload();
+        $("#pre-load").hide();
+    });
+
+</script>
+
+
+<script>
+    var datatable_bangcap, stt;
+    $("#pre-load").show();
+    $(document).ready(function () {
+        datatable_bangcap = $('#bangcap_detail').DataTable({
+            "ajax": {
+                "url": '@Url.Action("chiTietbangCap", "Brief")',
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "soHieu", "name": "soHieu" },
+                { "data": "loai", "name": "loai" },
+                { "data": "tenBangCap", "name": "tenBangCap" },
+                { "data": "kieu", "name": "kieu" },
+                { "data": "truong", "name": "truong" },
+                { "data": "chuyenNganh", "name": "chuyenNganh" },
+                { "data": "nganh", "name": "nganh" },
+                {
+                    "data": "ngayCap", "name": "ngayCap", "render": function (data) {
+                        return dateFormat(data);
+                    },
+                },
+                { "data": "thoiHan", "name": "thoiHan" }
+
+
+
+
+
+                //{
+                //    "data": "MaNV", "render": function (data) {
+                //        return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='EditLichSuBoSung' style='margin-left:5px' onclick=getEditHs('" + data + "') ><i class=''></i> Sửa</a>";
+                //    },
+                //    "orderable": false,
+                //    "searchable": false,
+                //    "width": "150px"
+                //}
+
+            ],
+            "serverSide": "true",
+            "order": [0, "asc"],
+            "bLengthChange": false,
+            "bFilter": false,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "language": {
+                "zeroRecords": "Không có dữ liệu",
+            },
+            "initComplete": function () {
+                $("#pre-load").hide();
+            }, "bPaginate": false
+        });
+
+        datatable.ajax.reload();
+        $("#pre-load").hide();
+    });
+            function editBangCap(id) {
+            alter(id);
+            if (id != null) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("EditChiTietbangCap", "Brief")/' + id,
+                    success: function (data) {
+                        $("#edit_chitietbangcap").html(data)
+                    }
+
+                });
+            }
+        }
+</script>
+
+<script>
+    var datatable_quanhe, stt;
+    $("#pre-load").show();
+    $(document).ready(function () {
+        datatable_quanhe = $('#quanhe_detail').DataTable({
+            "ajax": {
+                "url": '@Url.Action("quanHeGiadinh", "Brief")',
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "loaiGiaDinh", "name": "loaiGiaDinh" },
+                { "data": "moiQuanhe", "name": "moiQuanhe" },
+                { "data": "tenQH", "name": "tenQH" },
+
+
+                {
+                    "data": "ngaySinh", "name": "ngaySinh", "render": function (data) {
+                        return dateFormat(data);
+                    },
+                },
+                { "data": "lyLich", "name": "lyLich" }
+
+
+            ],
+            "serverSide": "true",
+            "order": [0, "asc"],
+            "bLengthChange": false,
+            "bFilter": false,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "language": {
+
+                "zeroRecords": "Không có dữ liệu",
+
+            },
+            "initComplete": function () {
+                $("#pre-load").hide();
+            }, "bPaginate": false
+        });
+
+        datatable_quanhe.ajax.reload();
+        $("#pre-load").hide();
+    });
+            function editBangCap(id) {
+            alter(id);
+            if (id != null) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("EditQuanHeGiaDinh", "Brief")/' + id,
+                    success: function (data) {
+                        $("#EditQuanHeGiaDinh").html(data)
+                    }
+
+                });
+            }
+        }
+</script>
+
+<script>
+
+    var datatable_syll;
+    $("#pre-load").show();
+    $(document).ready(function () {
+        datatable_syll = $('#syll_detail').DataTable({
+            "ajax": {
+                "url": '@Url.Action("listLichSuBoSung", "Brief")',
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                {
+                    "data": "namBoSung", "name": "namBoSung"
+                },
+                {
+                    "data": "maNV", "name": "maNV", "render": function (data) {
+                        return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='EditLichSuBoSung' style='margin-left:5px' onclick=editSYLL('" + data + "') ><i class=''></i> Sửa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "150px"
+                }
+
+            ],
+            "serverSide": "true",
+            "order": [0, "asc"],
+            "bLengthChange": false,
+            "bFilter": false,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "language": {
+                "zeroRecords": "Không có dữ liệu",
+            },
+            "initComplete": function () {
+                $("#pre-load").hide();
+            }, "bPaginate": false
+        });
+
+        datatable_syll.ajax.reload();
+        $("#pre-load").hide();
+    });
+            function editSYLL(id) {
+            if (id != null) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("EditLichSuBoSung", "Brief")/' + id,
+                    success: function (data) {
+                        $("#myedit_syll").html(data)
+                    }
+
+                });
+                }
+                function SubmitForm(form) {
+                    $.validator.unobtrusive.parse(form);
+                    if ($(form).valid()) {
+                        $("#pre-load").show("slow", function () {
+                        });
+                        $("#pre-load").css("z-index", "99999");
+                        $.ajax({
+                            type: "POST",
+                            url: form.action,
+                            data: $(form).serialize(),
+                            success: function (data) {
+                                dataTable.ajax.reload();
+                                dataCertificateEmp.ajax.reload();
+                                $("#pre-load").hide("slow", function () {
+                                });
+                                successAlert('Thành công', '');
+                                $(".modal").modal();
+                            },
+                            error: function () {
+                                errorAlert('Lỗi', 'Thử lại');
+                            }
+                        })
+                    }
+                    return false;
+                }
+    }
+
+
+    function dateFormat(d) {
+        if (d != null && d != "") {
+            var dateString = d.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            return (date);
+        }
+        else {
+            return (d);
+        }
+
+    }
+
+</script>
+
+
+
