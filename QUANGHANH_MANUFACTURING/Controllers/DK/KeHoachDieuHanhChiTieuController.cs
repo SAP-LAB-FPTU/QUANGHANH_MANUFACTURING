@@ -1,6 +1,8 @@
-﻿using System;
+﻿using QUANGHANH_MANUFACTURING.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace QUANGHANH_MANUFACTURING.Controllers.DK
@@ -128,7 +130,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.DK
                     //compare new with oldGroupCrit.
 
                     //diff => addGroupCrit 
-                    if (item.MaNhomTieuChi != oldGroupCriteria)
+                    if (item.criteria_group_id != oldGroupCriteria)
                     {
                         //addGroupCrit 
                         displayTC newDisplayTC = new displayTC();
@@ -139,8 +141,8 @@ namespace QUANGHANH_MANUFACTURING.Controllers.DK
                         displayTC newDisplayTC2 = new displayTC();
                         newDisplayTC2.TT = "-";
                         newDisplayTC2.HangTieuChi = 3;
-                        newDisplayTC2.NoiDung = item.TenTieuChi;
-                        newDisplayTC2.MaTieuChi = item.MaTieuChi;
+                        newDisplayTC2.NoiDung = item.name;
+                        newDisplayTC2.MaTieuChi = item.criteria_id;
 
                         listTCdisplay.Add(newDisplayTC);
                         listTCdisplay.Add(newDisplayTC2);
@@ -151,8 +153,8 @@ namespace QUANGHANH_MANUFACTURING.Controllers.DK
                         displayTC newDisplayTC = new displayTC();
                         newDisplayTC.TT = "-";
                         newDisplayTC.HangTieuChi = 3;
-                        newDisplayTC.NoiDung = item.TenTieuChi;
-                        newDisplayTC.MaTieuChi = item.MaTieuChi;
+                        newDisplayTC.NoiDung = item.name;
+                        newDisplayTC.MaTieuChi = item.criteria_id;
                         listTCdisplay.Add(newDisplayTC);
                     }
                 } 
@@ -166,13 +168,13 @@ namespace QUANGHANH_MANUFACTURING.Controllers.DK
                      newDisplayTC.TT = "" + TT;
                      newDisplayTC.HangTieuChi = 1;
                      newDisplayTC.NoiDung = item.TenNhomTieuChi;
-                     newDisplayTC.MaTieuChi = item.MaTieuChi;
+                     newDisplayTC.MaTieuChi = item.criteria_id;
                      listTCdisplay.Add(newDisplayTC);
                 } 
                 else 
                 {
                     //compare new with oldGroupCrit.
-                    if (item.MaNhomTieuChi != oldGroupCriteria)
+                    if (item.criteria_group_id != oldGroupCriteria)
                     {
                         //addGroupCrit 
                         displayTC newDisplayTC = new displayTC();
@@ -185,8 +187,8 @@ namespace QUANGHANH_MANUFACTURING.Controllers.DK
                         displayTC newDisplayTC2 = new displayTC();
                         newDisplayTC2.TT = "" + TT + "." + (smallTT++);
                         newDisplayTC2.HangTieuChi = 2;
-                        newDisplayTC2.NoiDung = item.TenTieuChi;
-                        newDisplayTC2.MaTieuChi = item.MaTieuChi;
+                        newDisplayTC2.NoiDung = item.name;
+                        newDisplayTC2.MaTieuChi = item.criteria_id;
 
                         listTCdisplay.Add(newDisplayTC);
                         listTCdisplay.Add(newDisplayTC2);
@@ -196,12 +198,12 @@ namespace QUANGHANH_MANUFACTURING.Controllers.DK
                         displayTC newDisplayTC = new displayTC();
                         newDisplayTC.TT = "" + TT + "." + (smallTT++);
                         newDisplayTC.HangTieuChi = 2;
-                        newDisplayTC.NoiDung = item.TenTieuChi;
-                        newDisplayTC.MaTieuChi = item.MaTieuChi;
+                        newDisplayTC.NoiDung = item.name;
+                        newDisplayTC.MaTieuChi = item.criteria_id;
                         listTCdisplay.Add(newDisplayTC);
                     }
                 }
-                oldGroupCriteria = (int)item.MaNhomTieuChi;
+                oldGroupCriteria = (int)item.criteria_group_id;
             }
         }
 
@@ -240,7 +242,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.DK
         public int NgayCuoi { get; set; }
     }
 
-    public class TCEntities : TieuChi
+    public class TCEntities : Criterion
     {
         public string TenNhomTieuChi { get; set; }
     }
