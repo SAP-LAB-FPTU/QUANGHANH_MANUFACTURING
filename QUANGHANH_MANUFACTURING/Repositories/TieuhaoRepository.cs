@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using QUANGHANH_MANUFACTURING.Models;
 using QUANGHANH_MANUFACTURING.ModelViews;
 using QUANGHANH_MANUFACTURING.Repositories.Intefaces;
 using Unity;
