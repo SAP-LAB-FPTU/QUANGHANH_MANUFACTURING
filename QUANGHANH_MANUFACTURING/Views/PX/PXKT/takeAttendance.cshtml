@@ -1,0 +1,632 @@
+﻿@{
+    ViewData["Title"] = "diem-danh";
+    Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col l3">
+                <div class="col l6">
+                    <div class="row">
+                        <label>
+                            <input type="checkbox" class="filled-in" checked="checked" id="workedAllCheckbox" onclick="searchEmployee()" />
+                            <span>Những người đi làm</span>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label>
+                            <input type="checkbox" class="filled-in" checked="checked" id="notWorkedAllCheckbox" onclick="searchEmployee()" />
+                            <span>Những người không đi làm</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col l6 center">
+                    <div> <h5>Lần cuối cập nhật: </h5></div>
+                    <div> <h5 id="timeFetchSuccessfully">@ViewBag.time </h5></div>
+                </div>
+            </div>
+            <div class="col l6 center">
+                <h3>
+                    ĐIỂM DANH  <a class="dropdown-trigger btn" id="ca" href="#" data-target="dropdown_ca" style="background-color:#273146">CA 1</a> NGÀY <input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" />
+                    <a class="btn waves-effect waves-light blue modal-trigger" id="btn-view" href="#" onclick="getcontent();">Xem</a>
+                    <input id="phanxuong" hidden value="@Session["departID"].ToString()" />
+                    <br><br>
+                </h3>
+            </div>
+            <div class="col l3 center">
+                <button class="waves-effect waves-light btn-large" onclick="fetchAPI()">Cập nhật điểm danh</button>
+            </div>
+        </div>
+
+        <!--Search place-->
+        <div class="row">
+            <div class="col s5 m5 l5 input-field">
+                <input type="number" placeholder="Mã nhân viên" class="form-control" id="searchMaNV" />
+            </div>
+            <div class="col s5 m5 l5 input-field">
+                <input type="text" placeholder="Tên nhân viên" class="form-control" id="searchTenNV" />
+            </div>
+            <div class="col s2 m2 l2 input-field">
+                <button class="btn blue darken-2 btn-small waves-effect waves-light" id="searchButton">Tìm kiếm</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <a class="waves-effect waves-light btn" id="EditSaveBtn" onclick="EditOrUpdate()"><i class="material-icons right">border_color</i>Cập Nhật</a>
+                <table id="attendanceTable" class="cell-border striped hover">
+                    <thead>
+                        <tr>
+                            <th>Thuộc danh sách đi làm</th>
+                            <th>Mã Nhân Viên</th>
+                            <th>Tên Nhân Viên</th>
+                            <th>Đi làm</th>
+                            <th>Mã Điểm Danh</th>
+                            <th>Thời gian có mặt</th>
+                            @*<th>Thời gian xuống lò</th>
+                                <th>Thời gian lên lò</th>*@
+                            <th>Lý do vắng mặt</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s6 m6 l6">
+                <table id="sumAttendanceTable" class="table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tổng số người đi làm</th>
+                            <th id="tongdilam"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CBQL</td>
+                            <td id="dilam_cbql"></td>
+                        </tr>
+                        <tr>
+                            <td>CNKT</td>
+                            <td id="dilam_cnkt"></td>
+                        </tr>
+                        <tr>
+                            <td>CNCĐ</td>
+                            <td id="dilam_cncd"></td>
+                        </tr>
+                        <tr>
+                            <td>HSTT</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col s6 m6 l6">
+                <table id="sumNotAttendanceTable" class="table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tổng số người không đi làm</th>
+                            <th id="tongnghi"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ốm</td>
+                            <td id="om"></td>
+                        </tr>
+                        <tr>
+                            <td>Phép</td>
+                            <td id="phep"></td>
+                        </tr>
+                        <tr>
+                            <td>Vô lý do</td>
+                            <td id="volydo"></td>
+                        </tr>
+                        <tr>
+                            <td>Khác</td>
+                            <td id="khac"></td>
+                        </tr>
+                        <tr>
+                            <td>Tai nạn lao động</td>
+                            <td id="tainanlaodong"></td>
+                        </tr>
+                        <tr>
+                            <td>Ốm dài</td>
+                            <td id="omdai"></td>
+                        </tr>
+                        <tr>
+                            <td>Thai sản</td>
+                            <td id="thaisan"></td>
+                        </tr>
+                        <tr>
+                            <td>Tạm hoãn lao động</td>
+                            <td id="tamhoanlaodong"></td>
+                        </tr>
+                        <tr>
+                            <td>Vô lý do dài</td>
+                            <td id="volydodai"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul id='dropdown_ca' class='dropdown-content'>
+    <li><a class="dropdown-child-ca session" href="#" name="ca1">CA 1</a></li>
+    <li><a class="dropdown-child-ca session" href="#" name="ca2">CA 2</a></li>
+    <li><a class="dropdown-child-ca session" href="#" name="ca3">CA 3</a></li>
+</ul>
+
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h3><b>Bạn có chắc chắn muốn lưu không?</b></h3>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="modal-action modal-close waves-effect waves-green btn blue" id="btn_agrr" onclick="Update();">Lưu</a>
+        <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-green btn red">Hủy</a>
+    </div>
+</div>
+
+<span hidden value="hihi" id="createdHeader"></span>
+
+@*<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">*@
+<link href="//cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.dataTables.min.css" rel="stylesheet" />
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    @*<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>*@
+    <script src="//cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js"></script>
+    <script>
+        $(document).ready(() => {
+            var currentTime = new Date();
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            // default date
+            //date = "10/09/2019"
+            //
+            $('#inputdate').datepicker({
+                language: 'vi',
+                maxDate: new Date()
+            })
+            $("#inputdate").val(date);
+        })
+        $('.session').click(function () {
+            $('#ca').text($(this).text())
+            $('h3').click();
+        })
+    </script>
+    <script>
+        var mode = 0;
+        $(document).ready(() => {
+
+            $("#pre-load").show();
+            $('input.timepicker').timepicker({});
+            attendanceTable = $("#attendanceTable")
+                .on('preXhr.dt', function (e, settings, data) {
+                    data.session = $("#ca").text().split(" ")[1];
+                    data.department = $("#phanxuong").val();
+                    data.date = convertToSQLDate($("#inputdate").val());
+                    data.MaNV = $("#searchMaNV").val();
+                    data.TenNV = $("#searchTenNV").val();
+                })
+                .DataTable({
+                    //"fixedHeader" : true, //freeze header table
+                    "language": {
+                        "emptyTable": "Không tìm thấy dữ liệu",
+                        "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                        "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                        "paginate": {
+                            "first": "Trang đầu",
+                            "last": "Trang cuối",
+                            "next": "Trang sau",
+                            "previous": "Trang trước"
+                        }
+                    },
+                    "columnDefs": [
+                        { "className": "dt-center", "targets": "_all" }
+                    ],
+                    "scrollY": "500px",
+                    "scrollCollapse": true,
+                    "responsive": false,
+                    "order": [],
+                    "filter": false,
+                    "paging": false,
+                    "bLengthChange": false,
+                    "info": false,
+                    "ajax": {
+                        "url": "/phan-xuong/diem-danh",
+                        "type": "POST",
+                        "datatype": "json",
+                        "dataSrc": function (result) {
+                            //set value on table TongDiLam and TongKhongDiLam
+                            var listAtten_NotAtten = result.listAtten_NotAtten;
+                            $("#tongdilam").text(listAtten_NotAtten.TongDiLam);
+                            $("#dilam_cbql").text(listAtten_NotAtten.DiLam_CBQL);
+                            $("#dilam_cncd").text(listAtten_NotAtten.DiLam_CNCD);
+                            $("#dilam_cnkt").text(listAtten_NotAtten.DiLam_CNKT);
+                            $("#tongnghi").text(listAtten_NotAtten.TongNghi);
+                            $("#om").text(listAtten_NotAtten.Om);
+                            $("#phep").text(listAtten_NotAtten.Phep);
+                            $("#volydo").text(listAtten_NotAtten.VoLyDo);
+                            $("#khac").text(listAtten_NotAtten.Khac);
+                            $("#tainanlaodong").text(listAtten_NotAtten.TaiNanLaoDong);
+                            $("#omdai").text(listAtten_NotAtten.OmDai);
+                            $("#thaisan").text(listAtten_NotAtten.ThaiSan);
+                            $("#tamhoanlaodong").text(listAtten_NotAtten.TamHoanLaoDong);
+                            $("#volydodai").text(listAtten_NotAtten.VoLyDoDai);
+                            return JSON.parse(result.data);
+                        },
+                        "cache": false
+                    },
+                    "initComplete": function (settings) {
+                        $("#pre-load").hide();
+                    },
+                    "columns": [
+                        {
+                            data: "headerID", render: function (data, type, row) {
+                                if (data != null) {
+                                    return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" class=\"checkBox1\" id='" + row["maNV"] + "-confirmed'/><span></span></label>";
+                                } else {
+                                    return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\"disabled=\"disabled\"class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-confirmed\"/><span></span></label>";
+                                }
+                            },
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: "maNV",
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: "tenNV",
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: "status", render: function (data, type, row) {
+                                if (data) {
+                                    return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" class=\"checkBox1\" id='" + row["maNV"] + "-status'/><span></span></label>";
+                                } else {
+                                    return "<label><input onclick=\"clickConfirm(this)\" type=\"checkbox\"disabled=\"disabled\"class=\"checkBox1\" id=\"" + row["maNV"].trim() + "-status\"/><span></span></label>";
+                                }
+                            },
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: "headerID", render: function (data) {
+                                if (data != null) {
+                                    return data
+                                } else {
+                                    return "";
+                                }
+                            },
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: "timeAttendance", render: function (data) {
+                                if (data != null) {
+                                    return "<span class=\"dateTime\">" + data + "</span>"
+                                } else
+                                    return "<span class=\"dateTimeTest\"></span>"
+                            },
+                            orderable: false,
+                            searchable: false
+                        },
+                        //{
+                        //    data: "",
+                        //    orderable: false,
+                        //    searchable: false
+                        //},
+                        //{
+                        //    data: "",
+                        //    orderable: false,
+                        //    searchable: false
+                        //},
+                        {
+                            data: "reason", render: function (data, type, row) {
+                                if (row['status']) {
+                                    return ""
+                                } else {
+                                    if (data != null) {
+                                        return "<span class=\"reasonBox\">" + data + "</span>"
+                                    } else {
+                                        return "<span class=\"reasonBox\">" + "</span>"
+                                    }
+                                }
+                            },
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: "description", render: function (data) {
+                                if (data != null) {
+                                    return "<input disabled value=\"" + data + "\" type=\"text\" class=\"inputDescription\">"
+                                } else
+                                    return "<input disabled value=\"\" type=\"text\" class=\"inputDescription\">"
+                            },
+                            orderable: false,
+                            searchable: false
+                        }
+                    ]
+                })
+        })
+
+        function getcontent() {
+            if (mode == 1) {
+                $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>Cập Nhật");
+                mode = 0;
+            }
+            $('#pre-load').show()
+            loadDatatableWith("/phan-xuong/diem-danh")
+                .then((status) => {
+                })
+            updateTimeFetchSuccessfully();
+        }
+
+        function convertToSQLDate(dateInput) {
+            var date = dateInput.split("/")[0]
+            var month = dateInput.split("/")[1]
+            var year = dateInput.split("/")[2]
+            //
+            return year + "-" + month + "-" + date;
+            //
+        }
+
+        function loadDatatableWith(url) {
+            return new Promise((resolve, reject) => {
+                $("#attendanceTable").DataTable().ajax.url(url).load(function () {
+                    $('#pre-load').hide()   //promise duoc hoan thanh ke ca khi datatable chua load xong?!?
+                });
+                //console.log("1");
+                resolve("successfully");
+                reject("fail");
+            })
+        }
+
+        function EditOrUpdate() {
+            // mode == 0 => view mode , mode ==1 => edit mode
+            if (mode == 0) {
+                $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>Lưu");
+                $(".inputTest").removeAttr("disabled")
+                $(".inputDescription").removeAttr("disabled")
+                $(".checkBox").removeAttr("disabled")
+                $(".checkBox1").removeAttr("disabled")
+                console.log(mode)
+                $("#workedAllCheckbox").hide();
+                $("#notWorkedAllCheckbox").hide();
+                $(".reasonBox").each(function () {
+                    var text = "<select class=\"browser-default \"><option value=\"\">Chọn lý do</option><option value=\"\" disabled>NGHỈ NGẮN HẠN</option><option value=\"1\">Ốm</option><option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option><option value=\"4\">Khác</option><option value=\"\" disabled>NGHỈ DÀI HẠN</option><option value=\"5\">Tai nạn lao động</option><option value=\"6\">Ốm dài</option><option value=\"7\">Thai sản</option><option value=\"8\">Tạm hoãn lao động</option><option value=\"9\">Vô lý do dài</option></select>";
+                    if ($(this).text() != "") {
+                        var regex = new RegExp('<option value=\\"[0-9]+\\">' + $(this).text() + '<\/option>');
+                        var arr = text.split(regex);
+                        switch ($(this).text()) {
+                            case "Ốm":
+                                $(this).html(arr[0] + "<option selected value=\"1\">Ốm</option>" + arr[1]);
+                                break;
+                            case "Vô lý do":
+                                $(this).html(arr[0] + "<option selected value=\"2\">Vô lý do</option>" + arr[1]);
+                                break;
+                            case "Nghỉ phép":
+                                $(this).html(arr[0] + "<option selected value=\"3\">Nghỉ phép</option>" + arr[1]);
+                                break;
+                            case "Khác":
+                                $(this).html(arr[0] + "<option selected value=\"4\">Khác</option>" + arr[1]);
+                                break;
+                            case "Tai nạn lao động":
+                                $(this).html(arr[0] + "<option selected value=\"5\">Tai nạn lao động</option>" + arr[1]);
+                                break;
+                            case "Ốm dài":
+                                $(this).html(arr[0] + "<option selected value=\"6\">Ốm dài</option>" + arr[1]);
+                                break;
+                            case "Thai sản":
+                                $(this).html(arr[0] + "<option selected value=\"7\">Thai sản</option>" + arr[1]);
+                                break;
+                            case "Tạm hoãn lao động":
+                                $(this).html(arr[0] + "<option selected value=\"8\">Tạm hoãn lao động</option>" + arr[1]);
+                                break;
+                            case "Vô lý do dài":
+                                $(this).html(arr[0] + "<option selected value=\"9\">Vô lý do dài</option>" + arr[1]);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else
+                        $(this).html("<select class=\"browser-default \"><option value=\"\" disabled selected>NGHỈ NGẮN HẠN</option><option value=\"1\">Ốm</option><option value=\"2\">Vô lý do</option><option value=\"3\">Nghỉ phép</option><option value=\"4\">Khác</option><option value=\"\" disabled>NGHỈ DÀI HẠN</option><option value=\"5\">Tai nạn lao động</option><option value=\"6\">Ốm dài</option><option value=\"7\">Thai sản</option><option value=\"8\">Tạm hoãn lao động</option><option value=\"9\">Vô lý do dài</option></select>");
+                })
+                mode = 1;
+            } else {
+                $('#pre-load').show()
+                $("#EditSaveBtn").html("<i class=\"material-icons right\">border_color</i>Cập Nhật");
+                mode = 0;
+                var dataUpdate = updateReason();
+                if (dataUpdate.length > 0) {
+                    $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
+                        data.sessionId = JSON.stringify(dataUpdate)
+                        data.session = $("#ca").text().split(" ")[1];
+                        data.department = $("#phanxuong").val();
+                        data.date = convertToSQLDate($("#inputdate").val());
+                    })
+                    // $("#attendanceTable").DataTable().ajax.url("/phan-xuong/diem-danh/cap-nhat").load();
+                    loadDatatableWith("/phan-xuong/diem-danh/cap-nhat")
+                        .then((status) => {
+                            console.log(status);
+                            $("#workedAllCheckbox").show();
+                            $("#notWorkedAllCheckbox").show();
+                            successAlert('Cập nhật thành công', '');
+                        })
+                } else {
+                    successAlert('Cập nhật thành công', '');
+                    $("#workedAllCheckbox").show();
+                    $("#notWorkedAllCheckbox").show();
+                    $('#pre-load').hide()
+                }
+            }
+        }
+
+        function clickConfirm(checkbox) {
+            // format : id+"confirm" or id+"status"
+            var clickedID = $(checkbox).attr("id");
+            //
+            var confirm = $("#" + clickedID.split("-")[0] + "-confirmed").is(":checked");
+            var status = $("#" + clickedID.split("-")[0] + "-status").is(":checked");
+            console.log("confirm: " + confirm)
+            console.log("status: " + status)
+            if (clickedID.split("-")[1] == "confirmed") {
+                if (!confirm) {
+                    $("#" + clickedID.split("-")[0] + "-status").attr("checked", false);
+                }
+            }
+            else {
+                if (!confirm && status) {
+                    $("#" + clickedID.split("-")[0] + "-confirmed").attr("checked", true);
+                    console.log("#" + clickedID.split("-")[0] + "-confirmed")
+                }
+            }
+        }
+
+        function updateReason() {
+            var heads = ["isEnvolved", "maNV", "tenNV", "status", "headerID", "timeAttendance", "reason", "description"];
+            //var heads = ["isEnvoled", "status", "maNV", "tenNV", "headerID" , "reason", "timeAttendance", "", "", "description"];
+            //
+            var rows = [];
+            count = 0;
+            $("#attendanceTable tbody tr").each(function () {
+                cur = {};
+                $(this).find("td").each(function (i, v) {
+                    if (i != 4) {
+                        if (heads[i] != "status" && heads[i] != "isEnvolved") {
+                            cur[heads[i]] = $(this).text().trim();
+                        }
+                        if (heads[i] == "status" || heads[i] == "isEnvolved") {
+                            var attr = $(this).children("label").children("input");
+                            cur[heads[i]] = attr.is(":checked");
+                        }
+                        if (heads[i] == "reason") {
+                            var selectValue = $(this).children("span").children("select").val();
+                            // console.log($(this).children("span").children("select").val())
+                            switch (selectValue) {
+                                case "1":
+                                    cur[heads[i]] = "Ốm";
+                                    break;
+                                case "2":
+                                    cur[heads[i]] = "Vô lý do";
+                                    break;
+                                case "3":
+                                    cur[heads[i]] = "Nghỉ phép";
+                                    break;
+                                case "4":
+                                    cur[heads[i]] = "Khác";
+                                    break;
+                                case "5":
+                                    cur[heads[i]] = "Tai nạn lao động";
+                                    break;
+                                case "6":
+                                    cur[heads[i]] = "Ốm dài";
+                                    break;
+                                case "7":
+                                    cur[heads[i]] = "Thai sản";
+                                    break;
+                                case "8":
+                                    cur[heads[i]] = "Tạm hoãn lao động";
+                                    break;
+                                case "9":
+                                    cur[heads[i]] = "Vô lý do dài";
+                                    break;
+                                default:
+                                    cur[heads[i]] = "";
+                                    break;
+                            }
+                        }
+                        if (heads[i] == "description") {
+                            cur[heads[i]] = $(this).children("input").val();
+                        }
+                    }
+                });
+                cur["headerID"] = $("#attendanceTable").DataTable().row(count).data()["headerID"];
+                count++;
+                rows.push(cur);
+                cur = {};
+            });
+            return rows;
+        }
+
+        function fetchAPI() {
+            //$("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
+            //    data.session = $("#ca").text().split(" ")[1];
+            //    data.department = $("#phanxuong").val();
+            //    data.date = convertToSQLDate($("#inputdate").val());
+            //})
+            $("#pre-load").show();
+            var data = {
+                session: $("#ca").text().split(" ")[1],
+                date: convertToSQLDate($("#inputdate").val())
+            }
+            $.ajax({
+                url: "/phan-xuong/diem-danh/lay-thong-tin",
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#pre-load").hide();
+                    updateTimeFetchSuccessfully();
+                    $("#attendanceTable").DataTable().ajax.url("/phan-xuong/diem-danh").load();
+                    successAlert('Cập nhật thành công', '');
+                },
+                error: function () {
+                    $("#pre-load").hide();
+                    errorAlert('Đã có lỗi xảy ra', '');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            updateTimeFetchSuccessfully();
+        });
+
+        function updateTimeFetchSuccessfully() {
+            $.ajax({
+                url: "/phan-xuong/diem-danh/cap-nhat-thoi-gian",
+                type: "POST",
+                data: JSON.stringify(),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#timeFetchSuccessfully").html(data);
+                },
+                error: function () {
+                    errorAlert();
+                }
+            });
+        }
+
+        function searchEmployee() {
+            $("#attendanceTable").on('preXhr.dt', function (e, settings, data) {
+                data.workChecked = $("#workedAllCheckbox").is(":checked");
+                data.notWorkChecked = $("#notWorkedAllCheckbox").is(":checked");
+                data.session = $("#ca").text().split(" ")[1];
+                data.department = $("#phanxuong").val();
+                data.date = convertToSQLDate($("#inputdate").val());
+            })
+            $("#attendanceTable").DataTable().ajax.url("/phan-xuong/diem-danh/lua-chon-diem-danh").load();
+        }
+    </script>
+
+    <!--SEARCH-->
+    <script>
+        $("#searchButton").click(function () {
+            $("#attendanceTable").DataTable().ajax.url("/phan-xuong/diem-danh").load();
+            updateTimeFetchSuccessfully();
+        });
+    </script>
+}

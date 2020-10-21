@@ -1,0 +1,285 @@
+﻿@{
+    ViewBag.Title = "GPS";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <h3 class="center"><b>Cập nhật GPS thiết bị cơ giới ngày</b><input type="text" id="inputdate" class="datepicker-here center" data-language="vi" value="" /></h3>
+            <div class="center"><a id="search" class="btn blue center-block">Tìm kiếm</a></div>
+            <hr>
+            <form action="GPS/Update" method="POST" id="myupdateform" role="form">
+                <div class="col s12 table_container">
+                    <table id="complex_header" class="table-bordered striped table-responsive centered">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Biển số</th>
+                                <th rowspan="2">Loại xe</th>
+                                <th colspan="2">Ca 1</th>
+                                <th colspan="2">Ca 2</th>
+                                <th colspan="2">Ca 3</th>
+                            </tr>
+                            <tr>
+                                <th>Mất tín hiệu</th>
+                                <th>Lý do</th>
+                                <th>Mất tín hiệu</th>
+                                <th>Lý do</th>
+                                <th>Mất tín hiệu</th>
+                                <th>Lý do</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="col">
+                    <button href="#" id="tienhanh" class="btn blue darken-2">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    var json = {};
+    $(document).on("click", "input[type=checkbox]", function () {
+        var column = $(this).parent().parent().index();
+        var row = $(this).parent().parent().parent().index();
+        var $input = $('tbody tr:nth-child(' + (row + 1) + ') td:nth-child(' + (column + 2) + ') input')
+        if ($input.prop('disabled'))
+            $input.removeAttr('disabled');
+        else
+            $input.attr('disabled', 'disabled');
+    });
+
+    $(document).ready(() => {
+        $('#inputdate').datepicker({
+            language: 'vi',
+            maxDate: new Date(),
+            toggleSelected: false,
+        })
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '/' + mm + '/' + yyyy;
+        $('#inputdate').val(today);
+    })
+
+    function myfunction() {
+        var row = $('#complex_header tbody tr').length;
+        var arr = [];
+        for (var i = 0; i < row; i++) {
+            for (var j = 1; j < 4; j++) {
+                var temp = {};
+                temp.equipmentId = $('#complex_header tbody tr:nth-child(' + (i + 1) + ') td:first-child').text();
+                temp.ca = j;
+                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') td:nth-child(' + (2 * j + 1) + ') label input').is(':checked')) {
+                    temp.available = false;
+                    temp.reason = $('#complex_header tbody tr:nth-child(' + (i + 1) + ') td:nth-child(' + (2 * j + 2) + ') input').val();
+                }
+                else {
+                    temp.available = true;
+                    temp.reason = null;
+                }
+                arr.push(temp);
+            }
+        }
+        json.list = arr;
+        json.date = $('#inputdate').val();
+        return JSON.stringify(json);
+    }
+</script>
+
+@section scripts{
+    <script>
+        var Popup, dataTable, session;
+        $(document).ready(function () {
+            dataTable = $('#complex_header').DataTable({
+                language: {
+                    emptyTable: "Không tìm thấy dữ liệu",
+                    info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                    paginate: {
+                        first: "Trang đầu",
+                        last: "Trang cuối",
+                        next: "Trang sau",
+                        previous: "Trang trước"
+                    }
+                },
+                lengthChange: false,
+                searching: false,
+                paging: false,
+                columnDefs: [
+                    { bSortable: false, targets: [2, 3, 4, 5, 6, 7] }
+                ],
+                ajax: {
+                    url: "/phong-cdvt/oto/GPS",
+                    type: "POST",
+                    datatype: "json",
+                    data: {
+                        stringDate: function () { return $('#inputdate').val() }
+                    },
+                    cache: false,
+                    dataSrc: function (json) {
+                        session = json.session;
+                        return json.data;
+                    }
+                },
+                columns: [
+                    { data: "equipmentId", name: "equipmentId" },
+                    { data: "Equipment_category_name", name: "Equipment_category_name" },
+                    {
+                        data: {}, render: function (data) {
+                            if (data.ca1)
+                                return "<label><input type='checkbox'" + (session == 1 ? "" : "disabled") + " /><span></span></label>";
+                            else
+                                return "<label><input checked type='checkbox'" + (session == 1 ? "" : "disabled") + " /><span></span></label>";
+                        },
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: {}, render: function (data) {
+                            if (data.ca1)
+                                return "<input type='text' class='form-control' list='reason' disabled='disabled' />";
+                            else
+                                return "<input type='text' class='form-control' list='reason'" + (session == 1 ? "" : "disabled") + " value='" + data.reason1 + "' />";
+                        },
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: {}, render: function (data) {
+                            if (data.ca2)
+                                return "<label><input type='checkbox'" + (session == 2 ? "" : "disabled") + " /><span></span></label>";
+                            else
+                                return "<label><input checked type='checkbox'" + (session == 2 ? "" : "disabled") + " /><span></span></label>";
+                        },
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: {}, render: function (data) {
+                            if (data.ca2)
+                                return "<input type='text' class='form-control' list='reason' disabled='disabled' />";
+                            else
+                                return "<input type='text' class='form-control' list='reason'" + (session == 2 ? "" : "disabled") + " value='" + data.reason2 + "' />";
+                        },
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: {}, render: function (data) {
+                            if (data.ca3)
+                                return "<label><input type='checkbox'" + (session == 3 ? "" : "disabled") + " /><span></span></label>";
+                            else
+                                return "<label><input checked type='checkbox'" + (session == 3 ? "" : "disabled") + " /><span></span></label>";
+                        },
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: {}, render: function (data) {
+                            if (data.ca3)
+                                return "<input type='text' class='form-control' list='reason' disabled='disabled' />";
+                            else
+                                return "<input type='text' class='form-control' list='reason'" + (session == 3 ? "" : "disabled") + " value='" + data.reason3 + "' />";
+                        },
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+                serverSide: "true",
+                order: [0, "desc"],
+                rowId: "incident_id",
+                lengthChange: false,
+                searching: false,
+                initComplete: function (settings, json) {
+                    $("#pre-load").hide();
+                },
+                preDrawCallback: function (settings) {
+                    $('#pre-load').show();
+                },
+                drawCallback: function (settings) {
+                    $('#pre-load').hide();
+                }
+            })
+        })
+
+        $(document).ready(function () {
+
+            //ajax update
+            $("#myupdateform").submit(function (e) {
+                $("#pre-load").show();
+                $.ajax({
+                    type: "POST",
+                    url: "/phong-cdvt/oto/GPS/Update",
+                    dataType: "json",
+                    success: function (data) {
+                        dataTable.ajax.reload();
+                        if (data.success == true) {
+                            successAlert('Cập nhật thành công', "");
+                        }
+                        else
+                            errorAlert('Có lỗi xảy ra', '');
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        errorAlert('Có lỗi xảy ra', '');
+                        $("#pre-load").hide();
+                    },
+                    data: {
+                        stringjson: myfunction()
+                    },
+                    cache: false
+                }).done(function () {
+                    $("#pre-load").hide();
+                })
+                return false;
+            });
+        })
+
+        $(document).on("click", "input[type=checkbox]", function () {
+            var column = $(this).parent().parent().index();
+            var row = $(this).parent().parent().parent().index();
+            var equipmentId = $('tbody tr:nth-child(' + (row + 1) + ') td:first-child').text();
+            var ca;
+            if (column == 2) ca = 1;
+            if (column == 4) ca = 2;
+            if (column == 6) ca = 3;
+            if ($(this).is(':checked')) {
+                $("#pre-load").show();
+                $.ajax({
+                    type: "POST",
+                    url: "/phong-cdvt/oto/GPS/GetReason",
+                    dataType: "json",
+                    success: function (data) {
+                        var $input = $('tbody tr:nth-child(' + (row + 1) + ') td:nth-child(' + (column + 2) + ') input');
+                        $input.val(data.reason);
+                    },
+                    data: {
+                        equipmentId: equipmentId,
+                        ca: ca,
+                        stringdate: $('#inputdate').val()
+                    },
+                    cache: false
+                }).done(function () {
+                    $("#pre-load").hide();
+                })
+            }
+        });
+
+        $(document).on("click", "#search", function () {
+            $('#pre-load').show()
+            dataTable.ajax.reload(function () {
+                $('#pre-load').hide();
+            });
+        })
+    </script>
+}

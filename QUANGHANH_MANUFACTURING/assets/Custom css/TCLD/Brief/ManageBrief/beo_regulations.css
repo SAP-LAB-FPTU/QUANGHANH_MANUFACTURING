@@ -1,0 +1,6 @@
+﻿#searchButton, #btn-fix, #btn-save {
+    float: left;    
+}
+#searchButton{
+    width: 100% !important;
+}

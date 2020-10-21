@@ -1,0 +1,344 @@
+﻿@{
+    ViewData["Title"] = "cai-tien";
+    if (Session["departName"].ToString().Contains("Phân xưởng"))
+    {
+        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <h3 class="center">Chi tiết quyết định điều chỉnh số @ViewBag.code</h3>
+            <div class="col s12 table_container">
+                <table class="table-bordered striped table-responsive centered"
+                       style="margin-top:30px; text-align:center;" id="complex_header">
+                    <thead>
+                        <tr>
+                            <th>Mã thiết bị</th>
+                            <th>Tên thiết bị</th>
+                            <th>Tình trạng hiện tại</th>
+                            <th></th>
+                            <th></th>
+                            <th>Đã xử lý</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <input name="id" hidden value="@ViewBag.id" id="id" />
+            @if (ViewBag.AddAble == true)
+            {
+                <a class="btn blue darken-2 modal-trigger" href="#alert">Lưu</a>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="mylist">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Danh sách thiết bị con đi kèm</h3>
+        </div>
+        <div class="modal-body table_container">
+            <div class="row">
+                <table id="test" class="striped table-responsive centered table-bordered mytable">
+                    <thead>
+                        <tr>
+                            <th>Mã thiết bị con</th>
+                            <th>Tên thiết bị con</th>
+                            <th>Số lượng ban đầu</th>
+                            <th>Số lượng điều chỉnh</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer" id="vattu">
+            @*<a class="waves-effect waves-light btn blue darken-2 modal-trigger submitvattu">Lưu</a>*@
+            <button type="button" class="btn light-blue lighten-1 modal-close exit-button">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="mylist2">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Danh sách vật tư đi kèm</h3>
+        </div>
+        <div class="modal-body table_container">
+            <div class="row">
+                <table id="test2" class="striped table-responsive centered table-bordered mytable">
+                    <thead>
+                        <tr>
+                            <th>Mã vật tư con</th>
+                            <th>Tên vật tư con</th>
+                            <th>Số lượng ban đầu</th>
+                            <th>Số lượng điều chỉnh</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer" id="vattu">
+            @*<a class="waves-effect waves-light btn blue darken-2 modal-trigger submitvattu">Lưu</a>*@
+            <button type="button" class="btn light-blue lighten-1 modal-close exit-button">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="alert">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <h4>Lưu ý: bạn không thể sửa đổi thiết bị con cho quyết định sau khi đã xử lý xong</h4>
+        </div>
+        <div class="modal-footer">
+            <a id="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger modal-close">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+
+@*<datalist id="supplyID">
+    @foreach (var item in ViewBag.equipAttached)
+    {
+        <option value="@item.equipmentId">@item.equipment_name</option>
+    }
+</datalist>*@
+
+<script>
+    var equipmentId, documentary_id, IsSupply
+
+    function getJsonArray() {
+        var output = {};
+        var arr = [];
+        if (!IsSupply) {
+            var length = $("#test tr").length;
+            for (var i = 1; i < length; i++) {
+                var temp = {};
+                if ($("#test tbody tr:nth-child(" + i + ") input").eq(0).val() == "") break;
+                temp.supply_id = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 1 + ") input").val();
+                temp.quantity_in = $("#test tbody tr:nth-child(" + i + ") td:nth-child(" + 4 + ") input").val();
+                arr.push(temp);
+            }
+        }
+        else {
+            var length = $("#test2 tr").length;
+            for (var i = 1; i < length; i++) {
+                var temp = {};
+                if ($("#test2 tbody tr:nth-child(" + i + ") input").eq(0).val() == "") break;
+                temp.supply_id = $("#test2 tbody tr:nth-child(" + i + ") td:nth-child(" + 1 + ") input").val();
+                temp.quantity_in = $("#test2 tbody tr:nth-child(" + i + ") td:nth-child(" + 4 + ") input").val();
+                arr.push(temp);
+            }
+        }
+        output.list = arr
+        return JSON.stringify(output);
+    }
+
+    //$(document).on("click", "#complex_header tbody tr", function () {
+    //    var DaXuLy = $("#complex_header tbody tr:nth-child(" + ($(this).index() + 1) + ") td:last-child button").prop("disabled");
+    //    if (!DaXuLy) {
+    //        $('#vattu').html("<a id='addcolumn' class='waves-effect waves-light btn blue darken-2 left'>Thêm</a><a id='submitvattu' class='waves-effect waves-light btn blue darken-2 modal-trigger'>Lưu</a><button class='btn light-blue lighten-1 modal-close' id='exit-button'>Thoát</button>");
+    //        $('#vattu2').html("<a id='submitvattu' class='waves-effect waves-light btn blue darken-2 modal-trigger'>Lưu</a><button class='btn light-blue lighten-1 modal-close' id='exit-button'>Thoát</button>");
+    //    }
+    //    else {
+    //        $('#vattu').html("<a class='btn light-blue lighten-1 modal-close' id='exit-button'>Thoát</a>");
+    //        $('#vattu2').html("<a class='btn light-blue lighten-1 modal-close' id='exit-button'>Thoát</a>");
+    //    }
+    //});
+
+    $("#complex_header").on("click", ".buttonChon", function () {
+        if ($(this).text() == "Chưa xử lý") {
+            $(this).text('Đã xử lý')
+        }
+        else {
+            $(this).text('Chưa xử lý')
+        }
+    });
+</script>
+
+@section scripts{
+    <script src="~/js/Custom JS/CDVT/QuyetDinh/OptionValueToText.js"></script>
+    <script>
+        $(document).on("click", "#addcolumn", function () {
+            var $tr = $('<tr>').append(
+                $('<td>').html("<input list='supplyID' type='text' id='vattu' class='form-control td-id temp' />"),
+                $('<td>'),
+                $('<td>').text("0"),
+                $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
+                $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
+                $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
+                $('<td>').html("<input type='text' class='form-control' />")
+            );
+            $tr.appendTo('#test tbody');
+            myfunction2();
+        })
+
+        var Popup, dataTable;
+        $('#pre-load').show();
+        dataTable = $('#complex_header').DataTable({
+            "language": {
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                "paginate": {
+                    "first": "Trang đầu",
+                    "last": "Trang cuối",
+                    "next": "Trang sau",
+                    "previous": "Trang trước"
+                }
+            },
+            "ajax": {
+                "url": "/phong-cdvt/cap-nhat/quyet-dinh/cai-tien/GetData",
+                "type": "POST",
+                "datatype": "json",
+                "data": {
+                    "id": $('#id').val()
+                },
+                "cache": false
+            },
+            "columns": [
+                { "data": "equipmentId", "name": "equipmentId" },
+                { "data": "equipment_name", "name": "equipment_name" },
+                { "data": "statusname", "name": "statusname" },
+                {
+                    "data": "documentary_improve_id", "name": "documentary_improve_id", "render": function (data) {
+                        return "<a data-isEquip=\"true\" data-documentary_improve_id=" + data + " class=\"waves-effect waves-light btn-small blue modal-trigger\" href=\"#mylist\">Thiết bị đi kèm</a>";
+                    }
+                },
+                {
+                    "data": "documentary_improve_id", "name": "documentary_improve_id", "render": function (data) {
+                        return "<a data-isEquip=\"false\" data-documentary_improve_id=" + data + " class=\"waves-effect waves-light btn-small blue modal-trigger\" href=\"#mylist2\">Vật tư đi kèm</a>";
+                    }
+                },
+                {
+                    "data": {}, "render": function (data) {
+                        if (data.equipment_Improve_status == "0") return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.equipmentId + "\">Chưa xử lý</button>";
+                        else return "<button disabled class=\"btn blue darken-2\">Đã xử lý</button>"
+                    }
+                }
+            ],
+            "serverSide": "true",
+            "order": [0, "asc"],
+            "rowId": "incident_id",
+            "lengthChange": false,
+            "searching": false,
+            "initComplete": function (settings, json) {
+                $('#pre-load').hide();
+            },
+            "columnDefs": [
+                { targets: 3, orderable: false },
+                { targets: 4, orderable: false }
+            ],
+            "preDrawCallback": function (settings) {
+                $('#pre-load').show();
+            },
+            "drawCallback": function (settings) {
+                $('#pre-load').hide();
+            }
+        });
+
+        $("#submit").click(function (e) {
+            var equipments = "";
+            for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
+                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
+                    equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
+            }
+            if (equipments == "")
+                return false;
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/cai-tien/edit",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success == true) {
+                        dataTable.ajax.reload(function () {
+                            $('#pre-load').hide();
+                            successAlert(data.message);
+                        });
+                    }
+                    else {
+                        errorAlert(data.message);
+                        $('#pre-load').hide();
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    id: $('#id').val(),
+                    edit: equipments
+                },
+                cache: false
+            })
+        });
+
+        $(document).on("click", ".submitvattu", function (e) {
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/cai-tien/update",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success) {
+                        successAlert(data.message);
+                        $('.exit-button').click()
+                    }
+                    else {
+                        errorAlert(data.message);
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    list: function () { return getJsonArray(); },
+                    documentary_id: documentary_id,
+                    equipmentId: equipmentId,
+                    IsSupply: IsSupply
+                },
+                cache: false
+            })
+        });
+
+        $(document).on("click", '#complex_header tbody a', function () {
+            $('#pre-load').show();
+            $("#mylist tbody").empty();
+            $("#mylist2 tbody").empty();
+            documentary_improve_id = $(this).data("documentary_improve_id");
+            isEquip = $(this).data("isequip");
+            $.ajax({
+                url: "/phong-cdvt/quyet-dinh/dieu-chinh/chi-tiet",
+                method: "post",
+                cache: false,
+                data: {
+                    documentary_improve_id: documentary_improve_id,
+                    isEquip: isEquip
+                },
+                success: function (response) {
+                    $.each(response, function (index, value) {
+                        if (isEquip === true) {
+                            $("#mylist tbody").append("<tr><td>" + value.equipmentId + "</td><td>" + value.equipment_name + "</td><td>" + value.quantity_before + "</td><td>" + value.quantity_after + "</td></tr>");
+                        }
+                        else {
+                            $("#mylist2 tbody").append("<tr><td>" + value.supply_id + "</td><td>" + value.supply_name + "</td><td>" + value.quantity_before + "</td><td>" + value.quantity_after + "</td></tr>");
+                        }
+                    })
+                    $('#pre-load').hide();
+                }
+            })
+        })
+    </script>
+}

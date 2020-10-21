@@ -1,0 +1,167 @@
+﻿
+@{
+    ViewBag.Title = "Human_Daily";
+    if (Session["departID"].ToString().Contains("BGĐ"))
+    {
+        Layout = "~/Views/Shared/_Layout_BGD2.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("CV"))
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("TCLĐ"))
+    {
+        Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("ĐK"))
+    {
+        Layout = "~/Views/Shared/_Layout_DK.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("KCM"))
+    {
+        Layout = "~/Views/Shared/_Layout_KCM.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("KCS"))
+    {
+        Layout = "~/Views/Shared/_Layout_KCS.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("AT"))
+    {
+        Layout = "~/Views/Shared/_Layout_AT.cshtml";
+    }
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="container-fluid">
+            <h3 class="center"><b>TỔNG NHÂN LỰC THEO NGÀY</b></h3>
+            <hr />
+            <div class="row">
+                <div class="center col s12" style="margin-bottom: 20px">
+                    <i class="fas fa-calendar-alt icon"></i>
+                    <input type='text' class='datepicker-here center' id="date" data-language='vi' />
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <table class="table table-bordered table-responsive-md">
+                            <thead>
+                                <tr>
+                                    <th>TT</th>
+                                    <th>Nội dung</th>
+                                    <th>Tổng số</th>
+                                    <th>Đi làm</th>
+                                    <th>Nghỉ</th>
+
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <th>Công nhân làm việc trong lò</th>
+                                    <td id="cntl_tong"></td>
+                                    <td id="cntl_dilam"></td>
+                                    <td id="cntl_nghi"></td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td>Công nhân KT, đào lò</td>
+                                    <td id="cnkt_tong"></td>
+                                    <td id="cnkt_dilam"></td>
+                                    <td id="cnkt_nghi"></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>Công nhân cơ điện lò</td>
+                                    <td id="cncd_tong"></td>
+                                    <td id="cncd_dilam"></td>
+                                    <td id="cncd_nghi"></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <th>Công nhân làm việctrên MB</th>
+                                    <td id="cnmb_tong"></td>
+                                    <td id="cnmb_dilam"></td>
+                                    <td id="cnmb_nghi"></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <th>Phòng ban quản lý,NV nghiệp vụ</th>
+                                    <td id="qlpb_nv_tong"></td>
+                                    <td id="qlpb_nv_dilam"></td>
+                                    <td id="qlpb_nv_nghi"></td>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    @*<div class="col s12 m12 l12 input-field right row">
+                            <a class="waves-effect waves-light btn btn-small blue darken-2 input-field left" id="export_excel"><i class="fas fa-file-excel"></i>&nbsp;Xuất&nbsp;Ra&nbsp;File&nbsp;Excel</a>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Take data-->
+<script>
+    //first load page
+    $(document).ready(function () {
+        $("#date").val("@string.Format("{0:dd/MM/yyyy}", System.DateTime.Now)");
+        $('.datepicker-inline').remove();
+        takeData();
+    });
+
+    //load data after choose date
+    $("#date").datepicker({
+        onSelect: function () {
+            takeData();
+        },
+        autoClose: true
+    });
+
+    function takeData() {
+        $("#pre-load").show();
+        $.ajax({
+            url: "/ban-giam-doc/bao-cao-nhan-luc/bao-cao-tong-hop-nhan-luc-theo-ngay/takeData",
+            type: "POST",
+            datatype: "json",
+            data: {
+                "date": function () { return $("#date").val(); }
+            },
+            success: function (response) {
+                var humanReport = response.humanReport[0];
+                //cnkt
+                $("#cnkt_dilam").text(humanReport.DiLam_CNKT);
+                $("#cnkt_nghi").text(humanReport.Nghi_CNKT);
+                $("#cnkt_tong").text(humanReport.DiLam_CNKT + humanReport.Nghi_CNKT);
+                //cncd
+                $("#cncd_dilam").text(humanReport.DiLam_CNCD);
+                $("#cncd_nghi").text(humanReport.Nghi_CNCD);
+                $("#cncd_tong").text(humanReport.DiLam_CNCD + humanReport.Nghi_CNCD);
+                //cntl
+                $("#cntl_dilam").text(humanReport.DiLam_CNKT + humanReport.DiLam_CNCD);
+                $("#cntl_nghi").text(humanReport.Nghi_CNKT + humanReport.Nghi_CNCD);
+                $("#cntl_tong").text(humanReport.DiLam_CNKT + humanReport.DiLam_CNCD + humanReport.Nghi_CNKT + humanReport.Nghi_CNCD);
+
+                //cnmb
+                $("#cnmb_dilam").text(humanReport.DiLam_CNMB);
+                $("#cnmb_nghi").text(humanReport.Nghi_CNMB);
+                $("#cnmb_tong").text(humanReport.DiLam_CNMB + humanReport.Nghi_CNMB);
+                //qlpb_nv
+                $("#qlpb_nv_dilam").text(humanReport.DiLam_QLPB_NV);
+                $("#qlpb_nv_nghi").text(humanReport.Nghi_QLPB_NV);
+                $("#qlpb_nv_tong").text(humanReport.DiLam_QLPB_NV + humanReport.Nghi_QLPB_NV);
+
+                $("#pre-load").hide();
+                successAlert(response.title, response.message);
+            },
+            error: function (response) {
+                $("#pre-load").hide();
+                errorAlert(response.title, response.message);
+            }
+        })
+    }
+</script>
+
+
+

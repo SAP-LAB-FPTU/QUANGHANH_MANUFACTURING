@@ -1,0 +1,3199 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/assets/extra-libs/c3/c3.min.css">
+<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/css/tuan_css/css/baocaoluong_css/style.css" />
+<link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
+<link href="~/dist/css/pages/easy-pie-chart.css" rel="stylesheet">
+<link rel="stylesheet" href="~/css/tuan_css/css/baocaoluong_css/style.css" />
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <h3 class="report_title">
+                <B>BÁO CÁO THỰC HIỆN LAO ĐỘNG, TIỀN LƯƠNG CÔNG NHÂN TRỰC TIẾP</B>
+                <br />
+                <i class="fas fa-calendar-alt icon"></i>
+                <input type="text"
+                       class="datepicker-here center"
+                       data-language='vi'
+                       data-min-view="months"
+                       data-view="months"
+                       data-date-format="MM yyyy" value="Tháng 6 2019" />
+                <br /><br />
+                <a class='dropdown-trigger btn' id="px" href='#' data-target='dropdown_px'
+                   style="width:250px;background-color:#273146" name="VTL1">
+                    VTL1
+                </a>
+                @*<a class='dropdown-trigger btn' id="thoigian" href='#' data-target='dropdown_time'
+                   style="width:250px;background-color:#273146" name="month">
+                    Xem theo tháng
+                </a>*@
+                @*<a class='btn blue darken-2' id="xacnhan" href='javascript:void(0);' style="width:250px;background-color:#273146">
+                    Xác nhận
+                </a>*@
+            </h3>
+            <hr />
+        </div>
+        <div class="row">
+            <div class="col m12 l12 s12">
+                <ul class="tabs">
+                    <li class="tab col m4 l4 s4"><a class="active" href="#bieudo">BIỂU ĐỒ</a></li>
+                    <li class="tab col l4 m4 s4"><a href="#bangchitiet">BẢNG BÁO CÁO CHI TIẾT LĐ ,LƯƠNG</a></li>
+                    <li class="tab col l4 m4 s4"><a href="#chamcong">BÁO CÁO CHI TIẾT TIỀN LƯƠNG</a></li>
+                </ul>
+            </div>
+
+            <div id="bieudo" class="col s12">
+                <div class="chart_container">
+                    <div class="row">
+                        <div class="col l4 m12 s12 center">
+                            <div class="card">
+                                <div class="card-content analytics-info">
+                                    <h5 class="card-title">Tổng số lao động</h5>
+                                    <br> <br />
+                                    <div class="summary_number"><h3><b>174</b></h3></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col l4 m12 s12  center">
+                            <div class="card">
+                                <div class="card-content analytics-info">
+                                    <h5 class="card-title">Tỉ lệ huy động trung bình</h5>
+                                    <div class="chart easy-pie-chart-1" data-percent="85"> <span class="percent">8/100</span> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col l4 m12 s12 center">
+                            <div class="card">
+                                <div class="card-content analytics-info">
+                                    <h5 class="card-title">Tổng số lao động nghỉ ốm dài</h5>
+                                    <br> <br />
+                                    <div class="summary_number"><h3><b>0</b></h3></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col l12 s12">
+                            <div class="card">
+                                <div class="card-content analytics-info">
+                                    <h5 class="card-title center">Lao động tham gia sản xuất theo từng ngày</h5>
+                                    <div id="bar-basic" style="height:1200px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col l12">
+                            <div class="card">
+                                <div class="card-content analytics-info">
+                                    <h5 class="card-title center">Lao động bình quân theo từng ngày</h5>
+                                    <div id="basic-bar" style="height:400px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col l12">
+                            <div class="card">
+                                <div class="card-content analytics-info">
+                                    <h5 class="card-title center">Phần trăm huy động bình quân theo từng ngày (%)</h5>
+                                    <div id="basic-bar2" style="height:400px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col l12">
+                            <div class="card">
+                                <div class="card-content analytics-info">
+                                    <h5 class="card-title center">Lao động nghỉ dài theo từng ngày</h5>
+                                    <div id="basic-bar3" style="height:400px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="bangchitiet" class="col s12">
+                <div class="report_container">
+                    <div class="row">
+                        <div class="col l3 s12">
+                            <div class="thang">
+                                <div class="filter_label">Tháng: </div>
+                                <!-- Dropdown Trigger -->
+                                <a class='dropdown-trigger btn' href='#' data-target='dropdown2'>
+                                    Chọn
+                                    tháng
+                                </a>
+                                <!-- Dropdown Structure -->
+                                <ul id='dropdown2' class='dropdown-content'>
+                                    <li><a href="#!">Tháng 01</a></li>
+                                    <li><a href="#!">Tháng 02</a></li>
+                                    <li><a href="#!">Tháng 03</a></li>
+                                    <li><a href="#!">Tháng 04</a></li>
+                                    <li><a href="#!">Tháng 05</a></li>
+                                    <li><a href="#!">Tháng 06</a></li>
+                                    <li><a href="#!">Tháng 07</a></li>
+                                    <li><a href="#!">Tháng 08</a></li>
+                                    <li><a href="#!">Tháng 09</a></li>
+                                    <li><a href="#!">Tháng 10</a></li>
+                                    <li><a href="#!">Tháng 11</a></li>
+                                    <li><a href="#!">Tháng 12</a></li>
+                                </ul>
+                                <a class='dropdown-trigger btn' href='#' data-target='dropdown4'>
+                                    Chọn
+                                    năm
+                                </a>
+                                <!-- Dropdown Structure -->
+                                <ul id='dropdown4' class='dropdown-content'>
+                                    <li><a href="#!">2019</a></li>
+                                    <li><a href="#!">2018</a></li>
+                                    <li><a href="#!">2017</a></li>
+                                    <li><a href="#!">2015</a></li>
+                                    <li><a href="#!">2014</a></li>
+                                    <li><a href="#!">2013</a></li>
+                                    <li><a href="#!">2012</a></li>
+                                    <li><a href="#!">2011</a></li>
+                                    <li><a href="#!">2012</a></li>
+                                    <li><a href="#!">2011</a></li>
+                                    <li><a href="#!">2010</a></li>
+                                    <li><a href="#!">2009</a></li>
+                                </ul>
+
+                            </div>
+                        </div>
+                        <div class="col l2 s12">
+                            <div class="sap_xep">
+                                <div>
+                                    <!-- Dropdown Trigger -->
+                                    <div class="filter_label">Sắp xếp theo: </div>
+                                    <a class='dropdown-trigger btn' href='#' data-target='dropdown3'>
+                                        Chọn tiêu
+                                        chí
+                                    </a>
+                                    <!-- Dropdown Structure -->
+                                    <ul id='dropdown3' class='dropdown-content'>
+                                        <li><a href="#!">Điểm lương</a></li>
+                                        <li><a href="#!">Tỉ lệ huy động</a></li>
+                                        <li><a href="#!">LĐ vắng</a></li>
+                                        <li><a href="#!">LĐ nghỉ dài</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row table_container">
+                        <div class="col l12">
+                            <table class="table table-bordered striped table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="3">Ngày</th>
+
+                                        <th colspan="4" rowspan="2" data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_tong">
+                                            LĐTT THEO DANH SÁCH
+                                        </th>
+                                        <th colspan="4" rowspan="2" data-target="modal1" class="modal-trigger clickable_cell total_col" id="ldnghidai_tong">
+                                            LĐTT NGHỈ DÀI
+                                        </th>
+                                        <th rowspan="3" rowspan="2" data-target="modal1" class="modal-trigger clickable_cell total_col" id="tonglaodong">TỔNG LĐ SAU KHI TRỪ</th>
+                                        <th colspan="5" data-target="modal1" class="modal-trigger clickable_cell" id="ldbq_tong">
+                                            LĐ THỰC HIỆN TRONG NGÀY
+                                        </th>
+                                        <th rowspan="3">TỶ LỆ HUY ĐỘNG (%)</th>
+                                        <th colspan="4" rowspan="2">SẢN LƯỢNG TH</th>
+                                        <th colspan="2" rowspan="2">ĐIỂM LƯƠNG</th>
+                                        <th rowspan="3">Ghi chú</th>
+                                    </tr>
+                                    <tr>
+                                        <th rowspan="2" data-target="modal1" class="modal-trigger clickable_cell" id="ldbq_dilam">
+                                            LĐBQ đi làm
+                                        </th>
+                                        <th colspan="4" data-target="modal1" class="modal-trigger clickable_cell" id="ldbq_ldvang_tong">
+                                            LĐ vắng
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_kt">KT</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_cd">CĐ</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_hstt">HSTT</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldtdd_tong">Tổng</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldnghidai_vld">VLD</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldnghidai_thhd">THHĐ</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldnghidai_om">Ốm, TNLĐ</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell total_col" id="ldnghidai_tong">Tổng</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldbq_ldvang_vld">VLD</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldbq_ldvang_om">Ốm</th>
+                                        <th data-target="modal1" class="modal-trigger clickable_cell" id="ldbq_ldvang_khac">Khác</th>
+                                        <th data-target="modal1" class="total_col modal-trigger clickable_cell" id="ldbq_ldvang_tong">Tổng</th>
+                                        <th>Than</th>
+                                        <th>Đá</th>
+                                        <th>Mét lò</th>
+                                        <th>Xén</th>
+                                        <th>TLBQ ngày công (1000đ)</th>
+                                        <th class="total_col">Tổng số</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><a href="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay","nang-suat-lao-dong-va-tien-luong")">1</a></td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">148</td>
+                                        <td>3</td>
+                                        <td>6</td>
+                                        <td>17</td>
+                                        <td class="total_col">26</td>
+                                        <td class="tilehuydong">85</td>
+                                        <td>2880</td>
+                                        <td>98</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">469</td>
+                                        <td>69404</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><a href="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay","nang-suat-lao-dong-va-tien-luong")">2</a></td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">97</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col">0</td>
+                                        <td class="tilehuydong"></td>
+                                        <td>1405</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">651</td>
+                                        <td>63174</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><a href="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay","nang-suat-lao-dong-va-tien-luong")">3</a></td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">151</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>15</td>
+                                        <td class="total_col">23</td>
+                                        <td class="tilehuydong">85</td>
+                                        <td>2720</td>
+                                        <td>108</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">466</td>
+                                        <td>70397</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><a href="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay","nang-suat-lao-dong-va-tien-luong")">4</a></td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">152</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>14</td>
+                                        <td class="total_col">22</td>
+                                        <td class="tilehuydong">87</td>
+                                        <td>3126</td>
+                                        <td>138</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">462</td>
+                                        <td>70254</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><a href="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay","nang-suat-lao-dong-va-tien-luong")">5</a></td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">150</td>
+                                        <td>2</td>
+                                        <td>7</td>
+                                        <td>15</td>
+                                        <td class="total_col">24</td>
+                                        <td class="tilehuydong">86</td>
+                                        <td>3005</td>
+                                        <td>80</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">468</td>
+                                        <td>70224</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><a href="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay","nang-suat-lao-dong-va-tien-luong")">6</a></td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">150</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>16</td>
+                                        <td class="total_col">24</td>
+                                        <td class="tilehuydong">86</td>
+                                        <td>2816</td>
+                                        <td>115</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">471</td>
+                                        <td>70663</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>7</td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">147</td>
+                                        <td>6</td>
+                                        <td>5</td>
+                                        <td>16</td>
+                                        <td class="total_col">27</td>
+                                        <td class="tilehuydong">84</td>
+                                        <td>2653</td>
+                                        <td>151</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">437</td>
+                                        <td>64273</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>8</td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">151</td>
+                                        <td>5</td>
+                                        <td>5</td>
+                                        <td>13</td>
+                                        <td class="total_col">23</td>
+                                        <td class="tilehuydong">87</td>
+                                        <td>2550</td>
+                                        <td>115</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">416</td>
+                                        <td>62872</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>9</td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">89</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col">0</td>
+                                        <td class="tilehuydong"></td>
+                                        <td>1952</td>
+                                        <td>80</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">723</td>
+                                        <td>64375</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>10</td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">152</td>
+                                        <td>2</td>
+                                        <td>5</td>
+                                        <td>15</td>
+                                        <td class="total_col">22</td>
+                                        <td class="tilehuydong">87</td>
+                                        <td>2606</td>
+                                        <td>90</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">451</td>
+                                        <td>68542</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>11</td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">152</td>
+                                        <td>2</td>
+                                        <td>5</td>
+                                        <td>15</td>
+                                        <td class="total_col">22</td>
+                                        <td class="tilehuydong">87</td>
+                                        <td>2666</td>
+                                        <td>84</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">415</td>
+                                        <td>63075</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>12</td>
+                                        <td>101</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">174</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">150</td>
+                                        <td></td>
+                                        <td>5</td>
+                                        <td>18</td>
+                                        <td class="total_col">23</td>
+                                        <td class="tilehuydong">86</td>
+                                        <td>2659</td>
+                                        <td>125</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">416</td>
+                                        <td>62385</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>13</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">150</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>17</td>
+                                        <td class="total_col">25</td>
+                                        <td class="tilehuydong">86</td>
+                                        <td>2729</td>
+                                        <td>48</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">455</td>
+                                        <td>68312</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>14</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">146</td>
+                                        <td>4</td>
+                                        <td>7</td>
+                                        <td>18</td>
+                                        <td class="total_col">29</td>
+                                        <td class="tilehuydong">83</td>
+                                        <td>2730</td>
+                                        <td>80</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">427</td>
+                                        <td>62360</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>15</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">147</td>
+                                        <td>3</td>
+                                        <td>7</td>
+                                        <td>18</td>
+                                        <td class="total_col">28</td>
+                                        <td class="tilehuydong">84</td>
+                                        <td>3069</td>
+                                        <td>82</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">470</td>
+                                        <td>69089</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>16</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">82</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col">0</td>
+                                        <td class="tilehuydong"></td>
+                                        <td>1370</td>
+                                        <td>86</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">729</td>
+                                        <td>59786</td>
+                                        <td></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>17</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">147</td>
+                                        <td>2</td>
+                                        <td>7</td>
+                                        <td>19</td>
+                                        <td class="total_col">28</td>
+                                        <td class="tilehuydong">84</td>
+                                        <td>2285</td>
+                                        <td>86</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">424</td>
+                                        <td>62304</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>18</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">149</td>
+                                        <td>3</td>
+                                        <td>6</td>
+                                        <td>17</td>
+                                        <td class="total_col">26</td>
+                                        <td class="tilehuydong">85</td>
+                                        <td>2496</td>
+                                        <td>72</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">435</td>
+                                        <td>64824</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>19</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">152</td>
+                                        <td>2</td>
+                                        <td>7</td>
+                                        <td>14</td>
+                                        <td class="total_col">23</td>
+                                        <td class="tilehuydong">87</td>
+                                        <td>2042</td>
+                                        <td>62</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">406</td>
+                                        <td>61753</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>20</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">148</td>
+                                        <td>2</td>
+                                        <td>7</td>
+                                        <td>18</td>
+                                        <td class="total_col">27</td>
+                                        <td class="tilehuydong">85</td>
+                                        <td>2285</td>
+                                        <td>154</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">403</td>
+                                        <td>59681</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>21</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">175</td>
+                                        <td class="ldbq_di_lam">149</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>18</td>
+                                        <td class="total_col">26</td>
+                                        <td class="tilehuydong">85</td>
+                                        <td>1949</td>
+                                        <td>70</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">382</td>
+                                        <td>56976</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>22</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">147</td>
+                                        <td>2</td>
+                                        <td>7</td>
+                                        <td>18</td>
+                                        <td class="total_col">27</td>
+                                        <td class="tilehuydong">84</td>
+                                        <td>1811</td>
+                                        <td>85</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">340</td>
+                                        <td>49921</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>23</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">72</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col"></td>
+                                        <td class="tilehuydong"></td>
+                                        <td>2016</td>
+                                        <td>68</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">631</td>
+                                        <td>45467</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>24</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">144</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                        <td>19</td>
+                                        <td class="total_col">30</td>
+                                        <td class="tilehuydong">83</td>
+                                        <td>2013</td>
+                                        <td>45</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">382</td>
+                                        <td>54982</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>25</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">144</td>
+                                        <td>5</td>
+                                        <td>6</td>
+                                        <td>19</td>
+                                        <td class="total_col">30</td>
+                                        <td class="tilehuydong">83</td>
+                                        <td>2013</td>
+                                        <td>45</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">382</td>
+                                        <td>54982</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>26</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">148</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>18</td>
+                                        <td class="total_col">26</td>
+                                        <td class="tilehuydong">85</td>
+                                        <td>1914</td>
+                                        <td>305</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">409</td>
+                                        <td>60530</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>27</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">152</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>14</td>
+                                        <td class="total_col">22</td>
+                                        <td class="tilehuydong">87</td>
+                                        <td>1722</td>
+                                        <td>359</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">435</td>
+                                        <td>66112</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>28</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">147</td>
+                                        <td>4</td>
+                                        <td>6</td>
+                                        <td>17</td>
+                                        <td class="total_col">27</td>
+                                        <td class="tilehuydong">84</td>
+                                        <td>1846</td>
+                                        <td>305</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">425</td>
+                                        <td>62405</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>29</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">146</td>
+                                        <td>2</td>
+                                        <td>6</td>
+                                        <td>20</td>
+                                        <td class="total_col">28</td>
+                                        <td class="tilehuydong">84</td>
+                                        <td>1885</td>
+                                        <td>355</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">410</td>
+                                        <td>59916</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>30</td>
+                                        <td>102</td>
+                                        <td>73</td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">175</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">174</td>
+                                        <td class="ldbq_di_lam">76</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col">0</td>
+                                        <td class="tilehuydong"></td>
+                                        <td>1232</td>
+                                        <td>155</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq">600</td>
+                                        <td>45579</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>31</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt">123</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col total_ldtt_nghi_dai"></td>
+                                        <td class="ld_sanxuat">0</td>
+                                        <td class="ldbq_di_lam"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col">0</td>
+                                        <td class="tilehuydong"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="total_col tlbq"></td>
+                                        <td></td>
+                                        <td></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="total_row">Công</td>
+                                        <td class="total_row">3039</td>
+                                        <td class="total_row">2190</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">5229</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">5232</td>
+                                        <td class="total_row">4135</td>
+                                        <td class="total_row">683</td>
+                                        <td class="total_row">152</td>
+                                        <td class="total_row">418</td>
+                                        <td class="total_row">638</td>
+                                        <td class="total_row tilehuydong_trungbinh">79</td>
+                                        <td class="total_row">68448</td>
+                                        <td class="total_row">3736</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">451</td>
+                                        <td class="total_row">1864617</td>
+                                        <td class="total_row"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="total_row">Bình quân</td>
+                                        <td class="total_row">101</td>
+                                        <td class="total_row">73</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">174</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">174</td>
+                                        <td class="total_row">149</td>
+                                        <td class="total_row">3</td>
+                                        <td class="total_row">6</td>
+                                        <td class="total_row">17</td>
+                                        <td class="total_row">26</td>
+                                        <td class="total_row tilehuydong_trungbinh">85</td>
+                                        <td class="total_row"></td>
+                                        <td class="total_row"></td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">0</td>
+                                        <td class="total_row">451</td>
+                                        <td class="total_row"></td>
+                                        <td class="total_row"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="export_btn_container">
+                                <a class="waves-effect waves-light btn blue" id="export-button">Xuất ra file excel</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col l12">
+                            <h3>ĐÁNH GIÁ: </h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="summary_container">
+                            <div class="col l12 s12 summary_right">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <th class="total_row">Lao động TT có mặt đến 30/6: </th>
+                                            <td class="total_row">174</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Lao động thực hiện bình quân theo danh sách</th>
+                                            <td>174</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Lao động huy động đi làm THBQ:</th>
+                                            <td>149 người/ngày</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Lao động bố trí nghỉ các loại BQ: </th>
+                                            <td>26 người/ngày</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tỉ lệ huy động:</th>
+                                            <td>85%</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tỷ lệ thực hiện BQ đạt:</th>
+                                            <td>451,000đ/công</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="chamcong">
+                <div class="col s12 m12 l12">
+                    <div class="col s12 m12 l12">
+                        <div class="row" style="overflow-x: auto !important;">
+                            <table class="striped table responsive-table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">STT</th>
+                                        <th rowspan="2">Họ và tên</th>
+                                        <th rowspan="2">Số thẻ</th>
+                                        <th rowspan="2">NN</th>
+                                        <th colspan="30">Ngày trong tháng</th>
+                                        <th rowspan="2">Tổng điểm</th>
+                                        <th rowspan="2">Hệ số TT</th>
+                                        <th rowspan="2">Tổng điểm sau khi nhân hệ số</th>
+                                        <th rowspan="2">KK công cao T6</th>
+                                        <th rowspan="2">Tổng điểm còn lại</th>
+                                        <th rowspan="2">Tổng<br />và<br />Còn</th>
+                                        <th rowspan="2">Còn<br />SP</th>
+                                        <th rowspan="2">P</th>
+                                        <th rowspan="2">H,<br>TQ,<br>CĐ,<br>ĐD,<br>T5</th>
+                                        <th rowspan="2">D</th>
+                                        <th rowspan="2">Ô</th>
+                                        <th rowspan="2">VL,<br>D</th>
+                                        <th rowspan="2">VR,<br>B,<br>TP,<br>TT</th>
+                                    </tr>
+                                    <tr>
+                                        <th>1</th>
+                                        <th>2</th>
+                                        <th>3</th>
+                                        <th>4</th>
+                                        <th>5</th>
+                                        <th>6</th>
+                                        <th>7</th>
+                                        <th>9</th>
+                                        <th>9</th>
+                                        <th>10</th>
+                                        <th>11</th>
+                                        <th>12</th>
+                                        <th>13</th>
+                                        <th>14</th>
+                                        <th>15</th>
+                                        <th>16</th>
+                                        <th>17</th>
+                                        <th>18</th>
+                                        <th>19</th>
+                                        <th>20</th>
+                                        <th>21</th>
+                                        <th>22</th>
+                                        <th>23</th>
+                                        <th>24</th>
+                                        <th>25</th>
+                                        <th>26</th>
+                                        <th>27</th>
+                                        <th>28</th>
+                                        <th>29</th>
+                                        <th>30</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Ngyễn Xuân Thoáng</td>
+                                        <td>2179</td>
+                                        <td>CNTK</td>
+                                        <td>476</td>
+                                        <td>CN</td>
+                                        <td>637</td>
+                                        <td>549</td>
+                                        <td>P</td>
+                                        <td>P</td>
+                                        <td>P</td>
+                                        <td>P</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>9104</td>
+                                        <td>1,0</td>
+                                        <td>9104</td>
+                                        <td>1,0</td>
+                                        <td>9104</td>
+                                        <td>23</td>
+                                        <td>13</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>6</td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Ngyễn Văn Hùng</td>
+                                        <td>7751</td>
+                                        <td>CNTK</td>
+                                        <td>846</td>
+                                        <td>CN</td>
+                                        <td>740</td>
+                                        <td>672</td>
+                                        <td>390</td>
+                                        <td>426</td>
+                                        <td>575</td>
+                                        <td>460</td>
+                                        <td>CN</td>
+                                        <td>553</td>
+                                        <td>490</td>
+                                        <td>546</td>
+                                        <td>612</td>
+                                        <td>603</td>
+                                        <td>601</td>
+                                        <td>CN</td>
+                                        <td>733</td>
+                                        <td>729</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>CN</td>
+                                        <td>611</td>
+                                        <td>516</td>
+                                        <td>722</td>
+                                        <td>802</td>
+                                        <td>742</td>
+                                        <td>1097</td>
+                                        <td>CN</td>
+                                        <td>15266</td>
+                                        <td>1,0</td>
+                                        <td>15266</td>
+                                        <td>18310</td>
+                                        <td>25</td>
+                                        <td>25</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Ngyễn Văn Hùng</td>
+                                        <td>3506</td>
+                                        <td>CNTK</td>
+                                        <td>537</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>322</td>
+                                        <td>390</td>
+                                        <td>426</td>
+                                        <td>575</td>
+                                        <td>460</td>
+                                        <td>CN</td>
+                                        <td>553</td>
+                                        <td>490</td>
+                                        <td>546</td>
+                                        <td>612</td>
+                                        <td>603</td>
+                                        <td>730</td>
+                                        <td>CN</td>
+                                        <td colspan="14">CRHHĐ</td>
+                                        <td>7060</td>
+                                        <td>1,0</td>
+                                        <td>7060</td>
+                                        <td>1,0</td>
+                                        <td>7060</td>
+                                        <td>11</td>
+                                        <td>11</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>0</td>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Ngyễn Văn Hùng</td>
+                                        <td>3506</td>
+                                        <td>CNTK</td>
+                                        <td>846</td>
+                                        <td>CN</td>
+                                        <td>740</td>
+                                        <td>672</td>
+                                        <td>390</td>
+                                        <td>426</td>
+                                        <td>575</td>
+                                        <td>669</td>
+                                        <td>CN</td>
+                                        <td>806</td>
+                                        <td>802</td>
+                                        <td>925</td>
+                                        <td>925</td>
+                                        <td>926</td>
+                                        <td>601</td>
+                                        <td>CN</td>
+                                        <td>733</td>
+                                        <td>729</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>860</td>
+                                        <td>1322</td>
+                                        <td>CN</td>
+                                        <td>611</td>
+                                        <td>885</td>
+                                        <td>722</td>
+                                        <td>1138</td>
+                                        <td>860</td>
+                                        <td>1322</td>
+                                        <td>CN</td>
+                                        <td>21788</td>
+                                        <td>1,0</td>
+                                        <td>21788</td>
+                                        <td>1,2</td>
+                                        <td>26264</td>
+                                        <td>26</td>
+                                        <td>26</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Phan Văn Hòa</td>
+                                        <td>1015</td>
+                                        <td>1825</td>
+                                        <td>1015</td>
+                                        <td>CN</td>
+                                        <td>740</td>
+                                        <td>672</td>
+                                        <td>390</td>
+                                        <td>426</td>
+                                        <td>575</td>
+                                        <td>669</td>
+                                        <td>CN</td>
+                                        <td>806</td>
+                                        <td>802</td>
+                                        <td>925</td>
+                                        <td>925</td>
+                                        <td>926</td>
+                                        <td>601</td>
+                                        <td>CN</td>
+                                        <td>733</td>
+                                        <td>729</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>1500</td>
+                                        <td>1322</td>
+                                        <td>CN</td>
+                                        <td>611</td>
+                                        <td>885</td>
+                                        <td>722</td>
+                                        <td>2508</td>
+                                        <td>860</td>
+                                        <td>1322</td>
+                                        <td>CN</td>
+                                        <td>22924</td>
+                                        <td>1,0</td>
+                                        <td>22924</td>
+                                        <td>1,16</td>
+                                        <td>26363</td>
+                                        <td>24</td>
+                                        <td>24</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>0</td>
+                                        <td>3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Đồng Văn Đại</td>
+                                        <td>7430</td>
+                                        <td>CNTK</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Đồng Văn Đại</td>
+                                        <td>7430</td>
+                                        <td>CNTK</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>Nguyễn Văn Sơn</td>
+                                        <td>7564</td>
+                                        <td>TTSX</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>VR</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>25</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>25</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td>Đặng Tùng</td>
+                                        <td>7598</td>
+                                        <td>CNTK</td>
+                                        <td>846</td>
+                                        <td>CN</td>
+                                        <td>740</td>
+                                        <td>672</td>
+                                        <td>390</td>
+                                        <td>426</td>
+                                        <td>575</td>
+                                        <td>460</td>
+                                        <td>CN</td>
+                                        <td>553</td>
+                                        <td>490</td>
+                                        <td>546</td>
+                                        <td>612</td>
+                                        <td>603</td>
+                                        <td>601</td>
+                                        <td>CN</td>
+                                        <td>733</td>
+                                        <td>729</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>CN</td>
+                                        <td>611</td>
+                                        <td>516</td>
+                                        <td>722</td>
+                                        <td>802</td>
+                                        <td>742</td>
+                                        <td>1097</td>
+                                        <td>CN</td>
+                                        <td>15511</td>
+                                        <td>1,0</td>
+                                        <td>15511</td>
+                                        <td>1,0</td>
+                                        <td>15511</td>
+                                        <td>24</td>
+                                        <td>21</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>9</td>
+                                        <td>Lãnh Văn Hương</td>
+                                        <td>5132</td>
+                                        <td>CNTK</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td>Phạm Văn Phú</td>
+                                        <td>3352</td>
+                                        <td>LT</td>
+                                        <td>846</td>
+                                        <td>CN</td>
+                                        <td>740</td>
+                                        <td>672</td>
+                                        <td>390</td>
+                                        <td>426</td>
+                                        <td>575</td>
+                                        <td>460</td>
+                                        <td>CN</td>
+                                        <td>553</td>
+                                        <td>490</td>
+                                        <td>546</td>
+                                        <td>612</td>
+                                        <td>603</td>
+                                        <td>601</td>
+                                        <td>CN</td>
+                                        <td>733</td>
+                                        <td>729</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>CN</td>
+                                        <td>611</td>
+                                        <td>516</td>
+                                        <td>722</td>
+                                        <td>802</td>
+                                        <td>742</td>
+                                        <td>1097</td>
+                                        <td>CN</td>
+                                        <td>15511</td>
+                                        <td>1,0</td>
+                                        <td>15511</td>
+                                        <td>1,0</td>
+                                        <td>15511</td>
+                                        <td>24</td>
+                                        <td>21</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>11</td>
+                                        <td>Nguyễn Hữu Thành</td>
+                                        <td>7598</td>
+                                        <td>CNTK</td>
+                                        <td>846</td>
+                                        <td>CN</td>
+                                        <td>740</td>
+                                        <td>672</td>
+                                        <td>390</td>
+                                        <td>426</td>
+                                        <td>575</td>
+                                        <td>460</td>
+                                        <td>CN</td>
+                                        <td>553</td>
+                                        <td>490</td>
+                                        <td>546</td>
+                                        <td>612</td>
+                                        <td>603</td>
+                                        <td>601</td>
+                                        <td>CN</td>
+                                        <td>733</td>
+                                        <td>729</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>CN</td>
+                                        <td>611</td>
+                                        <td>516</td>
+                                        <td>722</td>
+                                        <td>802</td>
+                                        <td>742</td>
+                                        <td>1097</td>
+                                        <td>CN</td>
+                                        <td>15511</td>
+                                        <td>1,0</td>
+                                        <td>15511</td>
+                                        <td>1,0</td>
+                                        <td>15511</td>
+                                        <td>24</td>
+                                        <td>21</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>12</td>
+                                        <td>Nguyễn Tiến Nhật</td>
+                                        <td>7962</td>
+                                        <td>CNTK</td>
+                                        <td>846</td>
+                                        <td>CN</td>
+                                        <td>740</td>
+                                        <td>672</td>
+                                        <td>390</td>
+                                        <td>426</td>
+                                        <td>575</td>
+                                        <td>460</td>
+                                        <td>CN</td>
+                                        <td>553</td>
+                                        <td>490</td>
+                                        <td>546</td>
+                                        <td>612</td>
+                                        <td>603</td>
+                                        <td>601</td>
+                                        <td>CN</td>
+                                        <td>733</td>
+                                        <td>729</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>CN</td>
+                                        <td>611</td>
+                                        <td>516</td>
+                                        <td>722</td>
+                                        <td>802</td>
+                                        <td>742</td>
+                                        <td>1097</td>
+                                        <td>CN</td>
+                                        <td>15511</td>
+                                        <td>1,0</td>
+                                        <td>15511</td>
+                                        <td>1,0</td>
+                                        <td>15511</td>
+                                        <td>24</td>
+                                        <td>21</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>13</td>
+                                        <td>Trần Văn Hùng</td>
+                                        <td>7598</td>
+                                        <td>CNTK</td>
+                                        <td>846</td>
+                                        <td>CN</td>
+                                        <td>740</td>
+                                        <td>672</td>
+                                        <td>390</td>
+                                        <td>426</td>
+                                        <td>575</td>
+                                        <td>460</td>
+                                        <td>CN</td>
+                                        <td>553</td>
+                                        <td>490</td>
+                                        <td>546</td>
+                                        <td>612</td>
+                                        <td>603</td>
+                                        <td>601</td>
+                                        <td>CN</td>
+                                        <td>733</td>
+                                        <td>729</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>CN</td>
+                                        <td>611</td>
+                                        <td>516</td>
+                                        <td>722</td>
+                                        <td>802</td>
+                                        <td>742</td>
+                                        <td>1097</td>
+                                        <td>CN</td>
+                                        <td>15511</td>
+                                        <td>1,0</td>
+                                        <td>15511</td>
+                                        <td>1,0</td>
+                                        <td>15511</td>
+                                        <td>24</td>
+                                        <td>21</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>14</td>
+                                        <td>Trần Văn Thương</td>
+                                        <td>4275</td>
+                                        <td>CNTK</td>
+                                        <td>846</td>
+                                        <td>CN</td>
+                                        <td>740</td>
+                                        <td>672</td>
+                                        <td>390</td>
+                                        <td>426</td>
+                                        <td>575</td>
+                                        <td>460</td>
+                                        <td>CN</td>
+                                        <td>553</td>
+                                        <td>490</td>
+                                        <td>546</td>
+                                        <td>612</td>
+                                        <td>603</td>
+                                        <td>601</td>
+                                        <td>CN</td>
+                                        <td>733</td>
+                                        <td>729</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>450</td>
+                                        <td>CN</td>
+                                        <td>611</td>
+                                        <td>516</td>
+                                        <td>722</td>
+                                        <td>802</td>
+                                        <td>742</td>
+                                        <td>1097</td>
+                                        <td>CN</td>
+                                        <td>12311</td>
+                                        <td>1,0</td>
+                                        <td>12311</td>
+                                        <td>1,0</td>
+                                        <td>12311</td>
+                                        <td>24</td>
+                                        <td>21</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>15</td>
+                                        <td>Vũ Văn Chợ</td>
+                                        <td>8742</td>
+                                        <td>CNTK</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>16</td>
+                                        <td>Vũ Tiến Đạt</td>
+                                        <td>8747</td>
+                                        <td>CNTK</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7653</td>
+                                        <td>1,0</td>
+                                        <td>7653</td>
+                                        <td>1,0</td>
+                                        <td>7653</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>17</td>
+                                        <td>Nguyễn Văn Hợp</td>
+                                        <td>4475</td>
+                                        <td>CNTK</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>18</td>
+                                        <td>Bùi Văn Nghị</td>
+                                        <td>615</td>
+                                        <td>CNTK</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>19</td>
+                                        <td>Nguyễn Quang Chanh</td>
+                                        <td>8529</td>
+                                        <td>CNTK</td>
+                                        <td colspan="30">TKHD</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>20</td>
+                                        <td>Nguyễn Duy Hiệp</td>
+                                        <td>5445</td>
+                                        <td>CNTK</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>21</td>
+                                        <td>Hoàng Văn Tịnh</td>
+                                        <td>8111</td>
+                                        <td>CNTK</td>
+                                        <td>876</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>907</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>22</td>
+                                        <td>Nguyễn Đức Tạo</td>
+                                        <td>2126</td>
+                                        <td>CNTK</td>
+                                        <td>865</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>345</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>23</td>
+                                        <td>Nguyễn Đức Bảy</td>
+                                        <td>4775</td>
+                                        <td>CNTK</td>
+                                        <td>865</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>345</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>24</td>
+                                        <td>Đỗ Văn Chanh</td>
+                                        <td>7834</td>
+                                        <td>CNTK</td>
+                                        <td>VLD</td>
+                                        <td>CN</td>
+                                        <td>VLD</td>
+                                        <td>VLD</td>
+                                        <td>VLD</td>
+                                        <td>VLD</td>
+                                        <td>VLD</td>
+                                        <td>VLD</td>
+                                        <td>CN</td>
+                                        <td>VLD</td>
+                                        <td>VLD</td>
+                                        <td>VLD</td>
+                                        <td>VLD</td>
+                                        <td>VLD</td>
+                                        <td>VLD</td>
+                                        <td>CN</td>
+                                        <td>VLD</td>
+                                        <td>VLD</td>
+                                        <td>VLD</td>
+                                        <td>VLD</td>
+                                        <td>VLD</td>
+                                        <td>VLD</td>
+                                        <td>CN</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>25</td>
+                                        <td>Nguyễn Văn Trai</td>
+                                        <td>2080</td>
+                                        <td>CNTK</td>
+                                        <td>865</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>345</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>26</td>
+                                        <td>Lê Ánh Ngọc</td>
+                                        <td>5213</td>
+                                        <td>CNTK</td>
+                                        <td>865</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>345</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>27</td>
+                                        <td>Trần Trọng Thi</td>
+                                        <td>7494</td>
+                                        <td>CNTK</td>
+                                        <td>865</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>345</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>28</td>
+                                        <td>Vũ Văn Thư</td>
+                                        <td>4789</td>
+                                        <td>CNTK</td>
+                                        <td>865</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>345</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>29</td>
+                                        <td>Đoàn Văn Hiển</td>
+                                        <td>3679</td>
+                                        <td>TTSX</td>
+                                        <td>865</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>345</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>30</td>
+                                        <td>Nguyễn Văn Tăng</td>
+                                        <td>4770</td>
+                                        <td>CNTK</td>
+                                        <td>865</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>345</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>31</td>
+                                        <td>Nguyễn Văn Tiến</td>
+                                        <td>7478</td>
+                                        <td>CNKT</td>
+                                        <td>865</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>345</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>32</td>
+                                        <td>Nguyễn Văn Thượng</td>
+                                        <td>4287</td>
+                                        <td>CNKT</td>
+                                        <td>865</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>345</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>33</td>
+                                        <td>Nguyễn Văn Dũng</td>
+                                        <td>4785</td>
+                                        <td>CNKT</td>
+                                        <td>865</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>345</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>34</td>
+                                        <td>Nguyễn Văn Chuẩn</td>
+                                        <td>8222</td>
+                                        <td>CNKT</td>
+                                        <td>865</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>345</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>35</td>
+                                        <td>Nguyễn Văn Liêm</td>
+                                        <td>7752</td>
+                                        <td>CNKT</td>
+                                        <td>865</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>345</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>36</td>
+                                        <td>Nguyễn Hữu Cường</td>
+                                        <td>17420</td>
+                                        <td>CNKT</td>
+                                        <td>865</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>345</td>
+                                        <td>470</td>
+                                        <td>788</td>
+                                        <td>605</td>
+                                        <td>687</td>
+                                        <td>CN</td>
+                                        <td>VR</td>
+                                        <td>539</td>
+                                        <td>601</td>
+                                        <td>673</td>
+                                        <td>663</td>
+                                        <td>Ô</td>
+                                        <td>CN</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>394</td>
+                                        <td>Ô</td>
+                                        <td>826</td>
+                                        <td>CN</td>
+                                        <td>833</td>
+                                        <td>823</td>
+                                        <td>832</td>
+                                        <td>VR</td>
+                                        <td>814</td>
+                                        <td>838</td>
+                                        <td>CN</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>1,0</td>
+                                        <td>7923</td>
+                                        <td>25</td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>9</td>
+                                        <td>0</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4 class="modal_title"></h4>
+        <div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col s12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="row">
+                                    <div class="col s12">
+                                        <table class="striped responsive-table" id="data">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align: center">Số thứ tự</th>
+                                                    <th style="text-align: center">Mã nhân viên</th>
+                                                    <th style="text-align: center">Tên</th>
+                                                    <th style="text-align: center">Năm sinh</th>
+                                                    <th style="text-align: center">Giới tính</th>
+                                                    <th style="text-align: center">Số điện thoại</th>
+                                                    <th style="text-align: center">Phân xưởng</th>
+                                                    <th style="text-align: center"></th>
+                                                    <th style="text-align: center"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="text-align: center">1</td>
+                                                    <td style="text-align: center"><a href="/">2179</a></td>
+                                                    <td style="text-align: center">
+                                                        <a href="/">
+                                                            Nguyễn Xuân
+                                                            Thoàng
+                                                        </a>
+                                                    </td>
+                                                    <td style="text-align: center">19/07/1987</td>
+                                                    <td style="text-align: center">Nam</td>
+                                                    <td style="text-align: center">091346578</td>
+                                                    <td style="text-align: center">Phân xưởng cơ khí</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: center">2</td>
+                                                    <td style="text-align: center"><a href="/">7751</a></td>
+                                                    <td style="text-align: center">
+                                                        <a href="/">
+                                                            Nguyễn Văn
+                                                            Hùng
+                                                        </a>
+                                                    </td>
+                                                    <td style="text-align: center">19/05/1984</td>
+                                                    <td style="text-align: center">Nam</td>
+                                                    <td style="text-align: center">094234658</td>
+                                                    <td style="text-align: center">Phân xưởng cơ khí</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: center">3</td>
+                                                    <td style="text-align: center"><a href="/">3506</a></td>
+                                                    <td style="text-align: center">
+                                                        <a href="/">
+                                                            Nguyễn Văn
+                                                            Hùng
+                                                        </a>
+                                                    </td>
+                                                    <td style="text-align: center">19/07/1991</td>
+                                                    <td style="text-align: center">Nam</td>
+                                                    <td style="text-align: center">091758725</td>
+                                                    <td style="text-align: center">Phân xưởng cơ khí</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: center">4</td>
+                                                    <td style="text-align: center"><a href="/">2041</a></td>
+                                                    <td style="text-align: center">
+                                                        <a href="/">
+                                                            Nguyễn Văn
+                                                            Hưng
+                                                        </a>
+                                                    </td>
+                                                    <td style="text-align: center">19/07/1976</td>
+                                                    <td style="text-align: center">Nam</td>
+                                                    <td style="text-align: center">098765243</td>
+                                                    <td style="text-align: center">Phân xưởng xây dựng</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: center">5</td>
+                                                    <td style="text-align: center"><a href="/">4472</a></td>
+                                                    <td style="text-align: center">
+                                                        <a href="/">
+                                                            Nguyễn Văn
+                                                            Hoa
+                                                        </a>
+                                                    </td>
+                                                    <td style="text-align: center">19/07/1976</td>
+                                                    <td style="text-align: center">Nữ</td>
+                                                    <td style="text-align: center">091874526</td>
+                                                    <td style="text-align: center">Phân xưởng cơ khí</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align: center">6</td>
+                                                    <td style="text-align: center"><a href="/">7430</a></td>
+                                                    <td style="text-align: center">
+                                                        <a href="/">Đông Văn Đai</a>
+                                                    </td>
+                                                    <td style="text-align: center">19/07/1985</td>
+                                                    <td style="text-align: center">Nam</td>
+                                                    <td style="text-align: center">098645724</td>
+                                                    <td style="text-align: center">Phân xưởng cơ khí</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Done</a>
+    </div>
+</div>
+<ul id='dropdown_time' class='dropdown-content'>
+    <li><a class="dropdown-child-time" href="#!" name="day">Xem theo ngày</a></li>
+    <li><a class="dropdown-child-time" href="#!" name="month">Xem theo tháng</a></li>
+</ul>
+<ul id='dropdown_px' class='dropdown-content'>
+    <li><a class="dropdown-child-px" href="#!" name="All">Tất cả</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="DL3">Đào lò 3</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="DL5">Đào lò 5</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="DL7">Đào lò 7</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="DL8">Đào lò 8</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT1">Khai Thác 1</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT2">Khai Thác 2</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT3">Khai Thác 3</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT4">Khai Thác 4</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT5">Khai Thác 5</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT6">Khai Thác 6</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT7">Khai Thác 7</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT8">Khai Thác 8</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT9">Khai Thác 9</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT10">Khai Thác 10</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="KT11">Khai Thác 11</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="VTL1" id="loader-ngay-vtl1" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-cac-ngay-trong-thang", "nang-suat-lao-dong-va-tien-luong")">Vận tải 1</a></li>
+    <li><a class="dropdown-child-px" href="#!" name="VTL2">Vận tải 2</a></li>
+</ul>
+<!--cac truong hop link-->
+<a id="loader-chi-tiet-vtl1-trong-ngay" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-ngay","nang-suat-lao-dong-va-tien-luong", new{phanxuong="vtl1" })" hidden></a>
+
+<a id="loader-cac-px-trong-ngay" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-cac-px-trong-ngay","nang-suat-lao-dong-va-tien-luong", new { phanxuong= "tat-ca"})" hidden></a>
+
+<a id="loader-cac-ngay-trong-thang-vtl1" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-cac-ngay-trong-thang","nang-suat-lao-dong-va-tien-luong",new{phanxuong="vtl1" })" hidden></a>
+
+<a id="loader-cac-px-trong-thang" data-request-url="@Url.Action("nang-suat-lao-dong-va-tien-luong-theo-thang","nang-suat-lao-dong-va-tien-luong", new { phanxuong = "tat-ca"})" hidden></a>
+
+
+<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+@*
+    <script src="~/dist/js/pages/echarts/bar/bar.js"></script>*@
+<script src="~/js/tuan_js/myChart2.js"></script>
+<script>
+    $('.clickable_cell').click(function () {
+        var idName = $(this).attr('id');
+        switch (idName) {
+            case 'ldtdd_kt':
+                $('.modal_title').html('LAO ĐỘNG KHAI THÁC THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldtdd_cd':
+                $('.modal_title').html('LAO ĐỘNG CƠ ĐIỆN THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldtdd_hstt':
+                $('.modal_title').html('LAO ĐỘNG HSTT THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldtdd_tong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG THỰC TẾ THEO DANH SÁCH');
+                break;
+            case 'ldnghidai_vld':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI VÔ LÝ DO');
+                break;
+            case 'ldnghidai_thhd':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI THHĐ');
+                break;
+            case 'ldnghidai_om':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG NGHỈ DÀI ỐM, TNLĐ');
+                break;
+            case 'ldnghidai_tong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG NGHỈ DÀI');
+                break;
+            case 'tonglaodong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG SAU KHI TRỪ');
+                break;
+            case 'ldbq_tong':
+                $('.modal_title').html('TỔNG LAO ĐỘNG THỰC HIỆN BQ');
+                break;
+            case 'ldbq_dilam':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG BQ ĐI LÀM');
+                break;
+            case 'ldbq_ldvang_vld':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ VÔ LÝ DO');
+                break;
+            case 'ldbq_ldvang_om':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ ỐM');
+                break;
+            case 'ldbq_ldvang_khac':
+                $('.modal_title').html('DANH SÁCH LAO ĐỘNG THỰC HIỆN BQ NGHỈ VỚI LÝ DO KHÁC');
+                break;
+            case 'ldbq_ldvang_tong':
+                $('.modal_title').html('DANH SÁCH TỔNG HỢP LAO ĐỘNG THỰC HIỆN BQ NGHỈ');
+                break;
+            default:
+                break;
+        }
+    });
+    var elem = document.querySelector('.modal');
+    var instance = M.Modal.init(elem, options);
+</script>
+
+<script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
+<script src="~/assets/extra-libs/prism/prism.js"></script>
+<!-- This page plugin js -->
+<!-- ============================================================== -->
+<script src="~/assets/extra-libs/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+<script src="~/assets/extra-libs/jquery.easy-pie-chart/easy-pie-chart.init.js"></script>
+<script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
+<script src="~/dist/js/pages/sparkline/jquery.charts-sparkline.js"></script>
+
+<script src="~/js/Custom JS/button_watch_by.js"></script>
+
+<script src="~/js/exportToExcel/jquery.table2excel.js"></script>
+<script>
+    $("#export-button").click(function () {
+        window.location.href = '/excel/TCLD/Report/Báo cáo lao động, lương VTL1 Tháng 06 2019.xls';
+    });
+</script>

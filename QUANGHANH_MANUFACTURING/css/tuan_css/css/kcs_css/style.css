@@ -1,0 +1,33 @@
+ table .column_title {
+    vertical-align: middle !important;
+    text-align: center !important;
+    background-color: #f2f2f2;
+}
+
+table .non_editable {
+    background-color: #f2f2f2;
+}
+
+table .row_title_center {
+    text-align: center !important;
+}
+
+table .row_title_left {
+    text-align: left !important;
+}
+table .editable:focus {
+    outline: none !important;
+    border-color: #719ECE;
+    box-shadow: 0 0 10px #719ECE;
+}
+table .editable{
+    text-align:center;
+}
+table .cell_data {
+    text-align: center;
+}
+table .highlight-row {
+    text-align: center !important;
+    font-weight: bold;
+    background:#f2f2f2;
+}

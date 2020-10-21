@@ -1,0 +1,370 @@
+﻿
+@{
+    ViewBag.Title = "Input";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/tuan_css/css/baocaoluong_css/style.css" />
+<link rel="stylesheet" href="~/css/tuan_css/css/kcs_css/style.css" />
+<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+<link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet">
+<!--UPLOADER-->
+<link href="~/assets/uploader/style_uploader.css" rel="stylesheet" />
+<link href="~/assets/uploader/icons.min.css" rel="stylesheet" />
+
+<div class="card">
+    <div class="card-content">
+        @using (Html.BeginForm("Add", "Recruitment", FormMethod.Post, new
+        {
+            enctype = "multipart/form-data",
+            onSubmit = "return SubmitForm(this);",
+            data_restUrl = Url.Action("Add", "Recruitment")
+        }
+        ))
+        {
+            @*<form action="/phong-tcld/quan-ly-nhan-vien/tuyen-dung-nhan-vien" method="post">*@
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="center">
+                        <h3>DANH SÁCH TIẾP NHẬN VÀ BỐ TRÍ CÔNG TÁC ĐỐI VỚI CÔNG NHÂN</h3>
+
+                        <h4>
+                            Kèm theo Quyết định số: <input id="soqd" name="soqd" class="center" type="text" style="width:120px" /> /QĐ-VQHC
+                        </h4>
+                        <input id="ngayqd"
+                               type="text"
+                               name="ngayqd"
+                               class="center"
+                               data-language='vi'
+                               
+                               style="width:200px"
+                               placeholder="Ngày quyết định" />
+                    </div>
+                </div>
+                <br />
+                <div class="card" >
+                    <div class="card-body" style="overflow:auto" >
+                        <div data-target="modal1" style="margin-right:10px" class="modal-trigger waves-effect waves-light btn">
+                            <i class="fas fa-file-excel"></i><span> Nhập từ Excel</span>
+                        </div>
+                        <table class="table table-bordered table-responsive" id="tuyendung">
+                            <thead>
+                                <tr>
+                                    <th class="center-align">Số thẻ</th>
+                                    <th class="center-align">Họ tên</th>
+                                    <th class="center-align">Ngày sinh</th>
+                                    <th class="center-align">Giới tính</th>
+                                    <th class="center-align">Đơn vị</th>
+                                    <th class="center-align">Trình độ</th>
+                                    <th class="center-align">Chuyên Nghành</th>
+                                    <th class="center-align">Công việc bố trí</th>
+                                    <th class="center-align">Thường trú</th>
+                                    <th class="center-align">Thang lương</th>
+                                    <th class="center-align">Bậc</th>
+                                    <th class="center-align">Mức lương (đồng/tháng)</th>
+                                    <th class="center-align">SĐT</th>
+                                    <th class="center-align">CMT</th>
+                                    <th class="center-align">Ngày cấp CMT</th>
+                                    <th class="center-align">Nơi cấp</th>
+                                    <th class="center-align">Dân tộc</th>
+                                    <th class="center-align">Bố</th>
+                                    <th class="center-align">Mẹ</th>
+                                    <th class="center-align">Vợ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablecontent">
+                            </tbody>
+                        </table>
+                        <textarea readonly  name="jsonname" hidden id="jsonid"></textarea>
+                        <button class="btn btn-small blue darken-2 modal-trigger input-field right" type="submit" id="btn_Save">Xác nhận</button>
+                    </div>
+                </div>
+            </div>
+        }
+        @*</form>*@
+    </div>
+</div>
+
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4 class="modal_title">Nhập liệu từ Excel</h4>
+        <div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col s12">
+                        <form action='/' enctype="multipart/form-data" method="post" class="dropzone" id="myAwesomeDropzone">
+                            <div class="fallback">
+                                <input type="file" id="fUpload" name="file" class="form-control" single />
+                            </div>
+                            <div class="dz-message needsclick">
+                                <i class="medium material-icons dp48">cloud_upload</i>
+                                <h3 id="title_uploader">Kéo thả file hoặc click vào đây để tải lên</h3>
+                                <span class="text-muted font-13">(File hợp lệ: xls, xlsx)</span>
+                            </div>
+                        </form>
+                        <br />
+                        <div class="clearfix text-right mt-3">
+                            <button type="button"
+                                    class="btn-danger  waves-effect waves-light btn"
+                                    id="btnUpload">
+                                <i class="material-icons dp48">send</i>
+                                Tải lên
+                            </button>
+                            <a href="~/excel/TCLD/TuyenDung/Template/TuyenDungForm.xlsx" style="float:right;">Tải file mẫu</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+<script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+<script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script>
+    var elem = document.querySelector('.modal');
+    $(document).ready(function () {
+        $('.modal').modal();
+    });
+</script>
+<script>
+    var output = {};
+    var abc = [];
+    for (var i = 1; i < $('#tuyendung tr').length; i++) {
+        var temp = {};
+        for (var j = 0; j < $('#tuyendung thead tr:nth-child(1) th').length; j++) {
+            if (j == 4) {
+                temp[j] = $('#tuyendung tbody tr:nth-child(' + i + ') td select').val();
+            } else {
+                temp[j] = $('#tuyendung tbody tr:nth-child(' + i + ') td').eq(j).text();
+            }
+        }
+        abc.push(temp);
+    }
+    output.data = abc;
+    $('#jsonid').val(JSON.stringify(output));
+    $('#btn_Save').click(function () {
+        
+        var output = {};
+        var abc = [];
+        for (var i = 1; i < $('#tuyendung tr').length; i++) {
+            var temp = {};
+            for (var j = 0; j < $('#tuyendung thead tr:nth-child(1) th').length; j++) {
+                //if (j == 3) {
+                //    temp[j] = $('#tablecontent tr:nth-child(' + i + ') td #gender').val();
+                //} else {
+                //    temp[j] = $('#tablecontent tr:nth-child(' + i + ') td').eq(j).text();
+                //}
+                temp[j] = $('#tablecontent tr:nth-child(' + i + ') td').eq(j).text();
+            }
+            abc.push(temp);
+        }
+        output.data = abc;
+        $('#jsonid').val(JSON.stringify(output));
+    })
+ 
+    $(".datepicker-here").keydown(function (e) {
+        e.preventDefault();
+    });
+    $(document).ready(function () {
+        $('.datepicker-inline').remove();
+    })
+    function SubmitForm(form) {
+        $.validator.unobtrusive.parse(form);
+        if ($(form).valid()) {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: $(form).serialize(),
+                success: function (result) {
+                    if (result.message === "Failed") {
+                        errorAlert('Lỗi', 'Hãy kiểm tra và điền đầy đủ thông tin');
+                    } else if (result.message === "RollBack") {
+                        errorAlert('Lỗi', 'Mã nhân viên tồn tại');
+                    } else if (result.message === "Nodata") {
+                        errorAlert('Lỗi', 'Hãy chọn file exel');
+                    } else if (result.message == "SalaryFaile") {
+                        errorAlert('Lỗi', 'Hãy kiểm tra lại thang lương của nhân viên mã ' + result.responseText);
+                    } else if (result.message === "NgayQD") {
+                         errorAlert('Lỗi', 'Kiểm tra lại ngày quyết định')
+                    } else if (result.message === "NgaySinh") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại ngày sinh của nhân viên mã ' + result.responseText);
+                    } else if (result.message === "MaQD") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại mã quyết định ');
+                    }else if (result.message === "CongViec") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại công việc của nhân viên mã ' + result.responseText);
+                    }else if (result.message === "ChuyenNganh") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại chuyên ngành của nhân viên mã ' + result.responseText);
+                    }else if (result.message === "DonVi") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại đơn vị của nhân viên mã ' + result.responseText);
+                    }else if (result.message == "MucLuong") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại mức lương của nhân viên mã ' + result.responseText);
+                    }else if (result.message === "bacluong") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại bậc lương của nhân viên mã ' + result.responseText);
+                    }else if (result.message === "SalaryFailed") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại bậc lương hoặc thang lương của nhân viên mã ' + result.responseText);
+                    } else if (result.message == "NgayCap") {
+                        errorAlert('Lỗi', 'Hãy kiểm tra lại ngày cấp CMT của nhân viên mã ' + result.responseText);
+                    } else if (result.message == "gender") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại giới tính của nhân viên mã ' + result.responseText);
+                    }else if (result.message == "bacLuong_ThangLuong") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại bậc lương hoặc thang lương của nhân viên mã ' + result.responseText);
+                    }else if (result.message == "TrinhDo") {
+                         errorAlert('Lỗi', 'Hãy kiểm tra lại trình độ của nhân viên mã ' + result.responseText);
+                    }
+                    else {
+                        reloadAlert('Thêm thành công', 3000);
+                        window.location.href = "/phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien";
+                    }
+
+                },
+                error: function (xhr, textStatus, errorThrown) {
+
+                }
+            });
+        }
+        return false;
+    }
+</script>
+<!--uPLOADER-->
+<script src="~/assets/uploader/dropzone.js"></script>
+<script src="~/assets/extra-libs/prism/prism.js"></script>
+<script src="~/assets/libs/toastr/build/toastr.min.js"></script>
+<script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
+<!--////////////////////////////////////////UPLOADER/////////////////////////////////////////////-->
+<script>
+    checkInput = true;
+    Dropzone.options.myAwesomeDropzone = {
+    paramName: "file", // The name that will be used to transfer the file
+    maxFilesize: 2, // MB
+    addRemoveLinks: true,
+    dictRemoveFile: 'Hủy',
+    clickable: true,
+    acceptedFiles: 'application/xls,.xlsx',
+    maxFiles: '1',
+    uploadMultiple: false,
+    parallelUploads: 1,
+    init: function () {
+        this.on("addedfile", function () {
+            if (this.files[1] != null) {
+                this.removeFile(this.files[0]);
+            }
+        });
+        var myDropzone = this;
+        // Update selector to match your button
+        $("#btnUpload").click(function (e) {
+            e.preventDefault();
+            myDropzone.processQueue();
+        });
+        //this.on("processing", function (file) {
+
+        //});
+        this.on('sending', function (file, xhr, formData) {
+                //append file to formdata
+                formData.append("file", file);
+                //show pre-loader
+                $("#pre-load").show("slow", function () {
+                });
+                //set timeout for processing
+            //close modal
+            $("#modal1").modal('close');
+            //clear in queue
+            myDropzone.removeFile(file);
+            //ajax process
+            $.ajax({
+                type: "POST",
+                url: "/phong-tcld/quan-ly-nhan-vien/tuyen-dung-nhan-vien-import-excel",
+                statusCode: {
+                    404: function (responseObject, textStatus, jqXHR) {
+                        toastr.options.positionClass = 'toast-top-center';
+                        toastr.warning('Lỗi!', 'Hệ thống');
+                    },
+                    503: function (responseObject, textStatus, errorThrown) {
+                        toastr.options.positionClass = 'toast-top-center';
+                        toastr.warning('Lỗi mạng!', 'Hệ thống');
+                    }
+                },
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (!data.success) {
+                        toastr.options.positionClass = 'toast-top-center';
+                        toastr.warning("Lỗi định dạng file", 'Hệ thống');
+                    } else if (data.message == "Excel")
+                    {
+                        errorAlert('Lỗi','Hãy dùng bản mẫu excel của hệ thống');
+                    } else {
+                        var gender = '<select class="form-control" id="gender"><option value="nam" selected>Nam</option><option value="nu">Nữ</option></select>';
+                       
+                        if (checkInput == false) {
+                            $('#tablecontent tr').remove();
+                        }
+
+                        for (var i = 0; i < data.list.length; i++) {
+                            if (data.list[i].SoThe.trim() != "") {
+                                $('#soqd').val(data.list[i].soqd);
+                                $('#ngayqd').val(data.list[i].ngay +' Tháng '+data.list[i].thang+' '+data.list[i].nam);
+                                $tr = $("<tr>")
+                                $tr.append("<td>" + data.list[i].SoThe + "</td>");
+                                $tr.append("<td>" + data.list[i].HoTen + "</td>");
+                                $tr.append("<td>" + formatDate(data.list[i].NgaySinh) + "</td>");
+                                $tr.append("<td>" + data.list[i].GioiTinh + "</td>");
+                                $tr.append("<td>" + data.list[i].DonVi + "</td>");
+                                $tr.append("<td>" + data.list[i].TrinhDo + "</td>");
+                                $tr.append("<td>" + data.list[i].ChuyenNganh + "</td>");
+                                $tr.append("<td>" + data.list[i].CongViec + "</td>");
+                                $tr.append("<td>" + data.list[i].ThuongTru + "</td>");
+                                $tr.append("<td>" + data.list[i].ThangLuong + "</td>");
+                                $tr.append("<td>" + data.list[i].Bac + "</td>");
+                                $tr.append("<td>" + data.list[i].MucLuong + "</td>");
+                                $tr.append("<td>" + data.list[i].SDT + "</td>");
+                                $tr.append("<td>" + data.list[i].CMT + "</td>");
+                                $tr.append("<td>" + formatDate(data.list[i].NgayCap) + "</td>");
+                                $tr.append("<td>" + data.list[i].NoiCap + "</td>");
+                                $tr.append("<td>" + data.list[i].DanToc + "</td>");
+                                $tr.append("<td>" + data.list[i].Bo + "</td>");
+                                $tr.append("<td>" + data.list[i].Me + "</td>");
+                                $tr.append("<td>" + data.list[i].Vo + "</td>");
+                                $('#tablecontent').append($tr);
+                            }
+                        }
+                        //show toast
+                        checkInput = false;
+                        toastr.options.positionClass = 'toast-top-center';
+                        toastr.success('Upload thành công!', 'Hệ thống');
+                    }
+                },
+                error: function (data) {
+                    //$('#dvData').html(e.responseText);
+                    toastr.options.positionClass = 'toast-top-center';
+                    toastr.warning('Lỗi!', 'Hệ thống '+data);
+                }
+            }).done(function () {
+                //hide pre-loader
+                $("#pre-load").hide("slow", function () {
+                });
+            });
+        });
+    },
+    dictResponseError: "Lỗi (Code: {{statusCode}})",
+    dictFileTooBig: "Kích cỡ file quá lớn ({{filesize}}MB). Kích cỡ file tối đa: {{maxFilesize}}MB ",
+    dictInvalidFileType: "File không hợp lệ. Hãy chọn một file Excel (xls, xlsx)",
+    autoProcessQueue: false,
+
+    };
+    function formatDate(str) {
+        var arr = str.split(' ');
+        return arr[0];
+    }
+</script>
+
+
+
+

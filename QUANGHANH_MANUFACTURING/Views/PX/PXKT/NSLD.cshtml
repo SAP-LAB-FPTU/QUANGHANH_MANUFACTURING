@@ -1,0 +1,352 @@
+﻿@{
+    ViewData["Title"] = "NSLD";
+    Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+}
+
+<link href="~/assets/Custom css/PX/PXKT/ReportProduct.css" rel="stylesheet" />
+<link href="~/dist/css/pages/data-table.css" rel="stylesheet" />
+<link href="~/assets/extra-libs/DataTables/datatables.min.css" rel="stylesheet" />
+<script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
+<link href="~/assets/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+
+<link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet">
+<style>
+    #toast-container {
+        min-width: 10%;
+        top: 0;
+        right: 50%;
+        transform: translateX(50%) translateY(50%);
+    }
+
+    .page-title {
+        display: inline !important;
+    }
+</style>
+
+<div class="card">
+    <div class="card-content">
+        <div class="page-title row center">
+            <h3>
+                <b>KHỐI LƯỢNG CÔNG VIỆC</b>
+            </h3>
+            <div class="row">
+                <div class="col s12 m2 l2">
+                </div>
+                <div class="col s12 m3 l3">
+                    <select class="form-control center" id="phongbanSearch" disabled style="width:356.74px !important;">
+                        <option value="@Session["departID"].ToString()" selected>@Session["departName"].ToString()</option>
+                    </select>
+                </div>
+                <div class="col s12 m2 l2">
+                    <select class="form-control center" id="caSearch">
+                        <option value="-1" selected>Chọn ca</option>
+                        <option value="1">Ca 1</option>
+                        <option value="2">Ca 2</option>
+                        <option value="3">Ca 3</option>
+                    </select>
+                </div>
+                <div class="col l3 l3">
+                    <input id="chon-ngay" class="thoigian center form-control" />
+                </div>
+                <div class="col l2 l2">
+                    <button class="btn waves-effect waves-light blue" id="viewBtn">Xem</button>
+                </div>
+                <div class="col l2 l2">
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col l2 m3 s3">
+                <label class="custom-label">Tổng điểm lương</label>
+
+                <input type="number" class="form-control" value="0" min="0" id="total_point" />
+            </div>
+            <div class="col l2 m2 s2">
+                <label class="custom-label">Tổng than</label>
+                <input type="number" class="form-control" value="0" min="0" id="than" />
+            </div>
+            <div class="col l2 m2 s2">
+                <label class="custom-label">Tổng mét lò</label>
+                <input type="number" class="form-control" value="0" min="0" id="lo" />
+            </div>
+            <div class="col l2 m2 s2">
+                <label class="custom-label">Tổng xén</label>
+                <input type="number" class="form-control" value="0" min="0" id="xen" />
+            </div>
+            <div class="col l2 m2 s2">
+                <label class="custom-label">Ghi chú</label>
+                <input class="form-control" id="note" />
+            </div>
+        </div>
+        <br>
+        <div class="row table1" style="overflow-x:auto!important">
+            <table id="complex_header" class="table table-bordered table-responsive centered highlight">
+                <thead>
+                    <tr>
+                        <th width="3%">STT</th>
+                        <th width="10%">Tên</th>
+                        <th width="5%">Số thẻ</th>
+                        <th width="5%">Bậc thợ</th>
+                        <th width="10%">Chức danh công việc,thợ chính,thợ phụ</th>
+                        <th width="10%">Nội dung công việc,vị trí làm việc</th>
+                        <th width="10%">Hệ số chia lương</th>
+                        <th width="10%">Điểm lương</th>
+                        <th>Dự báo nguy cơ</th>
+                        <th>-Yêu cầu BPKTAT<br>-Giải pháp loại trừ nguy cơ</th>
+                    </tr>
+                </thead>
+                <tbody id="contentNSLD"></tbody>
+            </table>
+            <div style="margin-top:10px;">
+                <a class="btn waves-effect waves-light blue modal-trigger" id="btn-save" href="#modal1">Lưu</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h3><b>Bạn có chắc chắn muốn lưu không?</b></h3>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="modal-action modal-close waves-effect waves-green btn blue" id="btn_agrr" onclick="Update();">Lưu</a>
+        <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-green btn red">Hủy</a>
+    </div>
+</div>
+@section scripts{
+    <script>
+        var unit = 0;
+        $('#total_point').change(salaryCalculation);
+
+        function salaryCalculation() {
+            var total = 0;
+            for (var i = 0; i < $('.HeSoChiaLuong').length; i++) {
+                total += parseFloat($('.HeSoChiaLuong').eq(i).val());
+            }
+            unit = ($('#total_point').val()) / total;
+
+            for (var i = 0; i < $('.HeSoChiaLuong').length; i++) {
+                var doanvanthang = Number((unit * ($('.HeSoChiaLuong').eq(i).val())).toFixed(10));
+                $('.Luong').eq(i).val(doanvanthang);
+            }
+        }
+
+        $(document).on('change', '.HeSoChiaLuong', salaryCalculation);
+
+        $("#viewBtn").click(function () {
+            var phongbanSearch = $("#phongbanSearch").val();
+            var caSearch = $("#caSearch").val();
+            var ngaySearch = $("#chon-ngay").val();
+
+            if (phongbanSearch == -1 || caSearch == -1 || ngaySearch == "") {
+                toastr.error('Hãy nhập đầy đủ thông tin', '');
+            } else {
+                $('#pre-load').show("slow", function () {
+                });
+                $('#pre-load').css("z-index", 9999);
+                $.ajax({
+                    type: "post",
+                    dataType: "json",
+                    url: "/phan-xuong/nang-suat-lao-dong-getData",
+                    data: {
+                        phongbanSearch: JSON.stringify(phongbanSearch),
+                        caSearch: JSON.stringify(caSearch),
+                        ngaySearch: JSON.stringify(ngaySearch)
+                    },
+                    success: function (response) {
+                        $("#contentNSLD").empty();
+                        if (response.success) {
+                            for (var i = 0; i < response.customNSLDs.length; i++) {
+                                $tr = $("<tr>");
+                                $tr.append("<td>" + response.customNSLDs[i].STT + "</td>");
+                                $tr.append("<td>" + response.customNSLDs[i].Name + "</td>");
+                                $tr.append("<td>" + response.customNSLDs[i].SoThe + "</td>");
+                                $tr.append("<td>" + response.customNSLDs[i].BacTho + " </td>");
+                                $tr.append("<td>" + response.customNSLDs[i].ChucDanh + " </td>");
+                                $tr.append("<td>" + response.customNSLDs[i].NoiDungCongViec + "</td >");
+                                var temp = response.customNSLDs[i].HeSoChiaLuong == "" ? 1 : response.customNSLDs[i].HeSoChiaLuong;
+                                $tr.append("<td><input type=\"number\" min='0.01' value=\"" + temp + "\" class=\"form-control HeSoChiaLuong\" style=\"border:none; text-align: center;\"></td>");
+                                temp = response.customNSLDs[i].LuongTruocDuyet == "" ? 0 : response.customNSLDs[i].LuongTruocDuyet;
+                                $tr.append("<td><input type=\"number\" readonly value=\"" + temp + "\" class=\"form-control Luong\" style=\"border:none; text-align: center;\"></td>");
+                                temp = response.customNSLDs[i].DuBaoNguyCo == null ? "" : response.customNSLDs[i].DuBaoNguyCo;
+                                $tr.append("<td><textarea class=\"DuBaoNguyCo\">" + temp + "</textarea></td>");
+                                temp = response.customNSLDs[i].YeuCauBPKTAT == null ? "" : response.customNSLDs[i].YeuCauBPKTAT;
+                                $tr.append("<td><textarea class=\"GiaiPhapNguyCo\">" + temp + "</textarea></td>");
+                                $("#contentNSLD").append($tr);
+                            }
+                            $('#total_point').val(response.total_point)
+                            $('#than').val(response.than);
+                            $('#lo').val(response.lo);
+                            $('#xen').val(response.xen);
+                            $('#note').val(response.note);
+                            $('#pre-load').hide("slow", function () {
+                            });
+                        } else {
+                            $tr = $("<tr>");
+                            $tr.append("<td colspan='10'>Không có dữ liệu</td>")
+                            $("#contentNSLD").append($tr);
+                            $('#total_point').val(0);
+                            $('#than').val(0);
+                            $('#lo').val(0);
+                            $('#xen').val(0);
+                            $('#note').val("");
+                            $('#pre-load').hide("slow", function () {
+                            });
+                        }
+                    }
+                })
+            }
+        })
+    </script>
+    <script>
+        var ca;
+        var intCa;
+        function getInner() {
+            intCa = $("#caSearch").val();
+        }
+    </script>
+    <script>
+        function getcontent() {
+
+            $('#pre-load').show("slow", function () {
+            });
+
+            var phongbanSearch = $("#phongbanSearch").val();
+            var caSearch = $("#caSearch").val();
+            var ngaySearch = $("#chon-ngay").val();
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "/phan-xuong/nang-suat-lao-dong-getData",
+                data: {
+                    phongbanSearch: JSON.stringify(phongbanSearch),
+                    caSearch: JSON.stringify(caSearch),
+                    ngaySearch: JSON.stringify(ngaySearch)
+                },
+                dataType: "json",
+                url: "/phan-xuong/nang-suat-lao-dong-getData",
+                data: {
+                    phongbanSearch: JSON.stringify(phongbanSearch),
+                    caSearch: JSON.stringify(caSearch),
+                    ngaySearch: JSON.stringify(ngaySearch)
+
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $("#contentNSLD").empty();
+                        for (var i = 0; i < response.customNSLDs.length; i++) {
+                            $tr = $("<tr>");
+                            $tr.append("<td>" + response.customNSLDs[i].STT + "</td>");
+                            $tr.append("<td>" + response.customNSLDs[i].Name + "</td>");
+                            $tr.append("<td>" + response.customNSLDs[i].SoThe + " </td>");
+                            $tr.append("<td>" + response.customNSLDs[i].BacTho + " </td>");
+                            $tr.append("<td>" + response.customNSLDs[i].ChucDanh + " </td>");
+                            $tr.append("<td>" + response.customNSLDs[i].NoiDungCongViec + "</td>");
+                            var temp = response.customNSLDs[i].HeSoChiaLuong == "" ? 1 : response.customNSLDs[i].HeSoChiaLuong;
+                            $tr.append("<td><input type=\"number\" min='0.01' value=\"" + temp + "\" class=\"form-control HeSoChiaLuong\" style=\"border:none; text-align: center;\" ></td>");
+                            temp = response.customNSLDs[i].LuongTruocDuyet == "" ? 0 : response.customNSLDs[i].LuongTruocDuyet;
+                            $tr.append("<td><input type=\"number\" readonly value=\"" + temp + "\" class=\"form-control Luong\" style=\"border:none; text-align: center;\"></td>");
+                            temp = response.customNSLDs[i].DuBaoNguyCo == null ? "" : response.customNSLDs[i].DuBaoNguyCo;
+                            $tr.append("<td><textarea class=\"DuBaoNguyCo\">" + temp + "</textarea></td>");
+                            temp = response.customNSLDs[i].YeuCauBPKTAT == null ? "" : response.customNSLDs[i].YeuCauBPKTAT;
+                            $tr.append("<td><textarea class=\"GiaiPhapNguyCo\">" + temp + "</textarea></td>");
+                            $("#contentNSLD").append($tr);
+                        }
+                        $('#pre-load').hide("slow", function () {
+                        });
+                    } else {
+                        errorAlert("Lỗi", "");
+                        $('#pre-load').hide("slow", function () {
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+    <script>
+        $("#chon-ngay").datepicker({
+            toggleSelected: false,
+            language: 'vi'
+        });
+        var date = new Date();
+        $("#chon-ngay").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
+        $(function () {
+            $(".datepicker-inline").remove();
+        })
+    </script>
+    <script>
+        function getJson() {
+            var JObject = {};
+            var list = [];
+            for (var i = 0; i < $('.HeSoChiaLuong').length; i++) {
+                var nhanvien = {};
+                nhanvien.MaNhanVien = $('#contentNSLD tr').eq(i).children().eq(2).text();
+                nhanvien.HeSoChiaLuong = parseFloat($('.HeSoChiaLuong').eq(i).val());
+                nhanvien.Luong = parseFloat($('.Luong').eq(i).val());
+                nhanvien.DuBaoNguyCo = $('.DuBaoNguyCo').eq(i).val();
+                nhanvien.YeuCauBPKTAT = $('.GiaiPhapNguyCo').eq(i).val();
+                list.push(nhanvien);
+            }
+            JObject.list = list;
+            JObject.phongban = $('#phongbanSearch').val();
+            JObject.ca = parseInt($('#caSearch').val());
+            JObject.ngay = $('#chon-ngay').val();
+            JObject.total_point = parseFloat($('#total_point').val());
+            JObject.than = parseFloat($('#than').val());
+            JObject.lo = parseFloat($('#lo').val());
+            JObject.xen = parseFloat($('#xen').val());
+            JObject.note = $('#note').val();
+            return JObject;
+        }
+
+        function Update() {
+            var updateAble = false;
+            for (var i = 0; i < $('.HeSoChiaLuong').length; i++) {
+                if ($('.HeSoChiaLuong').eq(i).val() != 0) {
+                    updateAble = true;
+                }
+                if ($('.HeSoChiaLuong').eq(i).val() < 0) {
+                    updateAble = "negative";
+                    break;
+                }
+            }
+            if (updateAble == true) {
+                $('#pre-load').show("slow");
+
+                $.ajax({
+                    url: "/phan-xuong/nang-suat-lao-dong-update",
+                    data: {
+                        stringjson: function () { return JSON.stringify(getJson()); }
+                    },
+                    type: "POST",
+                    dataType: "JSON",
+                    cache: false,
+                    success: function (data) {
+                        $('#pre-load').hide();
+                        if (data.success == true) {
+                            successAlert(data.message, "")
+                            getcontent();
+                        }
+                        else
+                            errorAlert(data.message, "")
+                    },
+                    error: function () {
+                        $('#pre-load').hide();
+                        errorAlert("Lỗi", "Cập nhật thất bại")
+                    }
+                });
+            } else if (updateAble == false) {
+                toastr.error('Không được nhập tất cả hệ số lương là 0', '');
+            } else {
+                toastr.error('Hệ số lương không được là số âm', '');
+            }
+        }
+    </script>
+    <script src="~/assets/sweetalert/alert-quanghanh-js.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="~/assets/sweetalert/sweetalert2.min.js"></script>
+    <script src="~/js/Custom JS/Disable_input_material.js"></script>
+    <script src="~/assets/libs/toastr/build/toastr.min.js"></script>
+    <script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
+}

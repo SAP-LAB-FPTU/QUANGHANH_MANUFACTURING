@@ -1,0 +1,445 @@
+﻿@{
+    ViewData["Title"] = "new_dashboard";
+    Layout = "~/Views/Shared/_Layout_BGD2.cshtml";
+}
+
+<link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid.min.css" />
+<link type="text/css" rel="stylesheet" href="~/assets/libs/jsgrid/dist/jsgrid-theme.min.css" />
+<link href="~/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
+<link href="~/dist/dashboard_Tuan/customDashboard.css" rel="stylesheet">
+<link href="~/assets/extra-libs/prism/prism.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col l12 m12 s12">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="center black-text">
+                        <h3>BÁO CÁO NHANH NĂNG SUẤT, LAO ĐỘNG</h3>
+                        <h5>
+                            <i class="fas fa-calendar-alt icon"></i>
+                            <input type='text' class='datepicker-here center' data-language='vi' />
+                        </h5>
+                    </div>
+                    <hr />
+                    <div class="col s12">
+                        <ul class="tabs">
+                            <li class="tab col l6 s6">
+                                <a class="active" href="#baocaonhanh">Báo cáo nhanh theo ngày</a>
+                            </li>
+                            <li class="tab col l6 s6">
+                                <a href="#chitiet">Chi tiết báo cáo nhanh</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" id="baocaonhanh">
+    <div class="col l6 m6 s12">
+        <div class="card warning-gradient card-hover">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div>
+                        <h3 class="white-text m-b-5">Xảy ra 1 sự cố</h3>
+                        <h6 class="white-text op-1">Đang xử lý</h6>
+                        <h6 class="white-text op-1"></h6>
+                        <br />
+                    </div>
+                    <div class="ml-auto">
+                        <span class="white-text display-6">
+                            <i class="material-icons dp48">report_problem</i>
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 m6 s12">
+        <div class="card warning-gradient card-hover">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div>
+                        <h3 class="white-text m-b-5">1 nhân viên hêt hạn chứng chỉ</h3>
+                        <h6 class="white-text op-1">Chứng chỉ</h6>
+                        <h6 class="white-text op-1"></h6>
+                        <br>
+                    </div>
+                    <div class="ml-auto">
+                        <span class="white-text display-6">
+                            <i class="fas fa-certificate"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 m6 s12">
+        <div class="card info-gradient card-hover">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div>
+                        <h3 class="white-text m-b-5">3 lượt huy động</h3>
+                        <h6 class="white-text op-1">Huy động</h6>
+                        <h6 class="white-text op-1"></h6>
+                        <br />
+                    </div>
+                    <div class="ml-auto">
+                        <span class="white-text display-6">
+                            <i class="fas fa-users"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l6 m6 s12">
+        <div class="card info-gradient card-hover">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div>
+                        <h3 class="white-text m-b-5">3 vụ tai nạn nhẹ</h3>
+                        <h6 class="white-text op-1">Công tác an toàn</h6>
+                        <h6 class="white-text op-1"></h6>
+                        <br>
+                    </div>
+                    <div class="ml-auto">
+                        <span class="white-text display-6">
+                            <i class="fas fa-shield-alt"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col l12 m12 s12">
+        <div class="card success-gradient card-hover">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div>
+                        <h3 class="white-text m-b-5">33%</h3>
+                        <h6 class="white-text op-1">Mức độ doanh thu hiện tại so với tháng</h6>
+                        <h6 class="white-text op-1"></h6>
+                        <br>
+                    </div>
+                    <div class="ml-auto">
+                        <span class="white-text display-6">
+                            <i class="fas fa-dollar-sign"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="col s12">
+            <div class="card ">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col s12">
+                            <h5 class="black-text m-b-5"><b>Công tác sản xuất</b></h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 m5 l4">
+                            <div class="card card-hover">
+                                <div class="card-content card-shadow">
+                                    <h5 class="card-title">Than sản xuất</h5>
+                                    <ul class="list-inline two-part">
+                                        <li>
+                                            <div id="sparklinedash9"></div>
+                                        </li>
+                                        <li class="text-right"><h3><i class="ti-arrow-up green-text"></i><b><span class="counter green-text">550</span></b></h3></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col s12 m7 l4">
+                            <div class="card card-hover ">
+                                <div class="card-content card-shadow">
+                                    <h5 class="card-title">Than Nhập Dương Huy</h5>
+                                    <ul class="list-inline two-part">
+                                        <li>
+                                            <div id="sparklinedash7">
+                                                <canvas style="display: inline-block; width: 67px; height: 30px; vertical-align: top;" width="67" height="30"></canvas>
+                                            </div>
+                                        </li>
+                                        <li class="text-right"><h3><i class="ti-arrow-up green-text"></i><b><span class="counter green-text">5700</span></b></h3></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col s12 m6 l4">
+                            <div class="card card-hover">
+                                <div class="card-content card-shadow">
+                                    <h5 class="card-title">Than Tiêu Thụ</h5>
+                                    <ul class="list-inline two-part">
+                                        <li>
+                                            <div id="sparklinedash5"></div>
+                                        </li>
+                                        <li class="text-right"><h3><i class="ti-arrow-up green-text"></i><b><span class="counter green-text">8672</span></b></h3></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+</div>
+
+<div id="chitiet">
+    <div class="card">
+        <div class="card-content">
+            <div class="row">
+                @*<div class="ml-auto">
+                        <div class="input-field dl support-select">
+                            <select>
+                                <option value="0" selected>10 Mar - 10 Apr</option>
+                                <option value="1">10 Apr - 10 May</option>
+                                <option value="2">10 May - 10 Jun</option>
+                                <option value="3">10 Jun - 10 Jul</option>
+                            </select>
+                        </div>
+                    </div>*@
+            </div>
+            <h5 class="black-text m-b-5">A. Công Tác An Toàn: </h5>
+            @*<div class="divider"></div>*@
+            <!-- Modal Trigger -->
+            <a class="modal-trigger" href="#injuries">Công tác an toàn trong ngày : 3 vụ tai nạn nhẹ</a>
+            @*Modal Here*@
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-content">
+            <div class="d-flex no-block align-items-center">
+                <h5 class="black-text m-b-5">B. Công Tác Sản Xuất: </h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered centered">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên Phòng</th>
+                            <th>Thực Hiện</th>
+                            <th>Kế Hoạch (/ngày)</th>
+                            <th>Lũy Kế</th>
+                            <th>Kế Hoạch Tháng</th>
+                            <th>% Hoàn Thành</th>
+                            <th>Kế Hoạch Còn Lại(/ngày)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="black-text text-darken-4">
+                            <td colspan="2">I. Than Sản Xuất </td>
+                            <td>550</td>
+                            <td>1000</td>
+                            <td>7358</td>
+                            <td>35000</td>
+                            <td>21%</td>
+                            <td>1728T</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Than Hầm Lò</td>
+                            <td>4410</td>
+                            <td>5000</td>
+                            <td>42597</td>
+                            <td>140000</td>
+                            <td>30%</td>
+                            <td>6088T</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Than Lộ Thiên</td>
+                            <td>550</td>
+                            <td>1000</td>
+                            <td>7358</td>
+                            <td>35000</td>
+                            <td>21%</td>
+                            <td>1728T</td>
+                        </tr>
+                        <tr class="black-text text-darken-4">
+                            <td colspan="2">II. Mét Lò Đào</td>
+                            <td>71.2</td>
+                            <td>72.1</td>
+                            <td>702.4</td>
+                            <td>1860</td>
+                            <td>38%</td>
+                            <td>72.4</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Mét Lò Neo</td>
+                            <td>3.0</td>
+                            <td>6.0</td>
+                            <td>67.8</td>
+                            <td>230</td>
+                            <td>29%</td>
+                            <td>10.1</td>
+                        </tr>
+                        <tr class="black-text text-darken-4">
+                            <td colspan="2"> III. Mét Lò Xén </td>
+                            <td>1.0</td>
+                            <td>4.1</td>
+                            <td>30.4</td>
+                            <td>101</td>
+                            <td>30%</td>
+                            <td>4.4</td>
+                        </tr>
+                        <tr class="black-text text-darken-4">
+                            <td colspan="2">IV. Than Nhập Dương Huy</td>
+                            <td>5700</td>
+                            <td>6000</td>
+                            <td>55080</td>
+                            <td>160000</td>
+                            <td>34%</td>
+                            <td>6558</td>
+                        </tr>
+                        <tr class="black-text text-darken-4">
+                            <td colspan="2"> V. Than Tiêu Thụ  </td>
+                            <td>8672</td>
+                            <td>11000</td>
+                            <td>97955</td>
+                            <td>279500</td>
+                            <td>35%</td>
+                            <td>111347</td>
+                        </tr>
+                        <tr>
+                            <td colspan="8"><i>Trong đó: Cám 5a= 3750T; Cám 6a= 4922T </i></td>
+                        </tr>
+                        <tr class="black-text text-darken-4">
+                            <td colspan="2">VI. Doanh Thu</td>
+                            <td>10.8</td>
+                            <td>12.7</td>
+                            <td>128.8</td>
+                            <td>387.6</td>
+                            <td>33%</td>
+                            <td>16.2</td>
+                        </tr>
+                        <tr class="black-text text-darken-4">
+                            <td colspan="2"> VII. Than Sàng Tuyển </td>
+                            <td>9216</td>
+                            <td>10000</td>
+                            <td>97632</td>
+                            <td>278500</td>
+                            <td>35%</td>
+                            <td>11304</td>
+                        </tr>
+                        <tr class="black-text text-darken-4">
+                            <td colspan="2"> VIII. Đá Xít Xuất Kho </td>
+                            <td>1870</td>
+                            <td>1500</td>
+                            <td>21531</td>
+                            <td>56500</td>
+                            <td>38%</td>
+                            <td>2186</td>
+                        </tr>
+                        <tr class="black-text text-darken-4">
+                            <td colspan="4">VIII. Đất Đá Bóc Tự Làm  </td>
+                            <td colspan="4">Chạy Được 442 Chuyến = 3094 Khối </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-content">
+            <div class="d-flex no-block align-items-center">
+                <div class="center">
+                </div>
+            </div>
+            <div class="">
+                <h5 class="black-text m-b-5">SỰ CỐ ÁCH TẮC SẢN XUẤT: </h5>
+            </div>
+            <div>
+                <div>
+                    <table class="table table-bordered responsive-table">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th colspan="2">Sự Cố</th>
+                                <th>Trạng Thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td colspan="2">CĐM: Tại trạm điện 15 (cấp điện cho px  KT11) bị sự cố dò điện từ 18h30-:-20h30 xử lý xong</td>
+                                <td>ĐÃ XỬ LÝ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="card">
+            <div class="card-content">
+                <div class="d-flex no-block align-items-center">
+                    <div class="center">
+                    </div>
+                </div>
+                <div class="">
+                    <h5 class="black-text m-b-5">C. BÁO CÁO HUY ĐỘNG</h5>
+                </div>
+                <div class="row">
+                    <div class="col l6 m6 s12">
+                        <div id="pie-chart"></div>
+                    </div>
+                    <div class="col l6 m6 s12">
+                    </div>
+                </div>
+                ------------------------------
+            </div>
+        </div>*@
+</div>
+<div class="row">
+    <div class="col l12 s12 m12">
+        <div class="card">
+            <div class="card-content analytics-info">
+                <h5 class="card-title">Báo cáo tiến độ thực hiện trong ngày 19/10/2019 (theo %)</h5>
+                <div id="bar-basic" style="height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col l12 s12 m12">
+            <div class="card">
+                <div class="card-content analytics-info">
+                    <h5 class="card-title">Báo cáo tỷ lệ huy động trong ngày 19/10</h5>
+                    <div id="basic-pie" style="height:400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Editable -->
+<script type="text/javascript" src="~/assets/libs/jsgrid/dist/jsgrid.min.js"></script>
+<script src="~/dist/dashboard_Tuan/jsgrid-init_Tuan.js"></script>
+<!--chart-->
+<script src="~/assets/libs/echarts/dist/echarts-en.min.js"></script>
+<script src="~/assets/libs/chart.js/dist/Chart.min.js"></script>
+<script src="~/assets/extra-libs/c3/d3.min.js"></script>
+<script src="~/assets/extra-libs/c3/c3.min.js"></script>
+<!-- line chart -->
+<script src="~/dist/js/pages/c3-chart/bar-pie/c3-pie.js"></script>
+
+<!--Custom js QUANGHANH-->
+<script src="~/js/Custom JS/TCLD/QuickReport.js"></script>
+<script src="~/js/tcld_dashboard/QuickReport_barchart.js"></script>
+<script src="~/js/tcld_dashboard/QuickReport_piechart.js"></script>
+<script src="~/assets/extra-libs/prism/prism.js"></script>
+<script>$(document).ready(function () {
+        $('.datepicker-inline').remove();
+    });
+    $(document).ready(function () {
+        var date = new Date();
+        var d = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+        $(".datepicker-here").val(d);
+    });</script>
+
+

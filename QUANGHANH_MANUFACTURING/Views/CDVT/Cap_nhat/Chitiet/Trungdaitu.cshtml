@@ -1,0 +1,412 @@
+﻿@{
+    ViewData["Title"] = "trungdaitu";
+    if (Session["departName"].ToString().Contains("Phân xưởng"))
+    {
+        Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <h3 class="center">Chi tiết quyết định trung đại tu số @ViewBag.code</h3>
+            <div class="col s12 table_container">
+                <table class="table-bordered striped table-responsive centered"
+                       style="margin-top:30px; text-align:center;" id="complex_header">
+                    <thead>
+                        <tr>
+                            <th>Mã thiết bị</th>
+                            <th>Tên thiết bị</th>
+                            <th>Vị trí ban đầu</th>
+                            <th>Loại bảo dưỡng</th>
+                            <th>Ngày hoàn thành dự kiến</th>
+                            <th></th>
+                            <th></th>
+                            <th>Đã xử lý</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <input name="id" hidden value="@ViewBag.id" id="id" />
+            @if (ViewBag.AddAble == true)
+            {
+                <a class="btn blue darken-2 modal-trigger" href="#alert">Lưu</a>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="mylist">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title"></h3>
+        </div>
+        <div class="modal-body table_container">
+            <div class="row">
+                <form>
+                    <table id="test" class="striped table-responsive centered table-bordered mytable">
+                        <thead>
+                            <tr>
+                                <th>Mã vật tư</th>
+                                <th>Tên vật tư</th>
+                                <th>Số lượng xin cấp</th>
+                                <th>Số lượng đã nhận</th>
+                                <th>Số lượng sử dụng</th>
+                                <th>Số lượng thu hồi</th>
+                                <th>Ghi chú</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </form>
+            </div>
+            <input type="hidden" id="mathietbi" disabled />
+            <input type="hidden" id="maquyetdinh" disabled />
+        </div>
+        <div class="modal-footer" id="vattu">
+            <a id="addcolumn" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
+            <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-trigger">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="alert">
+    <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <h4>Lưu ý: bạn không thể sửa đổi vật tư cho quyết định sau khi đã xử lý xong</h4>
+        </div>
+        <div class="modal-footer">
+            <a id="submit" class="waves-effect waves-light btn blue darken-2 modal-trigger modal-close">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<datalist id="supplyID">
+    @foreach (var item in ViewBag.Supplies)
+    {
+        <option value="@item.supply_id">@item.supply_name</option>
+    }
+</datalist>
+
+<datalist id="equipAttached">
+    @foreach (var item in ViewBag.equipAttached)
+    {
+        <option value="@item.equipmentId">@item.equipment_name</option>
+    }
+</datalist>
+@*<script src="~/js/Custom JS/CDVT/Capnhat/check.js"></script>*@
+
+@section scripts{
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/Custom JS/CDVT/QuyetDinh/OptionValueToText.js"></script>
+    <script>
+        $(document).on("click", "#addcolumn", function () {
+            if (vattuto === 0) {
+                var $tr = $('<tr>').append(
+                    $('<td>').html("<input list='supplyID' type='text' id='vattu' class='form-control td-id temp' />"),
+                    $('<td>'),
+                    $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
+                    $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
+                    $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
+                    $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
+                    $('<td>').html("<input type='text' class='form-control' />")
+                );
+                $tr.appendTo('#test tbody');
+                myfunction2();
+            }
+            else {
+                var $tr = $('<tr>').append(
+                    $('<td>').html("<input list='equipAttached' type='text' id='vattu' class='form-control td-id temp' />"),
+                    $('<td>'),
+                    $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
+                    $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
+                    $('<td>').html("<input type='number' min='1' value='1' class='form-control' />"),
+                    $('<td>').html("<input type='number' min='0' value='0' class='form-control' />"),
+                    $('<td>').html("<input type='text' class='form-control' />")
+                );
+                $tr.appendTo('#test tbody');
+                myfunction3();
+            }
+        })
+
+        var vattuto = 0;
+        $(document).on("click", ".open-Modal", function () {
+            vattuto = 1;
+            $('#pre-load').show();
+            $("#test").find("tr:gt(0)").remove();
+            var QDIdAndEquipId = $(this).data('list');
+            $('#mylist h3').text("Danh sách vật tư thay thế của thiết bị " + QDIdAndEquipId.split("^")[1])
+            $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
+            $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetEquipAttached",
+                dataType: "json",
+                success: function (data) {
+                    $(function () {
+                        $.each(data, function (i, item) {
+                            var temp = item.supplyStatus == null ? "" : item.supplyStatus;
+                            var $tr = $('<tr>').append(
+                                $('<td>').html('<input type="text" value="' + item.equipmentId_dikem + '" readonly class="form-control" />'),
+                                $('<td>').text(item.equipment_name),
+                                $('<td>').html('<input type="text" value="' + item.quantity_plan + '" readonly class="form-control" />'),
+                                $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
+                                $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_used + "' max='" + item.quantity_plan + "' value='" + item.quantity_used + "' />"),
+                                $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_out + "' max='" + item.quantity_plan + "' value='" + item.quantity_out + "' />"),
+                                $('<td>').html("<input class='form-control' type='text' value='" + temp + "' />")
+                            );
+                            $tr.appendTo('#test');
+                        });
+                    });
+                    $("#pre-load").hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    documentary_id: QDIdAndEquipId.split("^")[0],
+                    equipmentId: QDIdAndEquipId.split("^")[1]
+                },
+                cache: false
+            })
+        })
+
+        $(document).on("click", ".open-Modal-DuPhong", function () {
+            vattuto = 0;
+            $('#pre-load').show();
+            $("#test").find("tr:gt(0)").remove();
+            var QDIdAndEquipId = $(this).data('list');
+            $('#mylist h3').text("Danh sách vật tư thay thế của thiết bị " + QDIdAndEquipId.split("^")[1])
+            $("#mathietbi").val(QDIdAndEquipId.split("^")[1])
+            $("#maquyetdinh").val(QDIdAndEquipId.split("^")[0])
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupplyDuPhong",
+                dataType: "json",
+                success: function (data) {
+                    $(function () {
+                        $.each(data, function (i, item) {
+                            var temp = item.supplyStatus == null ? "" : item.supplyStatus;
+                            var $tr = $('<tr>').append(
+                                $('<td>').html('<input type="text" value="' + item.supply_id + '" readonly class="form-control" />'),
+                                $('<td>').text(item.supply_name),
+                                $('<td>').html('<input type="text" value="' + item.quantity_plan + '" readonly class="form-control" />'),
+                                $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_in + "' max='" + item.quantity_plan + "' value='" + item.quantity_in + "' />"),
+                                $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_used + "' max='" + item.quantity_plan + "' value='" + item.quantity_used + "' />"),
+                                $('<td>').html("<input class='form-control' type='number' min='" + item.quantity_out + "' max='" + item.quantity_plan + "' value='" + item.quantity_out + "' />"),
+                                $('<td>').html("<input class='form-control' type='text' value='" + temp + "' />")
+                            );
+                            $tr.appendTo('#test');
+                        });
+                    });
+                    $("#pre-load").hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    documentary_id: QDIdAndEquipId.split("^")[0],
+                    equipmentId: QDIdAndEquipId.split("^")[1]
+                },
+                cache: false
+            })
+        })
+
+        function getJsonArray() {
+            var output = {};
+            var arr = [];
+            var length = $("#test tr").length;
+            for (var i = 1; i < length; i++) {
+                var temp = {};
+                if ($("#mylist #test tbody tr:nth-child(" + i + ") input").eq(0).val() == "") break;
+                temp.supply_id = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 1 + ") input").val();
+                temp.quantity_plan = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 3 + ") input").val();
+                temp.quantity_in = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 4 + ") input").val();
+                temp.quantity_used = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 5 + ") input").val();
+                temp.quantity_out = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 6 + ") input").val();
+                temp.supplyStatus = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 7 + ") input").val();
+                arr.push(temp);
+            }
+            output.list = arr
+            return JSON.stringify(output);
+        }
+
+        function checkDuplicate() {
+            var list = [];
+            var length = $("#test tr").length;
+            for (var i = 1; i < length; i++) {
+                if ($("#mylist #test tbody tr:nth-child(" + i + ") input").eq(0).val() == "") break;
+                var temp = $("#mylist #test tbody tr:nth-child(" + i + ") td:nth-child(" + 1 + ") input").val();
+                list.push(temp);
+            }
+            var findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
+            if (findDuplicates(list) == 0) return true;
+            else return false;
+        }
+    </script>
+    <script>
+        var Popup, dataTable;
+        $('#pre-load').show();
+        dataTable = $('#complex_header').DataTable({
+            "language": {
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                "paginate": {
+                    "first": "Trang đầu",
+                    "last": "Trang cuối",
+                    "next": "Trang sau",
+                    "previous": "Trang trước"
+                }
+            },
+            "ajax": {
+                "url": "/phong-cdvt/cap-nhat/quyet-dinh/trung-dai-tu/GetData",
+                "type": "POST",
+                "datatype": "json",
+                "data": {
+                    "id": $('#id').val()
+                },
+                "cache": false
+            },
+            "columns": [
+                { "data": "equipmentId", "name": "equipmentId" },
+                { "data": "equipment_name", "name": "equipment_name" },
+                { "data": "department_name", "name": "department_name" },
+                { "data": "remodel_type", "name": "remodel_type" },
+                { "data": "stringDate", "name": "stringDate" },
+                {
+                    "data": "idAndEquip", "name": "person_created", "render": function (data) {
+                        return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal\" href=\"#mylist\">Chi tiết VT to</a>";
+                    }
+                },
+                {
+                    "data": "idAndEquip", "name": "person_created", "render": function (data) {
+                        return "<a data-list=\"" + data + "\" class=\"waves-effect waves-light btn-small blue modal-trigger open-Modal-DuPhong\" href=\"#mylist\">Chi tiết VT nhỏ</a>";
+                    }
+                },
+                {
+                    "data": "statusAndEquip", "name": "person_created", "render": function (data) {
+                        if (data.split("^")[0] == "0") return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.split("^")[1] + "\">Chưa xử lý</button>";
+                        else return "<button disabled class=\"btn blue darken-2\">Đã xử lý</button>"
+                    }
+                }
+            ],
+            "serverSide": "true",
+            "order": [0, "asc"],
+            "rowId": "incident_id",
+            "lengthChange": false,
+            "searching": false,
+            "initComplete": function (settings, json) {
+                $('#pre-load').hide();
+            },
+            "columnDefs": [
+                { targets: 5, orderable: false },
+                { targets: 6, orderable: false }
+            ],
+            "preDrawCallback": function (settings) {
+                $('#pre-load').show();
+            },
+            "drawCallback": function (settings) {
+                $('#pre-load').hide();
+            }
+        });
+
+        $(document).on('click', '#submit', function () {
+            var equipments = "";
+            for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
+                if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
+                    equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
+            }
+            if (equipments == "")
+                return false;
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/trung-dai-tu/edit",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success == true) {
+                        dataTable.ajax.reload(function () {
+                            $('#pre-load').hide();
+                            successAlert(data.message);
+                        });
+                    }
+                    else {
+                        errorAlert(data.message);
+                        $('#pre-load').hide();
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    id: $('#id').val(),
+                    edit: equipments
+                },
+                cache: false
+            })
+        })
+
+        $(document).on("click", "#submitvattu", function () {
+            if (!checkDuplicate())
+                return errorAlert('Vật tư đã tồn tại');
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/AddSupply",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success) {
+                        successAlert(data.message);
+                        $('#exit-button').click()
+                    }
+                    else {
+                        errorAlert(data.message);
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    list: function () { return getJsonArray(); },
+                    documentary_id: $("#maquyetdinh").val(),
+                    equipmentId: $("#mathietbi").val()
+                },
+                cache: false
+            })
+            return false;
+        })
+
+        $("#complex_header").on("click", ".buttonChon", function () {
+            if ($(this).text() == "Chưa xử lý") {
+                $(this).text('Đã xử lý')
+            }
+            else {
+                $(this).text('Chưa xử lý')
+            }
+        });
+
+        $(document).on("click", "#complex_header tbody tr", function () {
+            var DaXuLy = $("#complex_header tbody tr:nth-child(" + ($(this).index() + 1) + ") td:last-child button").prop("disabled");
+            if (!DaXuLy) {
+                $('#vattu').html("<a id='addcolumn' class='waves-effect waves-light btn blue darken-2 left'>Thêm</a><a id='submitvattu' class='waves-effect waves-light btn blue darken-2 modal-trigger'>Lưu</a><button class='btn light-blue lighten-1 modal-close' id='exit-button'>Thoát</button>");
+                $('#vattu2').html("<a id='submitvattu' class='waves-effect waves-light btn blue darken-2 modal-trigger'>Lưu</a><button class='btn light-blue lighten-1 modal-close' id='exit-button'>Thoát</button>");
+            }
+            else {
+                $('#vattu').html("<a class='btn light-blue lighten-1 modal-close' id='exit-button'>Thoát</a>");
+                $('#vattu2').html("<a class='btn light-blue lighten-1 modal-close' id='exit-button'>Thoát</a>");
+            }
+        })
+    </script>
+}
