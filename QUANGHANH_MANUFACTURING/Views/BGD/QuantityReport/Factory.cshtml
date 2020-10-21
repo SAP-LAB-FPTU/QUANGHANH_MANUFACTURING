@@ -1,0 +1,221 @@
+﻿
+@{
+    ViewBag.Title = "MonthlyQuarterlyReport";
+    Layout = "~/Views/Shared/_Layout_BGD2.cshtml";
+
+}
+<link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+<style>
+    #table-container {
+        overflow: scroll;
+    }
+
+    #yearCalendar {
+        width: 20% !important;
+        float: right;
+    }
+
+    #view-btn {
+        width: 170px;
+        float: left;
+    }
+    /*.sticky + .table-content {
+      padding-top: 102px;
+    }
+        .sticky {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }*/
+</style>
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="center black-text row">
+                <h3>
+                    <b>
+                        BÁO CÁO CÁC PHÂN XƯỞNG THEO NGÀY
+                    </b>
+                </h3>
+
+                <div class="row">
+                    <h3>
+                        <div class="col l6 m6 s6">
+                            <input id="yearCalendar" class=" datepicker-here datepicker-add center"
+                                   data-language='vi'
+                                   data-date-format="dd-mm-yyyy"
+                                   required />
+                        </div>
+                    </h3>
+                    <div class="col l6 m6 s6">
+                        <a id="view-btn" class="waves-effect waves-light btn blue darken-2" onclick="getInformation()">XEM</a>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <hr>
+            <br />
+        </div>
+        <div class="row">
+            <a id="export-button" class="waves-effect waves-light btn blue">Xuất ra file excel</a>
+        </div>
+        <br />
+        <div class="row" id="table-container">
+            <table class="centered highlight responsive-table striped responsive-table table-bordered" id="reportTable">
+                <thead id="tableHeader">
+                    <tr>
+                        <th rowspan="2">STT</th>
+                        <th rowspan="2">TOÀN CÔNG TY</th>
+                        <th rowspan="2">BQKHDC THÁNG</th>
+                        <th colspan="7" id="date-cell"></th>
+                        <th colspan="4" id="month-cell"></th>
+                        <th colspan="2">C.LẠI THEO KHĐC</th>
+                        <th rowspan="2">GHI CHÚ</th>
+                    </tr>
+                    <tr>
+                        <th>K1</th>
+                        <th>K2</th>
+                        <th>K3</th>
+                        <th><b>TH</b></th>
+                        <th><b>KH</b></th>
+                        <th>C.Lệch</th>
+                        <th>%</th>
+                        <th>Lũy kế</th>
+                        <th>KHBD</th>
+                        <th>KHĐC</th>
+                        <th>% ĐC</th>
+                        <th>Tổng</th>
+                        <th>1 Ngày</th>
+                    </tr>
+                </thead>
+                <tbody class="table-content">
+                </tbody>
+            </table>
+            <div id="bottom_anchor"></div>
+        </div>
+    </div>
+</div>
+
+<span hidden value="hihi" id="createdHeader"></span>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script src="~/js/Custom JS/form-input-border.js"></script>
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="/Scripts/jquery.validate.min.js"></script>
+<script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="/Scripts/notify.min.js"></script>
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+<script>
+    $(document).ready(function () {
+        let count = 0;
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        let count = 0;
+    });
+
+    function changeDateFormat(date) {
+        var x = date.split("-")
+        return x[2] + '-' + x[1] + '-' + x[0];
+    }
+
+    function getInformation() {
+        $("#pre-load").show("slow", function () { });
+        $.ajax({
+            type: 'post',
+            url: '/ban-giam-doc/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-theo-phan-xuong',
+            data: {
+                'date': changeDateFormat($("#yearCalendar").val()),
+            },
+            success: function (response) {
+                data = JSON.parse(response.data);
+                content = "";
+                var ngay = $("#yearCalendar").val().split("-")[0];
+                var thang = $("#yearCalendar").val().split("-")[1];
+                var nam = $("#yearCalendar").val().split("-")[2];
+                $("#date-cell").text("Ngày " + ngay + " tháng " + thang + " năm " + nam);
+                $("#month-cell").text("Tháng " + thang);
+                tieuchiName = ["TenTieuChi", "BQQHDC_display", "Ca1", "Ca2", "Ca3", "TH", "KH", "chenhlech", "percentage_display", "luyke", "KHBD", "KHDC", "percentageDC_display", "SUM", "perday_display", "GhiChu"]
+                let count = 1;
+                for (let index = 0; index < data.length; index++) {
+                    content += "<tr>"
+                    if (data[index]["isHeader"]) {
+                        content += "<td colspan=\"17\"><b>" + data[index]["TenPhongBan"] + "</b></td>"
+                        count = 1;
+                    }
+                    //
+                    if (!data[index]["isHeader"]) {
+                        content += "<td>" + count + "</td>";
+                        for (let i = 0; i < tieuchiName.length; i++) {
+                            if (data[index][tieuchiName[i]] != null) {
+
+                                if (typeof (data[index][tieuchiName[i]]) === 'number') {
+                                    var value = data[index][tieuchiName[i]];
+                                    if (Math.floor(value) != value) {
+                                        value = parseFloat(value).toFixed(1)
+                                    } else {
+                                        value = parseFloat(value).toFixed(0)
+                                    }
+                                    if (tieuchiName[i] == "chenhlech") {
+                                        if (data[index][tieuchiName[i]] > 0) {
+                                            content += "<td><b><span class=\"green-text\">" + value + "</span></b></td>"
+                                        } else {
+                                            content += "<td><b><span class=\"red-text\">" + value + "</span></b></td>"
+                                        }
+                                    } else {
+                                        content += "<td>" + value + "</td>"
+                                    }
+                                } else {
+                                    content += "<td>" + data[index][tieuchiName[i]] + "</td>"
+                                }
+                            } else {
+                                if (tieuchiName[i] != "GhiChu") {
+                                    content += "<td>" + 0 + "</td>"
+                                } else {
+                                    content += "<td></td>"
+                                }
+                            }
+                        }
+                        count++;
+                    }
+                    content += "</tr>"
+                }
+                $("#reportTable").children("tbody").html(content);
+                $("#pre-load").hide("slow", function () { });
+                var a = $("#reportTable > tbody > tr").length;
+                if (a == 0) {
+                    errorAlert('', 'Chưa có dữ liệu kế hoạch hôm nay');
+                }
+            },
+            error: function (response) {
+            }
+        })
+    }
+</script>
+<script>
+    $("#export-button").click(function () {
+        $("#pre-load").show("slow", function () { });
+        $.ajax({
+            type: 'post',
+            url: '/ban-giam-doc/bao-cao-san-xuat-than/export-excel',
+            data: {
+                'date': changeDateFormat($("#yearCalendar").val()),
+            },
+            success: function (res) {
+                if (res.success) {
+                    var response = JSON.parse(JSON.stringify(res.data));
+                    window.location = '/ban-giam-doc/bao-cao-san-xuat-than/download?fileGuid=' + response.FileGuid
+                        + '&filename=' + response.FileName;
+                }
+                $("#pre-load").hide("slow", function () { });
+            },
+            error: function (response) {
+
+            }
+        })
+    });
+</script>

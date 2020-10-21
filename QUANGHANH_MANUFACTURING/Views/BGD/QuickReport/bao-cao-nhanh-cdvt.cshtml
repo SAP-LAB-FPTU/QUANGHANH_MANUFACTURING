@@ -1,0 +1,181 @@
+﻿
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout_BGD2.cshtml";
+}
+<link href="~/css/TABLE_BORDERED.css" rel="stylesheet">
+
+
+<link href="/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+<link href="/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+<link href="/assets/extra-libs/c3/c3.min.css" rel="stylesheet">
+<link href="/assets/extra-libs/css-chart/css-chart.css" rel="stylesheet">
+<link href="/dist/css/style.css" rel="stylesheet">
+<link href="/dist/css/pages/dashboard3.css" rel="stylesheet">
+<div class="row">
+    <div class="col s12 l12">
+        <div class="card">
+            <div class="card-content center-align">
+                <h3 class="center-align m-b-0"><b>LƯỢNG THIẾT BỊ TRONG THÁNG</b></h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row center-align">
+
+
+    <div class="col s12 l2">
+        <div class="card mymanu card-hover" style="height: 200px">
+            <div class="card-content center-align table_container">
+                <h6 class="card-subtitle center-align m-b-0 white-text">Tổng</h6>
+                <h1 class="font-light font-medium m-b-0 white-text" style="padding-top: 40px"> 12000 </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 l2">
+        <div class="card card-hover" style="height: 200px">
+            <div class="card-content align-items-center table_container">
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="card-subtitle">Sửa chữa</h6>
+                        <h4> 1000</h4>
+                    </div>
+
+                    <div class="col s12">
+                        <div class="progress">
+                            <div class="determinate amber darken+5" style="width: 100%"></div>
+                        </div>
+                    </div>
+
+                    <div class="col s12 center-align">
+                        <h6 class="card-subtitle">Chi phí (triệu đồng)</h6>
+                        <h4 class="red-text font-medium m-b-0"> -1000 </h>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 l2">
+        <div class="card card-hover" style="height: 200px">
+            <div class="card-content align-items-center table_container">
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="card-subtitle">Bảo dưỡng </h6>
+                        <h4> 1000</h4>
+                    </div>
+
+                    <div class="col s12">
+                        <div class="progress">
+                            <div class="determinate amber darken+5" style="width: 100%"></div>
+                        </div>
+                    </div>
+
+                    <div class="col s12 center-align">
+                        <h6 class="card-subtitle">Chi phí (triệu đồng)</h6>
+                        <h4 class="red-text font-medium m-b-0"> -1000 </h>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 l2">
+        <div class="card card-hover" style="height: 200px">
+            <div class="card-content align-items-center table_container">
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="card-subtitle">Kiểm định</h6>
+                        <h4> 1000</h4>
+                    </div>
+
+                    <div class="col s12">
+                        <div class="progress">
+                            <div class="determinate amber darken+5" style="width: 100%"></div>
+                        </div>
+                    </div>
+
+                    <div class="col s12 center-align">
+                        <h6 class="card-subtitle">Chi phí (triệu đồng)</h6>
+                        <h4 class="red-text font-medium m-b-0"> -1000 </h>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 l2">
+        <div class="card card-hover" style="height: 200px">
+            <div class="card-content align-items-center table_container">
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="card-subtitle">Thanh lý</h6>
+                        <h4> 1000</h4>
+                    </div>
+
+                    <div class="col s12">
+                        <div class="progress">
+                            <div class="determinate amber darken+5" style="width: 100%"></div>
+                        </div>
+                    </div>
+
+                    <div class="col s12 center-align">
+                        <h6 class="card-subtitle">Tiền (triệu đồng)</h6>
+                        <h4 class="green-text font-medium m-b-0"> +1000 </h>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 l2">
+        <div class="card card-hover" style="height: 200px">
+            <div class="card-content align-items-center table_container">
+                <div class="row">
+                    <div class="col s12 center-align" style="padding-top: 45px">
+                        <h6 class="card-subtitle">Thu hồi</h6>
+                        <h4 class="font-medium m-b-0"> 1000 </h>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Start Pie Chart -->
+<div class="row">
+    <div class="col s12 l12">
+        <div class="card">
+            <div class="card-content">
+                <h5 class="card-title">Lượng thiết bị trong tháng (chiếc)</h5>
+                <div id="basic-pie4" style="height:400px;"></div>
+                <div class="d-flex align-items-center justify-content-center">
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/libs/chartist/dist/chartist.min.js"></script>
+<script src="/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+<script src="/assets/libs/gaugeJS/dist/gauge.min.js"></script>
+<script src="/assets/extra-libs/c3/d3.min.js"></script>
+<script src="/assets/extra-libs/c3/c3.min.js"></script>
+<script src="/assets/extra-libs/sparkline/sparkline.js"></script>
+
+
+<script src="~/js/Custom JS/CDVT/Dashboard/custom-pie2.js"></script>
+<script src="~/js/Custom JS/CDVT/Dashboard/custom-pie.js"></script>
+<script src="~/js/Custom JS/CDVT/Dashboard/custom-doghnut2.js"></script>
+<script src="~/js/Custom JS/CDVT/Dashboard/custom-doghnut.js"></script>
+<script src="~/js/Custom JS/CDVT/Dashboard/mini-doghnut.js"></script>
+<script src="~/js/Custom JS/CDVT/Dashboard/pie-doghnut.js"></script>
+<script src="~/js/Custom JS/CDVT/Dashboard/custom-pie4.js"></script>
+
+

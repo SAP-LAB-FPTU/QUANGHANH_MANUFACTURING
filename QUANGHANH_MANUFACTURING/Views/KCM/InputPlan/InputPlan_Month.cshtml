@@ -1,0 +1,261 @@
+﻿
+@{
+    ViewBag.Title = "InputPlan_Month";
+    Layout = "~/Views/Shared/_Layout_KCM.cshtml";
+}
+
+<link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+<div class="card">
+    <div class="card-content">
+        <h3 class="center">NHẬP KẾ HOẠCH SẢN XUẤT THÁNG</h3>
+        <div class="row">
+            <div class="row">
+                <div class="input-field col s5 m5 l5"></div>
+                <div class="input-field col l2 m2 s2">
+                    <input disabled type="number" class="form-control center" autocomplete="off" placeholder="Số ngày làm việc" id="totalDays" />
+                </div>
+                <div class="input-field col s5 m5 l5"></div>
+            </div>
+            <div class="input-field col l1 m1 s12"></div>
+            <div class="input-field col l3 m12 s12">
+                <input autocomplete="off" type="text" id="monthCalendar" class="form-control datepicker-here datepicker-add center"
+                       data-language='vi'
+                       data-min-view="months"
+                       data-view="months"
+                       data-date-format="Tháng mm"
+                       required placeholder="Tháng" />
+            </div>
+            <div class="input-field col l3 m12 s12">
+                <input autocomplete="off" type="text" id="yearCalendar" class="form-control datepicker-here datepicker-add center"
+                       data-language='vi'
+                       data-min-view="years"
+                       data-view="years"
+                       data-date-format="Năm yyyy"
+                       required placeholder="Năm" />
+            </div>
+            <div class="input-field col l3 m12 s12">
+                <select class="form-control" id="px" name="px_value">
+                    <option value="default-px" disabled selected>Phân xưởng</option>
+                    @foreach (var px in ViewBag.listDepartments)
+                    {
+                        <option value="@px.department_id">@px.department_name</option>
+                    }
+                </select>
+            </div>
+            <div class="input-field col l m1 s12 center">
+                <a class="btn btn-small blue darken-2" id="view">Xem</a>
+            </div>
+            <div class="input-field col l1 m1 s12"></div>
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    <table class="table-bordered" id="aspectDetailTable">
+                        <thead>
+                            <tr>
+                                <th>Tiêu chí</th>
+                                <th>Đơn vị đo</th>
+                                <th>Sản lượng</th>
+                                <th>Ghi chú</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col s12 m12 l12 input-field center row">
+                <button class="btn blue darken-2" id="save">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<button style="display:none" class="modal-trigger" data-target="addsnlv" id="butsnlv">button</button>
+<div class="modal" id="addsnlv">
+    <div class="card">
+        <div class="card-content">
+            <div class="modal-header row">
+                <h4 class="col l6">Nhập số ngày làm việc trong tháng</h4>
+                <input id="snlv" class="form-control col l6" min="0" type="number" />
+                @*<button id="butluu">Lưu</button>*@
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button class="modal-close btn blue" id="butluu">Lưu</button>
+        </div>
+    </div>
+</div>
+<!------------------------------------GET THE INFOR---------------------------------->
+<script>
+    var table;
+    $("#view").click(function () {
+        $("#pre-load").show();
+        $.ajax({
+            type: "POST",
+            url: "/phong-kcm/ke-hoach-san-xuat-thang/lay-thong-tin",
+            data: {
+                "Thang": function () { return $("#monthCalendar").val() },
+                "Nam": function () { return $("#yearCalendar").val() },
+                "MaPhongBan": function () { return $("#px").val() }
+            },
+            success: function (data) {
+                if (data.check == "1") {
+                    $("#totalDays").val(data.snlv);
+                }
+                else {
+                    $("#butsnlv").click();
+                }
+                $("#pre-load").hide();
+            }
+        });
+        if ($("#aspectDetailTable tbody tr").length == 0) {
+            table = $("#aspectDetailTable").DataTable({
+                "ajax": {
+                    "url": "/phong-kcm/ke-hoach-san-xuat-thang/lay-thong-tin",
+                    "type": "POST",
+                    "datatype": "json",
+                    "cache": "false",
+                    "data": {
+                        "Thang": function () { return $("#monthCalendar").val() },
+                        "Nam": function () { return $("#yearCalendar").val() },
+                        "MaPhongBan": function () { return $("#px").val() }
+                    },
+                    "dataSrc": function (json) {
+                        $("#totalDays").val(json.SoNgayLamViec);
+                        return json["listKH"]
+                    }
+                },
+                "columns": [
+                    {
+                        "name": "TenTieuChi", "data": "TenTieuChi"
+                    },
+                    { "name": "DonViDo", "data": "DonViDo" },
+                    {
+                        "name": "SanLuong", "data": "", "render": function (data, type, row) {
+                            return "<input type=\"number\" value=\"" + row["SanLuong"] + "\" />"
+                        }
+                    },
+                    {
+                        "name": "GhiChu", "data": "", "render": function (data, type, row) {
+                            return "<input type=\"text\" value=\"" + (row["GhiChu"] == null ? "" : row["GhiChu"]) + "\" />"
+                        }
+                    }
+                ],
+                "rowId": "MaTieuChi",
+                "serverSide": "true",
+                "order": [0, "desc"],
+                "searching": false,
+                "lengthChange": false,
+                "autoWidth": false,
+                "filter": false,
+                "info": false,
+                "paging": false,
+                "language": {
+                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                    paginate:
+                    {
+                        previous: "Trang trước",
+                        next: "Trang sau",
+                        first: "|<",
+                        last: ">|"
+                    }
+                },
+                "initComplete": function (response) {
+                    $("#pre-load").hide();
+                },
+                "drawCallback": function (response) {
+                    $("#pre-load").hide();
+                }
+
+            })
+        } else {
+            table.ajax.reload();
+        }
+    });
+</script>
+
+
+<!-------------------------------------InsertORUpdate---------------------------------------->
+<!-----Get List Value In DataTable----->
+<script>
+    function getListData() {
+        var listtable = {}
+        var list = []
+        for (var i = 0; i < $("#aspectDetailTable tbody tr").length; i++) {
+            var row = {}
+            row.matieuchi = $("#aspectDetailTable tbody tr").eq(i).attr("id")
+            row.sanluong = $("#aspectDetailTable tbody tr").eq(i).find('input').eq(0).val()
+            row.ghichu = $("#aspectDetailTable tbody tr").eq(i).find('input').eq(1).val()
+            list.push(row)
+        }
+        listtable.list = list
+        return JSON.stringify(listtable)
+    }
+</script>
+<script>
+    $("#butluu").click(function () {
+        $("#pre-load").show();
+        //alert($("#yearCalendar").val());
+        $.ajax({
+            type: "POST",
+            url: "/phong-kcm/ke-hoach-san-xuat-thang/nhapsnlv",
+            data: {
+                "snlv": $("#snlv").val(),
+                "nam": $("#yearCalendar").val(),
+                "thang": $("#monthCalendar").val()
+            },
+            success: function (response) {
+                if (response.success == true) {
+                    successAlert(response.title, response.message);
+                    $("#totalDays").val($("#snlv").val());
+                    $("#pre-load").hide();
+                }
+                else {
+                    errorAlert(response.title, response.message);
+                    $("#pre-load").hide();
+                }
+            }
+        });
+    });
+
+    $("#save").click(function () {
+        $("#pre-load").show();
+        $.ajax({
+            url: "/phong-kcm/ke-hoach-san-xuat-thang/nhap-du-lieu-hoac-cap",
+            type: "POST",
+            datatype: "json",
+            cache: "false",
+            data: {
+                "SoNgaySanXuat": $("#totalDays").val(),
+                "Thang": $("#monthCalendar").val(),
+                "Nam": $("#yearCalendar").val(),
+                "MaPhongBan": $("#px").val(),
+                "listData": getListData
+            },
+            success: function (response) {
+                if (response.success) {
+                    //alert successfully
+                    successAlert(response.title, response.message);
+                    //reload the table
+                    table.ajax.reload();
+                    //hide the pre-loader
+                    $("#pre-load").hide();
+                } else if (response.error) {
+                    //alert the failure
+                    errorAlert(response.title, response.message);
+                    //hide the pre-loader
+                    $("#pre-load").hide();
+                }
+            },
+            error: function (response) {
+
+            }
+        });
+    });
+
+</script>
+
+
+<!-------Disable select option of Materialzecss------->
+<script src="../../js/Custom JS/Disable_input_material.js"></script>

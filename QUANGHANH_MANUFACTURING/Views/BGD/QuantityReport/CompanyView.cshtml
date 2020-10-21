@@ -1,0 +1,244 @@
+﻿
+@{
+    ViewBag.Title = "CompanyView";
+    if (Session["departID"].ToString().Contains("BGĐ"))
+    {
+        Layout = "~/Views/Shared/_Layout_BGD2.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("CV"))
+    {
+        Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("TCLĐ"))
+    {
+        Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("ĐK"))
+    {
+        Layout = "~/Views/Shared/_Layout_DK.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("KCM"))
+    {
+        Layout = "~/Views/Shared/_Layout_KCM.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("KCS"))
+    {
+        Layout = "~/Views/Shared/_Layout_KCS.cshtml";
+    }
+    else if(Session["departID"].ToString().Contains("AT"))
+    {
+        Layout = "~/Views/Shared/_Layout_AT.cshtml";
+    }
+}
+
+@*<link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
+    <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+    <style>
+        #table-container {
+            overflow: scroll;
+        }
+
+        #yearCalendar {
+            width: 20% !important;
+            float: right;
+        }
+
+        #view-btn {
+            width: 170px;
+            float: left;
+        }
+        /*.sticky + .table-content {
+          padding-top: 102px;
+        }
+            .sticky {
+          position: fixed;
+          top: 0;
+          width: 100%;
+        }*/
+    </style>
+
+    <div class="card">
+        <div class="card-content">
+            <div class="row">
+                <div class="center black-text row">
+                    <h3>
+                        <b>
+                            BÁO CÁO CÁC PHÂN XƯỞNG THEO NGÀY
+                        </b>
+                    </h3>
+
+                    <div class="row">
+                        <h3>
+                            <div class="col l6 m6 s6">
+                                <input id="yearCalendar" class=" datepicker-here datepicker-add center"
+                                       data-language='vi'
+                                       data-date-format="dd-mm-yyyy"
+                                       required />
+                            </div>
+                        </h3>
+                        <div class="col l6 m6 s6">
+                            <a id="view-btn" class="waves-effect waves-light btn blue darken-2" onclick="getInformation()">XEM</a>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <hr>
+                <br />
+            </div>
+            <div class="row">
+                <a id="export-button" class="waves-effect waves-light btn blue">Xuất ra file excel</a>
+            </div>
+            <br />
+        </div>
+    </div>
+
+    <span hidden value="hihi" id="createdHeader"></span>
+    <script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+    <script src="~/js/Custom JS/Disable_input_material.js"></script>
+    <script src="~/js/Custom JS/form-input-border.js"></script>
+    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="/Scripts/jquery.validate.min.js"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/Scripts/notify.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+    <script>
+        $("#export-button").click(function () {
+            var x = $("#yearCalendar").val().split("-");
+            var date = x[2] + '-' + x[1] + '-' + x[0];
+            $("#pre-load").show("slow", function () { });
+            $.ajax({
+                type: 'post',
+                url: '/ban-giam-doc/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-export-excel',
+                data: {
+                    'date': date,
+                    "someData": ""
+                },
+                success: function (response) {
+                    if (response.success) {
+                        var response = JSON.parse(JSON.stringify(response.data));
+                        window.location = '/ban-giam-doc/bao-cao-san-xuat-than/download?fileGuid=' + response.FileGuid
+                            + '&filename=' + response.FileName;
+                    } else {
+                        errorAlert("Lỗi!","");
+                    }
+                    $("#pre-load").hide("slow", function () { });
+                },
+                error: function (response) {
+                }
+            })
+        });
+    </script>
+    <script>
+            $(function () {
+                var currentTime = new Date();
+                var month = currentTime.getMonth() + 1;
+                var day = currentTime.getDate();
+                var year = currentTime.getFullYear();
+                var date = day + "-" + month + "-" + year;
+                $("#yearCalendar").val(date);
+            })
+
+        function getInformation() {
+            window.open("/ban-giam-doc/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty?ngay=" + $("#yearCalendar").val())
+        }
+    </script>*@
+
+<link href="~/assets/Custom css/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+<style>
+    #table-container {
+        overflow: scroll;
+    }
+</style>
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="center black-text row">
+                <h3>
+                    <b>
+                        BÁO CÁO SẢN LƯỢNG TIÊU CHÍ TOÀN CÔNG TY
+                    </b>
+                </h3>
+
+                <div class="row">
+                    <h3>
+                        <div class="col l2 m2 s12 offset-l4">
+                            <input id="yearCalendar" autocomplete="off" class="form-control datepicker-here datepicker-add center"
+                                   data-language='vi'
+                                   data-date-format="dd-mm-yyyy"
+                                   required />
+                        </div>
+                    </h3>
+                    <div class="col l2 m2 s12">
+                        <a id="view-btn" class="left waves-effect waves-light btn btn-small blue darken-2" onclick="getInformation()">XEM</a>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <hr>
+            <br />
+        </div>
+        <div class="row">
+            <a id="export-button" class="waves-effect waves-light btn blue">Xuất ra file excel</a>
+        </div>
+        <br />
+    </div>
+</div>
+
+<span hidden value="hihi" id="createdHeader"></span>
+<script src="~/lib/datepicker_src/dist/js/i18n/datepicker.vi.js"></script>
+<script src="~/js/Custom JS/Disable_input_material.js"></script>
+<script src="~/js/Custom JS/form-input-border.js"></script>
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="/Scripts/jquery.validate.min.js"></script>
+<script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="/Scripts/notify.min.js"></script>
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+<script>
+    $("#export-button").click(function () {
+        var x = $("#yearCalendar").val().split("-");
+        var date = x[2] + '-' + x[1] + '-' + x[0];
+        $("#pre-load").show("slow", function () { });
+        $.ajax({
+            type: 'post',
+            url: '/ban-giam-doc/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty-export-excel',
+            data: {
+                'date': date,
+                "someData": ""
+            },
+            success: function (response) {
+                if (response.success) {
+                    var response = JSON.parse(JSON.stringify(response.data));
+                    window.location = '/ban-giam-doc/bao-cao-san-xuat-than/download?fileGuid=' + response.FileGuid
+                            + '&filename=' + response.FileName;
+                } else {
+                    errorAlert("Lỗi!", "");
+                }
+                $("#pre-load").hide("slow", function () { });
+            },
+            error: function (response) {
+            }
+        })
+    });
+</script>
+<script>
+    $(function () {
+        var currentTime = new Date();
+        var month = currentTime.getMonth() + 1;
+        var day = currentTime.getDate();
+        var year = currentTime.getFullYear();
+        var date = day + "-" + month + "-" + year;
+        $("#yearCalendar").val(date);
+    })
+
+    function getInformation() {
+        window.open("/ban-giam-doc/bao-cao-san-xuat-than/bao-cao-san-luong-toan-cong-ty?ngay=" + $("#yearCalendar").val())
+    }
+</script>
+
+

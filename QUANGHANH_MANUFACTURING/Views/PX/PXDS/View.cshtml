@@ -1,0 +1,309 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/PX/_Layout_PXDS.cshtml";
+}
+
+<link href="~/dist/css/pages/data-table.css" rel="stylesheet" />
+<link href="~/assets/Custom css/TCLD/Eating/Register.css" rel="stylesheet" />
+<link href="~/css/pre-loader/css.css" rel="stylesheet" />
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col s12 center">
+                <h3><b>THEO DÕI SUẤT ĂN CÁC PHÒNG BAN</b></h3>
+                <h3 id="textTuan"> </h3>
+            </div>
+            <div class="col s12 input-field center">
+                <i class="fas fa-calendar-alt icon"></i>
+                <input type="text"
+                       id="inputTime"
+                       data-date-format="dd/mm/yyyy"
+                       data-language="vi"
+                       class="datepicker-here center " style="height: 24px"
+                       value="dd/mm/yyyy" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 m12 l12 table-responsive">
+                <div class="col l2 m12 s12 input-field">
+                    <input type="text" placeholder="Tìm kiếm theo mã phòng ban" class='form-control' id="searchMa" multiple />
+                </div>
+                <div class="col l2 m12 s12 input-field">
+                    <input type="text" placeholder="Tìm kiếm theo tên phòng ban" class='form-control' id="searchTen" multiple />
+                </div>
+                <div class="col l2 m12 s12 input-field">
+                    <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
+                </div>
+                <div class="col s12 m12 l12 input-field">
+                    <a class="btn btn-small blue darken-2" id="exportExcel"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
+                </div>
+
+
+
+                <table id="table" class="display table-bordered table" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">Mã phòng ban</th>
+                            <th rowspan="2">Tên phòng ban</th>
+                            <th colspan="2">T2</th>
+                            <th colspan="2">T3</th>
+                            <th colspan="2">T4</th>
+                            <th colspan="2">T5</th>
+                            <th colspan="2">T6</th>
+                            <th colspan="2">T7</th>
+                            <th colspan="2">CN</th>
+                            <th colspan="2">Tổng</th>
+                        </tr>
+                        <tr>
+
+                            <th>Kế hoạch</th>
+                            <th>Thực tế</th>
+                            <th>Kế hoạch</th>
+                            <th>Thực tế</th>
+                            <th>Kế hoạch</th>
+                            <th>Thực tế</th>
+                            <th>Kế hoạch</th>
+                            <th>Thực tế</th>
+                            <th>Kế hoạch</th>
+                            <th>Thực tế</th>
+                            <th>Kế hoạch</th>
+                            <th>Thực tế</th>
+                            <th>Kế hoạch</th>
+                            <th>Thực tế</th>
+                            <th>Kế hoạch</th>
+                            <th>Thực tế</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="pre-load" hidden>
+    <div class="loading">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
+<script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script>
+    var table;
+    var time = new Date();
+    $(document).ready(function () {
+
+        $('.datepicker-inline').remove();
+
+
+        console.log('ddd');
+
+        $('#inputTime').val(formatDate(new Date()));
+        $('#textTuan').html(formatTextTuan(new Date())) ;
+        table=$('#table')
+                        .on('preXhr.dt', function (e, settings, data) {
+
+                      ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+      				  $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+
+                            })
+            .DataTable(
+                {
+                      "language": {
+                        emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                        paginate:
+                        {
+                            previous: "Trang trước",
+                            next: "Trang sau",
+                            first: "|<",
+                            last: ">|",
+
+                        },
+                        info: "Đang hiện START đến END của TOTAL bản ghi",
+                        infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                    },
+                        "processing": false,
+						"serverSide": true,
+                        "searching": false,
+                        "info": false,
+                        "bLengthChange": false,
+                        "ajax": {
+                            "url": "/Eating/getDataSuatAn?time="+new Date().toISOString(),
+                            "type": "POST",
+                           // "data": { 'time': JSON.stringify(new Date().toISOString()) },
+                            "datatype": "json"
+                        },
+                        "drawCallback": function( settings ) {
+                            $("#pre-load").hide("slow", function () {
+      		              });
+                        },
+                        "columns": [
+                            { data: 'mapb' },
+                            { data: 'tenpb' },
+                            { data: 't2' },
+                            { data: 't2tt' },
+                            { data: 't3' },
+                            { data: 't3tt' },
+                            { data: 't4' },
+                            { data: 't4tt' },
+                            { data: 't5' },
+                            { data: 't5tt' },
+                            { data: 't6' },
+                            { data: 't6tt' },
+                            { data: 't7' },
+                            { data: 't7tt' },
+                            { data: 'cn' },
+                            { data: 'cntt' },
+                            { data: 'tong' },
+                            { data: 'tongtt' }
+
+                        ],
+                    "success": function (data) {
+                        console.log(data);
+                           }
+
+
+                    }
+          );
+    });
+
+    function search() {
+        var object = {
+            "mapb":   $('#searchMa').val(),
+            "tenpb":  $('#searchTen').val()
+
+        }
+        dateText = $('#inputTime').val();
+        var dateParts = dateText.split("/");
+            var date = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+
+                table.ajax.url('@Url.Action("searchSuatAn", "Eating")?data=' + JSON.stringify(object)+'&time='+date.toISOString()).load(() => {  }, false);
+    }
+     $('#searchButton').click(function (e) {
+         console.log("Click search");
+         $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+                    e.preventDefault();
+                    search();
+
+
+     });
+
+
+
+    $("#inputTime").datepicker({
+
+        onSelect: function (dateText,inst) {
+
+             $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+
+            var x = dateText;
+            if (x == "") {
+                $('#inputTime').val(formatDate(new Date()));
+                table.ajax.url('@Url.Action("getDataSuatAn", "Eating")?time=' + new Date().toISOString()).load(() => { }, false);
+                return;
+            }
+            var dateParts = dateText.split("/");
+            var date = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+            $('#textTuan').text(formatTextTuan(date)) ;
+
+        //console.log('change date: '+date);
+            table.ajax.url('@Url.Action("getDataSuatAn", "Eating")?time=' + date.toISOString()).load(() => { }, false);
+            console.log($("#inputTime").datepicker());
+
+        }
+    });
+    function formatTextTuan(date) {
+        var monthNames = [
+    "1", "2", "3",
+    "4", "5", "6", "7",
+    "8", "9", "10",
+    "11", "12"
+  ];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+        var year = date.getFullYear();
+        var tuan = 1;
+
+        if (Math.floor(parseInt(day) / 7 )== 0) {
+            tuan = 1;
+        } else if (Math.floor(parseInt(day) / 7 ) == 1) {
+            tuan = 2;
+        } else if (Math.floor(parseInt(day) / 7 ) == 2) {
+            tuan = 3;
+        } else {
+            tuan = 4;
+        }
+
+  return 'Tuần '+tuan + ' Tháng ' + monthNames[monthIndex] + ' Năm ' + year;
+    }
+    function formatDate(date) {
+  var monthNames = [
+    "1", "2", "3",
+    "4", "5", "6", "7",
+    "8", "9", "10",
+    "11", "12"
+  ];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+
+  return day + '/' + monthNames[monthIndex] + '/' + year;
+    }
+
+    function exportExcel() {
+
+        var dateParts = $('#inputTime').val().split("/");
+        var date = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+        $.ajax({
+            type: 'POST',
+            url: '/Eating/ExportExcel',
+            data: { "time": date.toISOString() },
+            dataType: 'json',
+            success: function (response) {
+               if (response.success) {
+        //Tải file excel về theo như location được gửi về từ controller
+        window.location.href = response.location;
+        $("#pre-load").hide("slow", function () {
+            });
+            } else {
+            alert("error");
+            }
+
+            }
+        });
+
+    }
+
+    $('#exportExcel').click(function (e) {
+        $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+        e.preventDefault();
+        exportExcel();
+    });
+
+</script>
+

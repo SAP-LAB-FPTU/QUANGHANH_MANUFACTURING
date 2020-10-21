@@ -1,0 +1,772 @@
+﻿
+@{
+    ViewData["Title"] = "Regulations";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+<link href="~/css/advancedsearch/advancedsearch.css" rel="stylesheet" />
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+
+<link href="~/assets/Custom css/TCLD/Brief/ManageBrief/beo_regulations.css" rel="stylesheet" />
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col l12 m12 s12">
+                <h3 class="center"><b>DANH SÁCH QUY ĐỊNH</b></h3>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <ul class="tabs">
+                    <li class="tab col m3 l3 s3"><a href="#thongtincuatruong">Trường Học</a></li>
+                    <li class="tab col m3 l3 s3"><a href="#thongtintrinhdo">Trình Độ</a></li>
+                    <li class="tab col m3 l3 s3"><a href="#thongtincuachuyennganh">Chuyên Ngành</a></li>
+                    <li class="tab col m3 l3 s3"><a href="#thongtincuanganh">Ngành</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="thongtincuachuyennganh">
+            <div class="row">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row">
+                            <div class="col l5 m5 s12 input-field">
+                                <input type="text" placeholder="Tìm kiếm bằng tên" class='form-control' id="searchTenCN" multiple />
+                            </div>
+                            <div class="col l5 m5 s12 input-field">
+                                <select class="form-control" id="searchCapBac">
+                                    <option value="-1">Chọn Cấp Bậc</option>
+                                    @{
+                                        foreach (var cb in ViewBag.List_CapBac)
+                                        {
+                                            <option id="@cb.CapBac">@cb.CapBac</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col l2 m2 s12 input-field">
+                                <button class="btn blue darken-2 btn-small" onclick="timKiem()" id="searchButton">Tim Kiếm</button>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <a class="btn btn-small blue darken-2 modal-trigger btn-mg" data-target="them_chuyennganh">Thêm thông tin chuyên ngành</a>
+                        </div>
+                        <br />
+                        <table class="table table-bordered table-responsive centered highlight" id="thongtinchuyennganh">
+                            <thead>
+                                <tr>
+                                    <th>Mã Chuyên Ngành</th>
+                                    <th>Tên Chuyên Ngành</th>
+                                    <th>Cấp Bậc</th>
+                                    <th>Chi Tiết</th>
+                                    <th>Mã Ngành</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="thongtincuanganh">
+            <div class="row">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row">
+                            <a class="btn btn-small blue darken-2 modal-trigger btn-mg" data-target="them_nganh">Thêm thông tin ngành</a>
+                        </div>
+                        <br />
+                        <table class="table table-bordered table-responsive centered highlight" id="thongtinnganh">
+                            <thead>
+                                <tr>
+                                    <th>Mã Ngành</th>
+                                    <th>Tên Ngành</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="thongtincuatruong">
+            <div class="row">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row">
+                            <a class="btn btn-small blue darken-2 modal-trigger btn-mg" data-target="them_truong">Thêm thông tin trường</a>
+                        </div>
+                        <br />
+                        <table class="table table-bordered table-responsive centered highlight" id="thongtintruong">
+                            <thead>
+                                <tr>
+                                    <th>Mã Trường</th>
+                                    <th>Tên Trường</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="thongtintrinhdo">
+            <div class="row">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row">
+                            <a class="btn btn-small blue darken-2 modal-trigger btn-mg" data-target="them_trinhdo">Thêm thông tin trình độ</a>
+                        </div>
+                        <br />
+                        <table class="table table-bordered table-responsive centered highlight" id="trinhdo">
+                            <thead>
+                                <tr>
+                                    <th>Mã Trình Độ</th>
+                                    <th>Trình Độ</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h3><b>Bạn có chắc chắn muốn lưu không?</b></h3>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn blue" id="btn_agrr">Đồng ý</a>
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn red">Hủy bỏ</a>
+    </div>
+</div>
+<div id="deletechuyennganh" class="modal">
+    <div class="modal-content">
+        <div class="modal-footer">
+            <a class="btn blue darken-2 modal-close" onclick="deleteChuyenNganh()">Xóa</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+<div id="them_chuyennganh" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Thêm Thông Tin Chuyên Ngành</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("ThemChuyenNganh", "BriefRegulation")
+        </div>
+    </div>
+</div>
+<div id="them_truong" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Thêm Thông Tin Trường</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("ThemTruong", "BriefRegulation")
+        </div>
+    </div>
+</div>
+<div id="them_nganh" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Thêm Thông Tin Ngành</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("ThemNganh", "BriefRegulation")
+        </div>
+    </div>
+</div>
+<div id="sua_chuyennganh" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa Thông Tin Chuyên Ngành</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("SuaChuyenNganh", "BriefRegulation")
+        </div>
+    </div>
+</div>
+<div id="sua_truong" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa Thông Tin Trường</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("SuaTruong", "BriefRegulation")
+        </div>
+    </div>
+</div>
+<div id="sua_nganh" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa Thông Tin Ngành</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("SuaNganh", "BriefRegulation")
+        </div>
+    </div>
+</div>
+<div id="sua_trinhdo" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Sửa Thông Tin Trình Độ</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("SuaTrinhDo", "BriefRegulation")
+        </div>
+    </div>
+</div>
+<div id="them_trinhdo" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Thêm Thông Tin Trình Độ</h3>
+        </div>
+        <div class="modal-body">
+            @Html.Action("ThemTrinhDo", "BriefRegulation")
+        </div>
+    </div>
+</div>
+<div id="deletetruong" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Xác nhận xóa thông tin trường</h3>
+        </div>
+        <div class="modal-body">
+            <p class="red-text">Bạn có muốn xóa thông tin này?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2 modal-close" onclick="deleteTruong()">Xóa</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+
+<div id="deletenganh" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Xác nhận xóa thông tin ngành</h3>
+        </div>
+        <div class="modal-body">
+            <p class="red-text">Bạn có muốn xóa thông tin này?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2 modal-close" onclick="deleteNganh()">Xóa</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+
+<div id="deletetrinhdo" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Xác nhận xóa thông tin trình độ</h3>
+        </div>
+        <div class="modal-body">
+            <p class="red-text">Bạn có muốn xóa thông tin này?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2 modal-close" onclick="deleteTrinhDo()">Xóa</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+<!--Javascript-->
+<script src="~/js/Custom JS/TCLD/Brief/Briefs_List.js"></script>
+<script src="~/js/advancedsearch/advancedsearch.js"></script>
+<script src="~/js/Custom JS/form-input-border.js"></script>
+<!--Advance search js-->
+<script src="~/js/advancedsearch/advancedsearchList.js"></script>
+@section scripts{
+    @*<script src="~/js/notify.min.js"></script>*@
+    <script>
+        $("#pre-load").show("slow", function () {
+         });
+        $("#pre-load").css("z-index", "99999");
+        var dataTable,Popup;
+        var deleteIdNganh, dataTableTruong, dataTableNganh, dataTableTrinhDo;
+        var delete_id;
+        var delete_id_nganh;
+        $(document).ready(function () {
+            dataTable = $('#thongtinchuyennganh')
+                .on('preXhr.dt', function (e, settings, data) {
+                                   ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+      				  $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+			          ////////////////////////////////////////////////////////////////////////
+                            })
+                .DataTable({
+                "ajax": {
+                    "url": "/phong-tcld/quan-ly-ho-so/chuan-hoa-ten",
+                    "type": "POST",
+                    "datatype": "json",
+                    },
+                    "drawCallback": function (settings) {
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    },
+                "aoColumns": [
+                    { "data": "MaChuyenNganh", "name": "MaChuyenNganh" },
+                    { "data": "TenChuyenNganh", "name": "TenChuyenNganh" },
+                    { "data": "CapBac", "name": "CapBac" },
+                    { "data": "ChiTiet", "name": "ChiTiet" },
+                    { "data": "MaNganh", "name": "MaNganh" },
+                    {
+                        "data": "MaChuyenNganh", "name": "MaChuyenNganh", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='sua_chuyennganh'  style='margin-left:5px' onclick=getEditChuyenNganh(" + data + ") ><i class='far fa-edit'></i> Sửa</a>";
+                        }
+                    },
+                    {
+                        "data": "MaChuyenNganh", "render": function (data) {
+                           return "<a  class='waves-effect waves-light btn-small red'  style='margin-left:5px' onclick=\"deleteChuyenNganh('" + data + "')\"><i class='fa fa-trash'></i> Xóa</a>";
+                        }
+                    },
+                ],
+                "serverSide": true,
+                    "order": [0, "desc"],
+                    "searching": false,
+                    "bLengthChange": false,
+                    "autoWidth": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                "language": {
+                        "zeroRecords": "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                        paginate:
+                        {
+                            previous: "Trang trước",
+                            next: "Trang sau",
+                            first: "|<",
+                            last: ">|"
+                        }
+                    },
+                "initComplete": function (settings, json) {
+                    ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                    }
+                });
+
+            dataTableNganh = $('#thongtinnganh')
+                .on('preXhr.dt', function (e, settings, data) {
+
+                                   ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+      				  $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+			          ////////////////////////////////////////////////////////////////////////
+                            })
+                .DataTable({
+                "ajax": {
+                    "url": "/phong-tcld/quan-ly-ho-so/chuan-hoa-ten/nganh",
+                    "type": "POST",
+                    "datatype": "json",
+                    //"dataSrc": function (json) {
+                    //    return JSON.parse(json.data);
+                    //}
+                    },
+                    "drawCallback": function (settings) {
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    },
+                "aoColumns": [
+                    { "data": "MaNganh", "name": "MaNganh" },
+                    { "data": "TenNganh", "name": "TenNganh" },
+                    {
+                        "data": "MaNganh", "name": "MaNganh", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='sua_nganh' style='margin-left:5px' onclick='getEditNganh(" + data + ")' ><i class='far fa-edit'></i> Sửa</a>";
+                        }
+                    },
+                    {
+                        "data": "MaNganh", "name": "MaNganh", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn-small red '  style='margin-left:5px' onclick=deleteNganh('" + data + "') ><i class='fa fa-trash'></i> Xóa</a>";
+                        }
+                    },
+                ],
+                "serverSide": true,
+                "order": [0, "asc"],
+                "bPaginate": true,
+                "bFilter": false,
+                "bInfo": false,
+                "language": {
+                       "zeroRecords": "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                        paginate:
+                        {
+                            previous: "Trang trước",
+                            next: "Trang sau",
+                            first: "|<",
+                            last: ">|"
+                        }
+                    },
+                "drawCallback": function (settings) {
+                                 ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                                  $("#pre-load").hide("slow", function () {
+                       		  });
+ 			        ////////////////////////////////////////////////
+
+                        },
+                "autoWidth": false,
+                "initComplete": function (settings, json) {
+                    ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                    }
+                });
+
+
+            dataTableTruong = $('#thongtintruong')
+                .on('preXhr.dt', function (e, settings, data) {
+
+                                   ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+      				  $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+			          ////////////////////////////////////////////////////////////////////////
+                            })
+                .DataTable({
+                "ajax": {
+                    "url": "/phong-tcld/quan-ly-ho-so/chuan-hoa-ten/truong",
+                    "type": "POST",
+                    "datatype": "json",
+                    //"dataSrc": function (json) {
+                    //    return JSON.parse(json.data);
+                    //}
+                },
+                "columns": [
+                    { "data": "MaTruong", "name": "MaTruong" },
+                    { "data": "TenTruong", "name": "TenTruong" },
+                    {
+                        "data": "MaTruong", "name": "MaTruong", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='sua_truong' style='margin-left:5px' onclick='getEditTruong(" + data + ")' ><i class='far fa-edit'></i> Sửa</a>";
+                        }
+                    },
+                    {
+                        "data": "MaTruong", "name": "MaTruong", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn-small red '  style='margin-left:5px' onclick=deleteTruong(" + data + ") ><i class='fa fa-trash'></i> Xóa</a>";
+                        }
+                    },
+                ],
+                "serverSide": true,
+                "order": [0, "asc"],
+                "bPaginate": true,
+                "bFilter": false,
+                "bInfo": false,
+                 "language": {
+                        "zeroRecords": "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                        paginate:
+                        {
+                            previous: "Trang trước",
+                            next: "Trang sau",
+                            first: "|<",
+                            last: ">|"
+                        }
+                    },
+                "drawCallback": function (settings) {
+                                 ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                                  $("#pre-load").hide("slow", function () {
+                       		  });
+ 			        ////////////////////////////////////////////////
+
+                        },
+                "autoWidth": false,
+                "initComplete": function (settings, json) {
+                    ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                    }
+                });
+
+            dataTableTrinhDo = $('#trinhdo')
+                .on('preXhr.dt', function (e, settings, data) {
+
+                                   ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+      				  $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+			          ////////////////////////////////////////////////////////////////////////
+                            })
+                .DataTable({
+                "ajax": {
+                    "url": "/phong-tcld/quan-ly-ho-so/chuan-hoa-ten/trinhdo",
+                    "type": "POST",
+                    "datatype": "json",
+                    //"dataSrc": function (json) {
+                    //    return JSON.parse(json.data);
+                    //}
+                },
+                "columns": [
+                    { "data": "MaTrinhDo", "name": "MaTrinhDo" },
+                    { "data": "TenTrinhDo", "name": "TenTrinhDo" },
+                    {
+                        "data": "MaTrinhDo", "name": "MaTrinhDo", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='sua_trinhdo' style='margin-left:5px' onclick=getEditTrinhDo(" + data + ") ><i class='far fa-edit'></i> Sửa</a>";
+                        }
+                    },
+                    {
+                        "data": "MaTrinhDo", "name": "MaTrinhDo", "render": function (data) {
+                            return "<a class='waves-effect waves-light btn-small red ' style='margin-left:5px' onclick=deleteTrinhDo(" + data + ") ><i class='fa fa-trash'></i> Xóa</a>";
+                        }
+                    },
+                ],
+                "serverSide": true,
+                "order": [0, "asc"],
+                "bPaginate": true,
+                "bFilter": false,
+                "bInfo": false,
+                 "language": {
+                        "zeroRecords": "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                        "paginate":
+                        {
+                            "previous": "Trang trước",
+                            "next": "Trang sau",
+                            "first": "|<",
+                            "last": ">|"
+                        }
+                    },
+                "drawCallback": function (settings) {
+                                 ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                                  $("#pre-load").hide("slow", function () {
+                       		  });
+ 			        ////////////////////////////////////////////////
+
+                        },
+                "autoWidth": false,
+                "initComplete": function (settings, json) {
+                    ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                    }
+                });
+        });
+
+        $(document).ready(function () {
+            var dataTable = $('#equipmentTable').DataTable();
+             $("#searchButton").click(function () {
+                 dataTable.ajax.reload();
+            });
+
+            
+        });
+
+
+        function deleteChuyenNganh(id) {
+            confirmAlert(
+                'Xóa',
+                'Bạn có chắc muốn xóa?',
+                function ahihi() {
+                    $("#pre-load").show();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("deleteChuyenNganh", "BriefRegulation")',
+                    data: {id : id},
+                    success: function (data) {
+                        if (data.success)
+                        {
+                            $("#pre-load").hide();
+                            reloadAlert('Xóa thành công', 1000);
+
+                        }
+                    }
+
+
+                });
+            });
+        }
+        function SubmitForm(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(this).valid()) {
+                $.ajax({
+                    url: form.action,
+                    type: "POST",
+                    data: $(form).serialize(),
+                    success: () => {
+                        dataTable.ajax.reload();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "success"
+                        });
+                    },
+                })
+            }
+            return false;
+        }
+        
+        function deleteTruong(id) {
+            confirmAlert(
+                'Xóa',
+                'Bạn có chắc muốn xóa?',
+                function ahihi() {
+                    $("#pre-load").show();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("deleteTruong", "BriefRegulation")',
+                    data: {id : id},
+                    success: function (data) {
+                        if (data.success)
+                        {
+                            $("#pre-load").hide();
+                            reloadAlert('Xóa thành công', 1000);
+
+                        }
+                    }
+                });
+            });
+
+        }
+
+        function deleteNganh(id) {
+            confirmAlert(
+                'Xóa',
+                'Bạn có chắc muốn xóa?',
+                function ahihi() {
+                    $("#pre-load").show();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("deleteNganh", "BriefRegulation")',
+                    data: {id : id},
+                    success: function (data) {
+                        if (data.success)
+                        {
+                            $("#pre-load").hide();
+                            reloadAlert('Xóa thành công', 1000);
+
+                        }
+                    }
+                });
+            });
+
+        }
+
+        function getEditChuyenNganh(id) {
+            if (id != null) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("SuaChuyenNganh", "BriefRegulation")/' + id,
+                    success: function (data) {
+                        $("#edit-modal-chuyen-nganh").html(data)
+                    }
+                });
+            }
+        }
+
+        function getEditTruong(id) {
+            if (id != null) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("SuaTruong", "BriefRegulation")/' + id,
+                    success: function (data) {
+                        $("#edit-modal-body").html(data)
+                    }
+                });
+            }
+        }
+
+        function getEditNganh(id) {
+            if (id != null) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("SuaNganh", "BriefRegulation")/' + id,
+                    success: function (data) {
+                        $("#edit-modal-nganh").html(data)
+                    }
+                });
+            }
+        }
+
+        function getEditTrinhDo(id) {
+            if (id != null) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("SuaTrinhDo", "BriefRegulation")/' + id,
+                    success: function (data) {
+                        $("#edit-modal-trinh-do").html(data)
+                    }
+                });
+            }
+        }
+
+        function deleteTrinhDo(id) {
+            confirmAlert(
+                'Xóa',
+                'Bạn có chắc muốn xóa?',
+                function ahihi() {
+                    $("#pre-load").show();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("deleteTrinhDo", "BriefRegulation")',
+                    data: {id : id},
+                    success: function (data) {
+                        if (data.success)
+                        {
+                            $("#pre-load").hide();
+                            reloadAlert('Xóa thành công', 1000);
+                        }
+                    }
+                });
+            });
+
+        }
+
+        function timKiem() {
+            var name = $("#searchTenCN").val();
+            var cb = $("#searchCapBac").val();
+            var obj = {
+                name: name,
+                cb: cb,
+            }
+            var objJson = JSON.stringify(obj)
+            // if valid call ajax
+            dataTable.ajax.url('@Url.Action("SearchSpecialized","BriefRegulation")?data=' + objJson).load((result) =>
+            {
+                $("#pre-load").show();
+            }, false);
+            //else notify
+        }
+
+
+        function replace(string) {
+            if (string.indexOf('\r\n') != -1) {
+                string.replace('\r\n', "");
+            }
+            if (string.indexOf('\r\n') != -1) {
+                string.replace('\r', "");
+            }
+            if (string.indexOf('\r\n') != -1) {
+                string.replace('\n', "");
+            }
+            if (string.indexOf('"') != -1) {
+                string.replace('"', "");
+            }
+            return string;
+        }
+
+    </script>
+}
+

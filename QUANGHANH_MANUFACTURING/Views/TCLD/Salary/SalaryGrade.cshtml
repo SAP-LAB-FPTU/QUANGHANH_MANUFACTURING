@@ -1,0 +1,316 @@
+﻿
+@{
+    ViewBag.Title = "SalaryGrade";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <h3 class="center"><b>QUẢN LÝ BẬC LƯƠNG</b></h3>
+            <div>
+                <a class="waves-effects waves-light btn blue darken-2 btn-small input-field modal-trigger" href="#modal_themBL">Thêm</a>
+            </div>
+            <div>
+                <table id="tblBacLuong" class="table table-bordered responsive-table center">
+                    <thead>
+                        <tr>
+                            <th>Mức bậc lương</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal them bac luong -->
+    <div class="modal" id="modal_themBL">
+        <div class="card">
+            <div class="card-content">
+                <h4 class="center"><b>Thêm bậc lương</b></h4>
+                <div class="modal-content">
+                    <div class="col s1 m1 l1"></div>
+                    <div class="col s12 m10 l10">
+                        <label>Bậc lương</label>
+                        <input type="text" class="form-control bac" id="BacLuong_Them" />
+                    </div>
+                    <div class="col s1 m1 l1"></div>
+                </div>
+                <div class="modal-footer">
+                    <button id="xacNhanThemBacLuong" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
+                    <button id="dongThemBacLuong" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal sua bac luong -->
+    <div class="modal" id="modal_suaBL">
+        <div class="card">
+            <div class="card-content">
+                <h4 class="center"><b>Sửa bậc lương</b></h4>
+                <div class="modal-content">
+                    <div class="col s1 m1 l1"></div>
+                    <div class="col s12 m10 l10">
+                        <label>Bậc lương</label>
+                        <input type="text" class="form-control bac" id="BacLuong_Sua" />
+                    </div>
+                    <div class="col s1 m1 l1"></div>
+                </div>
+                <div class="modal-footer">
+                    <button id="xacNhanSuaBacLuong" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
+                    <button id="dongSuaBacLuong" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+
+<!-- List Bac Luong -->
+<script>
+    var table;
+    $(document).ready(function () {
+        $('#pre-load').show();
+        table = $('#tblBacLuong').DataTable({
+            "ajax": {
+                "url": "/phong-tcld/quan-ly-bac-luong/danh-sach-bac-luong",
+                "type": "POST",
+                "datatype": "json",
+                "cache": "false",
+                "dataSrc": function (json) {
+                    return json["list"];
+                }
+            },
+            "columns": [
+                { "data": "MucBacLuong", "name": "MucBacLuong" },
+                {
+                    "data": "", "render": function (data, type, row) {
+                        return "<a id=\"suaBacLuong\" name=\"" + row["MaBacLuong"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_suaBL\">Sửa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false
+                },
+                {
+                    "data": "", "render": function (data, type, row) {
+                        return "<a id=\"xoaBacLuong\" name=\"" + row["MaBacLuong"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-trigger\">Xóa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false
+                }
+            ],
+            "language": {
+                "emptyTable": "Không tìm thấy dữ liệu"
+            },
+            "serverSide": "true",
+            "order": [0, "desc"],
+            "searching": false,
+            "lengthChange": false,
+            "autoWidth": false,
+            "filter": true,
+            "info": false,
+            "language": {
+                emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                paginate:
+                {
+                    previous: "Trang trước",
+                    next: "Trang sau",
+                    first: "|<",
+                    last: ">|"
+                }
+            },
+            "initComplete": function (settings, json) {
+                $('#pre-load').hide();
+            }
+        });
+    });
+</script>
+
+<!--  Add  -->
+<script>
+    $(document).ready(function () {
+        $("#xacNhanThemBacLuong").click(function () {
+            $("pre-load").show(),
+                $.ajax({
+                    url: '/phong-tcld/quan-ly-bac-luong/them-bac-luong',
+                    type: 'POST',
+                    datatype: "json",
+                    data: {
+                        "MucBacLuong": $("#BacLuong_Them").val()
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            successAlert("Thành công", response.message);
+
+                            // close popup
+                            $("#dongThemBacLuong").click();
+                            // clear input
+                            $("#BacLuong_Them").val("");
+                            // reload table adter add
+                            table.ajax.reload();
+                            $("pre-load").hide();
+                        } else if (response.error) {
+                            errorAlert("Có lỗi !", response.message)
+                            $("pre-load").hide();
+                        }
+                    },
+                    error: function (response) {
+
+                    }
+                })
+        })
+    });
+</script>
+
+
+<!--    Edit   -->
+<script>
+    $(document).ready(function () {
+        var maBacLuong = "";
+
+        // getdata
+        $("#tblBacLuong").on('click', "#suaBacLuong", function () {
+
+            maBacLuong = $(this).attr("name");
+
+            getMucBacLuong(maBacLuong);
+        });
+
+        $("#xacNhanSuaBacLuong").click(function () {
+            var mucBacLuong = $("#BacLuong_Sua").val();
+            update(maBacLuong, mucBacLuong);
+        });
+    })
+</script>
+<!-- Get MucBacLuong theo MaBacLuong -->
+<script>
+    function getMucBacLuong(MaBacLuong) {
+        $("pre-load").show(),
+            $.ajax({
+                url: "/phong-tcld/quan-ly-bac-luong/lay-mucbacluong-theo-mabacluong",
+                type: "post",
+                dataType: "json",
+                data: {
+                    "MaBacLuong": MaBacLuong
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $(document).ready(function () {
+                            $("#BacLuong_Sua").val(response.MucBacLuong);
+                            $("pre-load").hide();
+                        })
+                    }
+                },
+                error: function (response) {
+
+                }
+            });
+
+    }
+</script>
+
+<!--  Update -->
+<script>
+    function update(maBacLuong, mucBacLuong) {
+        $("pre-load").show(),
+            $.ajax({
+                url: "/phong-tcld/quan-ly-bac-luong/sua-bac-luong",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    "MaBacLuong": maBacLuong,
+                    "MucBacLuong": mucBacLuong
+                },
+                success: function (response) {
+                    if (response.success) {
+                        successAlert("Thành công", response.message);
+                        //clear input filed
+                        $("#BacLuong_Sua").val("");
+                        //close popup modal
+                        $("#dongSuaBacLuong").click();
+                        //reload table after add successfully
+                        table.ajax.reload();
+                        $("#pre-load").hide();
+                    } else if (response.error) {
+                        errorAlert("Có lỗi", response.message);
+                        $("#pre-load").hide();
+                    }
+                }
+
+            });
+    }
+</script>
+
+<!--      Delete       -->
+<script>
+    $(document).ready(function () {
+        var maBacLuong = "";
+        $("#tblBacLuong").on("click", "#xoaBacLuong", function () {
+            maBacLuong = $(this).attr("name");
+            confirmAlert("Xác nhận xóa ?", "Xóa bậc lương", function () {
+                deleBacLuong(maBacLuong);
+            })
+        });
+    });
+</script>
+<script>
+    function deleBacLuong(maBacLuong) {
+        $("pre-load").show(),
+            $.ajax({
+                url: "/phong-tcld/quan-ly-bac-luong/xoa-bac-luong",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "MaBacLuong": maBacLuong
+                },
+                success: function (response) {
+                    if (response.success) {
+                        successAlert("Thành công", response.message);
+                        table.ajax.reload();
+                        $("pre-load").hide();
+                    } else {
+                        errorAlert("Có lỗi", response.message);
+                        $("pre-load").hide();
+                    }
+                },
+                error: function (response) {
+
+                }
+            })
+    }
+</script>
+
+
+
+<script>
+    $(".bac").keydown(function (e) {
+                            var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];
+                            for (var i = 48; i <= 57; i++) {
+                                acceptList.push(i);
+                            }
+                            for (var i = 96; i <= 105; i++) {
+                                acceptList.push(i);
+                            }
+                            if (acceptList.indexOf(e.keyCode) === -1) {
+                                e.preventDefault();
+                            }
+                            if ($(this).val().length === 3) {
+                                $(this).val("");
+                            }
+                        });
+                        $(".bac").keyup(function (e) {
+                            var text = $(this).val();
+                            if (text.length === 1) {
+                                $(this).val(text + "/");
+                            }
+                        });
+</script>
