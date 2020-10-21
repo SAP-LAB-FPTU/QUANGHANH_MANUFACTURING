@@ -1,0 +1,108 @@
+﻿@model QUANGHANH_MANUFACTURING.Models.Truong
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ThemTruong</title>
+</head>
+<body>
+
+    @using (Html.BeginForm("ThemTruong", "BriefRegulation", FormMethod.Post, new { onSubmit = "return SubmitForm(this)" }))
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaTruong, "Mã Trường", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MaTruong, new { htmlAttributes = new { @class = "form-control", @id = "validate_ma_truong" } })
+                <p hidden style="color:red" id="messageT">Mã trường đã tồn tại. Hãy nhập lại</p>
+                <p hidden style="color:red" id="messageTNull">Không được để trống ô này</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TenTruong, "Tên Trường", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TenTruong, new { htmlAttributes = new { @class = "form-control", @id = "validate_ten_truong" } })
+                <p hidden style="color:red" id="messageN">Tên trường đã tồn tại. Hãy nhập lại</p>
+                <p hidden style="color:red" id="messageNNull">Không được để trống ô này</p>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Tạo" class="btn btn-default blue" id="btn_saveT_doc" disabled />
+            </div>
+        </div>
+    </div>
+    }
+
+</body>
+</html>
+<script>
+    $('#validate_ma_truong').blur(function () {
+        if ($(this).val() == null || $(this).val() == "") {
+            $('#messageTNull').show();
+            $('#messageT').hide();
+            $('#btn_saveT_doc').attr("disabled", true);
+            return false;
+        }
+        validateAjax();
+    });
+
+    $('#validate_ten_truong').blur(function () {
+        if ($(this).val() == null || $(this).val() == "") {
+            $('#messageNNull').show();
+            $('#messageN').hide();
+            $('#btn_saveT_doc').attr("disabled", true);
+            return false;
+        }
+        validateAjax();
+    });
+
+    function validateAjax() {
+        $.ajax({
+            url: '@Url.Action("validateIDTruong", "BriefRegulation")',
+            type: "POST",
+            data: {
+                id: $("#validate_ma_truong").val(),
+                name: $("#validate_ten_truong").val()
+            },
+            success: (response) => {
+                if (response.dup_id) {
+                    $('#btn_saveT_doc').attr("disabled", true);
+                    $('#messageT').show();
+                    $('#messageTNull').hide();
+                }
+                else {
+                    $('#messageT').hide();
+                    $('#messageTNull').hide();
+                }
+                if (response.dup_name) {
+                    $('#btn_saveT_doc').attr("disabled", true);
+                    $('#messageN').show();
+                    $('#messageNNull').hide();
+                }
+                else {
+                    $('#messageN').hide();
+                    $('#messageNNull').hide();
+                }
+                if (!response.dup_id && !response.dup_name && $("#validate_ma_truong").val() != "" && $("#validate_ten_truong").val() != "") {
+                    $('#btn_saveT_doc').attr("disabled", false);
+                }
+
+            },
+            error: (response) => {
+                alert("error")
+            },
+        });
+    }
+</script>

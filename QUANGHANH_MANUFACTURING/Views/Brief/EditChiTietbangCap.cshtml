@@ -1,0 +1,60 @@
+﻿@model QUANGHANH_MANUFACTURING.Models.ChiTiet_BangCap
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Sửa chi tiết bằng cấp</title>
+</head>
+<body>
+    <div id="edit_chitietbangcap">
+
+
+        @using (Html.BeginForm("EditChiTietbangCap", "Brief", FormMethod.Post, new { onSubmit = "return SubmitForm(this) " }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.SoHieu)
+
+                <div class="form-group">
+                    <strong for="worker-numb">Mã bằng cấp</strong>
+                    <div class="col-md-10">
+                        @Html.DropDownList("MaBangCap", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MaBangCap, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <strong for="worker-numb">Ngày cấp</strong>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.NgayCap, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NgayCap, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <strong for="worker-numb">Mã nhân viên</strong>
+                    <div class="col-md-10">
+                        @Html.DropDownList("MaNV", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</body>
+</html>
