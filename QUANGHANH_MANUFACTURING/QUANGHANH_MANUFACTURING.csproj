@@ -71,9 +71,8 @@
     <Reference Include="System.IO.Packaging, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.IO.Packaging.4.7.0\lib\net46\System.IO.Packaging.dll</HintPath>
     </Reference>
-    <Reference Include="System.Linq.Dynamic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\System.Linq.Dynamic.3.5.1.0\content\System.Linq.Dynamic.dll</HintPath>
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\System.Linq.Dynamic.1.0.8\lib\net40\System.Linq.Dynamic.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
@@ -164,26 +163,26 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
-    <Compile Include="Controllers\AT\ViewAccidentController.cs" />
-    <Compile Include="Controllers\BGD\AccidentReportController.cs" />
-    <Compile Include="Controllers\BGD\CDVT\BGDKiemdinhController.cs" />
-    <Compile Include="Controllers\BGD\CDVT\BGDLiquidationReportController.cs" />
-    <Compile Include="Controllers\BGD\CDVT\BGDMaintainReportController.cs" />
-    <Compile Include="Controllers\BGD\CDVT\BGDNhienlieuController.cs" />
-    <Compile Include="Controllers\BGD\CDVT\BGDRepairReportController.cs" />
-    <Compile Include="Controllers\BGD\CDVT\BGDReportPowerUsageController.cs" />
-    <Compile Include="Controllers\BGD\CDVT\BGDThuhoiController.cs" />
-    <Compile Include="Controllers\BGD\CDVT\BGDWaterController.cs" />
-    <Compile Include="Controllers\BGD\DK\CharcoalExploitingController.cs" />
-    <Compile Include="Controllers\BGD\DK\HumanResourceController.cs" />
-    <Compile Include="Controllers\BGD\DK\ManufacturingController.cs" />
-    <Compile Include="Controllers\BGD\QuantityReport\CompanyController.cs" />
-    <Compile Include="Controllers\BGD\QuantityReport\FactoryController.cs" />
-    <Compile Include="Controllers\BGD\QuantityReport\MonthyQuarterController.cs" />
-    <Compile Include="Controllers\BGD\ReportHuman\Summary\Human_DailyController.cs" />
-    <Compile Include="Controllers\BGD\ReportHuman\Summary\Human_Department_DailyController.cs" />
-    <Compile Include="Controllers\BGD\SummaryReportController.cs" />
-    <Compile Include="Controllers\BGD\TCLD\PeformanceAndSalaryReportController.cs" />
+    <Compile Include="Controllers\Manufacturing\AT\ViewAccidentController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\AccidentReportController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\CDVT\BGDKiemdinhController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\CDVT\BGDLiquidationReportController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\CDVT\BGDMaintainReportController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\CDVT\BGDNhienlieuController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\CDVT\BGDRepairReportController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\CDVT\BGDReportPowerUsageController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\CDVT\BGDThuhoiController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\CDVT\BGDWaterController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\DK\CharcoalExploitingController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\DK\HumanResourceController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\DK\ManufacturingController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\QuantityReport\CompanyController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\QuantityReport\FactoryController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\QuantityReport\MonthyQuarterController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\ReportHuman\Summary\Human_DailyController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\ReportHuman\Summary\Human_Department_DailyController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\SummaryReportController.cs" />
+    <Compile Include="Controllers\Manufacturing\BGD\TCLD\PeformanceAndSalaryReportController.cs" />
     <Compile Include="Controllers\Camera\CameraManagementController.cs" />
     <Compile Include="Controllers\Camera\CapNhatTheoCaController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\ChuaNghiemThuController.cs" />
@@ -287,31 +286,31 @@
     <Compile Include="Controllers\CDVT\Vattu\Xincapvattu1Controller.cs" />
     <Compile Include="Controllers\CDVT\Vattu\XincapvattuController.cs" />
     <Compile Include="Controllers\CDVT\Vattu\XincapvattuSummaryController.cs" />
-    <Compile Include="Controllers\DK\Accident\AccidentController.cs" />
-    <Compile Include="Controllers\DK\Accident\StatisticalAccidentController.cs" />
-    <Compile Include="Controllers\DK\BaoCaoDemoController.cs" />
-    <Compile Include="Controllers\DK\Criteria\CriteriaController.cs" />
-    <Compile Include="Controllers\DK\Criteria\GroupCriteriaController.cs" />
-    <Compile Include="Controllers\DK\DashboardToBGD\QuickReportController.cs" />
-    <Compile Include="Controllers\DK\Department_Criteria\Department_Criteria_By_MonthController.cs" />
-    <Compile Include="Controllers\DK\Department_Criteria\Department_Criteria_By_YearController.cs" />
-    <Compile Include="Controllers\DK\EquipmentIncident\ReportController.cs" />
-    <Compile Include="Controllers\DK\EquipmentIncident\SucoThietbiDKController.cs" />
-    <Compile Include="Controllers\DK\Factory\FactoryController.cs" />
-    <Compile Include="Controllers\DK\InputCharcoal\InputController.cs" />
-    <Compile Include="Controllers\DK\InputPlan\InputPlan_MonthController.cs" />
-    <Compile Include="Controllers\DK\InputPlan\InputPlan_Month_ByMrs_DuyController.cs" />
-    <Compile Include="Controllers\DK\InputPlan\InputPlan_YearController.cs" />
-    <Compile Include="Controllers\DK\KeHoachDieuHanhChiTieuController.cs" />
-    <Compile Include="Controllers\DK\KeHoachKyThuatController.cs" />
-    <Compile Include="Controllers\DK\QuantityReport\DepartmentDailyController.cs" />
-    <Compile Include="Controllers\DK\QuantityReport\PhanXuongReportController.cs" />
-    <Compile Include="Controllers\DK\QuantityReport\ReportMonthlyController.cs" />
-    <Compile Include="Controllers\DK\QuantityReport\SanLuongReportController.cs" />
-    <Compile Include="Controllers\DK\ReportHuman\ReportHuman_DetailController.cs" />
-    <Compile Include="Controllers\DK\ReportIncidentController.cs" />
-    <Compile Include="Controllers\DK\ReportManuCharcoal\DetailManuReportController.cs" />
-    <Compile Include="Controllers\DK\ReportManuCharcoal\ReportManuCharcoalController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\Accident\AccidentController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\Accident\StatisticalAccidentController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\BaoCaoDemoController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\Criteria\CriteriaController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\Criteria\GroupCriteriaController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\DashboardToBGD\QuickReportController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\Department_Criteria\Department_Criteria_By_MonthController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\Department_Criteria\Department_Criteria_By_YearController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\EquipmentIncident\ReportController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\EquipmentIncident\SucoThietbiDKController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\Factory\FactoryController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\InputCharcoal\InputController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\InputPlan\InputPlan_MonthController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\InputPlan\InputPlan_Month_ByMrs_DuyController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\InputPlan\InputPlan_YearController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\KeHoachDieuHanhChiTieuController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\KeHoachKyThuatController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\QuantityReport\DepartmentDailyController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\QuantityReport\PhanXuongReportController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\QuantityReport\ReportMonthlyController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\QuantityReport\SanLuongReportController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\ReportHuman\ReportHuman_DetailController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\ReportIncidentController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\ReportManuCharcoal\DetailManuReportController.cs" />
+    <Compile Include="Controllers\Manufacturing\DK\ReportManuCharcoal\ReportManuCharcoalController.cs" />
     <Compile Include="Controllers\GetLogAction\GetLogActionController.cs" />
     <Compile Include="Controllers\HumanResources\BonusAnDesciplineController.cs" />
     <Compile Include="Controllers\HumanResources\Brief\BriefController.cs" />
@@ -339,15 +338,15 @@
     <Compile Include="Controllers\HumanResources\Salary\SalaryScaleController.cs" />
     <Compile Include="Controllers\HumanResources\TaskController.cs" />
     <Compile Include="Controllers\HumanResources\Transfer\TransferController.cs" />
-    <Compile Include="Controllers\KCM\InputPlanController.cs" />
-    <Compile Include="Controllers\KCS\KCSController.cs" />
-    <Compile Include="Controllers\KCS\ReportController.cs" />
+    <Compile Include="Controllers\Manufacturing\KCM\InputPlanController.cs" />
+    <Compile Include="Controllers\Manufacturing\KCS\KCSController.cs" />
+    <Compile Include="Controllers\Manufacturing\KCS\ReportController.cs" />
     <Compile Include="Controllers\LogActionFilter.cs" />
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\ManagementUserController.cs" />
     <Compile Include="Controllers\Navigation\NavigateController.cs" />
     <Compile Include="Controllers\NotifiController.cs" />
-    <Compile Include="Controllers\PhanXuong\PhanXuongController.cs" />
+    <Compile Include="Controllers\Manufacturing\PhanXuong\PhanXuongController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -7227,7 +7226,6 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\notify.min.js" />
     <Content Include="Scripts\Scripts.js" />
-    <Content Include="System.Linq.Dynamic.dll" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
