@@ -16,6 +16,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using QUANGHANH_MANUFACTURING.Models;
 using QUANGHANH_MANUFACTURING.ModelViews;
 using QUANGHANH_MANUFACTURING.Repositories.Intefaces;
 using QUANGHANH_MANUFACTURING.SupportClass;
@@ -1283,9 +1284,9 @@ namespace QUANGHANH_MANUFACTURING.Controllers.PhanXuong
 
         private void InsertHeaderAPI(Result data)
         {
-            Header_DiemDanh_NangSuat_LaoDong header = new Header_DiemDanh_NangSuat_LaoDong();
-            header.NgayDiemDanh = data.dateFetching;
-            header.Ca = data.Session;
+            HeaderAttendanceAndProductivity header = new HeaderAttendanceAndProductivity();
+            header.attendance_date = data.dateFetching;
+            header. = data.Session;
             header.Status = data.success;
             header.Message = data.message;
             header.VERSION = data.VERSION;
