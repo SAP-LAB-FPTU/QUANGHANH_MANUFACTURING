@@ -1,2 +1,0 @@
-E:\MajorTermIX\QUANGHANH_MANUFACTURING\obj\Debug\QUANGHANH_MANUFACTURING.csprojAssemblyReference.cache
-E:\MajorTermIX\QUANGHANH_MANUFACTURING\obj\Debug\QUANGHANH_MANUFACTURING.csproj.CoreCompileInputs.cache
