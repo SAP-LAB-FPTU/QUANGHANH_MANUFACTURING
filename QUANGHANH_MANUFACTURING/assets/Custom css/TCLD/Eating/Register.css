@@ -1,9 +1,0 @@
-﻿.dataTables_filter {    
-    margin-top: 0px !important;
-}
-#complex_header_filter{
-    padding: 0 0 1rem;
-}
-[type="checkbox"] + span:not(.lever) {
-    padding: 0 10px !important;
-}
