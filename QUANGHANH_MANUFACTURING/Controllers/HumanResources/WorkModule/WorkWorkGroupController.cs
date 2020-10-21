@@ -6,9 +6,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace QUANGHANH_MANUFACTURING.Controllers.TCLD.Occupation
+namespace QUANGHANH_MANUFACTURING.Controllers.HumanResources.WorkModule
 {
-    public class Occupation_GroupOccupationController : Controller
+    public class WorkWorkGroupController : Controller
     {
         // GET: Occupation_GroupOccupation
         [Route("phong-tcld/cong-viec-nhom-cong-viec")]

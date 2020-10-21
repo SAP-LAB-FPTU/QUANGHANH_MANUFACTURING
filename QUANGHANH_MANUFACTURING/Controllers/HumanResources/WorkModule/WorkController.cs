@@ -7,9 +7,9 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
-namespace QUANGHANH_MANUFACTURING.Controllers.TCLD
+namespace QUANGHANH_MANUFACTURING.Controllers.HumanResources.WorkModule
 {
-    public class OccupationController : Controller
+    public class WorkController : Controller
     {
         [Route("phong-tcld/quan-ly-cong-viec")]
         public ActionResult Index()
