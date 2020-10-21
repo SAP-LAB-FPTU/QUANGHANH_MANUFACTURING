@@ -7,9 +7,9 @@ using System.Linq.Dynamic;
 using System.Web;
 using System.Web.Mvc;
 
-namespace QUANGHANH_MANUFACTURING.Controllers.TCLD.Occupation
+namespace QUANGHANH_MANUFACTURING.Controllers.HumanResources.WorkModule
 {
-    public class GroupOccupationController : Controller
+    public class WorkGroupController : Controller
     {
         [Route("phong-tcld/quan-ly-nhom-cong-viec")]
         public ActionResult view()
@@ -39,7 +39,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.TCLD.Occupation
                             order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
                 listData = db.Database.SqlQuery<NhomCongViec_DienCongViec>(sqlList).ToList();
 
-                int totalrows = db.NhomCongViecs.Count();
+                int totalrows = db.WorkGroups.Count();
                 int totalrowsafterfiltering = totalrows;
 
 
@@ -87,20 +87,20 @@ namespace QUANGHANH_MANUFACTURING.Controllers.TCLD.Occupation
                         //madiencongviec is null
                         if (madiencongviec == "")
                         {
-                            NhomCongViec ncv = new NhomCongViec();
-                            ncv.TenNhomCongViec = tennhomcongviec;
-                            ncv.LoaiNhomCongViec = loainhomcongviec;
-                            db.NhomCongViecs.Add(ncv);
+                            WorkGroup ncv = new WorkGroup();
+                            ncv.name = tennhomcongviec;
+                            ncv.acronym = loainhomcongviec;
+                            db.WorkGroups.Add(ncv);
                             db.SaveChanges();
                             return Json(new { success = true, title = "Thành công", message = "Thêm nhóm công viêc thành công." });
                         }
                         else
                         {
-                            NhomCongViec ncv = new NhomCongViec();
-                            ncv.TenNhomCongViec = tennhomcongviec;
-                            ncv.LoaiNhomCongViec = loainhomcongviec;
+                            WorkGroup ncv = new WorkGroup();
+                            ncv.name = tennhomcongviec;
+                            ncv.acronym = loainhomcongviec;
                             ncv.MaDienCongViec = Convert.ToInt32(madiencongviec);
-                            db.NhomCongViecs.Add(ncv);
+                            db.WorkGroups.Add(ncv);
                             db.SaveChanges();
                             return Json(new { success = true, title = "Thành công", message = "Thêm nhóm công viêc thành công." });
                         }
@@ -230,6 +230,5 @@ namespace QUANGHANH_MANUFACTURING.Controllers.TCLD.Occupation
         {
             public string TenDienCongViec { get; set; }
         }
-
     }
 }
