@@ -1,6 +1,8 @@
-﻿using System;
+﻿using QUANGHANH_MANUFACTURING.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace QUANGHANH_MANUFACTURING.Controllers.BGD.ReportHuman.Summary
