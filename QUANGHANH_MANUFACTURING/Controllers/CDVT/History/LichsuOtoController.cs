@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Web.Mvc;
+using QUANGHANH_MANUFACTURING.Models;
 using QUANGHANH_MANUFACTURING.SupportClass;
 
 namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
@@ -224,7 +225,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
         public void EditSupply_duphong(String supplyid, int quantity)
         {
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-            Supply_SCTX duphong = db.Supply_SCTX.Where(x => x.supply_id == supplyid).FirstOrDefault();
+            RepairRegularly1 duphong = db.RepairRegularly1.Where(x => x.supply_id == supplyid).FirstOrDefault();
             if (duphong != null)
             {
                 duphong.quantity -= quantity;
@@ -474,7 +475,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
                                                   "as t join Fuel_activities_consumption f " +
                                                   "on t.equipmentId = f.equipmentId " +
                                                    "join Supply s on s.supply_id = f.fuel_type where fuelId=@fuelid", new SqlParameter("fuelid", fuelid)).First();
-                activity.stringDate = activity.date.ToString("dd/MM/yyyy");
+                //.stringDate = activity.date.ToString("dd/MM/yyyy");
                 return Json(activity);
             }
             catch (Exception)
@@ -613,7 +614,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
                     EditSupply_duphong(fuel_type, consumption_value);
 
 
-                    Fuel_activities_consumption f = DBContext.Database.SqlQuery<Fuel_activities_consumption>("select * from Fuel_activities_consumption " +
+                    FuelActivitiesConsumption f = DBContext.Database.SqlQuery<FuelActivitiesConsumption>("select * from Fuel_activities_consumption " +
                        "where fuel_type=@fueltype and equipmentId=@equipmentid and date=@date", new SqlParameter("fueltype", fuel_type), new SqlParameter("equipmentid", equipmentId), new SqlParameter("date", date)).FirstOrDefault();
                     if (f != null)
                     {
@@ -624,7 +625,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
                     else
                     {
 
-                        Fuel_activities_consumption fuel_Activities_Consumption = new Fuel_activities_consumption()
+                        FuelActivitiesConsumption fuel_Activities_Consumption = new FuelActivitiesConsumption()
                         {
                             department_id = department_id,
                             consumption_value = consumption_value,
@@ -632,7 +633,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
                             fuel_type = fuel_type,
                             date = DateTime.ParseExact(date1, "dd/MM/yyyy", null)
                         };
-                        DBContext.Fuel_activities_consumption.Add(fuel_Activities_Consumption);
+                        DBContext.FuelActivitiesConsumptions.Add(fuel_Activities_Consumption);
                         DBContext.SaveChanges();
                     }
 
@@ -663,13 +664,5 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
     {
         public string stringDate { get; set; }
         public String equipment_name { get; set; }
-    }
-    public class FuelDB : Fuel_activities_consumption
-    {
-        public String IDitem { get; set; }
-        public string stringDate { get; set; }
-        public String equipment_name { get; set; }
-        public String unit { get; set; }
-        public String supply_name { get; set; }
     }
 }
