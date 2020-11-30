@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
 using QUANGHANH_MANUFACTURING.Controllers.CDVT.History;
+using QUANGHANH_MANUFACTURING.Models;
 using QUANGHANH_MANUFACTURING.SupportClass;
 
 namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.Thietbi
@@ -64,7 +66,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.Thietbi
                         bulk_insert = string.Concat(bulk_insert, sub_insert);
 
 
-                        Supply_SCTX duphong = db.Supply_SCTX.Where(x => (x.supply_id == item.supplyid && x.equipmentId == equipmentId)).FirstOrDefault();
+                        RepairRegularly1 duphong = db.RepairRegularly1.Where(x => (x.supply_id == item.supplyid && x.equipmentId == equipmentId)).FirstOrDefault();
                         Supply_Equipment_DiKem dikem = db.Supply_Equipment_DiKem.Where(x => (x.supply_id == item.supplyid && x.equipmentId == equipmentId)).FirstOrDefault();
 
                         //update new supply du phong if it doesn't exist.
@@ -110,16 +112,16 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.Thietbi
         private void AddSupply_DP(QuangHanhManufacturingEntities db, string newEquipmentId, string newSupplyid, int used, int thuhoi)
         {
             //find old supplies by device.
-            Supply_SCTX sp = new Supply_SCTX()
+            RepairRegularly1 sp = new RepairRegularly1()
             {
                 supply_id = newSupplyid,
                 equipmentId = newEquipmentId,
                 quantity = -used + thuhoi
             };
-            db.Supply_SCTX.Add(sp);
+            db.RepairRegularly1.Add(sp);
         }
 
-        private void EditSupply_DP(QuangHanhManufacturingEntities db,Supply_SCTX duphong, int used, int thuhoi)
+        private void EditSupply_DP(QuangHanhManufacturingEntities db, RepairRegularly1 duphong, int used, int thuhoi)
         {
             if (duphong != null)
             {
@@ -185,7 +187,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.Thietbi
                                 " where m.maintain_id = @maintainId ", new SqlParameter("maintainId", maintainId)).SingleOrDefault();
                 //Check for NULL.
 
-                maintainCar.stringDate = maintainCar.date.ToString("dd/MM/yyyy");
+                //maintainCar.stringDate = maintainCar.date.ToString("dd/MM/yyyy");
                 return Json(maintainCar);
             }
         }
@@ -321,7 +323,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.Thietbi
                         }
                     }
 
-                    Equipment_SCTX m = new Equipment_SCTX()
+                    RepairRegularly m = new RepairRegularly()
                     {
                         equipmentId = equipmentId,
                         department_id = department_id,
@@ -353,10 +355,10 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.Thietbi
         [Auther(RightID = "179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/thiet-bi/sctx/editMaintainDetail")]
         [HttpPost]
-        public ActionResult EditMaintainDetail(List<Equipment_SCTX_Detail> supplyDetail, string equipmentID)
+        public ActionResult EditMaintainDetail(List<RepairRegularlyDetail> supplyDetail, string equipmentID)
         {
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-            Equipment_SCTX_Detail m = new Equipment_SCTX_Detail();
+            RepairRegularlyDetail m = new RepairRegularlyDetail();
              
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
@@ -364,7 +366,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.Thietbi
                 {
                     string bulk_insert;
                     string sub_insert;
-                    foreach (Equipment_SCTX_Detail item in supplyDetail)
+                    foreach (RepairRegularlyDetail item in supplyDetail)
                     {
                         bulk_insert = string.Empty;
                         sub_insert = string.Empty;
@@ -382,7 +384,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.Thietbi
                             bulk_insert = string.Concat(bulk_insert, sub_insert);
 
 
-                            Supply_SCTX duphong = db.Supply_SCTX.Where(x => (x.supply_id == item.supplyid && x.equipmentId == equipmentID)).FirstOrDefault();
+                            RepairRegularly1 duphong = db.RepairRegularly1.Where(x => (x.supply_id == item.supplyid && x.equipmentId == equipmentID)).FirstOrDefault();
                             Supply_Equipment_DiKem dikem = db.Supply_Equipment_DiKem.Where(x => (x.supply_id == item.supplyid && x.equipmentId == equipmentID)).FirstOrDefault();
 
                             //update new supply du phong if it doesn't exist.
@@ -410,7 +412,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.Thietbi
                             string newSupplyId = item.supplyid;
                             int newUsed = item.used;
                             int newThuhoi = item.thuhoi;
-                            Equipment_SCTX_Detail oldItem = db.Database.SqlQuery<Equipment_SCTX_Detail>("select * from Equipment_SCTX_Detail where maintain_detail_id = @maintain_detail_id "
+                            RepairRegularlyDetail oldItem = db.Database.SqlQuery<RepairRegularlyDetail>("select * from Equipment_SCTX_Detail where maintain_detail_id = @maintain_detail_id "
                                 , new SqlParameter("maintain_detail_id", item.maintain_detail_id)).SingleOrDefault();
                             string oldSupplyId = oldItem.supplyid;
                             int oldUsed = oldItem.used;
@@ -459,7 +461,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.Thietbi
             //if equipmentId and supplyId doesn't change after editing.
             if (oldEquipmentId == newEquipmentId && oldSupplyid == newSupplyid)
             {
-                Supply_SCTX duphong = db.Supply_SCTX.Where(x => (x.supply_id == oldSupplyid && x.equipmentId == oldEquipmentId)).FirstOrDefault();
+                RepairRegularly1 duphong = db.RepairRegularly1.Where(x => (x.supply_id == oldSupplyid && x.equipmentId == oldEquipmentId)).FirstOrDefault();
                 Supply_Equipment_DiKem dikem = db.Supply_Equipment_DiKem.Where(x => (x.supply_id == oldSupplyid && x.equipmentId == oldEquipmentId)).FirstOrDefault();
                 //replace old by new record.
                 if (duphong != null)
@@ -482,8 +484,8 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.Thietbi
             else
             {
                 //update quantity of old and new supplies remaining by each eqID.
-                Supply_SCTX oldDuphong = db.Supply_SCTX.Where(x => (x.supply_id == oldSupplyid && x.equipmentId == oldEquipmentId)).FirstOrDefault();
-                Supply_SCTX newDuphong = db.Supply_SCTX.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
+                RepairRegularly1 oldDuphong = db.RepairRegularly1.Where(x => (x.supply_id == oldSupplyid && x.equipmentId == oldEquipmentId)).FirstOrDefault();
+                RepairRegularly1 newDuphong = db.RepairRegularly1.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
                 Supply_Equipment_DiKem oldDikem = db.Supply_Equipment_DiKem.Where(x => (x.supply_id == oldSupplyid && x.equipmentId == oldEquipmentId)).FirstOrDefault();
                 Supply_Equipment_DiKem newDikem = db.Supply_Equipment_DiKem.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
 
@@ -550,7 +552,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.Thietbi
             {
                 QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 var supply = db.Supplies.Where(x => (x.supply_id == supplyid) && (x.unit != "L" && x.unit != "kWh")).SingleOrDefault();
-                var remaining = db.Supply_SCTX.Where(x => (x.supply_id == supplyid && x.equipmentId == equipmentId)).FirstOrDefault();
+                var remaining = db.RepairRegularly1.Where(x => (x.supply_id == supplyid && x.equipmentId == equipmentId)).FirstOrDefault();
                 //String item = equipment.supply_name + "^" + equipment.unit;
                 if (remaining == null)
                 {
@@ -577,7 +579,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.Thietbi
 
         }
     }
-    public class MaintainDB : Equipment_SCTX
+    public class MaintainDB : RepairRegularly
     {
 
         public String stringDate { get; set; }
@@ -587,7 +589,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.Thietbi
         public String department_name { get; set; }
 
     }
-    public class Maintain_DetailDB : Equipment_SCTX_Detail
+    public class Maintain_DetailDB : RepairRegularlyDetail
     {
 
         public String supply_name { get; set; }
