@@ -23,7 +23,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         [HttpGet]
         public ActionResult Index()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             string departID = Session["departID"].ToString();
             string departName = Session["departName"].ToString();
             List<EquipWithDepart> equipments = new List<EquipWithDepart>();
@@ -63,7 +63,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         {
             if (reason == "" && checkBox == "no")
                 return Json(new { success = false, message = "Vui lòng nhập trường lý do" });
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             Incident i = new Incident();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
@@ -128,7 +128,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         [HttpPost]
         public ActionResult Edit(int incident_id, string equipment, string department, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd)
         {
-            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
             {
                 try
                 {
@@ -166,7 +166,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         [HttpPost]
         public ActionResult Update(int incident_id, string reason, int year, int month, int day, int hour, int minute)
         {
-            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
             {
                 try
                 {
@@ -207,7 +207,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             DateTime dtStart = (dateStart == null || dateStart.Equals("")) ? DateTime.ParseExact("01/01/1900", "dd/MM/yyyy", null) : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
             DateTime dtEnd = (dateEnd == null || dateEnd.Equals("")) ? DateTime.Now : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
 
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             string base_select = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different ";
             string query = "FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId " +
                 "inner join Department d on d.department_id = i.department_id " +
@@ -262,7 +262,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                     ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                     ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
 
-                    using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
                     {
                         var incidents = (from i in DBContext.Incidents
                                          join e in DBContext.Equipments on i.equipmentId equals e.equipmentId
@@ -324,7 +324,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         {
             try
             {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 IncidentDB incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different " +
                     "FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId " +
                     "inner join Department d on d.department_id = i.department_id " +

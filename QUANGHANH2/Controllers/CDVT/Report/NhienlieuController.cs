@@ -31,7 +31,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             {
                 query = Wherecondition(type, date, month, quarter, year);
             }
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<contentreport> listdata = db.Database.SqlQuery<contentreport>(query).ToList();
                 double totaltieuthu = 0;
@@ -61,7 +61,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             {
                 query = Wherecondition(type, date, month, quarter, year);
             }
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<contentreport> listdata = db.Database.SqlQuery<contentreport>(query).ToList();
                 var js = Json(new { success = true, data = listdata }, JsonRequestBehavior.AllowGet);
@@ -81,7 +81,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             {
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     string query = "";
                     query = Wherecondition(type, date, month, quarter, year);
@@ -105,7 +105,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
 
         private void getContentbyDay(DateTime date)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (db.Fuel_activities_consumption.Where(a => a.fuel_type == "XANG").Where(a => a.date == date).ToList().Count() == 0)
                 {
@@ -136,7 +136,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         }
         private void getContentbyMonth(int month, int year)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (db.Fuel_activities_consumption.Where(a => a.fuel_type == "XANG").Where(a => a.date.Month == month && a.date.Year == year).ToList().Count() == 0)
                 {
@@ -188,7 +188,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 low = 10;
                 high = 12;
             }
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (db.Fuel_activities_consumption.Where(a => a.fuel_type == "XANG").Where(a => a.date.Month <= high && a.date.Month >= low && a.date.Year == year).Count() == 0)
                 {
@@ -218,7 +218,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         }
         private void getContentbyYear(int year)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (db.Fuel_activities_consumption.Where(a => a.fuel_type == "XANG").Where(a => a.date.Year == year).Count() == 0)
                 {

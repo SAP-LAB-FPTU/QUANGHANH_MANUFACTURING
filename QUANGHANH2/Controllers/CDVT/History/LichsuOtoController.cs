@@ -22,7 +22,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         {
             // only taken by each department.
             string department_id = Session["departID"].ToString();
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<Supply> listSupply; List<FuelDB> listEQ;
             if (Session["departName"].ToString().Contains("Phân xưởng"))
             {
@@ -82,7 +82,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 
                 // only taken by each department.
                 string department_id = Session["departID"].ToString();
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 string base_select = "select q.[date], q.equipmentId, t.equipment_name, q.activityname, q.hours_per_day, q.quantity,q.activityid";
                 string from_clause = " from (select distinct e.equipmentId, e.equipment_name ,e.department_id "
                         + " from Equipment e inner join Equipment_category_attribute ea  "
@@ -152,7 +152,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 
                 // only taken by each department.
                 string department_id = Session["departID"].ToString();
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 string base_select = "select f.[date], f.equipmentId, t.equipment_name, f.fuel_type, f.consumption_value, s.unit,s.supply_name,fuelId";
                 string from_clause = " from(select distinct e.equipmentId, e.equipment_name ,e.department_id"
                         + " from Equipment e inner join Equipment_category_attribute ea "
@@ -203,7 +203,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             string sortDirection = Request["order[0][dir]"];
 
             //
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<ActivityDB> incidents = db.Database.SqlQuery<ActivityDB>("select q.[date], q.equipmentId, t.equipment_name, q.activity_name, q.hours_per_day, q.quantity,q.activity_id " +
                     "from (select distinct e.equipmentId, e.equipment_name " +
@@ -226,7 +226,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
 
         public void EditSupply_duphong(String supplyid, int quantity)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             Supply_SCTX duphong = db.Supply_SCTX.Where(x => x.supply_id == supplyid).FirstOrDefault();
             if (duphong != null)
             {
@@ -241,7 +241,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         {
             try
             {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 ActivityDB activity = DBContext.Database.SqlQuery<ActivityDB>(
                     "select q.[date], q.equipmentId, t.equipment_name, q.activityname, q.hours_per_day, q.quantity,q.activityid " +
                     "from (select distinct e.equipmentId, e.equipment_name " +
@@ -266,7 +266,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         [HttpPost]
         public ActionResult Edit(float quantity, string activity_name, int hours_per_day, string date1, String equipmentId, int activityid)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
 
@@ -349,7 +349,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         [HttpPost]
         public ActionResult AddActivity(float quantity, string activity_name, int hours_per_day, string date1, String equipmentId)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             Activity a = new Activity();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
@@ -438,7 +438,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             string sortDirection = Request["order[0][dir]"];
 
             //
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 List<FuelDB> nhienlieu = db.Database.SqlQuery<FuelDB>("select f.[date],f.equipmentId, t.equipment_name, f.fuel_type, f.consumption_value, s.unit,s.supply_name,fuelId from " +
@@ -469,7 +469,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             //DateTime date = DateTime.Parse(date1);
             try
             {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 FuelDB activity = DBContext.Database.SqlQuery<FuelDB>("select f.[date], f.equipmentId, t.equipment_name, f.fuel_type, f.consumption_value, s.unit,s.supply_name,fuelId from(select distinct e.equipmentId, e.equipment_name " +
                                                  "from Equipment e inner join Equipment_category_attribute ea " +
                                                   "on ea.Equipment_category_id = e.Equipment_category_id where " +
@@ -493,7 +493,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         {
             try
             {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 var equipment = db.Database.SqlQuery<FuelDB>("select equipment_name from " +
                     " (select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea " +
                     " on ea.Equipment_category_id = e.Equipment_category_id where " +
@@ -515,7 +515,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         {
             try
             {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 var equipment = db.Supplies.Where(x => (x.supply_id == fuel_type)).SingleOrDefault();
                 String item = equipment.supply_name + "^" + equipment.unit;
                 return Json(item, JsonRequestBehavior.AllowGet);
@@ -532,7 +532,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         [HttpPost]
         public ActionResult EditFuel(int consumption_value, string fuel_type, string date1, String equipmentId, int fuelid)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
                 try
@@ -588,7 +588,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
         [HttpPost]
         public ActionResult AddFuel(int consumption_value, string fuel_type, string date1, String equipmentId)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             //bug : depend on supply_tieuhao.
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {

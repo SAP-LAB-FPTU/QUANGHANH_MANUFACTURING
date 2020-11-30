@@ -40,7 +40,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]
         IEnumerable<NhanVien> getAllNhanVien()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 return db.NhanViens.ToList<NhanVien>();
             }
@@ -54,7 +54,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult suaGiayTo(GiayTo document)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
@@ -77,7 +77,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public ActionResult suaGiayTo(string id)
         {
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 //tạo data bên popup của sửa giấy tờ
                 List<SelectListItem> KieuGT = new List<SelectListItem>
@@ -124,7 +124,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
             var a = getAllNhanVien();
             ViewBag.nhanvien = a;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
@@ -145,7 +145,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult validateID(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 NhanVien nv = db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>();
                 if (nv == null || nv.MaTrangThai == 2)
@@ -167,7 +167,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             //nameOfDoc = nameOfDoc.Substring(1, nameOfDoc.Length - 2);
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     GiayTo emp = db.GiayToes.Where(x => x.MaGiayTo == id).FirstOrDefault<GiayTo>();
                     db.GiayToes.Remove(emp);
@@ -202,7 +202,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             query = query.Substring(0, query.Length - 5);
             query += " AND n.MaTrangThai != 2";
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             db.Configuration.LazyLoadingEnabled = false;
             string kieuGT = "";
             if (KieuGT.Equals("goc"))
@@ -250,7 +250,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public Boolean checkEm(string manv)
         {
             NhanVien em = null;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 em = db.NhanViens.Where(x => x.MaNV.Trim().Equals(manv.Trim())).FirstOrDefault<NhanVien>();
             }
@@ -271,7 +271,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public ActionResult listAllHoSo()
         {
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
 
@@ -334,7 +334,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult listHoSo(string id)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
 
             var HoSoByMaNV = from hs in db.HoSoes
@@ -378,7 +378,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult listNhanVien()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<NhanVien> listNhanVien = db.NhanViens.ToList();
             foreach (var nvt in listNhanVien)
             {
@@ -439,7 +439,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult listLichSuBoSung(string id)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
 
             var LichSuBoSungByMaNV = from lsbs in db.LichSuBoSungSYLLs
@@ -463,7 +463,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult listGiayTo()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
 
             var giayToMaNV = from gt in db.GiayToes
@@ -490,7 +490,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult chiTietbangCap()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
 
             var chiTietBangCapByMaNV = from ctbc in db.ChiTiet_BangCap_GiayChungNhan
@@ -532,7 +532,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult quanHeGiadinh()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
 
             var quanHeGiaDinhByMaNV = from qhgd in db.QuanHeGiaDinhs
@@ -566,7 +566,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpGet]
         public ActionResult EditHoSo()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 Dictionary<int, string> listTypesBrief = new Dictionary<int, string>();
                 listTypesBrief.Add(1, "Photo");
@@ -594,7 +594,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult EditHoSo(HoSo hoSo)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (hoSo != null)
                 {
@@ -608,7 +608,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpGet]
         public ActionResult EditChiTietbangCap(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 ChiTiet_BangCap_GiayChungNhan chiTiet = db.ChiTiet_BangCap_GiayChungNhan.Where(x => x.MaNV == id).FirstOrDefault<ChiTiet_BangCap_GiayChungNhan>();
@@ -618,7 +618,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult EditChiTietbangCap(ChiTiet_BangCap_GiayChungNhan chiTiet_BangCap)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (chiTiet_BangCap != null)
                 {
@@ -631,7 +631,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpGet]
         public ActionResult EditQuanHeGiaDinh()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 QuanHeGiaDinh qh = db.QuanHeGiaDinhs.Where(x => x.MaNV == id_).FirstOrDefault<QuanHeGiaDinh>();
@@ -641,7 +641,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult EditQuanHeGiaDinh(QuanHeGiaDinh quanHeGiaDinh)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (quanHeGiaDinh != null)
                 {
@@ -655,7 +655,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpGet]
         public ActionResult EditLichSuBoSung()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 LichSuBoSungSYLL qh = db.LichSuBoSungSYLLs.Where(x => x.MaNV == id_).FirstOrDefault<LichSuBoSungSYLL>();
@@ -668,7 +668,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             lichSuBoSungSYLL.MaNV = id_;
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 List<LichSuBoSungSYLL> list = new List<LichSuBoSungSYLL>();
@@ -726,7 +726,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             List<LichSuBoSungSYLL> lsbs = new List<LichSuBoSungSYLL>();
 
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<LichSuBoSungSYLL> list = new List<LichSuBoSungSYLL>();
 
@@ -769,7 +769,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
 
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
 
@@ -866,7 +866,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var mydata = (from p in db.NhanViens
                               join p1 in db.HoSoes on p.MaNV equals p1.MaNV
@@ -900,7 +900,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public ActionResult OutSideDetail()
         {
             String mnv = Request.QueryString["manv"];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 var count = (from p in db.NhanViens
@@ -923,7 +923,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             String mnv = Request.QueryString["manv"];
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var mydata = (from p in db.NhanViens
                               join p1 in db.NguoiUyQuyenLayHoSo_BaoHiem on p.MaUyQuyen equals p1.MaUyQuyen
@@ -944,7 +944,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             String mnv = Request.QueryString["manv"];
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var mydata = (from p in db.NhanViens
                               join p1 in db.HoSoes on p.MaNV equals p1.MaNV
@@ -975,7 +975,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             String mnv = Request.QueryString["manv"];
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 var listTenChamdut = (from p in db.ChamDut_NhanVien
@@ -1007,7 +1007,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             String soBH = js.soBH;
             String sodt = js.sodt;
             String diachithuongtru = js.diachithuongtru;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 NhanVien nv = (from p in db.NhanViens where p.MaNV == sothe select p).SingleOrDefault();
                 nv.Ten = hoVaTen;
@@ -1044,7 +1044,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             String ngayQD = js.ngayQD;
             String ngayCD = js.ngayCD;
             int soQD1 = Int32.Parse(soQD.Trim());
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 ChamDut_NhanVien nv = (from p in db.ChamDut_NhanVien where p.MaQuyetDinh == soQD1 select p).SingleOrDefault();
                 nv.LoaiChamDut = tenLoaiChamDut;
@@ -1092,7 +1092,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             String soCMT = js.soCMT;
             String soDT = js.soDT;
             String mnv = js.manv;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 var count = (from p in db.NhanViens
@@ -1145,7 +1145,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);
             String mnv = Request.QueryString["manv"];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var x = (from a in db.GiayToes
 
@@ -1210,7 +1210,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             String sohieu = js.sohieu;
             String kieu = js.kieu;
             String ngaytra = js.ngaytra;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 //  GiayChungNhan_NhanVien x = (from a in db.GiayChungNhan_NhanVien where a.MaNV == manv & a.SoHieu==sohieu  select a).SingleOrDefault() ;
                 ChungChi_NhanVien x = (from a in db.ChungChi_NhanVien where a.MaNV == manv & a.SoHieu == sohieu & a.MaChungChi == ma select a).SingleOrDefault();
@@ -1255,7 +1255,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             String ten = js.ten;
             if (kieu.Equals("") & ten.Equals(""))
                 return Json(new { success = false, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 GiayTo giayTo;
 
@@ -1285,7 +1285,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             int length = Convert.ToInt32(Request["length"]);
 
             // String 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 // search ma nhan vien
@@ -1334,7 +1334,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
 
 
@@ -1524,7 +1524,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult listChungChi()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
 
             var chungchi = from cc_nv in db.ChungChi_NhanVien
@@ -1565,7 +1565,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                     ExcelWorksheet ws = excelWorkbook.Worksheets.First();
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
                         string query = @"select 
                             a.MaNV, a.Ten, a.NgaySinh, a.SoBHXH, a.SoDienThoai, a.QueQuan, a.NoiOHienTai, a.SoCMND, a.NgayDiLam,

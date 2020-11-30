@@ -32,7 +32,7 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             DateTime date = DateTime.ParseExact(stringDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
             int session = 0;
@@ -81,7 +81,7 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
             JObject jObject = JObject.Parse(stringjson);
             DateTime date = DateTime.ParseExact((string)jObject["date"], "dd/MM/yyyy", CultureInfo.InvariantCulture);
             JArray jArray = (JArray)jObject["list"];
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
                 try
@@ -149,7 +149,7 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
                 start = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 22, 0, 0);
                 end = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day + 1, 6, 0, 0);
             }
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             string reason = DBContext.Database.SqlQuery<string>("select maintain_content from Maintain_Car where equipmentId = @equipmentId and [date] between @start and @end",
                 new SqlParameter("equipmentid", equipmentId),
                 new SqlParameter("start", start),

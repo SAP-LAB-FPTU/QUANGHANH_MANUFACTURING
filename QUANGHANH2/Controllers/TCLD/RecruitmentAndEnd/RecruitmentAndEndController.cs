@@ -66,7 +66,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
             if (year == 0)
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     // them phan check nam vao day
                     System.Collections.Generic.List<CountModel> arrTuyenDungCoDien = ((from cn in db.TuyenDung_NhanVien
@@ -244,7 +244,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             else // khi tìm kiếm bằng năm
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     // them phan check nam vao day
                     System.Collections.Generic.List<CountModel> arrTuyenDungCoDien = ((from cn in db.TuyenDung_NhanVien
@@ -436,7 +436,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
 
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     if (year == 0)
                     {

@@ -21,7 +21,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
         [Route("phan-xuong/xin-cap-vat-tu-sctx")]
         public ActionResult Index()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<Supply> listSupply = db.Supplies.Where(x => x.unit != "L" && x.unit != "kWh").ToList();
             ViewBag.listSupply = listSupply;
             return View("/Views/CDVT/Vattu/Xincapvattulan1.cshtml");
@@ -39,7 +39,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
 
-                using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
                 {
                     // only taken by each department.
                     string department_id = Session["departID"].ToString();
@@ -72,7 +72,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
         [HttpPost]
         public JsonResult getListSupply(String equipmentId)
         {
-           using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+           using(QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 {
@@ -134,7 +134,7 @@ group by s.supply_id, s.supply_name, s.unit, e.equipmentId) as b on a.supply_id 
             string[] listgeneral = js.Deserialize<string[]>(general);
             string[] listsupplyplanid = js.Deserialize<string[]>(supplyplanid);
 
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 try
@@ -181,7 +181,7 @@ group by s.supply_id, s.supply_name, s.unit, e.equipmentId) as b on a.supply_id 
         public ActionResult XinCap()
         {
             string department_id = Session["departID"].ToString();
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 try
@@ -221,7 +221,7 @@ group by s.supply_id, s.supply_name, s.unit, e.equipmentId) as b on a.supply_id 
             try
             {
                 int quantity;
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 var supply = db.Supplies.Where(x => x.supply_id == supplyid).First();
                 var supplyduphong = db.Supply_SCTX.Where(x => (x.supply_id == supplyid)&&x.equipmentId==equipmentid).SingleOrDefault();
                 if (supplyduphong == null) quantity = 0;
@@ -260,7 +260,7 @@ group by s.supply_id, s.supply_name, s.unit, e.equipmentId) as b on a.supply_id 
                 int length = Convert.ToInt32(Request["length"]);
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
-                using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
                 {
                     // only taken by each department.
                     string department_id = Session["departID"].ToString();
@@ -299,7 +299,7 @@ group by s.supply_id, s.supply_name, s.unit, e.equipmentId) as b on a.supply_id 
         //
         public bool HasProvided()
         {
-            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities()) {
+            using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities()) {
                 return DBContext.Database.SqlQuery<int>(@"select count(quantity_provide)'number' from supplyplan
                                                        where quantity_provide is not null").First() >= 1;
             } }
@@ -308,7 +308,7 @@ group by s.supply_id, s.supply_name, s.unit, e.equipmentId) as b on a.supply_id 
         [HttpPost]
         public ActionResult ListSupplyGeted(String equipmentId)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             { 
 
                 {
@@ -328,7 +328,7 @@ group by s.supply_id, s.supply_name, s.unit, e.equipmentId) as b on a.supply_id 
         [HttpPost]
         public ActionResult EditListSupplyGeted(List<SupplyPlanDB> listvattu )
         {
-            using (QUANGHANHABCEntities context = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities context = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction transaction = context.Database.BeginTransaction())
                 {

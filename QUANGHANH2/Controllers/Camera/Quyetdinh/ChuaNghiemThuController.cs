@@ -48,7 +48,7 @@ namespace QUANGHANH2.Controllers.Camera
             DateTime max_date = Request["max_date"] == "" ?
                 DateTime.MaxValue : DateTime.ParseExact(Request["max_date"], "dd/MM/yyyy", null);
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 string query = @"select distinct d.documentary_id, d.documentary_code, t.documentary_name, r.room_name, r.room_id, c.acceptance_camera_quantity, c.isAcceptance, convert(varchar, d.date_created, 103) as string_created, convert(varchar, c.acceptance_date, 103) as acceptance_date, d.person_created, (case when i.ID is null THEN CAST(0 AS BIT) ELSE CAST(1 AS BIT) END) as QDQT
                     from Documentary d
@@ -76,7 +76,7 @@ namespace QUANGHANH2.Controllers.Camera
         [Route("camera/nghiem-thu/Edit")]
         public ActionResult Edit(string room_id, int documentary_id)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 try
@@ -122,7 +122,7 @@ namespace QUANGHANH2.Controllers.Camera
         [Route("phong-cdvt/camera/nghiem-thu/getProfile")]
         public ActionResult getProfile(int documentary_id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var temp = (from doc in db.Documentaries
                             join depa in db.Departments on doc.department_id_to equals depa.department_id

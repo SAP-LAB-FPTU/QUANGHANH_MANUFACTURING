@@ -13,7 +13,7 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
         [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-nam")]
         public ActionResult Index()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var query = " select * from Department WHERE department_type in (@departmentType_1, @departmentType_2) order by department_name";
                 List<Department> listDepartments = db.Database.SqlQuery<Department>(query,
@@ -32,7 +32,7 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
                 var departmentID = Request["department"];
                 List<header_tieu_chi_nam> list = new List<header_tieu_chi_nam>();
                 List<TieuChi> listTieuChi = new List<TieuChi>();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var query = " select * from Department WHERE department_type = @departmentType order by department_name";
                     List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
@@ -67,7 +67,7 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
                 var departmentID = Request["department"];
                 List<header_tieu_chi_nam> list = new List<header_tieu_chi_nam>();
                 List<TieuChi> listTieuChi = new List<TieuChi>();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var query = " select * from Department WHERE department_type =@departmentType order by department_name";
                     List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
@@ -102,7 +102,7 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
                 var department = Request["department"];
                 string sqlDelete = "delete PhongBan_TieuChi_TheoNam where MaPhongBan like N'" + department + "' and MaTieuChi = "+maTieuChi+" and Nam = '"+year+"'";
                 
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     header_KeHoach_TieuChi_TheoNam header_KeHoach_TieuChi_TheoNam = db.header_KeHoach_TieuChi_TheoNam.Where(x => x.MaPhongBan.Equals(department) && x.Nam == year).FirstOrDefault<header_KeHoach_TieuChi_TheoNam>();
                     
@@ -124,7 +124,7 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var year = Int32.Parse(Request["year"]);
                     var departmentID = Request["department"];
@@ -173,7 +173,7 @@ namespace QUANGHANH2.Controllers.DK.Department_Criteria
         }
         private Boolean checkDupPbTc(string department,string criteria,int year)
         {
-            QUANGHANHABCEntities dbContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities dbContext = new QuangHanhManufacturingEntities();
             PhongBan_TieuChi_TheoNam phongBan_TieuChi_TheoNam = dbContext.PhongBan_TieuChi_TheoNam.Where(x =>x.MaPhongBan.Equals(department) && x.MaTieuChi.ToString().Equals(criteria) && x.Nam == year).FirstOrDefault<PhongBan_TieuChi_TheoNam>(); ;
             
             if(phongBan_TieuChi_TheoNam == null)

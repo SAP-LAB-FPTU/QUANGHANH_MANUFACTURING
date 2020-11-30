@@ -40,7 +40,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             List<NhanLuc> listNhanLuc = new List<NhanLuc>();
             SanLuong sanluong = new SanLuong();
             int temp = 0;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
 
@@ -341,7 +341,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 List<NghiVLD> listNghiVLD = new List<NghiVLD>();
                 List<NhanLuc> listNhanLuc = new List<NhanLuc>();
                 SanLuong sanluong = new SanLuong();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     ////////////////////////////GET so luot huy dong////////////////////////////////
 
@@ -691,7 +691,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             var calamviec = Convert.ToInt32(ca);
             var datesql = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<DiemDanh_NangSuatLaoDong> list = new List<DiemDanh_NangSuatLaoDong>();
                 List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();

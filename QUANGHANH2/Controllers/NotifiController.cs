@@ -14,7 +14,7 @@ namespace QUANGHANH2.Controllers
 {
     public class NotifiController : Controller
     {
-        private QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+        private QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
         // GET: Notifi
         public ActionResult Index()
         {
@@ -243,7 +243,7 @@ namespace QUANGHANH2.Controllers
             {
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var testTimeKD = DateTime.Now.AddDays(60);
                     if (type == 0)

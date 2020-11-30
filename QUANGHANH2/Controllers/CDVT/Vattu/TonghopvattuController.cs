@@ -27,7 +27,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
         [Auther(RightID = "28")]
         [Route("phong-cdvt/tong-hop-vat-tu")]
         public ActionResult Index()
-        { using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+        { using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<Supply> supply = db.Supplies.Take(10).ToList();
                 ViewBag.supply = supply;
@@ -40,7 +40,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
         [Route("phong-cdvt/tong-hop-vat-tu/details")]
         public ActionResult Details(string DepartmentId, string SupplyName, string MonthPicked)
         {
-            using (QUANGHANHABCEntities context = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities context = new QuangHanhManufacturingEntities())
             {
                 TonghopVattuSearchModelView search = new TonghopVattuSearchModelView
                 {
@@ -89,7 +89,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
         [Route("phong-cdvt/tong-hop-vat-tu/summary")]
         public ActionResult Summary( string SupplyName, string MonthPicked)
         {
-            QUANGHANHABCEntities context = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities context = new QuangHanhManufacturingEntities();
 
             TonghopVattuSearchModelView search = new TonghopVattuSearchModelView
             {
@@ -288,7 +288,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
                 sql = @"select supply_name from Supply where supply_name like @id";
             }
             
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<SupplyDB> list = db.Database.SqlQuery<SupplyDB>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
             return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
         }

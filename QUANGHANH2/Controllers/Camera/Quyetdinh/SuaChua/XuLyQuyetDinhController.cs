@@ -22,7 +22,7 @@ namespace QUANGHANH2.Controllers.Camera
         {
             try
             {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 DBContext.Configuration.LazyLoadingEnabled = false;
                 Documentary documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_camera_repair_details as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id",
                     new SqlParameter("documentary_id", id)).FirstOrDefault();
@@ -64,7 +64,7 @@ namespace QUANGHANH2.Controllers.Camera
             int length = Convert.ToInt32(Request["length"]);
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             List<Documentary_cam_repair_detailsDB> equips;
 
             equips = DBContext.Database.SqlQuery<Documentary_cam_repair_detailsDB>(@"select r.room_id, r.room_name, depa.department_name, details.*
@@ -91,7 +91,7 @@ namespace QUANGHANH2.Controllers.Camera
         {
             if (edit != "")
             {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
                 {
                     try
@@ -143,7 +143,7 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpPost]
         public ActionResult GetSupply(string documentary_id, string room_id)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             List<Supply_Documentary_CameraDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_CameraDB>("SELECT s1.*, s2.supply_name FROM Supply_Documentary_Camera s1 inner join Supply s2 on s1.supply_id = s2.supply_id WHERE room_id = @room_id AND documentary_id = @documentary_id",
                 new SqlParameter("room_id", room_id),
                 new SqlParameter("documentary_id", documentary_id)).ToList();
@@ -154,7 +154,7 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpPost]
         public ActionResult AddSupply(string list, int documentary_id, string room_id)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 try

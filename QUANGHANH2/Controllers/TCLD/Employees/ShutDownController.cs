@@ -46,7 +46,7 @@ namespace QUANGHANH2.Controllers.TCLD
             List<Department> listPhongBan = new List<Department>();
             //List<DoiChieu_Luong> listBacAndLuong = new List<DoiChieu_Luong>();
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 string sql = "select * from CongViec";
@@ -115,7 +115,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     if (!PhongBan.Equals("-1")) query += "n.MaPhongBan = @PhongBan AND ";
                 }
                 query = query.Substring(0, query.Length - 5);
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 db.Configuration.LazyLoadingEnabled = false;
                 //bool GioiTinh = true;
                 //if (Gender.Equals("true"))
@@ -172,7 +172,7 @@ namespace QUANGHANH2.Controllers.TCLD
             List<NhanVienModel> listNhanVien = new List<NhanVienModel>();
             int totalrows = listNhanVien.Count;
             int totalrowsafterfiltering = listNhanVien.Count;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 string sql =
@@ -209,7 +209,7 @@ namespace QUANGHANH2.Controllers.TCLD
             try
             {
 
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
                 db.Configuration.LazyLoadingEnabled = false;
 
@@ -271,7 +271,7 @@ namespace QUANGHANH2.Controllers.TCLD
             if (sqd != null && sqd != "")
             {
                 int result;
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     string sql = "select count(SoQuyetDinh) as sqd from QuyetDinh\n" +
                     "where SoQuyetDinh = @SoQD ";
@@ -294,7 +294,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public JsonResult DidListDetail(string id)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             db.Configuration.LazyLoadingEnabled = false;
 
             string query = "select q.SoQuyetDinh, nv.MaNV, nv.Ten, cd.LoaiChamDut, cd.NgayChamDut " +
@@ -310,7 +310,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public JsonResult DidDetailDel(string id)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             db.Configuration.LazyLoadingEnabled = false;
             using (DbContextTransaction dbct = db.Database.BeginTransaction())
             {
@@ -349,7 +349,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public JsonResult NotYetDelete(string id)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             db.Configuration.LazyLoadingEnabled = false;
             using (DbContextTransaction dbct = db.Database.BeginTransaction())
             {
@@ -397,7 +397,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult NotYetList(string MaQuyetDinh, string NgayChamDut)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
             db.Configuration.LazyLoadingEnabled = false;
             string dateFix = "";
@@ -446,7 +446,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public JsonResult NotYetDetail(string id)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             db.Configuration.LazyLoadingEnabled = false;
 
             string query = "select  nv.MaNV, nv.Ten, cd.LoaiChamDut, cd.NgayChamDut " +
@@ -460,7 +460,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public JsonResult UpdateSoQD(string id, string SoQD)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbct = db.Database.BeginTransaction())
             {
                 try
@@ -515,7 +515,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult validateID(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 QuyetDinh nv = db.QuyetDinhs.Where(x => x.SoQuyetDinh == id).FirstOrDefault<QuyetDinh>();
                 if (nv != null)
@@ -567,7 +567,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 }
                 manv = manv.Remove(manv.Length - 1);
                 List<ChamDutModel> exportList = new List<ChamDutModel>();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     db.Configuration.LazyLoadingEnabled = false;
                     string query = @"select a.*, b.department_name as 'PhanXuong', d.MucThangLuong as 'ThangLuong' from NhanVien a
@@ -764,7 +764,7 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     string query = "select * from NhanVien nv left outer join CongViec cv on nv.MaCongViec = cv.MaCongViec where nv.MaTrangThai = 2";
                     List<NhanVienExcel> list = db.Database.SqlQuery<NhanVienExcel>(query).ToList();

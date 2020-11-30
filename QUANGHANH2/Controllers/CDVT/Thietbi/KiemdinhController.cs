@@ -33,7 +33,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             DateTime dtStart = dateStart.Equals("") ? DateTime.ParseExact("01/01/1753", "MM/dd/yyyy", null) : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
             DateTime dtEnd = dateEnd.Equals("") ? DateTime.ParseExact("12/31/9999", "MM/dd/yyyy", null) : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
             var list = (from ei in DBContext.Equipment_Inspection.GroupBy(x => x.equipmentId).Select(x => new
@@ -76,7 +76,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         [HttpPost]
         public ActionResult Add(int inspect_id, string dateTemp)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             try
             {
                 Equipment_Inspection ei = DBContext.Equipment_Inspection.Find(inspect_id);

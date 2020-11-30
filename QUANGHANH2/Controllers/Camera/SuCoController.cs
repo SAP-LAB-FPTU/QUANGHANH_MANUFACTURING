@@ -23,7 +23,7 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpGet]
         public ActionResult Index()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 ViewBag.room_name = db.Rooms.Where(x => x.camera_available != 0).Select(x => x.room_name).ToList();
                 ViewBag.department_name = db.Departments.Select(x => x.department_name).ToList();
@@ -36,7 +36,7 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpPost]
         public ActionResult Add(string depart, string quan, string reason, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, string checkBox)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             CameraIncident i = new CameraIncident();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
@@ -73,7 +73,7 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpPost]
         public ActionResult Edit(int incident_id, string department, string reason, int quan, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
                 try
@@ -108,7 +108,7 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpPost]
         public ActionResult Update(int incident_id, string reason, int year, int month, int day, int hour, int minute)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             CameraIncident i = DBContext.CameraIncidents.Find(incident_id);
             DateTime end = new DateTime(year, month, day, hour, minute, 0);
             if (DateTime.Compare(i.start_time, end) >= 0)
@@ -139,7 +139,7 @@ namespace QUANGHANH2.Controllers.Camera
             DateTime dtStart = dateStart == "" ? DateTime.Parse("1800/1/1") : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
             DateTime dtEnd = dateEnd == "" ? DateTime.MaxValue : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null).AddHours(23).AddMinutes(59);
 
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             string query = @"select r.room_name, r.camera_available, ci.disk_status, r.disk_saveable, d.department_name, ci.reason, ci.incident_id, ci.start_time, ci.end_time, ci.incident_camera_quantity
                     from Room r join Department d on r.department_id = d.department_id
                     join CameraIncident ci on r.room_id = ci.room_id where ci.start_time BETWEEN @dtStart AND @dtEnd AND ";
@@ -183,7 +183,7 @@ namespace QUANGHANH2.Controllers.Camera
         //        ExcelWorkbook excelWorkbook = excelPackage.Workbook;
         //        ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
 
-        //        using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+        //        using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
         //        {
         //            var incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.Equipment_category_id, e.*, i.*, d.department_name FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d on d.department_id = i.department_id inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id").ToList();
         //            int k = 0;
@@ -214,7 +214,7 @@ namespace QUANGHANH2.Controllers.Camera
         {
             try
             {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 string sql = @"select d.department_name, ci.incident_camera_quantity, r.room_name, ci.start_time, ci.end_time, ci.reason, ci.incident_id, DATEDIFF(HOUR, ci.start_time, ci.end_time) as time_different
                             from CameraIncident ci join Room r on ci.room_id = r.room_id
 	                            join Department d on r.department_id = d.department_id

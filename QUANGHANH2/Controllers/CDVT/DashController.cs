@@ -20,7 +20,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [Route("phong-cdvt")]
         public ActionResult Index(string type, string month, string year)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
             List<string> rights = (List<string>)Session["RightIDs"];
             List<DashEquip> listhd = new List<DashEquip>();
@@ -437,7 +437,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                               where DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join CameraIncident e  
                               on t.[year] = year(e.start_time) group by t.[year] order by t.[year] asc";
             }
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 ViewBag.suachua = db.Database.SqlQuery<form>(querySC).ToList();
                 ViewBag.baoduong = db.Database.SqlQuery<form>(queryBD).ToList();
@@ -470,7 +470,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                             case when SUM(case when ci.reason like N'%sét%' or ci.reason like '%set%' then 1 else 0 end) is null then 0 else SUM(case when ci.reason like N'%sét%' or ci.reason like '%set%' then 1 else 0 end) end as 'lightning'
                             from CameraIncident ci
                             where MONTH(ci.start_time) = @month and YEAR(ci.start_time) = @year";
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             DashCam dc = db.Database.SqlQuery<DashCam>(query, new SqlParameter("month", d[1]), new SqlParameter("year", d[2])).FirstOrDefault();
             dc.notdone = dc.sum - dc.done;
             return Json(new { success = true, message = "", dc = dc }, JsonRequestBehavior.AllowGet);
@@ -496,7 +496,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 {
                     query += " where r.camera_available = 0";
                 }
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 List<RoomThongKe> list = db.Database.SqlQuery<RoomThongKe>(query).ToList();
                 return Json(new { success = true, listDB = list }, JsonRequestBehavior.AllowGet);
             }

@@ -30,7 +30,7 @@ namespace QUANGHANH2.Controllers.Camera
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             DateTime date = DateTime.ParseExact(stringDate, "dd/MM/yyyy", null);
 
             int session = 0;
@@ -99,7 +99,7 @@ namespace QUANGHANH2.Controllers.Camera
                 return Json(new { success = false, message = "Không được cập nhật ca này" });
 
             JArray jArray = (JArray)jObject["list"];
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
                 try

@@ -33,7 +33,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
 
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     DateTime dtStart = DateTime.Parse("1800-1-1");
                     DateTime dtEnd = DateTime.MaxValue;
@@ -154,7 +154,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
 
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     string query = @"select e.equipment_name, COUNT(e.equipmentId) as 'num',
                                 SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
@@ -187,7 +187,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         public ActionResult Index()
         {
 
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<Department> listDepeartment = db.Departments.ToList<Department>();
             ViewBag.listDepeartment = listDepeartment;
             EquipThongKe etk = new EquipThongKe();
@@ -234,7 +234,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             //
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 var equipList = db.Database.SqlQuery<EquipWithName>("SELECT e.[equipmentId],[equipment_name],[durationOfMaintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],(select MAX(ei.inspect_date) from Equipment_Inspection ei where ei.equipmentId = e.equipmentId) as 'durationOfInspection_fix',[durationOfInsurance],[usedDay],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.statusname,d.department_name,ec.Equipment_category_name " +
@@ -288,7 +288,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         public ActionResult Change(string id)
         {
             ViewBag.listID = null;
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             string sql = "select e.equipmentId from Equipment e where e.equipmentId like @id";
             List<EquipWithName> listID = db.Database.SqlQuery<EquipWithName>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
             ViewBag.listID = listID;
@@ -348,7 +348,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                         select e.supplier
                         from Equipment e join Car c on e.equipmentId = c.equipmentId";
             }
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<EquipTempSearch> list = db.Database.SqlQuery<EquipTempSearch>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
             return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
         }
@@ -360,7 +360,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         public ActionResult Atri(string name)
         {
             ViewBag.listID = null;
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             String d = "";
             string sql = "select * from Equipment_category_attribute where Equipment_category_id = @name";
             List<Equipment_category_attribute> list = db.Database.SqlQuery<Equipment_category_attribute>(sql, new SqlParameter("name", name)).ToList();
@@ -389,7 +389,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             if (sortColumnName == null) sortColumnName = "Equipment_category_name";
             if (sortDirection == null) sortDirection = "asc";
 
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             DateTime dtStart = DateTime.Parse("1800-1-1");
             DateTime dtEnd = DateTime.MaxValue;
             if (!dateStart.Equals(""))
@@ -494,7 +494,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         {
             List<SelectListItem> listDepeartment = new List<SelectListItem>();
             List<SelectListItem> listCategory = new List<SelectListItem>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var departments = db.Departments.ToList<Department>();
                 foreach (Department items in departments)
@@ -534,7 +534,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             List<SelectListItem> listDepeartment = new List<SelectListItem>();
             List<SelectListItem> listCategory = new List<SelectListItem>();
             List<SelectListItem> listStatus = new List<SelectListItem>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<Supply_DK> listsupdk = db.Database.SqlQuery<Supply_DK>("select equipment_name,equipmentId from Equipment where isAttach = 1").ToList();
                 ViewBag.listsupdk = listsupdk;
@@ -594,7 +594,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 new SelectListItem { Text = "Cung cấp điện, truyền dẫn", Value = "Cung cấp điện, truyền dẫn" }
             };
             ViewBag.listType = listType;
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<Supply> listSup = db.Supplies.ToList<Supply>();
             ViewBag.listSup = listSup;
             return View(new Equipment_category());
@@ -603,7 +603,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         [HttpPost]
         public ActionResult AddCategory(Equipment_category ec, string[] id, string[] name, string[] unit)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             Equipment_category category = db.Equipment_category.Find(ec.Equipment_category_id);
             if (category != null)
                 return Json(new { success = false, message = "Mã loại thiết bị đã tồn tại" });
@@ -649,7 +649,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         [HttpPost]
         public ActionResult Add(Equipment emp, string import, string duraInspec, string Insua, string BuyInspec, string BuyInsua, string used, string duramain, string[] id, string[] name, string[] value, string[] unit, int[] attri, string[] nameSup, int[] quantity, string[] nameVTDK, int[] quantityVTDK, string sk, string sm, string gps, string attype, string NL, string yearSX)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
 
@@ -848,7 +848,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         public ActionResult Edit(Equipment emp, string import, string inspec, string Insua, string BuyInspec, string BuyInsua, string used, string main, string sk, string sm, CarDB cdb, string yearSX)
         {
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction dbc = db.Database.BeginTransaction())
                 {
@@ -1003,7 +1003,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             }
             List<SelectListItem> listDepeartment = new List<SelectListItem>();
             List<SelectListItem> listCategory = new List<SelectListItem>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var departments = db.Departments.ToList<Department>();
                 foreach (Department items in departments)
@@ -1097,7 +1097,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         //[HttpPost]
         //public ActionResult EditKD(string id, DateTime date)
         //{
-        //    QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+        //    QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
         //    Equipment emp = db.Equipments.Where(e => e.equipmentId == id).FirstOrDefault();
         //    emp.durationOfInspection = date;
         //    db.Entry(emp).State = EntityState.Modified;
@@ -1113,7 +1113,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
         //{
         //    try
         //    {
-        //        using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+        //        using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
         //        {
         //            Equipment emp = db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>();
         //            List<Equipment_attribute> list = db.Equipment_attribute.Where(ea => ea.equipmentId == id).ToList();

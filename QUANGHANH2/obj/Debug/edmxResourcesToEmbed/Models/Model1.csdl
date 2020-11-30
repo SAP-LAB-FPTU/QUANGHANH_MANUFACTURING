@@ -3748,7 +3748,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="QUANGHANHABCEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="QuangHanhManufacturingEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Acceptances" EntityType="Self.Acceptance" />
     <EntitySet Name="Accounts" EntityType="Self.Account" />
     <EntitySet Name="Account_Right" EntityType="Self.Account_Right" />

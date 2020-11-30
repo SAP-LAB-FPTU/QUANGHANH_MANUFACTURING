@@ -30,7 +30,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
@@ -65,7 +65,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
                 }
                 else
                 {
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
                         ThangLuong tl = db.ThangLuongs.Where(x => x.MucThangLuong.Equals(tenThangLuong)).FirstOrDefault();
                         if (tl == null)
@@ -95,7 +95,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var ma_thang_luong = Request["mathangluong"];
                     if (ma_thang_luong != null)
@@ -130,7 +130,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
                 }
                 else
                 {
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
                         ThangLuong tl = db.ThangLuongs.Where(x => x.MucThangLuong.Equals(mucthangluong)).FirstOrDefault();
                         if (tl == null)
@@ -165,7 +165,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
             try
             {
                 int mathangluong = Convert.ToInt32(Request["mathangluong"]);
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     //check data exist related to
                     if ((BacLuong_ThangLuong_MucLuong)db.BacLuong_ThangLuong_MucLuong.Where(x => x.MaThangLuong== mathangluong).FirstOrDefault() == null

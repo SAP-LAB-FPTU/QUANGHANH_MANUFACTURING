@@ -17,11 +17,11 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Room()
         {
-            this.Camera_Acceptance = new HashSet<Camera_Acceptance>();
-            this.CameraIncidents = new HashSet<CameraIncident>();
-            this.Documentary_camera_repair_details = new HashSet<Documentary_camera_repair_details>();
-            this.Room_Status = new HashSet<Room_Status>();
-            this.Supply_Documentary_Camera = new HashSet<Supply_Documentary_Camera>();
+            this.Acceptances = new HashSet<Acceptance>();
+            this.Incidents = new HashSet<Incident>();
+            this.CameraRepairDetails = new HashSet<CameraRepairDetail>();
+            this.RepairCameras = new HashSet<RepairCamera>();
+            this.Status = new HashSet<Status>();
         }
     
         public string department_id { get; set; }
@@ -39,15 +39,15 @@ namespace QUANGHANH2.Models
         public string image_link { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Camera_Acceptance> Camera_Acceptance { get; set; }
+        public virtual ICollection<Acceptance> Acceptances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CameraIncident> CameraIncidents { get; set; }
+        public virtual ICollection<Incident> Incidents { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CameraRepairDetail> CameraRepairDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RepairCamera> RepairCameras { get; set; }
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_camera_repair_details> Documentary_camera_repair_details { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Room_Status> Room_Status { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_Documentary_Camera> Supply_Documentary_Camera { get; set; }
+        public virtual ICollection<Status> Status { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
         [Route("phong-cdvt/xin-cap-vat-tu")]
         public ActionResult Index()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<Supply> listSupply = db.Supplies.Where(x => x.unit != "L" && x.unit != "kWh").ToList();
             ViewBag.listSupply = listSupply;
             return View("/Views/CDVT/Vattu/CdvtXincapvattu.cshtml");
@@ -30,7 +30,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             try
             {
 
-                using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
                 {
                     // only taken by each department.
                     var listequipment = new List<Xincap>();
@@ -76,7 +76,7 @@ where departmentid='CV' and status=0 and month(date)=month(getdate())";
 
             string[] listsupplyplanid = js.Deserialize<string[]>(supplyplanid);
 
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 //try
@@ -119,7 +119,7 @@ where departmentid='CV' and status=0 and month(date)=month(getdate())";
         public ActionResult XinCap()
         {
            
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 try
@@ -148,7 +148,7 @@ where departmentid='CV' and status=0 and month(date)=month(getdate())";
             try
             {
                 
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 var supply = db.Supplies.Where(x => x.supply_id == supplyid).First();
                
 

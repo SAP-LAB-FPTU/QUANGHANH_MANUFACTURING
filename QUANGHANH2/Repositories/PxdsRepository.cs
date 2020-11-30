@@ -12,7 +12,7 @@ namespace QUANGHANH2.Repositories
     public class PxdsRepository : IPxdsRepository
     {
         [Dependency]
-        public QUANGHANHABCEntities Context { get; set; }
+        public QuangHanhManufacturingEntities Context { get; set; }
         
         public IList<PxdsModelView> GetDetails()
         {

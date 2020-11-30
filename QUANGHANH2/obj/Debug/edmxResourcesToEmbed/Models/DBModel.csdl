@@ -600,7 +600,7 @@
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
     <End Role="Supply" Type="Self.Supply" Multiplicity="*" />
   </Association>
-  <EntityContainer Name="QUANGHANHABCEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="QuangHanhManufacturingEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Category_attribute_value" EntityType="Self.Category_attribute_value" />
     <EntitySet Name="Departments" EntityType="Self.Department" />
     <EntitySet Name="Documentaries" EntityType="Self.Documentary" />

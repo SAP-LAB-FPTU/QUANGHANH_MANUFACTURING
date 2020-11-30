@@ -15,7 +15,7 @@ namespace QUANGHANH2.Controllers.Camera
         public ActionResult Index()
         {
             int id = int.Parse(Request["id"]);
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
 

@@ -23,7 +23,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
             string Equipment_category_attribute_id = Request["Equipment_category_attribute_id"];
             if (Equipment_category_attribute_id == "")
                 return Json(new { success = false});
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 Equipment_category_attribute attribute = db.Equipment_category_attribute.Find(Equipment_category_attribute_id);
                 if (attribute == null)

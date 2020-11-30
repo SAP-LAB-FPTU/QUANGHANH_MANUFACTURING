@@ -31,7 +31,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             {
                 query = Wherecondition(type, date, month, quarter, year);
             }
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<contentreportPower> listdata = db.Database.SqlQuery<contentreportPower>(query).ToList();
                 double totaltieuthu = 0; double totalsanluong = 0;
@@ -63,7 +63,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             {
                 query = Wherecondition(type, date, month, quarter, year);
             }
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<contentreportPower> listdata = db.Database.SqlQuery<contentreportPower>(query).ToList();
                 var js = Json(new { success = true, data = listdata }, JsonRequestBehavior.AllowGet);
@@ -187,7 +187,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             {
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     string query;
                     if (type == null)

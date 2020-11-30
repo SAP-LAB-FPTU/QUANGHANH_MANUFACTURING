@@ -23,7 +23,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             int h100bag = 0, h200bag = 0, h500bag = 0, h1000bag = 0, h2000bag = 0, dotxuatbag = 0,thuongxuyenbag=0;
             Wherecondition(type, date, month, quarter, year);
             List<Content> content = new List<Content>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var eqID = db.Database.SqlQuery<Eqp>("select dm.equipmentId as id from Documentary_maintain_details dm union select dr.equipmentId as id from Documentary_repair_details dr").ToList();
                 foreach (var item in eqID)
@@ -174,7 +174,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                             " and do.documentary_id = dm.documentary_id and YEAR(dm.finish_date_plan) = '" + nam + "'";
             }
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 ViewBag.ContentBaoDuong = db.Database.SqlQuery<contentBaoDuong>(queryBD).ToList();
                 ViewBag.ContentSuaChua = db.Database.SqlQuery<contentSuaChua>(querySC).ToList();
@@ -190,7 +190,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             {
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     int h100bag = 0, h200bag = 0, h500bag = 0, h1000bag = 0, h2000bag = 0, dotxuatbag = 0, thuongxuyenbag = 0;
                     Wherecondition(type, date, month, quarter, year);

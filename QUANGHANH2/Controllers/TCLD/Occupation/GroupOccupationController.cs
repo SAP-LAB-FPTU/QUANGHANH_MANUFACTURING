@@ -25,7 +25,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
         {
 
             List<NhomCongViec_DienCongViec> listData = new List<NhomCongViec_DienCongViec>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 //get data's table to paging
                 int start = Convert.ToInt32(Request["start"]);
@@ -53,7 +53,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
             try
             {
                 List<DienCongViec> listDienCongViec = new List<DienCongViec>();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var sqlListData_DienCongViec = @"select * from DienCongViec";
                     listDienCongViec = db.Database.SqlQuery<DienCongViec>(sqlListData_DienCongViec).ToList<DienCongViec>();
@@ -77,7 +77,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
                 var loainhomcongviec = Request["loainhomcongviec"];
                 var madiencongviec = Request["madiencongviec"];
 
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var sqlCheck_Dupicate = @"select TenNhomCongViec, LoaiNhomCongViec from NhomCongViec where TenNhomCongViec = @tennhomcongviec or LoaiNhomCongViec = @loainhomcongviec";
                     var check_duplicate = db.Database.SqlQuery<NhomCongViec_DienCongViec>(sqlCheck_Dupicate, new SqlParameter("tennhomcongviec", tennhomcongviec), new SqlParameter("loainhomcongviec", loainhomcongviec)).FirstOrDefault();
@@ -126,7 +126,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
             try
             {
                 var manhomcongviec = Request["manhomcongviec"];
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var sqlGetData = @"select a.MaNhomCongViec, a.TenNhomCongViec, a.LoaiNhomCongViec, b.MaDienCongViec, b.TenDienCongViec from NhomCongViec a left outer join DienCongViec b on a.MaDienCongViec = b.MaDienCongViec where MaNhomCongViec = @manhomcongviec";
                     var listData = db.Database.SqlQuery<NhomCongViec_DienCongViec>(sqlGetData, new SqlParameter("manhomcongviec", manhomcongviec)).FirstOrDefault();
@@ -151,7 +151,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
                 var loainhomcongviec = Request["loainhomcongviec"];
                 var madiencongviec = Request["madiencongviec"];
 
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     NhomCongViec ncv = db.NhomCongViecs.Where(x => !(x.MaNhomCongViec == manhomcongviec) && (x.TenNhomCongViec.Equals(tennhomcongviec) || x.LoaiNhomCongViec.Equals(loainhomcongviec))).FirstOrDefault();
                     if (ncv == null)
@@ -183,7 +183,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
             try
             {
                 int manhomcongviec = Convert.ToInt32(Request["manhomcongviec"]);
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     if (check_Exist_Data(manhomcongviec))
                     {
@@ -211,7 +211,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
             bool flag = false;
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var sqlCheck = @"select a.MaNhomCongViec from NhomCongViec a right outer join CongViec_NhomCongViec b on a.MaNhomCongViec = b.MaNhomCongViec
                                 where a.MaNhomCongViec = @manhomcongviec";

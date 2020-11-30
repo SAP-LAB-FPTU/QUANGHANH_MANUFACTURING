@@ -88,7 +88,7 @@ namespace QUANGHANH2.Controllers.DK
                                             where year(Ngay) = @year and Ngay <= @date
                                             group by month(Ngay)) as tb2 on tb1.Ngay = tb2.lastdate) as tb4
                                             on tb3.ThangKeHoach = tb4.Thang";
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     List <TCEntities> listTC = db.Database.SqlQuery<TCEntities>(queryTC).ToList();
                     List <displayTC> listTCdisplay = new List<displayTC>();

@@ -11,7 +11,7 @@ namespace QUANGHANH2.Controllers.DK
 {
     public class InputPlan_YearController : Controller
     {
-        QUANGHANHABCEntities dbContext = new QUANGHANHABCEntities();
+        QuangHanhManufacturingEntities dbContext = new QuangHanhManufacturingEntities();
         // GET: KHSXNam
         [Route("phong-dieu-khien/ke-hoach-san-xuat-nam")]
         public ActionResult Index()

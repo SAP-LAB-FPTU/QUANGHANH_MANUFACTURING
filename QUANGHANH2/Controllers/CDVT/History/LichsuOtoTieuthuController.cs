@@ -23,7 +23,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             // only taken by each department.
             string department_id = Session["departID"].ToString();
 
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<Supply> listSupply = db.Supplies.ToList();
 
 

@@ -33,7 +33,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 //string name = Session["Name"].ToString()  ;
 
@@ -61,7 +61,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             List<ChungChi_NhanVien_Model> equipList = new List<ChungChi_NhanVien_Model>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 equipList = (from ccnv in db.ChungChi_NhanVien
@@ -112,7 +112,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult AddCertificate(ChungChi chungChi)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 if (chungChi != null)
@@ -148,7 +148,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         }
         public void getListInforEmployeeCirtificate()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 String query = @"select * from ChungChi";
                 List<Chung_Chi_Display> listdata_chungchi = db.Database.SqlQuery<Chung_Chi_Display>(query).ToList();
@@ -177,7 +177,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult validateID(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var chungchi_nvs = db.ChungChi_NhanVien.Where(x => x.SoHieu == id).FirstOrDefault<ChungChi_NhanVien>();
                 if (chungchi_nvs != null)
@@ -192,7 +192,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         }
         public ActionResult validateExistCirtificateOfEmp(string manv, int id, string first_cir)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var chungchi_nvs = db.ChungChi_NhanVien.Where(x => (x.MaNV == manv) && (x.MaChungChi == id)).FirstOrDefault<ChungChi_NhanVien>();
                 if (chungchi_nvs != null)
@@ -220,7 +220,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult validateNameCirtificare(string name)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var chungchi = db.ChungChis.Where(x => x.TenChungChi == name).FirstOrDefault<ChungChi>();
                 if (chungchi != null)
@@ -237,7 +237,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult getNameEmployee(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var chungchi_nvs = db.NhanViens.Where(x => (x.MaNV == id) && (x.MaTrangThai != 2)).FirstOrDefault<NhanVien>();
                 if (chungchi_nvs != null)
@@ -258,7 +258,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             //ngaycap = ngaycap.Split(' ')[0];
             //ngaycap = ngaycap.Split('/')[1] +"/"+ ngaycap.Split('/')[0] + "/" + ngaycap.Split('/')[2];
             //chungChi_nhanVien.NgayCap = DateTime.Parse(ngaycap);
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (chungChi_nhanVien != null)
                 {
@@ -274,7 +274,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpGet]
         public ActionResult EditCertificate(int id = 0)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 getListTypeCertificate();
@@ -303,7 +303,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult EditCertificate(ChungChi chungChi)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (chungChi != null)
                 {
@@ -318,7 +318,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpGet]
         public ActionResult EditCertificateEmp(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 getListInforEmployeeCirtificate();
                 var cirtificate_emp = db.ChungChi_NhanVien.Where(x => x.SoHieu == id).FirstOrDefault<ChungChi_NhanVien>();
@@ -343,7 +343,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult EditCertificateEmp(ChungChi_NhanVien chungchinv)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (chungchinv != null)
                 {
@@ -357,7 +357,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult DeleteCertificate(int id = 0)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
@@ -397,7 +397,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult DeleteCertificateEmp(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 ChungChi_NhanVien chungchi_nv = db.ChungChi_NhanVien.Where(x => x.SoHieu == id).FirstOrDefault<ChungChi_NhanVien>();
@@ -426,7 +426,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             List<ChungChi> listdataSearch = new List<ChungChi>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.ProxyCreationEnabled = false;
                 if (TenChungChi != null)
@@ -475,7 +475,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             var sohieu = idsArray[0];
             var tenchungchi = idsArray[1];
             var tennv = idsArray[2];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.ProxyCreationEnabled = false;
                 if (sohieu != null || tenchungchi != null || tennv != null)
@@ -531,7 +531,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                     ExcelWorksheet ws = excelWorkbook.Worksheets.First();
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
                         List<ChungChi> listdata = db.ChungChis.ToList<ChungChi>();
                         ws.Cells["A1"].Value = "Bảng danh sách chứng chỉ công ty";
@@ -582,7 +582,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                     ExcelWorksheet ws_cert_emp = excelWorkbook.Worksheets.First();
                     List<ChungChi_NhanVien_Model> listdata_certificate_Emp = new List<ChungChi_NhanVien_Model>();
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
 
                         listdata_certificate_Emp = (from ccnv in db.ChungChi_NhanVien

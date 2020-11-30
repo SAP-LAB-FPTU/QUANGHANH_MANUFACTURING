@@ -50,7 +50,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                 Response.Write("Vui lòng nhập đúng ngày tháng năm");
                 return new HttpStatusCodeResult(400);
             }
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
             documentaryList = (from document in db.Documentaries
                                where document.documentary_type.Equals(1) && (document.documentary_code == null || document.documentary_code == "") && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
@@ -99,7 +99,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
 
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     List<Documentary_Export> documentaryList = (from document in db.Documentaries
                                                                 where (document.documentary_type.Equals(1) && (document.documentary_code == "" || document.documentary_code == null))

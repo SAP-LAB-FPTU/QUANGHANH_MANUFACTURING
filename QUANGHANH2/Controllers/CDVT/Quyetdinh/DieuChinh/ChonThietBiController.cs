@@ -32,7 +32,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuChinh
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 string query = "SELECT e.equipmentId, e.equipment_name, d.department_name, s.statusname " +
                     "FROM Equipment e inner join Department d on e.department_id = d.department_id " +

@@ -1414,7 +1414,7 @@
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
     <End Role="Supply" Type="Self.Supply" Multiplicity="*" />
   </Association>
-  <EntityContainer Name="QUANGHANHABCEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="QuangHanhManufacturingEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Acceptances" EntityType="Self.Acceptance" />
     <EntitySet Name="Activities" EntityType="Self.Activity" />
     <EntitySet Name="BangCaps" EntityType="Self.BangCap" />

@@ -25,7 +25,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
             {
                 room_id.Add(item.ToString());
             }
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
 
@@ -76,7 +76,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
         [HttpPost]
         public ActionResult Add(string out_in_come, string data, string department_id, string reason)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
                 try

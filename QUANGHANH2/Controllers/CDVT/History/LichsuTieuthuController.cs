@@ -25,7 +25,7 @@ namespace QUANGHANH2.Controllers.CDVT.History
             // only taken by each department.
             string department_id = Session["departID"].ToString();
 
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from Equipment where department_id = @department_id",new SqlParameter("department_id",department_id)).ToList();
 
             List<Supply> listSupply = db.Supplies.ToList();

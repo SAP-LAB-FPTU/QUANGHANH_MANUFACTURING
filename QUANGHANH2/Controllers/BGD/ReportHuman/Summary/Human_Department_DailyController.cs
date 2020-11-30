@@ -29,7 +29,7 @@ namespace QUANGHANH2.Controllers.BGD.ReportHuman.Summary
             try
             {
                 DateTime dateConverted = ConvertString(date);
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 string[] listDepartment = new string[] { "KT1", "KT2", "KT3"
                 , "KT4", "KT5", "KT6", "KT7", "KT8"
                 , "KT9", "KT10", "KT11" , "VTL1", "VTL2"

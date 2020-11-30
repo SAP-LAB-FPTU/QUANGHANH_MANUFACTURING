@@ -181,7 +181,7 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                 endDates[1] = endDates[1].AddDays(1);
             }
             //
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var listTH = db.Database.SqlQuery<SanLuongTheoThangQuy>(query,
                     new SqlParameter("startJan", startDates[0]), new SqlParameter("endJan", endDates[0]),

@@ -38,7 +38,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
                         from Supply s
                         where s.supply_name like @id";
             }
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<EquipTempSearch> list = db.Database.SqlQuery<EquipTempSearch>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
             return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
         }
@@ -62,7 +62,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
 
             List<Supply> supplies = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id like @supply_id and supply_name like @supply_name order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
                     new SqlParameter("supply_id", "%" + supply_id + "%"),
@@ -80,7 +80,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
         [HttpPost]
         public ActionResult Add(string supply_id, string supply_name, string unit)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             Supply s = DBContext.Supplies.Find(supply_id);
             if (supply_id.Trim()=="")
             {
@@ -116,7 +116,7 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
         [HttpPost]
         public ActionResult Delete(string supply_id)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             Supply s = DBContext.Supplies.Find(supply_id);
             try
             {

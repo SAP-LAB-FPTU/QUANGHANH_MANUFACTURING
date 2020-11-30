@@ -143,7 +143,7 @@ namespace QUANGHANH2.Controllers.DK
                             FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0)) a(n), 
                             (VALUES(0), (0), (0), (0), (0), (0)) b(n)) as a) as b where b.[date] <= @endDate) as view2 
                             on view1.Ngay <= view2.[date]) as view3 group by[date] order by[date]";
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var listKH = db.Database.SqlQuery<KHEntities>(queryKH, new SqlParameter("month", monthArr[1]), new SqlParameter("year", monthYearArr[1])).ToList();
                 var listTH = db.Database.SqlQuery<DailyEntity>(queryDaily, new SqlParameter("month", monthArr[1]), new SqlParameter("year", monthYearArr[1]), new SqlParameter("startDate", startDate), new SqlParameter("endDate", endDate)).ToList();

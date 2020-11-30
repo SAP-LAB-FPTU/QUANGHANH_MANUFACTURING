@@ -54,7 +54,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                         from Equipment e join Car c on e.equipmentId = c.equipmentId
                         where e.supplier like @id";
             }
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<EquipTempSearch> list = db.Database.SqlQuery<EquipTempSearch>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
             return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
         }
@@ -68,7 +68,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         [HttpGet]
         public ActionResult Index()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<Department> listDepeartment = db.Departments.ToList<Department>();
             ViewBag.listDepeartment = listDepeartment;
             EquipThongKe etk = new EquipThongKe();
@@ -128,7 +128,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
 
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     DateTime dtStart = DateTime.Parse("1800-1-1");
                     DateTime dtEnd = DateTime.MaxValue;
@@ -228,7 +228,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             DateTime dtStart = Convert.ToDateTime("01/01/2000");
             DateTime dtEnd = DateTime.Now;
             if (!dateStart.Equals(""))

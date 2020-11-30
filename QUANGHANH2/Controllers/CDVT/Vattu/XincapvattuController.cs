@@ -22,7 +22,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
         [Route("phong-cdvt/xin-cap-vat-tu-sctx")]
         public ActionResult Index()
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             List<Supply> supplies = DBContext.Supplies.ToList();
             ViewBag.Supplies = supplies;
             return View("/Views/CDVT/Vattu/Xincapvattu.cshtml");

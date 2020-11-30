@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="QUANGHANHABCModelStoreContainer" CdmEntityContainer="QUANGHANHABCEntities">
+  <EntityContainerMapping StorageEntityContainer="QUANGHANHABCModelStoreContainer" CdmEntityContainer="QuangHanhManufacturingEntities">
     <EntitySetMapping Name="Category_attribute_value">
       <EntityTypeMapping TypeName="QUANGHANHABCModel.Category_attribute_value">
         <MappingFragment StoreEntitySet="Category_attribute_value">

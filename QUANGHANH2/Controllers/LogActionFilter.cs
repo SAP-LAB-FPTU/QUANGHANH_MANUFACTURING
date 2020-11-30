@@ -46,7 +46,7 @@ namespace QUANGHANH2.Controllers
             }
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     User_Action_Log log = new User_Action_Log();
                     int AccountID = int.Parse(HttpContext.Current.Session["userID"].ToString());

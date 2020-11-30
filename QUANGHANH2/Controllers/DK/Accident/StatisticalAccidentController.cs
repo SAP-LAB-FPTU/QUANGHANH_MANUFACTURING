@@ -13,7 +13,7 @@ namespace QUANGHANH2.Controllers.DK.Accident
 {
     public class StatisticalAccidentController : Controller
     {
-        public QUANGHANHABCEntities context = new QUANGHANHABCEntities();
+        public QuangHanhManufacturingEntities context = new QuangHanhManufacturingEntities();
 
         [Route("phong-dieu-khien/thong-ke-tai-nan")]
         public ActionResult Index()

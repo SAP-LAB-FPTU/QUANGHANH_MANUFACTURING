@@ -63,7 +63,7 @@ namespace QUANGHANH2.Controllers.TCLD
             DateTime Friday = dayStart.AddDays(4);
             DateTime Saturday = dayStart.AddDays(5);
             DateTime Sunday = dayStart.AddDays(6);
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 var t2 = (from p in db.Departments
@@ -243,7 +243,7 @@ namespace QUANGHANH2.Controllers.TCLD
             DateTime Friday = dayStart.AddDays(4);
             DateTime Saturday = dayStart.AddDays(5);
             DateTime Sunday = dayStart.AddDays(6);
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
 
@@ -431,7 +431,7 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
 
                     var t2 = (from p in db.Departments

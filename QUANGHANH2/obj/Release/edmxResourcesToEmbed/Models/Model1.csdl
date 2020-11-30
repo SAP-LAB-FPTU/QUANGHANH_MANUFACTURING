@@ -1762,7 +1762,7 @@
     <End Role="ThucHien_TieuChi" Type="Self.ThucHien_TieuChi" Multiplicity="*" />
     <End Role="TieuChi_VatLieuSanXuat" Type="Self.TieuChi_VatLieuSanXuat" Multiplicity="*" />
   </Association>
-  <EntityContainer Name="QUANGHANHABCEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="QuangHanhManufacturingEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Acceptances" EntityType="Self.Acceptance" />
     <EntitySet Name="Accounts" EntityType="Self.Account" />
     <EntitySet Name="Account_Right" EntityType="Self.Account_Right" />

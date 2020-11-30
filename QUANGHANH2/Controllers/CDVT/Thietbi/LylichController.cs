@@ -62,7 +62,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         public ActionResult deleteLS(string id, string iddoc)
         {
             ViewBag.listID = null;
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             string sql = "update Documentary_repair_details set isVisible = 0 where documentary_id = @iddoc and equipmentId = @id";
             db.Database.ExecuteSqlCommand(sql, new SqlParameter("id", id), new SqlParameter("iddoc", iddoc));
 
@@ -80,7 +80,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult ABC(string id)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             //lít vat tu
             List<Supply> listSup = DBContext.Supplies.ToList<Supply>();
             ViewBag.listSup = listSup;
@@ -333,7 +333,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult listDailyRepair(string id)
         {
-            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
             {
                 DBContext.Configuration.LazyLoadingEnabled = false;
                 var temp = (from e in DBContext.Equipments
@@ -365,7 +365,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult listFuel(string id)
         {
-            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
             {
                 DBContext.Configuration.LazyLoadingEnabled = false;
                 List<myFuel> listFuel = DBContext.Database.SqlQuery<myFuel>("select f.*, d.department_name from Fuel_activities_consumption f, Equipment e, Department d where e.equipmentId = f.equipmentId and e.department_id =  d.department_id and e.equipmentId = @id order by f.date desc", new SqlParameter("id", id)).ToList();
@@ -390,7 +390,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult listActivities(string id)
         {
-            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
             {
                 DBContext.Configuration.LazyLoadingEnabled = false;
                 List<myAct> listHD = DBContext.Database.SqlQuery<myAct>("select a.*,d.department_name from Activity a, Equipment e, Department d where a.equipmentid = e.equipmentId and e.department_id = d.department_id and a.equipmentid = @id", new SqlParameter("id", id)).ToList();
@@ -411,7 +411,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult deleteDK(string id, string supid)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
@@ -437,7 +437,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult updateDK(string id, string supid, int quan, string dvt, string note)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
@@ -463,7 +463,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult updateDP(string id, string supid, int quan, string dvt, string note)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
@@ -489,7 +489,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult addTT(string idTT, string nameTT, int quan, string dvt, string eid)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
@@ -530,7 +530,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult addDK(string id, string nameSup, int quan, string dvt, string note)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
@@ -570,7 +570,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult addTBDK(string id, string[] nameSup, int[] quan, string id_e)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
@@ -618,7 +618,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult updateTBDK(string id, string supid, int quan, string id_e)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
@@ -644,7 +644,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult deleteTBDK(string id, string supid, string id_e)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
@@ -670,7 +670,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult addVTDK(string id, string nameSup, int quan)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
@@ -714,7 +714,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult updateVTDK(string id, string supid, int quan)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
@@ -740,7 +740,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult deleteVTDK(string id, string supid)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
@@ -767,7 +767,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult addSCTX(string id, string nameSup, int quan)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
@@ -812,7 +812,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult updateSCTX(string id, string supid, int quan)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
@@ -838,7 +838,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
         [HttpPost]
         public ActionResult deleteSCTX(string id, string supid)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try

@@ -24,7 +24,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
         [HttpPost]
         public ActionResult getList()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 //db.Configuration.LazyLoadingEnabled = true;
@@ -67,7 +67,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
                 }
                 else
                 {
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
                         BacLuong bl = db.BacLuongs.Where(x => x.MucBacLuong.Equals(mucBacLuong)).FirstOrDefault();
                         if (bl == null)
@@ -103,7 +103,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
             try
             {
                 var maBacLuong = Request["MaBacLuong"];
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var query = @"Select * From BacLuong Where MaBacLuong = @mbl";
                     var BacLuong = db.Database.SqlQuery<BacLuong>(query, new SqlParameter("mbl", maBacLuong)).FirstOrDefault();
@@ -131,7 +131,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
                 }
                 else
                 {
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
                         BacLuong bl = db.BacLuongs.Where(x => x.MucBacLuong.Equals(MucBacLuong)).FirstOrDefault();
                         if (bl == null)
@@ -168,7 +168,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
             try
             {
                 int MaBacLuong = Convert.ToInt32(Request["MaBacLuong"]);
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     BacLuong_ThangLuong_MucLuong blm = db.BacLuong_ThangLuong_MucLuong.Where(x => x.MaBacLuong == MaBacLuong).FirstOrDefault();
 

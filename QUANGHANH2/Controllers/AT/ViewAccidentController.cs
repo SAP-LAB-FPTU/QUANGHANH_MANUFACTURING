@@ -22,7 +22,7 @@ namespace QUANGHANH2.Controllers.AT
         [Route("phong-an-toan/danh-sach-tai-nan")]
         public ActionResult Index()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<NhanVien> listNhanVien = db.NhanViens.ToList<NhanVien>();
             ViewBag.listNhanVien = listNhanVien;
             return View("/Views/AT/ViewAccident.cshtml");

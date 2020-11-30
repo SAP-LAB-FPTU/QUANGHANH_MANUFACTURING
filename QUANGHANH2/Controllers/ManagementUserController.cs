@@ -18,7 +18,7 @@ namespace QUANGHANH2.Controllers
     [Auther(RightID = "0")]
     public class ManagementUserController : Controller
     {
-        private QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+        private QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
         // GET: ManagementUser
 
         public ActionResult Index(string username)
@@ -760,7 +760,7 @@ namespace QUANGHANH2.Controllers
                 string searchValue = Request["search[value]"];
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     List<Account_Rights> list = db.Database.SqlQuery<Account_Rights>(sql
                         , new SqlParameter("rights", '%' + rights + '%')

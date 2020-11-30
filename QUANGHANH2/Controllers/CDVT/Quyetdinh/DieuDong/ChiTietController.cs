@@ -18,7 +18,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
         [Route("phong-cdvt/quyet-dinh/dieu-dong/chi-tiet")]
         public ActionResult Index(int id)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             db.Configuration.LazyLoadingEnabled = false;
             List<Detail> details = (from e in db.Equipments
                                   join s in db.Status on e.current_Status equals s.statusid

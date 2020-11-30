@@ -35,7 +35,7 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             List<BangCap_detailsDB> listdataDip = new List<BangCap_detailsDB>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.ProxyCreationEnabled = false;
                 //List<BangCap_GiayChungNhan> listdataDip =db.BangCap_GiayChungNhan.ToList<BangCap_GiayChungNhan>();
@@ -99,7 +99,7 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             List<BangCap_GiayChungNhan_detailsDB> listdataDipEmp = new List<BangCap_GiayChungNhan_detailsDB>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 listdataDipEmp = (from bc_chitiet in db.ChiTiet_BangCap_GiayChungNhan
                                   join nv in db.NhanViens on bc_chitiet.MaNV equals nv.MaNV into bc_gcn_nv1
@@ -151,7 +151,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult AddDiploma(BangCap_GiayChungNhan bangcap)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (bangcap != null)
                 {
@@ -188,7 +188,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult AddDiplomaEmployee(ChiTiet_BangCap_GiayChungNhan chitietbangcap)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (chitietbangcap != null)
                 {
@@ -206,7 +206,7 @@ namespace QUANGHANH2.Controllers.TCLD
         public ActionResult EditDiploma(int id = 0)
         {
             getDataSelectDiploma();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 BangCap_GiayChungNhan bc = db.BangCap_GiayChungNhan.Where(x => x.MaBangCap_GiayChungNhan == id).FirstOrDefault<BangCap_GiayChungNhan>();
                 return View(bc);
@@ -217,7 +217,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult EditDiploma(BangCap_GiayChungNhan bangcap)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (bangcap != null)
                 {
@@ -261,7 +261,7 @@ namespace QUANGHANH2.Controllers.TCLD
             list_loai.Add(2, "Giấy chứng nhận");
             SelectList listSelectListTypeDip = new SelectList(list_loai, "Value", "Value");
             ViewBag.listSelectListTypeDip = listSelectListTypeDip;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<Truong> listdata_truong = db.Truongs.ToList<Truong>();
                 List<TrinhDo> listdata_trinhdo = db.TrinhDoes.ToList<TrinhDo>();
@@ -280,7 +280,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult DeleteDiploma(int id = 0)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
@@ -323,7 +323,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult DeleteDiplomaEmployee(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 ChiTiet_BangCap_GiayChungNhan chitiet_bangcap = db.ChiTiet_BangCap_GiayChungNhan.Where(x => x.SoHieu.Equals(id)).FirstOrDefault<ChiTiet_BangCap_GiayChungNhan>();
@@ -348,7 +348,7 @@ namespace QUANGHANH2.Controllers.TCLD
         //Set dropdown for Diploma's Employee
         public void getDataSelectDiplomaEmployee()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 string query = @"select b.*, t.TenTrinhDo, tr.TenTruong, cn.TenChuyenNganh from BangCap_GiayChungNhan b
                          join TrinhDo t on b.MaTrinhDo = t.MaTrinhDo
@@ -381,7 +381,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpGet]
         public ActionResult EditDiplomaEmployee(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 getDataSelectDiplomaEmployee();
 
@@ -404,7 +404,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult EditDiplomaEmployee(ChiTiet_BangCap_GiayChungNhan chitiet_bc)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (chitiet_bc != null)
                 {
@@ -429,7 +429,7 @@ namespace QUANGHANH2.Controllers.TCLD
             var nganh_text = idsArray[1];
             var trinhdo_text = idsArray[2];
             var bangcap_text = idsArray[3];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (truong_text != null || nganh_text != null || trinhdo_text != null || bangcap_text != null)
                 {
@@ -498,7 +498,7 @@ namespace QUANGHANH2.Controllers.TCLD
             var sohieu_text = idsArray[0];
             var bangcap_text = idsArray[1];
             var tennv_text = idsArray[2];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (sohieu_text != null || bangcap_text != null || tennv_text != null)
                 {
@@ -542,7 +542,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult validateIDDiploma(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var bangcap_nvs = db.ChiTiet_BangCap_GiayChungNhan.Where(x => x.SoHieu == id).FirstOrDefault<ChiTiet_BangCap_GiayChungNhan>();
                 if (bangcap_nvs != null)
@@ -559,7 +559,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult getName(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var chungchi_nvs = db.NhanViens.Where(x => (x.MaNV == id) && (x.MaTrangThai != 2)).FirstOrDefault<NhanVien>();
                 if (chungchi_nvs != null)
@@ -575,7 +575,7 @@ namespace QUANGHANH2.Controllers.TCLD
         //Check Employee have ẽ yet?
         public ActionResult validateExistDiplomaOfEmp(string manv, int mabangcap, string first_diploma)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var bangcap_nvs = db.ChiTiet_BangCap_GiayChungNhan.Where(x => (x.MaNV == manv) && (x.MaBangCap_GiayChungNhan == mabangcap)).FirstOrDefault<ChiTiet_BangCap_GiayChungNhan>();
                 if (bangcap_nvs != null)
@@ -603,7 +603,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult validateNameDuplicateDiploma(string name_diploma)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var bangcap = db.BangCap_GiayChungNhan.Where(x => x.TenBangCap == name_diploma).FirstOrDefault<BangCap_GiayChungNhan>();
                 if (bangcap != null)
@@ -630,7 +630,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                     ExcelWorksheet ws_cert_emp = excelWorkbook.Worksheets.First();
                     List<BangCap_detailsDB> listdataDiploma = new List<BangCap_detailsDB>();
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
 
                         int count = 0;
@@ -726,7 +726,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                     ExcelWorksheet ws_cert_emp = excelWorkbook.Worksheets.First();
                     List<BangCap_GiayChungNhan_detailsDB> listdataDipEmpDetail = new List<BangCap_GiayChungNhan_detailsDB>();
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
                         int count = 0;
                         listdataDipEmpDetail = (from bc_chitiet in db.ChiTiet_BangCap_GiayChungNhan

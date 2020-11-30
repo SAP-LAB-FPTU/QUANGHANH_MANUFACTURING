@@ -19,7 +19,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuChinh
 {
     public class ThemCaiTienController : Controller
     {
-        private readonly QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+        private readonly QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
         [Auther(RightID = "85")]
         [Route("phong-cdvt/quyet-dinh/dieu-chinh/them")]
@@ -28,7 +28,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuChinh
         {
             ViewBag.selected = selected;
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
 
@@ -166,7 +166,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuChinh
         public ActionResult ExportQuyetDinh(string data, string department_id_to, string reason)
         {
             string type = Request["Isimprove"] == "true" ? "cải tiến" : "thu hồi";
-            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
             {
                 try
                 {

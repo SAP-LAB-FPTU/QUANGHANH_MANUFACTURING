@@ -20,7 +20,7 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpGet]
         public ActionResult Index()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 ViewBag.departs = db.Departments.ToList().Select(x => new Department { department_id = x.department_id, department_name = x.department_name }).ToList();
                 return View("/Views/Camera/DanhSachCamera.cshtml");
@@ -34,7 +34,7 @@ namespace QUANGHANH2.Controllers.Camera
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     string id = Request["id"];
                     string path = HostingEnvironment.MapPath("/images/camera/" + Request["id"] + ".jfif");
@@ -57,7 +57,7 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpPost]
         public ActionResult SetPhoto()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 try
@@ -100,7 +100,7 @@ namespace QUANGHANH2.Controllers.Camera
             string reason = Request["reason"];
             string department = Request["department"];
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var sql = "select r.*, d.department_name from Room r " +
                     "inner join Department d on r.department_id = d.department_id " +
@@ -128,7 +128,7 @@ namespace QUANGHANH2.Controllers.Camera
         {
             try
             {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 Room r = new Room
                 {
                     room_id = Request["id"],
@@ -175,7 +175,7 @@ namespace QUANGHANH2.Controllers.Camera
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     Room r = db.Rooms.Find(Request["room_id"]);
                     r.capacity = Request["capacity"];
@@ -203,7 +203,7 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpPost]
         public ActionResult Delete()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 try
                 {

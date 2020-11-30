@@ -11,7 +11,7 @@ namespace QUANGHANH2.Repositories
     public class TieuhaoRepository : ITieuhaoRepository
     {
         [Dependency]
-        public QUANGHANHABCEntities context { get; set; }
+        public QuangHanhManufacturingEntities context { get; set; }
 
         public List<TieuhaoModelView> GetDetails(TieuhaoSearchModelView search)
         {

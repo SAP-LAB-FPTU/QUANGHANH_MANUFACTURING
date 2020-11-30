@@ -27,7 +27,7 @@ namespace QUANGHANH2.Controllers.TCLD.Certificates
             int length = Convert.ToInt32(Request["length"]);
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 string query = @"select c.TenChungChi, CONVERT(varchar, cn.NgayCap, 103) as NgayCap, CONVERT(varchar, DATEADD(MONTH, c.ThoiHan, cn.NgayCap), 103) as NgayHetHan, COUNT(*) as SoLuong from ChungChi c
                     join ChungChi_NhanVien cn on c.MaChungChi = cn.MaChungChi

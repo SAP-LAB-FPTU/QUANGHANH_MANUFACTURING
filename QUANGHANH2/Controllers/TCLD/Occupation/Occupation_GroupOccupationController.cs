@@ -23,7 +23,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     //get data from CongViec
                     var sqlGetData_CongViec = @"select * from CongViec";
@@ -52,7 +52,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
             try
             {
                 List<CongViec_NhomCong_ChiTiet> listCongViec_NhomCongViec = new List<CongViec_NhomCong_ChiTiet>();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     //get data's table to paging
                     int start = Convert.ToInt32(Request["start"]);
@@ -96,7 +96,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
                 }
                 else
                 {
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
                         //parse to int
                         int? mcv = (macongviec == "") ? null : (int?)Convert.ToInt32(macongviec);
@@ -136,7 +136,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
             try
             {
                 var macongviec_nhomcongviec = Convert.ToInt32(Request["macongviec_nhomcongviec"]);
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var sqlGetData = @"select ncv_cv.*, c.TenNhomCongViec from (select a.*, b.TenCongViec  from CongViec_NhomCongViec a 
                                 left outer join CongViec b on a.MaCongViec = b.MaCongViec) as ncv_cv
@@ -169,7 +169,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
                 }
                 else
                 {
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
                         int? mcv_ncv = Convert.ToInt32(macongviec_nhomcongviec);
                         int? mcv = (macongviec == "") ? null : (int?)Convert.ToInt32(macongviec);
@@ -205,7 +205,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
             try
             {
                 int macongviec_nhomcongviec = Convert.ToInt32(Request["macongviec_nhomcongviec"]);
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var sqlDelete = @"delete CongViec_NhomCongViec where MaCongViec_NhomCongViec = @macongviec_nhomcongviec";
                     var exSql = db.Database.ExecuteSqlCommand(sqlDelete, new SqlParameter("macongviec_nhomcongviec", macongviec_nhomcongviec));

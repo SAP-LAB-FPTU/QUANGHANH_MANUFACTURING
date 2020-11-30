@@ -11,7 +11,7 @@ namespace QUANGHANH2.Repositories
     public class XincapvattuRepository : IXincapvattuRepository
     {
         [Dependency]
-        public QUANGHANHABCEntities Context { get; set; }
+        public QuangHanhManufacturingEntities Context { get; set; }
 
         public bool CreateVattus(IList<XincapvattuModelView> vattus, int status = 1)
         {

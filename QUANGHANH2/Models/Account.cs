@@ -17,8 +17,8 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Account()
         {
-            this.FileBaoCaos = new HashSet<FileBaoCao>();
             this.Account_Right_Detail = new HashSet<Account_Right_Detail>();
+            this.Files = new HashSet<File>();
             this.Important_Documentary = new HashSet<Important_Documentary>();
         }
     
@@ -49,12 +49,12 @@ namespace QUANGHANH2.Models
         public Nullable<bool> PXCKSC { get; set; }
         public string token { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FileBaoCao> FileBaoCaos { get; set; }
-        public virtual NhanVien NhanVien { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual Role Role1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Account_Right_Detail> Account_Right_Detail { get; set; }
-        public virtual Role Role1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<File> Files { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Important_Documentary> Important_Documentary { get; set; }
     }

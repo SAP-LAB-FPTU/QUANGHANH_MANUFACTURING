@@ -119,7 +119,7 @@ namespace QUANGHANH2.Controllers.BGD.DK
 		                            ) as a inner join KeHoach_TieuChi_TheoNgay kt on a.HeaderID = kt.HeaderID and a.ThoiGianNhapCuoiCung = kt.ThoiGianNhapCuoiCung and a.MaTieuChi = kt.MaTieuChi
 		                            group by a.MaTieuChi) as c on d.MaTieuChi = c.MaTieuChi
                             order by d.MaTieuChi";
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<reportEntity> listReport = db.Database.SqlQuery<reportEntity>(query, new SqlParameter("date", date), new SqlParameter("dateStart", timeStart), new SqlParameter("dateEnd", timeEnd), new SqlParameter("month", data[1]), new SqlParameter("year", data[2])).ToList();
 
             Than Thandaolo = new Than();

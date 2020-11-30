@@ -36,7 +36,7 @@ namespace QUANGHANHCORE.Controllers.BGD
             List<NhanLuc> listNhanLuc = new List<NhanLuc>();
             SanLuong sanluong = new SanLuong();
             int temp = 0;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
 
@@ -332,7 +332,7 @@ namespace QUANGHANHCORE.Controllers.BGD
                 List<NghiVLD> listNghiVLD = new List<NghiVLD>();
                 List<NhanLuc> listNhanLuc = new List<NhanLuc>();
                 SanLuong sanluong = new SanLuong();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     ////////////////////////////GET so luot huy dong////////////////////////////////
 

@@ -40,7 +40,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
             string dateEnd = Request["dateEnd"];
             string status = Request["status"];
 
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             List<DocumentaryDB> incidents;
             string query = "SELECT docu.*, docu.[out/in_come] as out_in_come, depa.department_name FROM Documentary docu inner join Department depa on docu.department_id_to = depa.department_id" +
                 " where docu.documentary_code IS NOT NULL AND docu.documentary_type != 8 AND docu.documentary_status != 3 AND docu.department_id_to = @departid AND ";

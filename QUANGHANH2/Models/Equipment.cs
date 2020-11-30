@@ -17,42 +17,40 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Equipment()
         {
-            this.Acceptances = new HashSet<Acceptance>();
-            this.Acceptances1 = new HashSet<Acceptance>();
-            this.Activities = new HashSet<Activity>();
-            this.CarGPS = new HashSet<CarGP>();
-            this.Category_attribute_value = new HashSet<Category_attribute_value>();
-            this.Documentary_big_maintain_details = new HashSet<Documentary_big_maintain_details>();
-            this.Documentary_big_maintain_details1 = new HashSet<Documentary_big_maintain_details>();
-            this.Documentary_Improve_Detail = new HashSet<Documentary_Improve_Detail>();
-            this.Documentary_liquidation_details = new HashSet<Documentary_liquidation_details>();
-            this.Documentary_maintain_details = new HashSet<Documentary_maintain_details>();
-            this.Documentary_maintain_details1 = new HashSet<Documentary_maintain_details>();
-            this.Documentary_moveline_details = new HashSet<Documentary_moveline_details>();
-            this.Documentary_repair_details = new HashSet<Documentary_repair_details>();
-            this.Documentary_repair_details1 = new HashSet<Documentary_repair_details>();
-            this.Documentary_revoke_details = new HashSet<Documentary_revoke_details>();
-            this.Equipment_attribute = new HashSet<Equipment_attribute>();
-            this.Equipment_Inspection = new HashSet<Equipment_Inspection>();
-            this.Equipment_Insurance = new HashSet<Equipment_Insurance>();
-            this.Equipment_SCTX = new HashSet<Equipment_SCTX>();
-            this.Fuel_activities_consumption = new HashSet<Fuel_activities_consumption>();
-            this.Incidents = new HashSet<Incident>();
-            this.Maintain_Car = new HashSet<Maintain_Car>();
             this.Supply_DiKem = new HashSet<Supply_DiKem>();
             this.Supply_DiKem1 = new HashSet<Supply_DiKem>();
-            this.Supply_Documentary_Improve_Equipment = new HashSet<Supply_Documentary_Improve_Equipment>();
-            this.Supply_Documentary_Maintain_Equipment = new HashSet<Supply_Documentary_Maintain_Equipment>();
-            this.Supply_Documentary_Repair_Equipment = new HashSet<Supply_Documentary_Repair_Equipment>();
-            this.Supply_Documentary_Big_Maintain_Equipment = new HashSet<Supply_Documentary_Big_Maintain_Equipment>();
-            this.Supply_Documentary_Equipment = new HashSet<Supply_Documentary_Equipment>();
-            this.Supply_Documentary_Equipment1 = new HashSet<Supply_Documentary_Equipment>();
             this.Supply_Equipment_DiKem = new HashSet<Supply_Equipment_DiKem>();
-            this.Supply_SCTX = new HashSet<Supply_SCTX>();
-            this.Supply_SCTX1 = new HashSet<Supply_SCTX>();
-            this.Supply_SCTX2 = new HashSet<Supply_SCTX>();
-            this.SupplyPlans = new HashSet<SupplyPlan>();
             this.Vattu_Dikem = new HashSet<Vattu_Dikem>();
+            this.BigMaintainDetails = new HashSet<BigMaintainDetail>();
+            this.BigMaintainDetails1 = new HashSet<BigMaintainDetail>();
+            this.ImproveDetails = new HashSet<ImproveDetail>();
+            this.LiquidationDetails = new HashSet<LiquidationDetail>();
+            this.MaintainDetails = new HashSet<MaintainDetail>();
+            this.MaintainDetails1 = new HashSet<MaintainDetail>();
+            this.MovelineDetails = new HashSet<MovelineDetail>();
+            this.RepairDetails = new HashSet<RepairDetail>();
+            this.RepairDetails1 = new HashSet<RepairDetail>();
+            this.RevokeDetails = new HashSet<RevokeDetail>();
+            this.Acceptance1 = new HashSet<Acceptance1>();
+            this.Acceptance11 = new HashSet<Acceptance1>();
+            this.Activities = new HashSet<Activity>();
+            this.Attributes = new HashSet<Attribute>();
+            this.CarGPS = new HashSet<CarGP>();
+            this.CarMaintenances = new HashSet<CarMaintenance>();
+            this.CategoryAttributeValues = new HashSet<CategoryAttributeValue>();
+            this.BigMaintainEquipments = new HashSet<BigMaintainEquipment>();
+            this.FuelActivitiesConsumptions = new HashSet<FuelActivitiesConsumption>();
+            this.ImproveEquipments = new HashSet<ImproveEquipment>();
+            this.Incident1 = new HashSet<Incident1>();
+            this.Inspections = new HashSet<Inspection>();
+            this.Insurances = new HashSet<Insurance>();
+            this.MaintainEquipments = new HashSet<MaintainEquipment>();
+            this.MonthlyPlans = new HashSet<MonthlyPlan>();
+            this.RepairEquipments = new HashSet<RepairEquipment>();
+            this.RepairRegularly1 = new HashSet<RepairRegularly1>();
+            this.RepairRegularly11 = new HashSet<RepairRegularly1>();
+            this.RepairRegularly12 = new HashSet<RepairRegularly1>();
+            this.RepairRegularlies = new HashSet<RepairRegularly>();
         }
     
         public string equipmentId { get; set; }
@@ -78,80 +76,76 @@ namespace QUANGHANH2.Models
         public bool isAttach { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Acceptance> Acceptances { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Acceptance> Acceptances1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Activity> Activities { get; set; }
-        public virtual Car Car { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CarGP> CarGPS { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Category_attribute_value> Category_attribute_value { get; set; }
-        public virtual Department Department { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_big_maintain_details> Documentary_big_maintain_details { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_big_maintain_details> Documentary_big_maintain_details1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_Improve_Detail> Documentary_Improve_Detail { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_liquidation_details> Documentary_liquidation_details { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_maintain_details> Documentary_maintain_details { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_maintain_details> Documentary_maintain_details1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_moveline_details> Documentary_moveline_details { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_repair_details> Documentary_repair_details { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_repair_details> Documentary_repair_details1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Documentary_revoke_details> Documentary_revoke_details { get; set; }
-        public virtual Status Status { get; set; }
-        public virtual Equipment_category Equipment_category { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Equipment_attribute> Equipment_attribute { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Equipment_Inspection> Equipment_Inspection { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Equipment_Insurance> Equipment_Insurance { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Equipment_SCTX> Equipment_SCTX { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Fuel_activities_consumption> Fuel_activities_consumption { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Incident> Incidents { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Maintain_Car> Maintain_Car { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_DiKem> Supply_DiKem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_DiKem> Supply_DiKem1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_Documentary_Improve_Equipment> Supply_Documentary_Improve_Equipment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_Documentary_Maintain_Equipment> Supply_Documentary_Maintain_Equipment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_Documentary_Repair_Equipment> Supply_Documentary_Repair_Equipment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_Documentary_Big_Maintain_Equipment> Supply_Documentary_Big_Maintain_Equipment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_Documentary_Equipment> Supply_Documentary_Equipment1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supply_Equipment_DiKem> Supply_Equipment_DiKem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_SCTX> Supply_SCTX { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_SCTX> Supply_SCTX1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_SCTX> Supply_SCTX2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SupplyPlan> SupplyPlans { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vattu_Dikem> Vattu_Dikem { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BigMaintainDetail> BigMaintainDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BigMaintainDetail> BigMaintainDetails1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ImproveDetail> ImproveDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LiquidationDetail> LiquidationDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MaintainDetail> MaintainDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MaintainDetail> MaintainDetails1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MovelineDetail> MovelineDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RepairDetail> RepairDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RepairDetail> RepairDetails1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RevokeDetail> RevokeDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Acceptance1> Acceptance1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Acceptance1> Acceptance11 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Activity> Activities { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Attribute> Attributes { get; set; }
+        public virtual Car Car { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CarGP> CarGPS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CarMaintenance> CarMaintenances { get; set; }
+        public virtual Category Category { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CategoryAttributeValue> CategoryAttributeValues { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BigMaintainEquipment> BigMaintainEquipments { get; set; }
+        public virtual Status1 Status1 { get; set; }
+        public virtual Department Department { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FuelActivitiesConsumption> FuelActivitiesConsumptions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ImproveEquipment> ImproveEquipments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Incident1> Incident1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Inspection> Inspections { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Insurance> Insurances { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MaintainEquipment> MaintainEquipments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MonthlyPlan> MonthlyPlans { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RepairEquipment> RepairEquipments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RepairRegularly1> RepairRegularly1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RepairRegularly1> RepairRegularly11 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RepairRegularly1> RepairRegularly12 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RepairRegularly> RepairRegularlies { get; set; }
     }
 }

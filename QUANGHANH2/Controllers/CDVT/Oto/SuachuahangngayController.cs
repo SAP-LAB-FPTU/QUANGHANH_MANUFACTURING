@@ -20,7 +20,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         [HttpGet]
         public ActionResult Index()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<FuelDB> listEQ = db.Database.SqlQuery<FuelDB>("select equipmentId , equipment_name from " +
                " (select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea " +
                "  on ea.Equipment_category_id = e.Equipment_category_id where " +
@@ -47,7 +47,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
             string sortDirection = Request["order[0][dir]"];
 
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 List<Maintain_CarDB> maintainCar = db.Database.SqlQuery<Maintain_CarDB>("select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintainid " +
@@ -67,7 +67,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
         public void EditSupply_duphong(String supplyid, int quantity)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             Supply_SCTX duphong = db.Supply_SCTX.Where(x => x.supply_id == supplyid).FirstOrDefault();
             if (duphong != null)
             {
@@ -81,7 +81,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         [HttpPost]
         public JsonResult InsertMaintainCar(List<Maintain_Car_DetailDB> maintain, string equipmentId, string date, string maintain_content, int hour, int minute, int year, int month, int day)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 //Truncate Table to delete all old records.
@@ -138,7 +138,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         [HttpPost]
         public JsonResult getMaintainCarDetail(int maintainId)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
             {
                 List<Maintain_Car_DetailDB> m = db.Database.SqlQuery<Maintain_Car_DetailDB>("select m.supplyid,s.supply_name,s.unit,equipmentid ,m.thuhoi, m.used,m.maintaindetailid" +
@@ -154,7 +154,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         [HttpPost]
         public JsonResult getMaintainCar(int maintainId)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
             {
                 //Truncate Table to delete all old records.
@@ -204,7 +204,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
 
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 string query = "select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintainid"
                     + " from Maintain_Car m inner join Equipment e on m.equipmentid = e.equipmentId "
                     + " inner join Department d on d.department_id = m.departmentid  "
@@ -254,7 +254,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         {
             try
             {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 var equipment = db.Database.SqlQuery<FuelDB>("select equipment_name from " +
                         "(select distinct e.equipmentId, e.equipment_name from Equipment e inner join Equipment_category_attribute ea " +
                         " on ea.Equipment_category_id = e.Equipment_category_id where " +
@@ -274,7 +274,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         [HttpPost]
         public ActionResult EditMaintain(string date, String equipmentId, String maintain_content, int maintainid, int hour, int minute, int year, int month, int day)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             Maintain_Car m = new Maintain_Car();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
@@ -316,7 +316,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
         [HttpPost]
         public ActionResult EditMaintainDetail(List<Maintain_Car_Detail> supplyDetail, string equipmentID)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             Maintain_Car_Detail m = new Maintain_Car_Detail();
 
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
@@ -372,7 +372,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Oto
 
             try
             {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 var supply = db.Supplies.Where(x => (x.supply_id == supplyid) && (x.unit != "L" && x.unit != "kWh")).SingleOrDefault();
                 //String item = equipment.supply_name + "^" + equipment.unit;
                 return Json(new

@@ -24,7 +24,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpGet]
         public ActionResult list()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = true;
 
@@ -74,7 +74,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 }
                 else
                 {
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
                         CongViec cv = db.CongViecs.Where(x => x.TenCongViec.Equals(tencongviec)).FirstOrDefault();
                         if (cv == null)
@@ -106,7 +106,7 @@ namespace QUANGHANH2.Controllers.TCLD
             try
             {
                 List<ThangLuong> listThangLuong = new List<ThangLuong>();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var sqlGetData_ThangLuong = @"select * from ThangLuong";
                     listThangLuong = db.Database.SqlQuery<ThangLuong>(sqlGetData_ThangLuong).ToList();
@@ -129,7 +129,7 @@ namespace QUANGHANH2.Controllers.TCLD
             try
             {
                 int macongviec = Convert.ToInt32(Request["macongviec"]);
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var sqlGetData = @"select a.MaCongViec ,a.TenCongViec, a.PhuCap, a.MaThangLuong from CongViec a left outer join ThangLuong b on a.MaThangLuong = b.MaThangLuong where a.MaCongViec = @macongviec";
                     var listCongViec_ThangLuong = db.Database.SqlQuery<CongViec_ThangLuong>(sqlGetData, new SqlParameter("macongviec", macongviec)).FirstOrDefault();
@@ -163,7 +163,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 }
                 else
                 {
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
                         CongViec cv = db.CongViecs.Where(y => !y.MaCongViec.Equals(macongviec) && y.TenCongViec.Equals(tencongviec)).FirstOrDefault();
                         if (cv == null)
@@ -196,7 +196,7 @@ namespace QUANGHANH2.Controllers.TCLD
             try
             {
                 int macongviec = Convert.ToInt32(Request["macongviec"]);
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     //check data exist related to
                     if (check_exist_data(macongviec))
@@ -223,7 +223,7 @@ namespace QUANGHANH2.Controllers.TCLD
         public Boolean check_exist_data(int macongviec)
         {
             bool flag = false;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var sqlCheckExistData = @"select c.MaCongViec from 
                                         (select a.MaCongViec from NhanVien a left outer join CongViec b on a.MaCongViec = b.MaCongViec) as c

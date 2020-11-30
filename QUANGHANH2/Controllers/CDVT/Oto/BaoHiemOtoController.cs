@@ -17,7 +17,7 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
         [HttpGet]
         public ActionResult Index()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             ViewBag.equipmentId = db.Cars.Select(x => x.equipmentId).ToList();
             return View("/Views/CDVT/Car/BaoHiemOto.cshtml");
         }
@@ -33,7 +33,7 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             DateTime dtStart = dateStart.Equals("") ? DateTime.ParseExact("01/01/1753", "MM/dd/yyyy", null) : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
             DateTime dtEnd = dateEnd.Equals("") ? DateTime.MaxValue : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
             var list = (from a in db.Equipment_Insurance
@@ -83,7 +83,7 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     Equipment e = db.Equipments.Find(equipmentId);
                     DateTime start = DateTime.ParseExact(stringStartDate, "dd/MM/yyyy", null);
@@ -119,7 +119,7 @@ namespace QUANGHANH2.Controllers.CDVT.Oto
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     Equipment_Insurance ei = db.Equipment_Insurance.Find(insurance_id);
                     DateTime start = DateTime.ParseExact(stringStartDate, "dd/MM/yyyy", null);

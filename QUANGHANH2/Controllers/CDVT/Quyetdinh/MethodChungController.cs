@@ -24,7 +24,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     db.Configuration.LazyLoadingEnabled = false;
                     var data = (from a in db.Equipments
@@ -50,7 +50,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     db.Configuration.LazyLoadingEnabled = false;
                     var data = (from a in db.Supplies
@@ -76,7 +76,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     db.Configuration.LazyLoadingEnabled = false;
                     var data = (from a in db.Supplies
@@ -102,7 +102,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     db.Configuration.LazyLoadingEnabled = false;
                     var supply = db.Supplies
@@ -128,7 +128,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     db.Configuration.LazyLoadingEnabled = false;
                     var supply = db.Supplies
@@ -157,7 +157,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
             string documentary_code = Request["documentary_code"];
             string reason = Request["reason"];
             string out_in_come = Request["out_in_come"];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction trans = db.Database.BeginTransaction())
                 {
@@ -273,7 +273,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
             try
             {
                 int documentary_id = int.Parse(Request["documentary_id"]);
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     Documentary doc = db.Documentaries.Find(documentary_id);
                     if (doc == null)
@@ -307,7 +307,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
             string name = Request["fileName"];
             string resource = Request["resource"];
 
-            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
             {
                 try
                 {
@@ -412,7 +412,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
 
         private void AppendRow(JArray vattu, string equipmentId, Table table)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             foreach (JObject jObject in vattu)
             {
                 string supply_id = (string)jObject["supply_id"];

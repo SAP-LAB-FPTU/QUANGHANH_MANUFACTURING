@@ -20,7 +20,7 @@
 
 //        public dynamic GetData(int month, int year, string departmentID)
 //        {
-//            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+//            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
 //            {
 
 //                //var sqlQuery = " select table1.* from (select header_kh.HeaderID,TieuChi.TenTieuChi,kehoach.SanLuong," +
@@ -65,7 +65,7 @@
 //                var month = Int32.Parse(Request["month"]);
 //                var year = Int32.Parse(Request["year"]);
 //                var departmentID = Request["department"];
-//                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+//                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
 //                {
 //                    var listAspectDepartments = (from pbtc in db.PhongBan_TieuChi
 //                                                    .Where(x => x.MaPhongBan == departmentID && x.Thang == month && x.Nam == year)
@@ -122,7 +122,7 @@
 //            var data = Request["data"];
 
 //            List<KeHoach_TieuChi_TheoThang> listUpdate = JsonConvert.DeserializeObject<List<KeHoach_TieuChi_TheoThang>>(data);
-//            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+//            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
 //            {
 //                var listAspectDepartments = (from pbtc in db.PhongBan_TieuChi
 //                            .Where(x => x.MaPhongBan == departmentID)
@@ -162,7 +162,7 @@
 
 //            try
 //            {
-//                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+//                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 //                var ma = db.TieuChis.Where(x => x.MaTieuChi == MaTieuChi).SingleOrDefault();
 //                //String item = equipment.supply_name + "^" + equipment.unit;
 //                return Json(new

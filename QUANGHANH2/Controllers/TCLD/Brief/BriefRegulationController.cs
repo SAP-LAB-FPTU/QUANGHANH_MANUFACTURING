@@ -28,7 +28,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public ActionResult Regulation()
         {
             ViewBag.nameDepartment = "quanlyhoso";
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 var temp = (from cn in db.ChuyenNganhs select new { capbac = cn.CapBac }).Distinct();
@@ -48,7 +48,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.ProxyCreationEnabled = false;
                 List<ChuyenNganh> listdata = db.ChuyenNganhs.ToList<ChuyenNganh>();
@@ -74,7 +74,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             List<Truong> listdata = new List<Truong>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.ProxyCreationEnabled = false;
                 listdata = db.Truongs.ToList<Truong>();
@@ -100,7 +100,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             List<TrinhDo> listdata = new List<TrinhDo>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.ProxyCreationEnabled = false;
                 listdata = db.TrinhDoes.ToList();
@@ -125,7 +125,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             List<Nganh> listdata = new List<Nganh>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.ProxyCreationEnabled = false;
                 listdata = db.Nganhs.ToList();
@@ -145,7 +145,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult deleteChuyenNganh(string id = "")
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 ChuyenNganh chuyenNganh = db.ChuyenNganhs.Where(x => x.MaChuyenNganh.ToString().Equals(id)).FirstOrDefault<ChuyenNganh>();
                 var bangcaps = db.BangCap_GiayChungNhan.Where(x => x.MaChuyenNganh.ToString().Equals(id)).ToList<BangCap_GiayChungNhan>();
@@ -169,7 +169,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult deleteNganh(string id = "")
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 Nganh nganh = db.Nganhs.Where(x => x.MaNganh.Equals(id)).FirstOrDefault<Nganh>();
                 var cnganhs = db.ChuyenNganhs.Where(x => x.MaNganh.Equals(id)).ToList<ChuyenNganh>();
@@ -187,7 +187,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult deleteTruong(string id = "")
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 Truong truong = db.Truongs.Where(x => x.MaTruong.ToString().Equals(id)).FirstOrDefault<Truong>();
                 var bangcaps = db.BangCap_GiayChungNhan.Where(x => x.MaTruong.ToString().Equals(id)).ToList<BangCap_GiayChungNhan>();
@@ -210,7 +210,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult deleteTrinhDo(string id = "")
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 TrinhDo trinhDo = db.TrinhDoes.Where(x => x.MaTrinhDo.ToString().Equals(id)).FirstOrDefault<TrinhDo>();
                 var bangcaps = db.BangCap_GiayChungNhan.Where(x => x.MaTrinhDo.ToString().Equals(id)).ToList<BangCap_GiayChungNhan>();
@@ -233,7 +233,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpGet]
         public ActionResult ThemChuyenNganh()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<ChuyenNganh> listdata_chuyennganh = db.ChuyenNganhs.ToList<ChuyenNganh>();
                 List<Nganh> listdata_nganh = db.Nganhs.ToList<Nganh>();
@@ -254,7 +254,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult ThemChuyenNganh(ChuyenNganh chuyenNganh)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (chuyenNganh != null)
                 {
@@ -268,7 +268,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpGet]
         public ActionResult SuaChuyenNganh(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 //var AllCN = db.ChuyenNganhs.ToList<ChuyenNganh>();
                 ChuyenNganh temp = new ChuyenNganh();
@@ -296,7 +296,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult SuaChuyenNganh(ChuyenNganh chuyenNganh)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (chuyenNganh != null)
                 {
@@ -310,7 +310,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpGet]
         public ActionResult SuaTruong(int id = 0)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 Truong truong = db.Truongs.Where(x => x.MaTruong == id).FirstOrDefault<Truong>();
                 return View(truong);
@@ -320,7 +320,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult SuaTruong(Truong truong)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (truong != null)
                 {
@@ -334,7 +334,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult SuaNganh(Nganh nganh)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (nganh != null)
                 {
@@ -348,7 +348,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpGet]
         public ActionResult SuaNganh(string id = "")
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 Nganh nganh = db.Nganhs.Where(x => x.MaNganh.Equals(id)).FirstOrDefault<Nganh>();
                 return View(nganh);
@@ -360,7 +360,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpGet]
         public ActionResult SuaTrinhDo(int id = 0)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 TrinhDo trinhDo = db.TrinhDoes.Where(x => x.MaTrinhDo == id).FirstOrDefault<TrinhDo>();
                 return View(trinhDo);
@@ -370,7 +370,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult SuaTrinhDo(TrinhDo trinhDo)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (trinhDo != null)
                 {
@@ -389,7 +389,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult ThemNganh(Nganh nganh)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (nganh != null)
                 {
@@ -409,7 +409,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult ThemTruong(Truong truong)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (truong != null)
                 {
@@ -430,7 +430,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult ThemTrinhDo(TrinhDo trinhDo)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 if (trinhDo != null)
                 {
@@ -445,7 +445,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public ActionResult getTenNganh(string id = "")
         {
             //int intid = Convert.ToInt32(id);
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var nganh = db.Nganhs.Where(x => x.MaNganh.Equals(id)).FirstOrDefault<Nganh>();
 
@@ -463,7 +463,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public string getTenNganh1(string id = "")
         {
             //int intid = Convert.ToInt32(id);
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var nganh = db.Nganhs.Where(x => x.MaNganh.Equals(id)).FirstOrDefault<Nganh>();
 
@@ -481,7 +481,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult validateIDCN(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var nv = db.ChuyenNganhs.Where(x => x.MaChuyenNganh.Equals(id)).FirstOrDefault<ChuyenNganh>();
                 if (nv == null)
@@ -497,7 +497,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult validateIDN(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var mn = db.Nganhs.Where(x => x.MaNganh.ToString() == id).FirstOrDefault<Nganh>();
                 if (mn == null)
@@ -513,7 +513,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult validateIDTruong(string id, string name)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 var mt = db.Truongs.Where(x => x.MaTruong.ToString().Equals(id) || x.TenTruong.Equals(name)).ToList();
@@ -534,7 +534,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult validateIDTD(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var td = db.TrinhDoes.Where(x => x.MaTrinhDo.ToString().Equals(id)).FirstOrDefault<TrinhDo>();
                 if (td == null)
@@ -551,7 +551,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult validateIDNganh(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var n = db.Nganhs.Where(x => x.MaNganh.Equals(id)).FirstOrDefault<Nganh>();
                 if (n == null)
@@ -568,7 +568,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult SearchSpecialized(string data)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             dynamic jsonData = JObject.Parse(data);
             string name = jsonData.name;
             string cb = jsonData.cb;

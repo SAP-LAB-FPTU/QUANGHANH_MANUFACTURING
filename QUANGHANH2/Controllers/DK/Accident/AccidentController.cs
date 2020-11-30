@@ -22,7 +22,7 @@ namespace QUANGHANH2.Controllers.DK
         //[Route("phong-dieu-khien/bao-cao-tai-nan")]
         //public ActionResult Index()
         //{
-        //    QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+        //    QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
         //    List<NhanVien> listNhanVien = db.NhanViens.ToList<NhanVien>();
 
@@ -34,7 +34,7 @@ namespace QUANGHANH2.Controllers.DK
         [Route("phong-dieu-khien/danh-sach-tai-nan")]
         public ActionResult DanhSachBaoCao()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<NhanVien> listNhanVien = db.Database.SqlQuery<NhanVien>("select NhanVien.* from NhanVien inner join TrangThai" +
                     " on NhanVien.MaTrangThai = TrangThai.MaTrangThai where TrangThai.MaTrangThai=1 ").ToList();
             ViewBag.listNhanVien = listNhanVien;
@@ -68,7 +68,7 @@ namespace QUANGHANH2.Controllers.DK
                 string searchValue = Request["search[value]"];
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
 
                     List<TaiNanDB> listTainan = (from tainan in db.TaiNans
@@ -126,7 +126,7 @@ namespace QUANGHANH2.Controllers.DK
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
 
                     List<TaiNanDB> listTainan = (from tainan in db.TaiNans
@@ -160,7 +160,7 @@ namespace QUANGHANH2.Controllers.DK
         [HttpPost]
         public ActionResult InsertMaintainCar(TaiNanDB accident)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 //Truncate Table to delete all old records.
@@ -218,7 +218,7 @@ namespace QUANGHANH2.Controllers.DK
 
             try
             {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 NhanVien nv = db.Database.SqlQuery<NhanVien>("select NhanVien.* from NhanVien inner join TrangThai" +
                     " on NhanVien.MaTrangThai = TrangThai.MaTrangThai where TrangThai.MaTrangThai=1 and MaNV=@MaNV", new SqlParameter("MaNV",MaNV)).SingleOrDefault();
                 
@@ -249,7 +249,7 @@ namespace QUANGHANH2.Controllers.DK
         {
             try
             {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
                 TaiNanDB tn = db.Database.SqlQuery<TaiNanDB>(
                    "select t.*,n.Ten,d.department_name from TaiNan t inner join  NhanVien n on t.MaNV = n.MaNV left join  Department d on  d.department_id = n.MaPhongBan "+
@@ -271,7 +271,7 @@ namespace QUANGHANH2.Controllers.DK
         public ActionResult EditAccident(TaiNanDB tainandb)
         {
             TaiNan t = new TaiNan();
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
 
@@ -315,7 +315,7 @@ namespace QUANGHANH2.Controllers.DK
         public ActionResult DeleteAccident(int MaTaiNan)
         {
             TaiNan t = new TaiNan();
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
 
@@ -346,7 +346,7 @@ namespace QUANGHANH2.Controllers.DK
         {
             try
             {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 if (timeFrom.Trim() == "")
                 {
                     timeFrom = "01/01/1900";
@@ -459,7 +459,7 @@ namespace QUANGHANH2.Controllers.DK
         [HttpPost]
         public ActionResult GetData(String date)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 var sqlQuery = " select department_name,GhiChu,MaCongTacAnToan,Ngay,MaPhongBan,LoaiGhiChu from CongTacAnToan,Department " +
@@ -479,7 +479,7 @@ namespace QUANGHANH2.Controllers.DK
         [HttpPost]
         public ActionResult AddOrEdit(List<CongTacAnToanDB> antoan)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
             CongTacAnToan m = new CongTacAnToan();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())

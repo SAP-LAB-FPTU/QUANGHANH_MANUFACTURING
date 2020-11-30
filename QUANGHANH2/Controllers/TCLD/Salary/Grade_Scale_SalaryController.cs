@@ -27,7 +27,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
         {
 
             List<BacLuong_MucLuong_ThangLuong_ChiTiet> listData = new List<BacLuong_MucLuong_ThangLuong_ChiTiet>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 //get data's table to paging
                 int start = Convert.ToInt32(Request["start"]);
@@ -55,7 +55,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
             {
                 List<BacLuong> listbacluongs = new List<BacLuong>();
                 List<ThangLuong> listthangLuongs = new List<ThangLuong>();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var sqllistbacluong = @"select * from BacLuong";
                     var sqllistthangluong = @"select *from ThangLuong";
@@ -80,7 +80,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
 
                     int mabacluong = Convert.ToInt32(Request["mabacluong"]);
@@ -122,7 +122,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
             try
             {
                 int mamucluong = Convert.ToInt32(Request["mamucluong"]);
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     string sql = @"select * from BacLuong_ThangLuong_MucLuong where MaBacLuong_ThangLuong_MucLuong = @mamucluong";
                     BacLuong_ThangLuong_MucLuong item = db.Database.SqlQuery<BacLuong_ThangLuong_MucLuong>(sql, new SqlParameter("mamucluong", mamucluong)).FirstOrDefault();
@@ -144,7 +144,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
             {
                 string maluong = Request["maluong"];
                 int idluong = Convert.ToInt32(maluong);
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var mysql = @"select * from
                                 (select btm.* from BacLuong_ThangLuong_MucLuong btm 
@@ -186,7 +186,7 @@ namespace QUANGHANH2.Controllers.TCLD.Salary
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     int mabacluong = Convert.ToInt32(Request["mabacluong"]);
                     int mathangluong = Convert.ToInt32(Request["mathangluong"]);

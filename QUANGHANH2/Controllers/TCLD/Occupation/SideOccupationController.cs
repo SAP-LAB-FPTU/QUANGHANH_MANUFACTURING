@@ -21,7 +21,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
         [HttpGet]
         public ActionResult listSideOccupation()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = true;
                 try
@@ -52,7 +52,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
                 }
                 else
                 {
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
                         DienCongViec dcv = db.DienCongViecs.Where(x => x.TenDienCongViec.Equals(TenDienCongViec)).FirstOrDefault();
                         if (dcv == null)
@@ -84,7 +84,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
             try
             {
                 var MaDienCongViec = Request["MaDienCongViec"];
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var sqlGet = @"select * from DienCongViec where MaDienCongViec = @madiencongviec";
                     var TenDienCongViec = db.Database.SqlQuery<DienCongViec>(sqlGet, new SqlParameter("madiencongviec", MaDienCongViec)).FirstOrDefault();
@@ -110,7 +110,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
                 {
                     return Json(new { error = true, message = "Tên diện công việc không thể để trống." });
                 }
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var sqlUpdate = @"update DienCongViec 
                                       set TenDienCongViec = @tendiencongviec 
@@ -134,7 +134,7 @@ namespace QUANGHANH2.Controllers.TCLD.Occupation
             try
             {
                 var MaDienCongViec = Request["MaDienCongViec"];
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var sqlDelete = @"delete DienCongViec where MaDienCongViec = @madiencongviec";
                     db.Database.ExecuteSqlCommand(sqlDelete, new SqlParameter("madiencongviec", MaDienCongViec));

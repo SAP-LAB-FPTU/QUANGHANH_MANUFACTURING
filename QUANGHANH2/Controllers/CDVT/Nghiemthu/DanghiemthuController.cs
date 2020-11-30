@@ -52,7 +52,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
                 return new HttpStatusCodeResult(400);
             }
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 string username = Session["Username"].ToString();
                 Account account = new Account();
@@ -139,7 +139,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
         [HttpGet]
         public ActionResult AddQDQT()
         {
-            QUANGHANHABCEntities dbContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities dbContext = new QuangHanhManufacturingEntities();
             int id = Int32.Parse(Request["documentory_id"]);
             string username = Session["Username"].ToString();
             Account account = new Account();

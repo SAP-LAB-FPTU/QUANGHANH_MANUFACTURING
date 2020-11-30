@@ -20,7 +20,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
         {
             try
             {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 string departid = Session["departID"].ToString();
                 Documentary documentary = DBContext.Documentaries.Where(x => x.documentary_id == id && x.department_id_to == departid).FirstOrDefault();
                 if (documentary == null)
@@ -49,7 +49,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
             int length = Convert.ToInt32(Request["length"]);
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 List<string> equipmentId = new List<string>();
@@ -106,7 +106,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
         {
             if (edit != "")
             {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
                 {
                     try
@@ -167,7 +167,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
         [HttpPost]
         public ActionResult EditDetails(string data)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())

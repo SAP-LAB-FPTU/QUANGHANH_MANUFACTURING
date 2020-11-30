@@ -51,7 +51,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
                         });
                 }
 
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     db.Configuration.LazyLoadingEnabled = false;
                     List<string> listId = listEquip.Select(x => x.equipmentId).Distinct().ToList();
@@ -107,7 +107,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
         public ActionResult Add(string out_in_come, string data, string department_id_to, string reason)
         {
             JArray json = JArray.Parse(data);
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
                 try
@@ -231,7 +231,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
         [HttpGet]
         public ActionResult ExportQuyetDinh(string out_in_come, string data, string department_id_to, string reason)
         {
-            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
             {
                 try
                 {
@@ -325,7 +325,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
 
         private void AppendRow(JObject vattu, string equipmentId, Table table, bool isSupply)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             foreach (var jObject in vattu)
             {
                 string id = jObject.Key;

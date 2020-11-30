@@ -16,7 +16,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Vattu
     public class TieuhaoController : Controller
     {
         private readonly ITieuhaoRepository _repository;
-        public QUANGHANHABCEntities context = new QUANGHANHABCEntities();
+        public QuangHanhManufacturingEntities context = new QuangHanhManufacturingEntities();
         public TieuhaoController(ITieuhaoRepository repo)
         {
             _repository = repo;
@@ -589,7 +589,7 @@ group by a.supply_id, b.supplyid,b.quantity, a.supply_name, b.supply_name,
         public JsonResult getMaintainCar(string supplyid,string departmentname, string type, string month, string year)
         {
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
 
             {
                 var val = month.Split(' ');
@@ -696,7 +696,7 @@ group by s.supply_id, d.department_id, fac.[date]";
             {
                 sql = @"select department_name as SupplyId from Department where department_name like @id";
             }
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<SupplySearch> list = db.Database.SqlQuery<SupplySearch>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
             return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
         }
@@ -704,7 +704,7 @@ group by s.supply_id, d.department_id, fac.[date]";
         {
             var val = month.Split(' ');
             //find old supplies by device.
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             int recordsTotal = db.Database.SqlQuery<int>(@" select count (t.SupplyId) from  (select (case when a.supply_id is null then b.supplyid else a.supply_id end) 'SupplyId', 
 (case when a.supply_name is null then b.supply_name else a.supply_name end) 'SupplyName', 
 (case when a.department_name is null then b.department_name else a.department_name end) 'DepartmentName', 
@@ -763,7 +763,7 @@ a.department_name, b.department_name, a.unit, b.unit,b.quantity_provide ) as t",
         }
 private int year_detail_count(string SupplyId, string SupplyName, string DepartmentId, string DeparmentName, string year)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
         int recordsTotal = db.Database.SqlQuery<int>(@" select count(SupplyId) from(select (case when a.supply_id is null then b.supplyid else a.supply_id end) 'SupplyId', 
 (case when a.supply_name is null then b.supply_name else a.supply_name end) 'SupplyName', 
 (case when a.department_name is null then b.department_name else a.department_name end) 'DepartmentName', 
@@ -824,7 +824,7 @@ a.department_name, b.department_name, a.unit, b.unit,b.quantity_provide) as t", 
         private int month_summary_count(string SupplyId,string SupplyName,string month)
         {
             var val = month.Split(' ');
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             int recordsTotal = db.Database.SqlQuery<int>(@" select count(SupplyId) from(select (case when a.supply_id is null then b.supplyid else a.supply_id end) 'SupplyId', 
 (case when a.supply_name is null then b.supply_name else a.supply_name end) 'SupplyName', 
 
@@ -884,7 +884,7 @@ group by a.supply_id, b.supplyid,b.quantity,  a.supply_name, b.supply_name,
         }
         private int year_summary_count(string SupplyId, string SupplyName, string year)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             int recordsTotal = db.Database.SqlQuery<int>(@" select count(SupplyId) from(select (case when a.supply_id is null then b.supplyid else a.supply_id end) 'SupplyId', 
 (case when a.supply_name is null then b.supply_name else a.supply_name end) 'SupplyName', 
 

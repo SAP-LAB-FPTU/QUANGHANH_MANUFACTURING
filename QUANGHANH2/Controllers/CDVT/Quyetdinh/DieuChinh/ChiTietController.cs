@@ -17,7 +17,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.CaiTien
         public ActionResult LoadPage()
         {
             int id = int.Parse(Request["id"]);
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 List<Detail> documentariesList = (from a in db.Documentary_Improve_Detail
@@ -49,7 +49,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.CaiTien
         [Route("phong-cdvt/quyet-dinh/dieu-chinh/chi-tiet")]
         public ActionResult GetDetail(int documentary_improve_id, bool isEquip)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             db.Configuration.LazyLoadingEnabled = false;
             if (isEquip)
             {

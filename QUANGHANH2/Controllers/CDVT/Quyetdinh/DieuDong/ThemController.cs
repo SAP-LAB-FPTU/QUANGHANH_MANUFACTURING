@@ -19,7 +19,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
 {
     public class ThemController : Controller
     {
-        private readonly QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+        private readonly QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
         [Auther(RightID = "87")]
         [Route("phong-cdvt/quyet-dinh/dieu-dong/them")]
@@ -201,7 +201,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
         [HttpGet]
         public ActionResult ExportQuyetDinh(string data, string department_id_to, string reason)
         {
-            using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
             {
                 try
                 {

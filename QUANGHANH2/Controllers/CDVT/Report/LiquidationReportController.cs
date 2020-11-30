@@ -85,7 +85,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                             " and do.documentary_id = ac.documentary_id and do.documentary_type = 5 and  YEAR(ac.acceptance_date) = "+nam+"";
             }
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 ViewBag.ContentReport = db.Database.SqlQuery<contentreportTL>(query).ToList();
             }
@@ -100,7 +100,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             {
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     Wherecondition(type, date, month, quarter, year);
                     int k = 3;

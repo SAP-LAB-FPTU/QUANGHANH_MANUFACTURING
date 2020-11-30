@@ -13,7 +13,7 @@ namespace QUANGHANH2.Repositories
     public class TonghopvattuRepository : ITonghopvattuRepository
     {
         [Dependency]
-        public QUANGHANHABCEntities context { get; set; }
+        public QuangHanhManufacturingEntities context { get; set; }
 
         public IList<TonghopvattuDepartmentModelView> GetDepartments()
         {

@@ -31,7 +31,7 @@ namespace QUANGHANH2.Controllers.DK.Criteria
                 string sortDirection = Request["order[0][dir]"];
 
                 var sqlGetData = @"select * from NhomTieuChi order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var exSql = db.Database.SqlQuery<NhomTieuChi>(sqlGetData).ToList();
 
@@ -55,7 +55,7 @@ namespace QUANGHANH2.Controllers.DK.Criteria
             try
             {
                 var TenNhomTieuChi = Request["TenNhomTieuChi"];
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var data = db.NhomTieuChis.Where(x => x.TenNhomTieuChi.Equals(TenNhomTieuChi)).FirstOrDefault();
                     if (data == null)
@@ -89,7 +89,7 @@ namespace QUANGHANH2.Controllers.DK.Criteria
             {
                 var manhomtieuchi = Convert.ToInt32(Request["manhomtieuchi"]);
                 var sqlGet = @"select * from NhomTieuChi where MaNhomTieuChi = @manhomtieuchi";
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var exSql = db.Database.SqlQuery<NhomTieuChi>(sqlGet, new SqlParameter("manhomtieuchi", manhomtieuchi)).FirstOrDefault();
                     return Json(new { success = true, tennhomtieuchi = exSql.TenNhomTieuChi });
@@ -111,7 +111,7 @@ namespace QUANGHANH2.Controllers.DK.Criteria
             {
                 var manhomtieuchi = Convert.ToInt32(Request["manhomtieuchi"]);
                 var tennhomtieuchi = Request["tennhomtieuchi"];
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var nhomtieuchi = db.NhomTieuChis.Find(manhomtieuchi);
                     if (nhomtieuchi != null)
@@ -137,7 +137,7 @@ namespace QUANGHANH2.Controllers.DK.Criteria
             try
             {
                 var manhomtieuchi = Convert.ToInt32(Request["manhomtieuchi"]);
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var sqlDelete = @"delete NhomTieuChi where MaNhomTieuChi = @manhomtieuchi";
                     var exDelete = db.Database.ExecuteSqlCommand(sqlDelete, new SqlParameter("manhomtieuchi", manhomtieuchi));

@@ -90,7 +90,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             string d = date.ToString("yyyy/MM/dd");
             string s = date.ToString("dd/MM/yyyy");
             ViewBag.dat = s;
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             string sql = @"select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS,a.QL_CTy, 
                             ROUND((case when (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) != 0 then cast(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 as float) / cast((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as float) * 100 else 0 end),2) as 'tile' 
                              from 
@@ -186,7 +186,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             ViewBag.dat = d;
             string[] temp = d.Split('/');
             d = temp[2] + "-" + temp[1] + "-" + temp[0];
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             string sql = @"select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS,a.QL_CTy, 
                             ROUND((case when (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) != 0 then cast(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 as float) / cast((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as float) * 100 else 0 end),2) as 'tile' 
                              from 
@@ -288,7 +288,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 string[] temp = date.Split('/');
                 date = temp[2] + "-" + temp[1] + "-" + temp[0];
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     string sql = @"select a.MaPhongBan,a.KT1,a.CD1,a.QL1,b.om1,b.vld1,b.p1,b.khac1,a.KT2,a.CD2,a.QL2,b.om2,b.vld2,b.p2,b.khac2,a.KT3,a.CD3,a.QL3,b.om3,b.vld3,b.p3,b.khac3,b.tong_nghidai,a.tong_DS,a.QL_CTy, 
                             ROUND((case when (a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) != 0 then cast(a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 as float) / cast((a.KT1 + a.CD1 + a.KT2 + a.CD2 + a.KT3 + a.CD3 + b.vld1 + b.vld2 + b.vld3 + b.om1 + b.om2 + b.om3 + b.p1 + b.p2 + b.p3 + b.khac1 + b.khac2 + b.khac3) as float) * 100 else 0 end),2) as 'tile' 
@@ -466,7 +466,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             string s = date.ToString("yyyy-MM");
             ViewBag.dat = date.ToString("MM/yyyy");
             string[] data = s.Split('-');
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             string sql = @"select a.department_id as 'MaPhongBan',(a.kt + a.cd + a.hstt + a.ql) as 'ds', a.ql,(a.kt + a.cd + a.hstt) as 'congnhan', a.cd, a.kt, a.hstt,
 	                        (case when b.vang is null then 0 else b.vang end) as 'vang',
 	                        (case when b.vang is null then a.kt + a.cd + a.hstt else a.kt + a.cd + a.hstt - b.vang end) as 'dilam',
@@ -527,7 +527,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
             string st = data[1] + "/" + data[2];
             string s = data[2] + "-" + data[1];
             ViewBag.dat = st;
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             string sql = @"select a.department_id as 'MaPhongBan',(a.kt + a.cd + a.hstt + a.ql) as 'ds', a.ql,(a.kt + a.cd + a.hstt) as 'congnhan', a.cd, a.kt, a.hstt,
 	                        (case when b.vang is null then 0 else b.vang end) as 'vang',
 	                        (case when b.vang is null then a.kt + a.cd + a.hstt else a.kt + a.cd + a.hstt - b.vang end) as 'dilam',
@@ -593,7 +593,7 @@ namespace QUANGHANHCORE.Controllers.DK.ReportHuman
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 string[] data = date.Split('/');
                 string s = data[1] + "-" + data[0];
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
 
                     string sql = @"select a.department_id as 'MaPhongBan',(a.kt + a.cd + a.hstt + a.ql) as 'ds', a.ql,(a.kt + a.cd + a.hstt) as 'congnhan', a.cd, a.kt, a.hstt,

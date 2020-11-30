@@ -23,7 +23,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         [HttpGet]
         public ActionResult Index()
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             List<Equipment> equipments = DBContext.Equipments.ToList();
             List<Department> departments = DBContext.Departments.ToList();
             ViewBag.equipments = equipments;
@@ -36,7 +36,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         [HttpPost]
         public ActionResult Add(string equipment, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd, string checkBox)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             Incident i = new Incident();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
@@ -86,7 +86,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         [HttpPost]
         public ActionResult Edit(int incident_id, string equipment, string department, string reason, string detail, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
                 try
@@ -124,7 +124,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         [HttpPost]
         public ActionResult Update(int incident_id, string reason, int year, int month, int day, int hour, int minute)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             Incident i = DBContext.Incidents.Find(incident_id);
             DateTime end = new DateTime(year, month, day, hour, minute, 0);
             if (DateTime.Compare(i.start_time, end) >= 0)
@@ -154,7 +154,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             string query = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d " +
                 "on d.department_id = i.department_id";
             if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department.Equals("") || !detail.Equals("") || !reason.Equals("") || !(dateStart.Equals("") || dateEnd.Equals("")))
@@ -209,7 +209,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
 
-                using (QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
                 {
                     var incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.Equipment_category_id, e.*, i.*, d.department_name FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d on d.department_id = i.department_id inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id").ToList();
                     int k = 0;
@@ -242,7 +242,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         {
             try
             {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 IncidentDB incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d " +
                     "on d.department_id = i.department_id where i.incident_id = @incident_id", new SqlParameter("incident_id", incident_id)).First();
                 incidents.stringStartTime = incidents.start_time.ToString("HH:mm dd/MM/yyyy");
@@ -264,7 +264,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
         {
             try
             {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 Equipment e = DBContext.Equipments.Find(equipmentId);
                 Department d = DBContext.Departments.Find(e.department_id);
                 return Json(new { success = true, message = d.department_name }, JsonRequestBehavior.AllowGet);

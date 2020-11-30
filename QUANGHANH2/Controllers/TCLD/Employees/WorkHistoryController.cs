@@ -31,7 +31,7 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             try
             {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 ProfileNhanVien nhanVien = db.Database.SqlQuery<ProfileNhanVien>(@"SELECT NhanVien.MaNV, NhanVien.Ten, NhanVien.GioiTinh, NhanVien.NgaySinh, NhanVien.NoiOHienTai, Department.department_name, CongViec.TenCongViec
 FROM     NhanVien INNER JOIN
                   CongViec ON NhanVien.MaCongViec = CongViec.MaCongViec INNER JOIN
@@ -64,7 +64,7 @@ WHERE NhanVien.MaNV = @id", new SqlParameter("id", id)).FirstOrDefault();
             string sortDirection = Request["order[0][dir]"];
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     db.Configuration.LazyLoadingEnabled = false;
                     List<DiemDanh> listDiemDanhById = db.Database.SqlQuery<DiemDanh>("select h.NgayDiemDanh, h.Ca, d.GhiChu from Header_DiemDanh_NangSuat_LaoDong h inner join DiemDanh_NangSuatLaoDong d on h.HeaderID = d.HeaderID where d.MaNV = @MaNV order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY", new SqlParameter("MaNV", id)).ToList();

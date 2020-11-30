@@ -22,7 +22,7 @@ namespace QUANGHANH2.Controllers.CDVT.Report
             Wherecondition(type, date, month, quarter, year);
             List<content> content = new List<content>();
             int tangbag = 0;int giambag = 0;
-            using (QUANGHANHABCEntities db= new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db= new QuangHanhManufacturingEntities())
             {
                 var nhom = db.Database.SqlQuery<CaName>("select ec.Equipment_category_name as MaNhom from Equipment e,Equipment_category ec where e.Equipment_category_id=ec.Equipment_category_id group by ec.Equipment_category_name").ToList();
                 foreach(var item in nhom)
@@ -156,7 +156,7 @@ namespace QUANGHANH2.Controllers.CDVT.Report
                             " and YEAR(do.date_created) = '" + nam + "'";
             }
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 ViewBag.ContentReportTang = db.Database.SqlQuery<contentreportTang>(queryT).ToList();
                 ViewBag.ContentReportGiam = db.Database.SqlQuery<contentreportGiam>(queryG).ToList();
@@ -173,7 +173,7 @@ namespace QUANGHANH2.Controllers.CDVT.Report
             {
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     Wherecondition(type, date, month, quarter, year);
                     List<content> content = new List<content>();

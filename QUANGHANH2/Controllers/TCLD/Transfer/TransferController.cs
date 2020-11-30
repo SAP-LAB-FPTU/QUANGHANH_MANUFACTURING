@@ -40,7 +40,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             List<Department> listPhongBan = new List<Department>();
             List<BacLuong> listBacLuong = new List<BacLuong>();
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 string sql = "select * from CongViec";
@@ -119,7 +119,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             List<NhanVienModel> listNhanVien = new List<NhanVienModel>();
 
             int totalrows;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 string sql = "SELECT  A.*,B.department_name,C.TenCongViec,D.TenTrangThai\n" +
@@ -181,7 +181,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             List<NhanVienModel> listNhanVien = new List<NhanVienModel>();
             int totalrows = listNhanVien.Count;
             int totalrowsafterfiltering = listNhanVien.Count;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 string sql =
@@ -208,7 +208,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public ActionResult getPhuCapAndThangLuong()
         {
             int macv = int.Parse(Request["macv"]);
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
@@ -237,7 +237,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             var selectedDeptId = Request["selectedDeptId"];
             List<CongViec> congviec_phongban = new List<CongViec>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
@@ -280,7 +280,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             manv = manv.Remove(manv.Length - 1);
             List<NhanVienModel> getInfo;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 string sql = "SELECT  A.*,B.department_name,C.TenCongViec" +
@@ -345,7 +345,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             manv = manv.Remove(manv.Length - 1);
             List<NhanVienModel> getInfo;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 string sql = "select NhanVien.*,CongViec.TenCongViec from NhanVien,CongViec where MaNV in (" + manv + ") and CongViec.MaCongViec=NhanVien.MaCongViec";
@@ -566,7 +566,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             manv = manv.Remove(manv.Length - 1);
             List<NhanVienModel> getInfo;
             ///////////////////////////////////////////GET CURRENT INFO OF NHANVIENS////////////////////////////////
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 string sql = "select NhanVien.*,CongViec.TenCongViec from NhanVien,CongViec where MaNV in (" + manv + ") and CongViec.MaCongViec=NhanVien.MaCongViec";
@@ -606,7 +606,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 d.LyDo = ((DieuDongModel)result[i]).LyDo;
                 listNhanVien.Add(d);
             }
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
@@ -737,7 +737,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             if (sqd != null && sqd != "")
             {
                 int result;
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     string sql = "select count(SoQuyetDinh) as sqd from QuyetDinh\n" +
                     "where soQuyetDInh = @SoQD ";
@@ -777,7 +777,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             List<QuyetDinh> listQuyetDinh = new List<QuyetDinh>();
 
             int totalrows;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 string sql = "select * from quyetdinh\n" +
@@ -846,7 +846,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 		   where btm.MaBacLuong=bl.MaBacLuong and tl.MaThangLuong=btm.MaThangLuong) tb3
            where tb1.MaNV = tb2.MaNV and tb1.MaBacLuong_ThangLuong_MucLuongMoi=tb3.MaBacLuong_ThangLuong_MucLuong";
             List<DetailDieuDongClass> list = new List<DetailDieuDongClass>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 list = db.Database.SqlQuery<DetailDieuDongClass>(sql,
                     new SqlParameter("MaQD1", MaQD),
@@ -860,7 +860,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult XoaDieuDongDaXuLy(String MaQD)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
@@ -961,7 +961,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             List<QuyetDinh> listQuyetDinh = new List<QuyetDinh>();
 
             int totalrows;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 string sql = "select * from quyetdinh\n" +
@@ -993,7 +993,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [HttpPost]
         public ActionResult XoaDieuDongChuaXuLy(String MaQD)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
@@ -1046,7 +1046,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             var SoQDText = Request["SoQDText"];
             var MaQD = Request["MaQD"];
             SoQDText = SoQDText.Substring(1, SoQDText.Length - 2);
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
@@ -1135,7 +1135,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 		   where btm.MaBacLuong=bl.MaBacLuong and tl.MaThangLuong=btm.MaThangLuong) tb3
            where tb1.MaNV = tb2.MaNV and tb1.MaBacLuong_ThangLuong_MucLuongMoi=tb3.MaBacLuong_ThangLuong_MucLuong";
                 List<DetailDieuDongClass> list = new List<DetailDieuDongClass>();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     list = db.Database.SqlQuery<DetailDieuDongClass>(sql,
                         new SqlParameter("MaQD1", MaQD),

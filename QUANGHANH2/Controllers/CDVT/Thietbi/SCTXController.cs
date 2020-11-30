@@ -21,7 +21,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         public ActionResult Index()
         {
             string departID = Session["departID"].ToString();
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<Supply> listSupply = db.Supplies.Where(x => x.unit != "L" && x.unit != "kWh").ToList();
             List<EquipmentDB> listEQ = db.Database.SqlQuery<EquipmentDB>("select e.equipmentId, e.equipment_name from Equipment e where e.department_id = @departID", new SqlParameter("departID", departID)).ToList();
             ViewBag.listSupply = listSupply;
@@ -34,7 +34,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         [HttpPost]
         public JsonResult InsertMaintainCar(List<Maintain_DetailDB> maintain, string equipmentId, string date, string maintain_content)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 string department_id = Session["departID"].ToString();
@@ -111,7 +111,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             }
         }
 
-        private void AddSupply_DP(QUANGHANHABCEntities db, string newEquipmentId, string newSupplyid, int used, int thuhoi)
+        private void AddSupply_DP(QuangHanhManufacturingEntities db, string newEquipmentId, string newSupplyid, int used, int thuhoi)
         {
             //find old supplies by device.
             Supply_SCTX sp = new Supply_SCTX()
@@ -123,7 +123,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             db.Supply_SCTX.Add(sp);
         }
 
-        private void EditSupply_DP(QUANGHANHABCEntities db,Supply_SCTX duphong, int used, int thuhoi)
+        private void EditSupply_DP(QuangHanhManufacturingEntities db,Supply_SCTX duphong, int used, int thuhoi)
         {
             if (duphong != null)
             {
@@ -134,7 +134,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
 
         }
 
-        private void AddSupply_DK(QUANGHANHABCEntities db, string newEquipmentId, string newSupplyid, int used, int thuhoi)
+        private void AddSupply_DK(QuangHanhManufacturingEntities db, string newEquipmentId, string newSupplyid, int used, int thuhoi)
         {
             Supply_Equipment_DiKem sp = new Supply_Equipment_DiKem()
             {
@@ -145,7 +145,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             db.Supply_Equipment_DiKem.Add(sp);
         }
 
-        private void EditSupply_DK(QUANGHANHABCEntities db, Supply_Equipment_DiKem dikem, int used, int thuhoi)
+        private void EditSupply_DK(QuangHanhManufacturingEntities db, Supply_Equipment_DiKem dikem, int used, int thuhoi)
         {
             if (dikem != null)
             {
@@ -160,7 +160,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         [HttpPost]
         public JsonResult getMaintainCarDetail(int maintainId)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
             {
                 List<Maintain_DetailDB> m = db.Database.SqlQuery<Maintain_DetailDB>("select m.supplyid,s.supply_name,s.unit,equipmentid ,m.thuhoi, m.used,m.maintain_detail_id" +
@@ -175,7 +175,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         [HttpPost]
         public JsonResult getMaintainCar(int maintainId)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
             {
                 //Truncate Table to delete all old records.
@@ -226,7 +226,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
 
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 string base_select = "select m.[date],  e.equipment_name, m.equipmentid,d.department_name,m.maintain_content,m.maintain_id";
                 string from_clause = " from Equipment_SCTX m inner join Equipment e on m.equipmentid = e.equipmentId "
                     + " inner join Department d on d.department_id = m.department_id" +
@@ -275,7 +275,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         {
             try
             {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 var equipment = db.Database.SqlQuery<fuelDB>("select e.equipmentId, e.equipment_name from Equipment e  where  e.equipmentId = @id " +
                                 "EXCEPT " +
                                 "select distinct e.equipmentId,e.equipment_name " +
@@ -297,7 +297,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         [HttpPost]
         public ActionResult EditMaintain(string date, String equipmentId,String maintain_content, int maintainid)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 try
@@ -359,7 +359,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         [HttpPost]
         public ActionResult EditMaintainDetail(List<Equipment_SCTX_Detail> supplyDetail, string equipmentID)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             Equipment_SCTX_Detail m = new Equipment_SCTX_Detail();
              
             using (DbContextTransaction transaction = db.Database.BeginTransaction())
@@ -458,7 +458,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
             }
         }
 
-        private void EditSupply(QUANGHANHABCEntities db, string oldEquipmentId, string oldSupplyid, int oldUsed, int oldThuhoi, string newEquipmentId, string newSupplyid, int newUsed, int newThuhoi)
+        private void EditSupply(QuangHanhManufacturingEntities db, string oldEquipmentId, string oldSupplyid, int oldUsed, int oldThuhoi, string newEquipmentId, string newSupplyid, int newUsed, int newThuhoi)
         {
             //if equipmentId and supplyId doesn't change after editing.
             if (oldEquipmentId == newEquipmentId && oldSupplyid == newSupplyid)
@@ -525,7 +525,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
         [HttpPost]
         public ActionResult returnUpdateRemaining(List<Maintain_DetailDB> maintain, string equipmentID)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             try
             {
                 string base_query = "select quantity from Supply_SCTX where supply_id = @supply_id and equipmentId = @equipmentId";
@@ -552,7 +552,7 @@ namespace QUANGHANH2.Controllers.CDVT.Thietbi
 
             try
             {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 var supply = db.Supplies.Where(x => (x.supply_id == supplyid) && (x.unit != "L" && x.unit != "kWh")).SingleOrDefault();
                 var remaining = db.Supply_SCTX.Where(x => (x.supply_id == supplyid && x.equipmentId == equipmentId)).FirstOrDefault();
                 //String item = equipment.supply_name + "^" + equipment.unit;

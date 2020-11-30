@@ -15,7 +15,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh
         [Route("camera/sua-chua")]
         public ActionResult AddSuaChua()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 ViewBag.room_name = db.Rooms.Select(x => x.room_name).ToList();
                 ViewBag.department_name = db.Departments.Select(x => x.department_name).ToList();
@@ -35,7 +35,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 string query = "select r.room_id, r.room_name, d.department_name, r.camera_available, r.camera_quantity " +
                     "from Room r inner join Department d on r.department_id = d.department_id " +

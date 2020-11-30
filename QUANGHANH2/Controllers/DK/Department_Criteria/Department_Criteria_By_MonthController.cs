@@ -16,7 +16,7 @@ namespace QUANGHANH2.Controllers.DK
         [Route("phong-dieu-khien/nhap-lieu-phong-ban-tieu-chi-theo-thang")]
         public ActionResult Index()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var query = " select * from Department WHERE department_type in (@departmentType_1, @departmentType_2) order by department_name";
                 List<Department> listDepartments = db.Database.SqlQuery<Department>(query,
@@ -38,7 +38,7 @@ namespace QUANGHANH2.Controllers.DK
                 var departmentID = Request["department"];
                 List<TieuChiABC> list = new List<TieuChiABC>();
                 List<TieuChi> listTieuChi = new List<TieuChi>();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var query = " select * from Department WHERE department_type = @departmentType order by department_name";
                     List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
@@ -98,7 +98,7 @@ namespace QUANGHANH2.Controllers.DK
                 }
                 List<TieuChiABC> list = new List<TieuChiABC>();
                 List<TieuChi> listTieuChi = new List<TieuChi>();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var query = " select * from Department WHERE department_type =@departmentType order by department_name";
                     List<Department> listDepartments = db.Database.SqlQuery<Department>(query, new SqlParameter("departmentType", "Phân xưởng sản xuất chính")).ToList<Department>();
@@ -144,7 +144,7 @@ namespace QUANGHANH2.Controllers.DK
                         sqlQuery += " (N'" + departmentID + "'," + listCriteria[i] + "," + month + "," + year + "),";
                     }
                     sqlQuery = sqlQuery.Substring(0, sqlQuery.Length - 1);
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
                         db.Database.ExecuteSqlCommand(sqlQuery);
                         db.SaveChanges();
@@ -172,7 +172,7 @@ namespace QUANGHANH2.Controllers.DK
                 var departmentID = Request["department"];
                 var criteria = Request["criteria"];
                 string sqlDelete = "Delete PhongBan_TieuChi where MaTieuChi = "+ criteria +" and MaPhongBan = N'"+ departmentID +"' and Thang = "+ month +" and Nam = "+ year;
-                using (QUANGHANHABCEntities db =  new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db =  new QuangHanhManufacturingEntities())
                 {
                     KeHoachTungThang keHoachTungThang = db.KeHoachTungThangs.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).FirstOrDefault<KeHoachTungThang>();
                     header_KeHoachTungThang header_KeHoachTungThang = null;

@@ -19,7 +19,7 @@ namespace QUANGHANH2.Controllers.DK.Factory
         [Route("phong-dk/quan-ly-phan-xuong")]
         public ActionResult Index()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var arr_department_type = db.Departments.DistinctBy(d => d.department_type).Where(x => x.department_type.Contains("Phân xưởng") || x.department_type.Contains("Đơn vị sản xuất thuê ngoài")).ToList();
 
@@ -37,7 +37,7 @@ namespace QUANGHANH2.Controllers.DK.Factory
             var department_id = Request["department_id"].ToString();
             var department_name = Request["department_name"].ToString();
             var department_type = Request["department_type"].ToString();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
 
@@ -61,7 +61,7 @@ namespace QUANGHANH2.Controllers.DK.Factory
         [HttpGet]
         public ActionResult AddNewDepartment()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 //var query = db.Departments.Distinct(p => p.department_type);
             }
@@ -84,7 +84,7 @@ namespace QUANGHANH2.Controllers.DK.Factory
 
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var pb = db.Departments.Add(department);
                     db.SaveChanges();
@@ -103,7 +103,7 @@ namespace QUANGHANH2.Controllers.DK.Factory
         [HttpPost]
         public ActionResult GetEditDepartment(string did)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 var pb = db.Departments.Where(d => d.department_id.Equals(did)).FirstOrDefault();
@@ -127,7 +127,7 @@ namespace QUANGHANH2.Controllers.DK.Factory
 
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     Department pb = db.Departments.Where(d => d.department_id.Equals(did)).FirstOrDefault<Department>();
                     if (pb != null)
@@ -157,7 +157,7 @@ namespace QUANGHANH2.Controllers.DK.Factory
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var department = db.Departments.Find(department_id);
                     db.Departments.Remove(department);

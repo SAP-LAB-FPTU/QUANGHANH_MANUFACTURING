@@ -19,7 +19,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
         [Route("phong-dieu-khien/nhap-lieu-san-xuat")]
         public ActionResult InputCharcoal()
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
             //var ngaySX = db.header_KeHoachTungThang.Where(x => x.ThangKeHoach == month && x.NamKeHoach == year).Select(x => x.SoNgayLamViec).FirstOrDefault();
@@ -49,7 +49,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             string ngay = Request["ngay"];
             string[] temp = ngay.Split('/');
             ngay = temp[1] + "/" + temp[0] + "/" + temp[2];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 int thang = Convert.ToInt32(temp[1]);
                 int nam = Convert.ToInt32(temp[2]);
@@ -92,7 +92,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             string ngay = Request["ngay"];
             string[] temp = ngay.Split('/');
             ngay = temp[1] + "/" + temp[0] + "/" + temp[2];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 int thang = Convert.ToInt32(temp[1]);
                 int nam = Convert.ToInt32(temp[2]);
@@ -149,7 +149,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
         public JsonResult Change(string px_value, string ca_value, string date)
         {
             List<SanXuat> tcList = null;
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
             List<SanXuat> LK = null;
@@ -488,7 +488,7 @@ namespace QUANGHANH2.Controllers.DK.InputCharcoal
             List<int> tcList = new List<int>();
             List<int> pbtcList = new List<int>();
 
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             int ca = 0;
             if (!ca_value.Equals(""))
             {

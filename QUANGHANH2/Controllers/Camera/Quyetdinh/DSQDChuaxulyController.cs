@@ -33,7 +33,7 @@ namespace QUANGHANH2.Controllers.Camera
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             List<DocumentaryDB> incidents;
 
             string query = @"SELECT docu.*, docu.[out/in_come] as out_in_come, [type].documentary_name, depa.department_name FROM Documentary docu 

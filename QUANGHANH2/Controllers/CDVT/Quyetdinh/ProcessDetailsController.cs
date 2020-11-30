@@ -14,7 +14,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
         [HttpPost]
         public ActionResult GetSupply(string documentary_id, string equipmentId)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             List<Supply_Detail> supplies = DBContext.Database.SqlQuery<Supply_Detail>("SELECT doc.supply_id as MaVT,s.supply_name as TenVT,doc.quantity_plan as SLVT FROM Supply_Documentary_Equipment doc INNER JOIN Supply s on doc.supply_id = s.supply_id WHERE doc.equipmentId = @equipmentId AND doc.documentary_id = @documentary_id",
                 new SqlParameter("equipmentId", equipmentId),
                 new SqlParameter("documentary_id", documentary_id)).ToList();

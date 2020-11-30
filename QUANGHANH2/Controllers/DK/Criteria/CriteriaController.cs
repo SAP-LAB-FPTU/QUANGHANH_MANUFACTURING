@@ -23,7 +23,7 @@ namespace QUANGHANH2.Controllers.DK.Criteria
         public ActionResult list()
         {
             List<TieuChi_Detail> listData = new List<TieuChi_Detail>();
-            using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using(QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 int start = Convert.ToInt32(Request["start"]);
                 int length = Convert.ToInt32(Request["length"]);
@@ -50,7 +50,7 @@ namespace QUANGHANH2.Controllers.DK.Criteria
         {
             try
             {
-                using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using(QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     int nhomtieuchi = Convert.ToInt32(Request["nhomtieuchi"]);
                     string tentieuchi = Request["tentieuchi"].ToString();
@@ -89,7 +89,7 @@ namespace QUANGHANH2.Controllers.DK.Criteria
             try
             {
                 int matieuchi = Convert.ToInt32(Request["matieuchi"]);
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     string sql = @"SELECT * FROM TieuChi WHERE MaTieuChi = @matieuchi";
                     TieuChi item = db.Database.SqlQuery<TieuChi>(sql, new SqlParameter("matieuchi", matieuchi)).FirstOrDefault();
@@ -110,7 +110,7 @@ namespace QUANGHANH2.Controllers.DK.Criteria
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     int matieuchi = Convert.ToInt32(Request["matieuchi"]);
                     int manhomtieuchi = Convert.ToInt32(Request["manhomtieuchi"]);
@@ -154,7 +154,7 @@ namespace QUANGHANH2.Controllers.DK.Criteria
             {
                 string ma_tieu_chi = Request["matieuchi"];
                 int idma_tieu_chi = Convert.ToInt32(ma_tieu_chi);
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     ///////////////// Check relationship before delete //////////////////
                     PhongBan_TieuChi pbtc = db.PhongBan_TieuChi.Where(x => x.MaTieuChi == idma_tieu_chi).FirstOrDefault();
@@ -190,7 +190,7 @@ namespace QUANGHANH2.Controllers.DK.Criteria
             try
             {
                 List<NhomTieuChi> listnhomtieuchi = new List<NhomTieuChi>();
-                using(QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using(QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var sqlListNhom = @"select * from NhomTieuChi";
                     listnhomtieuchi = db.Database.SqlQuery<NhomTieuChi>(sqlListNhom).ToList<NhomTieuChi>();

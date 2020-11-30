@@ -70,7 +70,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Work
             HttpContext.Response.Cookies.Set(cookie);
             var listSelect = Request["selectList"];
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 string query = "SELECT *, s.statusname FROM Equipment e inner join Department d on e.department_id = d.department_id inner join Status s on e.current_Status = s.statusid";
                 if (!equipmentId.Equals("") || !equipmentName.Equals("") || !department_name.Equals(""))

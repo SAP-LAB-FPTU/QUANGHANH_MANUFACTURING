@@ -16,7 +16,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
         [Route("phong-dieu-khien/ke-hoach-san-xuat-thang")]
         public ActionResult Index()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var query = " select * from Department WHERE department_type in (@departmentType_1, @departmentType_2) order by department_name";
                 List<Department> listDepartments = db.Database.SqlQuery<Department>(query,
@@ -37,7 +37,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                 var Thang = Request["Thang"].Split()[1];
                 var Nam = Request["Nam"].Split()[1];
                 var MaPhongBan = Request["MaPhongBan"];
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     //Get List Department
                     var query = " select * from Department WHERE department_type = @departmentType order by department_name";
@@ -91,7 +91,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
             int snlv = Convert.ToInt32(Request["snlv"]);
             int thang = Convert.ToInt32(Request["thang"].Split()[1]);
             int nam = Convert.ToInt32(Request["nam"].Split()[1]);
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 string sql = "select * from KeHoachTungThang where ThangKeHoach = @month and NamKeHoach = @year";
                 KeHoachTungThang checkadd = db.Database.SqlQuery<KeHoachTungThang>(sql, new SqlParameter("month", thang), new SqlParameter("year", nam)).FirstOrDefault();
@@ -141,7 +141,7 @@ namespace QUANGHANH2.Controllers.DK.InputPlan
                 JArray listDataArray = (JArray)listDataJObject.SelectToken("list");
 
 
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     using (DbContextTransaction transaction = db.Database.BeginTransaction())
                     {

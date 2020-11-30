@@ -39,7 +39,7 @@ namespace QUANGHANH2.Controllers.DK
             bool? ca1IsLock = false;
             bool? ca2IsLock = false;
             bool? ca3IsLock = false;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
@@ -209,7 +209,7 @@ namespace QUANGHANH2.Controllers.DK
             List<Department> listPX = new List<Department>();
             if (phanxuong != null)
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     using (DbContextTransaction transaction = db.Database.BeginTransaction())
                     {
@@ -273,7 +273,7 @@ namespace QUANGHANH2.Controllers.DK
             List<Department> listPX = new List<Department>();
             if (phanxuong != null)
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     using (DbContextTransaction transaction = db.Database.BeginTransaction())
                     {
@@ -335,7 +335,7 @@ namespace QUANGHANH2.Controllers.DK
             List<Department> listPX = new List<Department>();
             if (phanxuong != null)
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     using (DbContextTransaction transaction = db.Database.BeginTransaction())
                     {
@@ -396,7 +396,7 @@ namespace QUANGHANH2.Controllers.DK
             List<Department> listPX = new List<Department>();
             if (phanxuong != null)
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     using (DbContextTransaction transaction = db.Database.BeginTransaction())
                     {

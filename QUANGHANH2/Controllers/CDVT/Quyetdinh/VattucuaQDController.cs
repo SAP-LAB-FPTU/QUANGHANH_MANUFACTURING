@@ -18,7 +18,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         [HttpPost]
         public ActionResult GetSupply(string documentary_id, string equipmentId)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT * FROM Supply_Documentary_Equipment doc INNER JOIN Supply s on doc.supply_id = s.supply_id WHERE doc.equipmentId = @equipmentId AND doc.documentary_id = @documentary_id",
                 new SqlParameter("equipmentId", equipmentId),
                 new SqlParameter("documentary_id", documentary_id)).ToList();
@@ -29,7 +29,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         [HttpPost]
         public ActionResult GetSupplyDuPhong(string documentary_id, string equipmentId)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT * FROM Supply_Documentary_Equipment doc INNER JOIN Supply s on doc.supply_id = s.supply_id WHERE doc.equipmentId = @equipmentId AND doc.documentary_id = @documentary_id",
                 new SqlParameter("equipmentId", equipmentId),
                 new SqlParameter("documentary_id", documentary_id)).ToList();
@@ -40,7 +40,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         [HttpPost]
         public ActionResult GetEquipAttached(string documentary_id, string equipmentId)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT * FROM Supply_Documentary_Equipment doc INNER JOIN Equipment e on doc.equipmentId_dikem = e.equipmentId WHERE doc.equipmentId = @equipmentId AND doc.documentary_id = @documentary_id",
                 new SqlParameter("equipmentId", equipmentId),
                 new SqlParameter("documentary_id", documentary_id)).ToList();
@@ -51,7 +51,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         [HttpPost]
         public ActionResult GetSupply2(string documentary_id, string equipmentId)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             List<Supply_Documentary_EquipmentDB> supplies = DBContext.Database.SqlQuery<Supply_Documentary_EquipmentDB>("SELECT * FROM Supply_Documentary_Equipment sde inner join Supply s on sde.supply_id = s.supply_id WHERE sde.equipmentId = @equipmentId AND sde.documentary_id = @documentary_id",
                 new SqlParameter("equipmentId", equipmentId),
                 new SqlParameter("documentary_id", documentary_id)).ToList();
@@ -64,7 +64,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         {
             try
             {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 Supply supply = DBContext.Database.SqlQuery<Supply>("SELECT * FROM Supply WHERE supply_id = @supply_id",
                     new SqlParameter("supply_id", supply_id)).First();
                 return Json(supply);
@@ -82,7 +82,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         {
             if (listSupplies != "")
             {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
                 {
                     try
@@ -118,7 +118,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         [HttpPost]
         public ActionResult AddSupply(string list, int documentary_id, string equipmentId)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
             {
                 try
@@ -182,7 +182,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         [HttpPost]
         public ActionResult GetSupply(string equipmentId)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             //List<Supply_DiKem> supply_DiKem = DBContext.Supply_DiKem.Where(s => s.equipmentId == equipmentId).ToList();
             var supply_DiKem = (from s in DBContext.Supply_DiKem
                                 where s.equipmentId.Equals(equipmentId)
@@ -198,7 +198,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         [HttpPost]
         public ActionResult GetSupply2(string equipmentId)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             //List<Supply_DiKem> supply_DiKem = DBContext.Supply_DiKem.Where(s => s.equipmentId == equipmentId).ToList();
             var supply_DiKem = (from s in DBContext.Supply_SCTX
                                 where s.equipmentId.Equals(equipmentId)
@@ -214,7 +214,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat.Chitiet
         [HttpPost]
         public ActionResult GetAttachedEquip(string equipmentId)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             List<AttachedEquip> supply_DiKem = DBContext.Database.SqlQuery<AttachedEquip>(@"select a.equipmentId_dikem, e.equipment_name, a.quantity as quantity_dikem
 from (select sdk.equipmentId_dikem, sdk.quantity
 from Supply_DiKem sdk

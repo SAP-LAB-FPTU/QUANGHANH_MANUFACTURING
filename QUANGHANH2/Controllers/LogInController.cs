@@ -18,7 +18,7 @@ namespace QUANGHANHCORE.Controllers
 
     public class LogInController : Controller
     {
-        private QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+        private QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
         // GET: /<controller>/ neww
         [HttpGet]
         public ActionResult Index()
@@ -31,7 +31,7 @@ namespace QUANGHANHCORE.Controllers
             if (HttpContext.Request.Cookies["token"] != null)
             {
                 HttpCookie remme = HttpContext.Request.Cookies.Get("token");
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     string token = remme.Values.Get("token");
                     int uid = int.Parse(remme.Values.Get("uid"));

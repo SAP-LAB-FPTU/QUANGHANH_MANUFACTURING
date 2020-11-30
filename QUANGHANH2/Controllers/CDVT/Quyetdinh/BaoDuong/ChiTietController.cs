@@ -15,7 +15,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.BaoDuong
         [Route("phong-cdvt/quyet-dinh/bao-duong/chi-tiet")]
         public ActionResult LoadPage(int id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
 
@@ -53,7 +53,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.BaoDuong
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     if (isSupply)
                     {

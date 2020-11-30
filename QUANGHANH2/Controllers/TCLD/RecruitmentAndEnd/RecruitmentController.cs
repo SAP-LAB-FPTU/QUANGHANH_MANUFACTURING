@@ -40,7 +40,7 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 return Json(new { message = "Nodata" }, JsonRequestBehavior.AllowGet);
             }
-            QUANGHANHABCEntities DBcontext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBcontext = new QuangHanhManufacturingEntities();
             JObject input = JObject.Parse(jsonname);
             JArray vattu = (JArray)input["data"];
               
@@ -261,7 +261,7 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             if (soqd.Trim().Equals("")) return false;
             QuyetDinh quyetdinh = null;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 quyetdinh = db.QuyetDinhs.Where(x => x.SoQuyetDinh.Equals(soqd)).FirstOrDefault<QuyetDinh>();
             }
@@ -283,7 +283,7 @@ namespace QUANGHANH2.Controllers.TCLD
         public Boolean checkSalry(string salaryInput) {
           
                 ThangLuong salary = null;
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     salary = db.ThangLuongs.Where(x => x.MucThangLuong.Equals(salaryInput)).FirstOrDefault<ThangLuong>();
                 }
@@ -297,7 +297,7 @@ namespace QUANGHANH2.Controllers.TCLD
         {
 
             Department dep = null;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 dep = db.Departments.Where(x => x.department_name.ToLower().Trim().Equals(unit.ToLower().Trim())).FirstOrDefault<Department>();
             }
@@ -321,7 +321,7 @@ namespace QUANGHANH2.Controllers.TCLD
             try
             {
                 Department dep = null;
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     dep = db.Departments.Where(x => x.department_name.ToLower().Trim().Equals(nameDonvi.ToLower().Trim())).FirstOrDefault<Department>();
                 }
@@ -339,7 +339,7 @@ namespace QUANGHANH2.Controllers.TCLD
             //try
             //{
                 ChuyenNganh specialized = null;
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                 specialized = db.ChuyenNganhs.Where(x => x.TenChuyenNganh.Replace("\r\n",String.Empty).ToLower().Trim().Equals(tenChuyenNganh.ToLower().Trim())).FirstOrDefault<ChuyenNganh>();
                 }
@@ -362,7 +362,7 @@ namespace QUANGHANH2.Controllers.TCLD
         public int getMaTrinhDo(string tenTrinhDo)
         {
             TrinhDo level = null;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 level = db.TrinhDoes.Where(x => x.TenTrinhDo.Replace("\r\n",string.Empty).ToLower().Trim().Equals(tenTrinhDo.ToLower().Trim())).FirstOrDefault<TrinhDo>();
             }
@@ -381,7 +381,7 @@ namespace QUANGHANH2.Controllers.TCLD
         {
          
             CongViec congViec = null;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 congViec = db.CongViecs.Where(x => (x.TenCongViec.ToLower().Trim().Equals(working.ToLower().Trim()) && x.MaThangLuong == thangLuong.MaThangLuong)).FirstOrDefault<CongViec>();
             }

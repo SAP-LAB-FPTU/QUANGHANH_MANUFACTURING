@@ -219,7 +219,7 @@ namespace QUANGHANH2.Controllers.BGD.QuantityReport
                 "Mét Lò CBSX Thuê Ngoài", "Mét Lò Xén", "Than Sàng Tuyển", "Than Tiêu Thụ", "Doanh Thu", "Đá Xít Sau Sàng Tuyển"};
             //
             //
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var tongsongayDB = db.KeHoachTungThangs.FirstOrDefault(x => x.ThangKeHoach == timeEnd.Month && x.NamKeHoach == timeEnd.Year);
                 int tongsongay = tongsongayDB == null ? 1 : (int)tongsongayDB.SoNgayLamViec;

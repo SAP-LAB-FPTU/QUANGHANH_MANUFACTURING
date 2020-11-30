@@ -30,7 +30,7 @@ namespace QUANGHANHCORE.Controllers.KCS
             //bool? ca1IsLock = false;
             //bool? ca2IsLock = false;
             //bool? ca3IsLock = false;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
@@ -132,7 +132,7 @@ namespace QUANGHANHCORE.Controllers.KCS
 
             DateTime date = DateTime.Parse(ngayNhap.Split('/')[2] + "/" + ngayNhap.Split('/')[1] + "/" + ngayNhap.Split('/')[0]);
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
@@ -225,7 +225,7 @@ namespace QUANGHANHCORE.Controllers.KCS
             String id = Request["id"];
             if (id != null)
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     using (DbContextTransaction transaction = db.Database.BeginTransaction())
                     {

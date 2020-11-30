@@ -15,7 +15,7 @@ namespace QUANGHANH2.Controllers.TCLD.Employees
         public ActionResult TransferHistoryget(string ddid)
         {
             ViewBag.ddid = ddid;
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             var temp = from n in db.NhanViens
                        where n.MaNV == ddid
                        select n.Ten;
@@ -29,7 +29,7 @@ namespace QUANGHANH2.Controllers.TCLD.Employees
         public ActionResult TransferHistory()
         {
             var ddid = Request["ddid"];
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
             int start = Convert.ToInt32(Request["start"]);
             int length = Convert.ToInt32(Request["length"]);

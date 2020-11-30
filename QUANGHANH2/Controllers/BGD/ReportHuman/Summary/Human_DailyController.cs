@@ -93,7 +93,7 @@ namespace QUANGHANH2.Controllers.DK.ReportHuman
                                 left join CongViec_NhomCongViec cv_ncv on cv.MaCongViec = cv_ncv.MaCongViec
                                 left join NhomCongViec ncv on ncv.MaNhomCongViec = cv_ncv.MaNhomCongViec
                                 where nv.MaTrangThai = 1) as nv_cv on nv_cv.MaNV = dd.MaNV) as nv_cv) as nv_cv";
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var humanReport = db.Database.SqlQuery<HumanReport>(mySql, new SqlParameter("@date", converted_date)).ToList();
                     return Json(new { success = true, title = "Thành công", message = "Tải dữ liệu thành công" , humanReport = humanReport});

@@ -15,7 +15,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
         [Route("phong-cdvt/quyet-dinh/sua-chua/chi-tiet")]
         public ActionResult LoadPage(int id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
 
@@ -53,7 +53,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.SuaChua
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     if (isSupply)
                     {

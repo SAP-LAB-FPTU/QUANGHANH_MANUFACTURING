@@ -15,7 +15,7 @@ namespace QUANGHANH2.Controllers.API
         {
             string from_string = Request["from"];
             string to_string = Request["to"];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 DateTime from_date = DateTime.TryParse(from_string, out from_date)? DateTime.Parse(from_string) : DateTime.MinValue;
                 DateTime to_date = DateTime.TryParse(to_string, out to_date) ? DateTime.Parse(to_string) : DateTime.MaxValue;

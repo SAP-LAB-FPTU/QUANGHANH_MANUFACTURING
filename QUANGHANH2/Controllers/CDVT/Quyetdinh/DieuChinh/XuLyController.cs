@@ -21,7 +21,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
         {
             try
             {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 string departid = Session["departID"].ToString();
                 Documentary documentary = DBContext.Database.SqlQuery<Documentary>("SELECT docu.*, docu.[out/in_come] as out_in_come FROM Documentary_Improve_Detail as detail inner join Documentary as docu on detail.documentary_id = docu.documentary_id WHERE docu.documentary_code IS NOT NULL AND detail.documentary_id = @documentary_id AND docu.department_id_to = @departid",
                     new SqlParameter("documentary_id", id), new SqlParameter("departid", departid)).First();
@@ -56,7 +56,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             db.Configuration.LazyLoadingEnabled = false;
             string departid = Session["departID"].ToString();
             List<Detail> documentariesList = (from a in db.Documentary_Improve_Detail
@@ -106,7 +106,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
             ViewBag.id = id;
             if (edit != "")
             {
-                QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
                 using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
                 {
                     try
@@ -161,7 +161,7 @@ namespace QUANGHANH2.Controllers.CDVT.Cap_nhat
         [HttpPost]
         public ActionResult AddSupply(string list, int documentary_id, string equipmentId, bool IsSupply)
         {
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             Documentary_Improve_Detail detail = DBContext.Documentary_Improve_Detail.Where(x => x.equipmentId == equipmentId && x.documentary_id == documentary_id).FirstOrDefault();
             if (detail.equipment_Improve_status == 1)
                 return Json(new { success = false, message = "Thiết bị đã được xử lý xong" });

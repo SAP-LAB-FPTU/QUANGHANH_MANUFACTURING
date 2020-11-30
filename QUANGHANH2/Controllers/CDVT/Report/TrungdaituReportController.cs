@@ -43,7 +43,7 @@ namespace QUANGHANH2.Controllers.CDVT.Report
             {
                 query = Wherecondition(type, date, month, quarter, year);
             }
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<TrungTuReport> listdata = db.Database.SqlQuery<TrungTuReport>(query).ToList();
 
@@ -160,7 +160,7 @@ namespace QUANGHANH2.Controllers.CDVT.Report
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
 
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     string query = " select MONTH(c.date_created) as Thang, YEAR(c.date_created) as Nam,a.Equipment_category_id as Ma, " +
              "a.equipment_name as Tenthietbi, a.mark_code as Sohieu, a.equipmentId as Matscd, c.date_created as Ngayquyetdinh, " +

@@ -41,7 +41,7 @@ namespace QUANGHANH2.Controllers.DK.EquipmentIncident
             sql += @" group by department_id
 	                        ) as i on d.department_id = i.department_id
                         where d.department_type like N'%phân xưởng%'";
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var list = db.Database.SqlQuery<Report>(sql).ToList();
                 ViewBag.list = list;
@@ -59,7 +59,7 @@ namespace QUANGHANH2.Controllers.DK.EquipmentIncident
             {
                 var type = new[] { "month", "quarter", "year" }.Contains(Request["type"]) ? Request["type"] : "month";
                 int year = (Request["year"] == null || Request["year"] == "") ? DateTime.Now.Year : int.Parse(Request["year"]);
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var sql = @"select e.equipmentId, e.equipment_name, SUM(DATEDIFF(SECOND, start_time, end_time)) as diff
                         from Incident i inner join Equipment e on i.equipmentId = e.equipmentId
@@ -107,7 +107,7 @@ namespace QUANGHANH2.Controllers.DK.EquipmentIncident
             {
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var type = new[] { "month", "quarter", "year" }.Contains(Request["type"]) ? Request["type"] : "month";
                     if (int.TryParse(Request["year"], out int year))

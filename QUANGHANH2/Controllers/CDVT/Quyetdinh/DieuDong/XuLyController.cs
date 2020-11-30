@@ -14,7 +14,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh.DieuDong
 {
     public class XuLyController : Controller
     {
-        QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+        QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
         [Auther(RightID = "88,179,180,181,183,184,185,186,187,189,195,003")]
         [Route("phong-cdvt/cap-nhat/quyet-dinh/dieu-dong")]

@@ -27,7 +27,7 @@ namespace QUANGHANH2.Controllers.CDVT.Quyetdinh
             List<Supply_Extend> supList = new List<Supply_Extend>();
             List<Supply_Extend> supList2 = new List<Supply_Extend>();
             //
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
 
                 db.Configuration.LazyLoadingEnabled = false;

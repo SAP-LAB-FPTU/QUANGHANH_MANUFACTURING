@@ -22,7 +22,7 @@ namespace QUANGHANH2.Controllers.CDVT.Nghiemthu
 
             List<Supply_Extend> supList3 = new List<Supply_Extend>();
             //
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 supList3 = (from a in db.Supply_Documentary_Equipment

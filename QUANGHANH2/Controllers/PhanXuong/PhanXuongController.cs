@@ -45,7 +45,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         public ActionResult HuydongPhanxuong()
         {
 
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<SelectListItem> listStatus = new List<SelectListItem>();
             var statsu = db.Status.ToList<Status>();
             foreach (Status item in statsu)
@@ -68,7 +68,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            QUANGHANHABCEntities DBContext = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             DateTime dtStart = Convert.ToDateTime("01/01/2000");
             DateTime dtEnd = DateTime.Today;
             if (!dateStart.Equals(""))
@@ -143,7 +143,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             bool? ca1IsLock = false;
             bool? ca2IsLock = false;
             bool? ca3IsLock = false;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
@@ -239,7 +239,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
 
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
@@ -341,7 +341,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             String id = Request["id"];
             if (id != null)
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     using (DbContextTransaction transaction = db.Database.BeginTransaction())
                     {
@@ -465,7 +465,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
                     convert_shift = Convert.ToInt32(shift);
                 }
 
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     //get list_nsld
                     var mysql = @"select 
@@ -520,7 +520,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         [HttpPost]
         public ActionResult saveNSLD()
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 DbContextTransaction transaction = db.Database.BeginTransaction();
                 try
@@ -596,7 +596,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         //        List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
 
         //        Donvi = Donvi.Split('"')[1];
-        //        QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+        //        QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
         //        Header_DiemDanh_NangSuat_LaoDong header = db.Header_DiemDanh_NangSuat_LaoDong.Where(a => a.MaPhongBan == Donvi && a.Ca == calamviec && a.NgayDiemDanh == date).First();
         //        List<DiemDanh_NangSuatLaoDong> list = db.DiemDanh_NangSuatLaoDong
         //            .Where(a => a.DiLam == true)
@@ -645,7 +645,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         //[Route("phan-xuong/nang-suat-lao-dong-update")]
         //public ActionResult UpdateNSLD(string stringjson)
         //{
-        //    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
         //    {
         //        using (DbContextTransaction transaction = db.Database.BeginTransaction())
         //        {
@@ -709,7 +709,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     db.Configuration.LazyLoadingEnabled = false;
                     var query = @"select b.DiLam as [status], b.HeaderID as headerID,nv.MaNV,nv.Ten as tenNV,b.ThoiGianThucTeDiemDanh as timeAttendance,b.reason,[b].[description]
@@ -741,7 +741,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         {
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     //take sum attendance and not attendance
                     var mysql = @"select
@@ -840,7 +840,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
             //update header => headerdetail and diemdanh.
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 DateTime actualTime = DateTime.Now;
@@ -879,7 +879,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             SoLuongDiLam_Vang listAtten_NotAtten;
             using (var transaction = new TransactionScope())
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var headerIDmin = getFirstSuccessfullyFetch(dateAtt, session);
 
@@ -945,7 +945,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             var dateAtt = Convert.ToDateTime(Request["date"]);
             int session = Int32.Parse(Request["session"]);
             SoLuongDiLam_Vang listAtten_NotAtten;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 //fix 15/6
@@ -989,7 +989,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
             DateTime realTimeNow = DateTime.Now;
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (var transaction = db.Database.BeginTransaction())
                 {
@@ -1075,7 +1075,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
         private void InsertAttendanceAPI(List<DiemDanh_NangSuatLaoDong> listAttendance)
         {
-            using (var db = new QUANGHANHABCEntities())
+            using (var db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
@@ -1095,7 +1095,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         {
             try
             {
-                QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 string query = "select max(FetchDataTime) from Header_DiemDanh_NangSuat_LaoDong where isCreatedManually = 0 and Status = 1";
                 DateTime timeFetch = db.Database.SqlQuery<DateTime>(query).FirstOrDefault();
                 if (timeFetch != null)
@@ -1121,7 +1121,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             }
             else
             {
-                using (var db = new QUANGHANHABCEntities())
+                using (var db = new QuangHanhManufacturingEntities())
                 {
                     var listIDString = $"{listID[0].MaNhanVien}";
                     for (int index = 1; index < listID.Count; index++)
@@ -1213,7 +1213,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         private void InsertHeaderDetail(int headerID)
         {
             string sqlQuery = @"select department_id from Department";
-            using (var db = new QUANGHANHABCEntities())
+            using (var db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
@@ -1239,7 +1239,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
         private void InsertHeaderDetailAPI(int headerID)
         {
             string sqlQuery = @"select department_id from Department";
-            using (var db = new QUANGHANHABCEntities())
+            using (var db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
@@ -1272,7 +1272,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             header.VERSION = null;
             header.FetchDataTime = actualTime;
             header.isCreatedManually = true;
-            using (var db = new QUANGHANHABCEntities())
+            using (var db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
@@ -1295,7 +1295,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
             header.Message = data.message;
             header.VERSION = data.VERSION;
             header.FetchDataTime = data.actualTimeFetching;
-            using (var db = new QUANGHANHABCEntities())
+            using (var db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
@@ -1311,7 +1311,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
         private int getFirstSuccessfullyFetch(DateTime datePicked, int session)
         {
-            using (var db = new QUANGHANHABCEntities())
+            using (var db = new QuangHanhManufacturingEntities())
             {
                 string sqlQuery = @"select headerId from Header_DiemDanh_NangSuat_LaoDong 
                               where FetchDataTime = (Select Min(FetchDataTime) from Header_DiemDanh_NangSuat_LaoDong where NgayDiemDanh = @date and Ca = @session and (Status = 1 or isCreatedManually =1)) ";
@@ -1330,7 +1330,7 @@ namespace QUANGHANHCORE.Controllers.Phanxuong.phanxuong
 
         public int getHeader(DateTime date, int session, DateTime timefetching)
         {
-            using (var db = new QUANGHANHABCEntities())
+            using (var db = new QuangHanhManufacturingEntities())
             {
                 try
                 {

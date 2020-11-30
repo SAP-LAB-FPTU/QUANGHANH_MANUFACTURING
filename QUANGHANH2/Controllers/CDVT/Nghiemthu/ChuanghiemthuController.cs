@@ -16,7 +16,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
 {
     public class nghiemthuController : Controller
     {
-        QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+        QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
         [Auther(RightID = "25")]
         [Route("phong-cdvt/nghiem-thu")]
@@ -40,7 +40,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             List<MyDoc> docList = new List<MyDoc>();
             int totalrows = 0;
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 if (Session["departName"].ToString().Contains("Phân xưởng"))
@@ -576,7 +576,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Nghiemthu
             attach_to = attach_to == "" ? null : attach_to;
             try
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     if (documentary_type == 1)
                         if (isSupply)

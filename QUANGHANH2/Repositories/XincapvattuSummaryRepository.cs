@@ -13,7 +13,7 @@ namespace QUANGHANH2.Repositories
     public class XincapvattuSummaryRepository : IXincapvattuSummaryRepository
     {
         [Dependency]
-        public QUANGHANHABCEntities context { get; set; }
+        public QuangHanhManufacturingEntities context { get; set; }
 
         public bool CreateSupplyConsumable(IList<XincapvattuSummaryModelView> vattus,String departmentid)
         {

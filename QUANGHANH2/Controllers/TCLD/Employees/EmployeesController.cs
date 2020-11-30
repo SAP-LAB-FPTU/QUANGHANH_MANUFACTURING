@@ -104,7 +104,7 @@ namespace QUANGHANH2.Controllers.TCLD
         private List<RecordTotalEmployee> ListAllEmployees()
         {
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<RecordTotalEmployee> listAll = new List<RecordTotalEmployee>();
                 List<RecordTotalEmployee> listAllTemp = new List<RecordTotalEmployee>();
@@ -345,7 +345,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpGet]
         public ActionResult ViewInfor(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<SelectListItem> salary_level = new List<SelectListItem>();
                 String query_salary_level = @"select a.*, b.MucBacLuong, c.MucThangLuong from BacLuong_ThangLuong_MucLuong 
@@ -436,7 +436,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpGet]
         public ActionResult LoadEdit(string id)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<SelectListItem> salary_level = new List<SelectListItem>();
                 String query_salary_level = @"select a.*, b.MucBacLuong, c.MucThangLuong from BacLuong_ThangLuong_MucLuong 
@@ -525,7 +525,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult SaveEdit(NhanVien emp, string test, string hiddenSalary, string[] giaDinh, string[] ngaySinhGiaDinh, string[] hoTen, string[] moiQuanHe, string[] lyLich, string[] donVi, string[] chucDanh, string[] chucVu, string[] tuNgayDenNgay)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbct = db.Database.BeginTransaction())
             {
                 try
@@ -667,7 +667,7 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             ViewBag.nameDepartment = "baohiem";
             string sql = @"select * from Department d";
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             List<Department> pb = db.Database.SqlQuery<Department>(sql).ToList();
             ViewBag.pb = pb;
             return View("/Views/TCLD/Brief/List.cshtml");
@@ -701,7 +701,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 if (!pb.Equals("")) query += "n.MaPhongBan = @pb AND ";
             }
             query = query.Substring(0, query.Length - 5);
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             db.Configuration.LazyLoadingEnabled = false;
             bool GioiTinh = true;
             if (Gender.Equals("true"))
@@ -748,7 +748,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult TLHD(string selectedList)
         {
-            QUANGHANHABCEntities db = new QUANGHANHABCEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbct = db.Database.BeginTransaction())
             {
                 try
@@ -816,7 +816,7 @@ namespace QUANGHANH2.Controllers.TCLD
         public JsonResult DeleteFamily(string maQH, string id)
         {
             List<QuanHeGiaDinh> list = new List<QuanHeGiaDinh>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
@@ -844,7 +844,7 @@ namespace QUANGHANH2.Controllers.TCLD
         public JsonResult DeleteWork(string maCT, string id)
         {
             List<QuaTrinhCongTac> list = new List<QuaTrinhCongTac>();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 using (DbContextTransaction transaction = db.Database.BeginTransaction())
                 {
@@ -886,7 +886,7 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     string searchMaNV = Request["MaNV"];
                     string searchTenNV = Request["TenNV"];

@@ -160,7 +160,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                      join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID) as h
                                     on a.department_id = h.MaPhongBan
                                     group by a.department_id) as b on a.department_id = b.department_id";
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<BaoCaoNgayDB> all = db.Database.SqlQuery<BaoCaoNgayDB>(varname1, new SqlParameter("NgayDiemDanh", dateTime)).ToList();
                 Footer_SUM tatca = new Footer_SUM();
@@ -313,7 +313,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                      join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID) as h
                                     on a.department_id = h.MaPhongBan
                                     group by a.department_id) as b on a.department_id = b.department_id";
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     ViewBag.TatCaDonVi = db.Database.SqlQuery<BaoCaoNgayDB>(tatcadonvi, new SqlParameter("NgayDiemDanh", dateTime)).ToList();
 
@@ -629,7 +629,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                      join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID) as h
                                     on a.department_id = h.MaPhongBan
                                     group by a.department_id) as b on a.department_id = b.department_id";
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<BaoCaoNgayDB> all = db.Database.SqlQuery<BaoCaoNgayDB>(varname1,
                     new SqlParameter("month", month),
@@ -807,7 +807,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                                      join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID) as h
                                     on a.department_id = h.MaPhongBan
                                     group by a.department_id) as b on a.department_id = b.department_id";
-                    using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                     {
                         List<BaoCaoNgayDB> listMonth = db.Database.SqlQuery<BaoCaoNgayDB>(sqlMonth,
                                                                                             new SqlParameter("month", month),

@@ -38,7 +38,7 @@ namespace QUANGHANH2.Controllers.TCLD
             try { string[] d = mnv.Split(' '); mnv = ""; foreach (string i in d) { mnv += "'" + i + "',"; } mnv = mnv.Substring(0, mnv.Length - 1); mnv = mnv == "''" ? "" : mnv; } catch (Exception e) { }
             string dept_id = dataJson.px == null ? "" : dataJson.px;
             dept_id = dept_id.Trim();
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 string sql = @"select * from nhanvien nv join Department dp
                 on nv.MaPhongBan=dp.department_id and nv.MaTrangThai<>2 and nv.Ten like @name";
@@ -64,7 +64,7 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 string department_id = Session["departID"].ToString();
                 dynamic dataJson = JObject.Parse(data);
@@ -258,7 +258,7 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var temp = (from a in db.Departments where a.department_type.Contains("chính") select new { MaPhanXuong = a.department_id, TenPhanXuong = a.department_name }).ToList();
 
@@ -304,7 +304,7 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var temp = (from a in db.Departments where a.department_type.Contains("chính") select new { TenPhanXuong = a.department_name }).ToList();
 
@@ -348,7 +348,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 string[] tSplit;
                 string[] rtSplit;
                 ChiTiet_NhiemVu_NhanVien cnn;
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     DateTime now = DateTime.Now;
                     if (removedTask != null)
@@ -439,7 +439,7 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             string mnv = Request.QueryString["MaNV"];
             ViewBag.MaNV = mnv;
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 NhanVien nhanVien = db.NhanViens.ToList().Where(p => p.MaNV.Equals(mnv)).FirstOrDefault();
                 string tenNhanVien = nhanVien.Ten;
@@ -464,7 +464,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
 
                 }
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     ChungChi_NhanVien c = (from n in db.ChungChi_NhanVien
                                            where ((n.MaNV == maNV) && (n.MaChungChi == machungchi))
@@ -487,7 +487,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult GetAllChungChiOfNV(string mnv = "")
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var temp = (from cc in db.ChungChis
                             join ccnv in db.ChungChi_NhanVien
@@ -523,7 +523,7 @@ namespace QUANGHANH2.Controllers.TCLD
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 List<NhanVien> listMaNV = (from px in db.Departments
                                            join
@@ -539,7 +539,7 @@ namespace QUANGHANH2.Controllers.TCLD
 
         public JsonResult getData(List<NhanVien> listMaNV, int totalrows)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 string arrMaNV = "";
                 foreach (NhanVien n in listMaNV)
@@ -618,7 +618,7 @@ namespace QUANGHANH2.Controllers.TCLD
             string sortDirection = Request["order[0][dir]"];
 
 
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 string department_id = Session["departID"].ToString();
                 var temp = (from px in db.Departments
@@ -752,7 +752,7 @@ namespace QUANGHANH2.Controllers.TCLD
 
         private TinhTrangChungChi CheckTinhTrangChungChi(string mnv, int mcc)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var temp = (from n in db.NhanViens
                             join ccnv in db.ChungChi_NhanVien
@@ -783,7 +783,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [Route("phong-tcld/bao-cao-tinh-trang-chung-chi-cho-cong-viec")]
         public ActionResult ReportJob(string maPhongBan = "", string tenPhongBan = "")
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var temp = (from a in db.Departments where a.department_type.Contains("chính") select new { maPhongBan = a.department_id, TenPhanXuong = a.department_name }).ToList();
                 IEnumerable<Department> arrPhanXuong = temp.Select(p => new Department { department_id = p.maPhongBan, department_name = p.TenPhanXuong });
@@ -793,7 +793,7 @@ namespace QUANGHANH2.Controllers.TCLD
 
             if (maPhongBan.Equals(""))
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var temp = (from ct in db.ChiTiet_NhiemVu_NhanVien
                                 join n in db.NhanViens
@@ -888,7 +888,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
             else
             {
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var temp = (from ct in db.ChiTiet_NhiemVu_NhanVien
                                 join n in db.NhanViens
@@ -990,7 +990,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult getGiaHanPopUpInfo(string maNV, int maCC)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var temp = (from ccnv in db.ChungChi_NhanVien
                             join
@@ -1023,7 +1023,7 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult getThemMoiPopUpInfo(string maNV, int maCC)
         {
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 var temp = (from n in db.NhanViens
                             where n.MaNV.Equals(maNV)
@@ -1053,7 +1053,7 @@ namespace QUANGHANH2.Controllers.TCLD
             dynamic ngayCap = DateTime.ParseExact(Convert.ToString(dataJson.ngaycap), "dd/MM/yyyy", CultureInfo.InvariantCulture)
                         .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
             dynamic sohieu = dataJson.sohieu + "";
-            using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 ChungChi_NhanVien ccnv = new ChungChi_NhanVien { MaNV = maNV, MaChungChi = maCC, NgayCap = Convert.ToDateTime(ngayCap), SoHieu = sohieu };
                 if (ccnv.SoHieu != null && !ccnv.SoHieu.Equals(""))
@@ -1081,7 +1081,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 dynamic ngayCap = DateTime.ParseExact(Convert.ToString(dataJson.ngaycap), "dd/MM/yyyy", CultureInfo.InvariantCulture)
                             .ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
                 dynamic sohieu = dataJson.sohieu + "";
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
 
                     ChungChi_NhanVien ccnv = new ChungChi_NhanVien { MaNV = maNV, MaChungChi = maCC, NgayCap = Convert.ToDateTime(ngayCap), SoHieu = sohieu };
@@ -1115,7 +1115,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 List<NhanVienChungChiNewModel> list = new List<NhanVienChungChiNewModel>();
                 List<MyModal> model = new List<MyModal>(); ;
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     var temp = (from a in db.Departments where a.department_type.Contains("chính") select new { MaPhanXuong = a.department_id, TenPhanXuong = a.department_name }).ToList();
 
@@ -1296,7 +1296,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 excelWorksheet.Cells.AutoFitColumns();
                 string location = HostingEnvironment.MapPath("/excel/TCLD/download");
                 excelPackage.SaveAs(new FileInfo(location + "/Report_Job.xlsx"));
-                //using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                //using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 //{
                 //    List<NhanVien_Extend> arrNhanVien = null;
                 //    if (pb.Equals(""))
@@ -1472,7 +1472,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 ExcelWorkbook excelWorkbook = excelPackage.Workbook;
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
 
-                using (QUANGHANHABCEntities db = new QUANGHANHABCEntities())
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     string department_id = Session["departID"].ToString();
                     List<NhanVien_Extend> arrNhanVien = null;
