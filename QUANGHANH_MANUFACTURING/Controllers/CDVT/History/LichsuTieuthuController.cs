@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Web.Mvc;
+using QUANGHANH_MANUFACTURING.Models;
 using QUANGHANH_MANUFACTURING.SupportClass;
 
 namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
@@ -26,7 +28,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
         }
     }
 
-    public class FuelDB : Fuel_activities_consumption
+    public class FuelDB : FuelActivitiesConsumption
     {
         public String IDitem { get; set; }
         public string stringDate { get; set; }

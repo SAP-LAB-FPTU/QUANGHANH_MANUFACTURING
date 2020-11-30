@@ -177,7 +177,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
                     //if equipmentId and supplyId doesn't change after editing.
                     if (oldEquipmentId == newEquipmentId && oldSupplyid == newSupplyid)
                     {
-                        Supply_SCTX duphong = db.Supply_SCTX.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
+                        RepairRegularly1 duphong = db.RepairRegularly1.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
                         if (duphong != null)
                         {
                             duphong.quantity += oldQuantity;
@@ -187,20 +187,20 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
                     } else
                     {
                         //update quantity of old and new supplies remaining by each eqID.
-                        Supply_SCTX oldRecord = db.Supply_SCTX.Where(x => (x.supply_id == oldSupplyid && x.equipmentId == oldEquipmentId)).FirstOrDefault();
-                        Supply_SCTX newRecord = db.Supply_SCTX.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
+                        RepairRegularly1 oldRecord = db.RepairRegularly1.Where(x => (x.supply_id == oldSupplyid && x.equipmentId == oldEquipmentId)).FirstOrDefault();
+                        RepairRegularly1 newRecord = db.RepairRegularly1.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
                         oldRecord.quantity += oldQuantity;
 
                         // if new doesn't exist => create new with quantity = -newQuantity
                         if (newRecord == null)
                         {
-                            Supply_SCTX sp = new Supply_SCTX()
+                            RepairRegularly1 sp = new RepairRegularly1()
                             {
                                 supply_id = newSupplyid,
                                 equipmentId = newEquipmentId,
                                 quantity = -newQuantity
                             };
-                            db.Supply_SCTX.Add(sp);
+                            db.RepairRegularly1.Add(sp);
                         } else
                         {
                             newRecord.quantity -= newQuantity;
@@ -224,7 +224,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
             {
                 try
                 {
-                    Supply_SCTX duphong = db.Supply_SCTX.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
+                    RepairRegularly1 duphong = db.RepairRegularly1.Where(x => (x.supply_id == newSupplyid && x.equipmentId == newEquipmentId)).FirstOrDefault();
                     //if existed
                     if (duphong != null)
                     {
@@ -234,13 +234,13 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
                     //if doesn't exist before
                     else
                     {
-                        Supply_SCTX sp = new Supply_SCTX()
+                        RepairRegularly1 sp = new RepairRegularly1()
                         {
                             supply_id = newSupplyid,
                             equipmentId = newEquipmentId,
                             quantity = -newQuantity
                         };
-                        db.Supply_SCTX.Add(sp);
+                        db.RepairRegularly1.Add(sp);
                     }
                     db.SaveChanges();
                     transaction.Commit();
@@ -533,7 +533,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
                     //Last update : 11/2/2020 
                     //check Supply existed in Backup Supplies.
 
-                    var remaining = db.Supply_SCTX.Where(x => (x.supply_id == fuel_type && x.equipmentId == equipment_id)).SingleOrDefault();
+                    var remaining = db.RepairRegularly1.Where(x => (x.supply_id == fuel_type && x.equipmentId == equipment_id)).SingleOrDefault();
                     string item;
                     //add new if it doesn't exist before.
                     if (remaining == null)
@@ -579,8 +579,8 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
                     Supply s = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id=@fueltype",new SqlParameter("fueltype",fuel_type)).First();
                     
                     DateTime date = DateTime.ParseExact(date1, "dd/MM/yyyy", null);
-                   
-                    Fuel_activities_consumption f = DBContext.Database.SqlQuery<Fuel_activities_consumption>("select * from Fuel_activities_consumption " +
+
+                    FuelActivitiesConsumption f = DBContext.Database.SqlQuery<FuelActivitiesConsumption>("select * from Fuel_activities_consumption " +
                         "where fuel_type=@fueltype and equipmentId=@equipmentid and date=@date", new SqlParameter("fueltype", fuel_type),new SqlParameter("equipmentid",equipmentId),new SqlParameter("date",date)).FirstOrDefault();
                     
                     //Handling old equipment and supplies
@@ -591,7 +591,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
                     }
                     else
                     {
-                        Fuel_activities_consumption fuel_Activities_Consumption = new Fuel_activities_consumption()
+                        FuelActivitiesConsumption fuel_Activities_Consumption = new FuelActivitiesConsumption()
                         {
                             department_id = department_id,
                             consumption_value = consumption_value,
@@ -599,7 +599,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
                             fuel_type = fuel_type,
                             date = DateTime.ParseExact(date1, "dd/MM/yyyy", null)
                         };
-                        DBContext.Fuel_activities_consumption.Add(fuel_Activities_Consumption);
+                        DBContext.FuelActivitiesConsumptions.Add(fuel_Activities_Consumption);
                     }
 
                     AddSupply_duphong(equipmentId, fuel_type, consumption_value);
@@ -630,7 +630,7 @@ namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.History
 
     }
 
-    public class fuelDB : Fuel_activities_consumption
+    public class fuelDB : FuelActivitiesConsumption
     {
         public String IDitem { get; set; }
         public string stringDate { get; set; }

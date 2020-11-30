@@ -1,6 +1,6 @@
 ﻿namespace QUANGHANH_MANUFACTURING.Models
 {
-    public class Equipment_InsuranceDB : Equipment_Insurance
+    public class Equipment_InsuranceDB : Insurance
     {
         public string equipment_name { get; set; }
         public string statusname { get; set; }
