@@ -1,0 +1,359 @@
+﻿
+@using QUANGHANH2.Models
+@using QUANGHANH2.Controllers
+@{
+    ViewData["Title"] = "ViewJobByPX";
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
+
+    var arrPhanXuong = ViewBag.PhanXuongs;
+    var arrReportModels = ViewBag.arrReportModels;
+}
+<div class="row">
+    <div class="card">
+        <div class="card-content">
+            <h3 class="center">
+                <b>BÁO CÁO CHỨNG CHỈ CÔNG VIỆC</b>c
+            </h3>
+            <h4 class="center">
+                @if (ViewBag.tenPhongBan != null)
+                {
+                    <b>@ViewBag.tenPhongBan</b>
+                }
+            </h4>
+            <br />
+
+            <div class="row">
+
+            </div>
+            <div class="row">
+
+                <div class="col-lg-4 center" style="margin-bottom:15px">
+                    <a class="btn blue darken-2 btn-lg dropdown-trigger" style="width:250px" data-target="phanxuong"><span id="tenPhanXuong">Chọn Phân Xưởng</span></a>
+                </div>
+            </div>
+            <div class="table_container">
+                <table class="table-bordered table-responsive" id="mytable">
+                    <thead>
+                        <tr>
+                            <th>Loại</th>
+                            <th>Tên nhiệm vụ</th>
+                            <th>Tên Nhân Viên</th>
+                            <th>Tình trạng chứng chỉ</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (var mymodel in arrReportModels)
+                            {
+                                var i = 0;
+                                foreach (var task in mymodel.arrTask)
+                                {
+                                    var j = 0;
+                                    foreach (var nv in task.arrNhanVien)
+                                    {
+                                        <tr>
+                                            @if (i == 0)
+                                            {
+                                                <th rowspan="@mymodel.Rowspan">@mymodel.Loai</th>
+                                                i++;
+                                            }
+                                            @if (j == 0)
+                                            {
+                                                <th rowspan="@task.Rowspan">@task.TenNhiemVu</th>
+                                                j++;
+                                            }
+                                            <td>@nv.TenNV</td>
+                                            <td>
+                                                @if (nv.isConHan == "Còn hạn")
+                                                {
+                                                    <a style="width:250px" class="btn green darken-2" data-target="">@nv.isConHan (@nv.SoNgay ngày)</a>
+                                                }
+                                                @if (nv.isConHan == "Hết hạn")
+                                                {
+                                                    <a class="btn orange darken-2 modal-trigger" data-target="giahan" onclick="popupGiaHan('@nv.MaNV' , '@nv.MaChungChi')" style="width:250px">@nv.isConHan (@nv.SoNgay ngày)</a>
+                                                }
+                                                @if (nv.isConHan == "Chưa có")
+                                                {
+                                                    <a class="btn grey darken-2 modal-trigger" style="width:250px" data-target="chuaco" onclick="popupThemMoi('@nv.MaNV' , '@nv.MaChungChi','@nv.TenNV','@nv.TenChungChi')">@nv.isConHan</a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <hr />
+        </div>
+    </div>
+</div>
+<ul id='phanxuong' class='dropdown-content'>
+    @{
+        foreach (var phanXuong in arrPhanXuong)
+        {
+            <li><a class="dropdown-child-px" href="@Url.Action("ReportJob","Task",new { maPhongBan = @phanXuong.department_id , tenPhongBan = @phanXuong.department_name})">@phanXuong.department_name</a></li>
+        }
+    }
+</ul>
+
+<div class="modal open" id="giahan">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Gia hạn chứng chỉ</h3>
+        </div>
+        <div class="modal-body row">
+            <div class="col m6 l6 s12">
+                <strong>Số hiệu</strong>
+                <input disabled id="gh-in-sohieu" class="form-control" />
+                <input hidden id="gh-in-mnv" />
+                <input hidden id="gh-in-mcc" />
+            </div>
+
+            <div class="col m6 l6 s12">
+                <strong>Tên nhân viên</strong>
+                <input disabled id="gh-in-tennhanvien" class="form-control" />
+            </div>
+
+            <div class="col m6 l6 s12">
+                <strong>Tên chứng chỉ</strong>
+                <input disabled id="gh-in-tenchungchi" class="form-control" />
+            </div>
+
+            <div class="col m6 l6 s12">
+                <strong>Ngày cấp</strong><strong hidden id="gh-nc-warning" class="orange-text text-justify">     không được để trống</strong>
+                <strong hidden id="gh-nc-warning2" class="orange-text text-justify">     ngày không hợp lệ</strong>
+                <input id="gh-in-ngaycap"  class="form-control datepicker-here center" data-language="vi" />
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2" onclick="xacNhanGiaHan()">Gia hạn</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+
+<div class="modal open" id="chuaco">
+    <div class="modal-content">
+        <div class="modal-header">
+           <h3 class="modal-title"><b>Đăng ký chứng chỉ</b></h3>
+        </div>
+        <div class="modal-body row">
+            <div class="modal-body row">
+                <div class="col m6 l6 s12">
+                    <strong>Số hiệu</strong><span hidden id="tm-sh-warning" class="orange-text text-justify">     không được để trống</span>
+                    <input id="tm-in-sohieu" class="form-control" />
+                    <input hidden id="tm-in-mnv" />
+                    <input hidden id="tm-in-mcc" />
+                </div>
+
+                <div class="col m6 l6 s12">
+                    <strong>Tên nhân viên</strong>
+                    <input disabled id="tm-in-tennhanvien" class="form-control" />
+                </div>
+
+                <div class="col m6 l6 s12">
+                    <strong>Tên chứng chỉ</strong>
+                    <input disabled id="tm-in-tenchungchi"  class="form-control" />
+                </div>
+
+                <div class="col m6 l6 s12">
+                    <strong>Ngày cấp</strong><strong hidden id="tm-nc-warning" class="orange-text text-justify">     không được để trống</strong>
+                    <strong hidden id="tm-nc-warning2" class="orange-text text-justify">     ngày không hợp lệ</strong>
+                    <input id="tm-in-ngaycap" class="form-control datepicker-here center" data-language="vi" />
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <a class="btn blue darken-2" onclick="xacNhanThemMoi()">Thêm mới</a>
+            <a class="btn red modal-close">Hủy</a>
+        </div>
+    </div>
+</div>
+<script src="~/js/notify.js"></script>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-trigger').dropdown();
+            //validate for input field
+            $("#tm-in-sohieu").blur(() => { if ($("#tm-in-sohieu").val() == null || $("#tm-in-sohieu").val() == "") { $("#tm-sh-warning").show()  } })
+            $("#tm-in-sohieu").focus(() => { $("#tm-sh-warning").hide() })
+            //validate for input field
+            $("#gh-in-ngaycap").blur(() => { if ($("#gh-in-ngaycap").val() == null || $("#gh-in-ngaycap").val() == "") { $("#gh-nc-warning").show() } })
+            $("#gh-in-ngaycap").focus(() => { $("#gh-nc-warning").hide(); $("#gh-nc-warning2").hide() })
+            //validate for input field
+            $("#tm-in-ngaycap").blur(() => { if ($("#tm-in-ngaycap").val() == null || $("#tm-in-ngaycap").val() == "") { $("#tm-nc-warning").show()  } })
+            $("#tm-in-ngaycap").focus(() => { $("#tm-nc-warning").hide(); $("#tm-nc-warning2").hide()  })
+
+            // set default date cho datetime picker
+           
+        });
+
+
+        function setDefaultDate() {
+            var date = new Date();
+            $(".datepicker-here").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
+            $(".datepicker-here").datepicker({
+                toggleSelected: false
+            })
+        }
+        // popup len form gia han khi nhan vao nhan vien cos chung chi het han
+        var popupGiaHan = (mnv, mcc) => {
+            $("#pre-load").show();
+            $.ajax({
+                url: '@Url.Action("getGiaHanPopUpInfo", "Task")',
+                type: "POST",
+                data: { maNV: mnv, maCC: mcc },
+                dataType: "json",
+                success: (response) => {
+                    data = response.data[0]
+                    console.log(data)
+                    $("#gh-in-sohieu").val(data.SoHieu)
+                    $("#gh-in-tennhanvien").val(data.TenNV)
+                    $("#gh-in-tenchungchi").val(data.TenChungChi)
+                    $("#gh-in-mnv").val(data.MaNV)
+                    $("#gh-in-mcc").val(data.MaChungChi)
+                    setDefaultDate()
+                    $("#pre-load").hide();
+                },
+                error: () => {
+                     $("#pre-load").hide();
+                     errorAlert('Thất bại', 'Gặp vấn đề về mạng');
+                }
+            })
+        };
+
+        // popup len form them moi khi nhan vao them moi cho nhan vien chua co chung chi
+    var popupThemMoi = (mnv, mcc, tnv, tcc) => {
+
+        $("#tm-in-tennhanvien").val(tnv)
+        $("#tm-in-tenchungchi").val(tcc)
+        $("#tm-in-mnv").val(mnv)
+        $("#tm-in-mcc").val(mcc)
+        setDefaultDate()
+    };
+        var xacNhanThemMoi = () => {
+
+            if ($("#tm-in-sohieu").val() == "" || $("#tm-in-sohieu").val() == null) {
+                $("#tm-sh-warning").show()
+                return false;
+            }
+            if ($("#tm-in-ngaycap").val() == null || $("#tm-in-ngaycap").val() == "") {
+                $("#tm-nc-warning").show()
+                return false;
+            }
+            if (!isDate($("#tm-in-ngaycap").val())) {
+                $("#tm-nc-warning2").show()
+                return false;
+            }
+            $("#pre-load").show()
+            var obj = {
+            sohieu: $("#tm-in-sohieu").val(),
+            mnv: $("#tm-in-mnv").val(),
+            mcc: $("#tm-in-mcc").val(),
+            ngaycap: $("#tm-in-ngaycap").val(),
+            }
+
+        var objJson = JSON.stringify(obj)
+
+        $.ajax({
+            url: '@Url.Action("XacNhanThemMoi","Task")',
+            type: "POST",
+            data: { data: objJson },
+            dataType: "json",
+            success: (response) => {
+                if (response.success == true) {
+                    $("#pre-load").hide()
+                    reloadAlert('Thêm mới chứng chỉ thành công', 1000);
+                } else {
+                    $("#pre-load").hide()
+                    errorAlert('Thất bại', 'Số hiệu đã tồn tại,thêm mới chứng chỉ thất bại');
+                }
+            },
+            error: (response) => {
+                $("#pre-load").hide()
+                errorAlert('Thất bại', 'Gặp vấn đề về mạng');
+            }
+        })
+    };
+
+        // khi nhan nut gia han trong form popup
+        var xacNhanGiaHan = () => {
+            
+            if ($("#gh-in-ngaycap").val() == null || $("#gh-in-ngaycap").val() == "") {
+                $("#gh-nc-warning").show()
+                return false;
+            }
+            if (!isDate($("#gh-in-ngaycap").val())) {
+                $("#gh-nc-warning2").show()
+                return false;
+            }
+            $("#pre-load").show()
+            var obj = {
+                sohieu: $("#gh-in-sohieu").val(),
+                mnv: $("#gh-in-mnv").val(),
+                mcc: $("#gh-in-mcc").val(),
+                ngaycap: $("#gh-in-ngaycap").val(),
+            }
+            
+            var objJson = JSON.stringify(obj)
+
+            $.ajax({
+                url: '@Url.Action("XacNhanGiaHan","Task")',
+                type: "POST",
+                data: { data: objJson },
+                dataType: "json",
+                success: (response) => {
+                    if (response.success == true) {
+                        $("#pre-load").hide()
+                        reloadAlert('Gia hạn chứng chỉ thành công', 1000);
+                    } else {
+                        $("#pre-load").hide()
+                        errorAlert('Thất bại', 'Gia hạn chứng chỉ thất bại');
+                    }
+                },
+                error: (response) => {
+                    $("#pre-load").hide()
+                    errorAlert('Thất bại', 'Gặp vấn đề về mạng');
+                }
+
+            })
+
+        };
+
+        // kiem tra ngay theo dung format dd/mm/yyyy
+        function isDate(txtDate) {
+            var currVal = txtDate;
+            if (currVal == '')
+                return false;
+
+            var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/; //Declare Regex
+            var dtArray = currVal.match(rxDatePattern); // is format OK?
+
+            if (dtArray == null)
+                return false;
+
+            dtDay = dtArray[1];
+            dtMonth = dtArray[3];
+            dtYear = dtArray[5];
+
+            if (dtMonth < 1 || dtMonth > 12)
+                return false;
+            else if (dtDay < 1 || dtDay > 31)
+                return false;
+            else if ((dtMonth == 4 || dtMonth == 6 || dtMonth == 9 || dtMonth == 11) && dtDay == 31)
+                return false;
+            else if (dtMonth == 2) {
+                var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
+                if (dtDay > 29 || (dtDay == 29 && !isleap))
+                    return false;
+            }
+            return true;
+        };
+
+    </script>
+}
+

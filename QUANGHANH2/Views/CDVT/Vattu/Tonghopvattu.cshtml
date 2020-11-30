@@ -1,0 +1,524 @@
+﻿
+@{
+    ViewData["Title"] = "Tonghopvattu";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+<link href="~/dist/css/style.css" rel="stylesheet">
+<!-- This page CSS -->
+<link href="~/dist/css/pages/data-table.css" rel="stylesheet">
+<link href="~/assets/Custom css/CDVT/TABLE_BORDERED.css" rel="stylesheet" />
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<link href="~/lib/datepicker_src/css/style.css" rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/datepicker.min.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/custom.css " rel="stylesheet " type="text/css ">
+<link href="~/lib/datepicker_src/dist/css/font.css" rel="stylesheet" type="text/css">
+
+<div class="card">
+    <div class="card-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="advanded-search">
+                    <div class="row">
+                        <h3 class="center"><b>TỔNG HỢP VẬT TƯ SỬA CHỮA THƯỜNG XUYÊN</b></h3>
+                        <hr>
+                        <div class="row center">
+                            <div class="col l3 m3 s10">
+                                <div class="row">
+                                    <div class="col l10 m10 s10 input-field">
+                                        <select class="form-control" id="departments_search"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="col l3 m3 s10">
+                                <div class="row">
+                                    <div class="col l10 m10 s10 input-field">
+                                        <input type="text" placeholder="Tìm kiếm theo mã vật tư" class='form-control' id="supplyId"
+                                               multiple />
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="col l3 m3 s10">
+                                <div class="col l10 m10 s10 input-field">
+                                    <input list="supply_namelist" type="text" placeholder="Tìm kiếm theo tên vật tư" class='form-control' id="supply_search"
+                                           multiple />
+                                </div>
+                            </div>
+                            <div class="col l3 m3 s10">
+                                <div class="col l10 m10 s10 offset-l1 input-field">
+                                    <h3>
+                                        <i class="fas fa-calendar-alt icon" style="margin-left: 50px !important"></i>
+                                        <input type="text"
+                                               id="txtmonth"
+                                               class="datepicker-here center"
+                                               data-language='vi'
+                                               data-min-view="months"
+                                               data-view="months"
+                                               data-date-format="MM yyyy" />
+                                    </h3>
+                                </div>
+
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row center">
+                            <div class="col l12 m12 s12 input-field">
+                                <button class="btn blue darken-2 btn-small" id="search">Tìm kiếm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
+                            <li class="col s6 tab"><a id="tab_chitiet" class="active" href="#chitiet">Bảng chi tiết</a></li>
+                            <li class="col s6 tab"><a id="tab_tonghop" href="#tonghop">Bảng tổng hợp</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="chitiet">
+                    <div class="row">
+                        <div class="col s12 table_container" id="table-wrapper2">
+                            <br />
+                            <a id="export_exceldetail" class="btn blue col s2"> Xuất ra Excel</a>
+                            <table id="tbl_detail" class="striped centered table-bordered mytable" width="100%">
+                                <thead>
+                                    <tr>
+                                       
+
+                                        <th class="center-align">Tên vật tư</th>
+                                        <th class="center-align">ĐVT</th>
+                                       <th class="center-align">Số lượng thực lĩnh</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="tonghop">
+                    <div class="row">
+                        <div class="col s12 table_container">
+                            <br />
+                            <a id="export_excel" class="btn blue col s2"> Xuất ra Excel</a>
+                            <div class="col s3 offset-s7 center-align">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Chi phí hiện tại /</th>
+                                            <th>Chi phí ước tínhs</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td id="total_curr_price" style="color:purple; font-size:20px; text-align: center;">0 VNĐ</td>
+                                            <td id="total_esti_price"><input type="number" min="0" /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <table id="tbl_summary" class="striped centered table-bordered mytable" width="100%">
+                                <thead>
+                                    <tr>
+                                      
+                                        <th>Mã vật tư</th>
+                                        <th>Tên vật tư</th>
+                                        <th>ĐVT</th>
+                                        <th>Tổng</th>
+                                        <th>Giá ước tính</th>
+                                        <th>Ghi chú</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<datalist id="supply_namelist">
+</datalist>
+	@using (Html.BeginForm("ChangeID", "Tonghopvattu", FormMethod.Post, new
+{
+    id = "ChangeNameForm",
+    enctype = "multipart/form-data",
+    onSubmit = "return ChangeID(this);",
+    data_restUrl = Url.Action("ChangeID", "Tonghopvattu", new { id = "" })
+}))
+{
+    <input type="hidden" id="id-s" name="id" value=" " />
+    <input type="hidden" id="ck" name="ck" value="0" />
+}
+
+<script src="~/js/Briefs_List.js"></script>
+<script src="~/js/Custom JS/CDVT/Synthetic/Synthetic_Supplies.js"></script>
+<script src="~/js/Custom JS/CDVT/Home/huydong.js"></script>
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+@section scripts{
+    <script>
+        //$("#monthpicker").datepicker({
+        //    format: "mm-yyyy",
+        //    viewMode: "months",
+        //    minViewMode: "months",
+        //    autoclose: true,
+        //});
+        //let today = new Date();
+        //$("#monthpicker").datepicker("setDate", new Date());
+        //$("#monthpicker").val(("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear());
+         $("#txtmonth").val("Tháng @DateTime.Now.Month @DateTime.Now.Year");
+        var tbl_detail, tbl_summary, currTab = 0, exportPayload = [], isFirstInit = true, exportSearch = [];
+        $(document).ready(function () {
+            
+         
+       
+            setDepartments();
+            tbl_detail = $('#tbl_detail').DataTable({
+                "ajax": {
+                    "url": "/phong-cdvt/tong-hop-vat-tu/details",
+                    "type": "GET",
+                    "datatype": "json",
+                    "cache": "false",
+                    "data": {
+                        "DepartmentId": function () { return $('#departments_search option:selected').val() },
+                        "SupplyId": function () { return $('#supplyId').val() },
+                        "SupplyName": function () { return $('#supply_search').val() },
+                        "MonthPicked": function () { return $('#txtmonth').val() }
+                    }
+                   
+                },
+                "columns": [
+                 
+
+                    { "data": "SupplyName", "name": "SupplyName" },
+                    { "data": "SupplyUnit", "name": "SupplyUnit" },
+
+                    { "data": "SupplyQuantity", "name": "SupplyQuantity" },
+                ],
+                "serverSide": true,
+                "processing": true,
+                "order": [0, "asc"],
+                "rowId": "SupplyId",
+                "lengthChange": false,
+                "searching": false,
+                "initComplete": function (settings, json) {
+                    $("#pre-load").hide();
+                },
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                    "paginate": {
+                        "first": "Trang đầu",
+                        "last": "Trang cuối",
+                        "next": "Trang sau",
+                        "previous": "Trang trước"
+                    }
+                },
+            });
+
+            tbl_summary = $('#tbl_summary').DataTable({
+                "ajax": {
+                    "url": "/phong-cdvt/tong-hop-vat-tu/summary",
+                    "type": "GET",
+                    "datatype": "json",
+                    "cache": "false",
+                    "data": {
+                        "DepartmentId": function () { return $('#departments_search option:selected').val() },
+                        "SupplyId": function () { return $('#supplyId').val() },
+                        "SupplyName": function () { return $('#supply_search').val() },
+                        "MonthPicked": function () { return $('#txtmonth').val() }
+                    },
+                    "dataSrc": function (json) {
+                       
+                            exportPayload = json.data;
+                          
+                        return json.data;
+                    }
+
+                },
+                "columns": [
+                   
+                    { "data": "SupplyId", "name": "SupplyId" },
+                    { "data": "SupplyName", "name": "SupplyName" },
+                    { "data": "SupplyUnit", "name": "SupplyUnit" },
+                    { "data": "SupplyQuantity", "name": "SupplyQuantity" },
+                    {
+                        "data": "SupplyId", "name": "EstimatePrice", "render": function (data) {
+                            let domId = 'estimate_' + data;
+                            return '<input type="number" min="0" value="0" class="form-control" id="' + domId + '" ' + 'oninput="' + `handleEstimatePriceChange('${domId}', '${data}')` + '" ' + '/>';
+                        }
+                    },
+                    {
+                        "data": "SupplyId", "name": "Note", "render": function (data) {
+                            let domId = 'note_' + data;
+                            return '<input type="text" value="" class="form-control" id="' + domId + '" ' + 'oninput="' + `handleNoteChange('${domId}', '${data}')` + '" ' + '/>';
+                        }
+                    },
+                ],
+                "serverSide": true,
+                "processing": true,
+                "order": [0, "asc"],
+                "rowId": "SupplyId",
+                "lengthChange": false,
+                "searching": false,
+                "initComplete": function (settings, json) {
+                    $("#pre-load").hide();
+                },
+                "language": {
+                    "emptyTable": "Không tìm thấy dữ liệu",
+                    "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                    "paginate": {
+                        "first": "Trang đầu",
+                        "last": "Trang cuối",
+                        "next": "Trang sau",
+                        "previous": "Trang trước"
+                    }
+                }
+            });
+
+            $('#tab_chitiet').on("click", function (e) {
+                currTab = 0;
+                document.getElementById("departments_search").style.display = "none";
+            });
+            $('#tab_tonghop').on("click", function (e) {
+                currTab = 1;
+                document.getElementById("departments_search").style.display = "none";
+            });
+            $('#search').click(search);
+            $("#export_excel").click(function () {
+                $("#pre-load").show();
+                var data = {
+                    DepartmentId: $('#departments_search option:selected').val() ,
+                    SupplyId: $('#supplyId').val(),
+                    SupplyName: $('#supply_search').val(),
+                        MonthPicked: $('#txtmonth').val()
+                  
+
+                };
+                $.ajax({
+                    dataType: "json",
+                    contentType: "application/json, charset=utf-8",
+                    type: 'POST',
+                    url: '/phong-cdvt/tong-hop-vat-tu/export',
+                    data: JSON.stringify(data),
+                    success: function (res) {
+                        if (res.success) {
+                            var response = JSON.parse(JSON.stringify(res.data));
+                            window.location = '/phong-cdvt/tong-hop-vat-tu/download?fileGuid=' + response.FileGuid
+                                + '&filename=' + response.FileName;
+                        } else {
+                            errorAlert('Lỗi', 'Không xuất ra được EXCEL');
+                        }
+                    }
+                });
+                $("#pre-load").hide();
+            })
+            $("#export_exceldetail").click(function () {
+                $("#pre-load").show();
+                var data = {
+                    DepartmentId: $('#departments_search option:selected').val(),
+                    SupplyId: $('#supplyId').val(),
+                    SupplyName: $('#supply_search').val(),
+                    MonthPicked: $('#txtmonth').val()
+
+
+                };
+                $.ajax({
+                    dataType: "json",
+                    contentType: "application/json, charset=utf-8",
+                    type: 'POST',
+                    url: '/phong-cdvt/tong-hop-vat-tu/exportdetail',
+                    data: JSON.stringify(data),
+                    success: function (res) {
+                        if (res.success) {
+                            var response = JSON.parse(JSON.stringify(res.data));
+                            window.location = '/phong-cdvt/tong-hop-vat-tu/downloaddetail?fileGuid=' + response.FileGuid
+                                + '&filename=' + response.FileName;
+                        } else {
+                            errorAlert('Lỗi', 'Không xuất ra được EXCEL');
+                        }
+                    }
+                });
+                $("#pre-load").hide();
+            })
+        });
+
+        function handleNoteChange(domId, id) {
+            let value = '';
+            if (document.getElementById(domId) != null && document.getElementById(domId).value != '') {
+                value = document.getElementById(domId).value;
+            }
+            for (let i = 0; i < exportPayload.length; i++) {
+                if (exportPayload[i].SupplyId == id) {
+                    exportPayload[i].Note = value;
+                }
+            }
+        }
+
+        function handleEstimatePriceChange(domId, id) {
+            let value = 0;
+            if (document.getElementById(domId) != null && document.getElementById(domId).value != '') {
+                value = parse2PosNum(document.getElementById(domId).value);
+            }
+            for (let i = 0; i < exportPayload.length; i++) {
+                if (exportPayload[i].SupplyId == id) {
+                    exportPayload[i].EstimatePrice = value;
+                    updateCurrPrice(value);
+                    calCurrPrice();
+                }
+            }
+        }
+
+
+        function parse2PosNum(value) {
+            var value = parseFloat(value);
+            if (value < 0) {
+                return 0;
+            }
+            return value;
+        }
+
+        function search() {
+            $("#pre-load").show();
+            if (currTab == 0) {
+                tbl_detail.ajax.reload(function () {
+                    
+                });
+            } else {
+                tbl_summary.ajax.reload(function () {
+                  
+                    for (let i = 0; i < exportPayload.length; i++) {
+                        if (document.getElementById('estimate_' + exportPayload[i].SupplyId)) {
+                            $('#estimate_' + exportPayload[i].SupplyId).val(exportPayload[i].EstimatePrice);
+                            console.log($('#estimate_' + exportPayload[i].SupplyId));
+                        }
+                        if (document.getElementById('note_' + exportPayload[i].SupplyId)) {
+                            $('#note_' + exportPayload[i].SupplyId).val(exportPayload[i].Note);
+                        }
+
+                    }
+
+                });
+
+            }
+            $("#pre-load").hide();
+        }
+
+        function getSearchPayload() {
+            let payload = {
+                'DepartmentId': $('#departments_search option:selected').val(),
+                'SupplyId': $('#supplyId').val(),
+                'SupplyName': $('#supplyName').val(),
+                'MonthPicked': $('#monthpicker').val()
+            }
+            return payload;
+        }
+
+        function setDepartments() {
+            let departments = [];
+            $("#pre-load").show();
+            $.ajax({
+                async: false,
+                dataType: "json",
+                contentType: "application/json, charset=utf-8",
+                type: 'GET',
+                url: '/phong-cdvt/tong-hop-vat-tu/departments',
+                success: function (res) {
+                    departments = res.data;
+                }
+            });
+            for (let i = 0; i < departments.length; i++) {
+                $("#departments_search").append(new Option(departments[i].DepartmentName, departments[i].DepartmentId));
+            }
+
+            $("#pre-load").hide();
+        }
+        function calCurrPrice() {
+            let value = 0;
+            for (let i = 0; i < exportPayload.length; i++) {
+                if (document.getElementById("estimate_" + exportPayload[i].SupplyId)) {
+                    let currPrice = parse2PosNum(document.getElementById("estimate_" + exportPayload[i].SupplyId).value);
+                    value += exportPayload[i].SupplyQuantity * currPrice;
+                }
+
+            }
+            updateCurrPrice(value);
+        }
+        function updateCurrPrice(value) {
+            $('#total_curr_price').text(value + " VNĐ");
+        }
+
+        function updateEstimateInputPrice(domId, value) {
+            $('#estimate_' + domId).value = value;
+        }
+
+        function updateNoteInput(domId, value) {
+            $('#note_' + domId).value = value;
+        }
+//search name
+  var ck = true;
+  var waittime = 0;
+$(document).ready(function () {
+        setInterval(function () {
+            waittime++;
+            if (waittime > 2 && ck == true) {
+                $("#ChangeNameForm").submit();
+                waittime = 0;
+                ck = false;
+            }
+            if (waittime > 10) {
+                ck = true;
+            }
+        }, 1000); 
+    	});
+        $("#supply_search").keyup(function (e) {
+        if (e.which == 13) {
+            $("#search").click();
+          $("#person_created-search").blur();
+        } else {
+            var text = $("#supply_search").val();
+            $("#id-s").val(text);
+            $("#ck").val("0");
+            if (waittime > 1) {
+                $("#ChangeNameForm").submit();
+                waittime = 0;
+            } else {
+                waittime = 0;
+            }
+
+
+        }
+ });
+
+	function ChangeID(form) {
+
+        $.validator.unobtrusive.parse(form);
+        if ($(form).valid()) {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: $(form).serialize(),
+                success: function (data) {
+                    $("#supply_namelist").empty();
+                    var option = "";
+                    for (var i = 0; i < data.id.length; i++) {
+                        var s = data.id[i].supply_name;
+                        var a = "<option value='" + s + "'>" + s + "</option>";
+                        option += a;
+                    }
+                    $("#supply_namelist").append(option);
+                },
+                error: function () {
+                    alert(response.data.message);
+
+                }
+            });
+        }
+
+        return false;
+ }
+
+
+    </script>
+}

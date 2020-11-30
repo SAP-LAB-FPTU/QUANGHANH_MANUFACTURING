@@ -1,0 +1,599 @@
+﻿@model QUANGHANH2.Models.Equipment
+
+@{
+    ViewBag.Title = "Add";
+    Layout = null;
+}
+
+
+
+
+@using (Html.BeginForm("Add", "Hoatdong", FormMethod.Post, new
+{
+    enctype = "multipart/form-data",
+    onSubmit = "return SubmitForm(this);",
+    data_restUrl = Url.Action("Add", "Hoatdong", new { id = "" })
+}))
+{
+    <div class="modal-body">
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="row">
+                <div class="col s6">
+                    <div class="form-group">
+                        <label class="notempty" id="eid">Mã thiết bị *</label>
+                        @*@Html.LabelFor(model => model.equipmentId, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.equipmentId, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.equipmentId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="notempty" id="ename">Tên thiết bị *</label>
+                        @*@Html.LabelFor(model => model.equipment_name, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.equipment_name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.equipment_name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nước sản xuất</label>
+                        @*@Html.LabelFor(model => model.supplier, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.supplier, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.supplier, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ngày nhập</label>
+                        @*@Html.LabelFor(model => model.date_import, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            <input name="import" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
+                            @Html.EditorFor(model => model.date_import, new { htmlAttributes = new { @style = "display: none !important" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Khấu hao ước tính (tháng)</label>
+                        @*@Html.LabelFor(model => model.depreciation_estimate, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.depreciation_estimate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.depreciation_estimate, "Khấu hao ước tính phải là số", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Khấu hao thực tại (tháng)</label>
+                        @*@Html.LabelFor(model => model.depreciation_present, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.depreciation_present, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.depreciation_present, "Khấu hao thực tại phải là số", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ngày hết hạn đăng kiểm</label>
+                        @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            <input name="duraInspec" type="text" class="form-control datepicker-here" autocomplete="off" />
+                            @Html.EditorFor(model => model.durationOfInspection, new { htmlAttributes = new { @style = "display: none !important" } })
+                            @Html.ValidationMessageFor(model => model.durationOfInspection, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Loại thiết bị</label>
+                            <div class="col-md-10">
+                                <select id="changetype" class="form-control" name="attype">
+                                    <option value="0">Thiết bị thường</option>
+                                    <option value="1">Thiết bị đính kèm</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="plus2">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Ngày mua đăng kiểm</label>
+                            <div class="col-md-10">
+                                <input name="BuyInspec" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
+                                @Html.EditorFor(model => model.inspect_date, new { htmlAttributes = new { @style = "display: none !important" } })
+                                @Html.ValidationMessageFor(model => model.inspect_date, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">GPS</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="gps">
+                                    <option value="1">Có</option>
+                                    <option value="2">Không</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Nhiên liệu</label>
+                            <div class="col-md-10">
+                                <select class="form-control" name="NL">
+                                    <option value="1">Có</option>
+                                    <option value="2">Không</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                <div class="col s6">
+                    <div class="form-group">
+                        <label>Ngày đưa vào sử dụng</label>
+                        @*@Html.LabelFor(model => model.usedDay, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            <input name="used" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
+                            @Html.EditorFor(model => model.usedDay, new { htmlAttributes = new { @style = "display: none !important" } })
+                            @Html.ValidationMessageFor(model => model.usedDay, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tình trạng hiện tại</label>
+                        @*@Html.LabelFor(model => model.current_Status, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            @Html.DropDownList("current_Status", new SelectList(ViewBag.listStatus, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
+                            @*@Html.EditorFor(model => model.current_Status, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.ValidationMessageFor(model => model.current_Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label id="sct">Số chế tạo</label>
+                        @*@Html.LabelFor(model => model.fabrication_number, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.fabrication_number, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.fabrication_number, "Số chế tạo phải là số và không được để trống", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label id="sh">Số hiệu</label>
+                        @*@Html.LabelFor(model => model.mark_code, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.mark_code, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.mark_code, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Loại chất lượng</label>
+                        @*@Html.LabelFor(model => model.quality_type, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                        <div class="col-md-10">
+                            @Html.DropDownList("quality_type", new SelectList(ViewBag.listQuality, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
+
+                            @Html.ValidationMessageFor(model => model.quality_type, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                        <label>Đường nhập</label>
+                        <div class="col-md-10">
+                            @Html.DropDownList("input_channel", new SelectList(ViewBag.listDN, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.input_channel, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Tên nhóm thiết bị</label>
+                        <div class="col-md-10">
+                            @Html.DropDownList("Equipment_category_id", new SelectList(ViewBag.listCategory, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Equipment_category_id, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div id="plus">
+                        <div class="form-group">
+                            <label>Ngày hết hạn bảo hiểm</label>
+                            @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            <div class="col-md-10">
+                                <input name="Insua" type="text" class="form-control datepicker-here" autocomplete="off" />
+                                @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @style = "display: none !important" } })
+                                @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Ngày mua bảo hiểm</label>
+                            <div class="col-md-10">
+                                <input name="BuyInsua" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
+                                @Html.EditorFor(model => model.insurance_date, new { htmlAttributes = new { @style = "display: none !important" } })
+                                @Html.ValidationMessageFor(model => model.insurance_date, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label id="sk_ck" class="control-label col-md-2 notempty_cogioi">Số khung *</label>
+                            <div class="col-md-10">
+                                <input type="text" name="sk" id="sokhung_add" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label id="sm_ck" class="control-label col-md-2 notempty_cogioi">Số máy *</label>
+                            <div class="col-md-10">
+                                <input type="text" name="sm" id="somay_add" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Năm sản xuất</label>
+                            <div class="col-md-10">
+                                <input type="number" name="yearSX" id="yearCalendar" class="form-control datepicker-here datepicker-add center"
+                                       data-language='vi'
+                                       data-min-view="years"
+                                       data-view="years"
+                                       data-date-format="yyyy"
+                                       value="2019" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12" id="myadd2" style="margin-top:15px">
+            <div class="modal-header center-align">
+                <h3>Thêm thuộc tính thiết bị</h3>
+            </div>
+            <div class="modal-body">
+                <table id="myTable" class="table-bordered center-align" style="margin-left:5px;margin-right:5px">
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã đặc tính</th>
+                        <th>Tên đặc tính</th>
+                        <th>Thông số</th>
+                        <th>ĐVT</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td><input type='text' name="id" class='form-control add_new' placeholder='Mã đặc tính' /></td>
+                        <td><input type='text' name="name" class='form-control add_new' placeholder='Tên đặc tính' /></td>
+                        <td><input type='text' name="value" class='form-control add_new' placeholder='Thông số' /></td>
+                        <td><input type='text' name="unit" class='form-control add_new' placeholder='ĐVT' /></td>
+                        <td><button type="button" class="btnSelect btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="myFunction()" class="btn blue btn-small left"><i class="large material-icons">add</i></button>
+
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="center-align">
+                <h3>Đặc tính nhóm thiết bị </h3>
+
+            </div>
+            <table id="cateTB" class="table-bordered striped">
+                <thead>
+                    <tr>
+                        <th>Tên đặc tính</th>
+                        <th>Thông số</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ 
+                        foreach(var item in ViewBag.listcateatrri)
+                        {
+                            <tr>
+                                <td>@item.Equipment_category_attribute_name</td>
+                                <td><input type='number' name='attri' class='form-control' /></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-12" id="myadd20" style="margin-top:15px">
+            <div class="modal-header center-align">
+                <h3>Thêm thiết bị đi kèm</h3>
+            </div>
+            <div class="modal-body">
+                <table id="myTableSup" class="table-bordered">
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên vật ưu</th>
+                        <th>Số lượng</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td><input list="supDK" type='text' name="nameSup" class='form-control add_new' placeholder='Tên vật ưu' /></td>
+                        <td><input type="number" name="quantity" class="form-control add_new" placeholder="Số lượng" /></td>
+                        <td><button type="button" class="btnSelect3 btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="myFunction3()" class="btn blue btn-small left"><i class="large material-icons">add</i></button>
+
+            </div>
+        </div>
+
+        <div class="col-12" id="myaddVTDK" style="margin-top:15px">
+            <div class="modal-header center-align">
+                <h3>Thêm vật tư đi kèm</h3>
+            </div>
+            <div class="modal-body">
+                <table id="myTableSupVTDK" class="table-bordered">
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên vật ưu</th>
+                        <th>Số lượng</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td><input list="Suplist2" type='text' name="nameVTDK" class='form-control add_new' placeholder='Tên vật ưu' /></td>
+                        <td><input type="number" name="quantityVTDK" class="form-control add_new" placeholder="Số lượng" /></td>
+                        <td><button type="button" class="btnSelect4 btn blue btn-small left"><i class="large material-icons">remove</i></button></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="myFunction4()" class="btn blue btn-small left"><i class="large material-icons">add</i></button>
+
+            </div>
+        </div>
+
+
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" id="save" class="btn blue btn-default modal-close" style="color:white">Thêm</button>
+            </div>
+        </div>
+    </div>
+}
+<datalist id="supDK">
+    @{ 
+        foreach(var item in ViewBag.listsupdk)
+        {
+        <option value="@item.equipmentId">@item.equipment_name</option>
+        }
+    }
+</datalist>
+@using (Html.BeginForm("Atri", "Hoatdong", FormMethod.Post, new
+{
+    id = "myForm",
+    enctype = "multipart/form-data",
+    onSubmit = "return Atri(this);",
+    data_restUrl = Url.Action("Atri", "Hoatdong", new { id = "" })
+}))
+{
+    <input type="hidden" id="atri" name="name" />
+}
+<script src="~/js/Custom JS/CDVT/Home/huydong.js"></script>
+<script>
+    $("#changetype").change(function () {
+        var value = $("#changetype").val();
+        if (value == 0) $("#myadd20").show();
+        else $("#myadd20").hide();
+    });
+    $('#Equipment_category_id').change(function () {
+        $('#atri').val($('#Equipment_category_id').val());
+        $('#myForm').submit();
+    });
+    $(document).ready(function () {
+        $('input[required]').each(function myfunction() {
+            $(this).attr("oninvalid", "setCustomValidity('Không được bỏ trống ô này')");
+            $(this).attr("oninput", "this.setCustomValidity('')");
+        })
+    })
+    function Atri(form) {
+
+        $.validator.unobtrusive.parse(form);
+
+        if ($(form).valid()) {
+            $.ajax({
+                type: "POST",
+                url: form.action,
+                data: $(form).serialize(),
+                success: function (data) {
+                    var options = '';
+                    options = JSON.stringify(data.data);
+                    options = options.substring(1, options.length - 1);
+                    $('#cateTB tbody').empty();
+                    $('#cateTB').append(options);
+
+                }
+            });
+        }
+        return false;
+
+    }
+
+    $("#equipmentId").change(function () {
+        if ($("#equipmentId").val() == "") {
+            $("#eid").css('color', 'red');
+        } else {
+            $("#eid").css('color', 'black');
+        }
+    });
+
+    $("#equipment_name").change(function () {
+        if ($("#equipment_name").val() == "") {
+            $("#ename").css('color', 'red');
+        } else {
+            $("#ename").css('color', 'black');
+        }
+    });
+
+    $("#sokhung_add").change(function () {
+        if ($("#sokhung_add").val() == "") {
+            $("#sk_ck").css('color', 'red');
+        } else {
+            $("#sk_ck").css('color', 'black');
+        }
+    });
+
+    $("#somay_add").change(function () {
+        if ($("#somay_add").val() == "") {
+            $("#sm_ck").css('color', 'red');
+        } else {
+            $("#sm_ck").css('color', 'black');
+        }
+    });
+
+    $(document).ready(function () {
+
+        if ($("#equipmentId").val() == "" || $("#equipment_name").val() == "" ) {
+            $(".notempty").css('color', 'red');
+        }
+
+        if ($("#sokhung_add").val() == "" || $("#somay_add").val() == "") {
+            $(".notempty_cogioi").css('color', 'red');
+        }
+
+        var ck = $("#title").text();
+        if (ck.endsWith('1')) {
+            $('#plus').show();
+            $('#plus2').show();
+            $('#sct').text("Số loại");
+            $('#sh').text("Mã hiệu");
+        } else {
+            $('#plus').hide();
+            $('#plus2').hide();
+        }
+
+        // code to read selected table row cell data (values).
+        $("#myTable").on('click', '.btnSelect', function () {
+            // get the current row
+            var currentRow = $(this).closest("tr");
+            var data = currentRow.find("td:eq(0)").text();
+            document.getElementById("myTable").deleteRow(data);
+            var table = document.getElementById("myTable");
+            var x = document.getElementById("myTable").rows.length;
+            var i = 1;
+            for (i = 1; i < x; i++) {
+                table.rows[i].cells[0].innerHTML = i;
+            }
+            count = document.getElementById("myTable").rows.length;
+        });
+
+        // code to read selected table row cell data (values).
+        $("#myTableSup").on('click', '.btnSelect3', function () {
+            // get the current row
+            var currentRow = $(this).closest("tr");
+            var data = currentRow.find("td:eq(0)").text();
+            document.getElementById("myTableSup").deleteRow(data);
+            var table = document.getElementById("myTableSup");
+            var x = document.getElementById("myTableSup").rows.length;
+            var i = 1;
+            for (i = 1; i < x; i++) {
+                table.rows[i].cells[0].innerHTML = i;
+            }
+            count3 = document.getElementById("myTableSup").rows.length;
+        });
+
+        // code to read selected table row cell data (values).
+        $("#myTableSupVTDK").on('click', '.btnSelect4', function () {
+            // get the current row
+            var currentRow = $(this).closest("tr");
+            var data = currentRow.find("td:eq(0)").text();
+            document.getElementById("myTableSupVTDK").deleteRow(data);
+            var table = document.getElementById("myTableSupVTDK");
+            var x = document.getElementById("myTableSupVTDK").rows.length;
+            var i = 1;
+            for (i = 1; i < x; i++) {
+                table.rows[i].cells[0].innerHTML = i;
+            }
+            count3 = document.getElementById("myTableSupVTDK").rows.length;
+        });
+    });
+
+    var count = 2;
+
+    function myFunction() {
+        var x = document.getElementById("myTable").rows.length;
+        var table = document.getElementById("myTable");
+        var row = table.insertRow(x);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+        cell1.innerHTML = "" + count + "";
+        cell2.innerHTML = "<input type='text' name='id' class='form-control' placeholder='Mã đặc tính' />";
+        cell3.innerHTML = "<input type='text' name='name' class='form-control' placeholder='Tên đặc tính' />"
+        cell4.innerHTML = "<input type='text' name='value' class='form-control' placeholder='Thông số' />";
+        cell5.innerHTML = "<input type='text' name='unit' class='form-control' placeholder='ĐVT' />";
+        cell6.innerHTML = "<button type='button' class='btnSelect btn blue btn-small left'><i class='large material-icons'>remove</i></button>";
+        count++;
+    }
+
+    var count3 = 2;
+    function myFunction3() {
+        var x = document.getElementById("myTableSup").rows.length;
+        var table = document.getElementById("myTableSup");
+        var row = table.insertRow(x);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        cell1.innerHTML = "" + count3 + "";
+        cell2.innerHTML = "<input list='supDK' type='text' name='nameSup' class='form-control' placeholder='Tên vật ưu' />";
+        cell3.innerHTML = "<input type='number' name='quantity' class='form-control' placeholder='Số lượng' />";
+        cell4.innerHTML = "<button type='button' class='btnSelect3 btn blue btn-small left'><i class='large material-icons'>remove</i></button>";
+        count3++;
+    }
+
+    var count4 = 2;
+    function myFunction4() {
+        var x = document.getElementById("myTableSupVTDK").rows.length;
+        var table = document.getElementById("myTableSupVTDK");
+        var row = table.insertRow(x);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        cell1.innerHTML = "" + count4 + "";
+        cell2.innerHTML = "<input list='Suplist2' type='text' name='nameVTDK' class='form-control' placeholder='Tên vật ưu' />";
+        cell3.innerHTML = "<input type='number' name='quantityVTDK' class='form-control' placeholder='Số lượng' />";
+        cell4.innerHTML = "<button type='button' class='btnSelect4 btn blue btn-small left'><i class='large material-icons'>remove</i></button>";
+        count4++;
+    }
+
+    $(document).ready(function () {
+        $("$import_fix").val($("#date_import").val())
+        $("#save").click(function () {
+            var temp = $("#import_fix").val();
+            var arr = temp.split("/");
+            $("#date_import").val(arr[1] + "/" + arr[0] + "/" + arr[2]);
+        });
+        var dem = $("#dem").text();
+
+        $("#them").click(function () {
+            dem++;
+            $("#TableABC").append("<tr><td>" + dem + "</td><td></td><td></td><td></td></tr>");
+        });
+    });
+</script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

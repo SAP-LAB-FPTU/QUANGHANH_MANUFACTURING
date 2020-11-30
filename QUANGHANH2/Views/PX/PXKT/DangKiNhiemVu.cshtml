@@ -1,0 +1,354 @@
+﻿
+@using QUANGHANH2.Models
+@using QUANGHANH2.Controllers
+@{
+    ViewData["Title"] = "ViewJobByPX";
+    Layout = "~/Views/Shared/_Layout_PhanXuong.cshtml";
+    var arrPhanXuong = ViewBag.PhanXuongs;
+    var arrNhiemVu = ViewBag.arrNhiemVu;
+}
+<div class="row">
+    <div class="card">
+        <div class="card-content">
+            <h3 class="center">
+                <b>ĐĂNG KÝ CÔNG VIỆC</b>
+            </h3>
+            <br />
+
+            <div class="row">
+                <div class="col s5 m5 l5 input-field">
+                    <input type="text" class="form-control" id="mnv_search" placeholder="Mã nhân viên" />
+                </div>
+                <div class="col s5 m5 l5 input-field">
+                    <input type="text" class="form-control" id="name_search" placeholder="Tên nhân viên" />
+                </div>
+                <div class="col s2 m2 l2 input-field">
+                    <button type="button" onclick="search()" id="btn_timkiem" class="btn blue darken-2">Tìm kiếm</button>
+                </div>
+            </div>
+            <div class="table_container">
+                <table class="table-bordered table-responsive" id="job-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">MNV</th>
+                            <th rowspan="2">Tên nhân viên</th>
+                            @{
+                                foreach (var a in arrNhiemVu)
+                                {
+                                    <th colspan="@a.arrNV.Count">@a.loai</th>
+                                }
+                            }
+                            <th></th>
+                        </tr>
+                        <tr>
+                            @{
+                                foreach (var b in arrNhiemVu)
+                                {
+                                    foreach (var c in b.arrNV)
+                                    {
+                                        <th>@c.TenNhiemVu</th>
+                                    }
+                                }
+                            }
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col s12 m5 l5">
+                    <div class="col s3 m3 l3"><button type="button" class="btn blue darken-2" disabled id="btnluu" onclick="submitJob()">Lưu</button></div>
+                    <div class="col s4 m4 l4"><button type="button" class="btn blue darken-2" id="btn-sua" onclick="turnOnChinhSuaMode()">Chỉnh sửa</button></div>
+                    <div class="col s5 m5 l5"><button type="button" class="btn blue darken-2" id="ExportExcel">Xuất excel</button></div>
+                </div>
+            </div>
+            <input id="d_id" type="hidden" value="@Session["departID"]" />
+        </div>
+    </div>
+</div>
+
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section scripts{
+
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        var dataTable;
+        var x;
+        var isEnableCheckBox = false;
+        $(Document).ready(() => {
+            $("#pre-load").show()
+            $('.dropdown-trigger').dropdown();
+            dataTable = $("#job-table").on('preXhr.dt', function (e, settings, data) {
+                $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+            }).on('page.dt', () => { // su kien chuyen trang datatable
+                turnOnDefaultMode()
+            }).DataTable({
+                 "ajax": {
+                     "url": '@Url.Action("GetAllNhanVienByPX2", "Task")',
+                     "type": "POST",
+                     "datatype": "json",
+                },
+                "drawCallback": function (settings) {
+                    $("#pre-load").hide("slow", function () {
+                    });
+                },
+                "columns": [
+                    { "data": "MaNV", "name": "MaNV", "render": (data) => { return "<label>" + data + "</label>" }, "orderable": true },
+                    { "data": "Ten", "name": "Ten", "render": (data, type, row, meta) => { return "<a class='font-weight-bold text-success'>" + data + "</a>" }, "orderable": true },
+                    @{
+                        int index = 0;
+                        foreach (var b in arrNhiemVu)
+                        {
+                            foreach (var c in b.arrNV)
+                            {
+                                var pp = "{ \"data\": \"MaNV\", \"render\": (data, type, row, meta) => {" +
+                                    "var i; var ii = "+ index + ";" +
+                                    "for(i =0 ; i < row['ChungChiNhiemVu'].length ; i++ ){" +
+                                        "if(row['ChungChiNhiemVu'][i].MaNhiemVu == " + c.MaNhiemVu + "){" +
+
+                                            "var rt = \"<label><input class='job' value='"
+                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=removeTask('"
+                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "') checked disabled /><span></span></label>\";" +
+                                            "if(row['ChungChiNhiemVu'][i].TinhTrangChungChi == 'Còn hạn'){" +
+                                                " rt += \"<a class='label label-success' >\"+row['ChungChiNhiemVu'][i].TinhTrangChungChi+\"</a>\"}" +
+                                            "else if(row['ChungChiNhiemVu'][i].TinhTrangChungChi == 'Hết hạn'){" +
+                                              " rt += \"<a class='label label-warning'  >\"+row['ChungChiNhiemVu'][i].TinhTrangChungChi+\"</a>\"}" +
+                                            "else{" +
+                                                "rt += \"<a class='label label-danger' >\"+row['ChungChiNhiemVu'][i].TinhTrangChungChi+\"</a>\" }" +
+                                            "rt = \"<div class='row'>\"+rt+\"</div>\"; return rt;" +
+                                        "}" +/* end if*/
+                                    "}" + /*end for*/
+                                        " var rt = \"<label><input class='job' value='"
+                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "'  id='cbx" + c.MaNhiemVu + "_" + "\"+data+\"" + "'  type ='checkbox' onclick=selectNewJob('"
+                                                + c.MaNhiemVu + "_" + "\"+data+\"" + "')  disabled /><span></span></label>\";" +
+                                            "if(row['ChungChiNhiemVu'][ii].TinhTrangChungChi == 'Còn hạn'){" +
+                                                " rt += \"<a class='label label-success' >\"+row['ChungChiNhiemVu'][ii].TinhTrangChungChi+\"</a>\"}" +
+                                            "else if(row['ChungChiNhiemVu'][ii].TinhTrangChungChi == 'Hết hạn'){" +
+                                              " rt += \"<a class='label label-warning'  >\"+row['ChungChiNhiemVu'][ii].TinhTrangChungChi+\"</a>\"}" +
+                                            "else{" +
+                                                "rt += \"<a class='label label-danger' >\"+row['ChungChiNhiemVu'][ii].TinhTrangChungChi+\"</a>\" }" +
+                                            "rt = \"<div class='row'>\"+rt+\"</div>\"; return rt;" +
+                                        "}" + // ngoac cua function render
+                                       " ,\"orderable\": false  } ,";
+
+                                index++;
+                                <text>
+                                    @{WriteLiteral(pp);}
+                                </text>
+
+                            }
+                        }
+                    }
+                    { "data": "ChungChiNhiemVu", "name": "ChungChiNhiemVu", "render": () => { return "" }, "orderable": false },
+                ],
+                "bInfo": false,
+                "bLengthChange": false,
+                "order": [0, 'asc'],
+                "paging": true,
+                "pageLength": 6,
+                "initComplete": () => { $("#pre-load").hide()},
+                "searching": false,
+                "serverSide": true,
+                "language": {
+                    emptyTable: "Không có dữ liệu",
+                    zeroRecords: "Không có dữ liệu",
+                    paginate:
+                    {
+                        previous: "Trang trước",
+                        next: "Trang sau",
+                        first: "|<",
+                        last: ">|",
+
+                    },
+                    info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                },
+
+            })
+
+
+            //set dropdown ve gia tri default khi nhan va input search ten
+            $('#name_search').focus(() => { $('#sl_phan_xuong').val("Phân Xưởng").trigger('change') })
+
+            //them su kien an enter de tim kiem cho truong ten
+            document.querySelector('#name_search').addEventListener('keypress', function (e) { // them su kien nhan nut enter cho phan search
+                var key = e.which || e.keyCode;
+                if (key === 13) {
+                    search();
+                }
+            });
+            //them su kien an enter de tim kiem cho truong ma nhan vien
+            document.querySelector('#mnv_search').addEventListener('keypress', function (e) { // them su kien nhan nut enter cho phan search
+                var key = e.which || e.keyCode;
+                if (key === 13) {
+                    search();
+                }
+            });
+            //khi nhan vao o tim kiem bang mnv se khong search bang ten va px dc nua
+            $("#mnv_search").focus(() => {
+                $('#name_search').val("")
+                $("#name_search").prop('disabled', true);
+            })
+            //khi nhan ra ngoai ma o gia tri cua mnv khac "" se khong cho search bangten va px
+            $("#mnv_search").blur(() => {
+                if ($("#mnv_search").val() == "") {
+                    $("#name_search").prop('disabled', false);
+                }
+            })
+
+        })
+
+
+        var selectedJob = []
+        function submitJob() {
+
+            confirmAlert(
+                'Xác nhận thêm nhiệm vụ?',
+                'Xác nhận thêm nhiệm vụ vừa chọn cho nhân viên',
+                function submit() {
+                    for (var i = 0; i< $('.job:checkbox:checked').length; i++)
+                {
+                    var cbxChecked = $('.job:checkbox:checked')[i];
+                    if (!selectedJob.includes(cbxChecked.value.toString())) {
+                        selectedJob.push(cbxChecked.value.toString())
+                    }
+                    }
+                    if (selectedJob.length == 0 && removeJob.length ==0) {
+                    $.notify("Chưa chọn công việc", {
+                        globalPosition: "top center",
+                        className: "fail"
+                    })
+                    return false;
+                }
+                 $("#pre-load").show()
+
+                    $.ajax({
+                        url: '@Url.Action("AssignTask","Task")',
+                        type: "POST",
+                        data: { tasks: selectedJob, removedTask: removeJob },
+                        dataType: "json",
+                        success: (response) => {
+                            if (response.success == true) {
+                                $("#pre-load").hide()
+                                selectedJob = []
+                                turnOnChinhSuaMode();
+                                removeJob = [];
+                                reloadAlert('Thêm nhiệm vụ thành công', 1000);
+                            } else {
+                                $("#pre-load").hide()
+                                turnOnDefaultMode()
+                                errorAlert('Thất bại', 'Đã xảy ra lỗi');
+                            }
+
+                        },
+                        error: () => {
+                            $("#pre-load").hide()
+                            turnOnDefaultMode()
+                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
+                        }
+
+            })
+                });
+        }
+
+        // bat che do khong cho chinh sua
+        function turnOnDefaultMode() {
+            isEnableCheckBox = false;
+            $("#btnluu").prop('disabled', true);
+            removeJob = [];
+            var newJob = [];
+        }
+
+        var newJob = []
+        function selectNewJob(data) {
+
+        }
+
+        var removeJob = []
+        function removeTask(data) { // khi nhiem vu da duoc tick tu truoc ti se dc them vao danh sach huy nhiem vu
+            if (!removeJob.includes(data)) {
+                removeJob.push(data)
+            } else {
+                var index = removeJob.indexOf(data)
+                removeJob.splice(index, 1)
+            }
+        }
+
+        function normailize(input) {
+            input = input.trim();
+            input = input.replace(/\s\s+/g, ' ');
+            input = input.replace(/  +/g, ' ');
+            return input;
+        }
+
+        function search() {
+
+            var name = $("#name_search").val()
+            var mnv = $("#mnv_search").val()
+            nameNormalized = normailize(name);
+            mnvNormalized = normailize(mnv);
+            if (nameNormalized == "") {
+                nameNormalized = null;
+            }
+            if (mnvNormalized == "") {
+                mnvNormalized = null;
+            }
+            $("#pre-load").show()
+            var searchObj = {
+                name: nameNormalized,
+                mnv: mnvNormalized,
+            }
+            var searchObjJson = encodeURIComponent(JSON.stringify(searchObj));
+
+            dataTable.ajax.url('@Url.Action("SearchEmployeeInPX", "Task")?data=' + searchObjJson).load((response) => {
+                $("#pre-load").hide()
+                $.notify("Tìm kiếm thành công", {
+                         globalPosition: "top center",
+                         className: "success"
+                            })
+            }, true)
+
+        }
+
+
+        function turnOnChinhSuaMode() {
+            $("#pre-load").show()
+            if (!isEnableCheckBox) {
+                for (var i = 0; i < $('.job:checkbox').length; i++) {
+                    $('.job:checkbox')[i].disabled = false;
+                }
+                isEnableCheckBox = true;
+                $("#btnluu").prop('disabled', false);
+                $("#pre-load").hide()
+            } else {
+                for (var i = 0; i < $('.job:checkbox').length; i++) {
+                    $('.job:checkbox')[i].disabled = true;
+                }
+                isEnableCheckBox = false;
+                $("#btnluu").prop('disabled', true);
+                $("#pre-load").hide()
+            }
+        }
+
+        $("#ExportExcel").click(function () {
+            var d_id = $("#d_id").val();
+            $("#pre-load").show();
+            $("#pre-load").css("z-index", "9999");
+            $.ajax({
+                url: '@Url.Action("ExportExcelInPX", "Task")',
+                type: 'POST',
+            }).done(function () {
+
+                window.location.href = "/excel/TCLD/download/Report_Job_" + d_id + ".xlsx";
+                 $("#pre-load").hide();
+            })
+        });
+
+    </script>
+}
+
+

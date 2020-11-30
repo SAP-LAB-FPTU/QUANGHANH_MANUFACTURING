@@ -1,0 +1,473 @@
+﻿@{
+    ViewData["Title"] = "sua-chua-chon";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col m12">
+                <div class="center">
+                    <h3><b>CHI TIẾT TRUNG ĐẠI TU</b></h3>
+                </div>
+                <div class="col s3 m3">
+                    <label for="department_id_to">Trung đại tu tại <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                    <input id="department_id_to" type="text" required class='form-control' list="departmentName" value="@ViewBag.department_id" />
+                </div>
+                <div class="col s3 m3">
+                    <label for="out_in_come">Nguồn vốn <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                    <input id="out_in_come" class="form-control" type="text" />
+                </div>
+                <div class="col s3 m3">
+                    <label for="reason">Nội dung <i class="fa fa-asterisk" style="font-size:10px;color:red"></i></label>
+                    <input id="reason" class="form-control" type="text" required />
+                </div>
+                <div class="col s12 table_container">
+                    <table id="mytable" class="striped table-responsive center table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="center-align">Mã thiết bị</th>
+                                <th class="center-align">Tên thiết bị</th>
+                                <th class="center-align">Số lượng</th>
+                                <th class="center-align">Loại trung đại tu <i class="fa fa-asterisk" style="font-size:10px;color:red"></i><span></span></th>
+                                <th class="center-align">Lý do<span></span></th>
+                                <th class="center-align">Ngày dự kiến xong <i class="fa fa-asterisk" style="font-size:10px;color:red"></i><span></span></th>
+                                <th class="center-align">Loại trung đại tu tiếp theo <i class="fa fa-asterisk" style="font-size:10px;color:red"></i><span></span></th>
+                                <th class="center-align">Thời gian trung đại tu tiếp theo (giờ) <i class="fa fa-asterisk" style="font-size:10px;color:red"></i><span></span></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (QUANGHANH2.Controllers.CDVT.Quyetdinh.TrungDaiTu.ThemController._Equipment item in ViewBag.DataThietBi)
+                            {
+                                <tr>
+                                    <td>@(item.equipmentId + (item.attachTo == null ? "" : ($" ({item.attachTo})")))</td>
+                                    <td>@item.equipment_name</td>
+                                    <td>@item.quantity</td>
+                                    <td>
+                                        <select class='form-control remodel_type'><option>Trung tu</option><option>Đại tu</option> </select>
+                                    </td>
+                                    <td>
+                                        <input type='text' class='form-control reason' />
+                                    </td>
+                                    <td>
+                                        <input type='text' required class='center datepicker-here form-control minDate' data-language='vi' />
+                                    </td>
+                                    <td>
+                                        <select class='form-control next_remodel_type'><option>Trung tu</option><option>Đại tu</option> </select>
+                                    </td>
+                                    <td>
+                                        <input type='number' min="0" required class='form-control next_end_time' />
+                                    </td>
+                                    <td>
+                                        <a class="vattu btn blue darken-2 modal-trigger" data-equipmentid="@item.equipmentId" data-attachto="@item.attachTo" href="#vattu">Vật tư cần</a>
+                                    </td>
+                                    <td>
+                                        @if (item.attachTo == null)
+                                        {
+                                            <a class="thietbi btn blue darken-2 modal-trigger" data-equipmentid="@item.equipmentId" href="#thietbi">Thiết&nbsp;bị&nbsp;con&nbsp;cần</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <br />
+                <div class="col l12 m12 s12 center">
+                    <form action="/phong-cdvt/quyet-dinh/trung-dai-tu/chon-thiet-bi" method="get">
+                        <input name="selected" value='@Html.Raw(ViewBag.selected)' hidden />
+                        <a id="export-button" class="btn blue darken-2">Xuất quyết định</a>
+                        <a id="submit" href="#confirm" class="btn blue darken-2 modal-trigger">Tạo quyết định trung đại tu</a>
+                        <button type="submit" class="btn blue darken-2 ">Quay lại</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="vattu">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Danh sách vật tư dùng để sửa chữa <span></span></h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <form>
+                    <table id="test" class="striped table-responsive center table-bordered mytable">
+                        <thead>
+                            <tr>
+                                <th>Mã vật tư</th>
+                                <th>Tên vật tư</th>
+                                <th>Số lượng xin cấp</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="addrow" class="waves-effect waves-light btn blue darken-2 left">Thêm</a>
+            <a id="submitvattu" class="waves-effect waves-light btn blue darken-2 modal-close">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="thietbi">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Danh sách thiết bị đi kèm cần thay thế <span></span></h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <form>
+                    <table id="test" class="striped table-responsive center table-bordered mytable">
+                        <thead>
+                            <tr>
+                                <th>Mã thiết bị con</th>
+                                <th>Tên thiết bị con</th>
+                                <th>Số lượng xin cấp</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="submitthietbi" class="waves-effect waves-light btn blue darken-2 modal-close">Lưu</a>
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="confirm">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Bạn có muốn tạo quyết định này không?</h3>
+        </div>
+        <div class="modal-footer">
+            <a id="create" class="waves-effect waves-light btn blue darken-2 center">Tạo</a>
+            <a class="btn light-blue lighten-1 modal-close center">Thoát</a>
+        </div>
+    </div>
+</div>
+
+<datalist id="departmentName">
+    @foreach (var item in ViewBag.Departments)
+    {
+        <option value="@item.department_id">@item.department_name</option>
+    }
+</datalist>
+
+<datalist id="supply_inverse">
+    @foreach (QUANGHANH2.Models.Supply item in ViewBag.supply_inverse)
+    {
+        <option value="@item.supply_id">@item.supply_name</option>
+    }
+</datalist>
+
+<datalist id="supply_reverse">
+    @foreach (var item in ViewBag.supply_inverse)
+    {
+        <option value="@item.supply_name">@item.supply_id</option>
+    }
+</datalist>
+
+<script src="~/js/Custom JS/CDVT/QuyetDinh/datePicker.js"></script>
+<script>
+    var output = @Html.Raw(ViewBag.output);
+    var equipmentId, attachTo, index;
+    var dict = {};
+
+    $(document).ready(function () {
+        $('input[required]').each(function myfunction() {
+            $(this).attr("oninvalid", "setCustomValidity('Không được bỏ trống ô này')");
+            $(this).attr("oninput", "this.setCustomValidity('')");
+        })
+
+        $('.vattu').click(function () {
+            equipmentId = $(this).data("equipmentid");
+            attachTo = $(this).data("attachto");
+            index = $(this).closest("tr").index();
+            let url = "@Url.Action("GetSupplyBigEquip", "MethodChung")";
+            if (attachTo)
+                url = "@Url.Action("GetSupplySmallEquip", "MethodChung")";
+            $('#vattu tbody').empty();
+            $('#pre-load').show();
+            if (!output[index].supply)
+                $.ajax({
+                    url: url,
+                    method: "post",
+                    dataType: "json",
+                    cache: false,
+                    data: {
+                        equipmentId: equipmentId
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            for (let i = 0; i < response.data.length; i++) {
+                                let quantity = 0;
+                                if (output[index].supply && output[index].supply[response.data[i].supply_id]) {
+                                    quantity = output[index].supply[response.data[i].supply_id];
+                                }
+                                let $tr = $('<tr>').append(
+                                    $('<td>').text(response.data[i].supply_id),
+                                    $('<td>').text(response.data[i].supply_name),
+                                    $('<td>').html("<input min=0 type='number' class='form-control' value=" + quantity + " />")
+                                )
+                                $tr.appendTo('#vattu tbody');
+                            }
+                        }
+                        $('#pre-load').hide();
+                    },
+                    error: function () {
+                        $('#pre-load').hide();
+                    }
+                });
+            else {
+                $.each(output[index].supply, function (supply_id, quantity) {
+                    let $tr = $('<tr>').append(
+                        $('<td>').text(supply_id),
+                        $('<td>').text(dict[supply_id]),
+                        $('<td>').html("<input min=0 type='number' class='form-control' value=" + quantity + " />")
+                    )
+                    $tr.appendTo('#vattu tbody');
+                })
+                $('#pre-load').hide();
+            }
+        })
+
+        $('#submitvattu').click(function () {
+            let supply = {};
+            for (var i = 0; i < $("#vattu tbody tr").length; i++) {
+                let SoLuong = $("#vattu tbody tr:eq(" + i + ") td:eq(2) input").val();
+                if (SoLuong == "0")
+                    continue;
+                let MaVatTu = $("#vattu tbody tr:eq(" + i + ") td:eq(0)").text();
+                if (MaVatTu == "")
+                    MaVatTu = $("#vattu tbody tr:eq(" + i + ") td:eq(0) input").val();
+                let TenVatTu = $("#vattu tbody tr:eq(" + i + ") td:eq(1)").text();
+                if (TenVatTu == "")
+                    TenVatTu = $("#vattu tbody tr:eq(" + i + ") td:eq(1) input").val();
+                dict[MaVatTu] = TenVatTu;
+                supply[MaVatTu] = SoLuong;
+            }
+            output[index].supply = supply;
+        })
+
+        $('.thietbi').click(function () {
+            equipmentId = $(this).data("equipmentid");
+            index = $(this).closest("tr").index();
+            $('#thietbi tbody').empty();
+            $('#pre-load').show();
+            $.ajax({
+                url: "@Url.Action("GetSmallEquip", "MethodChung")",
+                method: "post",
+                dataType: "json",
+                cache: false,
+                data: {
+                    equipmentId: equipmentId
+                },
+                success: function (response) {
+                    if (response.success) {
+                        for (let i = 0; i < response.data.length; i++) {
+                            let quantity = 0;
+                            if (output[index].equipment && output[index].equipment[response.data[i].equipmentId])
+                                quantity = output[index].equipment[response.data[i].equipmentId];
+                            let $tr = $('<tr>').append(
+                                $('<td>').text(response.data[i].equipmentId),
+                                $('<td>').text(response.data[i].equipment_name),
+                                $('<td>').html("<input min=0 type='number' class='form-control' value=" + quantity + " />")
+                            )
+                            $tr.appendTo('#thietbi tbody');
+                        }
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    $('#pre-load').hide();
+                }
+            })
+        })
+
+        $('#submitthietbi').click(function () {
+            let equipment = {};
+            for (var i = 0; i < $("#thietbi tbody tr").length; i++) {
+                let SoLuong = $("#thietbi tbody tr:eq(" + i + ") td:eq(2) input").val();
+                if (SoLuong == "0")
+                    continue;
+                let MaThietBi = $("#thietbi tbody tr:eq(" + i + ") td:eq(0)").text();
+                equipment[MaThietBi] = SoLuong;
+            }
+            output[index].equipment = equipment;
+        })
+
+        $('#create').click(function () {
+            if ($('#reason').val() == "") {
+                errorAlert("Không được bỏ trống sữa chữa tại");
+                return;
+            }
+            if ($('#out_in_come').val() == "") {
+                errorAlert("Không được bỏ trống nguồn vốn");
+                return;
+            }
+            if ($('#department_id_to').val() == "") {
+                errorAlert("Không được bỏ trống nội dung");
+                return;
+            }
+            for (var i = 0; i < $('#mytable tbody tr').length; i++) {
+                output[i].remodel_type = $('#mytable tbody tr:eq(' + i + ') .remodel_type').val();
+                output[i].reason = $('#mytable tbody tr:eq(' + i + ') .reason').val();
+                output[i].date = $('#mytable tbody tr:eq(' + i + ') .minDate').val();
+                output[i].next_remodel_type = $('#mytable tbody tr:eq(' + i + ') .next_remodel_type').val();
+                output[i].next_end_time = $('#mytable tbody tr:eq(' + i + ') .next_end_time').val();
+                if (output[i].type == "") {
+                    errorAlert("Không được bỏ trống ngày dự kiến xong");
+                    return;
+                }
+            }
+            $('#pre-load').show();
+            $.ajax({
+                url: "/phong-cdvt/quyet-dinh/trung-dai-tu/them",
+                method: "post",
+                dataType: "json",
+                cache: false,
+                data: {
+                    data: JSON.stringify(output),
+                    out_in_come: $('#out_in_come').val(),
+                    reason: $('#reason').val(),
+                    department_id_to: $('#department_id_to').val(),
+                },
+                success: function (response) {
+                    if (response.success) {
+                        successAlert("Tạo quyết định thành công", "Đang chuyển trang");
+                        $('#pre-load').hide();
+                        setTimeout(function () {
+                            window.location.href = "/phong-cdvt/quyet-dinh/trung-dai-tu";
+                        }, 2000);
+                    }
+                    else {
+                        errorAlert(response.message);
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $('#pre-load').hide();
+                }
+            })
+        })
+
+        $('#export-button').click(function () {
+            $('#pre-load').show();
+            $.ajax({
+                url: "/phong-cdvt/quyet-dinh/trung-dai-tu/them/export",
+                method: "get",
+                cache: false,
+                data: {
+                    data: JSON.stringify(output),
+                    out_in_come: $('#out_in_come').val(),
+                    reason: $('#reason').val(),
+                    department_id_to: $('#department_id_to').val(),
+                },
+                success: function (data) {
+                    window.location = '/phong-cdvt/quyet-dinh/trung-dai-tu/them/export?data=' + JSON.stringify(output)
+                        + '&out_in_come=' + $('#out_in_come').val() + '&reason=' + $('#reason').val() + '&department_id_to=' + $('#department_id_to').val();
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $('#pre-load').hide();
+                }
+            })
+        })
+
+        $("#addrow").click(function () {
+            if (attachTo != "")
+                errorAlert("Thiết bị con không thể thay đổi vật tư");
+            else {
+                let $tr = $('<tr>').append(
+                    $('<td>').html("<input list='supply_inverse' type='text' class='form-control' />"),
+                    $('<td>').html("<input list='supply_reverse' type='text' class='form-control' />"),
+                    $('<td>').html("<input min=0 type='number' class='form-control' value=0 />")
+                )
+                $tr.appendTo("#vattu tbody")
+            }
+        })
+    })
+
+    $(document).on("change", "input[list='supply_inverse']", function () {
+        if ($("#supply_inverse option[value='" + $(this).val() + "']").length == 1) {
+            let a = $("#supply_inverse option[value='" + $(this).val() + "']").text();
+            $(this).closest("tr").find("input[list='supply_reverse']").val(a);
+        }
+        else {
+            $('#pre-load').show();
+            $.ajax({
+                url: "@Url.Action("GetSupplyWithID" , "MethodChung")",
+                method: "post",
+                cache: false,
+                data: {
+                    supply_id: $(this).val()
+                },
+                success: function (data) {
+                    if (data.success) {
+                        for (var i = 0; i < data.supply.length; i++) {
+                            if ($("#supply_inverse option[value='" + data.supply[i].supply_id + "']").length == 0) {
+                                $("#supply_inverse").append("<option value='" + data.supply[i].supply_id + "'>" + data.supply[i].supply_name + "</option>");
+                                $("#supply_reverse").append("<option value='" + data.supply[i].supply_name + "'>" + data.supply[i].supply_id + "</option>");
+                            }
+                        }
+                    }
+                    else
+                        errorAlert("Có lỗi xảy ra")
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $('#pre-load').hide();
+                }
+            });
+        }
+    })
+
+    $(document).on("change", "input[list='supply_reverse']", function () {
+        if ($("#supply_reverse option[value='" + $(this).val() + "']").length == 1) {
+            let a = $("#supply_reverse option[value='" + $(this).val() + "']").text();
+            $(this).closest("tr").find("input[list='supply_inverse']").val(a);
+        }
+        else {
+            $('#pre-load').show();
+            $.ajax({
+                url: "@Url.Action("GetSupplyWithName" , "MethodChung")",
+                method: "post",
+                cache: false,
+                data: {
+                    supply_name: $(this).val()
+                },
+                success: function (data) {
+                    if (data.success) {
+                        for (var i = 0; i < data.supply.length; i++) {
+                            if ($("#supply_reverse option[value='" + data.supply[i].supply_name + "']").length == 0) {
+                                $("#supply_inverse").append("<option value='" + data.supply[i].supply_id + "'>" + data.supply[i].supply_name + "</option>");
+                                $("#supply_reverse").append("<option value='" + data.supply[i].supply_name + "'>" + data.supply[i].supply_id + "</option>");
+                            }
+                        }
+                    }
+                    else
+                        errorAlert("Có lỗi xảy ra")
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $('#pre-load').hide();
+                }
+            });
+        }
+    })
+</script>
