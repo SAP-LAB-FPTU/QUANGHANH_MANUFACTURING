@@ -1,0 +1,122 @@
+﻿@model QUANGHANH2.Models.GiayTo
+
+@{
+    ViewBag.Title = "themGiayTo";
+    Layout = null;
+}
+
+   
+    <link href="~/assets/Custom css/TCLD/Brief/ManageBrief/Document.css" rel="stylesheet" />
+@using (Html.BeginForm("themGiayTo", "Brief", FormMethod.Post, new
+{
+    enctype = "multipart/form-data",
+    onSubmit = "return SubmitForm(this);",
+    data_restUrl = Url.Action("themGiayTo", "Brief")
+}
+))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal row">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<div class="form-group">
+
+    @Html.LabelFor(model => model.MaNV, "Mã nhân viên", htmlAttributes: new { @class = "control-label input-label-doc" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.MaNV, new { htmlAttributes = new { @class = "form-control input-custom-doc", @id = "validate_emp" } })
+        @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
+        <p hidden style="color:red" id="message">Mã nhân viên không tồn tại. Hãy nhập lại</p>
+    </div>
+</div>
+<div class="form-group">
+    <label class="input-label-doc">Tên nhân viên</label>
+    <div class="col-md-10 ">
+        <input type="text" class='form-control input-custom-doc' id="TenNV" multiple disabled />
+    </div>
+</div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.TenGiayTo, "Tên giấy tờ", htmlAttributes: new { @class = "control-label col-md-2 input-label-doc" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.TenGiayTo, new { htmlAttributes = new { @class = "form-control input-custom-doc",@id = "validate_name" } })
+            @Html.ValidationMessageFor(model => model.TenGiayTo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.KieuGiayTo, "Kiểu giấy tờ", htmlAttributes: new { @class = "control-label col-md-2 input-label-doc" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.KieuGiayTo, new SelectList(ViewBag.kindODoc, "Value", "Text"), htmlAttributes: new { @class = "form-control input-custom-doc" })
+            @Html.ValidationMessageFor(model => model.KieuGiayTo, "", new { @class = "" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Lưu" class="waves-light btn-small blue modal-trigger modal-close" id="btn_save_doc" />
+        </div>
+    </div>
+
+</div>
+}
+
+
+<script>
+    $('#validate_emp').blur(function () {
+        $.ajax({
+            url:'@Url.Action("validateID", "Brief")',
+            type: "POST",
+            data: { id: $(this).val() },
+            success: (response) => {
+                if (response.success) {
+                    $('#message').show();
+                    $('#btn_save_doc').attr("disabled", true);
+                } else {
+                    $('#TenNV').val(response.responseText);
+                    $('#message').hide();
+                    $('#btn_save_doc').attr("disabled", false);
+                }
+            },
+            error: (response) => {
+
+            },
+        })
+    })
+     @*$('#validate_emp').blur(function () {
+        $.ajax({
+            url:'@Url.Action("validateID", "Brief")',
+            type: "POST",
+            data: { id: $(this).val() },
+            success: (response) => {
+                if (response.success) {
+                    alert();
+                    $('#message').show();
+                    $('#btn_save_doc').attr("disabled", true);
+                } else {
+                    $('#message').hide();
+                    $('#btn_save_doc').attr("disabled", false);
+                }
+            },
+            error: (response) => {
+
+            },
+        })
+    })*@
+//    $("#validate_name").on("input", function(){
+//  var regexp = /[^a-zA-Z]+$/g;
+//  if($(this).val().match(regexp)){
+//    $(this).val( $(this).val().replace(regexp,'') );
+//  }
+//});
+
+
+    $("#validate_name").keydown(function(e)
+{
+  var test = /[0-9]/; //regex
+  var value = String.fromCharCode(e.keyCode); //get the charcode and convert to char
+  if (value.match(test)) { 
+     return false; //dont display key if it is a number
+  }       
+});
+</script>
+

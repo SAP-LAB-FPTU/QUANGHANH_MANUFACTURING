@@ -1,0 +1,1323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="QuangHanhManufacturingModelStoreContainer" CdmEntityContainer="QuangHanhManufacturingEntities">
+    <EntitySetMapping Name="Accounts">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Account">
+        <MappingFragment StoreEntitySet="Account">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="NVID" ColumnName="NVID" />
+          <ScalarProperty Name="CDVT" ColumnName="CDVT" />
+          <ScalarProperty Name="TCLD" ColumnName="TCLD" />
+          <ScalarProperty Name="BGD" ColumnName="BGD" />
+          <ScalarProperty Name="DK" ColumnName="DK" />
+          <ScalarProperty Name="KCS" ColumnName="KCS" />
+          <ScalarProperty Name="PXKT" ColumnName="PXKT" />
+          <ScalarProperty Name="PXDL" ColumnName="PXDL" />
+          <ScalarProperty Name="PXVT" ColumnName="PXVT" />
+          <ScalarProperty Name="PXCBT" ColumnName="PXCBT" />
+          <ScalarProperty Name="PXPV" ColumnName="PXPV" />
+          <ScalarProperty Name="PXDS" ColumnName="PXDS" />
+          <ScalarProperty Name="PXCDM" ColumnName="PXCDM" />
+          <ScalarProperty Name="PXTGQLM" ColumnName="PXTGQLM" />
+          <ScalarProperty Name="PXXD" ColumnName="PXXD" />
+          <ScalarProperty Name="AT" ColumnName="AT" />
+          <ScalarProperty Name="KCM" ColumnName="KCM" />
+          <ScalarProperty Name="ADMIN" ColumnName="ADMIN" />
+          <ScalarProperty Name="PXCKSC" ColumnName="PXCKSC" />
+          <ScalarProperty Name="token" ColumnName="token" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Account_Right">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Account_Right">
+        <MappingFragment StoreEntitySet="Account_Right">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
+          <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+          <ScalarProperty Name="Right" ColumnName="Right" />
+          <ScalarProperty Name="isBasic" ColumnName="isBasic" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Account_Right_Detail">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Account_Right_Detail">
+        <MappingFragment StoreEntitySet="Account_Right_Detail">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+          <ScalarProperty Name="RightID" ColumnName="RightID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Modules">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Module">
+        <MappingFragment StoreEntitySet="Module">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Module1" ColumnName="Module" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Role">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="role_name" ColumnName="role_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Acceptances">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Acceptance">
+        <MappingFragment StoreEntitySet="Acceptance">
+          <ScalarProperty Name="room_id" ColumnName="room_id" />
+          <ScalarProperty Name="acceptance_camera_quantity" ColumnName="acceptance_camera_quantity" />
+          <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
+          <ScalarProperty Name="acceptance_date" ColumnName="acceptance_date" />
+          <ScalarProperty Name="isAcceptance" ColumnName="isAcceptance" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Incidents">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Incident">
+        <MappingFragment StoreEntitySet="Incident">
+          <ScalarProperty Name="incident_id" ColumnName="incident_id" />
+          <ScalarProperty Name="room_id" ColumnName="room_id" />
+          <ScalarProperty Name="incident_camera_quantity" ColumnName="incident_camera_quantity" />
+          <ScalarProperty Name="start_time" ColumnName="start_time" />
+          <ScalarProperty Name="end_time" ColumnName="end_time" />
+          <ScalarProperty Name="reason" ColumnName="reason" />
+          <ScalarProperty Name="disk_saveable" ColumnName="disk_saveable" />
+          <ScalarProperty Name="disk_status" ColumnName="disk_status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rooms">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Room">
+        <MappingFragment StoreEntitySet="Room">
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="room_id" ColumnName="room_id" />
+          <ScalarProperty Name="room_name" ColumnName="room_name" />
+          <ScalarProperty Name="camera_quantity" ColumnName="camera_quantity" />
+          <ScalarProperty Name="camera_available" ColumnName="camera_available" />
+          <ScalarProperty Name="series" ColumnName="series" />
+          <ScalarProperty Name="capacity" ColumnName="capacity" />
+          <ScalarProperty Name="disk_status" ColumnName="disk_status" />
+          <ScalarProperty Name="signal_loss_reason" ColumnName="signal_loss_reason" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="disk_saveable" ColumnName="disk_saveable" />
+          <ScalarProperty Name="login_information" ColumnName="login_information" />
+          <ScalarProperty Name="image_link" ColumnName="image_link" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Status">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Status">
+        <MappingFragment StoreEntitySet="Status">
+          <ScalarProperty Name="room_id" ColumnName="room_id" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="session" ColumnName="session" />
+          <ScalarProperty Name="fully_function" ColumnName="fully_function" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Supply_DiKem">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Supply_DiKem">
+        <MappingFragment StoreEntitySet="Supply_DiKem">
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="equipmentId_dikem" ColumnName="equipmentId_dikem" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="quantity_duphong" ColumnName="quantity_duphong" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Supply_Equipment_DiKem">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Supply_Equipment_DiKem">
+        <MappingFragment StoreEntitySet="Supply_Equipment_DiKem">
+          <ScalarProperty Name="supply_id" ColumnName="supply_id" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vattu_Dikem">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Vattu_Dikem">
+        <MappingFragment StoreEntitySet="Vattu_Dikem">
+          <ScalarProperty Name="supply_id" ColumnName="supply_id" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BigMaintainDetails">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.BigMaintainDetail">
+        <MappingFragment StoreEntitySet="BigMaintainDetails">
+          <ScalarProperty Name="documentary_big_maintain_id" ColumnName="documentary_big_maintain_id" />
+          <ScalarProperty Name="equipment_big_maintain_status" ColumnName="equipment_big_maintain_status" />
+          <ScalarProperty Name="remodel_type" ColumnName="remodel_type" />
+          <ScalarProperty Name="end_date" ColumnName="end_date" />
+          <ScalarProperty Name="next_remodel_type" ColumnName="next_remodel_type" />
+          <ScalarProperty Name="next_end_time" ColumnName="next_end_time" />
+          <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="attach_to" ColumnName="attach_to" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="equipment_big_maintain_reason" ColumnName="equipment_big_maintain_reason" />
+          <ScalarProperty Name="department_id_from" ColumnName="department_id_from" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CameraRepairDetails">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.CameraRepairDetail">
+        <MappingFragment StoreEntitySet="CameraRepairDetails">
+          <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
+          <ScalarProperty Name="room_id" ColumnName="room_id" />
+          <ScalarProperty Name="broken_camera_quantity" ColumnName="broken_camera_quantity" />
+          <ScalarProperty Name="repair_requirement" ColumnName="repair_requirement" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="Documentary_camera_repair_status" ColumnName="Documentary_camera_repair_status" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Documentaries">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Documentary">
+        <MappingFragment StoreEntitySet="Documentary">
+          <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
+          <ScalarProperty Name="documentary_code" ColumnName="documentary_code" />
+          <ScalarProperty Name="documentary_type" ColumnName="documentary_type" />
+          <ScalarProperty Name="department_id_to" ColumnName="department_id_to" />
+          <ScalarProperty Name="date_created" ColumnName="date_created" />
+          <ScalarProperty Name="person_created" ColumnName="person_created" />
+          <ScalarProperty Name="reason" ColumnName="reason" />
+          <ScalarProperty Name="out_in_come" ColumnName="out/in_come" />
+          <ScalarProperty Name="documentary_status" ColumnName="documentary_status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DocumentaryTypes">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.DocumentaryType">
+        <MappingFragment StoreEntitySet="DocumentaryType">
+          <ScalarProperty Name="documentary_type" ColumnName="documentary_type" />
+          <ScalarProperty Name="documentary_name" ColumnName="documentary_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Important_Documentary">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Important_Documentary">
+        <MappingFragment StoreEntitySet="Important_Documentary">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ImproveDetails">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.ImproveDetail">
+        <MappingFragment StoreEntitySet="ImproveDetails">
+          <ScalarProperty Name="documentary_improve_id" ColumnName="documentary_improve_id" />
+          <ScalarProperty Name="equipment_Improve_status" ColumnName="equipment_Improve_status" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
+          <ScalarProperty Name="department_id_from" ColumnName="department_id_from" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LiquidationDetails">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.LiquidationDetail">
+        <MappingFragment StoreEntitySet="LiquidationDetails">
+          <ScalarProperty Name="documentary_liquidation_id" ColumnName="documentary_liquidation_id" />
+          <ScalarProperty Name="equipment_liquidation_status" ColumnName="equipment_liquidation_status" />
+          <ScalarProperty Name="buyer" ColumnName="buyer" />
+          <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="equipment_liquidation_reason" ColumnName="equipment_liquidation_reason" />
+          <ScalarProperty Name="department_id_from" ColumnName="department_id_from" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MaintainDetails">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.MaintainDetail">
+        <MappingFragment StoreEntitySet="MaintainDetails">
+          <ScalarProperty Name="documentary_maintain_id" ColumnName="documentary_maintain_id" />
+          <ScalarProperty Name="equipment_maintain_status" ColumnName="equipment_maintain_status" />
+          <ScalarProperty Name="maintain_type" ColumnName="maintain_type" />
+          <ScalarProperty Name="finish_date_plan" ColumnName="finish_date_plan" />
+          <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="attach_to" ColumnName="attach_to" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="equipment_maintain_reason" ColumnName="equipment_maintain_reason" />
+          <ScalarProperty Name="department_id_from" ColumnName="department_id_from" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MovelineDetails">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.MovelineDetail">
+        <MappingFragment StoreEntitySet="MovelineDetails">
+          <ScalarProperty Name="documentary_moveline_id" ColumnName="documentary_moveline_id" />
+          <ScalarProperty Name="equipment_moveline_status" ColumnName="equipment_moveline_status" />
+          <ScalarProperty Name="department_detail" ColumnName="department_detail" />
+          <ScalarProperty Name="date_to" ColumnName="date_to" />
+          <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="equipment_moveline_reason" ColumnName="equipment_moveline_reason" />
+          <ScalarProperty Name="department_id_from" ColumnName="department_id_from" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RepairDetails">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.RepairDetail">
+        <MappingFragment StoreEntitySet="RepairDetails">
+          <ScalarProperty Name="documentary_repair_id" ColumnName="documentary_repair_id" />
+          <ScalarProperty Name="equipment_repair_status" ColumnName="equipment_repair_status" />
+          <ScalarProperty Name="repair_type" ColumnName="repair_type" />
+          <ScalarProperty Name="repair_reason" ColumnName="repair_reason" />
+          <ScalarProperty Name="finish_date_plan" ColumnName="finish_date_plan" />
+          <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="attach_to" ColumnName="attach_to" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="department_id_from" ColumnName="department_id_from" />
+          <ScalarProperty Name="isVisible" ColumnName="isVisible" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RevokeDetails">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.RevokeDetail">
+        <MappingFragment StoreEntitySet="RevokeDetails">
+          <ScalarProperty Name="documentary_revoke_id" ColumnName="documentary_revoke_id" />
+          <ScalarProperty Name="equipment_revoke_status" ColumnName="equipment_revoke_status" />
+          <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="equipment_revoke_reason" ColumnName="equipment_revoke_reason" />
+          <ScalarProperty Name="department_id_from" ColumnName="department_id_from" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Acceptance1">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Acceptance1">
+        <MappingFragment StoreEntitySet="Acceptance1">
+          <ScalarProperty Name="acceptance_id" ColumnName="acceptance_id" />
+          <ScalarProperty Name="equipmentStatus" ColumnName="equipmentStatus" />
+          <ScalarProperty Name="acceptance_date" ColumnName="acceptance_date" />
+          <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="attach_to" ColumnName="attach_to" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Activities">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Activity">
+        <MappingFragment StoreEntitySet="Activity">
+          <ScalarProperty Name="activityid" ColumnName="activityid" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="equipmentid" ColumnName="equipmentid" />
+          <ScalarProperty Name="activityname" ColumnName="activityname" />
+          <ScalarProperty Name="hours_per_day" ColumnName="hours_per_day" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Attributes">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Attribute">
+        <MappingFragment StoreEntitySet="Attribute">
+          <ScalarProperty Name="Equipment_attribute_id" ColumnName="Equipment_attribute_id" />
+          <ScalarProperty Name="Equipment_attribute_name" ColumnName="Equipment_attribute_name" />
+          <ScalarProperty Name="value" ColumnName="value" />
+          <ScalarProperty Name="unit" ColumnName="unit" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Cars">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Car">
+        <MappingFragment StoreEntitySet="Car">
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="namsanxuat" ColumnName="namsanxuat" />
+          <ScalarProperty Name="sokhung" ColumnName="sokhung" />
+          <ScalarProperty Name="somay" ColumnName="somay" />
+          <ScalarProperty Name="GPS" ColumnName="GPS" />
+          <ScalarProperty Name="nhienlieu" ColumnName="nhienlieu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CarGPS">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.CarGP">
+        <MappingFragment StoreEntitySet="CarGPS">
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="session" ColumnName="session" />
+          <ScalarProperty Name="available" ColumnName="available" />
+          <ScalarProperty Name="reason" ColumnName="reason" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CarMaintenances">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.CarMaintenance">
+        <MappingFragment StoreEntitySet="CarMaintenance">
+          <ScalarProperty Name="maintainid" ColumnName="maintainid" />
+          <ScalarProperty Name="equipmentid" ColumnName="equipmentid" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="departmentid" ColumnName="departmentid" />
+          <ScalarProperty Name="maintain_content" ColumnName="maintain_content" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CarMaintenanceDetails">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.CarMaintenanceDetail">
+        <MappingFragment StoreEntitySet="CarMaintenanceDetail">
+          <ScalarProperty Name="maintaindetailid" ColumnName="maintaindetailid" />
+          <ScalarProperty Name="maintainid" ColumnName="maintainid" />
+          <ScalarProperty Name="supplyid" ColumnName="supplyid" />
+          <ScalarProperty Name="used" ColumnName="used" />
+          <ScalarProperty Name="thuhoi" ColumnName="thuhoi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="Equipment_category_id" ColumnName="Equipment_category_id" />
+          <ScalarProperty Name="Equipment_category_name" ColumnName="Equipment_category_name" />
+          <ScalarProperty Name="divce_type" ColumnName="divce_type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CategoryAttributes">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.CategoryAttribute">
+        <MappingFragment StoreEntitySet="CategoryAttribute">
+          <ScalarProperty Name="Equipment_category_attribute_id" ColumnName="Equipment_category_attribute_id" />
+          <ScalarProperty Name="Equipment_category_attribute_name" ColumnName="Equipment_category_attribute_name" />
+          <ScalarProperty Name="unit" ColumnName="unit" />
+          <ScalarProperty Name="Equipment_category_id" ColumnName="Equipment_category_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CategoryAttributeValues">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.CategoryAttributeValue">
+        <MappingFragment StoreEntitySet="CategoryAttributeValue">
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="Equipment_category_id" ColumnName="Equipment_category_id" />
+          <ScalarProperty Name="Equipment_category_attribute_id" ColumnName="Equipment_category_attribute_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Equipments">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Equipment">
+        <MappingFragment StoreEntitySet="Equipment">
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="equipment_name" ColumnName="equipment_name" />
+          <ScalarProperty Name="supplier" ColumnName="supplier" />
+          <ScalarProperty Name="date_import" ColumnName="date_import" />
+          <ScalarProperty Name="depreciation_estimate" ColumnName="depreciation_estimate" />
+          <ScalarProperty Name="depreciation_present" ColumnName="depreciation_present" />
+          <ScalarProperty Name="durationOfInspection" ColumnName="durationOfInspection" />
+          <ScalarProperty Name="durationOfInsurance" ColumnName="durationOfInsurance" />
+          <ScalarProperty Name="inspect_date" ColumnName="inspect_date" />
+          <ScalarProperty Name="insurance_date" ColumnName="insurance_date" />
+          <ScalarProperty Name="usedDay" ColumnName="usedDay" />
+          <ScalarProperty Name="durationOfMaintainance" ColumnName="durationOfMaintainance" />
+          <ScalarProperty Name="total_operating_hours" ColumnName="total_operating_hours" />
+          <ScalarProperty Name="current_Status" ColumnName="current_Status" />
+          <ScalarProperty Name="fabrication_number" ColumnName="fabrication_number" />
+          <ScalarProperty Name="mark_code" ColumnName="mark_code" />
+          <ScalarProperty Name="quality_type" ColumnName="quality_type" />
+          <ScalarProperty Name="input_channel" ColumnName="input_channel" />
+          <ScalarProperty Name="Equipment_category_id" ColumnName="Equipment_category_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="isAttach" ColumnName="isAttach" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FuelActivitiesConsumptions">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.FuelActivitiesConsumption">
+        <MappingFragment StoreEntitySet="FuelActivitiesConsumption">
+          <ScalarProperty Name="fuelid" ColumnName="fuelid" />
+          <ScalarProperty Name="consumption_value" ColumnName="consumption_value" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="fuel_type" ColumnName="fuel_type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Incident1">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Incident1">
+        <MappingFragment StoreEntitySet="Incident1">
+          <ScalarProperty Name="incident_id" ColumnName="incident_id" />
+          <ScalarProperty Name="start_time" ColumnName="start_time" />
+          <ScalarProperty Name="end_time" ColumnName="end_time" />
+          <ScalarProperty Name="detail_location" ColumnName="detail_location" />
+          <ScalarProperty Name="reason" ColumnName="reason" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Inspections">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Inspection">
+        <MappingFragment StoreEntitySet="Inspection">
+          <ScalarProperty Name="inspect_id" ColumnName="inspect_id" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="inspect_date" ColumnName="inspect_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Insurances">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Insurance">
+        <MappingFragment StoreEntitySet="Insurance">
+          <ScalarProperty Name="insurance_id" ColumnName="insurance_id" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="insurance_start_date" ColumnName="insurance_start_date" />
+          <ScalarProperty Name="insurance_end_date" ColumnName="insurance_end_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RepairRegularlies">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.RepairRegularly">
+        <MappingFragment StoreEntitySet="RepairRegularly">
+          <ScalarProperty Name="maintain_id" ColumnName="maintain_id" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="maintain_content" ColumnName="maintain_content" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RepairRegularlyDetails">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.RepairRegularlyDetail">
+        <MappingFragment StoreEntitySet="RepairRegularlyDetail">
+          <ScalarProperty Name="maintain_detail_id" ColumnName="maintain_detail_id" />
+          <ScalarProperty Name="maintain_id" ColumnName="maintain_id" />
+          <ScalarProperty Name="supplyid" ColumnName="supplyid" />
+          <ScalarProperty Name="used" ColumnName="used" />
+          <ScalarProperty Name="thuhoi" ColumnName="thuhoi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Status1">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Status1">
+        <MappingFragment StoreEntitySet="Status1">
+          <ScalarProperty Name="statusid" ColumnName="statusid" />
+          <ScalarProperty Name="statusname" ColumnName="statusname" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Departments">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Department">
+        <MappingFragment StoreEntitySet="Department">
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="department_name" ColumnName="department_name" />
+          <ScalarProperty Name="department_type" ColumnName="department_type" />
+          <ScalarProperty Name="isInside" ColumnName="isInside" />
+          <ScalarProperty Name="index" ColumnName="index" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Notifications">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Notification">
+        <MappingFragment StoreEntitySet="Notification">
+          <ScalarProperty Name="id_noti" ColumnName="id_noti" />
+          <ScalarProperty Name="id_problem" ColumnName="id_problem" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="isread" ColumnName="isread" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserActionLogs">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.UserActionLog">
+        <MappingFragment StoreEntitySet="UserActionLog">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+          <ScalarProperty Name="Method" ColumnName="Method" />
+          <ScalarProperty Name="Url_From" ColumnName="Url_From" />
+          <ScalarProperty Name="Url_To" ColumnName="Url_To" />
+          <ScalarProperty Name="Action_Time" ColumnName="Action_Time" />
+          <ScalarProperty Name="Browser" ColumnName="Browser" />
+          <ScalarProperty Name="Location_IP" ColumnName="Location_IP" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdditionalHistoryResumes">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.AdditionalHistoryResume">
+        <MappingFragment StoreEntitySet="AdditionalHistoryResume">
+          <ScalarProperty Name="additional_history_resume_id" ColumnName="additional_history_resume_id" />
+          <ScalarProperty Name="additional_history_resume_year" ColumnName="additional_history_resume_year" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="records_id" ColumnName="records_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Careers">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Career">
+        <MappingFragment StoreEntitySet="Career">
+          <ScalarProperty Name="career_id" ColumnName="career_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Decisions">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Decision">
+        <MappingFragment StoreEntitySet="Decision">
+          <ScalarProperty Name="decision_id" ColumnName="decision_id" />
+          <ScalarProperty Name="number" ColumnName="number" />
+          <ScalarProperty Name="date" ColumnName="date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DurationTypes">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.DurationType">
+        <MappingFragment StoreEntitySet="DurationType">
+          <ScalarProperty Name="duration_type_id" ColumnName="duration_type_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Employee">
+        <MappingFragment StoreEntitySet="Employee">
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="BASIC_INFO_full_name" ColumnName="BASIC_INFO_full_name" />
+          <ScalarProperty Name="BASIC_INFO_gender" ColumnName="BASIC_INFO_gender" />
+          <ScalarProperty Name="BASIC_INFO_date_of_birth" ColumnName="BASIC_INFO_date_of_birth" />
+          <ScalarProperty Name="BASIC_INFO_place_of_birth" ColumnName="BASIC_INFO_place_of_birth" />
+          <ScalarProperty Name="BASIC_INFO_nation" ColumnName="BASIC_INFO_nation" />
+          <ScalarProperty Name="BASIC_INFO_home_town" ColumnName="BASIC_INFO_home_town" />
+          <ScalarProperty Name="BASIC_INFO_religion" ColumnName="BASIC_INFO_religion" />
+          <ScalarProperty Name="BASIC_INFO_registered_place_of_permanent_residence" ColumnName="BASIC_INFO_registered_place_of_permanent_residence" />
+          <ScalarProperty Name="BASIC_INFO_current_residence" ColumnName="BASIC_INFO_current_residence" />
+          <ScalarProperty Name="BASIC_INFO_phone_number" ColumnName="BASIC_INFO_phone_number" />
+          <ScalarProperty Name="BASIC_INFO_wounded_class" ColumnName="BASIC_INFO_wounded_class" />
+          <ScalarProperty Name="BASIC_INFO_policy_family_child" ColumnName="BASIC_INFO_policy_family_child" />
+          <ScalarProperty Name="BASIC_INFO_identity_card" ColumnName="BASIC_INFO_identity_card" />
+          <ScalarProperty Name="BASIC_INFO_date_of_issuance_of_identity_card" ColumnName="BASIC_INFO_date_of_issuance_of_identity_card" />
+          <ScalarProperty Name="BASIC_INFO_social_insurance_number" ColumnName="BASIC_INFO_social_insurance_number" />
+          <ScalarProperty Name="RECRUITMENT_profession" ColumnName="RECRUITMENT_profession" />
+          <ScalarProperty Name="RECRUITMENT_date" ColumnName="RECRUITMENT_date" />
+          <ScalarProperty Name="RECRUITMENT_company" ColumnName="RECRUITMENT_company" />
+          <ScalarProperty Name="JOB_instant_position" ColumnName="JOB_instant_position" />
+          <ScalarProperty Name="JOB_work" ColumnName="JOB_work" />
+          <ScalarProperty Name="JOB_civil_servants" ColumnName="JOB_civil_servants" />
+          <ScalarProperty Name="JOB_code_ranks" ColumnName="JOB_code_ranks" />
+          <ScalarProperty Name="JOB_pay_rate" ColumnName="JOB_pay_rate" />
+          <ScalarProperty Name="JOB_coefficients_salary" ColumnName="JOB_coefficients_salary" />
+          <ScalarProperty Name="JOB_date" ColumnName="JOB_date" />
+          <ScalarProperty Name="JOB_position_allowance" ColumnName="JOB_position_allowance" />
+          <ScalarProperty Name="JOB_other_allowances" ColumnName="JOB_other_allowances" />
+          <ScalarProperty Name="JOB_forte_of_work" ColumnName="JOB_forte_of_work" />
+          <ScalarProperty Name="ACADEMIC_academic_level" ColumnName="ACADEMIC_academic_level" />
+          <ScalarProperty Name="ACADEMIC_highest_qualification" ColumnName="ACADEMIC_highest_qualification" />
+          <ScalarProperty Name="ACADEMIC_political_theory" ColumnName="ACADEMIC_political_theory" />
+          <ScalarProperty Name="ACADEMIC_state_management" ColumnName="ACADEMIC_state_management" />
+          <ScalarProperty Name="ACADEMIC_languages" ColumnName="ACADEMIC_languages" />
+          <ScalarProperty Name="ACADEMIC_information_technology" ColumnName="ACADEMIC_information_technology" />
+          <ScalarProperty Name="PARTY_day_on_VCP" ColumnName="PARTY_day_on_VCP" />
+          <ScalarProperty Name="PARTY_official_date" ColumnName="PARTY_official_date" />
+          <ScalarProperty Name="PARTY_date_of_joining_political_social_organization" ColumnName="PARTY_date_of_joining_political_social_organization" />
+          <ScalarProperty Name="PARTY_date_of_enlistment" ColumnName="PARTY_date_of_enlistment" />
+          <ScalarProperty Name="PARTY_date_of_discharge" ColumnName="PARTY_date_of_discharge" />
+          <ScalarProperty Name="PARTY_highest_rank" ColumnName="PARTY_highest_rank" />
+          <ScalarProperty Name="PARTY_highest_achieved_title" ColumnName="PARTY_highest_achieved_title" />
+          <ScalarProperty Name="EVALUATION_bonus" ColumnName="EVALUATION_bonus" />
+          <ScalarProperty Name="EVALUATION_discipline" ColumnName="EVALUATION_discipline" />
+          <ScalarProperty Name="HEALTH_health_condition" ColumnName="HEALTH_health_condition" />
+          <ScalarProperty Name="HEALTH_height" ColumnName="HEALTH_height" />
+          <ScalarProperty Name="HEALTH_weight" ColumnName="HEALTH_weight" />
+          <ScalarProperty Name="HEALTH_blood_group" ColumnName="HEALTH_blood_group" />
+          <ScalarProperty Name="PERSONAL_HISTORY_detail" ColumnName="PERSONAL_HISTORY_detail" />
+          <ScalarProperty Name="PERSONAL_HISTORY_related_organization" ColumnName="PERSONAL_HISTORY_related_organization" />
+          <ScalarProperty Name="PERSONAL_HISTORY_relatives" ColumnName="PERSONAL_HISTORY_relatives" />
+          <ScalarProperty Name="status_id" ColumnName="status_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmployeeTasks">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.EmployeeTask">
+        <MappingFragment StoreEntitySet="EmployeeTask">
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="task_id" ColumnName="task_id" />
+          <ScalarProperty Name="received_date" ColumnName="received_date" />
+          <ScalarProperty Name="is_in_process" ColumnName="is_in_process" />
+          <ScalarProperty Name="is_updated" ColumnName="is_updated" />
+          <ScalarProperty Name="last_time_updated" ColumnName="last_time_updated" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Families">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Family">
+        <MappingFragment StoreEntitySet="Family">
+          <ScalarProperty Name="full_name" ColumnName="full_name" />
+          <ScalarProperty Name="date_of_birth" ColumnName="date_of_birth" />
+          <ScalarProperty Name="background" ColumnName="background" />
+          <ScalarProperty Name="permanent_address" ColumnName="permanent_address" />
+          <ScalarProperty Name="phone_number" ColumnName="phone_number" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="family_type_id" ColumnName="family_type_id" />
+          <ScalarProperty Name="family_relationship_id" ColumnName="family_relationship_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FamilyRelationships">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.FamilyRelationship">
+        <MappingFragment StoreEntitySet="FamilyRelationship">
+          <ScalarProperty Name="family_relationship_id" ColumnName="family_relationship_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FamilyTypes">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.FamilyType">
+        <MappingFragment StoreEntitySet="FamilyType">
+          <ScalarProperty Name="family_type_id" ColumnName="family_type_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Papers">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Paper">
+        <MappingFragment StoreEntitySet="Papers">
+          <ScalarProperty Name="papers_id" ColumnName="papers_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="papers_type_id" ColumnName="papers_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaperStorageTypes">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.PaperStorageType">
+        <MappingFragment StoreEntitySet="PaperStorageType">
+          <ScalarProperty Name="papers_storage_type_id" ColumnName="papers_storage_type_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PapersTypes">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.PapersType">
+        <MappingFragment StoreEntitySet="PapersType">
+          <ScalarProperty Name="papers_type_id" ColumnName="papers_type_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="is_trained_papers" ColumnName="is_trained_papers" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PayRates">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.PayRate">
+        <MappingFragment StoreEntitySet="PayRate">
+          <ScalarProperty Name="pay_rate_id" ColumnName="pay_rate_id" />
+          <ScalarProperty Name="pay_rate" ColumnName="pay_rate" />
+          <ScalarProperty Name="applied_year" ColumnName="applied_year" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PayTables">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.PayTable">
+        <MappingFragment StoreEntitySet="PayTable">
+          <ScalarProperty Name="pay_table_id" ColumnName="pay_table_id" />
+          <ScalarProperty Name="pay_table" ColumnName="pay_table" />
+          <ScalarProperty Name="applied_year" ColumnName="applied_year" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Qualifications">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Qualification">
+        <MappingFragment StoreEntitySet="Qualification">
+          <ScalarProperty Name="qualification_id" ColumnName="qualification_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Records">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Record">
+        <MappingFragment StoreEntitySet="Records">
+          <ScalarProperty Name="records_id" ColumnName="records_id" />
+          <ScalarProperty Name="records_status_id" ColumnName="records_status_id" />
+          <ScalarProperty Name="received_date" ColumnName="received_date" />
+          <ScalarProperty Name="delivery_employee_id" ColumnName="delivery_employee_id" />
+          <ScalarProperty Name="handover_employee_id" ColumnName="handover_employee_id" />
+          <ScalarProperty Name="management_employee_id" ColumnName="management_employee_id" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RecordsGettingAuthorizes">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.RecordsGettingAuthorize">
+        <MappingFragment StoreEntitySet="RecordsGettingAuthorize">
+          <ScalarProperty Name="records_getting_authorize_id" ColumnName="records_getting_authorize_id" />
+          <ScalarProperty Name="full_name" ColumnName="full_name" />
+          <ScalarProperty Name="identity_card_number" ColumnName="identity_card_number" />
+          <ScalarProperty Name="phone_number" ColumnName="phone_number" />
+          <ScalarProperty Name="permanent_address" ColumnName="permanent_address" />
+          <ScalarProperty Name="records_id" ColumnName="records_id" />
+          <ScalarProperty Name="family_relationship_id" ColumnName="family_relationship_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RecordsPapers">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.RecordsPaper">
+        <MappingFragment StoreEntitySet="RecordsPapers">
+          <ScalarProperty Name="records_papers_id" ColumnName="records_papers_id" />
+          <ScalarProperty Name="school_id" ColumnName="school_id" />
+          <ScalarProperty Name="specializations_id" ColumnName="specializations_id" />
+          <ScalarProperty Name="career_id" ColumnName="career_id" />
+          <ScalarProperty Name="date_start" ColumnName="date_start" />
+          <ScalarProperty Name="date_end" ColumnName="date_end" />
+          <ScalarProperty Name="trained_forms" ColumnName="trained_forms" />
+          <ScalarProperty Name="papers_number" ColumnName="papers_number" />
+          <ScalarProperty Name="papers_id" ColumnName="papers_id" />
+          <ScalarProperty Name="papers_storage_type_id" ColumnName="papers_storage_type_id" />
+          <ScalarProperty Name="qualification_id" ColumnName="qualification_id" />
+          <ScalarProperty Name="duration" ColumnName="duration" />
+          <ScalarProperty Name="duration_type_id" ColumnName="duration_type_id" />
+          <ScalarProperty Name="received_date" ColumnName="received_date" />
+          <ScalarProperty Name="given_date" ColumnName="given_date" />
+          <ScalarProperty Name="records_id" ColumnName="records_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RecordsStatus">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.RecordsStatu">
+        <MappingFragment StoreEntitySet="RecordsStatus">
+          <ScalarProperty Name="records_status_id" ColumnName="records_status_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Recruitments">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Recruitment">
+        <MappingFragment StoreEntitySet="Recruitment">
+          <ScalarProperty Name="decision_id" ColumnName="decision_id" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="recruitment_date" ColumnName="recruitment_date" />
+          <ScalarProperty Name="work_id" ColumnName="work_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="qualification_id" ColumnName="qualification_id" />
+          <ScalarProperty Name="specializations_id" ColumnName="specializations_id" />
+          <ScalarProperty Name="salary_id" ColumnName="salary_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Salaries">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Salary">
+        <MappingFragment StoreEntitySet="Salary">
+          <ScalarProperty Name="salary_id" ColumnName="salary_id" />
+          <ScalarProperty Name="salary1" ColumnName="salary" />
+          <ScalarProperty Name="applied_year" ColumnName="applied_year" />
+          <ScalarProperty Name="pay_rate_id" ColumnName="pay_rate_id" />
+          <ScalarProperty Name="pay_table_id" ColumnName="pay_table_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalaryProcesses">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.SalaryProcess">
+        <MappingFragment StoreEntitySet="SalaryProcess">
+          <ScalarProperty Name="salary_process_id" ColumnName="salary_process_id" />
+          <ScalarProperty Name="code_ranks" ColumnName="code_ranks" />
+          <ScalarProperty Name="coefficients_salary" ColumnName="coefficients_salary" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Schools">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.School">
+        <MappingFragment StoreEntitySet="School">
+          <ScalarProperty Name="school_id" ColumnName="school_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Specializations">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Specialization">
+        <MappingFragment StoreEntitySet="Specializations">
+          <ScalarProperty Name="specializations_id" ColumnName="specializations_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="specializtions_type_id" ColumnName="specializtions_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SpecializationsTypes">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.SpecializationsType">
+        <MappingFragment StoreEntitySet="SpecializationsType">
+          <ScalarProperty Name="specializtions_type_id" ColumnName="specializtions_type_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Status2">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Status2">
+        <MappingFragment StoreEntitySet="Status2">
+          <ScalarProperty Name="status_id" ColumnName="status_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tasks">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Task">
+        <MappingFragment StoreEntitySet="Task">
+          <ScalarProperty Name="task_id" ColumnName="task_id" />
+          <ScalarProperty Name="task_name" ColumnName="task_name" />
+          <ScalarProperty Name="task_type_id" ColumnName="task_type_id" />
+          <ScalarProperty Name="papers_id" ColumnName="papers_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaskTypes">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.TaskType">
+        <MappingFragment StoreEntitySet="TaskType">
+          <ScalarProperty Name="task_type_id" ColumnName="task_type_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Terminations">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Termination">
+        <MappingFragment StoreEntitySet="Termination">
+          <ScalarProperty Name="decision_id" ColumnName="decision_id" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="termination_type_id" ColumnName="termination_type_id" />
+          <ScalarProperty Name="terminate_date" ColumnName="terminate_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TerminationTypes">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.TerminationType">
+        <MappingFragment StoreEntitySet="TerminationType">
+          <ScalarProperty Name="termination_type_id" ColumnName="termination_type_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transfers">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Transfer">
+        <MappingFragment StoreEntitySet="Transfer">
+          <ScalarProperty Name="decision_id" ColumnName="decision_id" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="transfer_reason" ColumnName="transfer_reason" />
+          <ScalarProperty Name="new_department_id" ColumnName="new_department_id" />
+          <ScalarProperty Name="new_work_id" ColumnName="new_work_id" />
+          <ScalarProperty Name="old_department_id" ColumnName="old_department_id" />
+          <ScalarProperty Name="old_work_id" ColumnName="old_work_id" />
+          <ScalarProperty Name="new_salary_id" ColumnName="new_salary_id" />
+          <ScalarProperty Name="old_salary_id" ColumnName="old_salary_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Works">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Work">
+        <MappingFragment StoreEntitySet="Work">
+          <ScalarProperty Name="work_id" ColumnName="work_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="allowance" ColumnName="allowance" />
+          <ScalarProperty Name="pay_table_id" ColumnName="pay_table_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WorkGroups">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.WorkGroup">
+        <MappingFragment StoreEntitySet="WorkGroup">
+          <ScalarProperty Name="work_group_id" ColumnName="work_group_id" />
+          <ScalarProperty Name="acronym" ColumnName="acronym" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WorkingProcesses">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.WorkingProcess">
+        <MappingFragment StoreEntitySet="WorkingProcess">
+          <ScalarProperty Name="working_process_id" ColumnName="working_process_id" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="position" ColumnName="position" />
+          <ScalarProperty Name="office" ColumnName="office" />
+          <ScalarProperty Name="date_start" ColumnName="date_start" />
+          <ScalarProperty Name="date_end" ColumnName="date_end" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AbsenceReasons">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.AbsenceReason">
+        <MappingFragment StoreEntitySet="AbsenceReason">
+          <ScalarProperty Name="absence_reason_id" ColumnName="absence_reason_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="absence_reason_type_id" ColumnName="absence_reason_type_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AbsenceReasonTypes">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.AbsenceReasonType">
+        <MappingFragment StoreEntitySet="AbsenceReasonType">
+          <ScalarProperty Name="absence_reason_type_id" ColumnName="absence_reason_type_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Criteria">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Criterion">
+        <MappingFragment StoreEntitySet="Criteria">
+          <ScalarProperty Name="criteria_id" ColumnName="criteria_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="measure_unit_id" ColumnName="measure_unit_id" />
+          <ScalarProperty Name="criteria_group_id" ColumnName="criteria_group_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CriteriaGroups">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.CriteriaGroup">
+        <MappingFragment StoreEntitySet="CriteriaGroup">
+          <ScalarProperty Name="criteria_group_id" ColumnName="criteria_group_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DepartmentAttendanceAndProductivities">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.DepartmentAttendanceAndProductivity">
+        <MappingFragment StoreEntitySet="DepartmentAttendanceAndProductivity">
+          <ScalarProperty Name="header_attendance_and_productivity_id" ColumnName="header_attendance_and_productivity_id" />
+          <ScalarProperty Name="total_effort" ColumnName="total_effort" />
+          <ScalarProperty Name="total_mined_coal" ColumnName="total_mined_coal" />
+          <ScalarProperty Name="total_mined_meter" ColumnName="total_mined_meter" />
+          <ScalarProperty Name="total_cropped_meter" ColumnName="total_cropped_meter" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="is_filled_from_api" ColumnName="is_filled_from_api" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmployeeAttendanceAndProductivities">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.EmployeeAttendanceAndProductivity">
+        <MappingFragment StoreEntitySet="EmployeeAttendanceAndProductivity">
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="header_attendance_and_productivity_id" ColumnName="header_attendance_and_productivity_id" />
+          <ScalarProperty Name="real_time_attendance" ColumnName="real_time_attendance" />
+          <ScalarProperty Name="productivity_point" ColumnName="productivity_point" />
+          <ScalarProperty Name="do_work" ColumnName="do_work" />
+          <ScalarProperty Name="note" ColumnName="note" />
+          <ScalarProperty Name="absence_reason_id" ColumnName="absence_reason_id" />
+          <ScalarProperty Name="down_time" ColumnName="down_time" />
+          <ScalarProperty Name="up_time" ColumnName="up_time" />
+          <ScalarProperty Name="is_changed_manually" ColumnName="is_changed_manually" />
+          <ScalarProperty Name="actual_header_fetched" ColumnName="actual_header_fetched" />
+          <ScalarProperty Name="is_filled_from_api" ColumnName="is_filled_from_api" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FakeAPIs">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.FakeAPI">
+        <MappingFragment StoreEntitySet="FakeAPI">
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="attendance_date" ColumnName="attendance_date" />
+          <ScalarProperty Name="shifts_id" ColumnName="shifts_id" />
+          <ScalarProperty Name="attendance_time" ColumnName="attendance_time" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Files">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.File">
+        <MappingFragment StoreEntitySet="File">
+          <ScalarProperty Name="file_id" ColumnName="file_id" />
+          <ScalarProperty Name="report_file_id" ColumnName="report_file_id" />
+          <ScalarProperty Name="file_name" ColumnName="file_name" />
+          <ScalarProperty Name="file_name_display" ColumnName="file_name_display" />
+          <ScalarProperty Name="account_id" ColumnName="account_id" />
+          <ScalarProperty Name="uploaded_time" ColumnName="uploaded_time" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HeaderAttendanceAndProductivities">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.HeaderAttendanceAndProductivity">
+        <MappingFragment StoreEntitySet="HeaderAttendanceAndProductivity">
+          <ScalarProperty Name="header_attendance_and_productivity_id" ColumnName="header_attendance_and_productivity_id" />
+          <ScalarProperty Name="attendance_date" ColumnName="attendance_date" />
+          <ScalarProperty Name="shifts_id" ColumnName="shifts_id" />
+          <ScalarProperty Name="is_created_manually" ColumnName="is_created_manually" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="message" ColumnName="message" />
+          <ScalarProperty Name="fetch_data_time" ColumnName="fetch_data_time" />
+          <ScalarProperty Name="version" ColumnName="version" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HeaderPlanManufacturingByMonths">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.HeaderPlanManufacturingByMonth">
+        <MappingFragment StoreEntitySet="HeaderPlanManufacturingByMonth">
+          <ScalarProperty Name="header_plan_manufacturing_by_month_id" ColumnName="header_plan_manufacturing_by_month_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="plan_manufacturing_month_information_id" ColumnName="plan_manufacturing_month_information_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HeaderPlanManufacturingByShifts">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.HeaderPlanManufacturingByShift">
+        <MappingFragment StoreEntitySet="HeaderPlanManufacturingByShifts">
+          <ScalarProperty Name="header_phan_manufacturing_by_shifts_id" ColumnName="header_phan_manufacturing_by_shifts_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="shifts_id" ColumnName="shifts_id" />
+          <ScalarProperty Name="date" ColumnName="date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HeaderPlanManufacturingByYears">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.HeaderPlanManufacturingByYear">
+        <MappingFragment StoreEntitySet="HeaderPlanManufacturingByYear">
+          <ScalarProperty Name="header_plan_manufacturing_by_year_id" ColumnName="header_plan_manufacturing_by_year_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="year" ColumnName="year" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HeaderRealityManufacturings">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.HeaderRealityManufacturing">
+        <MappingFragment StoreEntitySet="HeaderRealityManufacturing">
+          <ScalarProperty Name="header_reality_manufacturing_id" ColumnName="header_reality_manufacturing_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="reality_manufacturing_day_information_id" ColumnName="reality_manufacturing_day_information_id" />
+          <ScalarProperty Name="shifts_id" ColumnName="shifts_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MealRegistrations">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.MealRegistration">
+        <MappingFragment StoreEntitySet="MealRegistration">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="date_regs" ColumnName="date_regs" />
+          <ScalarProperty Name="num_regs" ColumnName="num_regs" />
+          <ScalarProperty Name="num_regs_plan" ColumnName="num_regs_plan" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MeasureUnits">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.MeasureUnit">
+        <MappingFragment StoreEntitySet="MeasureUnit">
+          <ScalarProperty Name="measure_unit_id" ColumnName="measure_unit_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlanManufacturingByMonths">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.PlanManufacturingByMonth">
+        <MappingFragment StoreEntitySet="PlanManufacturingByMonth">
+          <ScalarProperty Name="header_plan_manufacturing_by_month_id" ColumnName="header_plan_manufacturing_by_month_id" />
+          <ScalarProperty Name="criteria_id" ColumnName="criteria_id" />
+          <ScalarProperty Name="plan_quantity" ColumnName="plan_quantity" />
+          <ScalarProperty Name="last_time_update" ColumnName="last_time_update" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlanManufacturingByShifts">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.PlanManufacturingByShift">
+        <MappingFragment StoreEntitySet="PlanManufacturingByShifts">
+          <ScalarProperty Name="header_phan_manufacturing_by_shifts_id" ColumnName="header_phan_manufacturing_by_shifts_id" />
+          <ScalarProperty Name="criteria_id" ColumnName="criteria_id" />
+          <ScalarProperty Name="plan_quantity" ColumnName="plan_quantity" />
+          <ScalarProperty Name="last_time_update" ColumnName="last_time_update" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlanManufacturingByYears">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.PlanManufacturingByYear">
+        <MappingFragment StoreEntitySet="PlanManufacturingByYear">
+          <ScalarProperty Name="header_plan_manufacturing_by_year_id" ColumnName="header_plan_manufacturing_by_year_id" />
+          <ScalarProperty Name="criteria_id" ColumnName="criteria_id" />
+          <ScalarProperty Name="plan_quantity" ColumnName="plan_quantity" />
+          <ScalarProperty Name="last_time_update" ColumnName="last_time_update" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PlanManufacturingMonthInformations">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.PlanManufacturingMonthInformation">
+        <MappingFragment StoreEntitySet="PlanManufacturingMonthInformation">
+          <ScalarProperty Name="plan_manufacturing_month_information_id" ColumnName="plan_manufacturing_month_information_id" />
+          <ScalarProperty Name="month" ColumnName="month" />
+          <ScalarProperty Name="year" ColumnName="year" />
+          <ScalarProperty Name="number_working_days" ColumnName="number_working_days" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RealityManufacturingDayInformations">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.RealityManufacturingDayInformation">
+        <MappingFragment StoreEntitySet="RealityManufacturingDayInformation">
+          <ScalarProperty Name="reality_manufacturing_day_information_id" ColumnName="reality_manufacturing_day_information_id" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="no_date_manufacturing" ColumnName="no_date_manufacturing" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReportFiles">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.ReportFile">
+        <MappingFragment StoreEntitySet="ReportFile">
+          <ScalarProperty Name="report_file_id" ColumnName="report_file_id" />
+          <ScalarProperty Name="report_file_date" ColumnName="report_file_date" />
+          <ScalarProperty Name="shifts_id" ColumnName="shifts_id" />
+          <ScalarProperty Name="department_id" ColumnName="department_id" />
+          <ScalarProperty Name="lock" ColumnName="lock" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SafetyWorks">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.SafetyWork">
+        <MappingFragment StoreEntitySet="SafetyWork">
+          <ScalarProperty Name="safety_work_id" ColumnName="safety_work_id" />
+          <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+          <ScalarProperty Name="reason" ColumnName="reason" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="shifts_id" ColumnName="shifts_id" />
+          <ScalarProperty Name="safety_work_type_id" ColumnName="safety_work_type_id" />
+          <ScalarProperty Name="note" ColumnName="note" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SafetyWorkTypes">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.SafetyWorkType">
+        <MappingFragment StoreEntitySet="SafetyWorkType">
+          <ScalarProperty Name="safety_work_type_id" ColumnName="safety_work_type_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Shifts">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Shift">
+        <MappingFragment StoreEntitySet="Shifts">
+          <ScalarProperty Name="shifts_id" ColumnName="shifts_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BigMaintainEquipments">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.BigMaintainEquipment">
+        <MappingFragment StoreEntitySet="BigMaintainEquipment">
+          <ScalarProperty Name="supplyDocumentaryEquipmentId" ColumnName="supplyDocumentaryEquipmentId" />
+          <ScalarProperty Name="documentary_big_maintain_id" ColumnName="documentary_big_maintain_id" />
+          <ScalarProperty Name="supply_id" ColumnName="supply_id" />
+          <ScalarProperty Name="quantity_plan" ColumnName="quantity_plan" />
+          <ScalarProperty Name="quantity_in" ColumnName="quantity_in" />
+          <ScalarProperty Name="quantity_used" ColumnName="quantity_used" />
+          <ScalarProperty Name="quantity_out" ColumnName="quantity_out" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Consumptions">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Consumption">
+        <MappingFragment StoreEntitySet="Consumption">
+          <ScalarProperty Name="supplyid" ColumnName="supplyid" />
+          <ScalarProperty Name="departmentid" ColumnName="departmentid" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="used" ColumnName="used" />
+          <ScalarProperty Name="thuhoi" ColumnName="thuhoi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ImproveEquipments">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.ImproveEquipment">
+        <MappingFragment StoreEntitySet="ImproveEquipment">
+          <ScalarProperty Name="supplyDocumentaryEquipmentId" ColumnName="supplyDocumentaryEquipmentId" />
+          <ScalarProperty Name="documentary_improve_id" ColumnName="documentary_improve_id" />
+          <ScalarProperty Name="supply_id" ColumnName="supply_id" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="quantity_before" ColumnName="quantity_before" />
+          <ScalarProperty Name="quantity_after" ColumnName="quantity_after" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MaintainEquipments">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.MaintainEquipment">
+        <MappingFragment StoreEntitySet="MaintainEquipment">
+          <ScalarProperty Name="supplyDocumentaryEquipmentId" ColumnName="supplyDocumentaryEquipmentId" />
+          <ScalarProperty Name="documentary_maintain_id" ColumnName="documentary_maintain_id" />
+          <ScalarProperty Name="supply_id" ColumnName="supply_id" />
+          <ScalarProperty Name="quantity_plan" ColumnName="quantity_plan" />
+          <ScalarProperty Name="quantity_in" ColumnName="quantity_in" />
+          <ScalarProperty Name="quantity_used" ColumnName="quantity_used" />
+          <ScalarProperty Name="quantity_out" ColumnName="quantity_out" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MonthlyPlans">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.MonthlyPlan">
+        <MappingFragment StoreEntitySet="MonthlyPlan">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="supplyid" ColumnName="supplyid" />
+          <ScalarProperty Name="departmentid" ColumnName="departmentid" />
+          <ScalarProperty Name="equipmentid" ColumnName="equipmentid" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="dinh_muc" ColumnName="dinh_muc" />
+          <ScalarProperty Name="quantity_plan" ColumnName="quantity_plan" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="quantity_provide" ColumnName="quantity_provide" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RepairCameras">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.RepairCamera">
+        <MappingFragment StoreEntitySet="RepairCamera">
+          <ScalarProperty Name="supplyDocumentaryCameraId" ColumnName="supplyDocumentaryCameraId" />
+          <ScalarProperty Name="documentary_id" ColumnName="documentary_id" />
+          <ScalarProperty Name="room_id" ColumnName="room_id" />
+          <ScalarProperty Name="supply_id" ColumnName="supply_id" />
+          <ScalarProperty Name="quantity_plan" ColumnName="quantity_plan" />
+          <ScalarProperty Name="quantity_in" ColumnName="quantity_in" />
+          <ScalarProperty Name="quantity_used" ColumnName="quantity_used" />
+          <ScalarProperty Name="quantity_out" ColumnName="quantity_out" />
+          <ScalarProperty Name="supplyStatus" ColumnName="supplyStatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RepairEquipments">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.RepairEquipment">
+        <MappingFragment StoreEntitySet="RepairEquipment">
+          <ScalarProperty Name="supplyDocumentaryEquipmentId" ColumnName="supplyDocumentaryEquipmentId" />
+          <ScalarProperty Name="documentary_repair_id" ColumnName="documentary_repair_id" />
+          <ScalarProperty Name="supply_id" ColumnName="supply_id" />
+          <ScalarProperty Name="quantity_plan" ColumnName="quantity_plan" />
+          <ScalarProperty Name="quantity_in" ColumnName="quantity_in" />
+          <ScalarProperty Name="quantity_used" ColumnName="quantity_used" />
+          <ScalarProperty Name="quantity_out" ColumnName="quantity_out" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RepairRegularly1">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.RepairRegularly1">
+        <MappingFragment StoreEntitySet="RepairRegularly1">
+          <ScalarProperty Name="supply_sctx_id" ColumnName="supply_sctx_id" />
+          <ScalarProperty Name="supply_id" ColumnName="supply_id" />
+          <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="equipmentId_dikem" ColumnName="equipmentId_dikem" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Supplies">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Supply">
+        <MappingFragment StoreEntitySet="Supply">
+          <ScalarProperty Name="supply_id" ColumnName="supply_id" />
+          <ScalarProperty Name="supply_name" ColumnName="supply_name" />
+          <ScalarProperty Name="unit" ColumnName="unit" />
+          <ScalarProperty Name="price" ColumnName="price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="WorkWorkGroup" TypeName="QuangHanhManufacturingModel.WorkWorkGroup" StoreEntitySet="WorkWorkGroup">
+      <EndProperty Name="Work">
+        <ScalarProperty Name="work_id" ColumnName="work_id" />
+      </EndProperty>
+      <EndProperty Name="WorkGroup">
+        <ScalarProperty Name="work_group_id" ColumnName="work_group_id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,1124 @@
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\QUANGHANH2.dll.config
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\QUANGHANH2.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\QUANGHANH2.pdb
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\csc.exe
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\csc.exe.config
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\csc.rsp
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\csi.exe
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\csi.exe.config
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\csi.rsp
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.Managed.Core.targets
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.AppContext.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Console.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.IO.Compression.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.IO.Pipes.AccessControl.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.IO.Pipes.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Claims.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.ValueTuple.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Xml.XPath.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\vbc.exe
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\vbc.exe.config
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\vbc.rsp
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\VBCSCompiler.exe
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\Antlr3.Runtime.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\Newtonsoft.Json.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\System.Web.Helpers.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\System.Web.Mvc.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\System.Web.Optimization.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\System.Web.Razor.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.Deployment.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.Razor.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\WebGrease.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\System.Web.Helpers.xml
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\System.Web.Mvc.xml
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\System.Web.Optimization.xml
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\System.Web.Razor.xml
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.xml
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.Deployment.xml
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\Newtonsoft.Json.xml
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\Antlr3.Runtime.pdb
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CoreCompileInputs.cache
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\obj\Debug\QUANGHANH2.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\obj\Debug\QUANGHANH2.pdb
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\EntityFramework.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\EntityFramework.SqlServer.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\EntityFramework.xml
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\EntityFramework.SqlServer.xml
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\System.Linq.Dynamic.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CoreCompileInputs.cache
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\obj\Debug\QUANGHANH2.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\obj\Debug\QUANGHANH2.pdb
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\QUANGHANH2.dll.config
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\QUANGHANH2.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\QUANGHANH2.pdb
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\csc.exe
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\csc.exe.config
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\csc.rsp
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\csi.exe
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\csi.exe.config
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\csi.rsp
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.Managed.Core.targets
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.AppContext.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Console.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.IO.Compression.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.IO.Pipes.AccessControl.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.IO.Pipes.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Claims.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.ValueTuple.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Xml.XPath.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\vbc.exe
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\vbc.exe.config
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\vbc.rsp
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\VBCSCompiler.exe
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\Antlr3.Runtime.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\EntityFramework.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\EntityFramework.SqlServer.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\Newtonsoft.Json.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\System.Linq.Dynamic.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\System.Web.Helpers.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\System.Web.Mvc.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\System.Web.Optimization.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\System.Web.Razor.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.Razor.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\WebGrease.dll
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\EntityFramework.xml
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\EntityFramework.SqlServer.xml
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\System.Web.Helpers.xml
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\System.Web.Mvc.xml
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\System.Web.Optimization.xml
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\System.Web.Razor.xml
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.xml
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\Newtonsoft.Json.xml
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\Antlr3.Runtime.pdb
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Duy\Desktop\QUANGHANH2\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\EPPlus.dll
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\bin\EPPlus.xml
+C:\Users\hieum\source\repos\QUANGHANH2\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CoreCompileInputs.cache
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\obj\Debug\QUANGHANH2.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\obj\Debug\QUANGHANH2.pdb
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\QUANGHANH2.dll.config
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\QUANGHANH2.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\QUANGHANH2.pdb
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\csc.exe
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\csc.exe.config
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\csc.rsp
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\csi.exe
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\csi.exe.config
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\csi.rsp
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.Managed.Core.targets
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.AppContext.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Console.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.IO.Compression.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.IO.Pipes.AccessControl.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.IO.Pipes.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Claims.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.ValueTuple.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Xml.XPath.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\vbc.exe
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\vbc.exe.config
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\vbc.rsp
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\VBCSCompiler.exe
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\Antlr3.Runtime.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\EntityFramework.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\EntityFramework.SqlServer.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\EPPlus.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\Newtonsoft.Json.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\System.Linq.Dynamic.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\System.Web.Helpers.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\System.Web.Mvc.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\System.Web.Optimization.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\System.Web.Razor.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.Deployment.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.Razor.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\WebGrease.dll
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\EntityFramework.xml
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\EntityFramework.SqlServer.xml
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\EPPlus.xml
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\System.Web.Helpers.xml
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\System.Web.Mvc.xml
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\System.Web.Optimization.xml
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\System.Web.Razor.xml
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.xml
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.Deployment.xml
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\Newtonsoft.Json.xml
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\Antlr3.Runtime.pdb
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\hieum\source\repos\QUANGHANH123456\QUANGHANH2\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\QUANGHANH2.dll.config
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\QUANGHANH2.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\QUANGHANH2.pdb
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\csc.exe
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\csc.exe.config
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\csc.rsp
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\csi.exe
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\csi.exe.config
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\csi.rsp
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\Microsoft.Managed.Core.targets
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.AppContext.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Console.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.IO.Compression.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.IO.Pipes.AccessControl.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.IO.Pipes.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Security.Claims.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.ValueTuple.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Xml.XPath.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\vbc.exe
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\vbc.exe.config
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\vbc.rsp
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\VBCSCompiler.exe
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\Antlr3.Runtime.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\EntityFramework.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\EntityFramework.SqlServer.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\EPPlus.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\Newtonsoft.Json.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\System.Linq.Dynamic.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\System.Web.Helpers.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\System.Web.Mvc.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\System.Web.Optimization.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\System.Web.Razor.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\System.Web.WebPages.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\System.Web.WebPages.Razor.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\WebGrease.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\EntityFramework.xml
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\EntityFramework.SqlServer.xml
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\EPPlus.xml
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\System.Web.Helpers.xml
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\System.Web.Mvc.xml
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\System.Web.Optimization.xml
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\System.Web.Razor.xml
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\System.Web.WebPages.xml
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\Newtonsoft.Json.xml
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\Antlr3.Runtime.pdb
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CoreCompileInputs.cache
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\obj\Debug\QUANGHANH2.dll
+C:\Users\Duc Anh\Desktop\QUANGHANH-PROTOTYPE-DEV2_NEW\QUANGHANH2\obj\Debug\QUANGHANH2.pdb
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.dll.config
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.pdb
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.exe
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.exe.config
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.rsp
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.exe
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.exe.config
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.rsp
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.Managed.Core.targets
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.AppContext.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Collections.Immutable.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Console.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Compression.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.FileSystem.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Pipes.AccessControl.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Pipes.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Reflection.Metadata.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.AccessControl.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Claims.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Principal.Windows.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.ValueTuple.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XmlDocument.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XPath.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.exe
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.exe.config
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.rsp
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\VBCSCompiler.exe
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\VBCSCompiler.exe.config
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.SqlServer.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EPPlus.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Linq.Dynamic.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Helpers.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Mvc.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Optimization.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Razor.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Deployment.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.xml
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.SqlServer.xml
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EPPlus.xml
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Helpers.xml
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Mvc.xml
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Optimization.xml
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Razor.xml
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.xml
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Deployment.xml
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.xml
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CoreCompileInputs.cache
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.dll
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.pdb
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.dll.config
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.pdb
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.exe
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.exe.config
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.rsp
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.exe
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.exe.config
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.rsp
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CSharp.Core.targets
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.Managed.Core.targets
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.VisualBasic.Core.targets
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.AppContext.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Collections.Immutable.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Console.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Diagnostics.StackTrace.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Compression.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.FileSystem.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.FileSystem.Primitives.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Pipes.AccessControl.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Pipes.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Reflection.Metadata.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.AccessControl.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Claims.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Encoding.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Primitives.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Principal.Windows.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Text.Encoding.CodePages.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.ValueTuple.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.ReaderWriter.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XmlDocument.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XPath.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XPath.XDocument.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.exe
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.exe.config
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.rsp
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\VBCSCompiler.exe
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\VBCSCompiler.exe.config
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Antlr3.Runtime.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.SqlServer.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EPPlus.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.Web.Infrastructure.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Linq.Dynamic.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Helpers.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Mvc.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Optimization.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Razor.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Deployment.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\WebGrease.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.xml
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.SqlServer.xml
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EPPlus.xml
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Helpers.xml
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Mvc.xml
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Optimization.xml
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Razor.xml
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.xml
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Deployment.xml
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.xml
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Antlr3.Runtime.pdb
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CoreCompileInputs.cache
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.dll
+E:\QUANGHANH\Git\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.pdb
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.dll.config
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.pdb
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.exe
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.exe.config
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.rsp
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.exe
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.exe.config
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.rsp
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.Managed.Core.targets
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.AppContext.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Collections.Immutable.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Console.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Compression.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.FileSystem.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Pipes.AccessControl.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Pipes.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Reflection.Metadata.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.AccessControl.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Claims.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Principal.Windows.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.ValueTuple.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XmlDocument.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XPath.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.exe
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.exe.config
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.rsp
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\VBCSCompiler.exe
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\VBCSCompiler.exe.config
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Antlr3.Runtime.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.SqlServer.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EPPlus.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.Web.Infrastructure.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Linq.Dynamic.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Helpers.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Mvc.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Optimization.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Razor.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Deployment.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\WebGrease.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.xml
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.SqlServer.xml
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EPPlus.xml
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Helpers.xml
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Mvc.xml
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Optimization.xml
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Razor.xml
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.xml
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Deployment.xml
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.xml
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Antlr3.Runtime.pdb
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CoreCompileInputs.cache
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.dll
+D:\PROJECT_2\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.pdb
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.dll.config
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.pdb
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.exe
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.exe.config
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.rsp
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.exe
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.exe.config
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.rsp
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.Managed.Core.targets
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.AppContext.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Console.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Compression.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Pipes.AccessControl.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Pipes.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Claims.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.ValueTuple.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XPath.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.exe
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.exe.config
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.rsp
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\VBCSCompiler.exe
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.SqlServer.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EPPlus.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Linq.Dynamic.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Helpers.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Mvc.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Optimization.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Razor.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.xml
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.SqlServer.xml
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EPPlus.xml
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Helpers.xml
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Mvc.xml
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Optimization.xml
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Razor.xml
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.xml
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.xml
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.pdb
+C:\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\QUANGHANH2.dll.config
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\QUANGHANH2.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\QUANGHANH2.pdb
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\csc.exe
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\csc.exe.config
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\csc.rsp
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\csi.exe
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\csi.exe.config
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\csi.rsp
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\Microsoft.Managed.Core.targets
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.AppContext.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Collections.Immutable.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Console.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.IO.Compression.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.IO.FileSystem.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.IO.Pipes.AccessControl.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.IO.Pipes.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Reflection.Metadata.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Security.AccessControl.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Security.Claims.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Security.Principal.Windows.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.ValueTuple.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Xml.XmlDocument.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Xml.XPath.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\vbc.exe
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\vbc.exe.config
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\vbc.rsp
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\VBCSCompiler.exe
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\roslyn\VBCSCompiler.exe.config
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\EntityFramework.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\EntityFramework.SqlServer.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\EPPlus.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\Newtonsoft.Json.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Linq.Dynamic.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Web.Helpers.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Web.Mvc.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Web.Optimization.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Web.Razor.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Web.WebPages.Deployment.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Web.WebPages.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Web.WebPages.Razor.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\Unity.Abstractions.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\Unity.Container.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\Unity.Mvc5.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\EntityFramework.xml
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\EntityFramework.SqlServer.xml
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\EPPlus.xml
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Web.Helpers.xml
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Web.Mvc.xml
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Web.Optimization.xml
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Web.Razor.xml
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Web.WebPages.xml
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Web.WebPages.Deployment.xml
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\Newtonsoft.Json.xml
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\Unity.Abstractions.pdb
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\Unity.Container.pdb
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CoreCompileInputs.cache
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\obj\Debug\QUANGHANH2.dll
+D:\QH-PRJ 2 C.Huong\QUANGHANH-PROTOTYPE-DA_HUONGNT97\QUANGHANH2\obj\Debug\QUANGHANH2.pdb
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Abstractions.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Container.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Mvc5.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\XCrypt.dll
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Abstractions.pdb
+C:\Users\Duy\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Container.pdb
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.dll.config
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.pdb
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.exe
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.exe.config
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.rsp
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.exe
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.exe.config
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.rsp
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.Managed.Core.targets
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.AppContext.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Collections.Immutable.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Console.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Diagnostics.StackTrace.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Compression.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.FileSystem.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.FileSystem.Primitives.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Pipes.AccessControl.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Pipes.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Reflection.Metadata.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.AccessControl.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Claims.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Encoding.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Primitives.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Principal.Windows.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Text.Encoding.CodePages.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.ValueTuple.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.ReaderWriter.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XmlDocument.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XPath.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XPath.XDocument.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.exe
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.exe.config
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.rsp
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\VBCSCompiler.exe
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\VBCSCompiler.exe.config
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\DocumentFormat.OpenXml.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.SqlServer.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EPPlus.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.IO.FileSystem.Primitives.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.IO.Packaging.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Linq.Dynamic.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Helpers.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Mvc.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Optimization.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Razor.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Deployment.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Abstractions.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Container.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Mvc5.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\XCrypt.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\DocumentFormat.OpenXml.xml
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.xml
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.SqlServer.xml
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EPPlus.xml
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.xml
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Helpers.xml
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Mvc.xml
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Optimization.xml
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Razor.xml
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.xml
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Deployment.xml
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Abstractions.pdb
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Container.pdb
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CoreCompileInputs.cache
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.dll
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.pdb
+D:\GITQH\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
+C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\DocumentFormat.OpenXml.dll
+C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.IO.FileSystem.Primitives.dll
+C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.IO.Packaging.dll
+C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Net.Http.Formatting.dll
+C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\DocumentFormat.OpenXml.xml
+C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Net.Http.Formatting.xml
+C:\Users\DUY\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.dll.config
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\QUANGHANH2.pdb
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.exe
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.exe.config
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csc.rsp
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.exe
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.exe.config
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\csi.rsp
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.Managed.Core.targets
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.AppContext.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Console.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Compression.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Pipes.AccessControl.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.IO.Pipes.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Claims.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.ValueTuple.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XPath.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.exe
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.exe.config
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\vbc.rsp
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\VBCSCompiler.exe
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\DocumentFormat.OpenXml.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.SqlServer.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EPPlus.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.IO.FileSystem.Primitives.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.IO.Packaging.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Linq.Dynamic.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Net.Http.Formatting.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Helpers.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Mvc.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Optimization.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Razor.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Deployment.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Abstractions.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Container.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Mvc5.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\XCrypt.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\DocumentFormat.OpenXml.xml
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.xml
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EntityFramework.SqlServer.xml
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\EPPlus.xml
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Newtonsoft.Json.xml
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Net.Http.Formatting.xml
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Helpers.xml
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Mvc.xml
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Optimization.xml
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.Razor.xml
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.xml
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Deployment.xml
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Abstractions.pdb
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Unity.Container.pdb
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.dll
+C:\Users\doanv\Documents\GitHub\QUANGHANH-PROTOTYPE\QUANGHANH2\obj\Debug\QUANGHANH2.pdb
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\QUANGHANH2.dll.config
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\QUANGHANH2.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\QUANGHANH2.pdb
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\csc.exe
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\csc.exe.config
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\csc.rsp
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\csi.exe
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\csi.exe.config
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\csi.rsp
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\Microsoft.CSharp.Core.targets
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\Microsoft.Managed.Core.targets
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\Microsoft.VisualBasic.Core.targets
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.AppContext.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Collections.Immutable.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Console.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Diagnostics.StackTrace.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.IO.Compression.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.IO.FileSystem.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.IO.FileSystem.Primitives.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.IO.Pipes.AccessControl.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.IO.Pipes.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Reflection.Metadata.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Security.AccessControl.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Security.Claims.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Encoding.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Primitives.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Security.Principal.Windows.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Text.Encoding.CodePages.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.ValueTuple.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Xml.ReaderWriter.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Xml.XmlDocument.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Xml.XPath.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\System.Xml.XPath.XDocument.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\vbc.exe
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\vbc.exe.config
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\vbc.rsp
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\VBCSCompiler.exe
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\roslyn\VBCSCompiler.exe.config
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\DocumentFormat.OpenXml.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\EntityFramework.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\EntityFramework.SqlServer.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\EPPlus.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\Newtonsoft.Json.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.IO.FileSystem.Primitives.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.IO.Packaging.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Linq.Dynamic.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Net.Http.Formatting.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Web.Helpers.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Web.Mvc.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Web.Optimization.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Web.Razor.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Web.WebPages.Deployment.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Web.WebPages.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Web.WebPages.Razor.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\Unity.Abstractions.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\Unity.Container.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\Unity.Mvc5.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\XCrypt.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Threading.Tasks.Extensions.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\DocumentFormat.OpenXml.xml
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\EntityFramework.xml
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\EntityFramework.SqlServer.xml
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\EPPlus.xml
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\Newtonsoft.Json.xml
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Net.Http.Formatting.xml
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.xml
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Web.Helpers.xml
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Web.Mvc.xml
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Web.Optimization.xml
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Web.Razor.xml
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Web.WebPages.xml
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Web.WebPages.Deployment.xml
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\Unity.Abstractions.pdb
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\Unity.Container.pdb
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CoreCompileInputs.cache
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\obj\Debug\QUANGHANH2.dll
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\obj\Debug\QUANGHANH2.pdb
+E:\MajorTermIX\Capstone\BackUp\QUANGHANH_MANUFACTURING-013a16146eb060afde20df2b3abeca8f38128476\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\QUANGHANH2.dll.config
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\QUANGHANH2.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\QUANGHANH2.pdb
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\csc.exe
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\csc.exe.config
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\csc.rsp
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\csi.exe
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\csi.exe.config
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\csi.rsp
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\Microsoft.CSharp.Core.targets
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\Microsoft.Managed.Core.targets
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\Microsoft.VisualBasic.Core.targets
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.AppContext.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Collections.Immutable.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Console.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Diagnostics.StackTrace.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.IO.Compression.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.IO.FileSystem.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.IO.FileSystem.Primitives.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.IO.Pipes.AccessControl.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.IO.Pipes.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Reflection.Metadata.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Security.AccessControl.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Security.Claims.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Encoding.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Security.Cryptography.Primitives.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Security.Principal.Windows.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Text.Encoding.CodePages.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.ValueTuple.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Xml.ReaderWriter.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Xml.XmlDocument.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Xml.XPath.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\System.Xml.XPath.XDocument.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\vbc.exe
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\vbc.exe.config
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\vbc.rsp
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\VBCSCompiler.exe
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\roslyn\VBCSCompiler.exe.config
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\DocumentFormat.OpenXml.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\EntityFramework.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\EntityFramework.SqlServer.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\EPPlus.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\Newtonsoft.Json.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.IO.FileSystem.Primitives.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.IO.Packaging.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Linq.Dynamic.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Net.Http.Formatting.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Web.Helpers.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Web.Mvc.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Web.Optimization.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Web.Razor.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Web.WebPages.Deployment.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Web.WebPages.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Web.WebPages.Razor.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\Unity.Abstractions.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\Unity.Container.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\Unity.Mvc5.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\XCrypt.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Threading.Tasks.Extensions.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\DocumentFormat.OpenXml.xml
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\EntityFramework.xml
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\EntityFramework.SqlServer.xml
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\EPPlus.xml
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\Newtonsoft.Json.xml
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Net.Http.Formatting.xml
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Runtime.CompilerServices.Unsafe.xml
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Web.Helpers.xml
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Web.Mvc.xml
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Web.Optimization.xml
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Web.Razor.xml
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Web.WebPages.xml
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Web.WebPages.Deployment.xml
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\System.Web.WebPages.Razor.xml
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\Unity.Abstractions.pdb
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\Unity.Container.pdb
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\obj\Debug\QUANGHANH2.csprojAssemblyReference.cache
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CoreCompileInputs.cache
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\obj\Debug\QUANGHANH2.csproj.CopyComplete
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\obj\Debug\QUANGHANH2.dll
+E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\obj\Debug\QUANGHANH2.pdb

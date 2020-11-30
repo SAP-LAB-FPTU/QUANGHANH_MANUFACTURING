@@ -1,0 +1,608 @@
+﻿@model IEnumerable<QUANGHANH2.Models.Documentary>
+@{
+    ViewData["Title"] = "Danghiemthu";
+    Layout = "~/Views/Shared/_Layout_CDVT.cshtml";
+}
+
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col s12">
+
+                <div class="advanded-search">
+                    <div class="row">
+                        <h3 class="center"><b>DANH SÁCH THIẾT BỊ ĐÃ NGHIỆM THU</b></h3>
+                        <hr>
+                        <div class="row center">
+                            <div class="col l4 m12 s12">
+                                <div class="col s12 input-field">
+                                    <i class="fas fa-calendar-alt icon"></i>
+                                    <input type='text' class='datepicker-here center maxDate' id="min_Date" data-language='vi' value="Nhập ngày bắt đầu (từ)" style="height: 24px" />
+                                </div>
+                                <div class="col s12 input-field">
+                                    <i class="fas fa-calendar-alt icon"></i>
+                                    <input type='text' class='datepicker-here center minDate' id="max_Date" data-language='vi' value="Nhập ngày kết thúc (đến)" style="height: 24px" />
+                                </div>
+                            </div>
+                            <div class="col l4 m12 s12 input-field">
+                                <input type="text" placeholder="Tìm kiếm theo mã thiết bị" id="equimentid" class='form-control' />
+                            </div>
+                            <div class="col l4 m12 s12 input-field">
+                                <input type="text" placeholder="Tìm kiếm theo tên thiết bị" id="equimentname" class='form-control' />
+                            </div>
+                            <div class="col l4 m12 s12 input-field">
+                                <input type="text" placeholder="Tìm kiếm theo mã quyết định" id="doccumentid" class='form-control' />
+                            </div>
+                            <div class="col s12 input-field">
+                                <button class="center btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col s12 table_container">
+                    <table id="docTable" class="striped table-bordered centered table-responsive mytable">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Quyết định quan trọng</th>
+                                <th rowspan="2">Quyết định số</th>
+                                <th rowspan="2">Loại quyết định</th>
+                                <th rowspan="2">Ngày lập</th>
+                                <th rowspan="2">Ngày nghiệm thu</th>
+                                <th rowspan="2">Người tạo</th>
+                                <th colspan="2">Thông tin thiết bị</th>
+                                <th rowspan="2"></th>
+                                <th rowspan="2"></th>
+                            </tr>
+                            <tr>
+                                <th>Mã thiết bị</th>
+                                <th>Tên thiết bị</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Modal chỉnh sửa số lượng vật tư của quyết định sửa chữa, bảo dưỡng, trung đại tu*@
+<div class="modal" id="vattu">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Danh sách vật tư dùng để sửa chữa <span></span></h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <form>
+                    <table id="test" class="striped table-responsive center table-bordered mytable">
+                        <thead>
+                            <tr>
+                                <th>Mã vật tư</th>
+                                <th>Tên vật tư</th>
+                                <th>Số lượng xin cấp</th>
+                                <th>Số lượng đã nhận</th>
+                                <th>Số lượng sử dụng</th>
+                                <th>Số lượng thu hồi</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+
+@*Modal chỉnh sửa số lượng thiết bị con của quyết định sửa chữa, bảo dưỡng, trung đại tu*@
+<div class="modal" id="thietbi">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Danh sách thiết bị đi kèm cần thay thế <span></span></h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <form>
+                    <table id="test" class="striped table-responsive center table-bordered mytable">
+                        <thead>
+                            <tr>
+                                <th>Mã thiết bị con</th>
+                                <th>Tên thiết bị con</th>
+                                <th>Số lượng xin cấp</th>
+                                <th>Số lượng đã nhận</th>
+                                <th>Số lượng sử dụng</th>
+                                <th>Số lượng thu hồi</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+
+@*Modal chỉnh sửa số lượng của các quyết định trừ điều động*@
+<div class="modal" id="mylist">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="listId"></h3>
+        </div>
+        <div class="modal-body table_container">
+            <div class="row">
+                <form>
+                    <table id="test" class="striped table-responsive centered table-bordered mytable">
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-button">Thoát</button>
+        </div>
+    </div>
+</div>
+
+@*Modal chỉnh sửa số lượng vật tư sctx của quyết định điều động*@
+<div class="modal" id="sctx">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title"></h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <form>
+                    <table class="striped table-responsive center table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Mã vật tư</th>
+                                <th>Tên vật tư</th>
+                                <th>Số lượng trong quyết định</th>
+                                <th>Số lượng đã nhận</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="exit-button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+
+@*Modal chỉnh sửa số lượng thiết bị con của quyết định điều động*@
+<div class="modal" id="thietbicon">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title"></h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <form>
+                    <table class="striped table-responsive center table-bordered">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Mã thiết bị con</th>
+                                <th rowspan="2">Tên thiết bị con</th>
+                                <th colspan="2">Số lượng đi kèm</th>
+                                <th colspan="2">Số lượng dự phòng</th>
+                            </tr>
+                            <tr>
+                                <th>Trong quyết định</th>
+                                <th>Đã nhận</th>
+                                <th>Trong quyết định</th>
+                                <th>Đã nhận</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="exit-button" class="btn light-blue lighten-1 modal-close">Thoát</button>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $("#pre-load").show();
+        var dataTable, equipmentId, documentary_id, isSupply, attach_to, documentary_type;
+
+        $(document).ready(function () {
+            dataTable = $('#docTable').DataTable({
+                "ajax": {
+                    "url": "/phong-cdvt/da-nghiem-thu/search",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": {
+                        "document_code": function () { return $('#doccumentid').val() },
+                        "equimentid": function () { return $('#equimentid').val() },
+                        "equimentname": function () { return $('#equimentname').val() },
+                        "date_start": function () { return $('#min_Date').val() },
+                        "date_end": function () { return $('#max_Date').val() }
+                    },
+                },
+                "drawCallback": function (settings) {
+                    $("#pre-load").hide();
+                },
+                "columns": [
+                    {
+                        "data": {}, name: "QDQT", "render": function (data) {
+                            if (data.QDQT == false) {
+                                return "<td><label><input type='checkbox' id='" + data.documentary_id + "'  onchange='AddQD(this)'/><span></span></label></td>";
+                            } else {
+                                return "<td><label><input type='checkbox' id='" + data.documentary_id + "'  onchange='AddQD(this)' checked/><span></span></label></td>";
+                            }
+                        },
+                    },
+                    { "data": "documentary_code", "name": "documentary_code" },
+                    { "data": "documentary_name", "name": "documentary_name" },
+                    {
+                        "data": "date_created", "name": "date_created", "render": function (data) {
+                            return dateFormat(data);
+                        }
+                    },
+                    {
+                        "data": "acceptance_date", "name": "acceptance_date", "render": function (data) {
+                            return dateFormat(data);
+                        }
+                    },
+                    { "data": "person_created", "name": "person_created" },
+                    { "data": "equipmentId", "name": "equipmentId" },
+                    { "data": "equipment_name", "name": "equipment_name" },
+                    {
+                        "data": {}, "render": function (data) {
+                            if (data.documentary_type == '1' || data.documentary_type == '2' || data.documentary_type == '6')
+                                return "<a class=\"vattu btn blue darken-2 modal-trigger\" data-id=" + data.documentary_id + " data-type=" + data.documentary_type + " data-equipment=\"" + data.equipmentId + "\" data-attach=\"" + data.attach_to + "\" href=\"#vattu\">Vật tư cần</a>";
+                            else if (data.documentary_type == '3')
+                                return "<a data-id=\"" + data.documentary_id + "\" data-equipmentId=\"" + data.equipmentId + "\" class=\"waves-effect waves-light btn-small blue modal-trigger dikem-duphong\" href=\"#thietbicon\">Chi tiết TB con</a>";
+                            else if (data.di_kem || data.can)
+                                return "<td><a class='btn blue modal-trigger open-DuPhong' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>Chi tiết VT</a></td>";
+                            else
+                                return "";
+                        },
+                        "orderable": false,
+                        "searchable": false
+                    },
+                    {
+                        "data": {}, "render": function (data) {
+                            if ((data.documentary_type == '1' || data.documentary_type == '2' || data.documentary_type == '6') && data.attach_to == null)
+                                return "<a class=\"thietbi btn blue darken-2 modal-trigger\" data-id=" + data.documentary_id + " data-type=" + data.documentary_type + " data-equipment=\"" + data.equipmentId + "\" data-attach=\"" + data.attach_to + "\" href=\"#thietbi\">Thiết&nbsp;bị&nbsp;con&nbsp;cần</a>";
+                            else if ((data.documentary_type == '1' || data.documentary_type == '2' || data.documentary_type == '6') && data.attach_to != null)
+                                return "";
+                            else if (data.documentary_type == "3")
+                                return "<a data-id=\"" + data.documentary_id + "\" data-equipmentId=\"" + data.equipmentId + "\" class=\"waves-effect waves-light btn-small blue modal-trigger sctx\" href=\"#sctx\">VT SCTX</a>";
+                            else if (data.du_phong)
+                                return "<td><a class='btn blue modal-trigger open-DuPhong' data-equip='" + data.equipmentId + "' data-code='" + data.documentary_id + "' href='#mylist'>VT SCTX</a></td>";
+                            else
+                                return "";
+                        },
+                        "orderable": false,
+                        "searchable": false
+                    },
+                ],
+                "searching": false,
+                "bLengthChange": false,
+                "serverSide": "true",
+                "language": {
+                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                    paginate:
+                    {
+                        previous: "Trang trước",
+                        next: "Trang sau",
+                        first: "|<",
+                        last: ">|",
+
+                    },
+                    info: "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                    infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                },
+                "order": [2, "desc"],
+                "initComplete": function (settings, json) {
+                    $("#pre-load").hide();
+                }
+            });
+        });
+
+        function dateFormat(d) {
+            var dateString = d.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            return (date);
+        }
+
+        $(document).on('click', '.vattu', function () {
+            $('#vattu tbody').empty();
+            $('#pre-load').show();
+            equipmentId = $(this).data("equipment");
+            documentary_type = $(this).data("type");
+            attach_to = $(this).data("attach");
+            documentary_id = $(this).data("id");
+            $.ajax({
+                url: "/phong-cdvt/quyet-dinh/sua-chua/nghiem-thu/GetData",
+                method: "post",
+                dataType: "json",
+                cache: false,
+                data: {
+                    equipmentId: equipmentId,
+                    documentary_type: documentary_type,
+                    attach_to: attach_to,
+                    isSupply: true,
+                    documentary_id: documentary_id
+                },
+                success: function (response) {
+                    if (response.success) {
+                        for (let i = 0; i < response.data.length; i++) {
+                            let $tr = $('<tr>').append(
+                                $('<td>').text(response.data[i].supply_id),
+                                $('<td>').text(response.data[i].supply_name),
+                                $('<td>').text(response.data[i].quantity_plan),
+                                $('<td>').text(response.data[i].quantity_in),
+                                $('<td>').text(response.data[i].quantity_used),
+                                $('<td>').text(response.data[i].quantity_out),
+                            );
+                            $tr.appendTo('#vattu tbody');
+                        }
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    $('#pre-load').hide();
+                }
+            })
+        })
+
+        $(document).on('click', '.thietbi', function () {
+            $('#thietbi tbody').empty();
+            $('#pre-load').show();
+            equipmentId = $(this).data("equipment");
+            documentary_type = $(this).data("type");
+            attach_to = $(this).data("attach");
+            documentary_id = $(this).data("id");
+            $.ajax({
+                url: "/phong-cdvt/quyet-dinh/sua-chua/nghiem-thu/GetData",
+                method: "post",
+                dataType: "json",
+                cache: false,
+                data: {
+                    equipmentId: equipmentId,
+                    documentary_type: documentary_type,
+                    attach_to: attach_to,
+                    isSupply: false,
+                    documentary_id: documentary_id
+                },
+                success: function (response) {
+                    if (response.success) {
+                        for (let i = 0; i < response.data.length; i++) {
+                            let $tr = $('<tr>').append(
+                                $('<td>').text(response.data[i].equipmentId),
+                                $('<td>').text(response.data[i].equipment_name),
+                                $('<td>').html(response.data[i].quantity_plan),
+                                $('<td>').text(response.data[i].quantity_in),
+                                $('<td>').text(response.data[i].quantity_used),
+                                $('<td>').text(response.data[i].quantity_out),
+                            );
+                            $tr.appendTo('#thietbi tbody');
+                        }
+                    }
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    $('#pre-load').hide();
+                }
+            })
+        })
+
+        $(document).on("click", ".open-DiKem", function () {
+            $('#pre-load').show();
+            $("#test").find("tr").remove();
+            var documentary_id = $(this).data("code");
+            equipmentId = $(this).data("equip");
+            isSupply = false;
+            $('#mylist h3').text("Thiết bị " + equipmentId)
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetEquipAttached",
+                dataType: "json",
+                success: function (data) {
+                    $(function () {
+                        var header = $('<tr>').html('<th>Mã vật tư</th><th>Tên vật tư</th><th>Số lượng đi kèm</th><th>Số lượng đã nhận</th><th>Ghi chú</th>');
+                        header.appendTo('#test thead');
+                        $.each(data, function (i, item) {
+                            var temp = item.supplyStatus == null ? "" : item.supplyStatus;
+                            var $tr = $('<tr>').append(
+                                $('<td>').html(item.equipmentId_dikem),
+                                $('<td>').html(item.equipment_name),
+                                $('<td>').html(item.quantity_plan),
+                                $('<td>').html(item.quantity_in),
+                                $('<td>').html(temp)
+                            );
+                            $tr.appendTo('#test tbody');
+                        });
+                    });
+                    $("#pre-load").hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    documentary_id: documentary_id,
+                    equipmentId: equipmentId
+                },
+                cache: false
+            })
+        })
+
+        $(document).on("click", ".open-DuPhong", function () {
+            $('#pre-load').show();
+            $("#test").find("tr").remove();
+            documentary_id = $(this).data("code");
+            equipmentId = $(this).data("equip");
+            isSupply = true;
+            $('#mylist h3').text("Thiết bị " + equipmentId)
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/GetSupplyDuPhong",
+                dataType: "json",
+                success: function (data) {
+                    $(function () {
+                        var header = $('<tr>').html('<th>Mã vật tư</th><th>Số lượng xin cấp</th><th>Số lượng đã nhận</th><th>Số lượng sử dụng</th><th>Số lượng lấy ra</th>');
+                        header.appendTo('#test thead');
+                        $.each(data, function (i, item) {
+                            var $tr = $('<tr>').append(
+                                $('<td>').html(item.supply_id),
+                                $('<td>').html(item.quantity_plan),
+                                $('<td>').html(item.quantity_in),
+                                $('<td>').html(item.quantity_used),
+                                $('<td>').html(item.quantity_out)
+                            );
+                            $tr.appendTo('#test tbody');
+                        });
+                    });
+                    $("#pre-load").hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    documentary_id: documentary_id,
+                    equipmentId: equipmentId
+                },
+                cache: false
+            })
+        })
+
+        $("#searchButton").click(function () {
+            $("#pre-load").show();
+            dataTable.ajax.reload();
+        });
+
+        $(document).on("click", ".dikem-duphong", function () {
+            $('#pre-load').show();
+            $('#thietbicon tbody').empty();
+            equipmentId = $(this).data("equipmentid");
+            documentary_id = $(this).data("id");
+            $('#thietbicon h3').text("Chi tiết thiết bị con của thiết bị " + equipmentId);
+            $.ajax({
+                type: "GET",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/dieu-dong/so-luong",
+                dataType: "json",
+                success: function (data) {
+                    let $tr = "";
+                    let last_record = "";
+
+                    // Record đi kèm luôn tồn tại và được add trước vào db, dự phòng được add sau
+                    $.each(data, function (index, value) {
+                        if (value.equipmentId == equipmentId && value.equipmentId_dikem != null) {
+                            if (value["supplyStatus"] == "dikem") {
+                                if (last_record == "dikem") {
+                                    $('#thietbicon tbody').append($tr + "<td>0</td><td>0</td></tr>");
+                                    $tr = "";
+                                }
+                                $tr = '<tr><td>' + value.equipmentId_dikem + '</td><td>' + value.equipment_name + '</td><td>' + value.quantity_plan + '</td>';
+                                $tr += "<td>" + value.quantity_in + "</td>";
+                                last_record = "dikem";
+                            }
+                            else {
+                                last_record = "duphong";
+                                if (!$tr.includes("<tr>")) {
+                                    $tr = '<tr><td>' + value["equipmentId_dikem"] + '</td><td>' + value["equipment_name"] + '</td><td>0</td><td>0</td>';
+                                }
+                                $tr += "<td>" + value["quantity_plan"] + "</td>";
+                                $tr += "<td>" + value.quantity_in + "</td></tr>";
+                                $('#thietbicon tbody').append($tr);
+                                $tr = "";
+                            }
+                        }
+                    });
+                    if (last_record == "dikem")
+                        $('#thietbicon tbody').append($tr + "<td>0</td><td>0</td></tr>");
+                    $("#pre-load").hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    documentary_id: documentary_id,
+                    equipmentId: equipmentId
+                },
+                cache: false
+            })
+        })
+
+        $(document).on("click", ".sctx", function () {
+            $('#pre-load').show();
+            $('#sctx tbody').empty();
+            equipmentId = $(this).data("equipmentid");
+            documentary_id = $(this).data("id");
+            $('#sctx h3').text("Chi tiết vật tư SCTX của thiết bị " + equipmentId);
+            $.ajax({
+                type: "GET",
+                url: "/phong-cdvt/cap-nhat/quyet-dinh/dieu-dong/so-luong",
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (index, value) {
+                        if (value.equipmentId == equipmentId && value.supply_id != null) {
+                            let $tr = '<tr><td>' + value.supply_id + '</td><td>' + value.supply_name + '</td><td>' + value.quantity_plan + '</td>';
+                            $tr += "<td>" + value.quantity_in + "</td></tr>";
+                            $('#sctx tbody').append($tr);
+                        }
+                    });
+                    $("#pre-load").hide();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi');
+                },
+                data: {
+                    documentary_id: documentary_id,
+                    equipmentId: equipmentId
+                },
+                cache: false
+            })
+        })
+
+        //------------------------------------------------------------------------------------//
+        function AddQD(idQD) {
+            $('#pre-load').show();
+            var id = $(idQD).attr("id");
+            $.ajax({
+                url: "/phong-cdvt/da-nghiem-thu/quyet-dinh-quan-trong",
+                type: "get",
+                data: {
+                    'documentory_id': id
+                },
+                success: function (response) {
+                    dataTable.ajax.reload();
+                    $('#pre-load').hide();
+                },
+                error: function (response) {
+
+                }
+            })
+        }
+    </script>
+
+    <script>
+        $("#searchButton1").click(() => {
+            dataTable.ajax.reload();
+        });
+    </script>
+}
+
+

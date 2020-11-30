@@ -1,0 +1,263 @@
+﻿@model QUANGHANH2.Models.BangCap_GiayChungNhan
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddDiploma</title>
+</head>
+<body>
+
+
+    @using (Html.BeginForm("AddDiploma", "Diploma", FormMethod.Post, new { onSubmit = "return SubmitFormDiploma(this) " }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group col s6 m6 l6">
+                @Html.LabelFor(model => model.MaTruong, "Tên trường", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("MaTruong", (SelectList)ViewBag.listSelect_truong, "Chọn trường", htmlAttributes: new { @class = "form-control", @id = "add_matruong" })
+                    @Html.ValidationMessageFor(model => model.MaTruong, "", new { @class = "text-danger" })
+                    <p hidden style="color:red" id="message_matruong">Không được để trống</p>
+                </div>
+            </div>
+
+            <div class="form-group col s6 m6 l6">
+                @Html.LabelFor(model => model.MaChuyenNganh, "Tên chuyên ngành", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("MaChuyenNganh", (SelectList)ViewBag.listSelect_chuyennganh, "Chọn chuyên ngành", htmlAttributes: new { @class = "form-control", @id = "add_chuyennganh" })
+                    @Html.ValidationMessageFor(model => model.MaChuyenNganh, "", new { @class = "text-danger" })
+                    <p hidden style="color:red" id="message_machuyennganh">Không được để trống</p>
+                </div>
+            </div>
+
+            <div class="form-group col s6 m6 l6">
+                @Html.LabelFor(model => model.MaTrinhDo, "Tên trình độ", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("MaTrinhDo", (SelectList)ViewBag.listSelect_trinhdo, "Chọn trình độ", htmlAttributes: new { @class = "form-control", @id = "add_trinhdo" })
+                    @Html.ValidationMessageFor(model => model.MaTrinhDo, "", new { @class = "text-danger" })
+                    <p hidden style="color:red" id="message_matrinhdo">Không được để trống</p>
+                </div>
+            </div>
+
+            <div class="form-group col s6 m6 l6">
+                @Html.LabelFor(model => model.KieuBangCap, "Kiểu bằng cấp", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("KieuBangCap", (IEnumerable<SelectListItem>)ViewBag.listTypesDip, htmlAttributes: new { @class = "form-control", @id = "add_kieubangcap" })
+                    @Html.ValidationMessageFor(model => model.KieuBangCap, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group col s6 m6 l6">
+                @Html.Label("", "Chọn thời hạn", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("han", (IEnumerable<SelectListItem>)ViewBag.listOption, htmlAttributes: new { @class = "form-control", @id = "option_diploma" })
+                </div>
+            </div>
+            <div class="form-group col s6 m6 l6">
+                @Html.LabelFor(model => model.ThoiHan, "Thời hạn", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input id="add_dip" class="form-control" />
+                    @Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control", @id = "add_time" } })
+                    @Html.ValidationMessageFor(model => model.ThoiHan, "", new { @class = "text-danger" })
+                    <p hidden style="color:red" id="message_isNum_diploma">Thời hạn là một số nguyên dương. Vui lòng nhập lại</p>
+                    <p hidden style="color:red" id="message_thoihan">Không được để trống</p>
+                </div>
+            </div>
+
+            <div class="form-group col s6 m6 l6">
+                @Html.LabelFor(model => model.TenBangCap, "Tên bằng cấp", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TenBangCap, new { htmlAttributes = new { @class = "form-control", @id = "add_bangcap" } })
+                    @Html.ValidationMessageFor(model => model.TenBangCap, "", new { @class = "text-danger" })
+                    <p hidden style="color:red" id="message_tenbangcap">Không được để trống</p>
+                    <p hidden style="color:red" id="message_error_duplicate">Tên bằng cấp đã tồn tại. Hãy nhập lại</p>
+                </div>
+            </div>
+
+            <div class="form-group col s6 m6 l6">
+                @Html.LabelFor(model => model.Loai, "Loại", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Loai", (SelectList)ViewBag.listSelectListTypeDip, htmlAttributes: new { @class = "form-control" , @id = "add_loaibangcap"})
+                    @Html.ValidationMessageFor(model => model.Loai, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group col s12 m12 l12">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Thêm" class=" waves-light btn blue darken-2 white-text " id="submit_form_diploma" />
+                </div>
+            </div>
+        </div>
+    }
+
+</body>
+</html>
+<script>
+
+    $('#add_dip').val("Vĩnh viễn");
+    $('#add_dip').attr("disabled", "disabled");
+    $("#add_time").val(-1);
+    $('#option_diploma').change(function () {
+        var option = $(this).val();
+
+        if (option == 1) {
+            //show
+            $('#add_dip').val("Vĩnh viễn");
+            $('#add_dip').attr("disabled", "disabled");
+            $("#add_time").val(-1);
+        } else {
+            //show
+            $('#add_dip').removeAttr("disabled", "disabled");
+            $('#add_dip').val("");
+            //check ThoiHan is positive number
+            $('#add_dip').blur(function () {
+                var isNum = $(this).val();
+                if (!isNumeric(isNum) || (new Number(isNum) <= 0)) {
+                    //Check if Thoihan is numeric
+                    $("#message_isNum_diploma").show(); //Show error
+                    $('#submit_form_diploma').attr("disabled", true);
+
+                }
+                else {
+                    $("#message_isNum_diploma").hide();
+                    $('#submit_form_diploma').attr("disabled", false);
+                }
+            })
+        }
+    })
+    //click submit form
+    $("#submit_form_diploma").click(function () {
+        validate_bangcap_add();
+        var add_end = $("#add_dip").val();
+        if (add_end == "Vĩnh viễn") {
+            $("#add_time").val(-1);
+        }
+        else {
+            $("#add_time").val(add_end);
+        }
+        $("#submit_form_diploma").closest();
+    })
+
+    function isNumeric(value) {
+        return /^-{0,1}\d+$/.test(value);
+    }
+    function validate_truong_add() {
+
+        if (!$('#add_matruong').val()) {
+            $('#message_matruong').show();
+            $('#submit_form_diploma').attr("disabled", true);
+        }
+        else {
+            $('#message_matruong').hide();
+            $('#submit_form_diploma').attr("disabled", false);
+        }
+        $('#add_matruong').change(function () {
+            if (!$('#add_matruong').val()) {
+                $('#message_matruong').show();
+                $('#submit_form_diploma').attr("disabled", true);
+            }
+            else {
+                $('#message_matruong').hide();
+                $('#submit_form_diploma').attr("disabled", false);
+            }
+        })
+
+    }
+    function validate_chuyennganh_add() {
+
+        if (!$('#add_chuyennganh').val()) {
+            $('#message_machuyennganh').show();
+            $('#submit_form_diploma').attr("disabled", true);
+        }
+        else {
+            $('#message_machuyennganh').hide();
+            $('#submit_form_diploma').attr("disabled", false);
+        }
+        $('#add_chuyennganh').change(function () {
+            if (!$('#add_chuyennganh').val()) {
+                $('#message_machuyennganh').show();
+                $('#submit_form_diploma').attr("disabled", true);
+            }
+            else {
+                $('#message_machuyennganh').hide();
+                $('#submit_form_diploma').attr("disabled", false);
+            }
+        })
+
+    }
+    function validate_trinhdo_add() {
+
+        if (!$('#add_trinhdo').val()) {
+            $('#message_matrinhdo').show();
+            $('#submit_form_diploma').attr("disabled", true);
+        }
+        else {
+            $('#message_matrinhdo').hide();
+            $('#submit_form_diploma').attr("disabled", false);
+        }
+        $('#add_trinhdo').change(function () {
+            if (!$('#add_trinhdo').val()) {
+                $('#message_matrinhdo').show();
+                $('#submit_form_diploma').attr("disabled", true);
+            }
+            else {
+                $('#message_matrinhdo').hide();
+                $('#submit_form_diploma').attr("disabled", false);
+            }
+        })
+
+    }
+    function validate_thoihan_add() {
+
+        if (!$('#add_time').val()) {
+            $('#message_thoihan').show();
+            $('#submit_form_diploma').attr("disabled", true);
+        }
+        else {
+            $('#message_thoihan').hide();
+            $('#submit_form_diploma').attr("disabled", false);
+        }
+        $('#add_time').change(function () {
+            if (!$('#add_time').val()) {
+                $('#message_thoihan').show();
+                $('#submit_form_diploma').attr("disabled", true);
+            }
+            else {
+                $('#message_thoihan').hide();
+                $('#submit_form_diploma').attr("disabled", false);
+            }
+        })
+
+    }
+    function validate_bangcap_add() {
+
+        if (!$('#add_bangcap').val()) {
+            $('#message_tenbangcap').show();
+            $('#submit_form_diploma').attr("disabled", true);
+        }
+        else {
+            $('#message_tenbangcap').hide();
+            $('#submit_form_diploma').attr("disabled", false);
+        }
+
+    }
+    $('#add_bangcap').change(function () {
+        if (!$('#add_bangcap').val()) {
+            $('#message_tenbangcap').show();
+            $('#submit_form_diploma').attr("disabled", true);
+        }
+        else {
+            $('#message_tenbangcap').hide();
+            $('#submit_form_diploma').attr("disabled", false);
+        }
+        
+     })
+</script>

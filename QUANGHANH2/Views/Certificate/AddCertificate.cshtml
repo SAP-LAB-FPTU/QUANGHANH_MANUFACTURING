@@ -1,0 +1,160 @@
+﻿@model QUANGHANH2.Models.ChungChi
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AddCertificate</title>
+</head>
+<body>
+    @using (Html.BeginForm("AddCertificate", "Certificate", FormMethod.Post, new { onSubmit = "return SubmitForm(this)", id = "form_add_certificate" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.TenChungChi, "Tên chứng chỉ", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TenChungChi, new { htmlAttributes = new { @class = "form-control", @id = "tenchungchi" , @autocomplete = "off"} })
+                    @Html.ValidationMessageFor(model => model.TenChungChi, "", new { @class = "text-danger" })
+                    <p hidden style="color:red" id="message_empty">Không được để trống</p>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("", "Chọn thời hạn", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("han", (IEnumerable<SelectListItem>)ViewBag.listOption, htmlAttributes: new { @class = "form-control", @id = "option_cirt" })
+
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ThoiHan, "Thời hạn (Tháng)", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input id="add_cert" class="form-control" autocomplete = "off"/>
+                    @Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new { @style = "display: none !important", @class = "form-control editform", @id = "addform", @autocomplete = "off" } })
+                    @Html.ValidationMessageFor(model => model.ThoiHan, "", new { @class = "text-danger" })
+                    @*@Html.EditorFor(model => model.ThoiHan, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @id = "show" } })
+                    @Html.ValidationMessageFor(model => model.ThoiHan, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.ThoiHan, new { htmlAttributes = new { } })*@
+                    <p hidden style="color:red" id="message_isNum">Thời hạn là một số nguyên dương . Vui lòng nhập lại</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.KieuChungChi, "Kiểu chứng chỉ", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.KieuChungChi, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.DropDownList("KieuChungChi", (IEnumerable<SelectListItem>)ViewBag.listTypeCert,  htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.KieuChungChi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Thêm" class=" waves-light btn blue darken-2 white-text" id="submit_cirtificate_btn" />
+                </div>
+            </div>
+        </div>
+    }
+
+</body>
+</html>
+<script>
+
+    $('#tenchungchi').change(function () {
+       
+        $.ajax({
+            url:'@Url.Action("validateNameCirtificare", "Certificate")',
+            type: "POST",
+            data: { name: $(this).val() },
+            success: (response) => {
+                if (response.success) {
+                    $('#message_validate').hide();
+                    $('#submit_cirtificate_btn').attr("disabled", false);
+                }
+            },
+            error: (response) => {
+
+            },
+        })
+    });
+    $('#add_cert').val("Vĩnh viễn");
+    $('#add_cert').attr("disabled", "disabled");
+    $("#addform").val(-1);
+    $('#option_cirt').change(function () {
+        var option = $(this).val();
+
+        if (option == 1) {
+            //show
+            $('#add_cert').val("Vĩnh viễn");
+            $('#add_cert').attr("disabled", "disabled");
+            $("#addform").val(-1);
+        } else {
+            //show
+            $('#add_cert').removeAttr("disabled", "disabled");
+            $('#add_cert').val("");
+
+            $('#add_cert').blur(function () {
+                var isNum = $(this).val();
+                if (!isNumeric(isNum) || (new Number(isNum) <= 0)) {
+                    //Check if Thoihan is numeric
+                    $("#message_isNum").show(); //Show error
+                    $('#submit_cirtificate_btn').attr("disabled", true);
+                   
+                }
+                else {
+                    $("#message_isNum").hide();
+                    $('#submit_cirtificate_btn').attr("disabled", false);
+                }
+            })
+            
+        }
+    })
+    function isNumeric(value) {
+        return /^-{0,1}\d+$/.test(value);
+    }
+    $("#submit_cirtificate_btn").click(function () {
+
+        
+        $('#tenchungchi').change(function () {
+            var check_empty_onchange = $(this).val();
+            if (check_empty_onchange) {
+                $('#message_empty').hide();
+                $('#submit_cirtificate_btn').attr("disabled", false);               
+            }
+            else {
+                $('#message_empty').show();
+                $('#submit_cirtificate_btn').attr("disabled", true);
+            }
+        })
+        var check_empty = $('#tenchungchi').val();
+        if (check_empty) {
+            $('#message_empty').hide();
+            $('#submit_cirtificate_btn').attr("disabled", false);
+
+            var add_end = $("#add_cert").val();
+            if (add_end == "Vĩnh viễn") {
+                $("#addform").val(-1);
+            }
+            else {
+                $("#addform").val(add_end);
+            }
+        }
+        else {
+            $('#message_empty').show();
+            $('#submit_cirtificate_btn').attr("disabled", true);
+        }
+
+
+    })
+    
+</script>
+
+
