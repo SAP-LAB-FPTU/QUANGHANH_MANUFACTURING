@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QUANGHANH_MANUFACTURING.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,10 +13,12 @@ namespace QUANGHANH_MANUFACTURING
     {
         protected void Application_Start()
         {
+            GlobalFilters.Filters.Add(new LogActionFilter());
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            UnityConfig.RegisterComponents();
         }
     }
 }

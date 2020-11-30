@@ -351,7 +351,7 @@
     <Compile Include="Controllers\Manufacturing\KCS\KCSController.cs" />
     <Compile Include="Controllers\Manufacturing\KCS\ReportController.cs" />
     <Compile Include="Controllers\Manufacturing\PhanXuong\PhanXuongController.cs" />
-    <Compile Include="Controllers\Navigation\NavigateController.cs" />
+    <Compile Include="Controllers\Navigation\NavigationController.cs" />
     <Compile Include="Controllers\NotifiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -7435,7 +7435,6 @@
     <Content Include="Views\LogIn\Index.cshtml" />
     <Content Include="Views\ManagementUser\Index.cshtml" />
     <Content Include="Views\ManagementUser\Roles.cshtml" />
-    <Content Include="Views\Navigation\Navigate.cshtml" />
     <Content Include="Views\Manufacturing\Phanxuong\ChonBaoCao\ChonBaoCao.cshtml" />
     <Content Include="Views\Manufacturing\Phanxuong\Huydongphanxuong.cshtml" />
     <Content Include="Views\Manufacturing\Phanxuong\NhapBaoCao\BaoCaoLenDK.cshtml" />
@@ -7497,7 +7496,6 @@
     <Content Include="Views\HumanResources\TCLD\Diploma\List.cshtml" />
     <Content Include="Views\HumanResources\TCLD\MaterialProtection\List.cshtml" />
     <Content Include="Views\HumanResources\TCLD\ModifiedHistory\ModifiedHistory.cshtml" />
-    <Content Include="Views\HumanResources\TCLD\WorkModule\WorkWorkGroup\Occupation_GroupOccupation.cshtml" />
     <Content Include="Views\HumanResources\TCLD\Recruitment\Input.cshtml" />
     <Content Include="Views\HumanResources\TCLD\ReportRecruitmentAndEnd\End.cshtml" />
     <Content Include="Views\HumanResources\TCLD\ReportRecruitmentAndEnd\Frequency.cshtml" />
@@ -7525,6 +7523,7 @@
     <Content Include="Views\HumanResources\TCLD\WorkModule\Work\Work.cshtml" />
     <Content Include="Views\HumanResources\TCLD\WorkModule\WorkGroup\WorkGroup.cshtml" />
     <Content Include="Views\HumanResources\TCLD\WorkModule\WorkWorkGroup\WorkWorkGroup.cshtml" />
+    <Content Include="Views\Navigation\Navigation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

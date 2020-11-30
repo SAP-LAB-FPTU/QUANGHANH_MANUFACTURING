@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
 using QUANGHANH_MANUFACTURING.Controllers.CDVT.History;
+using QUANGHANH_MANUFACTURING.Models;
 using QUANGHANH_MANUFACTURING.SupportClass;
 
 namespace QUANGHANH_MANUFACTURING.Controllers.CDVT.Thietbi

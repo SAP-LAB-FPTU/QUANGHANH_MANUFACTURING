@@ -20,6 +20,7 @@ using static System.Net.Mime.MediaTypeNames;
 using Table = DocumentFormat.OpenXml.Wordprocessing.Table;
 using TableCell = DocumentFormat.OpenXml.Wordprocessing.TableCell;
 using TableRow = DocumentFormat.OpenXml.Wordprocessing.TableRow;
+using System.Data.Entity;
 
 namespace QUANGHANH_MANUFACTURING.Controllers.TCLD
 {

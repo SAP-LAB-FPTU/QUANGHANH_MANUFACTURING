@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using QUANGHANH_MANUFACTURING.Controllers.CDVT.Suco;
+using QUANGHANH_MANUFACTURING.Models;
 using QUANGHANH_MANUFACTURING.SupportClass;
 
 namespace QUANGHANH_MANUFACTURING.Controllers.DK.DashboardToBGD
