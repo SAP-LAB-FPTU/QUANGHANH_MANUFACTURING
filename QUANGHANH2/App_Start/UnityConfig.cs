@@ -11,11 +11,11 @@ namespace QUANGHANH2
         public static void RegisterComponents()
         {
             var container = new UnityContainer();
-            //container.RegisterType<IXincapvattuRepository, XincapvattuRepository>();
-            //container.RegisterType<IXincapvattuSummaryRepository, XincapvattuSummaryRepository>();
-            //container.RegisterType<ITonghopvattuRepository, TonghopvattuRepository>();
-            //container.RegisterType<ITieuhaoRepository, TieuhaoRepository>();
-            //container.RegisterType<IPxdsRepository, PxdsRepository>();
+            container.RegisterType<IXincapvattuRepository, XincapvattuRepository>();
+            container.RegisterType<IXincapvattuSummaryRepository, XincapvattuSummaryRepository>();
+            container.RegisterType<ITonghopvattuRepository, TonghopvattuRepository>();
+            container.RegisterType<ITieuhaoRepository, TieuhaoRepository>();
+            container.RegisterType<IPxdsRepository, PxdsRepository>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }
