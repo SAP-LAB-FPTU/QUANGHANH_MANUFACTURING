@@ -47,10 +47,10 @@ namespace QUANGHANH2.Models
             this.MaintainEquipments = new HashSet<MaintainEquipment>();
             this.MonthlyPlans = new HashSet<MonthlyPlan>();
             this.RepairEquipments = new HashSet<RepairEquipment>();
+            this.RepairRegularlies = new HashSet<RepairRegularly>();
             this.RepairRegularly1 = new HashSet<RepairRegularly1>();
             this.RepairRegularly11 = new HashSet<RepairRegularly1>();
             this.RepairRegularly12 = new HashSet<RepairRegularly1>();
-            this.RepairRegularlies = new HashSet<RepairRegularly>();
         }
     
         public string equipmentId { get; set; }
@@ -140,12 +140,12 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RepairEquipment> RepairEquipments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RepairRegularly> RepairRegularlies { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RepairRegularly1> RepairRegularly1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RepairRegularly1> RepairRegularly11 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RepairRegularly1> RepairRegularly12 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RepairRegularly> RepairRegularlies { get; set; }
     }
 }

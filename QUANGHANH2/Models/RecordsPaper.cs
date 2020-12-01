@@ -16,7 +16,7 @@ namespace QUANGHANH2.Models
     {
         public int records_papers_id { get; set; }
         public string school_id { get; set; }
-        public string specializations_id { get; set; }
+        public Nullable<int> specializations_id { get; set; }
         public string career_id { get; set; }
         public Nullable<System.DateTime> date_start { get; set; }
         public Nullable<System.DateTime> date_end { get; set; }
@@ -34,7 +34,7 @@ namespace QUANGHANH2.Models
         public virtual Career Career { get; set; }
         public virtual DurationType DurationType { get; set; }
         public virtual Paper Paper { get; set; }
-        public virtual PaperStorageType PaperStorageType { get; set; }
+        public virtual PapersStorageType PapersStorageType { get; set; }
         public virtual Qualification Qualification { get; set; }
         public virtual Record Record { get; set; }
         public virtual School School { get; set; }

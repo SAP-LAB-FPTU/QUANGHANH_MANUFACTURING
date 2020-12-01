@@ -63,8 +63,9 @@ namespace QUANGHANHCORE.Controllers
                     Session["UserID"] = checkuser.ID;
                     Session["time"] = DateTime.Now;
                     int id = checkuser.ID;
-                    var Name = db.Database.SqlQuery<InfoAccount>(@"select a.ID,nv.Ten,a.Username,a.Position,a.ADMIN,d.department_name,d.department_id,a.Role from Account a , NhanVien nv , Department d
-                                                                    where a.NVID = nv.MaNV and d.department_id = nv.MaPhongBan and a.ID = @id", new SqlParameter("id", id)).FirstOrDefault();
+                    var Name = db.Database.SqlQuery<InfoAccount>(@"select a.ID, ep.BASIC_INFO_full_name, a.Username, a.Position, a.ADMIN, d.department_name, d.department_id, a.Role 
+                                                                    from Account.Account a, HumanResources.Employee ep , General.Department d
+                                                                    where a.NVID = ep.employee_id and d.department_id = ep.current_department_id and a.ID = @id", new SqlParameter("id", id)).FirstOrDefault();
                     Session["departName"] = Name.department_name.Trim();
                     Session["departID"] = Name.department_id.Trim();
                     Session["account_id"] = Name.ID;
@@ -148,30 +149,31 @@ namespace QUANGHANHCORE.Controllers
             {
                 //var url = db.NhanViens.Where(x => x.MaNV == user.NVID).FirstOrDefault();
 
-                var mysql = @"select * from NhanVien nv join Department dp on nv.MaPhongBan = dp.department_id where nv.MaNV = @nvid";
+                var mysql = @"select * from HumanResources.Employee ep 
+                            join General.Department dp on ep.current_department_id = dp.department_id where ep.employee_id = @nvid";
                 var url = db.Database.SqlQuery<nvs>(mysql, new SqlParameter("nvid", user.NVID)).FirstOrDefault();
 
-                if (url.MaPhongBan.Equals("CV"))
+                if (url.current_department_id.Equals("CV"))
                 {
                     Session["url"] = "phong-cdvt";
                     RightIDs.Add("001");
                 }
-                if (url.MaPhongBan.Equals("TCLĐ"))
+                if (url.current_department_id.Equals("TCLĐ"))
                 {
                     Session["url"] = "phong-tcld";
                     RightIDs.Add("002");
                 }
-                if (url.MaPhongBan.Equals("KCS"))
+                if (url.current_department_id.Equals("KCS"))
                 {
                     Session["url"] = "phong-kcs";
                     RightIDs.Add("003");
                 }
-                if (url.MaPhongBan.Equals("ĐK"))
+                if (url.current_department_id.Equals("ĐK"))
                 {
                     Session["url"] = "phong-dieu-khien";
                     RightIDs.Add("004");
                 }
-                if (url.MaPhongBan.Equals("BGĐ"))
+                if (url.current_department_id.Equals("BGĐ"))
                 {
                     Session["url"] = "ban-giam-doc/bao-cao-nhanh-san-xuat";
                     RightIDs.Add("005");
@@ -181,12 +183,12 @@ namespace QUANGHANHCORE.Controllers
                     Session["url"] = "phan-xuong";
                     RightIDs.Add("006");
                 }
-                if (url.MaPhongBan.Equals("AT"))
+                if (url.current_department_id.Equals("AT"))
                 {
                     Session["url"] = "phong-an-toan/danh-sach-tai-nan";
                     RightIDs.Add("007");
                 }
-                if (url.MaPhongBan.Equals("KCM"))
+                if (url.current_department_id.Equals("KCM"))
                 {
                     Session["url"] = "phong-kcm/ke-hoach-san-xuat-thang";
                     RightIDs.Add("008");
@@ -271,7 +273,7 @@ namespace QUANGHANHCORE.Controllers
         public string department_id { get; set; }
         public int Role { get; set; }
     }
-    public class nvs : NhanVien
+    public class nvs : Employee
     {
         public string department_type { get; set; }
     }

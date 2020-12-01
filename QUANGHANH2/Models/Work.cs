@@ -17,6 +17,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Work()
         {
+            this.Employees = new HashSet<Employee>();
             this.Recruitments = new HashSet<Recruitment>();
             this.Transfers = new HashSet<Transfer>();
             this.Transfers1 = new HashSet<Transfer>();
@@ -28,6 +29,8 @@ namespace QUANGHANH2.Models
         public string allowance { get; set; }
         public Nullable<int> pay_table_id { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Employee> Employees { get; set; }
         public virtual PayTable PayTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Recruitment> Recruitments { get; set; }

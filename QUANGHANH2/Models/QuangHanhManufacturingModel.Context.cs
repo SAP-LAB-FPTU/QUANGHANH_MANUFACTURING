@@ -73,13 +73,14 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Career> Careers { get; set; }
         public virtual DbSet<Decision> Decisions { get; set; }
         public virtual DbSet<DurationType> DurationTypes { get; set; }
+        public virtual DbSet<EducationLevel> EducationLevels { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<EmployeeTask> EmployeeTasks { get; set; }
         public virtual DbSet<Family> Families { get; set; }
         public virtual DbSet<FamilyRelationship> FamilyRelationships { get; set; }
         public virtual DbSet<FamilyType> FamilyTypes { get; set; }
         public virtual DbSet<Paper> Papers { get; set; }
-        public virtual DbSet<PaperStorageType> PaperStorageTypes { get; set; }
+        public virtual DbSet<PapersStorageType> PapersStorageTypes { get; set; }
         public virtual DbSet<PapersType> PapersTypes { get; set; }
         public virtual DbSet<PayRate> PayRates { get; set; }
         public virtual DbSet<PayTable> PayTables { get; set; }
@@ -93,7 +94,6 @@ namespace QUANGHANH2.Models
         public virtual DbSet<SalaryProcess> SalaryProcesses { get; set; }
         public virtual DbSet<School> Schools { get; set; }
         public virtual DbSet<Specialization> Specializations { get; set; }
-        public virtual DbSet<SpecializationsType> SpecializationsTypes { get; set; }
         public virtual DbSet<Status2> Status2 { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<TaskType> TaskTypes { get; set; }
