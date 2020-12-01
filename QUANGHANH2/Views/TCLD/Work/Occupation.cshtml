@@ -9,10 +9,10 @@
         <div class="row">
             <h3 class="center"><b>DANH SÁCH CÔNG VIỆC</b></h3>
             <div>
-                <a class="waves-effects waves-light btn blue darken-2 btn-small input-field modal-trigger" href="#modal_themCongViec">Thêm</a>
+                <a class="waves-effects waves-light btn blue darken-2 btn-small input-field modal-trigger" href="#modal_add_work">Thêm</a>
             </div>
             <div>
-                <table id="congviec" class="table table-bordered responsive-table center">
+                <table id="work_table" class="table table-bordered responsive-table center">
                     <thead>
                         <tr>
                             <th>Tên công việc</th>
@@ -28,37 +28,37 @@
         </div>
     </div>
 </div>
-<!----------------Modal themCongViec---------------->
-<div class="modal" id="modal_themCongViec">
+<!----------------Modal add work---------------->
+<div class="modal" id="modal_add_work">
     <div class="modal-content">
         <h4 class="center"><b>Thêm Công Việc</b></h4>
         <div class="col s12 m12 l12">
             <label>Tên công việc</label>
-            <input type="text" class="form-control" id="tenCongViec_them" />
+            <input type="text" class="form-control" id="add_work_name" />
         </div>
         <div class="col s12 m6 l6">
             <label>Phụ cấp</label>
-            <input type="text" class="form-control" id="phuCap_them" />
+            <input type="text" class="form-control" id="add_work_allowance" />
         </div>
         <div class="col s12 m6 l6">
             <label>Thang lương</label>
-            <select class="form-control" id="thangLuong_them_select">
+            <select class="form-control" id="add_work_pay_table_select">
                 <option value="" disabled selected>Chọn thang lương</option>
-                @foreach (var listThangLuong in ViewBag.listThangLuong)
+                @foreach (var list_pay_tables in ViewBag.list_pay_tables)
                 {
-                    <option value="@listThangLuong.MaThangLuong">@listThangLuong.MucThangLuong</option>
+                    <option value="@list_pay_tables.pay_table_id">Năm @list_pay_tables.applied_year - @list_pay_tables.pay_table</option>
                 }
             </select>
         </div>
     </div>
     <div class="modal-footer">
-        <button id="xacNhanThemCongViec" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
-        <button id="dongThemCongViec" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
+        <button id="add_work_confirm_button" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="add_work_close_modal_button" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
     </div>
 </div>
 
-<!----------------Modal suaCongViec----------------->
-<div class="modal" id="modal_suaCongViec">
+<!----------------Modal edit work----------------->
+<div class="modal" id="modal_edit_work">
     <div class="modal-content">
         <h4 class="center"><b>Sửa Công Việc</b></h4>
         <div class="col s12 m12 l12">
@@ -73,9 +73,9 @@
             <label>Thang lương</label>
             <select class="form-control" id="thangLuong_sua_select">
                 <option value="" disabled selected>Chọn thang lương</option>
-                @foreach (var listThangLuong in ViewBag.listThangLuong)
+                @foreach (var list_pay_tables in ViewBag.list_pay_tables)
                 {
-                    <option value="@listThangLuong.MaThangLuong">@listThangLuong.MucThangLuong</option>
+                    <option value="@list_pay_tables.pay_table_id">Năm @list_pay_tables.applied_year - @list_pay_tables.pay_table</option>
                 }
             </select>
         </div>
@@ -92,36 +92,36 @@
     var table;
     $(document).ready(function () {
         $("#pre-load").show();
-        table = $("#congviec").DataTable({
+        table = $("#work_table").DataTable({
             "ajax": {
                 "url": "/phong-tcld/quan-ly-cong-viec/danh-sach-cong-viec",
                 "type": "GET",
                 "datatype": "json",
                 "cache": "false",
                 "dataSrc": function (json) {
-                    return json["congviec_thangluong_list"];
+                    return json["list_works"];
                 }
             },
             "columns": [
                 {
-                    "data": "TenCongViec", "name": "TenCongViec"
+                    "data": "name", "name": "name"
                 },
                 {
-                    "data": "PhuCap", "name": "PhuCap"
+                    "data": "allowance", "name": "allowance"
                 },
                 {
-                    "data": "MucThangLuong", "name": "MucThangLuong"
+                    "data": "pay_table", "name": "pay_table"
                 },
                 {
                     "data": "", "render": function (data, type, row) {
-                        return "<a id=\"suaCongViec\" name=\"" + row["MaCongViec"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_suaCongViec\">Sửa</a>";
+                        return "<a id=\"edit_work_button\" name=\"" + row["work_id"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_edit_work\">Sửa</a>";
                     },
                     "orderable": false,
                     "searchable": false
                 },
                 {
                     "data": "", "render": function (data, type, row) {
-                        return "<a id=\"xoaCongViec\" name=\"" + row["MaCongViec"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-trigger\">Xóa</a>";
+                        return "<a id=\"delete_work_button\" name=\"" + row["work_id"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-trigger\">Xóa</a>";
                     },
                     "orderable": false,
                     "searchable": false
@@ -154,25 +154,25 @@
 <!----------------------------ADD--------------------------->
 <script>
     $(document).ready(function () {
-        $("#xacNhanThemCongViec").click(function () {
+        $("#add_work_confirm_button").click(function () {
             $("#pre-load").show(),
                 $.ajax({
                     url: "/phong-tcld/quan-ly-cong-viec/them-cong-viec",
                     type: "POST",
                     datatype: "json",
                     data: {
-                        "tencongviec": $("#tenCongViec_them").val(),
-                        "phucap": $("#phuCap_them").val(),
-                        "mathangluong": $("#thangLuong_them_select").val()
+                        "add_work_name": $("#add_work_name").val(),
+                        "add_work_allowance": $("#add_work_allowance").val(),
+                        "add_work_pay_table_select": $("#add_work_pay_table_select").val()
                     },
                     success: function (response) {
                         if (response.success) {
                             //close the modal themCongViec
-                            $("#dongThemCongViec").click();
+                            $("#add_work_close_modal_button").click();
                             //clear all value input in modal themCongViec
-                            $("#tenCongViec_them").val("");
-                            $("#phuCap_them").val("");
-                            $("#thangLuong_them_select option").prop("selected", function () {
+                            $("#add_work_name").val("");
+                            $("#add_work_allowance").val("");
+                            $("#add_work_pay_table_select option").prop("selected", function () {
                                 return this.defaultSelected;
                             });
                             //alert successfully
@@ -203,7 +203,7 @@
         var phucap;
         var mathangluong;
         //fill data to input
-        $("#congviec").on("click", "#suaCongViec", function () {
+        $("#congviec").on("click", "#edit_work_button", function () {
             macongviec = $(this).attr("name");
             getData(macongviec);
         });
@@ -284,7 +284,7 @@
 <script>
     $(document).ready(function () {
         var macongviec;
-        $("#congviec").on("click", "#xoaCongViec", function () {
+        $("#congviec").on("click", "#delete_work_button", function () {
             macongviec = $(this).attr("name");
             //alert confirm
             confirmAlert("Xác nhận xóa?", "Xác nhân xóa công việc", function () { delete_Congviec(macongviec); });
