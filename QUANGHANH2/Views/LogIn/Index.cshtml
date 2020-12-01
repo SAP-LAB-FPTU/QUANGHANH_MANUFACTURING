@@ -80,16 +80,16 @@
                         </span>
                     </div>
                     <div class="wrap-input100 validate-input" data-validate="Password is required">
-                        <input id="password-field" class="input100" type="password" name="password" value="@password" placeholder="Mật khẩu" required><span id="showpass" class="symbol-input100" style="right:0px !important; left:250px !important; padding-left:0px !important; pointer-events:auto"><i id="iconsss" class="fa fa-eye" aria-hidden="true"></i></span>
+                        <input id="password-field" class="input100" type="password" name="password" value="@password" placeholder="Mật khẩu" required>
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-lock" aria-hidden="true"></i>
                         </span>
                     </div>
-                    <div>
+                    @*<div>
                         <input type="checkbox" class="check-box" name="rm" />
                         <label style="font-size:16px">Ghi nhớ mật khẩu</label>
-                    </div>
+                    </div>*@
                     <div class="center-align"><h3 style="color: red;" class="h4 mb-4 font-weight-normal" id="Notification">@ViewData["Notification"]</h3></div>
                     <div class="container-login100-form-btn">
                         <button class="login100-form-btn" type="submit" onsubmit="showPreLoad();">
@@ -112,18 +112,8 @@
         $(".loading").css("z-index", 99999);
         $('body').css('overflow', '');
         function showPreLoad() {
-
             $('#pre-load').show();
         }
-        $('#showpass').click(function () {
-            if ($('#password-field').attr("type") == "password") {
-                $('#password-field').attr("type", "text");
-                $('#iconsss').attr("class", "fa fa-eye-slash");
-            } else {
-                $('#password-field').attr("type", "password");
-                $('#iconsss').attr("class", "fa fa-eye");
-            }
-        });
     </script>
 </body>
 </html>
