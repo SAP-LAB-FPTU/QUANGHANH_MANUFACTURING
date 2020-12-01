@@ -523,6 +523,7 @@
     </Compile>
     <Compile Include="Models\HistoryWork.cs" />
     <Compile Include="Models\HoSoNhanVien.cs" />
+    <Compile Include="Models\HumanResources\Work_Extend.cs" />
     <Compile Include="Models\Important_Documentary.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
@@ -7284,6 +7285,7 @@
     <Content Include="Scripts\notify.min.js" />
     <Content Include="Scripts\Scripts.js" />
     <Content Include="Views\CDVT\Thietbi\Lylich.cshtml" />
+    <Content Include="Views\TCLD\Occupation\Occupation.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -7531,7 +7533,6 @@
     <Content Include="Views\Camera\Quyetdinh\SuaChua\ChonThietBi.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\ThemQuyetDinh.cshtml" />
     <Content Include="Views\Camera\SuCo.cshtml" />
-    <Content Include="Views\TCLD\Occupation\Occupation.cshtml" />
     <Content Include="Views\TCLD\Occupation\GroupOccupation.cshtml" />
     <Content Include="Views\TCLD\Occupation\SideOccupation.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\DSQDChuaxuly.cshtml" />
