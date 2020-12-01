@@ -580,6 +580,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="EducationLevels">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.EducationLevel">
+        <MappingFragment StoreEntitySet="EducationLevel">
+          <ScalarProperty Name="education_level_id" ColumnName="education_level_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Employees">
       <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Employee">
         <MappingFragment StoreEntitySet="Employee">
@@ -635,6 +643,9 @@
           <ScalarProperty Name="PERSONAL_HISTORY_related_organization" ColumnName="PERSONAL_HISTORY_related_organization" />
           <ScalarProperty Name="PERSONAL_HISTORY_relatives" ColumnName="PERSONAL_HISTORY_relatives" />
           <ScalarProperty Name="status_id" ColumnName="status_id" />
+          <ScalarProperty Name="current_department_id" ColumnName="current_department_id" />
+          <ScalarProperty Name="current_salary_id" ColumnName="current_salary_id" />
+          <ScalarProperty Name="current_work_id" ColumnName="current_work_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -689,9 +700,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="PaperStorageTypes">
-      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.PaperStorageType">
-        <MappingFragment StoreEntitySet="PaperStorageType">
+    <EntitySetMapping Name="PapersStorageTypes">
+      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.PapersStorageType">
+        <MappingFragment StoreEntitySet="PapersStorageType">
           <ScalarProperty Name="papers_storage_type_id" ColumnName="papers_storage_type_id" />
           <ScalarProperty Name="name" ColumnName="name" />
         </MappingFragment>
@@ -835,16 +846,10 @@
       <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Specialization">
         <MappingFragment StoreEntitySet="Specializations">
           <ScalarProperty Name="specializations_id" ColumnName="specializations_id" />
+          <ScalarProperty Name="specializations_number" ColumnName="specializations_number" />
           <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="specializtions_type_id" ColumnName="specializtions_type_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SpecializationsTypes">
-      <EntityTypeMapping TypeName="QuangHanhManufacturingModel.SpecializationsType">
-        <MappingFragment StoreEntitySet="SpecializationsType">
-          <ScalarProperty Name="specializtions_type_id" ColumnName="specializtions_type_id" />
-          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="career_id" ColumnName="career_id" />
+          <ScalarProperty Name="education_level_id" ColumnName="education_level_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1190,6 +1195,8 @@
         <MappingFragment StoreEntitySet="Shifts">
           <ScalarProperty Name="shifts_id" ColumnName="shifts_id" />
           <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="time_start" ColumnName="time_start" />
+          <ScalarProperty Name="time_end" ColumnName="time_end" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

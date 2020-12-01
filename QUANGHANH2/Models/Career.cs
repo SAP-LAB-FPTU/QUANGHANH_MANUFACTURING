@@ -18,6 +18,7 @@ namespace QUANGHANH2.Models
         public Career()
         {
             this.RecordsPapers = new HashSet<RecordsPaper>();
+            this.Specializations = new HashSet<Specialization>();
         }
     
         public string career_id { get; set; }
@@ -25,5 +26,7 @@ namespace QUANGHANH2.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RecordsPaper> RecordsPapers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Specialization> Specializations { get; set; }
     }
 }

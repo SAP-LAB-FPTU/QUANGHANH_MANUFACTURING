@@ -27,6 +27,8 @@ namespace QUANGHANH2.Models
     
         public int shifts_id { get; set; }
         public string name { get; set; }
+        public Nullable<int> time_start { get; set; }
+        public Nullable<int> time_end { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FakeAPI> FakeAPIs { get; set; }

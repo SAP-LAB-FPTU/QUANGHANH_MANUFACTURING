@@ -86,9 +86,13 @@ namespace QUANGHANH2.Models
         public string PERSONAL_HISTORY_related_organization { get; set; }
         public string PERSONAL_HISTORY_relatives { get; set; }
         public Nullable<int> status_id { get; set; }
+        public string current_department_id { get; set; }
+        public Nullable<int> current_salary_id { get; set; }
+        public Nullable<int> current_work_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Account> Accounts { get; set; }
+        public virtual Department Department { get; set; }
         public virtual Status2 Status2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EmployeeAttendanceAndProductivity> EmployeeAttendanceAndProductivities { get; set; }
@@ -118,5 +122,7 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Transfer> Transfers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WorkingProcess> WorkingProcesses { get; set; }
+        public virtual Salary Salary { get; set; }
+        public virtual Work Work { get; set; }
     }
 }

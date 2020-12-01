@@ -45,6 +45,7 @@ namespace QUANGHANH2.Models
             this.MonthlyPlans1 = new HashSet<MonthlyPlan>();
             this.Transfers = new HashSet<Transfer>();
             this.Transfers1 = new HashSet<Transfer>();
+            this.Employees = new HashSet<Employee>();
         }
     
         public string department_id { get; set; }
@@ -109,5 +110,7 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Transfer> Transfers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transfer> Transfers1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

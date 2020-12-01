@@ -544,6 +544,13 @@
     <Property Name="duration_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
+  <EntityType Name="EducationLevel">
+    <Key>
+      <PropertyRef Name="education_level_id" />
+    </Key>
+    <Property Name="education_level_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" />
+  </EntityType>
   <EntityType Name="Employee">
     <Key>
       <PropertyRef Name="employee_id" />
@@ -600,6 +607,9 @@
     <Property Name="PERSONAL_HISTORY_related_organization" Type="nvarchar(max)" />
     <Property Name="PERSONAL_HISTORY_relatives" Type="nvarchar(max)" />
     <Property Name="status_id" Type="int" />
+    <Property Name="current_department_id" Type="nvarchar" MaxLength="150" />
+    <Property Name="current_salary_id" Type="int" />
+    <Property Name="current_work_id" Type="int" />
   </EntityType>
   <EntityType Name="EmployeeTask">
     <Key>
@@ -650,7 +660,7 @@
     <Property Name="name" Type="nvarchar" MaxLength="100" />
     <Property Name="papers_type_id" Type="int" />
   </EntityType>
-  <EntityType Name="PaperStorageType">
+  <EntityType Name="PapersStorageType">
     <Key>
       <PropertyRef Name="papers_storage_type_id" />
     </Key>
@@ -718,7 +728,7 @@
     </Key>
     <Property Name="records_papers_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="school_id" Type="nvarchar" MaxLength="100" />
-    <Property Name="specializations_id" Type="nvarchar" MaxLength="100" />
+    <Property Name="specializations_id" Type="int" />
     <Property Name="career_id" Type="nvarchar" MaxLength="100" />
     <Property Name="date_start" Type="date" />
     <Property Name="date_end" Type="date" />
@@ -751,7 +761,7 @@
     <Property Name="work_id" Type="int" />
     <Property Name="department_id" Type="nvarchar" MaxLength="150" />
     <Property Name="qualification_id" Type="nvarchar" MaxLength="100" />
-    <Property Name="specializations_id" Type="nvarchar" MaxLength="100" />
+    <Property Name="specializations_id" Type="int" />
     <Property Name="salary_id" Type="int" />
   </EntityType>
   <EntityType Name="Salary">
@@ -778,22 +788,17 @@
       <PropertyRef Name="school_id" />
     </Key>
     <Property Name="school_id" Type="nvarchar" MaxLength="100" Nullable="false" />
-    <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="Specializations">
     <Key>
       <PropertyRef Name="specializations_id" />
     </Key>
-    <Property Name="specializations_id" Type="nvarchar" MaxLength="100" Nullable="false" />
-    <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
-    <Property Name="specializtions_type_id" Type="nvarchar" MaxLength="100" />
-  </EntityType>
-  <EntityType Name="SpecializationsType">
-    <Key>
-      <PropertyRef Name="specializtions_type_id" />
-    </Key>
-    <Property Name="specializtions_type_id" Type="nvarchar" MaxLength="100" Nullable="false" />
-    <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="specializations_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="specializations_number" Type="nvarchar" MaxLength="100" />
+    <Property Name="name" Type="nvarchar(max)" />
+    <Property Name="career_id" Type="nvarchar" MaxLength="100" />
+    <Property Name="education_level_id" Type="int" />
   </EntityType>
   <EntityType Name="Status2">
     <Key>
@@ -855,7 +860,7 @@
       <PropertyRef Name="work_id" />
     </Key>
     <Property Name="work_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="allowance" Type="nvarchar" MaxLength="100" />
     <Property Name="pay_table_id" Type="int" />
   </EntityType>
@@ -1148,6 +1153,8 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
     </Key>
     <Property Name="shifts_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="time_start" Type="int" />
+    <Property Name="time_end" Type="int" />
   </EntityType>
   <EntityType Name="BigMaintainEquipment">
     <Key>
@@ -1260,7 +1267,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
     <Property Name="unit" Type="nvarchar" MaxLength="150" Nullable="false" />
     <Property Name="price" Type="float" />
   </EntityType>
-  <Association Name="FK__AbsenceRe__absen__7167D3BD">
+  <Association Name="FK__AbsenceRe__absen__3C89F72A">
     <End Role="AbsenceReasonType" Type="Self.AbsenceReasonType" Multiplicity="0..1" />
     <End Role="AbsenceReason" Type="Self.AbsenceReason" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1272,7 +1279,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Acceptanc__attac__251C81ED">
+  <Association Name="FK__Acceptanc__attac__6C6E1476">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
     <End Role="Acceptance1" Type="Self.Acceptance1" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1298,7 +1305,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Acceptanc__equip__2704CA5F">
+  <Association Name="FK__Acceptanc__equip__6E565CE8">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Acceptance1" Type="Self.Acceptance1" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1310,7 +1317,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Account__NVID__7849DB76">
+  <Association Name="FK__Account__NVID__3F9B6DFF">
     <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
     <End Role="Account" Type="Self.Account" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1322,7 +1329,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Account__Role__793DFFAF">
+  <Association Name="FK__Account__Role__408F9238">
     <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
     <End Role="Account" Type="Self.Account" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1334,7 +1341,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Account_R__Accou__7B264821">
+  <Association Name="FK__Account_R__Accou__4277DAAA">
     <End Role="Account" Type="Self.Account" Multiplicity="1" />
     <End Role="Account_Right_Detail" Type="Self.Account_Right_Detail" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1346,7 +1353,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Account_R__Modul__7A3223E8">
+  <Association Name="FK__Account_R__Modul__4183B671">
     <End Role="Module" Type="Self.Module" Multiplicity="0..1" />
     <End Role="Account_Right" Type="Self.Account_Right" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1358,7 +1365,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Account_R__Right__7C1A6C5A">
+  <Association Name="FK__Account_R__Right__436BFEE3">
     <End Role="Account_Right" Type="Self.Account_Right" Multiplicity="1" />
     <End Role="Account_Right_Detail" Type="Self.Account_Right_Detail" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1370,7 +1377,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Activity__equipm__27F8EE98">
+  <Association Name="FK__Activity__equipm__6F4A8121">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1382,7 +1389,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Additiona__recor__40C49C62">
+  <Association Name="FK__Additiona__recor__08162EEB">
     <End Role="Records" Type="Self.Records" Multiplicity="0..1" />
     <End Role="AdditionalHistoryResume" Type="Self.AdditionalHistoryResume" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1394,7 +1401,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Attribute__equip__28ED12D1">
+  <Association Name="FK__Attribute__equip__703EA55A">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Attribute" Type="Self.Attribute" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1406,7 +1413,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BigMainta__attac__078C1F06">
+  <Association Name="FK__BigMainta__attac__4EDDB18F">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
     <End Role="BigMaintainDetails" Type="Self.BigMaintainDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1418,7 +1425,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BigMainta__depar__0880433F">
+  <Association Name="FK__BigMainta__depar__4FD1D5C8">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="BigMaintainDetails" Type="Self.BigMaintainDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1430,7 +1437,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BigMainta__docum__178D7CA5">
+  <Association Name="FK__BigMainta__docum__62AFA012">
     <End Role="BigMaintainDetails" Type="Self.BigMaintainDetails" Multiplicity="1" />
     <End Role="BigMaintainEquipment" Type="Self.BigMaintainEquipment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1442,7 +1449,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BigMainta__equip__09746778">
+  <Association Name="FK__BigMainta__equip__50C5FA01">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="BigMaintainDetails" Type="Self.BigMaintainDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1454,7 +1461,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BigMainta__equip__1881A0DE">
+  <Association Name="FK__BigMainta__equip__63A3C44B">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
     <End Role="BigMaintainEquipment" Type="Self.BigMaintainEquipment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1466,7 +1473,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BigMainta__suppl__1975C517">
+  <Association Name="FK__BigMainta__suppl__6497E884">
     <End Role="Supply" Type="Self.Supply" Multiplicity="0..1" />
     <End Role="BigMaintainEquipment" Type="Self.BigMaintainEquipment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1502,7 +1509,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CameraRep__depar__0B5CAFEA">
+  <Association Name="FK__CameraRep__depar__52AE4273">
     <End Role="Department" Type="Self.Department" Multiplicity="1" />
     <End Role="CameraRepairDetails" Type="Self.CameraRepairDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1514,7 +1521,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CameraRep__docum__0C50D423">
+  <Association Name="FK__CameraRep__docum__53A266AC">
     <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
     <End Role="CameraRepairDetails" Type="Self.CameraRepairDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1526,7 +1533,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CameraRep__room___0D44F85C">
+  <Association Name="FK__CameraRep__room___54968AE5">
     <End Role="Room" Type="Self.Room" Multiplicity="1" />
     <End Role="CameraRepairDetails" Type="Self.CameraRepairDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1538,7 +1545,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Car__equipmentId__29E1370A">
+  <Association Name="FK__Car__equipmentId__7132C993">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Car" Type="Self.Car" Multiplicity="0..1" />
     <ReferentialConstraint>
@@ -1550,7 +1557,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CarGPS__equipmen__2AD55B43">
+  <Association Name="FK__CarGPS__equipmen__7226EDCC">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="CarGPS" Type="Self.CarGPS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1562,7 +1569,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CarMainte__equip__2BC97F7C">
+  <Association Name="FK__CarMainte__equip__731B1205">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="CarMaintenance" Type="Self.CarMaintenance" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1574,7 +1581,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CarMainte__maint__2DB1C7EE">
+  <Association Name="FK__CarMainte__maint__75035A77">
     <End Role="CarMaintenance" Type="Self.CarMaintenance" Multiplicity="1" />
     <End Role="CarMaintenanceDetail" Type="Self.CarMaintenanceDetail" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1586,7 +1593,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CarMainte__suppl__2EA5EC27">
+  <Association Name="FK__CarMainte__suppl__75F77EB0">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
     <End Role="CarMaintenanceDetail" Type="Self.CarMaintenanceDetail" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1598,7 +1605,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CategoryA__Equip__2F9A1060">
+  <Association Name="FK__CategoryA__Equip__76EBA2E9">
     <End Role="Category" Type="Self.Category" Multiplicity="1" />
     <End Role="CategoryAttribute" Type="Self.CategoryAttribute" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1610,7 +1617,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CategoryA__Equip__308E3499">
+  <Association Name="FK__CategoryA__Equip__77DFC722">
     <End Role="Category" Type="Self.Category" Multiplicity="1" />
     <End Role="CategoryAttributeValue" Type="Self.CategoryAttributeValue" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1622,7 +1629,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CategoryA__Equip__318258D2">
+  <Association Name="FK__CategoryA__Equip__78D3EB5B">
     <End Role="CategoryAttribute" Type="Self.CategoryAttribute" Multiplicity="1" />
     <End Role="CategoryAttributeValue" Type="Self.CategoryAttributeValue" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1634,7 +1641,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CategoryA__equip__32767D0B">
+  <Association Name="FK__CategoryA__equip__79C80F94">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="CategoryAttributeValue" Type="Self.CategoryAttributeValue" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1646,7 +1653,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Consumpti__suppl__1A69E950">
+  <Association Name="FK__Consumpti__suppl__658C0CBD">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
     <End Role="Consumption" Type="Self.Consumption" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1658,7 +1665,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Criteria__criter__725BF7F6">
+  <Association Name="FK__Criteria__criter__3D7E1B63">
     <End Role="CriteriaGroup" Type="Self.CriteriaGroup" Multiplicity="0..1" />
     <End Role="Criteria" Type="Self.Criteria" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1670,7 +1677,7 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Criteria__measur__73501C2F">
+  <Association Name="FK__Criteria__measur__3E723F9C">
     <End Role="MeasureUnit" Type="Self.MeasureUnit" Multiplicity="0..1" />
     <End Role="Criteria" Type="Self.Criteria" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1684,11 +1691,11 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
   </Association>
   <!--Errors Found During Generation:
 error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaByMonth' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__Departmen__crite__762C88DA" />-->
+        <Association Name="FK__Departmen__crite__414EAC47" />-->
   <!--Errors Found During Generation:
 error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaByYear' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__Departmen__crite__7814D14C" />-->
-  <Association Name="FK__Departmen__depar__74444068">
+        <Association Name="FK__Departmen__crite__4336F4B9" />-->
+  <Association Name="FK__Departmen__depar__3F6663D5">
     <End Role="Department" Type="Self.Department" Multiplicity="1" />
     <End Role="DepartmentAttendanceAndProductivity" Type="Self.DepartmentAttendanceAndProductivity" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1702,11 +1709,11 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
   </Association>
   <!--Errors Found During Generation:
 error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaByMonth' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__Departmen__depar__7720AD13" />-->
+        <Association Name="FK__Departmen__depar__4242D080" />-->
   <!--Errors Found During Generation:
 error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaByYear' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__Departmen__depar__7908F585" />-->
-  <Association Name="FK__Departmen__heade__753864A1">
+        <Association Name="FK__Departmen__depar__442B18F2" />-->
+  <Association Name="FK__Departmen__heade__405A880E">
     <End Role="HeaderAttendanceAndProductivity" Type="Self.HeaderAttendanceAndProductivity" Multiplicity="1" />
     <End Role="DepartmentAttendanceAndProductivity" Type="Self.DepartmentAttendanceAndProductivity" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1718,7 +1725,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Documenta__depar__0E391C95">
+  <Association Name="FK__Documenta__depar__558AAF1E">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="Documentary" Type="Self.Documentary" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1727,18 +1734,6 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Principal>
       <Dependent Role="Documentary">
         <PropertyRef Name="department_id_to" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Documenta__docum__0F2D40CE">
-    <End Role="DocumentaryType" Type="Self.DocumentaryType" Multiplicity="1" />
-    <End Role="Documentary" Type="Self.Documentary" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="DocumentaryType">
-        <PropertyRef Name="documentary_type" />
-      </Principal>
-      <Dependent Role="Documentary">
-        <PropertyRef Name="documentary_type" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1826,6 +1821,18 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__Documenta__docum__567ED357">
+    <End Role="DocumentaryType" Type="Self.DocumentaryType" Multiplicity="1" />
+    <End Role="Documentary" Type="Self.Documentary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DocumentaryType">
+        <PropertyRef Name="documentary_type" />
+      </Principal>
+      <Dependent Role="Documentary">
+        <PropertyRef Name="documentary_type" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Documenta__equip__43D61338">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="LiquidationDetails" Type="Self.LiquidationDetails" Multiplicity="*" />
@@ -1886,7 +1893,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Employee__status__41B8C09B">
+  <Association Name="FK__Employee__status__090A5324">
     <End Role="Status2" Type="Self.Status2" Multiplicity="0..1" />
     <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1898,7 +1905,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__EmployeeA__absen__79FD19BE">
+  <Association Name="FK__EmployeeA__absen__451F3D2B">
     <End Role="AbsenceReason" Type="Self.AbsenceReason" Multiplicity="0..1" />
     <End Role="EmployeeAttendanceAndProductivity" Type="Self.EmployeeAttendanceAndProductivity" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1910,7 +1917,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__EmployeeA__actua__7AF13DF7">
+  <Association Name="FK__EmployeeA__actua__46136164">
     <End Role="HeaderAttendanceAndProductivity" Type="Self.HeaderAttendanceAndProductivity" Multiplicity="0..1" />
     <End Role="EmployeeAttendanceAndProductivity" Type="Self.EmployeeAttendanceAndProductivity" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1922,7 +1929,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__EmployeeA__emplo__7BE56230">
+  <Association Name="FK__EmployeeA__emplo__4707859D">
     <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
     <End Role="EmployeeAttendanceAndProductivity" Type="Self.EmployeeAttendanceAndProductivity" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1934,7 +1941,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__EmployeeA__heade__7CD98669">
+  <Association Name="FK__EmployeeA__heade__47FBA9D6">
     <End Role="HeaderAttendanceAndProductivity" Type="Self.HeaderAttendanceAndProductivity" Multiplicity="1" />
     <End Role="EmployeeAttendanceAndProductivity" Type="Self.EmployeeAttendanceAndProductivity" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1946,7 +1953,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__EmployeeT__emplo__42ACE4D4">
+  <Association Name="FK__EmployeeT__emplo__0CDAE408">
     <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
     <End Role="EmployeeTask" Type="Self.EmployeeTask" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1958,7 +1965,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__EmployeeT__task___43A1090D">
+  <Association Name="FK__EmployeeT__task___0DCF0841">
     <End Role="Task" Type="Self.Task" Multiplicity="1" />
     <End Role="EmployeeTask" Type="Self.EmployeeTask" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1970,7 +1977,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Equipment__curre__336AA144">
+  <Association Name="FK__Equipment__curre__7ABC33CD">
     <End Role="Status1" Type="Self.Status1" Multiplicity="0..1" />
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -1994,7 +2001,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Equipment__Equip__3552E9B6">
+  <Association Name="FK__Equipment__Equip__7CA47C3F">
     <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2006,7 +2013,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__FakeAPI__employe__7DCDAAA2">
+  <Association Name="FK__FakeAPI__employe__48EFCE0F">
     <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
     <End Role="FakeAPI" Type="Self.FakeAPI" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2018,7 +2025,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__FakeAPI__shifts___7EC1CEDB">
+  <Association Name="FK__FakeAPI__shifts___49E3F248">
     <End Role="Shifts" Type="Self.Shifts" Multiplicity="1" />
     <End Role="FakeAPI" Type="Self.FakeAPI" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2030,7 +2037,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Family__employee__44952D46">
+  <Association Name="FK__Family__employee__0EC32C7A">
     <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
     <End Role="Family" Type="Self.Family" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2042,7 +2049,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Family__family_r__4589517F">
+  <Association Name="FK__Family__family_r__0FB750B3">
     <End Role="FamilyRelationship" Type="Self.FamilyRelationship" Multiplicity="1" />
     <End Role="Family" Type="Self.Family" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2054,7 +2061,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Family__family_t__467D75B8">
+  <Association Name="FK__Family__family_t__10AB74EC">
     <End Role="FamilyType" Type="Self.FamilyType" Multiplicity="1" />
     <End Role="Family" Type="Self.Family" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2066,7 +2073,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__File__account_id__7FB5F314">
+  <Association Name="FK__File__account_id__4AD81681">
     <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
     <End Role="File" Type="Self.File" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2078,7 +2085,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__File__report_fil__00AA174D">
+  <Association Name="FK__File__report_fil__4BCC3ABA">
     <End Role="ReportFile" Type="Self.ReportFile" Multiplicity="0..1" />
     <End Role="File" Type="Self.File" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2090,7 +2097,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__FuelActiv__depar__36470DEF">
+  <Association Name="FK__FuelActiv__depar__7D98A078">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="FuelActivitiesConsumption" Type="Self.FuelActivitiesConsumption" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2102,7 +2109,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__FuelActiv__equip__373B3228">
+  <Association Name="FK__FuelActiv__equip__7E8CC4B1">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="FuelActivitiesConsumption" Type="Self.FuelActivitiesConsumption" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2114,7 +2121,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__FuelActiv__fuel___382F5661">
+  <Association Name="FK__FuelActiv__fuel___7F80E8EA">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
     <End Role="FuelActivitiesConsumption" Type="Self.FuelActivitiesConsumption" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2126,7 +2133,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__HeaderAtt__shift__019E3B86">
+  <Association Name="FK__HeaderAtt__shift__4CC05EF3">
     <End Role="Shifts" Type="Self.Shifts" Multiplicity="0..1" />
     <End Role="HeaderAttendanceAndProductivity" Type="Self.HeaderAttendanceAndProductivity" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2138,7 +2145,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__HeaderPla__depar__02925FBF">
+  <Association Name="FK__HeaderPla__depar__4DB4832C">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="HeaderPlanManufacturingByMonth" Type="Self.HeaderPlanManufacturingByMonth" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2150,7 +2157,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__HeaderPla__depar__047AA831">
+  <Association Name="FK__HeaderPla__depar__4F9CCB9E">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="HeaderPlanManufacturingByShifts" Type="Self.HeaderPlanManufacturingByShifts" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2162,7 +2169,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__HeaderPla__depar__0662F0A3">
+  <Association Name="FK__HeaderPla__depar__51851410">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="HeaderPlanManufacturingByYear" Type="Self.HeaderPlanManufacturingByYear" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2174,7 +2181,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__HeaderPla__plan___038683F8">
+  <Association Name="FK__HeaderPla__plan___4EA8A765">
     <End Role="PlanManufacturingMonthInformation" Type="Self.PlanManufacturingMonthInformation" Multiplicity="0..1" />
     <End Role="HeaderPlanManufacturingByMonth" Type="Self.HeaderPlanManufacturingByMonth" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2186,7 +2193,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__HeaderPla__shift__056ECC6A">
+  <Association Name="FK__HeaderPla__shift__5090EFD7">
     <End Role="Shifts" Type="Self.Shifts" Multiplicity="0..1" />
     <End Role="HeaderPlanManufacturingByShifts" Type="Self.HeaderPlanManufacturingByShifts" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2198,7 +2205,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__HeaderRea__depar__075714DC">
+  <Association Name="FK__HeaderRea__depar__52793849">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="HeaderRealityManufacturing" Type="Self.HeaderRealityManufacturing" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2210,7 +2217,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__HeaderRea__reali__084B3915">
+  <Association Name="FK__HeaderRea__reali__536D5C82">
     <End Role="RealityManufacturingDayInformation" Type="Self.RealityManufacturingDayInformation" Multiplicity="0..1" />
     <End Role="HeaderRealityManufacturing" Type="Self.HeaderRealityManufacturing" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2222,7 +2229,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__HeaderRea__shift__093F5D4E">
+  <Association Name="FK__HeaderRea__shift__546180BB">
     <End Role="Shifts" Type="Self.Shifts" Multiplicity="0..1" />
     <End Role="HeaderRealityManufacturing" Type="Self.HeaderRealityManufacturing" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2246,7 +2253,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ImproveDe__depar__1209AD79">
+  <Association Name="FK__ImproveDe__depar__595B4002">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="ImproveDetails" Type="Self.ImproveDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2258,7 +2265,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ImproveDe__docum__12FDD1B2">
+  <Association Name="FK__ImproveDe__docum__5A4F643B">
     <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
     <End Role="ImproveDetails" Type="Self.ImproveDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2270,7 +2277,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ImproveDe__equip__13F1F5EB">
+  <Association Name="FK__ImproveDe__equip__5B438874">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="ImproveDetails" Type="Self.ImproveDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2282,7 +2289,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ImproveEq__docum__1C5231C2">
+  <Association Name="FK__ImproveEq__docum__6774552F">
     <End Role="ImproveDetails" Type="Self.ImproveDetails" Multiplicity="1" />
     <End Role="ImproveEquipment" Type="Self.ImproveEquipment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2294,7 +2301,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ImproveEq__equip__1D4655FB">
+  <Association Name="FK__ImproveEq__equip__68687968">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
     <End Role="ImproveEquipment" Type="Self.ImproveEquipment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2306,7 +2313,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ImproveEq__suppl__1E3A7A34">
+  <Association Name="FK__ImproveEq__suppl__695C9DA1">
     <End Role="Supply" Type="Self.Supply" Multiplicity="0..1" />
     <End Role="ImproveEquipment" Type="Self.ImproveEquipment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2330,7 +2337,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Incident__equipm__3A179ED3">
+  <Association Name="FK__Incident__equipm__0169315C">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Incident1" Type="Self.Incident1" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2342,7 +2349,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Incident__room_i__7EF6D905">
+  <Association Name="FK__Incident__room_i__46486B8E">
     <End Role="Room" Type="Self.Room" Multiplicity="1" />
     <End Role="Incident" Type="Self.Incident" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2354,7 +2361,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Inspectio__equip__3B0BC30C">
+  <Association Name="FK__Inspectio__equip__025D5595">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Inspection" Type="Self.Inspection" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2366,7 +2373,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Insurance__equip__3BFFE745">
+  <Association Name="FK__Insurance__equip__035179CE">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Insurance" Type="Self.Insurance" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2378,7 +2385,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Liquidati__depar__16CE6296">
+  <Association Name="FK__Liquidati__depar__5E1FF51F">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="LiquidationDetails" Type="Self.LiquidationDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2402,7 +2409,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__MaintainD__attac__19AACF41">
+  <Association Name="FK__MaintainD__attac__60FC61CA">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
     <End Role="MaintainDetails" Type="Self.MaintainDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2414,7 +2421,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__MaintainD__depar__1A9EF37A">
+  <Association Name="FK__MaintainD__depar__61F08603">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="MaintainDetails" Type="Self.MaintainDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2426,7 +2433,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__MaintainE__docum__1F2E9E6D">
+  <Association Name="FK__MaintainE__docum__6A50C1DA">
     <End Role="MaintainDetails" Type="Self.MaintainDetails" Multiplicity="1" />
     <End Role="MaintainEquipment" Type="Self.MaintainEquipment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2438,7 +2445,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__MaintainE__equip__2022C2A6">
+  <Association Name="FK__MaintainE__equip__6B44E613">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
     <End Role="MaintainEquipment" Type="Self.MaintainEquipment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2450,7 +2457,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__MaintainE__suppl__2116E6DF">
+  <Association Name="FK__MaintainE__suppl__6C390A4C">
     <End Role="Supply" Type="Self.Supply" Multiplicity="0..1" />
     <End Role="MaintainEquipment" Type="Self.MaintainEquipment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2474,7 +2481,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__MonthlyPl__equip__220B0B18">
+  <Association Name="FK__MonthlyPl__equip__6D2D2E85">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
     <End Role="MonthlyPlan" Type="Self.MonthlyPlan" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2486,7 +2493,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__MonthlyPl__suppl__22FF2F51">
+  <Association Name="FK__MonthlyPl__suppl__6E2152BE">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
     <End Role="MonthlyPlan" Type="Self.MonthlyPlan" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2498,7 +2505,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__MonthlyPl__suppl__23F3538A">
+  <Association Name="FK__MonthlyPl__suppl__6F1576F7">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
     <End Role="MonthlyPlan" Type="Self.MonthlyPlan" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2510,7 +2517,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__MovelineD__depar__1D7B6025">
+  <Association Name="FK__MovelineD__depar__64CCF2AE">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="MovelineDetails" Type="Self.MovelineDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2522,7 +2529,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Papers__papers_t__477199F1">
+  <Association Name="FK__Papers__papers_t__119F9925">
     <End Role="PapersType" Type="Self.PapersType" Multiplicity="0..1" />
     <End Role="Papers" Type="Self.Papers" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2534,7 +2541,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PlanManuf__crite__0B27A5C0">
+  <Association Name="FK__PlanManuf__crite__5649C92D">
     <End Role="Criteria" Type="Self.Criteria" Multiplicity="1" />
     <End Role="PlanManufacturingByMonth" Type="Self.PlanManufacturingByMonth" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2546,7 +2553,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PlanManuf__crite__0D0FEE32">
+  <Association Name="FK__PlanManuf__crite__5832119F">
     <End Role="Criteria" Type="Self.Criteria" Multiplicity="1" />
     <End Role="PlanManufacturingByShifts" Type="Self.PlanManufacturingByShifts" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2558,7 +2565,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PlanManuf__crite__0EF836A4">
+  <Association Name="FK__PlanManuf__crite__5A1A5A11">
     <End Role="Criteria" Type="Self.Criteria" Multiplicity="1" />
     <End Role="PlanManufacturingByYear" Type="Self.PlanManufacturingByYear" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2570,7 +2577,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PlanManuf__heade__0C1BC9F9">
+  <Association Name="FK__PlanManuf__heade__573DED66">
     <End Role="HeaderPlanManufacturingByMonth" Type="Self.HeaderPlanManufacturingByMonth" Multiplicity="1" />
     <End Role="PlanManufacturingByMonth" Type="Self.PlanManufacturingByMonth" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2582,7 +2589,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PlanManuf__heade__0E04126B">
+  <Association Name="FK__PlanManuf__heade__592635D8">
     <End Role="HeaderPlanManufacturingByShifts" Type="Self.HeaderPlanManufacturingByShifts" Multiplicity="1" />
     <End Role="PlanManufacturingByShifts" Type="Self.PlanManufacturingByShifts" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2594,7 +2601,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__PlanManuf__heade__0FEC5ADD">
+  <Association Name="FK__PlanManuf__heade__5B0E7E4A">
     <End Role="HeaderPlanManufacturingByYear" Type="Self.HeaderPlanManufacturingByYear" Multiplicity="1" />
     <End Role="PlanManufacturingByYear" Type="Self.PlanManufacturingByYear" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2608,11 +2615,11 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
   </Association>
   <!--Errors Found During Generation:
 error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__RealityMa__crite__10E07F16" />-->
+        <Association Name="FK__RealityMa__crite__5C02A283" />-->
   <!--Errors Found During Generation:
 error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__RealityMa__heade__11D4A34F" />-->
-  <Association Name="FK__Records__deliver__4865BE2A">
+        <Association Name="FK__RealityMa__heade__5CF6C6BC" />-->
+  <Association Name="FK__Records__deliver__1293BD5E">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
     <End Role="Records" Type="Self.Records" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2624,7 +2631,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Records__employe__4959E263">
+  <Association Name="FK__Records__employe__1387E197">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
     <End Role="Records" Type="Self.Records" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2636,7 +2643,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Records__handove__4A4E069C">
+  <Association Name="FK__Records__handove__147C05D0">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
     <End Role="Records" Type="Self.Records" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2648,7 +2655,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Records__managem__4B422AD5">
+  <Association Name="FK__Records__managem__15702A09">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
     <End Role="Records" Type="Self.Records" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2660,7 +2667,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Records__records__4C364F0E">
+  <Association Name="FK__Records__records__16644E42">
     <End Role="RecordsStatus" Type="Self.RecordsStatus" Multiplicity="0..1" />
     <End Role="Records" Type="Self.Records" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2672,7 +2679,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RecordsGe__famil__4D2A7347">
+  <Association Name="FK__RecordsGe__famil__1758727B">
     <End Role="FamilyRelationship" Type="Self.FamilyRelationship" Multiplicity="0..1" />
     <End Role="RecordsGettingAuthorize" Type="Self.RecordsGettingAuthorize" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2684,7 +2691,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RecordsGe__recor__4E1E9780">
+  <Association Name="FK__RecordsGe__recor__184C96B4">
     <End Role="Records" Type="Self.Records" Multiplicity="0..1" />
     <End Role="RecordsGettingAuthorize" Type="Self.RecordsGettingAuthorize" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2696,7 +2703,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RecordsPa__caree__4F12BBB9">
+  <Association Name="FK__RecordsPa__caree__762C88DA">
     <End Role="Career" Type="Self.Career" Multiplicity="0..1" />
     <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2708,7 +2715,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RecordsPa__durat__5006DFF2">
+  <Association Name="FK__RecordsPa__durat__7720AD13">
     <End Role="DurationType" Type="Self.DurationType" Multiplicity="0..1" />
     <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2720,7 +2727,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RecordsPa__paper__50FB042B">
+  <Association Name="FK__RecordsPa__paper__7814D14C">
     <End Role="Papers" Type="Self.Papers" Multiplicity="1" />
     <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2732,11 +2739,11 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RecordsPa__paper__51EF2864">
-    <End Role="PaperStorageType" Type="Self.PaperStorageType" Multiplicity="0..1" />
+  <Association Name="FK__RecordsPa__paper__7908F585">
+    <End Role="PapersStorageType" Type="Self.PapersStorageType" Multiplicity="0..1" />
     <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="PaperStorageType">
+      <Principal Role="PapersStorageType">
         <PropertyRef Name="papers_storage_type_id" />
       </Principal>
       <Dependent Role="RecordsPapers">
@@ -2744,7 +2751,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RecordsPa__quali__52E34C9D">
+  <Association Name="FK__RecordsPa__quali__79FD19BE">
     <End Role="Qualification" Type="Self.Qualification" Multiplicity="0..1" />
     <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2756,7 +2763,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RecordsPa__recor__53D770D6">
+  <Association Name="FK__RecordsPa__recor__7AF13DF7">
     <End Role="Records" Type="Self.Records" Multiplicity="0..1" />
     <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2768,7 +2775,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RecordsPa__schoo__54CB950F">
+  <Association Name="FK__RecordsPa__schoo__7BE56230">
     <End Role="School" Type="Self.School" Multiplicity="0..1" />
     <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2780,19 +2787,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RecordsPa__speci__55BFB948">
-    <End Role="Specializations" Type="Self.Specializations" Multiplicity="0..1" />
-    <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Specializations">
-        <PropertyRef Name="specializations_id" />
-      </Principal>
-      <Dependent Role="RecordsPapers">
-        <PropertyRef Name="specializations_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Recruitme__decis__56B3DD81">
+  <Association Name="FK__Recruitme__decis__7DCDAAA2">
     <End Role="Decision" Type="Self.Decision" Multiplicity="1" />
     <End Role="Recruitment" Type="Self.Recruitment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2804,7 +2799,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Recruitme__depar__57A801BA">
+  <Association Name="FK__Recruitme__depar__7EC1CEDB">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="Recruitment" Type="Self.Recruitment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2816,7 +2811,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Recruitme__emplo__589C25F3">
+  <Association Name="FK__Recruitme__emplo__7FB5F314">
     <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
     <End Role="Recruitment" Type="Self.Recruitment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2828,7 +2823,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Recruitme__quali__59904A2C">
+  <Association Name="FK__Recruitme__quali__00AA174D">
     <End Role="Qualification" Type="Self.Qualification" Multiplicity="0..1" />
     <End Role="Recruitment" Type="Self.Recruitment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2840,7 +2835,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Recruitme__salar__5A846E65">
+  <Association Name="FK__Recruitme__salar__019E3B86">
     <End Role="Salary" Type="Self.Salary" Multiplicity="0..1" />
     <End Role="Recruitment" Type="Self.Recruitment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2852,19 +2847,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Recruitme__speci__5B78929E">
-    <End Role="Specializations" Type="Self.Specializations" Multiplicity="0..1" />
-    <End Role="Recruitment" Type="Self.Recruitment" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Specializations">
-        <PropertyRef Name="specializations_id" />
-      </Principal>
-      <Dependent Role="Recruitment">
-        <PropertyRef Name="specializations_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Recruitme__work___5C6CB6D7">
+  <Association Name="FK__Recruitme__work___038683F8">
     <End Role="Work" Type="Self.Work" Multiplicity="0..1" />
     <End Role="Recruitment" Type="Self.Recruitment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2876,7 +2859,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RepairCam__docum__26CFC035">
+  <Association Name="FK__RepairCam__docum__71F1E3A2">
     <End Role="Documentary" Type="Self.Documentary" Multiplicity="1" />
     <End Role="RepairCamera" Type="Self.RepairCamera" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2888,7 +2871,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RepairCam__room___27C3E46E">
+  <Association Name="FK__RepairCam__room___72E607DB">
     <End Role="Room" Type="Self.Room" Multiplicity="1" />
     <End Role="RepairCamera" Type="Self.RepairCamera" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2900,7 +2883,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RepairCam__suppl__28B808A7">
+  <Association Name="FK__RepairCam__suppl__73DA2C14">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
     <End Role="RepairCamera" Type="Self.RepairCamera" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2912,7 +2895,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RepairDet__attac__2057CCD0">
+  <Association Name="FK__RepairDet__attac__67A95F59">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
     <End Role="RepairDetails" Type="Self.RepairDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2924,7 +2907,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RepairDet__depar__214BF109">
+  <Association Name="FK__RepairDet__depar__689D8392">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="RepairDetails" Type="Self.RepairDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2936,7 +2919,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RepairEqu__docum__29AC2CE0">
+  <Association Name="FK__RepairEqu__docum__74CE504D">
     <End Role="RepairDetails" Type="Self.RepairDetails" Multiplicity="1" />
     <End Role="RepairEquipment" Type="Self.RepairEquipment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2948,7 +2931,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RepairEqu__equip__2AA05119">
+  <Association Name="FK__RepairEqu__equip__75C27486">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
     <End Role="RepairEquipment" Type="Self.RepairEquipment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2960,7 +2943,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RepairEqu__suppl__2B947552">
+  <Association Name="FK__RepairEqu__suppl__76B698BF">
     <End Role="Supply" Type="Self.Supply" Multiplicity="0..1" />
     <End Role="RepairEquipment" Type="Self.RepairEquipment" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2972,7 +2955,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RepairReg__depar__3CF40B7E">
+  <Association Name="FK__RepairReg__depar__04459E07">
     <End Role="Department" Type="Self.Department" Multiplicity="1" />
     <End Role="RepairRegularly" Type="Self.RepairRegularly" Multiplicity="*" />
     <ReferentialConstraint>
@@ -2984,43 +2967,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RepairReg__equip__2C88998B">
-    <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
-    <End Role="RepairRegularly1" Type="Self.RepairRegularly1" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Equipment">
-        <PropertyRef Name="equipmentId" />
-      </Principal>
-      <Dependent Role="RepairRegularly1">
-        <PropertyRef Name="equipmentId_dikem" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__RepairReg__equip__2D7CBDC4">
-    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
-    <End Role="RepairRegularly1" Type="Self.RepairRegularly1" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Equipment">
-        <PropertyRef Name="equipmentId" />
-      </Principal>
-      <Dependent Role="RepairRegularly1">
-        <PropertyRef Name="equipmentId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__RepairReg__equip__2E70E1FD">
-    <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
-    <End Role="RepairRegularly1" Type="Self.RepairRegularly1" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Equipment">
-        <PropertyRef Name="equipmentId" />
-      </Principal>
-      <Dependent Role="RepairRegularly1">
-        <PropertyRef Name="equipmentId_dikem" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__RepairReg__equip__3DE82FB7">
+  <Association Name="FK__RepairReg__equip__0539C240">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="RepairRegularly" Type="Self.RepairRegularly" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3032,7 +2979,43 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RepairReg__maint__3EDC53F0">
+  <Association Name="FK__RepairReg__equip__77AABCF8">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
+    <End Role="RepairRegularly1" Type="Self.RepairRegularly1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="RepairRegularly1">
+        <PropertyRef Name="equipmentId_dikem" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__RepairReg__equip__789EE131">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
+    <End Role="RepairRegularly1" Type="Self.RepairRegularly1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="RepairRegularly1">
+        <PropertyRef Name="equipmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__RepairReg__equip__7993056A">
+    <End Role="Equipment" Type="Self.Equipment" Multiplicity="0..1" />
+    <End Role="RepairRegularly1" Type="Self.RepairRegularly1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Equipment">
+        <PropertyRef Name="equipmentId" />
+      </Principal>
+      <Dependent Role="RepairRegularly1">
+        <PropertyRef Name="equipmentId_dikem" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__RepairReg__maint__062DE679">
     <End Role="RepairRegularly" Type="Self.RepairRegularly" Multiplicity="1" />
     <End Role="RepairRegularlyDetail" Type="Self.RepairRegularlyDetail" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3044,19 +3027,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RepairReg__suppl__2F650636">
-    <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
-    <End Role="RepairRegularly1" Type="Self.RepairRegularly1" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Supply">
-        <PropertyRef Name="supply_id" />
-      </Principal>
-      <Dependent Role="RepairRegularly1">
-        <PropertyRef Name="supply_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__RepairReg__suppl__3FD07829">
+  <Association Name="FK__RepairReg__suppl__07220AB2">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
     <End Role="RepairRegularlyDetail" Type="Self.RepairRegularlyDetail" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3068,7 +3039,19 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ReportFil__depar__12C8C788">
+  <Association Name="FK__RepairReg__suppl__7A8729A3">
+    <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
+    <End Role="RepairRegularly1" Type="Self.RepairRegularly1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supply">
+        <PropertyRef Name="supply_id" />
+      </Principal>
+      <Dependent Role="RepairRegularly1">
+        <PropertyRef Name="supply_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ReportFil__depar__5DEAEAF5">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="ReportFile" Type="Self.ReportFile" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3080,7 +3063,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ReportFil__shift__13BCEBC1">
+  <Association Name="FK__ReportFil__shift__5EDF0F2E">
     <End Role="Shifts" Type="Self.Shifts" Multiplicity="0..1" />
     <End Role="ReportFile" Type="Self.ReportFile" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3092,7 +3075,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__RevokeDet__depar__24285DB4">
+  <Association Name="FK__RevokeDet__depar__6B79F03D">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="RevokeDetails" Type="Self.RevokeDetails" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3104,7 +3087,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Room__department__7FEAFD3E">
+  <Association Name="FK__Room__department__473C8FC7">
     <End Role="Department" Type="Self.Department" Multiplicity="1" />
     <End Role="Room" Type="Self.Room" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3116,7 +3099,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__SafetyWor__emplo__14B10FFA">
+  <Association Name="FK__SafetyWor__emplo__5FD33367">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
     <End Role="SafetyWork" Type="Self.SafetyWork" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3128,7 +3111,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__SafetyWor__safet__15A53433">
+  <Association Name="FK__SafetyWor__safet__60C757A0">
     <End Role="SafetyWorkType" Type="Self.SafetyWorkType" Multiplicity="0..1" />
     <End Role="SafetyWork" Type="Self.SafetyWork" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3140,7 +3123,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__SafetyWor__shift__1699586C">
+  <Association Name="FK__SafetyWor__shift__61BB7BD9">
     <End Role="Shifts" Type="Self.Shifts" Multiplicity="0..1" />
     <End Role="SafetyWork" Type="Self.SafetyWork" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3152,7 +3135,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Salary__pay_rate__5D60DB10">
+  <Association Name="FK__Salary__pay_rate__278EDA44">
     <End Role="PayRate" Type="Self.PayRate" Multiplicity="0..1" />
     <End Role="Salary" Type="Self.Salary" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3164,7 +3147,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Salary__pay_tabl__5E54FF49">
+  <Association Name="FK__Salary__pay_tabl__2882FE7D">
     <End Role="PayTable" Type="Self.PayTable" Multiplicity="0..1" />
     <End Role="Salary" Type="Self.Salary" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3176,7 +3159,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__SalaryPro__emplo__5F492382">
+  <Association Name="FK__SalaryPro__emplo__297722B6">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
     <End Role="SalaryProcess" Type="Self.SalaryProcess" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3188,19 +3171,31 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Specializ__speci__603D47BB">
-    <End Role="SpecializationsType" Type="Self.SpecializationsType" Multiplicity="0..1" />
+  <Association Name="FK__Specializ__caree__2A6B46EF">
+    <End Role="Career" Type="Self.Career" Multiplicity="0..1" />
     <End Role="Specializations" Type="Self.Specializations" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="SpecializationsType">
-        <PropertyRef Name="specializtions_type_id" />
+      <Principal Role="Career">
+        <PropertyRef Name="career_id" />
       </Principal>
       <Dependent Role="Specializations">
-        <PropertyRef Name="specializtions_type_id" />
+        <PropertyRef Name="career_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Status__room_id__00DF2177">
+  <Association Name="FK__Specializ__educa__2B5F6B28">
+    <End Role="EducationLevel" Type="Self.EducationLevel" Multiplicity="0..1" />
+    <End Role="Specializations" Type="Self.Specializations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EducationLevel">
+        <PropertyRef Name="education_level_id" />
+      </Principal>
+      <Dependent Role="Specializations">
+        <PropertyRef Name="education_level_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Status__room_id__4830B400">
     <End Role="Room" Type="Self.Room" Multiplicity="1" />
     <End Role="Status" Type="Self.Status" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3212,7 +3207,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Supply_Di__equip__01D345B0">
+  <Association Name="FK__Supply_Di__equip__4924D839">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Supply_DiKem" Type="Self.Supply_DiKem" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3224,7 +3219,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Supply_Di__equip__02C769E9">
+  <Association Name="FK__Supply_Di__equip__4A18FC72">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Supply_DiKem" Type="Self.Supply_DiKem" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3236,7 +3231,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Supply_Eq__equip__03BB8E22">
+  <Association Name="FK__Supply_Eq__equip__4B0D20AB">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Supply_Equipment_DiKem" Type="Self.Supply_Equipment_DiKem" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3248,7 +3243,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Supply_Eq__suppl__04AFB25B">
+  <Association Name="FK__Supply_Eq__suppl__4C0144E4">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
     <End Role="Supply_Equipment_DiKem" Type="Self.Supply_Equipment_DiKem" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3296,7 +3291,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Task__papers_id__61316BF4">
+  <Association Name="FK__Task__papers_id__2C538F61">
     <End Role="Papers" Type="Self.Papers" Multiplicity="0..1" />
     <End Role="Task" Type="Self.Task" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3308,7 +3303,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Task__task_type___6225902D">
+  <Association Name="FK__Task__task_type___2D47B39A">
     <End Role="TaskType" Type="Self.TaskType" Multiplicity="0..1" />
     <End Role="Task" Type="Self.Task" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3320,7 +3315,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Terminati__decis__6319B466">
+  <Association Name="FK__Terminati__decis__2E3BD7D3">
     <End Role="Decision" Type="Self.Decision" Multiplicity="1" />
     <End Role="Termination" Type="Self.Termination" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3332,7 +3327,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Terminati__emplo__640DD89F">
+  <Association Name="FK__Terminati__emplo__2F2FFC0C">
     <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
     <End Role="Termination" Type="Self.Termination" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3344,7 +3339,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Terminati__termi__6501FCD8">
+  <Association Name="FK__Terminati__termi__30242045">
     <End Role="TerminationType" Type="Self.TerminationType" Multiplicity="0..1" />
     <End Role="Termination" Type="Self.Termination" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3356,7 +3351,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Transfer__decisi__65F62111">
+  <Association Name="FK__Transfer__decisi__3118447E">
     <End Role="Decision" Type="Self.Decision" Multiplicity="1" />
     <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3368,7 +3363,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Transfer__employ__66EA454A">
+  <Association Name="FK__Transfer__employ__320C68B7">
     <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
     <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3380,7 +3375,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Transfer__new_de__67DE6983">
+  <Association Name="FK__Transfer__new_de__33008CF0">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3392,7 +3387,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Transfer__new_sa__68D28DBC">
+  <Association Name="FK__Transfer__new_sa__33F4B129">
     <End Role="Salary" Type="Self.Salary" Multiplicity="0..1" />
     <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3404,7 +3399,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Transfer__new_wo__69C6B1F5">
+  <Association Name="FK__Transfer__new_wo__10E07F16">
     <End Role="Work" Type="Self.Work" Multiplicity="0..1" />
     <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3416,7 +3411,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Transfer__old_de__6ABAD62E">
+  <Association Name="FK__Transfer__old_de__35DCF99B">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
     <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3428,7 +3423,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Transfer__old_sa__6BAEFA67">
+  <Association Name="FK__Transfer__old_sa__36D11DD4">
     <End Role="Salary" Type="Self.Salary" Multiplicity="0..1" />
     <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3440,7 +3435,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Transfer__old_wo__6CA31EA0">
+  <Association Name="FK__Transfer__old_wo__13BCEBC1">
     <End Role="Work" Type="Self.Work" Multiplicity="0..1" />
     <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3452,7 +3447,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Vattu_Dik__equip__05A3D694">
+  <Association Name="FK__Vattu_Dik__equip__4CF5691D">
     <End Role="Equipment" Type="Self.Equipment" Multiplicity="1" />
     <End Role="Vattu_Dikem" Type="Self.Vattu_Dikem" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3464,7 +3459,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Vattu_Dik__suppl__0697FACD">
+  <Association Name="FK__Vattu_Dik__suppl__4DE98D56">
     <End Role="Supply" Type="Self.Supply" Multiplicity="1" />
     <End Role="Vattu_Dikem" Type="Self.Vattu_Dikem" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3476,7 +3471,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Work__pay_table___6D9742D9">
+  <Association Name="FK__Work__pay_table___14B10FFA">
     <End Role="PayTable" Type="Self.PayTable" Multiplicity="0..1" />
     <End Role="Work" Type="Self.Work" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3488,7 +3483,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__WorkingPr__emplo__6E8B6712">
+  <Association Name="FK__WorkingPr__emplo__39AD8A7F">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
     <End Role="WorkingProcess" Type="Self.WorkingProcess" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3500,7 +3495,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__WorkWorkG__work___6F7F8B4B">
+  <Association Name="FK__WorkWorkG__work___1699586C">
     <End Role="Work" Type="Self.Work" Multiplicity="1" />
     <End Role="WorkWorkGroup" Type="Self.WorkWorkGroup" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3512,7 +3507,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__WorkWorkG__work___7073AF84">
+  <Association Name="FK__WorkWorkG__work___3B95D2F1">
     <End Role="WorkGroup" Type="Self.WorkGroup" Multiplicity="1" />
     <End Role="WorkWorkGroup" Type="Self.WorkWorkGroup" Multiplicity="*" />
     <ReferentialConstraint>
@@ -3521,6 +3516,42 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Principal>
       <Dependent Role="WorkWorkGroup">
         <PropertyRef Name="work_group_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_Department">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="department_id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="current_department_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_Salary">
+    <End Role="Salary" Type="Self.Salary" Multiplicity="0..1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Salary">
+        <PropertyRef Name="salary_id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="current_salary_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_Work">
+    <End Role="Work" Type="Self.Work" Multiplicity="0..1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Work">
+        <PropertyRef Name="work_id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="current_work_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3533,6 +3564,30 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       </Principal>
       <Dependent Role="Important_Documentary">
         <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RecordsPapers_Specializations">
+    <End Role="Specializations" Type="Self.Specializations" Multiplicity="0..1" />
+    <End Role="RecordsPapers" Type="Self.RecordsPapers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Specializations">
+        <PropertyRef Name="specializations_id" />
+      </Principal>
+      <Dependent Role="RecordsPapers">
+        <PropertyRef Name="specializations_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Recruitment_Specializations">
+    <End Role="Specializations" Type="Self.Specializations" Multiplicity="0..1" />
+    <End Role="Recruitment" Type="Self.Recruitment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Specializations">
+        <PropertyRef Name="specializations_id" />
+      </Principal>
+      <Dependent Role="Recruitment">
+        <PropertyRef Name="specializations_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -3585,13 +3640,14 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
     <EntitySet Name="Career" EntityType="Self.Career" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="Decision" EntityType="Self.Decision" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="DurationType" EntityType="Self.DurationType" Schema="HumanResources" store:Type="Tables" />
+    <EntitySet Name="EducationLevel" EntityType="Self.EducationLevel" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="Employee" EntityType="Self.Employee" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="EmployeeTask" EntityType="Self.EmployeeTask" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="Family" EntityType="Self.Family" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="FamilyRelationship" EntityType="Self.FamilyRelationship" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="FamilyType" EntityType="Self.FamilyType" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="Papers" EntityType="Self.Papers" Schema="HumanResources" store:Type="Tables" />
-    <EntitySet Name="PaperStorageType" EntityType="Self.PaperStorageType" Schema="HumanResources" store:Type="Tables" />
+    <EntitySet Name="PapersStorageType" EntityType="Self.PapersStorageType" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="PapersType" EntityType="Self.PapersType" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="PayRate" EntityType="Self.PayRate" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="PayTable" EntityType="Self.PayTable" Schema="HumanResources" store:Type="Tables" />
@@ -3605,7 +3661,6 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
     <EntitySet Name="SalaryProcess" EntityType="Self.SalaryProcess" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="School" EntityType="Self.School" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="Specializations" EntityType="Self.Specializations" Schema="HumanResources" store:Type="Tables" />
-    <EntitySet Name="SpecializationsType" EntityType="Self.SpecializationsType" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="Status2" EntityType="Self.Status2" Schema="HumanResources" Table="Status" store:Type="Tables" />
     <EntitySet Name="Task" EntityType="Self.Task" Schema="HumanResources" store:Type="Tables" />
     <EntitySet Name="TaskType" EntityType="Self.TaskType" Schema="HumanResources" store:Type="Tables" />
@@ -3649,11 +3704,11 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
     <EntitySet Name="RepairEquipment" EntityType="Self.RepairEquipment" Schema="Supply" store:Type="Tables" />
     <EntitySet Name="RepairRegularly1" EntityType="Self.RepairRegularly1" Schema="Supply" Table="RepairRegularly" store:Type="Tables" />
     <EntitySet Name="Supply" EntityType="Self.Supply" Schema="Supply" store:Type="Tables" />
-    <AssociationSet Name="FK__AbsenceRe__absen__7167D3BD" Association="Self.FK__AbsenceRe__absen__7167D3BD">
+    <AssociationSet Name="FK__AbsenceRe__absen__3C89F72A" Association="Self.FK__AbsenceRe__absen__3C89F72A">
       <End Role="AbsenceReasonType" EntitySet="AbsenceReasonType" />
       <End Role="AbsenceReason" EntitySet="AbsenceReason" />
     </AssociationSet>
-    <AssociationSet Name="FK__Acceptanc__attac__251C81ED" Association="Self.FK__Acceptanc__attac__251C81ED">
+    <AssociationSet Name="FK__Acceptanc__attac__6C6E1476" Association="Self.FK__Acceptanc__attac__6C6E1476">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Acceptance1" EntitySet="Acceptance1" />
     </AssociationSet>
@@ -3661,63 +3716,63 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="Documentary" EntitySet="Documentary" />
       <End Role="Acceptance1" EntitySet="Acceptance1" />
     </AssociationSet>
-    <AssociationSet Name="FK__Acceptanc__equip__2704CA5F" Association="Self.FK__Acceptanc__equip__2704CA5F">
+    <AssociationSet Name="FK__Acceptanc__equip__6E565CE8" Association="Self.FK__Acceptanc__equip__6E565CE8">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Acceptance1" EntitySet="Acceptance1" />
     </AssociationSet>
-    <AssociationSet Name="FK__Account__NVID__7849DB76" Association="Self.FK__Account__NVID__7849DB76">
+    <AssociationSet Name="FK__Account__NVID__3F9B6DFF" Association="Self.FK__Account__NVID__3F9B6DFF">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="Account" EntitySet="Account" />
     </AssociationSet>
-    <AssociationSet Name="FK__Account__Role__793DFFAF" Association="Self.FK__Account__Role__793DFFAF">
+    <AssociationSet Name="FK__Account__Role__408F9238" Association="Self.FK__Account__Role__408F9238">
       <End Role="Role" EntitySet="Role" />
       <End Role="Account" EntitySet="Account" />
     </AssociationSet>
-    <AssociationSet Name="FK__Account_R__Accou__7B264821" Association="Self.FK__Account_R__Accou__7B264821">
+    <AssociationSet Name="FK__Account_R__Accou__4277DAAA" Association="Self.FK__Account_R__Accou__4277DAAA">
       <End Role="Account" EntitySet="Account" />
       <End Role="Account_Right_Detail" EntitySet="Account_Right_Detail" />
     </AssociationSet>
-    <AssociationSet Name="FK__Account_R__Modul__7A3223E8" Association="Self.FK__Account_R__Modul__7A3223E8">
+    <AssociationSet Name="FK__Account_R__Modul__4183B671" Association="Self.FK__Account_R__Modul__4183B671">
       <End Role="Module" EntitySet="Module" />
       <End Role="Account_Right" EntitySet="Account_Right" />
     </AssociationSet>
-    <AssociationSet Name="FK__Account_R__Right__7C1A6C5A" Association="Self.FK__Account_R__Right__7C1A6C5A">
+    <AssociationSet Name="FK__Account_R__Right__436BFEE3" Association="Self.FK__Account_R__Right__436BFEE3">
       <End Role="Account_Right" EntitySet="Account_Right" />
       <End Role="Account_Right_Detail" EntitySet="Account_Right_Detail" />
     </AssociationSet>
-    <AssociationSet Name="FK__Activity__equipm__27F8EE98" Association="Self.FK__Activity__equipm__27F8EE98">
+    <AssociationSet Name="FK__Activity__equipm__6F4A8121" Association="Self.FK__Activity__equipm__6F4A8121">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Activity" EntitySet="Activity" />
     </AssociationSet>
-    <AssociationSet Name="FK__Additiona__recor__40C49C62" Association="Self.FK__Additiona__recor__40C49C62">
+    <AssociationSet Name="FK__Additiona__recor__08162EEB" Association="Self.FK__Additiona__recor__08162EEB">
       <End Role="Records" EntitySet="Records" />
       <End Role="AdditionalHistoryResume" EntitySet="AdditionalHistoryResume" />
     </AssociationSet>
-    <AssociationSet Name="FK__Attribute__equip__28ED12D1" Association="Self.FK__Attribute__equip__28ED12D1">
+    <AssociationSet Name="FK__Attribute__equip__703EA55A" Association="Self.FK__Attribute__equip__703EA55A">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Attribute" EntitySet="Attribute" />
     </AssociationSet>
-    <AssociationSet Name="FK__BigMainta__attac__078C1F06" Association="Self.FK__BigMainta__attac__078C1F06">
+    <AssociationSet Name="FK__BigMainta__attac__4EDDB18F" Association="Self.FK__BigMainta__attac__4EDDB18F">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="BigMaintainDetails" EntitySet="BigMaintainDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__BigMainta__depar__0880433F" Association="Self.FK__BigMainta__depar__0880433F">
+    <AssociationSet Name="FK__BigMainta__depar__4FD1D5C8" Association="Self.FK__BigMainta__depar__4FD1D5C8">
       <End Role="Department" EntitySet="Department" />
       <End Role="BigMaintainDetails" EntitySet="BigMaintainDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__BigMainta__docum__178D7CA5" Association="Self.FK__BigMainta__docum__178D7CA5">
+    <AssociationSet Name="FK__BigMainta__docum__62AFA012" Association="Self.FK__BigMainta__docum__62AFA012">
       <End Role="BigMaintainDetails" EntitySet="BigMaintainDetails" />
       <End Role="BigMaintainEquipment" EntitySet="BigMaintainEquipment" />
     </AssociationSet>
-    <AssociationSet Name="FK__BigMainta__equip__09746778" Association="Self.FK__BigMainta__equip__09746778">
+    <AssociationSet Name="FK__BigMainta__equip__50C5FA01" Association="Self.FK__BigMainta__equip__50C5FA01">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="BigMaintainDetails" EntitySet="BigMaintainDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__BigMainta__equip__1881A0DE" Association="Self.FK__BigMainta__equip__1881A0DE">
+    <AssociationSet Name="FK__BigMainta__equip__63A3C44B" Association="Self.FK__BigMainta__equip__63A3C44B">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="BigMaintainEquipment" EntitySet="BigMaintainEquipment" />
     </AssociationSet>
-    <AssociationSet Name="FK__BigMainta__suppl__1975C517" Association="Self.FK__BigMainta__suppl__1975C517">
+    <AssociationSet Name="FK__BigMainta__suppl__6497E884" Association="Self.FK__BigMainta__suppl__6497E884">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="BigMaintainEquipment" EntitySet="BigMaintainEquipment" />
     </AssociationSet>
@@ -3729,80 +3784,76 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="Room" EntitySet="Room" />
       <End Role="Acceptance" EntitySet="Acceptance" />
     </AssociationSet>
-    <AssociationSet Name="FK__CameraRep__depar__0B5CAFEA" Association="Self.FK__CameraRep__depar__0B5CAFEA">
+    <AssociationSet Name="FK__CameraRep__depar__52AE4273" Association="Self.FK__CameraRep__depar__52AE4273">
       <End Role="Department" EntitySet="Department" />
       <End Role="CameraRepairDetails" EntitySet="CameraRepairDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__CameraRep__docum__0C50D423" Association="Self.FK__CameraRep__docum__0C50D423">
+    <AssociationSet Name="FK__CameraRep__docum__53A266AC" Association="Self.FK__CameraRep__docum__53A266AC">
       <End Role="Documentary" EntitySet="Documentary" />
       <End Role="CameraRepairDetails" EntitySet="CameraRepairDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__CameraRep__room___0D44F85C" Association="Self.FK__CameraRep__room___0D44F85C">
+    <AssociationSet Name="FK__CameraRep__room___54968AE5" Association="Self.FK__CameraRep__room___54968AE5">
       <End Role="Room" EntitySet="Room" />
       <End Role="CameraRepairDetails" EntitySet="CameraRepairDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__Car__equipmentId__29E1370A" Association="Self.FK__Car__equipmentId__29E1370A">
+    <AssociationSet Name="FK__Car__equipmentId__7132C993" Association="Self.FK__Car__equipmentId__7132C993">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Car" EntitySet="Car" />
     </AssociationSet>
-    <AssociationSet Name="FK__CarGPS__equipmen__2AD55B43" Association="Self.FK__CarGPS__equipmen__2AD55B43">
+    <AssociationSet Name="FK__CarGPS__equipmen__7226EDCC" Association="Self.FK__CarGPS__equipmen__7226EDCC">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="CarGPS" EntitySet="CarGPS" />
     </AssociationSet>
-    <AssociationSet Name="FK__CarMainte__equip__2BC97F7C" Association="Self.FK__CarMainte__equip__2BC97F7C">
+    <AssociationSet Name="FK__CarMainte__equip__731B1205" Association="Self.FK__CarMainte__equip__731B1205">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="CarMaintenance" EntitySet="CarMaintenance" />
     </AssociationSet>
-    <AssociationSet Name="FK__CarMainte__maint__2DB1C7EE" Association="Self.FK__CarMainte__maint__2DB1C7EE">
+    <AssociationSet Name="FK__CarMainte__maint__75035A77" Association="Self.FK__CarMainte__maint__75035A77">
       <End Role="CarMaintenance" EntitySet="CarMaintenance" />
       <End Role="CarMaintenanceDetail" EntitySet="CarMaintenanceDetail" />
     </AssociationSet>
-    <AssociationSet Name="FK__CarMainte__suppl__2EA5EC27" Association="Self.FK__CarMainte__suppl__2EA5EC27">
+    <AssociationSet Name="FK__CarMainte__suppl__75F77EB0" Association="Self.FK__CarMainte__suppl__75F77EB0">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="CarMaintenanceDetail" EntitySet="CarMaintenanceDetail" />
     </AssociationSet>
-    <AssociationSet Name="FK__CategoryA__Equip__2F9A1060" Association="Self.FK__CategoryA__Equip__2F9A1060">
+    <AssociationSet Name="FK__CategoryA__Equip__76EBA2E9" Association="Self.FK__CategoryA__Equip__76EBA2E9">
       <End Role="Category" EntitySet="Category" />
       <End Role="CategoryAttribute" EntitySet="CategoryAttribute" />
     </AssociationSet>
-    <AssociationSet Name="FK__CategoryA__Equip__308E3499" Association="Self.FK__CategoryA__Equip__308E3499">
+    <AssociationSet Name="FK__CategoryA__Equip__77DFC722" Association="Self.FK__CategoryA__Equip__77DFC722">
       <End Role="Category" EntitySet="Category" />
       <End Role="CategoryAttributeValue" EntitySet="CategoryAttributeValue" />
     </AssociationSet>
-    <AssociationSet Name="FK__CategoryA__Equip__318258D2" Association="Self.FK__CategoryA__Equip__318258D2">
+    <AssociationSet Name="FK__CategoryA__Equip__78D3EB5B" Association="Self.FK__CategoryA__Equip__78D3EB5B">
       <End Role="CategoryAttribute" EntitySet="CategoryAttribute" />
       <End Role="CategoryAttributeValue" EntitySet="CategoryAttributeValue" />
     </AssociationSet>
-    <AssociationSet Name="FK__CategoryA__equip__32767D0B" Association="Self.FK__CategoryA__equip__32767D0B">
+    <AssociationSet Name="FK__CategoryA__equip__79C80F94" Association="Self.FK__CategoryA__equip__79C80F94">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="CategoryAttributeValue" EntitySet="CategoryAttributeValue" />
     </AssociationSet>
-    <AssociationSet Name="FK__Consumpti__suppl__1A69E950" Association="Self.FK__Consumpti__suppl__1A69E950">
+    <AssociationSet Name="FK__Consumpti__suppl__658C0CBD" Association="Self.FK__Consumpti__suppl__658C0CBD">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="Consumption" EntitySet="Consumption" />
     </AssociationSet>
-    <AssociationSet Name="FK__Criteria__criter__725BF7F6" Association="Self.FK__Criteria__criter__725BF7F6">
+    <AssociationSet Name="FK__Criteria__criter__3D7E1B63" Association="Self.FK__Criteria__criter__3D7E1B63">
       <End Role="CriteriaGroup" EntitySet="CriteriaGroup" />
       <End Role="Criteria" EntitySet="Criteria" />
     </AssociationSet>
-    <AssociationSet Name="FK__Criteria__measur__73501C2F" Association="Self.FK__Criteria__measur__73501C2F">
+    <AssociationSet Name="FK__Criteria__measur__3E723F9C" Association="Self.FK__Criteria__measur__3E723F9C">
       <End Role="MeasureUnit" EntitySet="MeasureUnit" />
       <End Role="Criteria" EntitySet="Criteria" />
     </AssociationSet>
-    <AssociationSet Name="FK__Departmen__depar__74444068" Association="Self.FK__Departmen__depar__74444068">
+    <AssociationSet Name="FK__Departmen__depar__3F6663D5" Association="Self.FK__Departmen__depar__3F6663D5">
       <End Role="Department" EntitySet="Department" />
       <End Role="DepartmentAttendanceAndProductivity" EntitySet="DepartmentAttendanceAndProductivity" />
     </AssociationSet>
-    <AssociationSet Name="FK__Departmen__heade__753864A1" Association="Self.FK__Departmen__heade__753864A1">
+    <AssociationSet Name="FK__Departmen__heade__405A880E" Association="Self.FK__Departmen__heade__405A880E">
       <End Role="HeaderAttendanceAndProductivity" EntitySet="HeaderAttendanceAndProductivity" />
       <End Role="DepartmentAttendanceAndProductivity" EntitySet="DepartmentAttendanceAndProductivity" />
     </AssociationSet>
-    <AssociationSet Name="FK__Documenta__depar__0E391C95" Association="Self.FK__Documenta__depar__0E391C95">
+    <AssociationSet Name="FK__Documenta__depar__558AAF1E" Association="Self.FK__Documenta__depar__558AAF1E">
       <End Role="Department" EntitySet="Department" />
-      <End Role="Documentary" EntitySet="Documentary" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Documenta__docum__0F2D40CE" Association="Self.FK__Documenta__docum__0F2D40CE">
-      <End Role="DocumentaryType" EntitySet="DocumentaryType" />
       <End Role="Documentary" EntitySet="Documentary" />
     </AssociationSet>
     <AssociationSet Name="FK__Documenta__docum__40F9A68C" Association="Self.FK__Documenta__docum__40F9A68C">
@@ -3829,6 +3880,10 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="Documentary" EntitySet="Documentary" />
       <End Role="RevokeDetails" EntitySet="RevokeDetails" />
     </AssociationSet>
+    <AssociationSet Name="FK__Documenta__docum__567ED357" Association="Self.FK__Documenta__docum__567ED357">
+      <End Role="DocumentaryType" EntitySet="DocumentaryType" />
+      <End Role="Documentary" EntitySet="Documentary" />
+    </AssociationSet>
     <AssociationSet Name="FK__Documenta__equip__43D61338" Association="Self.FK__Documenta__equip__43D61338">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="LiquidationDetails" EntitySet="LiquidationDetails" />
@@ -3849,35 +3904,35 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="RevokeDetails" EntitySet="RevokeDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__Employee__status__41B8C09B" Association="Self.FK__Employee__status__41B8C09B">
+    <AssociationSet Name="FK__Employee__status__090A5324" Association="Self.FK__Employee__status__090A5324">
       <End Role="Status2" EntitySet="Status2" />
       <End Role="Employee" EntitySet="Employee" />
     </AssociationSet>
-    <AssociationSet Name="FK__EmployeeA__absen__79FD19BE" Association="Self.FK__EmployeeA__absen__79FD19BE">
+    <AssociationSet Name="FK__EmployeeA__absen__451F3D2B" Association="Self.FK__EmployeeA__absen__451F3D2B">
       <End Role="AbsenceReason" EntitySet="AbsenceReason" />
       <End Role="EmployeeAttendanceAndProductivity" EntitySet="EmployeeAttendanceAndProductivity" />
     </AssociationSet>
-    <AssociationSet Name="FK__EmployeeA__actua__7AF13DF7" Association="Self.FK__EmployeeA__actua__7AF13DF7">
+    <AssociationSet Name="FK__EmployeeA__actua__46136164" Association="Self.FK__EmployeeA__actua__46136164">
       <End Role="HeaderAttendanceAndProductivity" EntitySet="HeaderAttendanceAndProductivity" />
       <End Role="EmployeeAttendanceAndProductivity" EntitySet="EmployeeAttendanceAndProductivity" />
     </AssociationSet>
-    <AssociationSet Name="FK__EmployeeA__emplo__7BE56230" Association="Self.FK__EmployeeA__emplo__7BE56230">
+    <AssociationSet Name="FK__EmployeeA__emplo__4707859D" Association="Self.FK__EmployeeA__emplo__4707859D">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="EmployeeAttendanceAndProductivity" EntitySet="EmployeeAttendanceAndProductivity" />
     </AssociationSet>
-    <AssociationSet Name="FK__EmployeeA__heade__7CD98669" Association="Self.FK__EmployeeA__heade__7CD98669">
+    <AssociationSet Name="FK__EmployeeA__heade__47FBA9D6" Association="Self.FK__EmployeeA__heade__47FBA9D6">
       <End Role="HeaderAttendanceAndProductivity" EntitySet="HeaderAttendanceAndProductivity" />
       <End Role="EmployeeAttendanceAndProductivity" EntitySet="EmployeeAttendanceAndProductivity" />
     </AssociationSet>
-    <AssociationSet Name="FK__EmployeeT__emplo__42ACE4D4" Association="Self.FK__EmployeeT__emplo__42ACE4D4">
+    <AssociationSet Name="FK__EmployeeT__emplo__0CDAE408" Association="Self.FK__EmployeeT__emplo__0CDAE408">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="EmployeeTask" EntitySet="EmployeeTask" />
     </AssociationSet>
-    <AssociationSet Name="FK__EmployeeT__task___43A1090D" Association="Self.FK__EmployeeT__task___43A1090D">
+    <AssociationSet Name="FK__EmployeeT__task___0DCF0841" Association="Self.FK__EmployeeT__task___0DCF0841">
       <End Role="Task" EntitySet="Task" />
       <End Role="EmployeeTask" EntitySet="EmployeeTask" />
     </AssociationSet>
-    <AssociationSet Name="FK__Equipment__curre__336AA144" Association="Self.FK__Equipment__curre__336AA144">
+    <AssociationSet Name="FK__Equipment__curre__7ABC33CD" Association="Self.FK__Equipment__curre__7ABC33CD">
       <End Role="Status1" EntitySet="Status1" />
       <End Role="Equipment" EntitySet="Equipment" />
     </AssociationSet>
@@ -3885,83 +3940,83 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="Department" EntitySet="Department" />
       <End Role="Equipment" EntitySet="Equipment" />
     </AssociationSet>
-    <AssociationSet Name="FK__Equipment__Equip__3552E9B6" Association="Self.FK__Equipment__Equip__3552E9B6">
+    <AssociationSet Name="FK__Equipment__Equip__7CA47C3F" Association="Self.FK__Equipment__Equip__7CA47C3F">
       <End Role="Category" EntitySet="Category" />
       <End Role="Equipment" EntitySet="Equipment" />
     </AssociationSet>
-    <AssociationSet Name="FK__FakeAPI__employe__7DCDAAA2" Association="Self.FK__FakeAPI__employe__7DCDAAA2">
+    <AssociationSet Name="FK__FakeAPI__employe__48EFCE0F" Association="Self.FK__FakeAPI__employe__48EFCE0F">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="FakeAPI" EntitySet="FakeAPI" />
     </AssociationSet>
-    <AssociationSet Name="FK__FakeAPI__shifts___7EC1CEDB" Association="Self.FK__FakeAPI__shifts___7EC1CEDB">
+    <AssociationSet Name="FK__FakeAPI__shifts___49E3F248" Association="Self.FK__FakeAPI__shifts___49E3F248">
       <End Role="Shifts" EntitySet="Shifts" />
       <End Role="FakeAPI" EntitySet="FakeAPI" />
     </AssociationSet>
-    <AssociationSet Name="FK__Family__employee__44952D46" Association="Self.FK__Family__employee__44952D46">
+    <AssociationSet Name="FK__Family__employee__0EC32C7A" Association="Self.FK__Family__employee__0EC32C7A">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="Family" EntitySet="Family" />
     </AssociationSet>
-    <AssociationSet Name="FK__Family__family_r__4589517F" Association="Self.FK__Family__family_r__4589517F">
+    <AssociationSet Name="FK__Family__family_r__0FB750B3" Association="Self.FK__Family__family_r__0FB750B3">
       <End Role="FamilyRelationship" EntitySet="FamilyRelationship" />
       <End Role="Family" EntitySet="Family" />
     </AssociationSet>
-    <AssociationSet Name="FK__Family__family_t__467D75B8" Association="Self.FK__Family__family_t__467D75B8">
+    <AssociationSet Name="FK__Family__family_t__10AB74EC" Association="Self.FK__Family__family_t__10AB74EC">
       <End Role="FamilyType" EntitySet="FamilyType" />
       <End Role="Family" EntitySet="Family" />
     </AssociationSet>
-    <AssociationSet Name="FK__File__account_id__7FB5F314" Association="Self.FK__File__account_id__7FB5F314">
+    <AssociationSet Name="FK__File__account_id__4AD81681" Association="Self.FK__File__account_id__4AD81681">
       <End Role="Account" EntitySet="Account" />
       <End Role="File" EntitySet="File" />
     </AssociationSet>
-    <AssociationSet Name="FK__File__report_fil__00AA174D" Association="Self.FK__File__report_fil__00AA174D">
+    <AssociationSet Name="FK__File__report_fil__4BCC3ABA" Association="Self.FK__File__report_fil__4BCC3ABA">
       <End Role="ReportFile" EntitySet="ReportFile" />
       <End Role="File" EntitySet="File" />
     </AssociationSet>
-    <AssociationSet Name="FK__FuelActiv__depar__36470DEF" Association="Self.FK__FuelActiv__depar__36470DEF">
+    <AssociationSet Name="FK__FuelActiv__depar__7D98A078" Association="Self.FK__FuelActiv__depar__7D98A078">
       <End Role="Department" EntitySet="Department" />
       <End Role="FuelActivitiesConsumption" EntitySet="FuelActivitiesConsumption" />
     </AssociationSet>
-    <AssociationSet Name="FK__FuelActiv__equip__373B3228" Association="Self.FK__FuelActiv__equip__373B3228">
+    <AssociationSet Name="FK__FuelActiv__equip__7E8CC4B1" Association="Self.FK__FuelActiv__equip__7E8CC4B1">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="FuelActivitiesConsumption" EntitySet="FuelActivitiesConsumption" />
     </AssociationSet>
-    <AssociationSet Name="FK__FuelActiv__fuel___382F5661" Association="Self.FK__FuelActiv__fuel___382F5661">
+    <AssociationSet Name="FK__FuelActiv__fuel___7F80E8EA" Association="Self.FK__FuelActiv__fuel___7F80E8EA">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="FuelActivitiesConsumption" EntitySet="FuelActivitiesConsumption" />
     </AssociationSet>
-    <AssociationSet Name="FK__HeaderAtt__shift__019E3B86" Association="Self.FK__HeaderAtt__shift__019E3B86">
+    <AssociationSet Name="FK__HeaderAtt__shift__4CC05EF3" Association="Self.FK__HeaderAtt__shift__4CC05EF3">
       <End Role="Shifts" EntitySet="Shifts" />
       <End Role="HeaderAttendanceAndProductivity" EntitySet="HeaderAttendanceAndProductivity" />
     </AssociationSet>
-    <AssociationSet Name="FK__HeaderPla__depar__02925FBF" Association="Self.FK__HeaderPla__depar__02925FBF">
+    <AssociationSet Name="FK__HeaderPla__depar__4DB4832C" Association="Self.FK__HeaderPla__depar__4DB4832C">
       <End Role="Department" EntitySet="Department" />
       <End Role="HeaderPlanManufacturingByMonth" EntitySet="HeaderPlanManufacturingByMonth" />
     </AssociationSet>
-    <AssociationSet Name="FK__HeaderPla__depar__047AA831" Association="Self.FK__HeaderPla__depar__047AA831">
+    <AssociationSet Name="FK__HeaderPla__depar__4F9CCB9E" Association="Self.FK__HeaderPla__depar__4F9CCB9E">
       <End Role="Department" EntitySet="Department" />
       <End Role="HeaderPlanManufacturingByShifts" EntitySet="HeaderPlanManufacturingByShifts" />
     </AssociationSet>
-    <AssociationSet Name="FK__HeaderPla__depar__0662F0A3" Association="Self.FK__HeaderPla__depar__0662F0A3">
+    <AssociationSet Name="FK__HeaderPla__depar__51851410" Association="Self.FK__HeaderPla__depar__51851410">
       <End Role="Department" EntitySet="Department" />
       <End Role="HeaderPlanManufacturingByYear" EntitySet="HeaderPlanManufacturingByYear" />
     </AssociationSet>
-    <AssociationSet Name="FK__HeaderPla__plan___038683F8" Association="Self.FK__HeaderPla__plan___038683F8">
+    <AssociationSet Name="FK__HeaderPla__plan___4EA8A765" Association="Self.FK__HeaderPla__plan___4EA8A765">
       <End Role="PlanManufacturingMonthInformation" EntitySet="PlanManufacturingMonthInformation" />
       <End Role="HeaderPlanManufacturingByMonth" EntitySet="HeaderPlanManufacturingByMonth" />
     </AssociationSet>
-    <AssociationSet Name="FK__HeaderPla__shift__056ECC6A" Association="Self.FK__HeaderPla__shift__056ECC6A">
+    <AssociationSet Name="FK__HeaderPla__shift__5090EFD7" Association="Self.FK__HeaderPla__shift__5090EFD7">
       <End Role="Shifts" EntitySet="Shifts" />
       <End Role="HeaderPlanManufacturingByShifts" EntitySet="HeaderPlanManufacturingByShifts" />
     </AssociationSet>
-    <AssociationSet Name="FK__HeaderRea__depar__075714DC" Association="Self.FK__HeaderRea__depar__075714DC">
+    <AssociationSet Name="FK__HeaderRea__depar__52793849" Association="Self.FK__HeaderRea__depar__52793849">
       <End Role="Department" EntitySet="Department" />
       <End Role="HeaderRealityManufacturing" EntitySet="HeaderRealityManufacturing" />
     </AssociationSet>
-    <AssociationSet Name="FK__HeaderRea__reali__084B3915" Association="Self.FK__HeaderRea__reali__084B3915">
+    <AssociationSet Name="FK__HeaderRea__reali__536D5C82" Association="Self.FK__HeaderRea__reali__536D5C82">
       <End Role="RealityManufacturingDayInformation" EntitySet="RealityManufacturingDayInformation" />
       <End Role="HeaderRealityManufacturing" EntitySet="HeaderRealityManufacturing" />
     </AssociationSet>
-    <AssociationSet Name="FK__HeaderRea__shift__093F5D4E" Association="Self.FK__HeaderRea__shift__093F5D4E">
+    <AssociationSet Name="FK__HeaderRea__shift__546180BB" Association="Self.FK__HeaderRea__shift__546180BB">
       <End Role="Shifts" EntitySet="Shifts" />
       <End Role="HeaderRealityManufacturing" EntitySet="HeaderRealityManufacturing" />
     </AssociationSet>
@@ -3969,27 +4024,27 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="Documentary" EntitySet="Documentary" />
       <End Role="Important_Documentary" EntitySet="Important_Documentary" />
     </AssociationSet>
-    <AssociationSet Name="FK__ImproveDe__depar__1209AD79" Association="Self.FK__ImproveDe__depar__1209AD79">
+    <AssociationSet Name="FK__ImproveDe__depar__595B4002" Association="Self.FK__ImproveDe__depar__595B4002">
       <End Role="Department" EntitySet="Department" />
       <End Role="ImproveDetails" EntitySet="ImproveDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__ImproveDe__docum__12FDD1B2" Association="Self.FK__ImproveDe__docum__12FDD1B2">
+    <AssociationSet Name="FK__ImproveDe__docum__5A4F643B" Association="Self.FK__ImproveDe__docum__5A4F643B">
       <End Role="Documentary" EntitySet="Documentary" />
       <End Role="ImproveDetails" EntitySet="ImproveDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__ImproveDe__equip__13F1F5EB" Association="Self.FK__ImproveDe__equip__13F1F5EB">
+    <AssociationSet Name="FK__ImproveDe__equip__5B438874" Association="Self.FK__ImproveDe__equip__5B438874">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="ImproveDetails" EntitySet="ImproveDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__ImproveEq__docum__1C5231C2" Association="Self.FK__ImproveEq__docum__1C5231C2">
+    <AssociationSet Name="FK__ImproveEq__docum__6774552F" Association="Self.FK__ImproveEq__docum__6774552F">
       <End Role="ImproveDetails" EntitySet="ImproveDetails" />
       <End Role="ImproveEquipment" EntitySet="ImproveEquipment" />
     </AssociationSet>
-    <AssociationSet Name="FK__ImproveEq__equip__1D4655FB" Association="Self.FK__ImproveEq__equip__1D4655FB">
+    <AssociationSet Name="FK__ImproveEq__equip__68687968" Association="Self.FK__ImproveEq__equip__68687968">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="ImproveEquipment" EntitySet="ImproveEquipment" />
     </AssociationSet>
-    <AssociationSet Name="FK__ImproveEq__suppl__1E3A7A34" Association="Self.FK__ImproveEq__suppl__1E3A7A34">
+    <AssociationSet Name="FK__ImproveEq__suppl__695C9DA1" Association="Self.FK__ImproveEq__suppl__695C9DA1">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="ImproveEquipment" EntitySet="ImproveEquipment" />
     </AssociationSet>
@@ -3997,23 +4052,23 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="Department" EntitySet="Department" />
       <End Role="Incident1" EntitySet="Incident1" />
     </AssociationSet>
-    <AssociationSet Name="FK__Incident__equipm__3A179ED3" Association="Self.FK__Incident__equipm__3A179ED3">
+    <AssociationSet Name="FK__Incident__equipm__0169315C" Association="Self.FK__Incident__equipm__0169315C">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Incident1" EntitySet="Incident1" />
     </AssociationSet>
-    <AssociationSet Name="FK__Incident__room_i__7EF6D905" Association="Self.FK__Incident__room_i__7EF6D905">
+    <AssociationSet Name="FK__Incident__room_i__46486B8E" Association="Self.FK__Incident__room_i__46486B8E">
       <End Role="Room" EntitySet="Room" />
       <End Role="Incident" EntitySet="Incident" />
     </AssociationSet>
-    <AssociationSet Name="FK__Inspectio__equip__3B0BC30C" Association="Self.FK__Inspectio__equip__3B0BC30C">
+    <AssociationSet Name="FK__Inspectio__equip__025D5595" Association="Self.FK__Inspectio__equip__025D5595">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Inspection" EntitySet="Inspection" />
     </AssociationSet>
-    <AssociationSet Name="FK__Insurance__equip__3BFFE745" Association="Self.FK__Insurance__equip__3BFFE745">
+    <AssociationSet Name="FK__Insurance__equip__035179CE" Association="Self.FK__Insurance__equip__035179CE">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Insurance" EntitySet="Insurance" />
     </AssociationSet>
-    <AssociationSet Name="FK__Liquidati__depar__16CE6296" Association="Self.FK__Liquidati__depar__16CE6296">
+    <AssociationSet Name="FK__Liquidati__depar__5E1FF51F" Association="Self.FK__Liquidati__depar__5E1FF51F">
       <End Role="Department" EntitySet="Department" />
       <End Role="LiquidationDetails" EntitySet="LiquidationDetails" />
     </AssociationSet>
@@ -4021,23 +4076,23 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="Department" EntitySet="Department" />
       <End Role="CarMaintenance" EntitySet="CarMaintenance" />
     </AssociationSet>
-    <AssociationSet Name="FK__MaintainD__attac__19AACF41" Association="Self.FK__MaintainD__attac__19AACF41">
+    <AssociationSet Name="FK__MaintainD__attac__60FC61CA" Association="Self.FK__MaintainD__attac__60FC61CA">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="MaintainDetails" EntitySet="MaintainDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__MaintainD__depar__1A9EF37A" Association="Self.FK__MaintainD__depar__1A9EF37A">
+    <AssociationSet Name="FK__MaintainD__depar__61F08603" Association="Self.FK__MaintainD__depar__61F08603">
       <End Role="Department" EntitySet="Department" />
       <End Role="MaintainDetails" EntitySet="MaintainDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__MaintainE__docum__1F2E9E6D" Association="Self.FK__MaintainE__docum__1F2E9E6D">
+    <AssociationSet Name="FK__MaintainE__docum__6A50C1DA" Association="Self.FK__MaintainE__docum__6A50C1DA">
       <End Role="MaintainDetails" EntitySet="MaintainDetails" />
       <End Role="MaintainEquipment" EntitySet="MaintainEquipment" />
     </AssociationSet>
-    <AssociationSet Name="FK__MaintainE__equip__2022C2A6" Association="Self.FK__MaintainE__equip__2022C2A6">
+    <AssociationSet Name="FK__MaintainE__equip__6B44E613" Association="Self.FK__MaintainE__equip__6B44E613">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="MaintainEquipment" EntitySet="MaintainEquipment" />
     </AssociationSet>
-    <AssociationSet Name="FK__MaintainE__suppl__2116E6DF" Association="Self.FK__MaintainE__suppl__2116E6DF">
+    <AssociationSet Name="FK__MaintainE__suppl__6C390A4C" Association="Self.FK__MaintainE__suppl__6C390A4C">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="MaintainEquipment" EntitySet="MaintainEquipment" />
     </AssociationSet>
@@ -4045,263 +4100,259 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="Department" EntitySet="Department" />
       <End Role="MealRegistration" EntitySet="MealRegistration" />
     </AssociationSet>
-    <AssociationSet Name="FK__MonthlyPl__equip__220B0B18" Association="Self.FK__MonthlyPl__equip__220B0B18">
+    <AssociationSet Name="FK__MonthlyPl__equip__6D2D2E85" Association="Self.FK__MonthlyPl__equip__6D2D2E85">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="MonthlyPlan" EntitySet="MonthlyPlan" />
     </AssociationSet>
-    <AssociationSet Name="FK__MonthlyPl__suppl__22FF2F51" Association="Self.FK__MonthlyPl__suppl__22FF2F51">
+    <AssociationSet Name="FK__MonthlyPl__suppl__6E2152BE" Association="Self.FK__MonthlyPl__suppl__6E2152BE">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="MonthlyPlan" EntitySet="MonthlyPlan" />
     </AssociationSet>
-    <AssociationSet Name="FK__MonthlyPl__suppl__23F3538A" Association="Self.FK__MonthlyPl__suppl__23F3538A">
+    <AssociationSet Name="FK__MonthlyPl__suppl__6F1576F7" Association="Self.FK__MonthlyPl__suppl__6F1576F7">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="MonthlyPlan" EntitySet="MonthlyPlan" />
     </AssociationSet>
-    <AssociationSet Name="FK__MovelineD__depar__1D7B6025" Association="Self.FK__MovelineD__depar__1D7B6025">
+    <AssociationSet Name="FK__MovelineD__depar__64CCF2AE" Association="Self.FK__MovelineD__depar__64CCF2AE">
       <End Role="Department" EntitySet="Department" />
       <End Role="MovelineDetails" EntitySet="MovelineDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__Papers__papers_t__477199F1" Association="Self.FK__Papers__papers_t__477199F1">
+    <AssociationSet Name="FK__Papers__papers_t__119F9925" Association="Self.FK__Papers__papers_t__119F9925">
       <End Role="PapersType" EntitySet="PapersType" />
       <End Role="Papers" EntitySet="Papers" />
     </AssociationSet>
-    <AssociationSet Name="FK__PlanManuf__crite__0B27A5C0" Association="Self.FK__PlanManuf__crite__0B27A5C0">
+    <AssociationSet Name="FK__PlanManuf__crite__5649C92D" Association="Self.FK__PlanManuf__crite__5649C92D">
       <End Role="Criteria" EntitySet="Criteria" />
       <End Role="PlanManufacturingByMonth" EntitySet="PlanManufacturingByMonth" />
     </AssociationSet>
-    <AssociationSet Name="FK__PlanManuf__crite__0D0FEE32" Association="Self.FK__PlanManuf__crite__0D0FEE32">
+    <AssociationSet Name="FK__PlanManuf__crite__5832119F" Association="Self.FK__PlanManuf__crite__5832119F">
       <End Role="Criteria" EntitySet="Criteria" />
       <End Role="PlanManufacturingByShifts" EntitySet="PlanManufacturingByShifts" />
     </AssociationSet>
-    <AssociationSet Name="FK__PlanManuf__crite__0EF836A4" Association="Self.FK__PlanManuf__crite__0EF836A4">
+    <AssociationSet Name="FK__PlanManuf__crite__5A1A5A11" Association="Self.FK__PlanManuf__crite__5A1A5A11">
       <End Role="Criteria" EntitySet="Criteria" />
       <End Role="PlanManufacturingByYear" EntitySet="PlanManufacturingByYear" />
     </AssociationSet>
-    <AssociationSet Name="FK__PlanManuf__heade__0C1BC9F9" Association="Self.FK__PlanManuf__heade__0C1BC9F9">
+    <AssociationSet Name="FK__PlanManuf__heade__573DED66" Association="Self.FK__PlanManuf__heade__573DED66">
       <End Role="HeaderPlanManufacturingByMonth" EntitySet="HeaderPlanManufacturingByMonth" />
       <End Role="PlanManufacturingByMonth" EntitySet="PlanManufacturingByMonth" />
     </AssociationSet>
-    <AssociationSet Name="FK__PlanManuf__heade__0E04126B" Association="Self.FK__PlanManuf__heade__0E04126B">
+    <AssociationSet Name="FK__PlanManuf__heade__592635D8" Association="Self.FK__PlanManuf__heade__592635D8">
       <End Role="HeaderPlanManufacturingByShifts" EntitySet="HeaderPlanManufacturingByShifts" />
       <End Role="PlanManufacturingByShifts" EntitySet="PlanManufacturingByShifts" />
     </AssociationSet>
-    <AssociationSet Name="FK__PlanManuf__heade__0FEC5ADD" Association="Self.FK__PlanManuf__heade__0FEC5ADD">
+    <AssociationSet Name="FK__PlanManuf__heade__5B0E7E4A" Association="Self.FK__PlanManuf__heade__5B0E7E4A">
       <End Role="HeaderPlanManufacturingByYear" EntitySet="HeaderPlanManufacturingByYear" />
       <End Role="PlanManufacturingByYear" EntitySet="PlanManufacturingByYear" />
     </AssociationSet>
-    <AssociationSet Name="FK__Records__deliver__4865BE2A" Association="Self.FK__Records__deliver__4865BE2A">
+    <AssociationSet Name="FK__Records__deliver__1293BD5E" Association="Self.FK__Records__deliver__1293BD5E">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="Records" EntitySet="Records" />
     </AssociationSet>
-    <AssociationSet Name="FK__Records__employe__4959E263" Association="Self.FK__Records__employe__4959E263">
+    <AssociationSet Name="FK__Records__employe__1387E197" Association="Self.FK__Records__employe__1387E197">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="Records" EntitySet="Records" />
     </AssociationSet>
-    <AssociationSet Name="FK__Records__handove__4A4E069C" Association="Self.FK__Records__handove__4A4E069C">
+    <AssociationSet Name="FK__Records__handove__147C05D0" Association="Self.FK__Records__handove__147C05D0">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="Records" EntitySet="Records" />
     </AssociationSet>
-    <AssociationSet Name="FK__Records__managem__4B422AD5" Association="Self.FK__Records__managem__4B422AD5">
+    <AssociationSet Name="FK__Records__managem__15702A09" Association="Self.FK__Records__managem__15702A09">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="Records" EntitySet="Records" />
     </AssociationSet>
-    <AssociationSet Name="FK__Records__records__4C364F0E" Association="Self.FK__Records__records__4C364F0E">
+    <AssociationSet Name="FK__Records__records__16644E42" Association="Self.FK__Records__records__16644E42">
       <End Role="RecordsStatus" EntitySet="RecordsStatus" />
       <End Role="Records" EntitySet="Records" />
     </AssociationSet>
-    <AssociationSet Name="FK__RecordsGe__famil__4D2A7347" Association="Self.FK__RecordsGe__famil__4D2A7347">
+    <AssociationSet Name="FK__RecordsGe__famil__1758727B" Association="Self.FK__RecordsGe__famil__1758727B">
       <End Role="FamilyRelationship" EntitySet="FamilyRelationship" />
       <End Role="RecordsGettingAuthorize" EntitySet="RecordsGettingAuthorize" />
     </AssociationSet>
-    <AssociationSet Name="FK__RecordsGe__recor__4E1E9780" Association="Self.FK__RecordsGe__recor__4E1E9780">
+    <AssociationSet Name="FK__RecordsGe__recor__184C96B4" Association="Self.FK__RecordsGe__recor__184C96B4">
       <End Role="Records" EntitySet="Records" />
       <End Role="RecordsGettingAuthorize" EntitySet="RecordsGettingAuthorize" />
     </AssociationSet>
-    <AssociationSet Name="FK__RecordsPa__caree__4F12BBB9" Association="Self.FK__RecordsPa__caree__4F12BBB9">
+    <AssociationSet Name="FK__RecordsPa__caree__762C88DA" Association="Self.FK__RecordsPa__caree__762C88DA">
       <End Role="Career" EntitySet="Career" />
       <End Role="RecordsPapers" EntitySet="RecordsPapers" />
     </AssociationSet>
-    <AssociationSet Name="FK__RecordsPa__durat__5006DFF2" Association="Self.FK__RecordsPa__durat__5006DFF2">
+    <AssociationSet Name="FK__RecordsPa__durat__7720AD13" Association="Self.FK__RecordsPa__durat__7720AD13">
       <End Role="DurationType" EntitySet="DurationType" />
       <End Role="RecordsPapers" EntitySet="RecordsPapers" />
     </AssociationSet>
-    <AssociationSet Name="FK__RecordsPa__paper__50FB042B" Association="Self.FK__RecordsPa__paper__50FB042B">
+    <AssociationSet Name="FK__RecordsPa__paper__7814D14C" Association="Self.FK__RecordsPa__paper__7814D14C">
       <End Role="Papers" EntitySet="Papers" />
       <End Role="RecordsPapers" EntitySet="RecordsPapers" />
     </AssociationSet>
-    <AssociationSet Name="FK__RecordsPa__paper__51EF2864" Association="Self.FK__RecordsPa__paper__51EF2864">
-      <End Role="PaperStorageType" EntitySet="PaperStorageType" />
+    <AssociationSet Name="FK__RecordsPa__paper__7908F585" Association="Self.FK__RecordsPa__paper__7908F585">
+      <End Role="PapersStorageType" EntitySet="PapersStorageType" />
       <End Role="RecordsPapers" EntitySet="RecordsPapers" />
     </AssociationSet>
-    <AssociationSet Name="FK__RecordsPa__quali__52E34C9D" Association="Self.FK__RecordsPa__quali__52E34C9D">
+    <AssociationSet Name="FK__RecordsPa__quali__79FD19BE" Association="Self.FK__RecordsPa__quali__79FD19BE">
       <End Role="Qualification" EntitySet="Qualification" />
       <End Role="RecordsPapers" EntitySet="RecordsPapers" />
     </AssociationSet>
-    <AssociationSet Name="FK__RecordsPa__recor__53D770D6" Association="Self.FK__RecordsPa__recor__53D770D6">
+    <AssociationSet Name="FK__RecordsPa__recor__7AF13DF7" Association="Self.FK__RecordsPa__recor__7AF13DF7">
       <End Role="Records" EntitySet="Records" />
       <End Role="RecordsPapers" EntitySet="RecordsPapers" />
     </AssociationSet>
-    <AssociationSet Name="FK__RecordsPa__schoo__54CB950F" Association="Self.FK__RecordsPa__schoo__54CB950F">
+    <AssociationSet Name="FK__RecordsPa__schoo__7BE56230" Association="Self.FK__RecordsPa__schoo__7BE56230">
       <End Role="School" EntitySet="School" />
       <End Role="RecordsPapers" EntitySet="RecordsPapers" />
     </AssociationSet>
-    <AssociationSet Name="FK__RecordsPa__speci__55BFB948" Association="Self.FK__RecordsPa__speci__55BFB948">
-      <End Role="Specializations" EntitySet="Specializations" />
-      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Recruitme__decis__56B3DD81" Association="Self.FK__Recruitme__decis__56B3DD81">
+    <AssociationSet Name="FK__Recruitme__decis__7DCDAAA2" Association="Self.FK__Recruitme__decis__7DCDAAA2">
       <End Role="Decision" EntitySet="Decision" />
       <End Role="Recruitment" EntitySet="Recruitment" />
     </AssociationSet>
-    <AssociationSet Name="FK__Recruitme__depar__57A801BA" Association="Self.FK__Recruitme__depar__57A801BA">
+    <AssociationSet Name="FK__Recruitme__depar__7EC1CEDB" Association="Self.FK__Recruitme__depar__7EC1CEDB">
       <End Role="Department" EntitySet="Department" />
       <End Role="Recruitment" EntitySet="Recruitment" />
     </AssociationSet>
-    <AssociationSet Name="FK__Recruitme__emplo__589C25F3" Association="Self.FK__Recruitme__emplo__589C25F3">
+    <AssociationSet Name="FK__Recruitme__emplo__7FB5F314" Association="Self.FK__Recruitme__emplo__7FB5F314">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="Recruitment" EntitySet="Recruitment" />
     </AssociationSet>
-    <AssociationSet Name="FK__Recruitme__quali__59904A2C" Association="Self.FK__Recruitme__quali__59904A2C">
+    <AssociationSet Name="FK__Recruitme__quali__00AA174D" Association="Self.FK__Recruitme__quali__00AA174D">
       <End Role="Qualification" EntitySet="Qualification" />
       <End Role="Recruitment" EntitySet="Recruitment" />
     </AssociationSet>
-    <AssociationSet Name="FK__Recruitme__salar__5A846E65" Association="Self.FK__Recruitme__salar__5A846E65">
+    <AssociationSet Name="FK__Recruitme__salar__019E3B86" Association="Self.FK__Recruitme__salar__019E3B86">
       <End Role="Salary" EntitySet="Salary" />
       <End Role="Recruitment" EntitySet="Recruitment" />
     </AssociationSet>
-    <AssociationSet Name="FK__Recruitme__speci__5B78929E" Association="Self.FK__Recruitme__speci__5B78929E">
-      <End Role="Specializations" EntitySet="Specializations" />
-      <End Role="Recruitment" EntitySet="Recruitment" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Recruitme__work___5C6CB6D7" Association="Self.FK__Recruitme__work___5C6CB6D7">
+    <AssociationSet Name="FK__Recruitme__work___038683F8" Association="Self.FK__Recruitme__work___038683F8">
       <End Role="Work" EntitySet="Work" />
       <End Role="Recruitment" EntitySet="Recruitment" />
     </AssociationSet>
-    <AssociationSet Name="FK__RepairCam__docum__26CFC035" Association="Self.FK__RepairCam__docum__26CFC035">
+    <AssociationSet Name="FK__RepairCam__docum__71F1E3A2" Association="Self.FK__RepairCam__docum__71F1E3A2">
       <End Role="Documentary" EntitySet="Documentary" />
       <End Role="RepairCamera" EntitySet="RepairCamera" />
     </AssociationSet>
-    <AssociationSet Name="FK__RepairCam__room___27C3E46E" Association="Self.FK__RepairCam__room___27C3E46E">
+    <AssociationSet Name="FK__RepairCam__room___72E607DB" Association="Self.FK__RepairCam__room___72E607DB">
       <End Role="Room" EntitySet="Room" />
       <End Role="RepairCamera" EntitySet="RepairCamera" />
     </AssociationSet>
-    <AssociationSet Name="FK__RepairCam__suppl__28B808A7" Association="Self.FK__RepairCam__suppl__28B808A7">
+    <AssociationSet Name="FK__RepairCam__suppl__73DA2C14" Association="Self.FK__RepairCam__suppl__73DA2C14">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="RepairCamera" EntitySet="RepairCamera" />
     </AssociationSet>
-    <AssociationSet Name="FK__RepairDet__attac__2057CCD0" Association="Self.FK__RepairDet__attac__2057CCD0">
+    <AssociationSet Name="FK__RepairDet__attac__67A95F59" Association="Self.FK__RepairDet__attac__67A95F59">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="RepairDetails" EntitySet="RepairDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__RepairDet__depar__214BF109" Association="Self.FK__RepairDet__depar__214BF109">
+    <AssociationSet Name="FK__RepairDet__depar__689D8392" Association="Self.FK__RepairDet__depar__689D8392">
       <End Role="Department" EntitySet="Department" />
       <End Role="RepairDetails" EntitySet="RepairDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__RepairEqu__docum__29AC2CE0" Association="Self.FK__RepairEqu__docum__29AC2CE0">
+    <AssociationSet Name="FK__RepairEqu__docum__74CE504D" Association="Self.FK__RepairEqu__docum__74CE504D">
       <End Role="RepairDetails" EntitySet="RepairDetails" />
       <End Role="RepairEquipment" EntitySet="RepairEquipment" />
     </AssociationSet>
-    <AssociationSet Name="FK__RepairEqu__equip__2AA05119" Association="Self.FK__RepairEqu__equip__2AA05119">
+    <AssociationSet Name="FK__RepairEqu__equip__75C27486" Association="Self.FK__RepairEqu__equip__75C27486">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="RepairEquipment" EntitySet="RepairEquipment" />
     </AssociationSet>
-    <AssociationSet Name="FK__RepairEqu__suppl__2B947552" Association="Self.FK__RepairEqu__suppl__2B947552">
+    <AssociationSet Name="FK__RepairEqu__suppl__76B698BF" Association="Self.FK__RepairEqu__suppl__76B698BF">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="RepairEquipment" EntitySet="RepairEquipment" />
     </AssociationSet>
-    <AssociationSet Name="FK__RepairReg__depar__3CF40B7E" Association="Self.FK__RepairReg__depar__3CF40B7E">
+    <AssociationSet Name="FK__RepairReg__depar__04459E07" Association="Self.FK__RepairReg__depar__04459E07">
       <End Role="Department" EntitySet="Department" />
       <End Role="RepairRegularly" EntitySet="RepairRegularly" />
     </AssociationSet>
-    <AssociationSet Name="FK__RepairReg__equip__2C88998B" Association="Self.FK__RepairReg__equip__2C88998B">
-      <End Role="Equipment" EntitySet="Equipment" />
-      <End Role="RepairRegularly1" EntitySet="RepairRegularly1" />
-    </AssociationSet>
-    <AssociationSet Name="FK__RepairReg__equip__2D7CBDC4" Association="Self.FK__RepairReg__equip__2D7CBDC4">
-      <End Role="Equipment" EntitySet="Equipment" />
-      <End Role="RepairRegularly1" EntitySet="RepairRegularly1" />
-    </AssociationSet>
-    <AssociationSet Name="FK__RepairReg__equip__2E70E1FD" Association="Self.FK__RepairReg__equip__2E70E1FD">
-      <End Role="Equipment" EntitySet="Equipment" />
-      <End Role="RepairRegularly1" EntitySet="RepairRegularly1" />
-    </AssociationSet>
-    <AssociationSet Name="FK__RepairReg__equip__3DE82FB7" Association="Self.FK__RepairReg__equip__3DE82FB7">
+    <AssociationSet Name="FK__RepairReg__equip__0539C240" Association="Self.FK__RepairReg__equip__0539C240">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="RepairRegularly" EntitySet="RepairRegularly" />
     </AssociationSet>
-    <AssociationSet Name="FK__RepairReg__maint__3EDC53F0" Association="Self.FK__RepairReg__maint__3EDC53F0">
+    <AssociationSet Name="FK__RepairReg__equip__77AABCF8" Association="Self.FK__RepairReg__equip__77AABCF8">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="RepairRegularly1" EntitySet="RepairRegularly1" />
+    </AssociationSet>
+    <AssociationSet Name="FK__RepairReg__equip__789EE131" Association="Self.FK__RepairReg__equip__789EE131">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="RepairRegularly1" EntitySet="RepairRegularly1" />
+    </AssociationSet>
+    <AssociationSet Name="FK__RepairReg__equip__7993056A" Association="Self.FK__RepairReg__equip__7993056A">
+      <End Role="Equipment" EntitySet="Equipment" />
+      <End Role="RepairRegularly1" EntitySet="RepairRegularly1" />
+    </AssociationSet>
+    <AssociationSet Name="FK__RepairReg__maint__062DE679" Association="Self.FK__RepairReg__maint__062DE679">
       <End Role="RepairRegularly" EntitySet="RepairRegularly" />
       <End Role="RepairRegularlyDetail" EntitySet="RepairRegularlyDetail" />
     </AssociationSet>
-    <AssociationSet Name="FK__RepairReg__suppl__2F650636" Association="Self.FK__RepairReg__suppl__2F650636">
-      <End Role="Supply" EntitySet="Supply" />
-      <End Role="RepairRegularly1" EntitySet="RepairRegularly1" />
-    </AssociationSet>
-    <AssociationSet Name="FK__RepairReg__suppl__3FD07829" Association="Self.FK__RepairReg__suppl__3FD07829">
+    <AssociationSet Name="FK__RepairReg__suppl__07220AB2" Association="Self.FK__RepairReg__suppl__07220AB2">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="RepairRegularlyDetail" EntitySet="RepairRegularlyDetail" />
     </AssociationSet>
-    <AssociationSet Name="FK__ReportFil__depar__12C8C788" Association="Self.FK__ReportFil__depar__12C8C788">
+    <AssociationSet Name="FK__RepairReg__suppl__7A8729A3" Association="Self.FK__RepairReg__suppl__7A8729A3">
+      <End Role="Supply" EntitySet="Supply" />
+      <End Role="RepairRegularly1" EntitySet="RepairRegularly1" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ReportFil__depar__5DEAEAF5" Association="Self.FK__ReportFil__depar__5DEAEAF5">
       <End Role="Department" EntitySet="Department" />
       <End Role="ReportFile" EntitySet="ReportFile" />
     </AssociationSet>
-    <AssociationSet Name="FK__ReportFil__shift__13BCEBC1" Association="Self.FK__ReportFil__shift__13BCEBC1">
+    <AssociationSet Name="FK__ReportFil__shift__5EDF0F2E" Association="Self.FK__ReportFil__shift__5EDF0F2E">
       <End Role="Shifts" EntitySet="Shifts" />
       <End Role="ReportFile" EntitySet="ReportFile" />
     </AssociationSet>
-    <AssociationSet Name="FK__RevokeDet__depar__24285DB4" Association="Self.FK__RevokeDet__depar__24285DB4">
+    <AssociationSet Name="FK__RevokeDet__depar__6B79F03D" Association="Self.FK__RevokeDet__depar__6B79F03D">
       <End Role="Department" EntitySet="Department" />
       <End Role="RevokeDetails" EntitySet="RevokeDetails" />
     </AssociationSet>
-    <AssociationSet Name="FK__Room__department__7FEAFD3E" Association="Self.FK__Room__department__7FEAFD3E">
+    <AssociationSet Name="FK__Room__department__473C8FC7" Association="Self.FK__Room__department__473C8FC7">
       <End Role="Department" EntitySet="Department" />
       <End Role="Room" EntitySet="Room" />
     </AssociationSet>
-    <AssociationSet Name="FK__SafetyWor__emplo__14B10FFA" Association="Self.FK__SafetyWor__emplo__14B10FFA">
+    <AssociationSet Name="FK__SafetyWor__emplo__5FD33367" Association="Self.FK__SafetyWor__emplo__5FD33367">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="SafetyWork" EntitySet="SafetyWork" />
     </AssociationSet>
-    <AssociationSet Name="FK__SafetyWor__safet__15A53433" Association="Self.FK__SafetyWor__safet__15A53433">
+    <AssociationSet Name="FK__SafetyWor__safet__60C757A0" Association="Self.FK__SafetyWor__safet__60C757A0">
       <End Role="SafetyWorkType" EntitySet="SafetyWorkType" />
       <End Role="SafetyWork" EntitySet="SafetyWork" />
     </AssociationSet>
-    <AssociationSet Name="FK__SafetyWor__shift__1699586C" Association="Self.FK__SafetyWor__shift__1699586C">
+    <AssociationSet Name="FK__SafetyWor__shift__61BB7BD9" Association="Self.FK__SafetyWor__shift__61BB7BD9">
       <End Role="Shifts" EntitySet="Shifts" />
       <End Role="SafetyWork" EntitySet="SafetyWork" />
     </AssociationSet>
-    <AssociationSet Name="FK__Salary__pay_rate__5D60DB10" Association="Self.FK__Salary__pay_rate__5D60DB10">
+    <AssociationSet Name="FK__Salary__pay_rate__278EDA44" Association="Self.FK__Salary__pay_rate__278EDA44">
       <End Role="PayRate" EntitySet="PayRate" />
       <End Role="Salary" EntitySet="Salary" />
     </AssociationSet>
-    <AssociationSet Name="FK__Salary__pay_tabl__5E54FF49" Association="Self.FK__Salary__pay_tabl__5E54FF49">
+    <AssociationSet Name="FK__Salary__pay_tabl__2882FE7D" Association="Self.FK__Salary__pay_tabl__2882FE7D">
       <End Role="PayTable" EntitySet="PayTable" />
       <End Role="Salary" EntitySet="Salary" />
     </AssociationSet>
-    <AssociationSet Name="FK__SalaryPro__emplo__5F492382" Association="Self.FK__SalaryPro__emplo__5F492382">
+    <AssociationSet Name="FK__SalaryPro__emplo__297722B6" Association="Self.FK__SalaryPro__emplo__297722B6">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="SalaryProcess" EntitySet="SalaryProcess" />
     </AssociationSet>
-    <AssociationSet Name="FK__Specializ__speci__603D47BB" Association="Self.FK__Specializ__speci__603D47BB">
-      <End Role="SpecializationsType" EntitySet="SpecializationsType" />
+    <AssociationSet Name="FK__Specializ__caree__2A6B46EF" Association="Self.FK__Specializ__caree__2A6B46EF">
+      <End Role="Career" EntitySet="Career" />
       <End Role="Specializations" EntitySet="Specializations" />
     </AssociationSet>
-    <AssociationSet Name="FK__Status__room_id__00DF2177" Association="Self.FK__Status__room_id__00DF2177">
+    <AssociationSet Name="FK__Specializ__educa__2B5F6B28" Association="Self.FK__Specializ__educa__2B5F6B28">
+      <End Role="EducationLevel" EntitySet="EducationLevel" />
+      <End Role="Specializations" EntitySet="Specializations" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Status__room_id__4830B400" Association="Self.FK__Status__room_id__4830B400">
       <End Role="Room" EntitySet="Room" />
       <End Role="Status" EntitySet="Status" />
     </AssociationSet>
-    <AssociationSet Name="FK__Supply_Di__equip__01D345B0" Association="Self.FK__Supply_Di__equip__01D345B0">
+    <AssociationSet Name="FK__Supply_Di__equip__4924D839" Association="Self.FK__Supply_Di__equip__4924D839">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Supply_DiKem" EntitySet="Supply_DiKem" />
     </AssociationSet>
-    <AssociationSet Name="FK__Supply_Di__equip__02C769E9" Association="Self.FK__Supply_Di__equip__02C769E9">
+    <AssociationSet Name="FK__Supply_Di__equip__4A18FC72" Association="Self.FK__Supply_Di__equip__4A18FC72">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Supply_DiKem" EntitySet="Supply_DiKem" />
     </AssociationSet>
-    <AssociationSet Name="FK__Supply_Eq__equip__03BB8E22" Association="Self.FK__Supply_Eq__equip__03BB8E22">
+    <AssociationSet Name="FK__Supply_Eq__equip__4B0D20AB" Association="Self.FK__Supply_Eq__equip__4B0D20AB">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Supply_Equipment_DiKem" EntitySet="Supply_Equipment_DiKem" />
     </AssociationSet>
-    <AssociationSet Name="FK__Supply_Eq__suppl__04AFB25B" Association="Self.FK__Supply_Eq__suppl__04AFB25B">
+    <AssociationSet Name="FK__Supply_Eq__suppl__4C0144E4" Association="Self.FK__Supply_Eq__suppl__4C0144E4">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="Supply_Equipment_DiKem" EntitySet="Supply_Equipment_DiKem" />
     </AssociationSet>
@@ -4317,85 +4368,105 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
       <End Role="Department" EntitySet="Department" />
       <End Role="MonthlyPlan" EntitySet="MonthlyPlan" />
     </AssociationSet>
-    <AssociationSet Name="FK__Task__papers_id__61316BF4" Association="Self.FK__Task__papers_id__61316BF4">
+    <AssociationSet Name="FK__Task__papers_id__2C538F61" Association="Self.FK__Task__papers_id__2C538F61">
       <End Role="Papers" EntitySet="Papers" />
       <End Role="Task" EntitySet="Task" />
     </AssociationSet>
-    <AssociationSet Name="FK__Task__task_type___6225902D" Association="Self.FK__Task__task_type___6225902D">
+    <AssociationSet Name="FK__Task__task_type___2D47B39A" Association="Self.FK__Task__task_type___2D47B39A">
       <End Role="TaskType" EntitySet="TaskType" />
       <End Role="Task" EntitySet="Task" />
     </AssociationSet>
-    <AssociationSet Name="FK__Terminati__decis__6319B466" Association="Self.FK__Terminati__decis__6319B466">
+    <AssociationSet Name="FK__Terminati__decis__2E3BD7D3" Association="Self.FK__Terminati__decis__2E3BD7D3">
       <End Role="Decision" EntitySet="Decision" />
       <End Role="Termination" EntitySet="Termination" />
     </AssociationSet>
-    <AssociationSet Name="FK__Terminati__emplo__640DD89F" Association="Self.FK__Terminati__emplo__640DD89F">
+    <AssociationSet Name="FK__Terminati__emplo__2F2FFC0C" Association="Self.FK__Terminati__emplo__2F2FFC0C">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="Termination" EntitySet="Termination" />
     </AssociationSet>
-    <AssociationSet Name="FK__Terminati__termi__6501FCD8" Association="Self.FK__Terminati__termi__6501FCD8">
+    <AssociationSet Name="FK__Terminati__termi__30242045" Association="Self.FK__Terminati__termi__30242045">
       <End Role="TerminationType" EntitySet="TerminationType" />
       <End Role="Termination" EntitySet="Termination" />
     </AssociationSet>
-    <AssociationSet Name="FK__Transfer__decisi__65F62111" Association="Self.FK__Transfer__decisi__65F62111">
+    <AssociationSet Name="FK__Transfer__decisi__3118447E" Association="Self.FK__Transfer__decisi__3118447E">
       <End Role="Decision" EntitySet="Decision" />
       <End Role="Transfer" EntitySet="Transfer" />
     </AssociationSet>
-    <AssociationSet Name="FK__Transfer__employ__66EA454A" Association="Self.FK__Transfer__employ__66EA454A">
+    <AssociationSet Name="FK__Transfer__employ__320C68B7" Association="Self.FK__Transfer__employ__320C68B7">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="Transfer" EntitySet="Transfer" />
     </AssociationSet>
-    <AssociationSet Name="FK__Transfer__new_de__67DE6983" Association="Self.FK__Transfer__new_de__67DE6983">
+    <AssociationSet Name="FK__Transfer__new_de__33008CF0" Association="Self.FK__Transfer__new_de__33008CF0">
       <End Role="Department" EntitySet="Department" />
       <End Role="Transfer" EntitySet="Transfer" />
     </AssociationSet>
-    <AssociationSet Name="FK__Transfer__new_sa__68D28DBC" Association="Self.FK__Transfer__new_sa__68D28DBC">
+    <AssociationSet Name="FK__Transfer__new_sa__33F4B129" Association="Self.FK__Transfer__new_sa__33F4B129">
       <End Role="Salary" EntitySet="Salary" />
       <End Role="Transfer" EntitySet="Transfer" />
     </AssociationSet>
-    <AssociationSet Name="FK__Transfer__new_wo__69C6B1F5" Association="Self.FK__Transfer__new_wo__69C6B1F5">
+    <AssociationSet Name="FK__Transfer__new_wo__10E07F16" Association="Self.FK__Transfer__new_wo__10E07F16">
       <End Role="Work" EntitySet="Work" />
       <End Role="Transfer" EntitySet="Transfer" />
     </AssociationSet>
-    <AssociationSet Name="FK__Transfer__old_de__6ABAD62E" Association="Self.FK__Transfer__old_de__6ABAD62E">
+    <AssociationSet Name="FK__Transfer__old_de__35DCF99B" Association="Self.FK__Transfer__old_de__35DCF99B">
       <End Role="Department" EntitySet="Department" />
       <End Role="Transfer" EntitySet="Transfer" />
     </AssociationSet>
-    <AssociationSet Name="FK__Transfer__old_sa__6BAEFA67" Association="Self.FK__Transfer__old_sa__6BAEFA67">
+    <AssociationSet Name="FK__Transfer__old_sa__36D11DD4" Association="Self.FK__Transfer__old_sa__36D11DD4">
       <End Role="Salary" EntitySet="Salary" />
       <End Role="Transfer" EntitySet="Transfer" />
     </AssociationSet>
-    <AssociationSet Name="FK__Transfer__old_wo__6CA31EA0" Association="Self.FK__Transfer__old_wo__6CA31EA0">
+    <AssociationSet Name="FK__Transfer__old_wo__13BCEBC1" Association="Self.FK__Transfer__old_wo__13BCEBC1">
       <End Role="Work" EntitySet="Work" />
       <End Role="Transfer" EntitySet="Transfer" />
     </AssociationSet>
-    <AssociationSet Name="FK__Vattu_Dik__equip__05A3D694" Association="Self.FK__Vattu_Dik__equip__05A3D694">
+    <AssociationSet Name="FK__Vattu_Dik__equip__4CF5691D" Association="Self.FK__Vattu_Dik__equip__4CF5691D">
       <End Role="Equipment" EntitySet="Equipment" />
       <End Role="Vattu_Dikem" EntitySet="Vattu_Dikem" />
     </AssociationSet>
-    <AssociationSet Name="FK__Vattu_Dik__suppl__0697FACD" Association="Self.FK__Vattu_Dik__suppl__0697FACD">
+    <AssociationSet Name="FK__Vattu_Dik__suppl__4DE98D56" Association="Self.FK__Vattu_Dik__suppl__4DE98D56">
       <End Role="Supply" EntitySet="Supply" />
       <End Role="Vattu_Dikem" EntitySet="Vattu_Dikem" />
     </AssociationSet>
-    <AssociationSet Name="FK__Work__pay_table___6D9742D9" Association="Self.FK__Work__pay_table___6D9742D9">
+    <AssociationSet Name="FK__Work__pay_table___14B10FFA" Association="Self.FK__Work__pay_table___14B10FFA">
       <End Role="PayTable" EntitySet="PayTable" />
       <End Role="Work" EntitySet="Work" />
     </AssociationSet>
-    <AssociationSet Name="FK__WorkingPr__emplo__6E8B6712" Association="Self.FK__WorkingPr__emplo__6E8B6712">
+    <AssociationSet Name="FK__WorkingPr__emplo__39AD8A7F" Association="Self.FK__WorkingPr__emplo__39AD8A7F">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="WorkingProcess" EntitySet="WorkingProcess" />
     </AssociationSet>
-    <AssociationSet Name="FK__WorkWorkG__work___6F7F8B4B" Association="Self.FK__WorkWorkG__work___6F7F8B4B">
+    <AssociationSet Name="FK__WorkWorkG__work___1699586C" Association="Self.FK__WorkWorkG__work___1699586C">
       <End Role="Work" EntitySet="Work" />
       <End Role="WorkWorkGroup" EntitySet="WorkWorkGroup" />
     </AssociationSet>
-    <AssociationSet Name="FK__WorkWorkG__work___7073AF84" Association="Self.FK__WorkWorkG__work___7073AF84">
+    <AssociationSet Name="FK__WorkWorkG__work___3B95D2F1" Association="Self.FK__WorkWorkG__work___3B95D2F1">
       <End Role="WorkGroup" EntitySet="WorkGroup" />
       <End Role="WorkWorkGroup" EntitySet="WorkWorkGroup" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_Department" Association="Self.FK_Employee_Department">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_Salary" Association="Self.FK_Employee_Salary">
+      <End Role="Salary" EntitySet="Salary" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_Work" Association="Self.FK_Employee_Work">
+      <End Role="Work" EntitySet="Work" />
+      <End Role="Employee" EntitySet="Employee" />
     </AssociationSet>
     <AssociationSet Name="FK_Important_Documentary_Account" Association="Self.FK_Important_Documentary_Account">
       <End Role="Account" EntitySet="Account" />
       <End Role="Important_Documentary" EntitySet="Important_Documentary" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RecordsPapers_Specializations" Association="Self.FK_RecordsPapers_Specializations">
+      <End Role="Specializations" EntitySet="Specializations" />
+      <End Role="RecordsPapers" EntitySet="RecordsPapers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Recruitment_Specializations" Association="Self.FK_Recruitment_Specializations">
+      <End Role="Specializations" EntitySet="Specializations" />
+      <End Role="Recruitment" EntitySet="Recruitment" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

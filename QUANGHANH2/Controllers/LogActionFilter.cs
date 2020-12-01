@@ -48,24 +48,24 @@ namespace QUANGHANH2.Controllers
             {
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
-                    User_Action_Log log = new User_Action_Log();
-                    int AccountID = int.Parse(HttpContext.Current.Session["userID"].ToString());
-                    log.AccountID = AccountID;
-                    log.Action_Time = DateTime.Now;
-                    log.Browser = Request.Browser.Browser;
-                    string Controller = routeData.Values["controller"].ToString();
-                    log.Method = Controller;
-                    log.Url_From = Request.Url.AbsolutePath;
-                    log.Location_IP = ip;
-                    User_Action_Log l = db.User_Action_Log.Where(x => x.AccountID.Equals(AccountID)).OrderByDescending(x => x.Action_Time).FirstOrDefault();
-                    if (l != null)
-                    {
-                        if (l.Url_From == log.Url_From)
-                            return;
-                        l.Url_To = log.Url_From;
-                    }
-                    db.User_Action_Log.Add(log);
-                    db.SaveChanges();
+                    //User_Action_Log log = new User_Action_Log();
+                    //int AccountID = int.Parse(HttpContext.Current.Session["userID"].ToString());
+                    //log.AccountID = AccountID;
+                    //log.Action_Time = DateTime.Now;
+                    //log.Browser = Request.Browser.Browser;
+                    //string Controller = routeData.Values["controller"].ToString();
+                    //log.Method = Controller;
+                    //log.Url_From = Request.Url.AbsolutePath;
+                    //log.Location_IP = ip;
+                    //User_Action_Log l = db.User_Action_Log.Where(x => x.AccountID.Equals(AccountID)).OrderByDescending(x => x.Action_Time).FirstOrDefault();
+                    //if (l != null)
+                    //{
+                    //    if (l.Url_From == log.Url_From)
+                    //        return;
+                    //    l.Url_To = log.Url_From;
+                    //}
+                    //db.User_Action_Log.Add(log);
+                    //db.SaveChanges();
                 }
             }
             catch (Exception)

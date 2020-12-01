@@ -1,6 +1,5 @@
 ﻿using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
-using QUANGHANHCORE.Controllers.Phanxuong.phanxuong;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -297,8 +296,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
 						join Header_DiemDanh_NangSuat_LaoDong_Detail hdd on hd.HeaderID = hdd.HeaderID";
                 try
                 {
-                    sanluong = db.Database.SqlQuery<SanLuong>(sql, 
-                        new SqlParameter("NgayDiemDanh",currentDate)).FirstOrDefault();
+                    sanluong = db.Database.SqlQuery<SanLuong>(sql,
+                        new SqlParameter("NgayDiemDanh", currentDate)).FirstOrDefault();
                 }
                 catch (Exception e)
                 {
@@ -607,7 +606,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     try
                     {
                         sanluong = db.Database.SqlQuery<SanLuong>(sql,
-                                                new SqlParameter("NgayDiemDanh",selectedDate)).FirstOrDefault();
+                                                new SqlParameter("NgayDiemDanh", selectedDate)).FirstOrDefault();
                     }
                     catch (Exception e)
                     {
@@ -665,63 +664,63 @@ namespace QUANGHANHCORE.Controllers.TCLD
         /// <param name="donvi">The donvi<see cref="string"/></param>
         /// <param name="date">The date<see cref="string"/></param>
         /// <returns>The <see cref="ActionResult"/></returns>
-        [Route("phong-tcld/bao-cao-chi-tiet-theo-ca")]
-        [HttpPost]
-        public ActionResult List(string ca, string donvi, string date)
-        {
-            if (ca == "CA 1" || ca == null)
-            {
-                ca = "1";
-            }
-            if (ca == "CA 2")
-            {
-                ca = "2";
-            }
-            if (ca == "CA 3")
-            {
-                ca = "3";
-            }
-            if (date == null)
-            {
-                date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
-            }
-            if (donvi == null)
-            {
-                donvi = "DL1";
-            }
-            var calamviec = Convert.ToInt32(ca);
-            var datesql = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-            {
-                List<DiemDanh_NangSuatLaoDong> list = new List<DiemDanh_NangSuatLaoDong>();
-                List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
-                BaoCaoTheoCa cus;
-                int stt = 1;
-                foreach (var i in list)
-                {
-                    cus = new BaoCaoTheoCa
-                    {
-                        //ID = stt,
-                        Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
-                        BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
-                        ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
-                        //DuBaoNguyCo = i.DuBaoNguyCo,
-                        //HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
-                        LuongSauDuyet = i.DiemLuong.ToString(),
-                        LuongTruocDuyet = i.DiemLuong.ToString(),
-                        NoiDungCongViec = db.Departments.First().department_name,
-                        SoThe = i.MaNV
-                        //YeuCauBPKTAT = i.GiaiPhapNguyCo
-                    };
-                    customNSLDs.Add(cus);
-                    stt++;
-                }
-                ViewBag.nsld = customNSLDs;
-                var js = Json(new { success = true, data = customNSLDs }, JsonRequestBehavior.AllowGet);
-                var dataserialize = new JavaScriptSerializer().Serialize(js.Data);
-                return js;
-            }
-        }
+        //[Route("phong-tcld/bao-cao-chi-tiet-theo-ca")]
+        //[HttpPost]
+        //public ActionResult List(string ca, string donvi, string date)
+        //{
+        //    if (ca == "CA 1" || ca == null)
+        //    {
+        //        ca = "1";
+        //    }
+        //    if (ca == "CA 2")
+        //    {
+        //        ca = "2";
+        //    }
+        //    if (ca == "CA 3")
+        //    {
+        //        ca = "3";
+        //    }
+        //    if (date == null)
+        //    {
+        //        date = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+        //    }
+        //    if (donvi == null)
+        //    {
+        //        donvi = "DL1";
+        //    }
+        //    var calamviec = Convert.ToInt32(ca);
+        //    var datesql = DateTime.ParseExact(date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+        //    {
+        //        List<EmployeeAttendanceAndProductivity> list = new List<EmployeeAttendanceAndProductivity>();
+        //        List<BaoCaoTheoCa> customNSLDs = new List<BaoCaoTheoCa>();
+        //        BaoCaoTheoCa cus;
+        //        int stt = 1;
+        //        foreach (var i in list)
+        //        {
+        //            cus = new BaoCaoTheoCa
+        //            {
+        //                //ID = stt,
+        //                Name = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().Ten,
+        //                BacTho = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().BacLuong,
+        //                ChucDanh = db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec == null ? "" : db.NhanViens.Where(a => a.MaNV == i.MaNV).First().CongViec.TenCongViec,
+        //                //DuBaoNguyCo = i.DuBaoNguyCo,
+        //                //HeSoChiaLuong = i.HeSoChiaLuong.ToString(),
+        //                LuongSauDuyet = i.DiemLuong.ToString(),
+        //                LuongTruocDuyet = i.DiemLuong.ToString(),
+        //                NoiDungCongViec = db.Departments.First().department_name,
+        //                SoThe = i.MaNV
+        //                //YeuCauBPKTAT = i.GiaiPhapNguyCo
+        //            };
+        //            customNSLDs.Add(cus);
+        //            stt++;
+        //        }
+        //        ViewBag.nsld = customNSLDs;
+        //        var js = Json(new { success = true, data = customNSLDs }, JsonRequestBehavior.AllowGet);
+        //        var dataserialize = new JavaScriptSerializer().Serialize(js.Data);
+        //        return js;
+        //    }
+        //}
     }
 
     public class NhanLuc

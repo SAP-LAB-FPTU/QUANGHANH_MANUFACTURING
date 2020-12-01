@@ -12,15 +12,15 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SpecializationsType
+    public partial class EducationLevel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SpecializationsType()
+        public EducationLevel()
         {
             this.Specializations = new HashSet<Specialization>();
         }
     
-        public string specializtions_type_id { get; set; }
+        public int education_level_id { get; set; }
         public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

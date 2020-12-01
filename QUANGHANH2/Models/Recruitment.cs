@@ -20,7 +20,7 @@ namespace QUANGHANH2.Models
         public Nullable<int> work_id { get; set; }
         public string department_id { get; set; }
         public string qualification_id { get; set; }
-        public string specializations_id { get; set; }
+        public Nullable<int> specializations_id { get; set; }
         public Nullable<int> salary_id { get; set; }
     
         public virtual Department Department { get; set; }
@@ -28,7 +28,7 @@ namespace QUANGHANH2.Models
         public virtual Employee Employee { get; set; }
         public virtual Qualification Qualification { get; set; }
         public virtual Salary Salary { get; set; }
-        public virtual Specialization Specialization { get; set; }
         public virtual Work Work { get; set; }
+        public virtual Specialization Specialization { get; set; }
     }
 }

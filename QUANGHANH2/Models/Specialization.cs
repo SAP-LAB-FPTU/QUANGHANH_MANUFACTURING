@@ -21,14 +21,17 @@ namespace QUANGHANH2.Models
             this.Recruitments = new HashSet<Recruitment>();
         }
     
-        public string specializations_id { get; set; }
+        public int specializations_id { get; set; }
+        public string specializations_number { get; set; }
         public string name { get; set; }
-        public string specializtions_type_id { get; set; }
+        public string career_id { get; set; }
+        public Nullable<int> education_level_id { get; set; }
     
+        public virtual Career Career { get; set; }
+        public virtual EducationLevel EducationLevel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RecordsPaper> RecordsPapers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Recruitment> Recruitments { get; set; }
-        public virtual SpecializationsType SpecializationsType { get; set; }
     }
 }
