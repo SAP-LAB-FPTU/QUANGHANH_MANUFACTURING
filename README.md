@@ -10,7 +10,7 @@
         - <B>resources</B></br>
         - <B>config</B></br>
 * Tương ứng với 2 phân hệ (viết tắt): <B>TCLD & CDVT</B>
-* Title của pull request sẽ được đặt theo format: <B><Phân Hệ> - [<Loại commit>]</B> <I><Nội dung></I>
+* Title của pull request sẽ được đặt theo format: <B><Phân Hệ> - [<tag>]</B> <I><Nội dung></I>
 ![pic1.png](https://2.pik.vn/202078a922b2-4d5a-4896-8834-366a10c12990.png)
 * Một pull request có thể thuộc nhiều tag, lúc đó các tag ghi cạnh nhau:
   <i>VD: <b>CDVT - [fix][add] Fix upload function and add notifications</b> </i>
