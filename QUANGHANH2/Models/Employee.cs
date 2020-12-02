@@ -36,6 +36,7 @@ namespace QUANGHANH2.Models
     
         public string employee_id { get; set; }
         public string BASIC_INFO_full_name { get; set; }
+        public string BASIC_INFO_other_name { get; set; }
         public string BASIC_INFO_gender { get; set; }
         public Nullable<System.DateTime> BASIC_INFO_date_of_birth { get; set; }
         public string BASIC_INFO_place_of_birth { get; set; }
@@ -85,7 +86,7 @@ namespace QUANGHANH2.Models
         public string PERSONAL_HISTORY_detail { get; set; }
         public string PERSONAL_HISTORY_related_organization { get; set; }
         public string PERSONAL_HISTORY_relatives { get; set; }
-        public Nullable<int> status_id { get; set; }
+        public Nullable<int> current_status_id { get; set; }
         public string current_department_id { get; set; }
         public Nullable<int> current_salary_id { get; set; }
         public Nullable<int> current_work_id { get; set; }

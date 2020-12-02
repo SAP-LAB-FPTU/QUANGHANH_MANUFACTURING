@@ -24,7 +24,7 @@ namespace QUANGHANH2.Models
         }
     
         public int salary_id { get; set; }
-        public string salary1 { get; set; }
+        public string salary_name { get; set; }
         public string applied_year { get; set; }
         public Nullable<int> pay_rate_id { get; set; }
         public Nullable<int> pay_table_id { get; set; }
