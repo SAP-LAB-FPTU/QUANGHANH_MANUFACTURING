@@ -335,100 +335,101 @@ namespace QUANGHANH2.Controllers.TCLD
         //            ViewBag.nameDepartment = "baohiem";
         //            return View("/Views/TCLD/Brief/ListAll.cshtml");
         //        }
-        //        public class BacLuong_ThangLuong_MucLuong_Extend : BacLuong_ThangLuong_MucLuong
-        //        {
-        //            public String MucBacLuong { get; set; }
-        //            public String MucThangLuong { get; set; }
-        //        }
-        //        [Auther(RightID = "56")]
-        //        [Route("phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien")]
-        //        [HttpGet]
-        //        public ActionResult ViewInfor(string id)
-        //        {
-        //            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //            {
-        //                List<SelectListItem> salary_level = new List<SelectListItem>();
-        //                String query_salary_level = @"select a.*, b.MucBacLuong, c.MucThangLuong from BacLuong_ThangLuong_MucLuong 
-        //                a join BacLuong b on a.MaBacLuong = b.MaBacLuong join ThangLuong c on a.MaThangLuong = c.MaThangLuong";
-        //                List<BacLuong_ThangLuong_MucLuong_Extend> list_level_salary = new List<BacLuong_ThangLuong_MucLuong_Extend>();
-        //                list_level_salary = db.Database.SqlQuery<BacLuong_ThangLuong_MucLuong_Extend>(query_salary_level).ToList();
-        //                foreach (BacLuong_ThangLuong_MucLuong_Extend i in list_level_salary)
-        //                {
-        //                    salary_level.Add(new SelectListItem
-        //                    {
-        //                        Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.MucLuong,
-        //                        Value = i.MaBacLuong_ThangLuong_MucLuong.ToString()
-        //                    });
-        //                    if (db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>().MaBacLuong_ThangLuong_MucLuong == i.MaBacLuong_ThangLuong_MucLuong)
-        //                    {
-        //                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.MucLuong;
-        //                    }
-        //                }
-        //                ViewBag.level_salary = salary_level;
+        public class BacLuong_ThangLuong_MucLuong_Extend : Salary
+        {
+            public String MucBacLuong { get; set; }
+            public String MucThangLuong { get; set; }
+        }
+        [Auther(RightID = "56")]
+        [Route("phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien")]
+        [HttpGet]
+        public ActionResult ViewInfor(string id)
+        {
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+            {
+                List<SelectListItem> salary_level = new List<SelectListItem>();
+                String query_salary_level = @"select a.*, b.pay_rate, c.pay_table from HumanResources.Salary a 
+                                            join HumanResources.PayRate b on a.pay_rate_id = b.pay_rate_id 
+                                            join HumanResources.PayTable c on a.pay_table_id = c.pay_table_id";
+                List<BacLuong_ThangLuong_MucLuong_Extend> list_level_salary = new List<BacLuong_ThangLuong_MucLuong_Extend>();
+                list_level_salary = db.Database.SqlQuery<BacLuong_ThangLuong_MucLuong_Extend>(query_salary_level).ToList();
+                foreach (BacLuong_ThangLuong_MucLuong_Extend i in list_level_salary)
+                {
+                    salary_level.Add(new SelectListItem
+                    {
+                        Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary1,
+                        Value = i.salary_id.ToString()
+                    });
+                    if (db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>().current_salary_id == i.salary_id)
+                    {
+                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary1;
+                    }
+                }
+                ViewBag.level_salary = salary_level;
 
-        //                List<SelectListItem> Month = new List<SelectListItem>();
-        //                for (int i = 1; i <= 12; i++)
-        //                {
-        //                    Month.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-        //                }
+                List<SelectListItem> Month = new List<SelectListItem>();
+                for (int i = 1; i <= 12; i++)
+                {
+                    Month.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                }
 
-        //                ViewBag.months = Month;
+                ViewBag.months = Month;
 
-        //                List<SelectListItem> Genders = new List<SelectListItem>
-        //            {
-        //                new SelectListItem { Text = "Nam", Value = "true" },
-        //                new SelectListItem { Text = "Nữ", Value = "false" }
-        //            };
-        //                ViewBag.genders = Genders;
+                List<SelectListItem> Genders = new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Nam", Value = "true" },
+                        new SelectListItem { Text = "Nữ", Value = "false" }
+                    };
+                ViewBag.genders = Genders;
 
-        //                List<TrinhDo> Leveldb = db.TrinhDoes.ToList<TrinhDo>();
-        //                List<SelectListItem> Level = new List<SelectListItem>();
+                List<Qualification> Leveldb = db.Qualifications.ToList<Qualification>();
+                List<SelectListItem> Level = new List<SelectListItem>();
 
-        //                foreach (TrinhDo td in Leveldb)
-        //                {
-        //                    Level.Add(new SelectListItem { Text = td.TenTrinhDo.Trim(), Value = td.MaTrinhDo.ToString() });
-        //                }
+                foreach (Qualification td in Leveldb)
+                {
+                    Level.Add(new SelectListItem { Text = td.name.Trim(), Value = td.name.ToString() });
+                }
 
-        //                ViewBag.level = Level;
-        //                List<CongViec> Jobdb = db.CongViecs.ToList<CongViec>();
+                ViewBag.level = Level;
+                List<Work> Jobdb = db.Works.ToList<Work>();
 
-        //                List<SelectListItem> Job = new List<SelectListItem>();
+                List<SelectListItem> Job = new List<SelectListItem>();
 
-        //                foreach (CongViec cv in Jobdb)
-        //                {
-        //                    Job.Add(new SelectListItem { Text = cv.TenCongViec.Trim(), Value = cv.MaCongViec.ToString() });
-        //                    if (db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>().MaCongViec == cv.MaCongViec)
-        //                    {
-        //                        ViewBag.loadJob = cv.TenCongViec.Trim();
-        //                    }
-        //                }
-        //                ViewBag.job = Job;
-        //                List<SelectListItem> Heal = new List<SelectListItem>
-        //            {
-        //                new SelectListItem { Text = "Khỏe", Value = "khoe" },
-        //                new SelectListItem { Text = "Bình thường", Value = "binhthuong" },
-        //                new SelectListItem { Text = "Yếu", Value = "yeu" },
-        //                new SelectListItem { Text = "Bệnh mãn tính", Value = "benhmantinh" }
-        //            };
-        //                ViewBag.heal = Heal;
-        //                List<SelectListItem> ThuongBinh = new List<SelectListItem>
-        //            {
-        //                new SelectListItem { Text = "Không", Value = "0" },
-        //                new SelectListItem { Text = "1/4(Thương tật 81% trở lên)", Value = "1" },
-        //                new SelectListItem { Text = "2/4(Thương tật từ 61% trở lên)", Value = "2" },
-        //                new SelectListItem { Text = "3/4(Thương tật từ 41% trở lên)", Value = "3" },
-        //                new SelectListItem { Text = "4/4(Thương tật từ 21% trở lên)", Value = "4" }
-        //            };
-        //                ViewBag.thuongbinh = ThuongBinh;
-        //                QuanHeGiaDinh qh = new QuanHeGiaDinh();
-        //                List<QuanHeGiaDinh> qhList = db.QuanHeGiaDinhs.Where(x => x.MaNV == id).ToList();
-        //                ViewBag.qhList = qhList;
-        //                QuaTrinhCongTac qt = new QuaTrinhCongTac();
-        //                List<QuaTrinhCongTac> qtList = db.QuaTrinhCongTacs.Where(x => x.MaNV == id).ToList();
-        //                ViewBag.qtList = qtList;
-        //                return View("/Views/TCLD/Brief/View.cshtml", db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>());
-        //            }
-        //        }
+                foreach (Work cv in Jobdb)
+                {
+                    Job.Add(new SelectListItem { Text = cv.name.Trim(), Value = cv.work_id.ToString() });
+                    if (db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>().current_work_id == cv.work_id)
+                    {
+                        ViewBag.loadJob = cv.name.Trim();
+                    }
+                }
+                ViewBag.job = Job;
+                List<SelectListItem> Heal = new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Khỏe", Value = "khoe" },
+                        new SelectListItem { Text = "Bình thường", Value = "binhthuong" },
+                        new SelectListItem { Text = "Yếu", Value = "yeu" },
+                        new SelectListItem { Text = "Bệnh mãn tính", Value = "benhmantinh" }
+                    };
+                ViewBag.heal = Heal;
+                List<SelectListItem> ThuongBinh = new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Không", Value = "0" },
+                        new SelectListItem { Text = "1/4(Thương tật 81% trở lên)", Value = "1" },
+                        new SelectListItem { Text = "2/4(Thương tật từ 61% trở lên)", Value = "2" },
+                        new SelectListItem { Text = "3/4(Thương tật từ 41% trở lên)", Value = "3" },
+                        new SelectListItem { Text = "4/4(Thương tật từ 21% trở lên)", Value = "4" }
+                    };
+                ViewBag.thuongbinh = ThuongBinh;
+                Family qh = new Family();
+                List<Family> qhList = db.Families.Where(x => x.employee_id == id).ToList();
+                ViewBag.qhList = qhList;
+                WorkingProcess qt = new WorkingProcess();
+                List<WorkingProcess> qtList = db.WorkingProcesses.Where(x => x.employee_id == id).ToList();
+                ViewBag.qtList = qtList;
+                return View("/Views/TCLD/Brief/View.cshtml", db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>());
+            }
+        }
 
 
         //        [Auther(RightID = "53")]
@@ -705,17 +706,17 @@ namespace QUANGHANH2.Controllers.TCLD
                 query = query.Substring(0, query.Length - 5);
                 QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 db.Configuration.LazyLoadingEnabled = false;
-                bool GioiTinh = true;
+                string GioiTinh = "1";
                 if (Gender.Equals("true"))
                 {
-                    GioiTinh = true;
+                    GioiTinh = "1";
                 }
                 else if (Gender.Equals("false"))
                 {
-                    GioiTinh = false;
+                    GioiTinh = "0";
                 }
                 List<NhanVienLink> searchList = db.Database.SqlQuery<NhanVienLink>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
-                    new SqlParameter("employee_id", '%' + MaNV + '%'),
+                    new SqlParameter("MaNV", '%' + MaNV + '%'),
                     new SqlParameter("Ten", '%' + TenNV + '%'),
                     new SqlParameter("GioiTinh", GioiTinh),
                     new SqlParameter("pb", pb)
