@@ -1,8 +1,6 @@
 ﻿
-@{
-    ViewBag.Title = "Work";
-    Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
-}
+@{ ViewBag.Title = "Work";
+                Layout = "~/Views/Shared/_Layout_TCLD.cshtml"; }
 
 <div class="card">
     <div class="card-content">
@@ -46,8 +44,7 @@
                 <option value="" disabled selected>Chọn thang lương</option>
                 @foreach (var list_pay_tables in ViewBag.list_pay_tables)
                 {
-                    <option value="@list_pay_tables.pay_table_id">Năm @list_pay_tables.applied_year - @list_pay_tables.pay_table</option>
-                }
+    <option value="@list_pay_tables.pay_table_id">Năm @list_pay_tables.applied_year - @list_pay_tables.pay_table</option>}
             </select>
         </div>
     </div>
@@ -63,26 +60,25 @@
         <h4 class="center"><b>Sửa Công Việc</b></h4>
         <div class="col s12 m12 l12">
             <label>Tên công việc</label>
-            <input type="text" class="form-control" id="tenCongViec_sua" />
+            <input type="text" class="form-control" id="edit_work_name" />
         </div>
         <div class="col s12 m6 l6">
             <label>Phụ cấp</label>
-            <input type="text" class="form-control" id="phuCap_sua" />
+            <input type="text" class="form-control" id="edit_work_allowance" />
         </div>
         <div class="col s12 m6 l6">
             <label>Thang lương</label>
-            <select class="form-control" id="thangLuong_sua_select">
+            <select class="form-control" id="edit_work_pay_table_select">
                 <option value="" disabled selected>Chọn thang lương</option>
                 @foreach (var list_pay_tables in ViewBag.list_pay_tables)
                 {
-                    <option value="@list_pay_tables.pay_table_id">Năm @list_pay_tables.applied_year - @list_pay_tables.pay_table</option>
-                }
+    <option value="@list_pay_tables.pay_table_id">Năm @list_pay_tables.applied_year - @list_pay_tables.pay_table</option>}
             </select>
         </div>
     </div>
     <div class="modal-footer">
-        <button id="xacNhanSuaCongViec" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
-        <button id="dongSuaCongViec" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
+        <button id="edit_work_confirm_button" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="edit_work_close_modal_button" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
     </div>
 </div>
 <link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -189,79 +185,85 @@
                         }
                     },
                     error: function (response) {
-
+                        errorAlert(response.title, response.message);
                     }
                 });
         });
     });
 </script>
+
 <!----------------------------------EDIT--------------------------------->
 <script>
     $(document).ready(function () {
-        var macongviec;
-        var tencongviec;
-        var phucap;
-        var mathangluong;
+        var work_id;
+        var work_name;
+        var allowance;
+        var pay_table_id;
+
         //fill data to input
-        $("#congviec").on("click", "#edit_work_button", function () {
-            macongviec = $(this).attr("name");
-            getData(macongviec);
+        $("#work_table").on("click", "#edit_work_button", function () {
+            work_id = $(this).attr("name");
+            getDataByWorkID(work_id);
         });
 
         //update
-        $("#xacNhanSuaCongViec").click(function () {
-            tencongviec = $("#tenCongViec_sua").val();
-            mathangluong = $("#thangLuong_sua_select").val();
-            phucap = $("#phuCap_sua").val();
-            update(macongviec, tencongviec, mathangluong, phucap);
+        $("#edit_work_confirm_button").click(function () {
+            work_name = $("#edit_work_name").val();
+            pay_table_id = $("#edit_work_pay_table_select").val();
+            allowance = $("#edit_work_allowance").val();
+            updateWork(work_id, work_name, pay_table_id, allowance);
         });
     });
 </script>
+
 <!--------Get data by MaCongViec------->
 <script>
-    function getData(macongviec) {
+    function getDataByWorkID(work_id) {
         $("#pre-load").show(),
-            $.ajax({
-                url: "/phong-tcld/quan-ly-cong-viec/lay-du-lieu-theo-macongviec",
-                type: "POST",
-                datatype: "json",
-                data: {
-                    "macongviec": macongviec
-                },
-                success: function (response) {
-                    if (response.success) {
-                        //fill data to input in modal suaCongViec
-                        $("#tenCongViec_sua").val(response.listCongViec_ThangLuong.TenCongViec);
-                        $("#phuCap_sua").val(response.listCongViec_ThangLuong.PhuCap);
-                        $("#thangLuong_sua_select option[value=\"" + response.listCongViec_ThangLuong.MaThangLuong + "\"]").prop("selected", true);
-                        //hide the pre-loader
-                        $("#pre-load").hide();
-                    }
-                },
-                error: function (response) {
-
+        $.ajax({
+            url: "/phong-tcld/quan-ly-cong-viec/lay-du-lieu-theo-macongviec",
+            type: "POST",
+            datatype: "json",
+            data: {
+                "work_id": work_id
+            },
+            success: function (response) {
+                if (response.success) {
+                    //fill data to input in modal suaCongViec
+                    $("#edit_work_name").val(response.list_works.name);
+                    $("#edit_work_allowance").val(response.list_works.allowance);
+                    $("#edit_work_pay_table_select option[value=\"" + response.list_works.pay_table_id + "\"]").prop("selected", true);
+                    //hide the pre-loader
+                    $("#pre-load").hide();
+                } else {
+                    errorAlert(response.title, response.message);
                 }
-            });
+            },
+            error: function (response) {
+                errorAlert(response.title, response.message);
+            }
+        });
     }
 </script>
+
 <!--------Update------------>
 <script>
-    function update(macongviec, tencongviec, mathangluong, phucap) {
+    function updateWork(work_id, work_name, pay_table_id, allowance) {
         $("pre-load").show(),
             $.ajax({
                 url: "/phong-tcld/quan-ly-cong-viec/cap-nhat-cong-viec",
                 type: "POST",
                 datatype: "json",
                 data: {
-                    "macongviec": macongviec,
-                    "tencongviec": tencongviec,
-                    "mathangluong": mathangluong,
-                    "phucap": phucap
+                    "work_id": work_id,
+                    "work_name": work_name,
+                    "pay_table_id": pay_table_id,
+                    "allowance": allowance
                 },
                 success: function (response) {
                     if (response.success) {
                         //close modal suaCongViec
-                        $("#dongSuaCongViec").click();
+                        $("#edit_work_close_modal_button").click();
                         //alert successfull updating
                         successAlert(response.title, response.message);
                         //reload table
@@ -275,31 +277,33 @@
                     }
                 },
                 error: function (response) {
-
+                    errorAlert(response.title, response.message);
                 }
             });
     }
 </script>
+
 <!-----------------Delete------------------->
 <script>
     $(document).ready(function () {
-        var macongviec;
-        $("#congviec").on("click", "#delete_work_button", function () {
-            macongviec = $(this).attr("name");
+        var work_id;
+        $("#work_table").on("click", "#delete_work_button", function () {
+            work_id = $(this).attr("name");
             //alert confirm
-            confirmAlert("Xác nhận xóa?", "Xác nhân xóa công việc", function () { delete_Congviec(macongviec); });
+            confirmAlert("Xác nhận xóa?", "Xác nhân xóa công việc", function () { deleteWork(work_id); });
         });
     });
 </script>
+
 <script>
-    function delete_Congviec(macongviec) {
+    function deleteWork(work_id) {
         $("#pre-load").show(),
             $.ajax({
                 url: "/phong-tcld/quan-ly-cong-viec/xoa-cong-viec",
                 type: "POST",
                 datatype: "json",
                 data: {
-                    "macongviec": macongviec
+                    "work_id": work_id
                 },
                 success: function (response) {
                     if (response.success) {
@@ -317,7 +321,7 @@
                     }
                 },
                 error: function (response) {
-
+                    errorAlert(response.title, response.message);
                 }
             })
     }
