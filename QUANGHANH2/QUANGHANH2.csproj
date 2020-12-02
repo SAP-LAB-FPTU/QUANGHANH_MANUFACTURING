@@ -343,7 +343,7 @@
     <Compile Include="Controllers\TCLD\Employees\TransferHistoryController.cs" />
     <Compile Include="Controllers\TCLD\MaterialProtectionController.cs" />
     <Compile Include="Controllers\TCLD\Occupation\GroupOccupationController.cs" />
-    <Compile Include="Controllers\TCLD\Occupation\OccupationController.cs" />
+    <Compile Include="Controllers\TCLD\Occupation\WorkController.cs" />
     <Compile Include="Controllers\TCLD\Occupation\Occupation_GroupOccupationController.cs" />
     <Compile Include="Controllers\TCLD\Occupation\SideOccupationController.cs" />
     <Compile Include="Controllers\TCLD\RecruitmentAndEnd\RecruitmentAndEndController.cs" />
@@ -523,6 +523,7 @@
     </Compile>
     <Compile Include="Models\HistoryWork.cs" />
     <Compile Include="Models\HoSoNhanVien.cs" />
+    <Compile Include="Models\HumanResources\Work_Extend.cs" />
     <Compile Include="Models\Important_Documentary.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
@@ -7284,6 +7285,7 @@
     <Content Include="Scripts\notify.min.js" />
     <Content Include="Scripts\Scripts.js" />
     <Content Include="Views\CDVT\Thietbi\Lylich.cshtml" />
+    <Content Include="Views\TCLD\Work\Work.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -7531,9 +7533,8 @@
     <Content Include="Views\Camera\Quyetdinh\SuaChua\ChonThietBi.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\ThemQuyetDinh.cshtml" />
     <Content Include="Views\Camera\SuCo.cshtml" />
-    <Content Include="Views\TCLD\Occupation\Occupation.cshtml" />
-    <Content Include="Views\TCLD\Occupation\GroupOccupation.cshtml" />
-    <Content Include="Views\TCLD\Occupation\SideOccupation.cshtml" />
+    <Content Include="Views\TCLD\Work\GroupOccupation.cshtml" />
+    <Content Include="Views\TCLD\Work\SideOccupation.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\DSQDChuaxuly.cshtml" />
     <Content Include="Views\LogIn\Account_Information.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\XuLyQuyetDinh.cshtml" />
@@ -7548,7 +7549,7 @@
     <Content Include="Views\TCLD\Salary\SalaryGrade.cshtml" />
     <Content Include="Views\TCLD\Salary\SalaryScale.cshtml" />
     <Content Include="Views\TCLD\Salary\Grade_Scale_Salary.cshtml" />
-    <Content Include="Views\TCLD\Occupation\Occupation_GroupOccupation.cshtml" />
+    <Content Include="Views\TCLD\Work\Occupation_GroupOccupation.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\DieuChinh\ChiTiet.cshtml" />
     <Content Include="Views\DK\BaoCaoDemo.cshtml" />
     <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />

@@ -36,6 +36,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Supply_DiKem> Supply_DiKem { get; set; }
         public virtual DbSet<Supply_Equipment_DiKem> Supply_Equipment_DiKem { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Vattu_Dikem> Vattu_Dikem { get; set; }
         public virtual DbSet<BigMaintainDetail> BigMaintainDetails { get; set; }
         public virtual DbSet<CameraRepairDetail> CameraRepairDetails { get; set; }
