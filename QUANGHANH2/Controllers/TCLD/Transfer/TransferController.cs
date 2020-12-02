@@ -36,21 +36,21 @@
 //        [Route("phong-tcld/dieu-chuyen/tien-hanh-dieu-chuyen")]
 //        public ActionResult Select()
 //        {
-//            List<CongViec> listCongViec = new List<CongViec>();
+//            List<Work> listCongViec = new List<Work>();
 //            List<Department> listPhongBan = new List<Department>();
-//            List<BacLuong> listBacLuong = new List<BacLuong>();
+//            List<PayRate> listBacLuong = new List<PayRate>();
 
 //            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
 //            {
 //                db.Configuration.LazyLoadingEnabled = false;
 //                string sql = "select * from CongViec";
-//                listCongViec = db.CongViecs.SqlQuery(sql).ToList<CongViec>();
+//                listCongViec = db.Works.SqlQuery(sql).ToList<Work>();
 
 //                sql = "select * from Department";
 //                listPhongBan = db.Departments.SqlQuery(sql).ToList<Department>();
 
 //                sql = "select * from BacLuong";
-//                listBacLuong = db.Database.SqlQuery<BacLuong>(sql).ToList<BacLuong>();
+//                listBacLuong = db.Database.SqlQuery<PayRate>(sql).ToList<PayRate>();
 
 //            }
 //            ViewBag.listCongViec = listCongViec;
@@ -137,7 +137,7 @@
 //                if ((searchMa != "" || searchTen != "" || chucVuSearch != "-1" || phongbanSearch != "-1"))
 //                {
 //                    sql += " where ";
-//                    sql += searchMa == "" ? "" : " A.MaNV in (" + searchMa + ") AND";
+//                    sql += searchMa == "" ? "" : " A.employee_id in (" + searchMa + ") AND";
 //                    sql += searchTen == "" ? "" : " A.Ten like @tenNV AND";
 //                    sql += phongbanSearch == "-1" ? "" : " A.MaPhongBan = @maPhongBan AND";
 //                    sql += chucVuSearch == "-1" ? "" : " A.MaCongViec = @maCongViec AND";
@@ -185,9 +185,9 @@
 //            {
 //                db.Configuration.LazyLoadingEnabled = false;
 //                string sql =
-//                @"SELECT A.MaNV,A.Ten,B.department_name,C.TenCongViec,C.PhuCap, D.MucBacLuong as BacLuong, D.MucThangLuong as ThangLuong, D.MucLuong as Luong, A.MaPhongBan, A.MaCongViec
+//                @"SELECT A.employee_id,A.Ten,B.department_name,C.TenCongViec,C.PhuCap, D.MucBacLuong as BacLuong, D.MucThangLuong as ThangLuong, D.MucLuong as Luong, A.MaPhongBan, A.MaCongViec
 //                 FROM(
-//                (SELECT * FROM NhanVien where MaNV in (" + selected + @" )) A
+//                (SELECT * FROM NhanVien where employee_id in (" + selected + @" )) A
 //                 left OUTER JOIN
 //                 (SELECT department_id, department_name FROM Department) B on A.MaPhongBan = B.department_id
 //                 left OUTER JOIN
@@ -212,13 +212,13 @@
 //            {
 //                try
 //                {
-//                    var data = (from t1 in db.CongViecs
-//                                from t2 in db.ThangLuongs.Where(x => t1.MaThangLuong == x.MaThangLuong && t1.MaCongViec == macv)
-//                                select new { t1.TenCongViec, t1.PhuCap, t2.MucThangLuong, t2.MaThangLuong }).FirstOrDefault();
+//                    var data = (from t1 in db.Works
+//                                from t2 in db.PayTables.Where(x => t1.pay_table_id == x.pay_table_id && t1.work_id == macv)
+//                                select new { t1.name, t1.allowance, t2.pay_table, t2.pay_table_id }).FirstOrDefault();
 
-//                    var bacs = (from t1 in db.BacLuongs
-//                                from t2 in db.BacLuong_ThangLuong_MucLuong.Where(x => t1.MaBacLuong == x.MaBacLuong && x.MaThangLuong == data.MaThangLuong)
-//                                select new { t2.MaBacLuong_ThangLuong_MucLuong, t1.MaBacLuong, t1.MucBacLuong, t2.MucLuong }).ToList();
+//                    var bacs = (from t1 in db.PayRates
+//                                from t2 in db.Salaries.Where(x => t1.pay_rate_id == x.pay_rate_id && x.pay_table_id == data.pay_table_id)
+//                                select new { t2.salary_id, t1.pay_rate_id, t1.pay_rate, t2.salary_number}).ToList();
 
 //                    return Json(new { success = true, bacs = bacs, data = data, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
 //                }
@@ -236,7 +236,7 @@
 //        public ActionResult getChucVu()
 //        {
 //            var selectedDeptId = Request["selectedDeptId"];
-//            List<CongViec> congviec_phongban = new List<CongViec>();
+//            List<Work> congviec_phongban = new List<Work>();
 //            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
 //            {
 //                try
@@ -247,13 +247,13 @@
 //                                (select  DISTINCT MaCongViec from NhanVien, Department
 //                                where MaPhongBan = @MaPhongBan) A
 //                                where A.MaCongViec = CongViec.MaCongViec";
-//                        congviec_phongban = db.Database.SqlQuery<CongViec>(sql,
-//                            new SqlParameter("@MaPhongBan", selectedDeptId)).ToList<CongViec>();
+//                        congviec_phongban = db.Database.SqlQuery<Work>(sql,
+//                            new SqlParameter("@MaPhongBan", selectedDeptId)).ToList<Work>();
 //                    }
 //                    else
 //                    {
 //                        string sql = @"select * from CongViec";
-//                        congviec_phongban = db.Database.SqlQuery<CongViec>(sql).ToList<CongViec>();
+//                        congviec_phongban = db.Database.SqlQuery<Work>(sql).ToList<Work>();
 //                    }
 
 //                    return Json(new { success = true, congviec_phongban = congviec_phongban }, JsonRequestBehavior.AllowGet);
@@ -273,12 +273,12 @@
 //        {
 //            var js = new JavaScriptSerializer();
 //            var result = JsonConvert.DeserializeObject<List<DieuDongModel>>(selectedList);
-//            string manv = "";
+//            string employee_id = "";
 //            for (int i = 0; i < result.Count; i++)
 //            {
-//                manv += "'" + ((DieuDongModel)result[i]).MaNV + "',";
+//                employee_id += "'" + ((DieuDongModel)result[i]).employee_id + "',";
 //            }
-//            manv = manv.Remove(manv.Length - 1);
+//            employee_id = employee_id.Remove(employee_id.Length - 1);
 //            List<NhanVienModel> getInfo;
 //            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
 //            {
@@ -286,7 +286,7 @@
 //                string sql = "SELECT  A.*,B.department_name,C.TenCongViec" +
 //                " FROM" +
 //                "(" +
-//                "(SELECT * FROM NhanVien where MaNV in (" + manv + ")) A" +
+//                "(SELECT * FROM NhanVien where employee_id in (" + employee_id + ")) A" +
 //                " left OUTER JOIN" +
 //                " (SELECT department_id, department_name FROM Department) B on A.MaPhongBan = B.department_id" +
 //                " left OUTER JOIN" +
@@ -298,11 +298,11 @@
 //                {
 //                    for (int j = 0; j < result.Count; j++)
 //                    {
-//                        if (((DieuDongModel)result[j]).MaNV == getInfo[i].MaNV)
+//                        if (((DieuDongModel)result[j]).employee_id == getInfo[i].employee_id)
 //                        {
-//                            ((DieuDongModel)result[j]).HoTen = getInfo[i].Ten;
+//                            ((DieuDongModel)result[j]).HoTen = getInfo[i].BASIC_INFO_full_name;
 //                            ((DieuDongModel)result[j]).DonViHienTai = getInfo[i].department_name;
-//                            ((DieuDongModel)result[j]).ChucVuHienTai = new ChucVuModel(getInfo[i].MaCongViec.ToString(), getInfo[i].TenCongViec);
+//                            ((DieuDongModel)result[j]).ChucVuHienTai = new ChucVuModel(getInfo[i].current_work_id.ToString(), getInfo[i].TenCongViec);
 //                        }
 //                    }
 
@@ -313,7 +313,7 @@
 //            {
 //                DieuDongModel d = new DieuDongModel();
 //                d.SoQD = ((DieuDongModel)result[i]).SoQD;
-//                d.MaNV = ((DieuDongModel)result[i]).MaNV;
+//                d.employee_id = ((DieuDongModel)result[i]).employee_id;
 //                d.HoTen = ((DieuDongModel)result[i]).HoTen;
 //                d.DonViHienTai = ((DieuDongModel)result[i]).DonViHienTai;
 //                d.ChucVuHienTai = ((DieuDongModel)result[i]).ChucVuHienTai;
@@ -338,17 +338,17 @@
 //        {
 //            var js = new JavaScriptSerializer();
 //            var result = JsonConvert.DeserializeObject<List<DieuDongModel>>(selectedList);
-//            string manv = "";
+//            string employee_id = "";
 //            for (int i = 0; i < result.Count; i++)
 //            {
-//                manv += "'" + ((DieuDongModel)result[i]).MaNV + "',";
+//                employee_id += "'" + ((DieuDongModel)result[i]).employee_id + "',";
 //            }
-//            manv = manv.Remove(manv.Length - 1);
+//            employee_id = employee_id.Remove(employee_id.Length - 1);
 //            List<NhanVienModel> getInfo;
 //            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
 //            {
 //                db.Configuration.LazyLoadingEnabled = false;
-//                string sql = "select NhanVien.*,CongViec.TenCongViec from NhanVien,CongViec where MaNV in (" + manv + ") and CongViec.MaCongViec=NhanVien.MaCongViec";
+//                string sql = "select NhanVien.*,CongViec.TenCongViec from NhanVien,CongViec where employee_id in (" + employee_id + ") and CongViec.MaCongViec=NhanVien.MaCongViec";
 
 //                getInfo = db.Database.SqlQuery<NhanVienModel>(sql).ToList<NhanVienModel>();
 
@@ -357,12 +357,12 @@
 
 //                    for (int j = 0; j < result.Count; j++)
 //                    {
-//                        if (((DieuDongModel)result[j]).MaNV == getInfo[i].MaNV)
+//                        if (((DieuDongModel)result[j]).employee_id == getInfo[i].employee_id)
 //                        {
-//                            ((DieuDongModel)result[j]).GioiTinh = getInfo[i].GioiTinh;
-//                            ((DieuDongModel)result[j]).HoTen = getInfo[i].Ten;
-//                            ((DieuDongModel)result[j]).DonViHienTai = getInfo[i].MaPhongBan;
-//                            ((DieuDongModel)result[j]).ChucVuHienTai = new ChucVuModel(getInfo[i].MaCongViec.ToString(), getInfo[i].TenCongViec);
+//                            ((DieuDongModel)result[j]).GioiTinh = getInfo[i].BASIC_INFO_gender;
+//                            ((DieuDongModel)result[j]).HoTen = getInfo[i].BASIC_INFO_full_name;
+//                            ((DieuDongModel)result[j]).DonViHienTai = getInfo[i].current_department_id;
+//                            ((DieuDongModel)result[j]).ChucVuHienTai = new ChucVuModel(getInfo[i].current_work_id.ToString(), getInfo[i].TenCongViec);
 //                        }
 //                    }
 //                }
@@ -372,7 +372,7 @@
 //            {
 //                DieuDongModel d = new DieuDongModel();
 //                d.SoQD = ((DieuDongModel)result[i]).SoQD;
-//                d.MaNV = ((DieuDongModel)result[i]).MaNV;
+//                d.employee_id = ((DieuDongModel)result[i]).employee_id;
 //                d.GioiTinh = ((DieuDongModel)result[i]).GioiTinh;
 //                d.HoTen = ((DieuDongModel)result[i]).HoTen;
 //                d.DonViHienTai = ((DieuDongModel)result[i]).DonViHienTai;
@@ -417,12 +417,12 @@
 //                        docText = regexText.Replace(docText, listNhanVien[0].HoTen);
 
 //                        regexText = new Regex("%sothe%");
-//                        docText = regexText.Replace(docText, listNhanVien[0].MaNV);
+//                        docText = regexText.Replace(docText, listNhanVien[0].employee_id);
 
-//                        if(listNhanVien[0].DonViMoi == listNhanVien[0].DonViHienTai)
+//                        if (listNhanVien[0].DonViMoi == listNhanVien[0].DonViHienTai)
 //                        {
 //                            regexText = new Regex("%dept1%");
-//                            docText = regexText.Replace(docText, "Thuộc phân xưởng "+ listNhanVien[0].DonViHienTai);
+//                            docText = regexText.Replace(docText, "Thuộc phân xưởng " + listNhanVien[0].DonViHienTai);
 
 //                            regexText = new Regex("%cmn%");
 //                            docText = regexText.Replace(docText, listNhanVien[0].DonViHienTai);
@@ -430,7 +430,7 @@
 //                        else
 //                        {
 //                            regexText = new Regex("%dept1%");
-//                            docText = regexText.Replace(docText, "Thuộc "+listNhanVien[0].DonViHienTai +" đến "+ listNhanVien[0].DonViMoi);
+//                            docText = regexText.Replace(docText, "Thuộc " + listNhanVien[0].DonViHienTai + " đến " + listNhanVien[0].DonViMoi);
 
 //                            regexText = new Regex("%cmn%");
 //                            docText = regexText.Replace(docText, listNhanVien[0].DonViHienTai + ", " + listNhanVien[0].DonViMoi);
@@ -444,7 +444,7 @@
 //                        docText = regexText.Replace(docText, listNhanVien[0].ChucVu.tenChucVu);
 
 //                        regexText = new Regex("%mucluong%");
-//                        docText = regexText.Replace(docText, listNhanVien[0].MucLuong=="Chưa cập nhật"?"    ":listNhanVien[0].MucLuong);
+//                        docText = regexText.Replace(docText, listNhanVien[0].MucLuong == "Chưa cập nhật" ? "    " : listNhanVien[0].MucLuong);
 
 //                        regexText = new Regex("%thangluong%");
 //                        docText = regexText.Replace(docText, listNhanVien[0].ThangBacLuong == "Chưa cập nhật" ? "    " : listNhanVien[0].ThangBacLuong);
@@ -504,7 +504,7 @@
 //                            tr.Append(tc2);
 
 //                            TableCell tc3 = new TableCell();
-//                            tc3.Append(new Paragraph(new Run(new Text(d.MaNV))));
+//                            tc3.Append(new Paragraph(new Run(new Text(d.employee_id))));
 //                            tr.Append(tc3);
 
 //                            TableCell tc4 = new TableCell();
@@ -558,18 +558,18 @@
 //        {
 //            var js = new JavaScriptSerializer();
 //            var result = JsonConvert.DeserializeObject<List<DieuDongModel>>(selectedList);
-//            string manv = "";
+//            string employee_id = "";
 //            for (int i = 0; i < result.Count; i++)
 //            {
-//                manv += "'" + ((DieuDongModel)result[i]).MaNV + "',";
+//                employee_id += "'" + ((DieuDongModel)result[i]).employee_id + "',";
 //            }
-//            manv = manv.Remove(manv.Length - 1);
+//            employee_id = employee_id.Remove(employee_id.Length - 1);
 //            List<NhanVienModel> getInfo;
 //            ///////////////////////////////////////////GET CURRENT INFO OF NHANVIENS////////////////////////////////
 //            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
 //            {
 //                db.Configuration.LazyLoadingEnabled = false;
-//                string sql = "select NhanVien.*,CongViec.TenCongViec from NhanVien,CongViec where MaNV in (" + manv + ") and CongViec.MaCongViec=NhanVien.MaCongViec";
+//                string sql = "select NhanVien.*,CongViec.TenCongViec from NhanVien,CongViec where employee_id in (" + employee_id + ") and CongViec.MaCongViec=NhanVien.MaCongViec";
 
 //                getInfo = db.Database.SqlQuery<NhanVienModel>(sql).ToList<NhanVienModel>();
 
@@ -578,12 +578,12 @@
 
 //                    for (int j = 0; j < result.Count; j++)
 //                    {
-//                        if (((DieuDongModel)result[j]).MaNV == getInfo[i].MaNV)
+//                        if (((DieuDongModel)result[j]).employee_id == getInfo[i].employee_id)
 //                        {
-//                            ((DieuDongModel)result[j]).HoTen = getInfo[i].Ten;
-//                            ((DieuDongModel)result[j]).DonViHienTai = getInfo[i].MaPhongBan;
-//                            ((DieuDongModel)result[j]).ChucVuHienTai = new ChucVuModel(getInfo[i].MaCongViec.ToString(), getInfo[i].TenCongViec);
-//                            ((DieuDongModel)result[j]).MaBacLuong_ThangLuong_MucLuongCu = getInfo[i].MaBacLuong_ThangLuong_MucLuong;
+//                            ((DieuDongModel)result[j]).HoTen = getInfo[i].BASIC_INFO_gender;
+//                            ((DieuDongModel)result[j]).DonViHienTai = getInfo[i].current_department_id;
+//                            ((DieuDongModel)result[j]).ChucVuHienTai = new ChucVuModel(getInfo[i].current_work_id.ToString(), getInfo[i].TenCongViec);
+//                            ((DieuDongModel)result[j]).new_salary_id = getInfo[i].current_salary_id;
 //                        }
 //                    }
 //                }
@@ -594,12 +594,12 @@
 //            {
 //                DieuDongModel d = new DieuDongModel();
 //                d.SoQD = ((DieuDongModel)result[i]).SoQD;
-//                d.MaNV = ((DieuDongModel)result[i]).MaNV;
+//                d.employee_id = ((DieuDongModel)result[i]).employee_id;
 //                d.HoTen = ((DieuDongModel)result[i]).HoTen;
 //                d.DonViHienTai = ((DieuDongModel)result[i]).DonViHienTai;
 //                d.ChucVuHienTai = ((DieuDongModel)result[i]).ChucVuHienTai;
-//                d.MaBacLuong_ThangLuong_MucLuongCu = ((DieuDongModel)result[i]).MaBacLuong_ThangLuong_MucLuongCu;
-//                d.MaBacLuong_ThangLuong_MucLuongMoi = ((DieuDongModel)result[i]).MaBacLuong_ThangLuong_MucLuongMoi;
+//                d.new_salary_id = ((DieuDongModel)result[i]).new_salary_id;
+//                d.old_salary_id = ((DieuDongModel)result[i]).old_salary_id;
 //                d.DonViMoi = ((DieuDongModel)result[i]).DonViMoi;
 //                d.ChucVu = new ChucVuModel(((DieuDongModel)result[i]).ChucVu.maChucVu, ((DieuDongModel)result[i]).ChucVu.tenChucVu);
 //                d.NgayQD = ((DieuDongModel)result[i]).NgayQD;
@@ -613,33 +613,33 @@
 //                    try
 //                    {
 //                        string[] date = listNhanVien[0].NgayQD.Split('/');
-//                        QuyetDinh q = new QuyetDinh();
+//                        Decision q = new Decision();
 //                        if (listNhanVien[0].SoQD == "")
 //                        {
-//                            q.SoQuyetDinh = null;
+//                            q.number = null;
 //                        }
 //                        else
 //                        {
-//                            q.SoQuyetDinh = listNhanVien[0].SoQD;
+//                            q.number = listNhanVien[0].SoQD;
 //                        }
-//                        q.NgayQuyetDinh = DateTime.Parse(date[2] + "/" + date[1] + "/" + date[0]);
-//                        db.QuyetDinhs.Add(q);
+//                        q.date = DateTime.Parse(date[2] + "/" + date[1] + "/" + date[0]);
+//                        db.Decisions.Add(q);
 //                        db.SaveChanges();
-//                        int maqd = db.QuyetDinhs.Select(n => n.MaQuyetDinh).DefaultIfEmpty(0).Max();
+//                        int maqd = db.Decisions.Select(n => n.decision_id).DefaultIfEmpty(0).Max();
 //                        for (int i = 0; i < listNhanVien.Count; i++)
 //                        {
-//                            DieuDong_NhanVien dd = new DieuDong_NhanVien();
-//                            dd.MaQuyetDinh = maqd;
-//                            dd.MaNV = listNhanVien[i].MaNV;
-//                            dd.LyDoDieuDong = listNhanVien[i].LyDo;
-//                            dd.MaDonViMoi = listNhanVien[i].DonViMoi;
-//                            dd.MaChucVuMoi = int.Parse(listNhanVien[i].ChucVu.maChucVu);
-//                            dd.MaDonViCu = listNhanVien[i].DonViHienTai;
-//                            dd.MaChucVuCu = int.Parse(listNhanVien[i].ChucVuHienTai.maChucVu);
-//                            dd.MaBacLuong_ThangLuong_MucLuongCu = listNhanVien[i].MaBacLuong_ThangLuong_MucLuongCu;
-//                            dd.MaBacLuong_ThangLuong_MucLuongMoi = listNhanVien[i].MaBacLuong_ThangLuong_MucLuongMoi;
+//                            Transfer dd = new Transfer();
+//                            dd.decision_id = maqd;
+//                            dd.employee_id = listNhanVien[i].employee_id;
+//                            dd.transfer_reason = listNhanVien[i].LyDo;
+//                            dd.new_department_id = listNhanVien[i].DonViMoi;
+//                            dd.new_work_id = int.Parse(listNhanVien[i].ChucVu.maChucVu);
+//                            dd.old_department_id = listNhanVien[i].DonViHienTai;
+//                            dd.old_work_id = int.Parse(listNhanVien[i].ChucVuHienTai.maChucVu);
+//                            dd.new_salary_id = listNhanVien[i].new_salary_id;
+//                            dd.old_salary_id = listNhanVien[i].old_salary_id;
 
-//                            db.DieuDong_NhanVien.Add(dd);
+//                            db.Transfers.Add(dd);
 //                            db.SaveChanges();
 //                            if (listNhanVien[i].SoQD != "")//CHƯA CÓ SỐ QUYẾT ĐỊNH
 //                            {
@@ -647,24 +647,24 @@
 //                                " MaCongViec = @MaCongViec,\n" +
 //                                " MaBacLuong_ThangLuong_MucLuong = @MaBacLuong_ThangLuong_MucLuong,\n" +
 //                                " MaTrangThai = @MaTrangThai\n" +
-//                                "where MaNV = @MaNV";
+//                                "where employee_id = @employee_id";
 //                                db.Database.ExecuteSqlCommand(
 //                                sql3,
 //                                new SqlParameter("@MaPhongBan", listNhanVien[i].DonViMoi),
 //                                new SqlParameter("@MaCongViec", listNhanVien[i].ChucVu.maChucVu),
-//                                new SqlParameter("@MaBacLuong_ThangLuong_MucLuong", listNhanVien[i].MaBacLuong_ThangLuong_MucLuongMoi),
+//                                new SqlParameter("@MaBacLuong_ThangLuong_MucLuong", listNhanVien[i].old_salary_id),
 //                                new SqlParameter("@MaTrangThai", 1),
-//                                new SqlParameter("@MaNV", listNhanVien[i].MaNV)
+//                                new SqlParameter("@employee_id", listNhanVien[i].employee_id)
 //                                );
 //                            }
 //                            else
 //                            {
 //                                string sql3 = "update NhanVien set MaTrangThai = @MaTrangThai\n" +
-//                                              "where MaNV = @MaNV";
+//                                              "where employee_id = @employee_id";
 //                                db.Database.ExecuteSqlCommand(
 //                                sql3,
 //                                new SqlParameter("@MaTrangThai", 3),
-//                                new SqlParameter("@MaNV", listNhanVien[i].MaNV)
+//                                new SqlParameter("@employee_id", listNhanVien[i].employee_id)
 //                                );
 //                            }
 //                        }
@@ -682,7 +682,7 @@
 //            }
 //        }
 
-//        public class NhanVienModel : NhanVien
+//        public class NhanVienModel : Employee
 //        {
 //            public string department_name { get; set; }
 //            public string TenCongViec { get; set; }
@@ -697,7 +697,7 @@
 //        {
 //            public bool GioiTinh { get; set; }
 //            public string SoQD { get; set; }
-//            public string MaNV { get; set; }
+//            public string employee_id { get; set; }
 //            public string HoTen { get; set; }
 //            public string DonViHienTai { get; set; }
 //            public ChucVuModel ChucVuHienTai { get; set; }
@@ -707,15 +707,15 @@
 //            public string MucLuongCu { get; set; }
 //            public string ThangBacLuong { get; set; }
 //            public string PhuCap { get; set; }
-//            public int? MaBacLuong_ThangLuong_MucLuongCu { get; set; }
-//            public int? MaBacLuong_ThangLuong_MucLuongMoi { get; set; }
+//            public int? new_salary_id { get; set; }
+//            public int? old_salary_id { get; set; }
 //            public string DonViMoi { get; set; }
 //            public ChucVuModel ChucVu { get; set; }
 //            public string NgayQD { get; set; }
 //            public string LyDo { get; set; }
 //            public override string ToString()
 //            {
-//                return MaNV + DonViHienTai + ChucVuHienTai + BacLuong;
+//                return employee_id + DonViHienTai + ChucVuHienTai + BacLuong;
 //            }
 //        }
 //        public class ChucVuModel
@@ -759,9 +759,9 @@
 //        [Auther(RightID = "102")]
 //        [Route("phong-tcld/dieu-chuyen/da-xu-li-dieu-chuyen")]
 //        [HttpPost]
-//        public ActionResult DieuDongDaXuLy(String searchSoQuyetDinh, String searchMaNV, String searchDate)
+//        public ActionResult DieuDongDaXuLy(String searchSoQuyetDinh, String searchemployee_id, String searchDate)
 //        {
-//            searchMaNV = searchMaNV == null ? "" : searchMaNV;
+//            searchemployee_id = searchemployee_id == null ? "" : searchemployee_id;
 //            searchSoQuyetDinh = searchSoQuyetDinh == null ? "" : searchSoQuyetDinh;
 //            searchDate = searchDate == null ? "" : searchDate;
 //            if (searchDate != "")
@@ -774,32 +774,32 @@
 //            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
 //            string sortDirection = Request["order[0][dir]"];
 //            //
-//            List<QuyetDinh> listQuyetDinh = new List<QuyetDinh>();
+//            List<Decision> listQuyetDinh = new List<Decision>();
 
 //            int totalrows;
 //            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
 //            {
 //                db.Configuration.LazyLoadingEnabled = false;
 //                string sql = "select * from quyetdinh\n" +
-//                             "where maquyetdinh in\n" +
-//                             "(SELECT  distinct MaQuyetDinh FROM DIEUDONG_NHANVIEN \n";
-//                if (searchMaNV != "")
+//                             "where decision_id in\n" +
+//                             "(SELECT  distinct decision_id FROM Transfer \n";
+//                if (searchemployee_id != "")
 //                {
 //                    sql += " where ";
-//                    sql += searchMaNV == "" ? "" : " MaNV like @maNV AND";
+//                    sql += searchemployee_id == "" ? "" : " employee_id like @employee_id AND";
 //                    sql = sql.Substring(0, sql.Length - 4);
 //                }
 //                sql += searchSoQuyetDinh == "" ? ") and  SoQuyetDinh<>''" : " ) and SoQuyetDinh like @soQuyetDinh";
 //                sql += searchDate == "" ? "" : " and NgayQuyetDinh = @ngayQuyetDinh";
-//                listQuyetDinh = db.Database.SqlQuery<QuyetDinh>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
+//                listQuyetDinh = db.Database.SqlQuery<Decision>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
 //                    new SqlParameter("soQuyetDinh", "%" + searchSoQuyetDinh + "%"),
-//                    new SqlParameter("maNV", "%" + searchMaNV + "%"),
+//                    new SqlParameter("employee_id", "%" + searchemployee_id + "%"),
 //                    new SqlParameter("ngayQuyetDinh", searchDate)
-//                    ).ToList<QuyetDinh>();
+//                    ).ToList<Decision>();
 
-//                totalrows = db.Database.SqlQuery<int>(sql.Replace("*", "count(MaQuyetDinh)"),
+//                totalrows = db.Database.SqlQuery<int>(sql.Replace("*", "count(decision_id)"),
 //                    new SqlParameter("soQuyetDinh", "%" + searchSoQuyetDinh + "%"),
-//                    new SqlParameter("maNV", "%" + searchMaNV + "%"),
+//                    new SqlParameter("employee_id", "%" + searchemployee_id + "%"),
 //                    new SqlParameter("ngayQuyetDinh", searchDate)
 //                    ).FirstOrDefault();
 //            }
@@ -812,29 +812,29 @@
 //        public ActionResult DetailQD(string MaQD)
 //        {
 //            string sql = @"			select 
-//           tb1.MaQuyetDinh,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.MaNV,tb1.Ten,tb1.MaDonViCu,
-//           tb1.DonViCu,tb1.MaChucVuCu,tb1.ChucVuCu,tb2.MaDonViMoi,tb2.DonViMoi,
-//           tb2.MaChucVuMoi,tb2.ChucVuMoi,tb3.MucBacLuong as BacLuongMoi,
-//           tb2.PhuCap,tb3.MucThangLuong as ThangLuong,tb3.MucLuong as MucLuongMoi,tb1.LyDoDieuDong
+//           tb1.decision_id,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.employee_id,tb1.Ten,tb1.old_department_id,
+//           tb1.DonViCu,tb1.old_work_id,tb1.ChucVuCu,tb2.new_department_id,tb2.DonViMoi,
+//           tb2.new_work_id,tb2.ChucVuMoi,tb3.MucBacLuong as BacLuongMoi,
+//           tb2.PhuCap,tb3.MucThangLuong as ThangLuong,tb3.MucLuong as MucLuongMoi,tb1.transfer_reason
 //           from
-//           (select qd.MaQuyetDinh,qd.SoQuyetDinh, dd.MaNV, nv.Ten, dp.department_id as MaDonViCu,
-//           dp.department_name as DonViCu,cv.MaCongViec as MaChucVuCu, cv.TenCongViec as ChucVuCu,
-//           qd.NgayQuyetDinh, dd.LyDoDieuDong,dd.MaBacLuong_ThangLuong_MucLuongMoi
-//           from QuyetDinh qd, DieuDong_NhanVien dd, NhanVien nv,
+//           (select qd.decision_id,qd.SoQuyetDinh, dd.employee_id, nv.Ten, dp.department_id as old_department_id,
+//           dp.department_name as DonViCu,cv.MaCongViec as old_work_id, cv.TenCongViec as ChucVuCu,
+//           qd.NgayQuyetDinh, dd.transfer_reason,dd.old_salary_id
+//           from QuyetDinh qd, Transfer dd, NhanVien nv,
 //           CongViec cv, Department dp
 //           where  
-//           nv.MaNv = dd.MaNV and
-//           qd.MaQuyetDinh = dd.MaQuyetDinh
-//           and qd.MaQuyetDinh = @MaQD1
-//           and cv.MaCongViec = dd.MaChucVuCu
-//           and dp.department_id = dd.MaDonViCu) tb1,
+//           nv.employee_id = dd.employee_id and
+//           qd.decision_id = dd.decision_id
+//           and qd.decision_id = @MaQD1
+//           and cv.MaCongViec = dd.old_work_id
+//           and dp.department_id = dd.old_department_id) tb1,
 
-//           (select dd.MaNV,dp.department_id as MaDonViMoi,dp.department_name as DonViMoi,
-//           cv.MaCongViec as MaChucVuMoi, cv.PhuCap, cv.TenCongViec as ChucVuMoi
-//           from Department dp, DieuDong_NhanVien dd, CongViec cv
-//           where dp.department_id = dd.MaDonViMoi and
-//           cv.MaCongViec = dd.MaChucVuMoi
-//           and dd.MaQuyetDinh = @MaQD2) tb2,
+//           (select dd.employee_id,dp.department_id as new_department_id,dp.department_name as DonViMoi,
+//           cv.MaCongViec as new_work_id, cv.PhuCap, cv.TenCongViec as ChucVuMoi
+//           from Department dp, Transfer dd, CongViec cv
+//           where dp.department_id = dd.new_department_id and
+//           cv.MaCongViec = dd.new_work_id
+//           and dd.decision_id = @MaQD2) tb2,
 
 //		   (select btm.MaBacLuong_ThangLuong_MucLuong,
 //		   bl.MaBacLuong,
@@ -844,7 +844,7 @@
 //		   from 
 //		   BacLuong_ThangLuong_MucLuong btm, BacLuong bl, ThangLuong tl
 //		   where btm.MaBacLuong=bl.MaBacLuong and tl.MaThangLuong=btm.MaThangLuong) tb3
-//           where tb1.MaNV = tb2.MaNV and tb1.MaBacLuong_ThangLuong_MucLuongMoi=tb3.MaBacLuong_ThangLuong_MucLuong";
+//           where tb1.employee_id = tb2.employee_id and tb1.old_salary_id=tb3.MaBacLuong_ThangLuong_MucLuong";
 //            List<DetailDieuDongClass> list = new List<DetailDieuDongClass>();
 //            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
 //            {
@@ -868,14 +868,14 @@
 //                    try
 //                    {
 //                        List<RecentQuyetDinhNhanVien> checkList = new List<RecentQuyetDinhNhanVien>();
-//                        string query = "select MaNV, max(NgayQuyetDinh)  as NgayQuyetDinhGanNhat from QUyetDinh,DieuDong_NhanVien\n" +
-//                        "where QuyetDinh.MaQuyetDinh = DieuDong_NhanVien.MaQuyetDinh and\n" +
-//                        "DieuDong_NhanVien.MaNV in (select MaNV from DieuDong_NhanVien where MaQuyetDinh = @MaQuyetDinh)\n" +
-//                        "group by MaNV\n";
-//                        checkList = db.Database.SqlQuery<RecentQuyetDinhNhanVien>(query, new SqlParameter("MaQuyetDinh", MaQD)).ToList<RecentQuyetDinhNhanVien>();
+//                        string query = "select employee_id, max(NgayQuyetDinh)  as NgayQuyetDinhGanNhat from QUyetDinh,Transfer\n" +
+//                        "where QuyetDinh.decision_id = Transfer.decision_id and\n" +
+//                        "Transfer.employee_id in (select employee_id from Transfer where decision_id = @decision_id)\n" +
+//                        "group by employee_id\n";
+//                        checkList = db.Database.SqlQuery<RecentQuyetDinhNhanVien>(query, new SqlParameter("decision_id", MaQD)).ToList<RecentQuyetDinhNhanVien>();
 
-//                        string sql = @"select a.*,b.NgayQuyetDinh from dieudong_nhanvien a,QuyetDinh b
-//                                        where a.MaQuyetDinh=b.MaQuyetDinh and a.MaQuyetDinh=@MaQD";
+//                        string sql = @"select a.*,b.NgayQuyetDinh from Transfer a,QuyetDinh b
+//                                        where a.decision_id=b.decision_id and a.decision_id=@MaQD";
 //                        List<DetailDieuDongClass> list = new List<DetailDieuDongClass>();
 //                        list = db.Database.SqlQuery<DetailDieuDongClass>(sql,
 //                                new SqlParameter("MaQD", MaQD)
@@ -885,29 +885,29 @@
 //                        {
 //                            foreach (RecentQuyetDinhNhanVien nv in checkList)
 //                            {
-//                                if (n.MaNV == nv.MaNV && n.NgayQuyetDinh == nv.NgayQuyetDinhGanNhat)
+//                                if (n.employee_id == nv.employee_id && n.NgayQuyetDinh == nv.NgayQuyetDinhGanNhat)
 //                                {
 //                                    string sql1 = "update NhanVien set " +
-//                                          "MaPhongBan=@MaDonViCu," +
-//                                          "MaCongViec=@MaChucVuCu," +
+//                                          "MaPhongBan=@old_department_id," +
+//                                          "MaCongViec=@old_work_id," +
 //                                          "MaBacLuong_ThangLuong_MucLuong=@MaBacLuong_ThangLuong_MucLuong " +
-//                                          "where MaNV=@MaNV";
-//                                    if (n.MaBacLuong_ThangLuong_MucLuongCu == null)
+//                                          "where employee_id=@employee_id";
+//                                    if (n.new_salary_id == null)
 //                                    {
 //                                        db.Database.ExecuteSqlCommand(sql1,
-//                                            new SqlParameter("MaDonViCu", n.MaDonViCu),
-//                                            new SqlParameter("MaChucVuCu", n.MaChucVuCu == null ? 31 : n.MaChucVuCu),
+//                                            new SqlParameter("old_department_id", n.old_department_id),
+//                                            new SqlParameter("old_work_id", n.old_work_id == null ? 31 : n.old_work_id),
 //                                            new SqlParameter("MaBacLuong_ThangLuong_MucLuong", DBNull.Value),
-//                                            new SqlParameter("MaNV", n.MaNV)
+//                                            new SqlParameter("employee_id", n.employee_id)
 //                                            );
 //                                    }
 //                                    else
 //                                    {
 //                                        db.Database.ExecuteSqlCommand(sql1,
-//                                            new SqlParameter("MaDonViCu", n.MaDonViCu),
-//                                            new SqlParameter("MaChucVuCu", n.MaChucVuCu == null ? 31 : n.MaChucVuCu),
-//                                            new SqlParameter("MaBacLuong_ThangLuong_MucLuong", n.MaBacLuong_ThangLuong_MucLuongCu),
-//                                            new SqlParameter("MaNV", n.MaNV)
+//                                            new SqlParameter("old_department_id", n.old_department_id),
+//                                            new SqlParameter("old_work_id", n.old_work_id == null ? 31 : n.old_work_id),
+//                                            new SqlParameter("MaBacLuong_ThangLuong_MucLuong", n.new_salary_id),
+//                                            new SqlParameter("employee_id", n.employee_id)
 //                                            );
 //                                    }
 
@@ -917,12 +917,12 @@
 //                        }
 //                        db.SaveChanges();
 //                        //////////////////////////////////////////////////////////////
-//                        sql = "Delete DieuDong_NhanVien where MaQuyetDinh=@MaQD";
+//                        sql = "Delete Transfer where decision_id=@MaQD";
 //                        db.Database.ExecuteSqlCommand(sql,
 //                            new SqlParameter("MaQD", MaQD));
 //                        db.SaveChanges();
 //                        ////////////////////////////////////////////////////////////////
-//                        sql = "Delete QuyetDinh where MaQuyetDinh=@MaQD";
+//                        sql = "Delete QuyetDinh where decision_id=@MaQD";
 //                        db.Database.ExecuteSqlCommand(sql,
 //                            new SqlParameter("MaQD", MaQD));
 //                        db.SaveChanges();
@@ -944,9 +944,9 @@
 //        [Auther(RightID = "103")]
 //        [Route("phong-tcld/dieu-chuyen/chua-xu-li-dieu-chuyen")]
 //        [HttpPost]
-//        public ActionResult DieuDongChuaXuLy(String searchMaNV, String searchDate)
+//        public ActionResult DieuDongChuaXuLy(String searchemployee_id, String searchDate)
 //        {
-//            searchMaNV = searchMaNV == null ? "" : searchMaNV;
+//            searchemployee_id = searchemployee_id == null ? "" : searchemployee_id;
 //            searchDate = searchDate == null ? "" : searchDate;
 //            if (searchDate != "")
 //            {
@@ -958,30 +958,30 @@
 //            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
 //            string sortDirection = Request["order[0][dir]"];
 //            //
-//            List<QuyetDinh> listQuyetDinh = new List<QuyetDinh>();
+//            List<Decision> listQuyetDinh = new List<Decision>();
 
 //            int totalrows;
 //            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
 //            {
 //                db.Configuration.LazyLoadingEnabled = false;
 //                string sql = "select * from quyetdinh\n" +
-//                             "where maquyetdinh in\n" +
-//                             "(SELECT  distinct MaQuyetDinh FROM DIEUDONG_NHANVIEN \n";
-//                if (searchMaNV != "")
+//                             "where decision_id in\n" +
+//                             "(SELECT  distinct decision_id FROM Transfer \n";
+//                if (searchemployee_id != "")
 //                {
 //                    sql += " where ";
-//                    sql += searchMaNV == "" ? "" : " MaNV like @maNV AND";
+//                    sql += searchemployee_id == "" ? "" : " employee_id like @employee_id AND";
 //                    sql = sql.Substring(0, sql.Length - 4);
 //                }
 //                sql += ") and  SoQuyetDinh is NULL";
 //                sql += searchDate == "" ? "" : " and NgayQuyetDinh = @ngayQuyetDinh";
-//                listQuyetDinh = db.Database.SqlQuery<QuyetDinh>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
-//                    new SqlParameter("maNV", "%" + searchMaNV + "%"),
+//                listQuyetDinh = db.Database.SqlQuery<Decision>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
+//                    new SqlParameter("employee_id", "%" + searchemployee_id + "%"),
 //                    new SqlParameter("ngayQuyetDinh", searchDate)
-//                    ).ToList<QuyetDinh>();
+//                    ).ToList<Decision>();
 
-//                totalrows = db.Database.SqlQuery<int>(sql.Replace("*", "count(MaQuyetDinh)"),
-//                    new SqlParameter("maNV", "%" + searchMaNV + "%"),
+//                totalrows = db.Database.SqlQuery<int>(sql.Replace("*", "count(decision_id)"),
+//                    new SqlParameter("employee_id", "%" + searchemployee_id + "%"),
 //                    new SqlParameter("ngayQuyetDinh", searchDate)
 //                    ).FirstOrDefault();
 //            }
@@ -1000,27 +1000,27 @@
 //                    try
 //                    {
 //                        //////////////////////////////////////////////////////////////////////////////
-//                        string sql = "select MaNV from DieuDong_NhanVien where MaQuyetDinh=@MaQD";
-//                        List<String> listMaNV = new List<String>();
-//                        listMaNV = db.Database.SqlQuery<String>(sql,
+//                        string sql = "select employee_id from Transfer where decision_id=@MaQD";
+//                        List<String> listemployee_id = new List<String>();
+//                        listemployee_id = db.Database.SqlQuery<String>(sql,
 //                        new SqlParameter("MaQD", MaQD)).ToList<String>();
 //                        string listNV = "";
-//                        foreach (String s in listMaNV)
+//                        foreach (String s in listemployee_id)
 //                        {
 //                            listNV += "'" + s + "'" + ",";
 //                        }
 //                        listNV = listNV.Substring(0, listNV.Length - 1);
 //                        //////////////////////////////////////////////////////////////
-//                        sql = "update NhanVien set MaTrangThai=1 where MaNV in(" + listNV + ")";
+//                        sql = "update NhanVien set MaTrangThai=1 where employee_id in(" + listNV + ")";
 //                        db.Database.ExecuteSqlCommand(sql);
 //                        db.SaveChanges();
 //                        //////////////////////////////////////////////////////////////
-//                        sql = "Delete DieuDong_NhanVien where MaQuyetDinh=@MaQD";
+//                        sql = "Delete Transfer where decision_id=@MaQD";
 //                        db.Database.ExecuteSqlCommand(sql,
 //                            new SqlParameter("MaQD", MaQD));
 //                        db.SaveChanges();
 //                        ////////////////////////////////////////////////////////////////
-//                        sql = "Delete QuyetDinh where MaQuyetDinh=@MaQD";
+//                        sql = "Delete QuyetDinh where decision_id=@MaQD";
 //                        db.Database.ExecuteSqlCommand(sql,
 //                            new SqlParameter("MaQD", MaQD));
 //                        db.SaveChanges();
@@ -1053,12 +1053,12 @@
 //                    try
 //                    {
 //                        //////////////////////////////////////////////////////////////////////////////
-//                        string sql = "update QuyetDinh set SoQuyetDinh=@SoQD where MaQuyetDinh=@MaQD";
+//                        string sql = "update QuyetDinh set SoQuyetDinh=@SoQD where decision_id=@MaQD";
 //                        db.Database.ExecuteSqlCommand(sql,
 //                            new SqlParameter("SoQD", SoQDText),
 //                            new SqlParameter("MaQD", MaQD));
 //                        //////////////////////////////////////////////////////////////////////////////
-//                        sql = "select * from dieudong_nhanvien where MaQuyetDinh=@MaQD";
+//                        sql = "select * from Transfer where decision_id=@MaQD";
 //                        List<DetailDieuDongClass> list = new List<DetailDieuDongClass>();
 //                        list = db.Database.SqlQuery<DetailDieuDongClass>(sql,
 //                                new SqlParameter("MaQD", MaQD)
@@ -1066,17 +1066,17 @@
 //                        foreach (DetailDieuDongClass n in list)
 //                        {
 //                            sql = "update NhanVien set " +
-//                                "MaPhongBan=@MaDonViMoi," +
-//                                "MaCongViec=@MaChucVuMoi," +
+//                                "MaPhongBan=@new_department_id," +
+//                                "MaCongViec=@new_work_id," +
 //                                "MaBacLuong_ThangLuong_MucLuong=@MaBacLuong_ThangLuong_MucLuong, " +
 //                                "MaTrangThai=@MaTrangThai " +
-//                                "where MaNV=@MaNV";
+//                                "where employee_id=@employee_id";
 //                            db.Database.ExecuteSqlCommand(sql,
-//                                new SqlParameter("MaDonViMoi", n.MaDonViMoi),
-//                                new SqlParameter("MaChucVuMoi", n.MaChucVuMoi),
-//                                new SqlParameter("MaBacLuong_ThangLuong_MucLuong", n.MaBacLuong_ThangLuong_MucLuongMoi),
+//                                new SqlParameter("new_department_id", n.new_department_id),
+//                                new SqlParameter("new_work_id", n.new_work_id),
+//                                new SqlParameter("MaBacLuong_ThangLuong_MucLuong", n.old_salary_id),
 //                                new SqlParameter("MaTrangThai", 1),
-//                                new SqlParameter("MaNV", n.MaNV)
+//                                new SqlParameter("employee_id", n.employee_id)
 //                                );
 //                        }
 //                        db.SaveChanges();
@@ -1101,29 +1101,29 @@
 //            try
 //            {
 //                string sql = @"			select 
-//           tb1.MaQuyetDinh,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.MaNV,tb1.Ten,tb1.MaDonViCu,
-//           tb1.DonViCu,tb1.MaChucVuCu,tb1.ChucVuCu,tb2.MaDonViMoi,tb2.DonViMoi,
-//           tb2.MaChucVuMoi,tb2.ChucVuMoi,tb3.MucBacLuong as BacLuongMoi,
-//           tb2.PhuCap,tb3.MucThangLuong as ThangLuong,tb3.MucLuong as MucLuongMoi,tb1.LyDoDieuDong
+//           tb1.decision_id,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.employee_id,tb1.Ten,tb1.old_department_id,
+//           tb1.DonViCu,tb1.old_work_id,tb1.ChucVuCu,tb2.new_department_id,tb2.DonViMoi,
+//           tb2.new_work_id,tb2.ChucVuMoi,tb3.MucBacLuong as BacLuongMoi,
+//           tb2.PhuCap,tb3.MucThangLuong as ThangLuong,tb3.MucLuong as MucLuongMoi,tb1.transfer_reason
 //           from
-//           (select qd.MaQuyetDinh,qd.SoQuyetDinh, dd.MaNV, nv.Ten, dp.department_id as MaDonViCu,
-//           dp.department_name as DonViCu,cv.MaCongViec as MaChucVuCu, cv.TenCongViec as ChucVuCu,
-//           qd.NgayQuyetDinh, dd.LyDoDieuDong,dd.MaBacLuong_ThangLuong_MucLuongMoi
-//           from QuyetDinh qd, DieuDong_NhanVien dd, NhanVien nv,
+//           (select qd.decision_id,qd.SoQuyetDinh, dd.employee_id, nv.Ten, dp.department_id as old_department_id,
+//           dp.department_name as DonViCu,cv.MaCongViec as old_work_id, cv.TenCongViec as ChucVuCu,
+//           qd.NgayQuyetDinh, dd.transfer_reason,dd.old_salary_id
+//           from QuyetDinh qd, Transfer dd, NhanVien nv,
 //           CongViec cv, Department dp
 //           where  
-//           nv.MaNv = dd.MaNV and
-//           qd.MaQuyetDinh = dd.MaQuyetDinh
-//           and qd.MaQuyetDinh = @MaQD1
-//           and cv.MaCongViec = dd.MaChucVuCu
-//           and dp.department_id = dd.MaDonViCu) tb1,
+//           nv.employee_id = dd.employee_id and
+//           qd.decision_id = dd.decision_id
+//           and qd.decision_id = @MaQD1
+//           and cv.MaCongViec = dd.old_work_id
+//           and dp.department_id = dd.old_department_id) tb1,
 
-//           (select dd.MaNV,dp.department_id as MaDonViMoi,dp.department_name as DonViMoi,
-//           cv.MaCongViec as MaChucVuMoi, cv.PhuCap, cv.TenCongViec as ChucVuMoi
-//           from Department dp, DieuDong_NhanVien dd, CongViec cv
-//           where dp.department_id = dd.MaDonViMoi and
-//           cv.MaCongViec = dd.MaChucVuMoi
-//           and dd.MaQuyetDinh = @MaQD2) tb2,
+//           (select dd.employee_id,dp.department_id as new_department_id,dp.department_name as DonViMoi,
+//           cv.MaCongViec as new_work_id, cv.PhuCap, cv.TenCongViec as ChucVuMoi
+//           from Department dp, Transfer dd, CongViec cv
+//           where dp.department_id = dd.new_department_id and
+//           cv.MaCongViec = dd.new_work_id
+//           and dd.decision_id = @MaQD2) tb2,
 
 //		   (select btm.MaBacLuong_ThangLuong_MucLuong,
 //		   bl.MaBacLuong,
@@ -1133,7 +1133,7 @@
 //		   from 
 //		   BacLuong_ThangLuong_MucLuong btm, BacLuong bl, ThangLuong tl
 //		   where btm.MaBacLuong=bl.MaBacLuong and tl.MaThangLuong=btm.MaThangLuong) tb3
-//           where tb1.MaNV = tb2.MaNV and tb1.MaBacLuong_ThangLuong_MucLuongMoi=tb3.MaBacLuong_ThangLuong_MucLuong";
+//           where tb1.employee_id = tb2.employee_id and tb1.old_salary_id=tb3.MaBacLuong_ThangLuong_MucLuong";
 //                List<DetailDieuDongClass> list = new List<DetailDieuDongClass>();
 //                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
 //                {
@@ -1197,15 +1197,15 @@
 //                            tr.Append(tc2);
 
 //                            TableCell tc3 = new TableCell();
-//                            tc3.Append(new Paragraph(new Run(new Text(d.MaNV))));
+//                            tc3.Append(new Paragraph(new Run(new Text(d.employee_id))));
 //                            tr.Append(tc3);
 
 //                            TableCell tc4 = new TableCell();
-//                            tc4.Append(new Paragraph(new Run(new Text(d.MaDonViCu))));
+//                            tc4.Append(new Paragraph(new Run(new Text(d.old_department_id))));
 //                            tr.Append(tc4);
 
 //                            TableCell tc5 = new TableCell();
-//                            tc5.Append(new Paragraph(new Run(new Text(d.MaDonViMoi))));
+//                            tc5.Append(new Paragraph(new Run(new Text(d.new_department_id))));
 //                            tr.Append(tc5);
 
 //                            TableCell tc6 = new TableCell();
@@ -1225,7 +1225,7 @@
 //                            tr.Append(tc9);
 
 //                            TableCell tc10 = new TableCell();
-//                            tc10.Append(new Paragraph(new Run(new Text(d.LyDoDieuDong.ToString()))));
+//                            tc10.Append(new Paragraph(new Run(new Text(d.transfer_reason.ToString()))));
 //                            tr.Append(tc10);
 
 //                            table.Append(tr);
@@ -1248,18 +1248,18 @@
 
 //        public class DetailDieuDongClass
 //        {
-//            public int MaQuyetDinh { get; set; }
+//            public int decision_id { get; set; }
 //            public string SoQuyetDinh { get; set; }
 //            public DateTime NgayQuyetDinh { get; set; }
-//            public string MaNV { get; set; }
+//            public string employee_id { get; set; }
 //            public string Ten { get; set; }
-//            public string MaDonViCu { get; set; }
+//            public string old_department_id { get; set; }
 //            public string DonViCu { get; set; }
-//            public int MaChucVuCu { get; set; }
+//            public int old_work_id { get; set; }
 //            public string ChucVuCu { get; set; }
-//            public string MaDonViMoi { get; set; }
+//            public string new_department_id { get; set; }
 //            public string DonViMoi { get; set; }
-//            public int MaChucVuMoi { get; set; }
+//            public int new_work_id { get; set; }
 //            public string ChucVuMoi { get; set; }
 //            public string ThangLuong { get; set; }
 //            public double? PhuCap { get; set; }
@@ -1267,14 +1267,14 @@
 //            public string MucLuongMoi { get; set; }
 //            public string BacLuongCu { get; set; }
 //            public double? MucLuongCu { get; set; }
-//            public string LyDoDieuDong { get; set; }
-//            public int? MaBacLuong_ThangLuong_MucLuongCu { get; set; }
-//            public int? MaBacLuong_ThangLuong_MucLuongMoi { get; set; }
+//            public string transfer_reason { get; set; }
+//            public int? new_salary_id { get; set; }
+//            public int? old_salary_id { get; set; }
 //        }
 
 //        public class RecentQuyetDinhNhanVien
 //        {
-//            public string MaNV { get; set; }
+//            public string employee_id { get; set; }
 //            public DateTime NgayQuyetDinhGanNhat { get; set; }
 //        }
 
