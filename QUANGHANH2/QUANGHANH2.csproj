@@ -344,7 +344,7 @@
     <Compile Include="Controllers\TCLD\MaterialProtectionController.cs" />
     <Compile Include="Controllers\TCLD\Work\WorkGroupController.cs" />
     <Compile Include="Controllers\TCLD\Work\WorkController.cs" />
-    <Compile Include="Controllers\TCLD\Work\Occupation_GroupOccupationController.cs" />
+    <Compile Include="Controllers\TCLD\Work\WorkWorkGroupController.cs" />
     <Compile Include="Controllers\TCLD\RecruitmentAndEnd\RecruitmentAndEndController.cs" />
     <Compile Include="Controllers\TCLD\RecruitmentAndEnd\RecruitmentController.cs" />
     <Compile Include="Controllers\TCLD\Productivity\ReportController.cs" />
@@ -523,6 +523,7 @@
     </Compile>
     <Compile Include="Models\HistoryWork.cs" />
     <Compile Include="Models\HoSoNhanVien.cs" />
+    <Compile Include="Models\HumanResources\WorkGroup_Extend.cs" />
     <Compile Include="Models\HumanResources\Work_Extend.cs" />
     <Compile Include="Models\Important_Documentary.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
@@ -7554,7 +7555,7 @@
     <Content Include="Views\TCLD\Salary\SalaryGrade.cshtml" />
     <Content Include="Views\TCLD\Salary\SalaryScale.cshtml" />
     <Content Include="Views\TCLD\Salary\Grade_Scale_Salary.cshtml" />
-    <Content Include="Views\TCLD\Work\Occupation_GroupOccupation.cshtml" />
+    <Content Include="Views\TCLD\Work\WorkWorkGroup.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\DieuChinh\ChiTiet.cshtml" />
     <Content Include="Views\DK\BaoCaoDemo.cshtml" />
     <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />
