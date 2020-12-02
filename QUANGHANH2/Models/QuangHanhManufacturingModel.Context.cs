@@ -103,6 +103,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Transfer> Transfers { get; set; }
         public virtual DbSet<Work> Works { get; set; }
         public virtual DbSet<WorkGroup> WorkGroups { get; set; }
+        public virtual DbSet<WorkGroupType> WorkGroupTypes { get; set; }
         public virtual DbSet<WorkingProcess> WorkingProcesses { get; set; }
         public virtual DbSet<AbsenceReason> AbsenceReasons { get; set; }
         public virtual DbSet<AbsenceReasonType> AbsenceReasonTypes { get; set; }
