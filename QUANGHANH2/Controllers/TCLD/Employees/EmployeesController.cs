@@ -357,12 +357,12 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     salary_level.Add(new SelectListItem
                     {
-                        Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary1,
+                        //Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary1,
                         Value = i.salary_id.ToString()
                     });
                     if (db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>().current_salary_id == i.salary_id)
                     {
-                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary1;
+                        //ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary1;
                     }
                 }
                 ViewBag.level_salary = salary_level;
