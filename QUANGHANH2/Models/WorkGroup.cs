@@ -23,7 +23,9 @@ namespace QUANGHANH2.Models
         public int work_group_id { get; set; }
         public string acronym { get; set; }
         public string name { get; set; }
+        public Nullable<int> work_group_type_id { get; set; }
     
+        public virtual WorkGroupType WorkGroupType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Work> Works { get; set; }
     }
