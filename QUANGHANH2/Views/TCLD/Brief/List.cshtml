@@ -25,7 +25,7 @@
                 <div class="col s12 m12 l12">
                     <div class="row center">
                         <div class="col l2 m12 s12 input-field">
-                            <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV input-field' id="searchMaNV" multiple />
+                            <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV input-field' id="searchMaNV" multiple autocomplete="off" />
                         </div>
                         <div class="col l2 m12 s12 input-field">
                             <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name input-field' id="searchTenNV" multiple />
@@ -435,7 +435,7 @@
         }
 
         function genderFormat(d) {
-            if (d) {
+            if (d=="1") {
                 return "Nam";
             } else {
                 return "Nữ";
