@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "GroupOccupation";
+    ViewBag.Title = "WorkGroup";
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
 
@@ -9,15 +9,14 @@
         <div class="row">
             <h3 class="center"><b>DANH SÁCH NHÓM CÔNG VIỆC</b></h3>
             <div>
-                <a class="btn blue darken-2 btn-small input-field modal-trigger" href="#modal_themNhomCongViec">Thêm</a>
+                <a class="btn blue darken-2 btn-small input-field modal-trigger" href="#modal_add_work_group">Thêm</a>
             </div>
             <div>
-                <table id="nhomcongviec" class="table table-bordered center">
+                <table id="work_group_table" class="table table-bordered center">
                     <thead>
                         <tr>
                             <th>Tên nhóm công việc</th>
                             <th>Loại nhóm công việc</th>
-                            <th>Tên diện công việc</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -29,19 +28,19 @@
     </div>
 </div>
 <!--Modal themNhomCongViec-->
-<div id="modal_themNhomCongViec" class="modal">
+<div id="modal_add_work_group" class="modal">
     <div class="modal-content">
         <h4 class="center"><b>Thêm Nhóm Công Việc</b></h4>
         <div class="row">
             <div class="col s12 m6 l6">
                 <label>Tên nhóm công việc</label>
-                <input type="text" class="form-control" id="tenNhomCongViec_them" />
+                <input type="text" class="form-control" id="add_work_group_name" />
             </div>
             <div class="col s12 m6 l6">
                 <label>Loại nhóm công việc</label>
-                <input type="text" class="form-control" id="loaiNhomCongViec_them" />
+                <input type="text" class="form-control" id="add_work_group_acronym" />
             </div>
-            <div class="col s12 m12 l12">
+            @*<div class="col s12 m12 l12">
                 <label>Tên diện công việc</label>
                 <select class="form-control" id="diencongviec_select_them">
                     <option value="" disabled selected>Chọn diện công việc</option>
@@ -50,16 +49,16 @@
                         <option value="@listDienCongViec.MaDienCongViec">@listDienCongViec.TenDienCongViec</option>
                     }
                 </select>
-            </div>
+            </div>*@
         </div>
     </div>
     <div class="modal-footer">
-        <button id="xacNhanThemNhomCongViec" class="btn blue darken-2 btn-small">Xác nhận</button>
-        <button id="dongThemNhomCongViec" class="btn red darken-2 btn-small modal-close">Đóng</button>
+        <button id="add_work_group_confirm_button" class="btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="add_work_group_close_modal_button" class="btn red darken-2 btn-small modal-close">Đóng</button>
     </div>
 </div>
 <!--Modal suaNhomCongViec-->
-<div id="modal_suaNhomCongViec" class="modal">
+<div id="modal_edit_work_group" class="modal">
     <div class="modal-content">
         <h4 class="center"><b>Sửa Nhóm Công Việc</b></h4>
         <div class="row">
@@ -71,7 +70,7 @@
                 <label>Loại nhóm công việc</label>
                 <input type="text" class="form-control" id="loaiNhomCongViec_sua" />
             </div>
-            <div class="col s12 m12 l12">
+            @*<div class="col s12 m12 l12">
                 <label>Tên diện công việc</label>
                 <select class="form-control" id="diencongviec_select_sua">
                     <option value="" disabled selected>Chọn diện công việc</option>
@@ -80,7 +79,7 @@
                         <option value="@listDienCongViec.MaDienCongViec">@listDienCongViec.TenDienCongViec</option>
                     }
                 </select>
-            </div>
+            </div>*@
         </div>
     </div>
     <div class="modal-footer">
@@ -93,30 +92,29 @@
 <script>
     var table;
     $(document).ready(function () {
-        table = $('#nhomcongviec').DataTable({
+        table = $('#work_group_table').DataTable({
             "ajax": {
                 "url": "/phong-tcld/quan-ly-nhom-cong-viec/danh-sach-nhom-cong-viec",
                 "type": "GET",
                 "datatype": "json",
                 "cache": "false",
                 "dataSrc": function (json) {
-                    return json["listData"];
+                    return json["workGroups"];
                 }
             },
             "columns": [
-                { "data": "TenNhomCongViec", "name": "TenNhomCongViec" },
-                { "data": "LoaiNhomCongViec", "name": "LoaiNhomCongViec" },
-                { "data": "TenDienCongViec", "name": "TenDienCongViec" },
+                { "data": "name", "name": "name" },
+                { "data": "acronym", "name": "acronym" },
                 {
                     "data": "", "render": function (data, type, row) {
-                        return "<a id=\"suaNhomCongViec\" name=\"" + row["MaNhomCongViec"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_suaNhomCongViec\">Sửa</a>";
+                        return "<a id=\"edit_work_group_button\" name=\"" + row["work_group_id"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_edit_work_group\">Sửa</a>";
                     },
                     "orderable": false,
                     "searchable": false
                 },
                 {
                     "data": "", "render": function (data, type, row) {
-                        return "<a id=\"xoaNhomCongViec\" name=\"" + row["MaNhomCongViec"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-close\">Xóa</a>";
+                        return "<a id=\"delete_work_group_button\" name=\"" + row["work_group_id"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-close\">Xóa</a>";
                     },
                     "orderable": false,
                     "searchable": false
@@ -149,29 +147,28 @@
 <!---------------------------------------------ADD------------------------------------------------>
 <script>
     $(document).ready(function () {
-        $("#xacNhanThemNhomCongViec").click(function () {
+        $("#add_work_group_confirm_button").click(function () {
             $("#pre-load").show(),
                 $.ajax({
                     url: "/phong-tcld/quan-ly-nhom-cong-viec/them-nhom-cong-viec",
                     type: "POST",
                     datatype: "json",
                     data: {
-                        "tennhomcongviec": $("#tenNhomCongViec_them").val(),
-                        "loainhomcongviec": $("#loaiNhomCongViec_them").val(),
-                        "madiencongviec": $("#diencongviec_select_them").val()
+                        "work_group_name": $("#add_work_group_name").val(),
+                        "work_group_acronym": $("#add_work_group_acronym").val()
                     },
                     success: function (response) {
                         if (response.success) {
                             //arlet successful adding
                             successAlert(response.title, response.message);
                             //clear input in modal themNhomCongViec
-                            $("#tenNhomCongViec_them").val("");
-                            $("#loaiNhomCongViec_them").val("");
-                            $("#diencongviec_select_them option").prop("selected", function () {
-                                return this.defaultSelected;
-                            });
+                            $("#add_work_group_name").val("");
+                            $("#add_work_group_acronym").val("");
+                            //$("#diencongviec_select_them option").prop("selected", function () {
+                            //    return this.defaultSelected;
+                            //});
                             //close modal themNhomCongViec
-                            $("#dongThemNhomCongViec").click();
+                            $("#add_work_group_close_modal_button").click();
                             //reload table
                             table.ajax.reload();
                             //hide the pre-loader
@@ -197,7 +194,7 @@
     var madiencongviec;
     $(document).ready(function () {
         //when click button "Sửa"
-        $("#nhomcongviec").on("click", "#suaNhomCongViec", function () {
+        $("#work_group_table").on("click", "#edit_work_group_button", function () {
             manhomcongviec = $(this).attr("name");
             //fill data to input and select by maNhomCongViec
             getData_FillData(manhomcongviec);
@@ -286,7 +283,7 @@
 <script>
     $(document).ready(function () {
         var manhomcongviec;
-        $("#nhomcongviec").on("click", "#xoaNhomCongViec", function () {
+        $("#nhomcongviec").on("click", "#delete_work_group_button", function () {
             manhomcongviec = $(this).attr("name");
             //alert confirm
             confirmAlert("Xác nhận xóa?", "Xác nhận xóa nhóm công viêc.", function () { delete_by_manhomcongviec(manhomcongviec); });
