@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="037fef5487a745888b18937c7083555c" Name="Diagram1">
+      <Diagram DiagramId="add692b5a4294657a758997134d01300" Name="Diagram1">
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Account" Width="1.5" PointX="22.25" PointY="92.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Account_Right" Width="1.5" PointX="25.25" PointY="86.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Account_Right_Detail" Width="1.5" PointX="27.5" PointY="94.25" IsExpanded="true" />
@@ -16,6 +16,7 @@
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Status" Width="1.5" PointX="5.25" PointY="104.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Supply_DiKem" Width="1.5" PointX="13.25" PointY="88.375" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Supply_Equipment_DiKem" Width="1.5" PointX="16.25" PointY="98.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Vattu_Dikem" Width="1.5" PointX="16.25" PointY="106.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.BigMaintainDetail" Width="1.5" PointX="3" PointY="104.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.CameraRepairDetail" Width="1.5" PointX="8.25" PointY="101" IsExpanded="true" />
@@ -47,8 +48,8 @@
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.RepairRegularlyDetail" Width="1.5" PointX="19.5" PointY="93.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Status1" Width="1.5" PointX="8.75" PointY="114.875" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Department" Width="1.5" PointX="0.75" PointY="99.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.Notification" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.UserActionLog" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.Notification" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.UserActionLog" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.AdditionalHistoryResume" Width="1.5" PointX="27.5" PointY="97.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Career" Width="1.5" PointX="11.75" PointY="68.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Decision" Width="1.5" PointX="14" PointY="84.75" IsExpanded="true" />
@@ -117,118 +118,118 @@
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.RepairRegularly1" Width="1.5" PointX="19.25" PointY="110.875" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Supply" Width="1.5" PointX="9.75" PointY="83" IsExpanded="true" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Account__NVID__3F9B6DFF" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Account__Role__3EA749C6" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Account_R__Accou__408F9238" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__File__account_id__48EFCE0F" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Account__Role__7A3223E8" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Account_R__Accou__7C1A6C5A" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__File__account_id__047AA831" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK_Important_Documentary_Account" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Account_R__Modul__3F9B6DFF" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Account_R__Right__4183B671" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Account_R__Modul__7B264821" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Account_R__Right__7D0E9093" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Camera_Ac__docum__73501C2F" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Camera_Ac__room___74444068" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Incident__room_i__4460231C" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CameraRep__room___52AE4273" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairCam__room___70FDBF69" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Room__department__45544755" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Status__room_id__46486B8E" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Supply_Di__equip__473C8FC7" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Supply_Di__equip__4830B400" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Supply_Eq__equip__4924D839" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Supply_Eq__suppl__4A18FC72" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Vattu_Dik__equip__4B0D20AB" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Vattu_Dik__suppl__4C0144E4" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__BigMainta__attac__4CF5691D" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__BigMainta__depar__4DE98D56" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__BigMainta__docum__60C757A0" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__BigMainta__equip__4EDDB18F" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Incident__room_i__7FEAFD3E" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CameraRep__room___0E391C95" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairCam__room___2C88998B" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Room__department__00DF2177" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Status__room_id__01D345B0" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Supply_Di__equip__02C769E9" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Supply_Di__equip__03BB8E22" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Supply_Eq__equip__04AFB25B" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Supply_Eq__suppl__05A3D694" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Vattu_Dik__equip__0697FACD" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Vattu_Dik__suppl__078C1F06" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__BigMainta__attac__0880433F" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__BigMainta__depar__09746778" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__BigMainta__docum__1C5231C2" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__BigMainta__equip__0A688BB1" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Documenta__docum__40F9A68C" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CameraRep__depar__50C5FA01" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CameraRep__docum__51BA1E3A" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CameraRep__depar__0C50D423" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CameraRep__docum__0D44F85C" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Acceptanc__docum__2A164134" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Documenta__depar__53A266AC" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Documenta__depar__0F2D40CE" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Documenta__docum__10216507" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Documenta__docum__42E1EEFE" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Documenta__docum__44CA3770" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Documenta__docum__46B27FE2" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Documenta__docum__489AC854" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Documenta__docum__4A8310C6" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Documenta__docum__54968AE5" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Important__docum__38EE7070" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ImproveDe__docum__58671BC9" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairCam__docum__70099B30" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ImproveDe__depar__5772F790" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ImproveDe__equip__595B4002" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ImproveEq__docum__658C0CBD" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ImproveDe__docum__13F1F5EB" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairCam__docum__2B947552" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ImproveDe__depar__12FDD1B2" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ImproveDe__equip__14E61A24" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ImproveEq__docum__2116E6DF" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Documenta__equip__43D61338" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Liquidati__depar__5C37ACAD" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Liquidati__depar__17C286CF" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Documenta__equip__45BE5BA9" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MaintainD__attac__5F141958" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MaintainD__depar__60083D91" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MaintainE__docum__68687968" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MaintainD__attac__1A9EF37A" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MaintainD__depar__1B9317B3" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MaintainE__docum__23F3538A" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Documenta__equip__47A6A41B" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MovelineD__depar__62E4AA3C" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MovelineD__depar__1E6F845E" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Documenta__equip__498EEC82" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairDet__attac__65C116E7" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairDet__depar__66B53B20" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairEqu__docum__72E607DB" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairDet__attac__214BF109" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairDet__depar__22401542" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairEqu__docum__2E70E1FD" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Documenta__equip__4B7734FA" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RevokeDet__depar__6991A7CB" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Acceptanc__attac__6A85CC04" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Acceptanc__equip__6C6E1476" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Activity__equipm__6D6238AF" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Attribute__equip__6E565CE8" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Car__equipmentId__6F4A8121" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CarGPS__equipmen__703EA55A" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CarMainte__equip__7132C993" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CarMainte__maint__731B1205" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RevokeDet__depar__251C81ED" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Acceptanc__attac__2610A626" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Acceptanc__equip__27F8EE98" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Activity__equipm__28ED12D1" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Attribute__equip__29E1370A" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Car__equipmentId__2AD55B43" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CarGPS__equipmen__2BC97F7C" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CarMainte__equip__2CBDA3B5" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CarMainte__maint__2EA5EC27" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Maintain___depar__76619304" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CarMainte__suppl__740F363E" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CategoryA__Equip__75035A77" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CategoryA__Equip__75F77EB0" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Equipment__Equip__7ABC33CD" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CategoryA__Equip__76EBA2E9" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CategoryA__equip__77DFC722" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__BigMainta__equip__61BB7BD9" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Equipment__curre__78D3EB5B" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CarMainte__suppl__2F9A1060" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CategoryA__Equip__308E3499" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CategoryA__Equip__318258D2" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Equipment__Equip__36470DEF" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CategoryA__Equip__32767D0B" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__CategoryA__equip__336AA144" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__BigMainta__equip__1D4655FB" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Equipment__curre__345EC57D" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Equipment__depar__625A9A57" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__FuelActiv__equip__7CA47C3F" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ImproveEq__equip__668030F6" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Incident__equipm__7F80E8EA" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Inspectio__equip__00750D23" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Insurance__equip__0169315C" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MaintainE__equip__695C9DA1" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MonthlyPl__equip__6B44E613" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairEqu__equip__73DA2C14" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__equip__035179CE" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__equip__75C27486" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__equip__76B698BF" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__equip__77AABCF8" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__FuelActiv__depar__7BB05806" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__FuelActiv__fuel___7D98A078" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__FuelActiv__equip__382F5661" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ImproveEq__equip__220B0B18" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Incident__equipm__3B0BC30C" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Inspectio__equip__3BFFE745" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Insurance__equip__3CF40B7E" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MaintainE__equip__24E777C3" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MonthlyPl__equip__26CFC035" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairEqu__equip__2F650636" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__equip__314D4EA8" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__equip__324172E1" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__equip__3335971A" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__equip__3EDC53F0" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__FuelActiv__depar__373B3228" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__FuelActiv__fuel___39237A9A" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Incident__depart__6FB49575" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__depar__025D5595" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__maint__04459E07" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__suppl__0539C240" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Departmen__depar__3D7E1B63" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderPla__depar__4BCC3ABA" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderPla__depar__4DB4832C" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderPla__depar__4F9CCB9E" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderRea__depar__5090EFD7" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__depar__3DE82FB7" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__maint__3FD07829" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__suppl__40C49C62" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Departmen__depar__7908F585" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderPla__depar__075714DC" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderPla__depar__093F5D4E" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderPla__depar__0B27A5C0" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderRea__depar__0C1BC9F9" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__MealRegis__depar__7A3223E8" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Recruitme__depar__7EC1CEDB" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ReportFil__depar__5C02A283" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ReportFil__depar__178D7CA5" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Supply_ti__depar__078C1F06" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__SupplyPla__depar__09746778" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__SupplyPla__depar__0A688BB1" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Transfer__new_de__3118447E" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Transfer__old_de__33F4B129" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Transfer__new_de__6CA31EA0" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Transfer__old_de__6F7F8B4B" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK_Employee_Department" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Additiona__recor__062DE679" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Additiona__recor__41B8C09B" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__RecordsPa__caree__762C88DA" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Specializ__caree__2882FE7D" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Specializ__caree__640DD89F" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Recruitme__decis__7DCDAAA2" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Terminati__decis__2C538F61" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Transfer__decisi__2F2FFC0C" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Terminati__decis__67DE6983" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Transfer__decisi__6ABAD62E" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__RecordsPa__durat__7720AD13" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Specializ__educa__297722B6" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Specializ__educa__6501FCD8" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Employee__status__090A5324" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__EmployeeA__emplo__4707859D" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__EmployeeT__emplo__0CDAE408" ManuallyRouted="false" />
@@ -246,65 +247,65 @@
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__WorkingPr__emplo__39AD8A7F" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK_Employee_Salary" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK_Employee_Work" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__EmployeeT__task___0BE6BFCF" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Family__family_r__0DCF0841" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Family__family_t__0EC32C7A" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RecordsGe__famil__15702A09" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Papers__papers_t__0FB750B3" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__EmployeeT__task___477199F1" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Family__family_r__4959E263" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Family__family_t__4A4E069C" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RecordsGe__famil__50FB042B" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Papers__papers_t__4B422AD5" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__RecordsPa__paper__7814D14C" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Task__papers_id__2A6B46EF" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Task__papers_id__65F62111" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__RecordsPa__paper__7908F585" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Salary__pay_rate__25A691D2" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Salary__pay_tabl__269AB60B" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Salary__pay_rate__61316BF4" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Salary__pay_tabl__6225902D" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Work__pay_table___14B10FFA" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__RecordsPa__quali__79FD19BE" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Recruitme__quali__00AA174D" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Records__records__147C05D0" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RecordsGe__recor__16644E42" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Records__records__5006DFF2" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RecordsGe__recor__51EF2864" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__RecordsPa__recor__7AF13DF7" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__RecordsPa__schoo__7BE56230" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK_RecordsPapers_Specializations" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Recruitme__salar__019E3B86" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Recruitme__work___038683F8" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK_Recruitment_Specializations" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Transfer__new_sa__320C68B7" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Transfer__old_sa__34E8D562" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Task__task_type___2B5F6B28" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Terminati__termi__2E3BD7D3" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Transfer__new_sa__6D9742D9" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Transfer__old_sa__7073AF84" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Task__task_type___66EA454A" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Terminati__termi__69C6B1F5" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Transfer__new_wo__10E07F16" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Transfer__old_wo__13BCEBC1" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__AbsenceRe__absen__3AA1AEB8" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__EmployeeA__absen__4336F4B9" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Criteria__criter__3B95D2F1" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Criteria__measur__3C89F72A" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__PlanManuf__crite__546180BB" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__PlanManuf__crite__5649C92D" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__PlanManuf__crite__5832119F" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Departmen__heade__3E723F9C" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__EmployeeA__actua__442B18F2" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__EmployeeA__heade__46136164" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__FakeAPI__shifts___47FBA9D6" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__File__report_fil__49E3F248" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderAtt__shift__4AD81681" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderPla__plan___4CC05EF3" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__PlanManuf__heade__5555A4F4" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderPla__shift__4EA8A765" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__PlanManuf__heade__573DED66" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__PlanManuf__heade__592635D8" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderRea__reali__51851410" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderRea__shift__52793849" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ReportFil__shift__5CF6C6BC" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__SafetyWor__safet__5EDF0F2E" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__SafetyWor__shift__5FD33367" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__BigMainta__suppl__62AFA012" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Consumpti__suppl__63A3C44B" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ImproveEq__suppl__6774552F" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MaintainE__suppl__6A50C1DA" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MonthlyPl__suppl__6C390A4C" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MonthlyPl__suppl__6D2D2E85" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairCam__suppl__71F1E3A2" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairEqu__suppl__74CE504D" ManuallyRouted="false" />
-        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__suppl__789EE131" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__AbsenceRe__absen__762C88DA" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__EmployeeA__absen__7EC1CEDB" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Criteria__criter__7720AD13" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Criteria__measur__7814D14C" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__PlanManuf__crite__0FEC5ADD" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__PlanManuf__crite__11D4A34F" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__PlanManuf__crite__13BCEBC1" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Departmen__heade__79FD19BE" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__EmployeeA__actua__7FB5F314" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__EmployeeA__heade__019E3B86" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__FakeAPI__shifts___038683F8" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__File__report_fil__056ECC6A" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderAtt__shift__0662F0A3" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderPla__plan___084B3915" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__PlanManuf__heade__10E07F16" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderPla__shift__0A338187" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__PlanManuf__heade__12C8C788" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__PlanManuf__heade__14B10FFA" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderRea__reali__0D0FEE32" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__HeaderRea__shift__0E04126B" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ReportFil__shift__1881A0DE" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__SafetyWor__safet__1A69E950" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__SafetyWor__shift__1B5E0D89" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__BigMainta__suppl__1E3A7A34" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__Consumpti__suppl__1F2E9E6D" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__ImproveEq__suppl__22FF2F51" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MaintainE__suppl__25DB9BFC" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MonthlyPl__suppl__27C3E46E" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__MonthlyPl__suppl__28B808A7" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairCam__suppl__2D7CBDC4" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairEqu__suppl__30592A6F" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK__RepairReg__suppl__3429BB53" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.WorkWorkGroup" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
