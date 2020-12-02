@@ -25,7 +25,7 @@
                 <div class="col s12 m12 l12">
                     <div class="row center">
                         <div class="col l2 m12 s12 input-field">
-                            <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV input-field' id="searchMaNV" multiple />
+                            <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV input-field' id="searchMaNV" multiple autocomplete="off" />
                         </div>
                         <div class="col l2 m12 s12 input-field">
                             <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name input-field' id="searchTenNV" multiple />
@@ -314,27 +314,31 @@
                             "Gender": function () { return $('#searchGioiTinh').val() },
                             "pb": function () { return $('#searchPB').val() },
 
+                        }, "error": function () {
+                            errorAlert('Có lỗi', 'Có lỗi xảy ra.');
+                            $("#pre-load").hide("slow", function () {
+                            });
                         }
                     },
                     "columns": [
                         {
-                            "data": "MaNV", "name": "MaNV", "render": function (data) {
+                            "data": "employee_id", "name": "employee_id", "render": function (data) {
                                 return "<a href='/phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien?id=" + data + "' >" + data + "</a>"
                             },
                         },
-                        { "data": "Ten", "name": "Ten" },
+                        { "data": "BASIC_INFO_full_name", "name": "BASIC_INFO_full_name" },
                         {
-                            "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
+                            "data": "BASIC_INFO_date_of_birth", "name": "BASIC_INFO_date_of_birth", "render": function (data) {
                                 return dateFormat(data);
                             }
                         },
                         {
-                            "data": "GioiTinh", "name": "GioiTinh", "render": function (data) {
+                            "data": "BASIC_INFO_gender", "name": "BASIC_INFO_gender", "render": function (data) {
                                 return genderFormat(data);
                             }
                         },
-                        { "data": "SoDienThoai", "name": "SoDienThoai" },
-                        { "data": "TenTrangThai", "name": "TenTrangThai" },
+                        { "data": "BASIC_INFO_phone_number", "name": "BASIC_INFO_phone_number" },
+                        { "data": "StatusName", "name": "StatusName" },
                         {
                             "data": {}, "render": function (data) {
                                 return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data.MaNV + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a> &nbsp;&nbsp;&nbsp;" +
@@ -344,20 +348,6 @@
                             "orderable": false,
                             "searchable": false,
                         }
-                        //{
-                        //    "data": "MaNV", "render": function (data) {
-                        //        return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getHistoryID(" + data + ")' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a>";
-                        //    },
-                        //    "orderable": false,
-                        //    "searchable": false,
-                        //},
-                        //{
-                        //    "data": "MaNV", "render": function (data) {
-                        //        return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getTlhd(" + data + ")' data-target='deleteBriefs'><span class='fas fa-times-circle'>&nbsp;TLHĐ</span></a>";
-                        //    },
-                        //    "orderable": false,
-                        //    "searchable": false,
-                        //}
                     ],
                     "drawCallback": function (settings) {
                         ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
@@ -445,7 +435,7 @@
         }
 
         function genderFormat(d) {
-            if (d) {
+            if (d=="1") {
                 return "Nam";
             } else {
                 return "Nữ";
