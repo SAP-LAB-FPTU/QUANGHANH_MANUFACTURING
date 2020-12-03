@@ -357,15 +357,16 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     salary_level.Add(new SelectListItem
                     {
-                        Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_name,
+                        Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_number,
                         Value = i.salary_id.ToString()
                     });
                     if (db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>().current_salary_id == i.salary_id)
                     {
 
-                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_name;
+                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_number;
 
                     }
+                }
                 List<SelectListItem> Month = new List<SelectListItem>();
                 for (int i = 1; i <= 12; i++)
                 {
@@ -448,12 +449,12 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     salary_level.Add(new SelectListItem
                     {
-                        Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_name,
+                        Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_number,
                         Value = i.salary_id.ToString()
                     });
                     if (db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>().current_salary_id == i.salary_id)
                     {
-                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_name;
+                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_number;
                     }
                 }
                 ViewBag.level_salary = salary_level;
