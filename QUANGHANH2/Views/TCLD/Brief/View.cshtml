@@ -50,10 +50,10 @@
                                         </div>
                                         <div class="input-field col m12">
                                             <div class="col m12">
-                                                @Html.LabelFor(model => model.BASIC_INFO_full_name, "Tên khác", htmlAttributes: new { @class = "custom-label" })
+                                                @Html.LabelFor(model => model.BASIC_INFO_other_name, "Tên khác", htmlAttributes: new { @class = "custom-label" })
                                                 <div class="col-md-10">
-                                                    @Html.EditorFor(model => model.BASIC_INFO_full_name, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Tên gọi khác", @type = "text", @autocomplete = "off" } })
-                                                    @Html.ValidationMessageFor(model => model.BASIC_INFO_full_name, "", new { @class = "text-danger" })
+                                                    @Html.EditorFor(model => model.BASIC_INFO_other_name, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Tên gọi khác", @type = "text", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.BASIC_INFO_other_name, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                         </div>
@@ -347,7 +347,7 @@
                             </div>
                         </div>
                         @Html.HiddenFor(model => model.current_department_id)
-                        @Html.HiddenFor(model => model.status_id)
+                        @Html.HiddenFor(model => model.current_status_id)
                         <div id="hoctaplamviec" class="col l12">
                             <div class="row" style="margin-top:10px">
                                 <label class="custom-label">A.Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị, ngoại ngữ, tin học</label>
