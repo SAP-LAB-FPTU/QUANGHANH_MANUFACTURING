@@ -398,12 +398,12 @@
                                         @foreach (var item in ViewBag.qtList)
                                         {
                                             <tr>
-                                                <td class="center">@item.DonViCongTac</td>
-                                                <td class="center">@item.ChucDanh</td>
-                                                <td class="center">@item.ChucVu</td>
-                                                <td class="center">@item.NgayBatDau</td>
-                                                <td class="center">@item.NgayKetThuc</td>
-                                                <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaCongTac(@item.MaCongTac , @item.MaNV)">Xóa</a></td>
+                                                <td class="center">@item.office</td>
+                                                <td class="center">@item.title</td>
+                                                <td class="center">@item.position</td>
+                                                <td class="center">@item.date_start</td>
+                                                <td class="center">@item.date_end</td>
+                                                <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaCongTac(@item.working_process_id , @item.employee_id)">Xóa</a></td>
                                             </tr>
                                         }
 
@@ -439,7 +439,7 @@
                                             </td>
                                             <td id="col13" class="editable"><input id="input13" autocomplete="off" class="inputEdit" name="hoTen" style="border:none" /></td>
                                             <td id="col14">
-                                                <select class="custom-select" name="giaDinh">
+                                                <select class="custom-select" name="moiQuanHe">
                                                     <option value="">Loại quan hệ</option>
                                                     <option value="1">Cha</option>
                                                     <option value="2">Mẹ</option>
@@ -479,12 +479,12 @@
                                         @foreach (var item in ViewBag.qhList)
                                         {
                                             <tr>
-                                                <td class="center">@item.LoaiGiaDinh</td>
-                                                <td class="center">@item.NgaySinh</td>
-                                                <td class="center">@item.HoTen</td>
-                                                <td class="center">@item.MoiQuanHe</td>
-                                                <td class="center">@item.LyLich</td>
-                                                <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaQuanHe(@item.MaQuanHeGiaDinh , @item.MaNV)">Xóa</a></td>
+                                                <td class="center">@item.family_type_id</td>
+                                                <td class="center">@item.date_of_birth</td>
+                                                <td class="center">@item.full_name</td>
+                                                <td class="center">@item.family_relationship_id</td>
+                                                <td class="center">@item.background</td>
+                                                <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaQuanHe(@item.family_type_id , @item.employee_id)">Xóa</a></td>
                                             </tr>
                                         }
 
@@ -579,12 +579,12 @@
                             $("#family-table").empty();
                             for (i = 0; i < response.listQH.length; i++) {
                                 $("#family-table").append("<tr>");
-                                $("#family-table").append("<td class='center'>" + response.listQH[i].LoaiGiaDinh + "</td>");
-                                $("#family-table").append("<td class='center'>" + dateFormat(response.listQH[i].NgaySinh) + "</td>");
-                                $("#family-table").append("<td class='center'>" + response.listQH[i].HoTen + "</td>");
-                                $("#family-table").append("<td class='center'>" + response.listQH[i].MoiQuanHe + "</td>");
-                                $("#family-table").append("<td class='center'>" + response.listQH[i].LyLich + "</td>");
-                                $("#family-table").append("<td class='center'><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='delFamily' onclick='xoaQuanHe(" + response.listQH[i].MaQuanHeGiaDinh + "," + response.listQH[i].MaNV + ")'>Xóa</a></td>");
+                                $("#family-table").append("<td class='center'>" + response.listQH[i].family_type_id + "</td>");
+                                $("#family-table").append("<td class='center'>" + dateFormat(response.listQH[i].date_of_birth) + "</td>");
+                                $("#family-table").append("<td class='center'>" + response.listQH[i].full_name + "</td>");
+                                $("#family-table").append("<td class='center'>" + response.listQH[i].family_relationship_id + "</td>");
+                                $("#family-table").append("<td class='center'>" + response.listQH[i].background + "</td>");
+                                $("#family-table").append("<td class='center'><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='delFamily' onclick='xoaQuanHe(" + response.listQH[i].family_type_id + "," + response.listQH[i].MaNV + ")'>Xóa</a></td>");
                                 $("#family-table").append("</tr>");
                             }
                             successAlert("Thành công", "Xóa thành công");
@@ -618,12 +618,12 @@
                             $("#work-table").empty();
                             for (i = 0; i < response.listCT.length; i++) {
                                 $("#work-table").append("<tr>");
-                                $("#work-table").append("<td class='center'>" + response.listCT[i].DonViCongTac + "</td>");
-                                $("#work-table").append("<td class='center'>" + response.listCT[i].ChucDanh + "</td>");
-                                $("#work-table").append("<td class='center'>" + response.listCT[i].ChucVu + "</td>");
-                                $("#work-table").append("<td class='center'>" + dateFormat(response.listCT[i].NgayBatDau) + "</td>");
-                                $("#work-table").append("<td class='center'>" + dateFormat(response.listCT[i].NgayKetThuc) + "</td>");
-                                $("#work-table").append("<td class='center'><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger'  onclick='xoaCongTac(" + response.listCT[i].MaCongTac + "," + response.listCT[i].MaNV + ")'>Xóa</a></td>");
+                                $("#work-table").append("<td class='center'>" + response.listCT[i].office + "</td>");
+                                $("#work-table").append("<td class='center'>" + response.listCT[i].title + "</td>");
+                                $("#work-table").append("<td class='center'>" + response.listCT[i].position + "</td>");
+                                $("#work-table").append("<td class='center'>" + dateFormat(response.listCT[i].date_start) + "</td>");
+                                $("#work-table").append("<td class='center'>" + dateFormat(response.listCT[i].date_end) + "</td>");
+                                $("#work-table").append("<td class='center'><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger'  onclick='xoaCongTac(" + response.listCT[i].working_process_id + "," + response.listCT[i].MaNV + ")'>Xóa</a></td>");
                                 $("#work-table").append("</tr>");
                             }
                             successAlert("Thành công", "Xóa thành công");
@@ -709,11 +709,11 @@
             @foreach (var item in ViewBag.familyTypes)
             {
                 @Html.Raw("+ '<option value=\"" + @item.family_type_id + "\">" + @item.name + "</option>'");
-            }
+            };
         option_relationship = ''
             @foreach (var item in ViewBag.familyRelationships)
             {
                 @Html.Raw("+ '<option value=\"" + @item.family_relationship_id + "\">" + @item.name + "</option>'");
-            }
+            };
     </script>
 }
