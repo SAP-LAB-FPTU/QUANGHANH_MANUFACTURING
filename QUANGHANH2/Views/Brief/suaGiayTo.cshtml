@@ -1,4 +1,4 @@
-﻿@model QUANGHANH2.Models.GiayTo
+﻿@model QUANGHANH2.Models.Paper
 
 @{
     ViewBag.Title = "Edit";
@@ -14,12 +14,12 @@
 {   <div id="edit-modal-body">
     <div class="modal-body">
         @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.MaGiayTo)
+        @Html.HiddenFor(model => model.papers_id)
         <div class="form-horizontal row">
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group" hidden>
-                @Html.LabelFor(model => model.MaNV, "MaNV", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model., "MaNV", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.MaNV, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.MaNV, "", new { @class = "text-danger" })
