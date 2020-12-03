@@ -148,7 +148,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 Employee nv = db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>();
-                if (nv == null || nv.status_id == 2)
+                if (nv == null || nv.current_status_id == 2)
                 {
                     return Json(new { success = true, responseText = "id has been exist" }, JsonRequestBehavior.AllowGet);
                 }
@@ -256,7 +256,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             if (em != null)
             {
-                if (em.status_id != 2)
+                if (em.current_status_id != 2)
                 {
                     return true;
                 }
@@ -284,7 +284,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 hs_nv = (from nv in db.Employees
                          join hs in db.Records
                          on nv.employee_id equals hs.employee_id
-                         where nv.status_id != 2
+                         where nv.current_status_id != 2
                          select new
                          {
                              maNV = hs.employee_id,
@@ -793,7 +793,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     hs_nv = (from nv in db.Employees
                              join hs in db.Records
                              on nv.employee_id equals hs.employee_id
-                             where (nv.status_id != 2)
+                             where (nv.current_status_id != 2)
                              && ((nv.employee_id + " ").Contains(manv))
                              && ((nv.BASIC_INFO_full_name + " ").Contains(tennv))
                              && ((hs.delivery_employee_id + " ").Contains(nguoigiaohoso))

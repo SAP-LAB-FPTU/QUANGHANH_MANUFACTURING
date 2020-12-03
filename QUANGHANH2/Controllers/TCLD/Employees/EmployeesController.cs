@@ -362,11 +362,10 @@ namespace QUANGHANH2.Controllers.TCLD
                     });
                     if (db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>().current_salary_id == i.salary_id)
                     {
-                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_name;
-                    }
-                }
-                ViewBag.level_salary = salary_level;
 
+                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_name;
+
+                    }
                 List<SelectListItem> Month = new List<SelectListItem>();
                 for (int i = 1; i <= 12; i++)
                 {
