@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="QuangHanhManufacturingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="QuangHanhManufacturingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Account">
           <Key>
             <PropertyRef Name="ID" />
@@ -961,21 +961,6 @@
           <Property Name="is_filled_from_api" Type="bit" />
           <Property Name="department_id" Type="nvarchar" MaxLength="150" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaByMonth' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="DepartmentCriteriaByMonth">
-          <Property Name="criteria_id" Type="int" />
-          <Property Name="department_id" Type="nvarchar" MaxLength="150" />
-          <Property Name="month" Type="nvarchar" MaxLength="100" />
-          <Property Name="year" Type="nvarchar" MaxLength="100" />
-        </EntityType>-->
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaByYear' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="DepartmentCriteriaByYear">
-          <Property Name="criteria_id" Type="int" />
-          <Property Name="department_id" Type="nvarchar" MaxLength="150" />
-          <Property Name="year" Type="nvarchar" MaxLength="100" />
-        </EntityType>-->
         <EntityType Name="EmployeeAttendanceAndProductivity">
           <Key>
             <PropertyRef Name="employee_id" />
@@ -1126,14 +1111,6 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.DepartmentCri
           <Property Name="year" Type="nvarchar" MaxLength="100" />
           <Property Name="number_working_days" Type="nvarchar" MaxLength="100" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufacturing' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="RealityManufacturing">
-          <Property Name="header_reality_manufacturing_id" Type="int" />
-          <Property Name="criteria_id" Type="int" />
-          <Property Name="reality_quantity" Type="nvarchar" MaxLength="100" />
-          <Property Name="note" Type="nvarchar(max)" />
-        </EntityType>-->
         <EntityType Name="RealityManufacturingDayInformation">
           <Key>
             <PropertyRef Name="reality_manufacturing_day_information_id" />
@@ -1713,12 +1690,6 @@ warning 6013: The table/view 'QuangHanhManufacturing.Manufacturing.RealityManufa
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errors Found During Generation:
-error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaByMonth' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__Departmen__crite__3F6663D5" />-->
-        <!--Errors Found During Generation:
-error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaByYear' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__Departmen__crite__414EAC47" />-->
         <Association Name="FK__Departmen__depar__3D7E1B63">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="DepartmentAttendanceAndProductivity" Type="Self.DepartmentAttendanceAndProductivity" Multiplicity="*" />
@@ -1731,12 +1702,6 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errors Found During Generation:
-error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaByMonth' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__Departmen__depar__405A880E" />-->
-        <!--Errors Found During Generation:
-error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaByYear' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__Departmen__depar__4242D080" />-->
         <Association Name="FK__Departmen__heade__3E723F9C">
           <End Role="HeaderAttendanceAndProductivity" Type="Self.HeaderAttendanceAndProductivity" Multiplicity="1" />
           <End Role="DepartmentAttendanceAndProductivity" Type="Self.DepartmentAttendanceAndProductivity" Multiplicity="*" />
@@ -2637,12 +2602,6 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.DepartmentCriteriaBy
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <!--Errors Found During Generation:
-error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__RealityMa__crite__5A1A5A11" />-->
-        <!--Errors Found During Generation:
-error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing' is referenced by a relationship, but cannot be found.
-        <Association Name="FK__RealityMa__heade__5B0E7E4A" />-->
         <Association Name="FK__Records__deliver__1293BD5E">
           <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
           <End Role="Records" Type="Self.Records" Multiplicity="*" />
@@ -3627,6 +3586,22 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="TCLD_get_count_employees" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="HumanResources">
+          <Parameter Name="MaNV" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Ten" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="GioiTinh" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="pb" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="TCLD_get_list_employees" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="HumanResources">
+          <Parameter Name="MaNV" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Ten" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="GioiTinh" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="pb" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="order_column" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="sort" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="start" Type="int" Mode="In" />
+          <Parameter Name="length" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="QuangHanhManufacturingModelStoreContainer">
           <EntitySet Name="Account" EntityType="Self.Account" Schema="Account" store:Type="Tables" />
           <EntitySet Name="Account_Right" EntityType="Self.Account_Right" Schema="Account" store:Type="Tables" />
@@ -4511,8 +4486,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
             <End Role="WorkGroup" EntitySet="WorkGroup" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QuangHanhManufacturingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -9329,7 +9303,86 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
             <End Role="Work" EntitySet="Works" />
             <End Role="WorkGroup" EntitySet="WorkGroups" />
           </AssociationSet>
+          <FunctionImport Name="TCLD_get_count_employees" ReturnType="Collection(QuangHanhManufacturingModel.TCLD_get_count_employees_Result)">
+            <Parameter Name="MaNV" Mode="In" Type="String" />
+            <Parameter Name="Ten" Mode="In" Type="String" />
+            <Parameter Name="GioiTinh" Mode="In" Type="String" />
+            <Parameter Name="pb" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="TCLD_get_list_employees" ReturnType="Collection(QuangHanhManufacturingModel.TCLD_get_list_employees_Result)">
+            <Parameter Name="MaNV" Mode="In" Type="String" />
+            <Parameter Name="Ten" Mode="In" Type="String" />
+            <Parameter Name="GioiTinh" Mode="In" Type="String" />
+            <Parameter Name="pb" Mode="In" Type="String" />
+            <Parameter Name="order_column" Mode="In" Type="String" />
+            <Parameter Name="sort" Mode="In" Type="String" />
+            <Parameter Name="start" Mode="In" Type="Int32" />
+            <Parameter Name="length" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="TCLD_get_count_employees_Result">
+          <Property Type="Int32" Name="count" Nullable="true" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="TCLD_get_list_employees_Result">
+          <Property Type="String" Name="employee_id" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="BASIC_INFO_full_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BASIC_INFO_other_name" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="BASIC_INFO_gender" Nullable="true" />
+          <Property Type="DateTime" Name="BASIC_INFO_date_of_birth" Nullable="true" />
+          <Property Type="String" Name="BASIC_INFO_place_of_birth" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BASIC_INFO_nation" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BASIC_INFO_home_town" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BASIC_INFO_religion" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BASIC_INFO_registered_place_of_permanent_residence" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BASIC_INFO_current_residence" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BASIC_INFO_phone_number" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BASIC_INFO_wounded_class" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BASIC_INFO_policy_family_child" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BASIC_INFO_identity_card" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="BASIC_INFO_date_of_issuance_of_identity_card" Nullable="true" Precision="23" />
+          <Property Type="String" Name="BASIC_INFO_social_insurance_number" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="RECRUITMENT_profession" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="RECRUITMENT_date" Nullable="true" />
+          <Property Type="String" Name="RECRUITMENT_company" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="JOB_instant_position" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="JOB_work" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="JOB_civil_servants" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="JOB_code_ranks" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="JOB_pay_rate" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="JOB_coefficients_salary" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="JOB_date" Nullable="true" />
+          <Property Type="String" Name="JOB_position_allowance" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="JOB_other_allowances" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="JOB_forte_of_work" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ACADEMIC_academic_level" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ACADEMIC_highest_qualification" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ACADEMIC_political_theory" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ACADEMIC_state_management" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ACADEMIC_languages" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ACADEMIC_information_technology" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="PARTY_day_on_VCP" Nullable="true" />
+          <Property Type="DateTime" Name="PARTY_official_date" Nullable="true" />
+          <Property Type="DateTime" Name="PARTY_date_of_joining_political_social_organization" Nullable="true" />
+          <Property Type="DateTime" Name="PARTY_date_of_enlistment" Nullable="true" />
+          <Property Type="DateTime" Name="PARTY_date_of_discharge" Nullable="true" />
+          <Property Type="String" Name="PARTY_highest_rank" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="PARTY_highest_achieved_title" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="EVALUATION_bonus" Nullable="true" />
+          <Property Type="String" Name="EVALUATION_discipline" Nullable="true" />
+          <Property Type="String" Name="HEALTH_health_condition" Nullable="true" />
+          <Property Type="String" Name="HEALTH_height" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="HEALTH_weight" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="HEALTH_blood_group" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="PERSONAL_HISTORY_detail" Nullable="true" />
+          <Property Type="String" Name="PERSONAL_HISTORY_related_organization" Nullable="true" />
+          <Property Type="String" Name="PERSONAL_HISTORY_relatives" Nullable="true" />
+          <Property Type="Int32" Name="current_status_id" Nullable="true" />
+          <Property Type="String" Name="current_department_id" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="current_salary_id" Nullable="true" />
+          <Property Type="Int32" Name="current_work_id" Nullable="true" />
+          <Property Type="String" Name="StatusName" Nullable="false" MaxLength="100" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10682,6 +10735,77 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
               <ScalarProperty Name="work_group_id" ColumnName="work_group_id" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="TCLD_get_count_employees" FunctionName="QuangHanhManufacturingModel.Store.TCLD_get_count_employees">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuangHanhManufacturingModel.TCLD_get_count_employees_Result">
+                <ScalarProperty Name="count" ColumnName="count" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TCLD_get_list_employees" FunctionName="QuangHanhManufacturingModel.Store.TCLD_get_list_employees">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuangHanhManufacturingModel.TCLD_get_list_employees_Result">
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="BASIC_INFO_full_name" ColumnName="BASIC_INFO_full_name" />
+                <ScalarProperty Name="BASIC_INFO_other_name" ColumnName="BASIC_INFO_other_name" />
+                <ScalarProperty Name="BASIC_INFO_gender" ColumnName="BASIC_INFO_gender" />
+                <ScalarProperty Name="BASIC_INFO_date_of_birth" ColumnName="BASIC_INFO_date_of_birth" />
+                <ScalarProperty Name="BASIC_INFO_place_of_birth" ColumnName="BASIC_INFO_place_of_birth" />
+                <ScalarProperty Name="BASIC_INFO_nation" ColumnName="BASIC_INFO_nation" />
+                <ScalarProperty Name="BASIC_INFO_home_town" ColumnName="BASIC_INFO_home_town" />
+                <ScalarProperty Name="BASIC_INFO_religion" ColumnName="BASIC_INFO_religion" />
+                <ScalarProperty Name="BASIC_INFO_registered_place_of_permanent_residence" ColumnName="BASIC_INFO_registered_place_of_permanent_residence" />
+                <ScalarProperty Name="BASIC_INFO_current_residence" ColumnName="BASIC_INFO_current_residence" />
+                <ScalarProperty Name="BASIC_INFO_phone_number" ColumnName="BASIC_INFO_phone_number" />
+                <ScalarProperty Name="BASIC_INFO_wounded_class" ColumnName="BASIC_INFO_wounded_class" />
+                <ScalarProperty Name="BASIC_INFO_policy_family_child" ColumnName="BASIC_INFO_policy_family_child" />
+                <ScalarProperty Name="BASIC_INFO_identity_card" ColumnName="BASIC_INFO_identity_card" />
+                <ScalarProperty Name="BASIC_INFO_date_of_issuance_of_identity_card" ColumnName="BASIC_INFO_date_of_issuance_of_identity_card" />
+                <ScalarProperty Name="BASIC_INFO_social_insurance_number" ColumnName="BASIC_INFO_social_insurance_number" />
+                <ScalarProperty Name="RECRUITMENT_profession" ColumnName="RECRUITMENT_profession" />
+                <ScalarProperty Name="RECRUITMENT_date" ColumnName="RECRUITMENT_date" />
+                <ScalarProperty Name="RECRUITMENT_company" ColumnName="RECRUITMENT_company" />
+                <ScalarProperty Name="JOB_instant_position" ColumnName="JOB_instant_position" />
+                <ScalarProperty Name="JOB_work" ColumnName="JOB_work" />
+                <ScalarProperty Name="JOB_civil_servants" ColumnName="JOB_civil_servants" />
+                <ScalarProperty Name="JOB_code_ranks" ColumnName="JOB_code_ranks" />
+                <ScalarProperty Name="JOB_pay_rate" ColumnName="JOB_pay_rate" />
+                <ScalarProperty Name="JOB_coefficients_salary" ColumnName="JOB_coefficients_salary" />
+                <ScalarProperty Name="JOB_date" ColumnName="JOB_date" />
+                <ScalarProperty Name="JOB_position_allowance" ColumnName="JOB_position_allowance" />
+                <ScalarProperty Name="JOB_other_allowances" ColumnName="JOB_other_allowances" />
+                <ScalarProperty Name="JOB_forte_of_work" ColumnName="JOB_forte_of_work" />
+                <ScalarProperty Name="ACADEMIC_academic_level" ColumnName="ACADEMIC_academic_level" />
+                <ScalarProperty Name="ACADEMIC_highest_qualification" ColumnName="ACADEMIC_highest_qualification" />
+                <ScalarProperty Name="ACADEMIC_political_theory" ColumnName="ACADEMIC_political_theory" />
+                <ScalarProperty Name="ACADEMIC_state_management" ColumnName="ACADEMIC_state_management" />
+                <ScalarProperty Name="ACADEMIC_languages" ColumnName="ACADEMIC_languages" />
+                <ScalarProperty Name="ACADEMIC_information_technology" ColumnName="ACADEMIC_information_technology" />
+                <ScalarProperty Name="PARTY_day_on_VCP" ColumnName="PARTY_day_on_VCP" />
+                <ScalarProperty Name="PARTY_official_date" ColumnName="PARTY_official_date" />
+                <ScalarProperty Name="PARTY_date_of_joining_political_social_organization" ColumnName="PARTY_date_of_joining_political_social_organization" />
+                <ScalarProperty Name="PARTY_date_of_enlistment" ColumnName="PARTY_date_of_enlistment" />
+                <ScalarProperty Name="PARTY_date_of_discharge" ColumnName="PARTY_date_of_discharge" />
+                <ScalarProperty Name="PARTY_highest_rank" ColumnName="PARTY_highest_rank" />
+                <ScalarProperty Name="PARTY_highest_achieved_title" ColumnName="PARTY_highest_achieved_title" />
+                <ScalarProperty Name="EVALUATION_bonus" ColumnName="EVALUATION_bonus" />
+                <ScalarProperty Name="EVALUATION_discipline" ColumnName="EVALUATION_discipline" />
+                <ScalarProperty Name="HEALTH_health_condition" ColumnName="HEALTH_health_condition" />
+                <ScalarProperty Name="HEALTH_height" ColumnName="HEALTH_height" />
+                <ScalarProperty Name="HEALTH_weight" ColumnName="HEALTH_weight" />
+                <ScalarProperty Name="HEALTH_blood_group" ColumnName="HEALTH_blood_group" />
+                <ScalarProperty Name="PERSONAL_HISTORY_detail" ColumnName="PERSONAL_HISTORY_detail" />
+                <ScalarProperty Name="PERSONAL_HISTORY_related_organization" ColumnName="PERSONAL_HISTORY_related_organization" />
+                <ScalarProperty Name="PERSONAL_HISTORY_relatives" ColumnName="PERSONAL_HISTORY_relatives" />
+                <ScalarProperty Name="current_status_id" ColumnName="current_status_id" />
+                <ScalarProperty Name="current_department_id" ColumnName="current_department_id" />
+                <ScalarProperty Name="current_salary_id" ColumnName="current_salary_id" />
+                <ScalarProperty Name="current_work_id" ColumnName="current_work_id" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

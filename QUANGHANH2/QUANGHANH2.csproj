@@ -719,6 +719,12 @@
     <Compile Include="Models\TaskType.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TCLD_get_count_employees_Result.cs">
+      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TCLD_get_list_employees_Result.cs">
+      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Termination.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
