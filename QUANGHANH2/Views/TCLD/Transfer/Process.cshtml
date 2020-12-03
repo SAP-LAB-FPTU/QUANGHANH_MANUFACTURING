@@ -92,7 +92,7 @@
                                         <option value="-1" selected>Chức vụ - Tất cả</option>
                                         @foreach (var cv in ViewBag.listCongViec)
                                         {
-                                            <option value="@cv.MaCongViec">@cv.TenCongViec</option>
+                                            <option value="@cv.work_id">@cv.name</option>
                                         }
                                     </select>
                                 </div>
@@ -172,7 +172,7 @@
                                                         <select id="chucvu-selectAll" class="chucvuAll form-control" disabled>
                                                             @foreach (var pb in ViewBag.listCongViec)
                                                             {
-                                                                <option value="@pb.MaCongViec">@pb.TenCongViec</option>
+                                                                <option value="@pb.work_id">@pb.name</option>
                                                             }
                                                         </select>
                                                     </div>
@@ -373,10 +373,10 @@
 
                     },
                     "columns": [
-                        { "data": "MaNV", "name": "MaNV", "searchable": true },
-                        { "data": "Ten", "name": "Ten" },
+                        { "data": "employee_id", "name": "employee_id", "searchable": true },
+                        { "data": "BASIC_INFO_full_name", "name": "BASIC_INFO_full_name" },
                         {
-                            "data": "GioiTinh", "name": "GioiTinh",
+                            "data": "BASIC_INFO_gender", "name": "BASIC_INFO_gender",
                             "render": function (data) {
                                 if (data === null) {
                                     return "";
@@ -386,7 +386,7 @@
                             }
                         },
                         {
-                            "data": "NgaySinh", "name": "NgaySinh",
+                            "data": "BASIC_INFO_date_of_birth", "name": "BASIC_INFO_date_of_birth",
                             "render": function (data) {
                                  if(data===null){
                                         return "";
@@ -402,14 +402,14 @@
                             }
                         },
                         { "data": "department_name", "name": "department_name" },
-                        { "data": "TenCongViec", "name": "TenCongViec" },
+                        { "data": "work_name", "name": "work_name" },
                         {
-                            "data": "MaNV", "render": function (data, type, full) {
-                                if (full.MaTrangThai === null) {
+                            "data": "employee_id", "render": function (data, type, full) {
+                                if (full.current_status_id === null) {
                                     return "";
                                 } else {
-                                    if (full.MaTrangThai != 1) {
-                                    return "<i>"+ full.TenTrangThai +"</i>";
+                                    if (full.current_status_id != 1) {
+                                        return "<i>" + full.status_name +"</i>";
                                 }
                                 if (arrCarSelected != null) {
                                     for (let i = 0; i < arrCarSelected.length; i++)

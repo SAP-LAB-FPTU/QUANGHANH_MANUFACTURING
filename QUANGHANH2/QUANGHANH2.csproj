@@ -719,6 +719,9 @@
     <Compile Include="Models\TaskType.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TCLD_Transfer_SelectAllAvailableEmployee_Result.cs">
+      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Termination.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>

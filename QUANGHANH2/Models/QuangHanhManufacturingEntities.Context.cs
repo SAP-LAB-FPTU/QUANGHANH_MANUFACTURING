@@ -12,6 +12,8 @@ namespace QUANGHANH2.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class QuangHanhManufacturingEntities : DbContext
     {
@@ -138,5 +140,26 @@ namespace QUANGHANH2.Models
         public virtual DbSet<RepairEquipment> RepairEquipments { get; set; }
         public virtual DbSet<RepairRegularly1> RepairRegularly1 { get; set; }
         public virtual DbSet<Supply> Supplies { get; set; }
+    
+        public virtual int TCLD_Transfer_SelectAllAvailableEmployee(string sortColumnName, string sortDirection, Nullable<int> start, Nullable<int> length)
+        {
+            var sortColumnNameParameter = sortColumnName != null ?
+                new ObjectParameter("sortColumnName", sortColumnName) :
+                new ObjectParameter("sortColumnName", typeof(string));
+    
+            var sortDirectionParameter = sortDirection != null ?
+                new ObjectParameter("sortDirection", sortDirection) :
+                new ObjectParameter("sortDirection", typeof(string));
+    
+            var startParameter = start.HasValue ?
+                new ObjectParameter("start", start) :
+                new ObjectParameter("start", typeof(int));
+    
+            var lengthParameter = length.HasValue ?
+                new ObjectParameter("length", length) :
+                new ObjectParameter("length", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("TCLD_Transfer_SelectAllAvailableEmployee", sortColumnNameParameter, sortDirectionParameter, startParameter, lengthParameter);
+        }
     }
 }
