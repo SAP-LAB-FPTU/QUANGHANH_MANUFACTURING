@@ -682,43 +682,55 @@ namespace QUANGHANH2.Controllers.TCLD
                 string searchValue = Request["search[value]"];
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
-                string query = @"select n.*, t.name as 'StatusName' from HumanResources.Employee n inner join
-                 HumanResources.Status t on n.current_status_id = t.status_id 
-                where n.current_status_id in (1,2,3,4) AND ";
-                if (!MaNV.Equals("") || !TenNV.Equals("") || !Gender.Equals("") || !pb.Equals(""))
-                {
-                    if (!MaNV.Equals("")) query += "n.employee_id LIKE @MaNV AND ";
-                    if (!TenNV.Equals("")) query += "n.BASIC_INFO_full_name LIKE @Ten AND ";
-                    if (!Gender.Equals("")) query += "n.BASIC_INFO_gender LIKE @GioiTinh AND ";
-                    if (!pb.Equals("")) query += "n.current_department_id = @pb AND ";
-                }
-                query = query.Substring(0, query.Length - 5);
+                //string query = @"select n.*, t.name as 'StatusName' from HumanResources.Employee n inner join
+                // HumanResources.Status t on n.current_status_id = t.status_id 
+                //where n.current_status_id in (1,2,3,4) AND ";
+                //if (!MaNV.Equals("") || !TenNV.Equals("") || !Gender.Equals("") || !pb.Equals(""))
+                //{
+                //    if (!MaNV.Equals("")) query += "n.employee_id LIKE @MaNV AND ";
+                //    if (!TenNV.Equals("")) query += "n.BASIC_INFO_full_name LIKE @Ten AND ";
+                //    if (!Gender.Equals("")) query += "n.BASIC_INFO_gender LIKE @GioiTinh AND ";
+                //    if (!pb.Equals("")) query += "n.current_department_id = @pb AND ";
+                //}
+                //query = query.Substring(0, query.Length - 5);
                 QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 db.Configuration.LazyLoadingEnabled = false;
-                bool GioiTinh = true;
-                if (Gender.Equals("true"))
-                {
-                    GioiTinh = true;
-                }
-                else if (Gender.Equals("false"))
-                {
-                    GioiTinh = false;
-                }
-                List<NhanVienLink> searchList = db.Database.SqlQuery<NhanVienLink>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
-                    new SqlParameter("MaNV", '%' + MaNV + '%'),
-                    new SqlParameter("Ten", '%' + TenNV + '%'),
-                    new SqlParameter("GioiTinh", GioiTinh),
-                    new SqlParameter("pb", pb)
+                string query = @"exec get_list_emplyees @MaNV = @MaNV, @Ten = @Ten, @GioiTinh = @GioiTinh, @pb = @pb,
+                               @order_column = @order_column, @sort = @sort, @start = @start, @length = @length";
+                List<get_list_emplyees_Result> employees = db.Database.SqlQuery<get_list_emplyees_Result>(query,    
+                    new SqlParameter("MaNV", MaNV),
+                    new SqlParameter("Ten",  TenNV ),
+                    new SqlParameter("GioiTinh", Gender),
+                    new SqlParameter("pb", pb),
+                    new SqlParameter("order_column", sortColumnName),
+                    new SqlParameter("sort", sortDirection),
+                    new SqlParameter("start", start),
+                    new SqlParameter("length", length)
                     ).ToList();
-                int totalrows = db.Database.SqlQuery<int>(query.Replace("n.*, t.name", "count(t.name)"),
-                    new SqlParameter("MaNV", '%' + MaNV + '%'),
-                    new SqlParameter("Ten", '%' + TenNV + '%'),
-                    new SqlParameter("GioiTinh", GioiTinh),
-                    new SqlParameter("pb", pb)
-                    ).FirstOrDefault();
+                //bool GioiTinh = true;
+                //if (Gender.Equals("true"))
+                //{
+                //    GioiTinh = true;
+                //}
+                //else if (Gender.Equals("false"))
+                //{
+                //    GioiTinh = false;
+                //}
+                //List<NhanVienLink> searchList = db.Database.SqlQuery<NhanVienLink>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
+                //    new SqlParameter("MaNV", '%' + MaNV + '%'),
+                //    new SqlParameter("Ten", '%' + TenNV + '%'),
+                //    new SqlParameter("GioiTinh", GioiTinh),
+                //    new SqlParameter("pb", pb)
+                //    ).ToList();
+                //int totalrows = db.Database.SqlQuery<int>(query.Replace("n.*, t.name", "count(t.name)"),
+                //    new SqlParameter("MaNV", '%' + MaNV + '%'),
+                //    new SqlParameter("Ten", '%' + TenNV + '%'),
+                //    new SqlParameter("GioiTinh", GioiTinh),
+                //    new SqlParameter("pb", pb)
+                //    ).FirstOrDefault();
 
-                return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
-
+                //return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
+                return null;
             }
             catch (Exception e)
             {
