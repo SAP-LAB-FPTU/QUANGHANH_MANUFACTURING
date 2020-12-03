@@ -341,8 +341,8 @@
                         { "data": "StatusName", "name": "StatusName" },
                         {
                             "data": {}, "render": function (data) {
-                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data.MaNV + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a> &nbsp;&nbsp;&nbsp;" +
-                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getHistoryID(" + data.MaNV + "); getTransferHistory(" + data.MaNV + ");' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a>";
+                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data.employee_id + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a> &nbsp;&nbsp;&nbsp;" +
+                                    "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getHistoryID(" + data.employee_id + "); getTransferHistory(" + data.employee_id + ");' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a>";
 
                             },
                             "orderable": false,
