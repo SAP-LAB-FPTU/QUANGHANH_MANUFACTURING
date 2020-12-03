@@ -683,7 +683,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 string sortDirection = Request["order[0][dir]"];
                 QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 db.Configuration.LazyLoadingEnabled = false;
-                string query_list = @"TCLD_get_list_employees @MaNV = @MaNV, @Ten = @Ten, @GioiTinh = @GioiTinh, @pb = @pb,
+                string query_list = @"HumanResources.TCLD_get_list_employees @MaNV = @MaNV, @Ten = @Ten, @GioiTinh = @GioiTinh, @pb = @pb,
                                @order_column = @order_column, @sort = @sort, @start = @start, @length = @length";
                 List<TCLD_get_list_employees_Result> employees = db.Database.SqlQuery<TCLD_get_list_employees_Result>(query_list,    
                     new SqlParameter("MaNV", MaNV),
@@ -696,14 +696,18 @@ namespace QUANGHANH2.Controllers.TCLD
                     new SqlParameter("length", length)
                     ).ToList();
 
-                string query_count = @"TCLD_get_count_employees @MaNV = @MaNV, @Ten = @Ten, @GioiTinh = @GioiTinh, @pb = @pb";
-                TCLD_get_count_employees_Result totalrows = db.Database.SqlQuery<TCLD_get_count_employees_Result>(query_count,
+                string query_count = @"HumanResources.TCLD_get_count_employees @MaNV = @MaNV, @Ten = @Ten, @GioiTinh = @GioiTinh, @pb = @pb";
+                TCLD_get_count_employees_Result get_count_employees = db.Database.SqlQuery<TCLD_get_count_employees_Result>(query_count,
                     new SqlParameter("MaNV", MaNV),
                     new SqlParameter("Ten", TenNV),
                     new SqlParameter("GioiTinh", Gender),
                     new SqlParameter("pb", pb)).FirstOrDefault();
-
-                return Json(new { data = employees, draw = Request["draw"], recordsTotal = totalrows.count, recordsFiltered = totalrows.count }, JsonRequestBehavior.AllowGet);
+                int? totalrows = 0;
+                if (get_count_employees != null)
+                {
+                    totalrows = get_count_employees.count;
+                }
+                return Json(new { data = employees, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
