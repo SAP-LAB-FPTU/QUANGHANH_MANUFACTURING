@@ -36,6 +36,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Supply_DiKem> Supply_DiKem { get; set; }
         public virtual DbSet<Supply_Equipment_DiKem> Supply_Equipment_DiKem { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Vattu_Dikem> Vattu_Dikem { get; set; }
         public virtual DbSet<BigMaintainDetail> BigMaintainDetails { get; set; }
         public virtual DbSet<CameraRepairDetail> CameraRepairDetails { get; set; }
@@ -102,6 +103,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Transfer> Transfers { get; set; }
         public virtual DbSet<Work> Works { get; set; }
         public virtual DbSet<WorkGroup> WorkGroups { get; set; }
+        public virtual DbSet<WorkGroupType> WorkGroupTypes { get; set; }
         public virtual DbSet<WorkingProcess> WorkingProcesses { get; set; }
         public virtual DbSet<AbsenceReason> AbsenceReasons { get; set; }
         public virtual DbSet<AbsenceReasonType> AbsenceReasonTypes { get; set; }

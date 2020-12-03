@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="037fef5487a745888b18937c7083555c" Name="Diagram1">
+      <Diagram DiagramId="d053458ed0ab48348af15e1e380eb1dc" Name="Diagram1">
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Account" Width="1.5" PointX="22.25" PointY="92.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Account_Right" Width="1.5" PointX="25.25" PointY="86.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Account_Right_Detail" Width="1.5" PointX="27.5" PointY="94.25" IsExpanded="true" />
@@ -16,6 +16,7 @@
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Status" Width="1.5" PointX="5.25" PointY="104.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Supply_DiKem" Width="1.5" PointX="13.25" PointY="88.375" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Supply_Equipment_DiKem" Width="1.5" PointX="16.25" PointY="98.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Vattu_Dikem" Width="1.5" PointX="16.25" PointY="106.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.BigMaintainDetail" Width="1.5" PointX="3" PointY="104.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.CameraRepairDetail" Width="1.5" PointX="8.25" PointY="101" IsExpanded="true" />
@@ -47,8 +48,8 @@
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.RepairRegularlyDetail" Width="1.5" PointX="19.5" PointY="93.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Status1" Width="1.5" PointX="8.75" PointY="114.875" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Department" Width="1.5" PointX="0.75" PointY="99.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.Notification" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.UserActionLog" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.Notification" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.UserActionLog" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.AdditionalHistoryResume" Width="1.5" PointX="27.5" PointY="97.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Career" Width="1.5" PointX="11.75" PointY="68.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Decision" Width="1.5" PointX="14" PointY="84.75" IsExpanded="true" />
@@ -81,7 +82,8 @@
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.TerminationType" Width="1.5" PointX="23" PointY="89.5" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Transfer" Width="1.5" PointX="19.25" PointY="101.125" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.Work" Width="1.5" PointX="11.75" PointY="132.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="QuangHanhManufacturingModel.WorkGroup" Width="1.5" PointX="14" PointY="133.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.WorkGroup" Width="1.5" PointX="14" PointY="133" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuangHanhManufacturingModel.WorkGroupType" Width="1.5" PointX="11.75" PointY="137.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.WorkingProcess" Width="1.5" PointX="16.25" PointY="126" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.AbsenceReason" Width="1.5" PointX="23" PointY="120.25" IsExpanded="true" />
         <EntityTypeShape EntityType="QuangHanhManufacturingModel.AbsenceReasonType" Width="1.5" PointX="20.75" PointY="120.375" IsExpanded="true" />
@@ -273,6 +275,7 @@
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Terminati__termi__2E3BD7D3" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Transfer__new_wo__10E07F16" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Transfer__old_wo__13BCEBC1" ManuallyRouted="false" />
+        <AssociationConnector Association="QuangHanhManufacturingModel.FK_WorkGroup_WorkGroupType" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__AbsenceRe__absen__3AA1AEB8" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__EmployeeA__absen__4336F4B9" ManuallyRouted="false" />
         <AssociationConnector Association="QuangHanhManufacturingModel.FK__Criteria__criter__3B95D2F1" ManuallyRouted="false" />

@@ -342,10 +342,9 @@
     <Compile Include="Controllers\TCLD\Employees\EmployeesController.cs" />
     <Compile Include="Controllers\TCLD\Employees\TransferHistoryController.cs" />
     <Compile Include="Controllers\TCLD\MaterialProtectionController.cs" />
-    <Compile Include="Controllers\TCLD\Occupation\GroupOccupationController.cs" />
-    <Compile Include="Controllers\TCLD\Occupation\WorkController.cs" />
-    <Compile Include="Controllers\TCLD\Occupation\Occupation_GroupOccupationController.cs" />
-    <Compile Include="Controllers\TCLD\Occupation\SideOccupationController.cs" />
+    <Compile Include="Controllers\TCLD\Work\WorkGroupController.cs" />
+    <Compile Include="Controllers\TCLD\Work\WorkController.cs" />
+    <Compile Include="Controllers\TCLD\Work\WorkWorkGroupController.cs" />
     <Compile Include="Controllers\TCLD\RecruitmentAndEnd\RecruitmentAndEndController.cs" />
     <Compile Include="Controllers\TCLD\RecruitmentAndEnd\RecruitmentController.cs" />
     <Compile Include="Controllers\TCLD\Productivity\ReportController.cs" />
@@ -357,6 +356,7 @@
     <Compile Include="Controllers\TCLD\Dashboard\TCLDController.cs" />
     <Compile Include="Controllers\TCLD\Transfer\TransferController.cs" />
     <Compile Include="Controllers\TCLD\Employees\WorkHistoryController.cs" />
+    <Compile Include="Controllers\TCLD\Work\WorkGroupTypeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -523,6 +523,7 @@
     </Compile>
     <Compile Include="Models\HistoryWork.cs" />
     <Compile Include="Models\HoSoNhanVien.cs" />
+    <Compile Include="Models\HumanResources\WorkGroup_Extend.cs" />
     <Compile Include="Models\HumanResources\Work_Extend.cs" />
     <Compile Include="Models\Important_Documentary.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
@@ -709,6 +710,9 @@
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supply_Extend.cs" />
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Task.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
@@ -734,6 +738,9 @@
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WorkGroup.cs">
+      <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WorkGroupType.cs">
       <DependentUpon>QuangHanhManufacturingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WorkingProcess.cs">
@@ -7533,8 +7540,7 @@
     <Content Include="Views\Camera\Quyetdinh\SuaChua\ChonThietBi.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\ThemQuyetDinh.cshtml" />
     <Content Include="Views\Camera\SuCo.cshtml" />
-    <Content Include="Views\TCLD\Work\GroupOccupation.cshtml" />
-    <Content Include="Views\TCLD\Work\SideOccupation.cshtml" />
+    <Content Include="Views\TCLD\Work\WorkGroup.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\DSQDChuaxuly.cshtml" />
     <Content Include="Views\LogIn\Account_Information.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\XuLyQuyetDinh.cshtml" />
@@ -7549,7 +7555,7 @@
     <Content Include="Views\TCLD\Salary\SalaryGrade.cshtml" />
     <Content Include="Views\TCLD\Salary\SalaryScale.cshtml" />
     <Content Include="Views\TCLD\Salary\Grade_Scale_Salary.cshtml" />
-    <Content Include="Views\TCLD\Work\Occupation_GroupOccupation.cshtml" />
+    <Content Include="Views\TCLD\Work\WorkWorkGroup.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\DieuChinh\ChiTiet.cshtml" />
     <Content Include="Views\DK\BaoCaoDemo.cshtml" />
     <Content Include="Views\DK\InputPlan\InputPlan_Month.cshtml" />
@@ -7586,6 +7592,7 @@
     <Content Include="Views\CDVT\Quyetdinh\TrungDaiTu\DanhSach.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\TrungDaiTu\Them.cshtml" />
     <Content Include="Views\CDVT\Quyetdinh\TrungDaiTu\XuLy.cshtml" />
+    <Content Include="Views\TCLD\Work\WorkGroupType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -7595,6 +7602,7 @@
     <Folder Include="images\camera\" />
     <Folder Include="Library\" />
     <Folder Include="Views\TrangChu\" />
+    <Folder Include="Views\WorkGroupType\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

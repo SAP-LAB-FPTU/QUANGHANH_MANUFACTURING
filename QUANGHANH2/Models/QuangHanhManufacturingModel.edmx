@@ -142,6 +142,16 @@
           <Property Name="equipmentId" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="quantity" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="Vattu_Dikem">
           <Key>
             <PropertyRef Name="supply_id" />
@@ -775,7 +785,7 @@
             <PropertyRef Name="salary_id" />
           </Key>
           <Property Name="salary_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="salary_name" Type="nvarchar" MaxLength="100" />
+          <Property Name="salary_number" Type="nvarchar" MaxLength="100" />
           <Property Name="applied_year" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="pay_rate_id" Type="int" />
           <Property Name="pay_table_id" Type="int" />
@@ -877,6 +887,14 @@
           <Property Name="work_group_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="acronym" Type="nvarchar" MaxLength="100" />
           <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="work_group_type_id" Type="int" />
+        </EntityType>
+        <EntityType Name="WorkGroupType">
+          <Key>
+            <PropertyRef Name="work_group_type_id" />
+          </Key>
+          <Property Name="work_group_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="WorkingProcess">
           <Key>
@@ -3597,6 +3615,18 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WorkGroup_WorkGroupType">
+          <End Role="WorkGroupType" Type="Self.WorkGroupType" Multiplicity="0..1" />
+          <End Role="WorkGroup" Type="Self.WorkGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkGroupType">
+              <PropertyRef Name="work_group_type_id" />
+            </Principal>
+            <Dependent Role="WorkGroup">
+              <PropertyRef Name="work_group_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="QuangHanhManufacturingModelStoreContainer">
           <EntitySet Name="Account" EntityType="Self.Account" Schema="Account" store:Type="Tables" />
           <EntitySet Name="Account_Right" EntityType="Self.Account_Right" Schema="Account" store:Type="Tables" />
@@ -3609,6 +3639,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
           <EntitySet Name="Status" EntityType="Self.Status" Schema="Camera" store:Type="Tables" />
           <EntitySet Name="Supply_DiKem" EntityType="Self.Supply_DiKem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supply_Equipment_DiKem" EntityType="Self.Supply_Equipment_DiKem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vattu_Dikem" EntityType="Self.Vattu_Dikem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BigMaintainDetails" EntityType="Self.BigMaintainDetails" Schema="Documentary" store:Type="Tables" />
           <EntitySet Name="CameraRepairDetails" EntityType="Self.CameraRepairDetails" Schema="Documentary" store:Type="Tables" />
@@ -3675,6 +3706,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
           <EntitySet Name="Transfer" EntityType="Self.Transfer" Schema="HumanResources" store:Type="Tables" />
           <EntitySet Name="Work" EntityType="Self.Work" Schema="HumanResources" store:Type="Tables" />
           <EntitySet Name="WorkGroup" EntityType="Self.WorkGroup" Schema="HumanResources" store:Type="Tables" />
+          <EntitySet Name="WorkGroupType" EntityType="Self.WorkGroupType" Schema="HumanResources" store:Type="Tables" />
           <EntitySet Name="WorkingProcess" EntityType="Self.WorkingProcess" Schema="HumanResources" store:Type="Tables" />
           <EntitySet Name="WorkWorkGroup" EntityType="Self.WorkWorkGroup" Schema="HumanResources" store:Type="Tables" />
           <EntitySet Name="AbsenceReason" EntityType="Self.AbsenceReason" Schema="Manufacturing" store:Type="Tables" />
@@ -4474,6 +4506,10 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
             <End Role="Specializations" EntitySet="Specializations" />
             <End Role="Recruitment" EntitySet="Recruitment" />
           </AssociationSet>
+          <AssociationSet Name="FK_WorkGroup_WorkGroupType" Association="Self.FK_WorkGroup_WorkGroupType">
+            <End Role="WorkGroupType" EntitySet="WorkGroupType" />
+            <End Role="WorkGroup" EntitySet="WorkGroup" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -4641,6 +4677,16 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
           <Property Name="quantity" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK__Supply_Eq__equip__4924D839" FromRole="Supply_Equipment_DiKem" ToRole="Equipment" />
           <NavigationProperty Name="Supply" Relationship="Self.FK__Supply_Eq__suppl__4A18FC72" FromRole="Supply_Equipment_DiKem" ToRole="Supply" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Vattu_Dikem">
           <Key>
@@ -5496,7 +5542,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
             <PropertyRef Name="salary_id" />
           </Key>
           <Property Name="salary_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="salary_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="salary_number" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="applied_year" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="pay_rate_id" Type="Int32" />
           <Property Name="pay_table_id" Type="Int32" />
@@ -5633,7 +5679,17 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
           <Property Name="work_group_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="acronym" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="work_group_type_id" Type="Int32" />
+          <NavigationProperty Name="WorkGroupType" Relationship="Self.FK_WorkGroup_WorkGroupType" FromRole="WorkGroup" ToRole="WorkGroupType" />
           <NavigationProperty Name="Works" Relationship="Self.WorkWorkGroup" FromRole="WorkGroup" ToRole="Work" />
+        </EntityType>
+        <EntityType Name="WorkGroupType">
+          <Key>
+            <PropertyRef Name="work_group_type_id" />
+          </Key>
+          <Property Name="work_group_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="WorkGroups" Relationship="Self.FK_WorkGroup_WorkGroupType" FromRole="WorkGroupType" ToRole="WorkGroup" />
         </EntityType>
         <EntityType Name="WorkingProcess">
           <Key>
@@ -7995,6 +8051,18 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WorkGroup_WorkGroupType">
+          <End Role="WorkGroupType" Type="Self.WorkGroupType" Multiplicity="0..1" />
+          <End Role="WorkGroup" Type="Self.WorkGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkGroupType">
+              <PropertyRef Name="work_group_type_id" />
+            </Principal>
+            <Dependent Role="WorkGroup">
+              <PropertyRef Name="work_group_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__AbsenceRe__absen__3AA1AEB8">
           <End Role="AbsenceReasonType" Type="Self.AbsenceReasonType" Multiplicity="0..1" />
           <End Role="AbsenceReason" Type="Self.AbsenceReason" Multiplicity="*" />
@@ -8395,6 +8463,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
           <EntitySet Name="Status" EntityType="Self.Status" />
           <EntitySet Name="Supply_DiKem" EntityType="Self.Supply_DiKem" />
           <EntitySet Name="Supply_Equipment_DiKem" EntityType="Self.Supply_Equipment_DiKem" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Vattu_Dikem" EntityType="Self.Vattu_Dikem" />
           <EntitySet Name="BigMaintainDetails" EntityType="Self.BigMaintainDetail" />
           <EntitySet Name="CameraRepairDetails" EntityType="Self.CameraRepairDetail" />
@@ -8461,6 +8530,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
           <EntitySet Name="Transfers" EntityType="Self.Transfer" />
           <EntitySet Name="Works" EntityType="Self.Work" />
           <EntitySet Name="WorkGroups" EntityType="Self.WorkGroup" />
+          <EntitySet Name="WorkGroupTypes" EntityType="Self.WorkGroupType" />
           <EntitySet Name="WorkingProcesses" EntityType="Self.WorkingProcess" />
           <EntitySet Name="AbsenceReasons" EntityType="Self.AbsenceReason" />
           <EntitySet Name="AbsenceReasonTypes" EntityType="Self.AbsenceReasonType" />
@@ -9123,6 +9193,10 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
             <End Role="Work" EntitySet="Works" />
             <End Role="Transfer" EntitySet="Transfers" />
           </AssociationSet>
+          <AssociationSet Name="FK_WorkGroup_WorkGroupType" Association="Self.FK_WorkGroup_WorkGroupType">
+            <End Role="WorkGroupType" EntitySet="WorkGroupTypes" />
+            <End Role="WorkGroup" EntitySet="WorkGroups" />
+          </AssociationSet>
           <AssociationSet Name="FK__AbsenceRe__absen__3AA1AEB8" Association="Self.FK__AbsenceRe__absen__3AA1AEB8">
             <End Role="AbsenceReasonType" EntitySet="AbsenceReasonTypes" />
             <End Role="AbsenceReason" EntitySet="AbsenceReasons" />
@@ -9401,6 +9475,17 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
                 <ScalarProperty Name="supply_id" ColumnName="supply_id" />
                 <ScalarProperty Name="equipmentId" ColumnName="equipmentId" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="QuangHanhManufacturingModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -10079,7 +10164,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
             <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Salary">
               <MappingFragment StoreEntitySet="Salary">
                 <ScalarProperty Name="salary_id" ColumnName="salary_id" />
-                <ScalarProperty Name="salary_name" ColumnName="salary_name" />
+                <ScalarProperty Name="salary_number" ColumnName="salary_number" />
                 <ScalarProperty Name="applied_year" ColumnName="applied_year" />
                 <ScalarProperty Name="pay_rate_id" ColumnName="pay_rate_id" />
                 <ScalarProperty Name="pay_table_id" ColumnName="pay_table_id" />
@@ -10189,6 +10274,15 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
               <MappingFragment StoreEntitySet="WorkGroup">
                 <ScalarProperty Name="work_group_id" ColumnName="work_group_id" />
                 <ScalarProperty Name="acronym" ColumnName="acronym" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="work_group_type_id" ColumnName="work_group_type_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkGroupTypes">
+            <EntityTypeMapping TypeName="QuangHanhManufacturingModel.WorkGroupType">
+              <MappingFragment StoreEntitySet="WorkGroupType">
+                <ScalarProperty Name="work_group_type_id" ColumnName="work_group_type_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
