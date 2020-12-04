@@ -65,16 +65,16 @@
             <div class="col s12 m12 l12" style="margin-top:10px">
                 <div class="row center">
                     <div class="col l3 m12 s12 input-field">
-                        <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV' id="searchMaNV" multiple />
+                        <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV' id="employee_id_search" multiple />
                     </div>
                     <div class="col l3 m12 s12 input-field">
-                        <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name' id="searchTenNV" multiple />
+                        <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name' id="employee_name_search" multiple />
                     </div>
                     <div class="col l3 m12 s12 input-field">
-                        <input type="text" placeholder="Tên giấy tờ" class='form-control autocomplete_Name' id="searchTenGT" multiple />
+                        <input type="text" placeholder="Tên giấy tờ" class='form-control autocomplete_Name' id="paper_name_search" multiple />
                     </div>
                     <div class="col l3 m12 s12 input-field">
-                        <select class="form-control" id="searchKieuGT">
+                        <select class="form-control" id="type_name_search">
                             <option value="" selected>Kiểu giấy tờ</option>
                             <option value="goc">Gốc</option>
                             <option value="daudo">Dấu đỏ</option>
@@ -90,9 +90,9 @@
                 </div>
             </div>
             <row>
-                <a class="waves-effect waves-light btn-small blue modal-trigger " data-target="myadd" style="margin-top:10px" onclick="PopupFormAdd('@Url.Action("themGiayTo","Brief")')"><i class="fa fa-plus"></i> Thêm</a>
+                <a class="waves-effect waves-light btn-small blue modal-trigger " style="margin-top:10px" href="#addRelevantPaper"><i class="fa fa-plus"></i> Thêm xxxx</a>
             </row>
-            <table class="table-bordered striped" id="equipmentTable" style="margin-top:10px">
+            <table class="table-bordered striped" id="re_paper_table" style="margin-top:10px">
                 <thead>
                     <tr>
                         <th>
@@ -114,9 +114,50 @@
             </table>
         </div>
     </div>
+
+    <div class="modal fade" id="addRelevantPaper">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Thêm giấy tờ liên quan</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Mã nhân viên : </label>
+                            <input type="text" class="form-control" list="eID"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Tên nhân viên : </label>
+                            <input type="text" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Tên giấy tờ : </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Kiểu giấy tờ : </label>
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn blue darken-2 modal-close save-category" onclick="addActi()">Lưu</button>
+                <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</button>
+            </div>
+        </div>
+    </div>
 </div>
 
-
+<datalist id="eID">
+    @foreach (var item in ViewBag.employee_list)
+    {
+        <option value="@item.employee_id">@item.BASIC_INFO_full_name</option>
+    }
+</datalist>
 
 @{
     List<string> right = (List<string>)Session["RightIDs"];
@@ -212,22 +253,24 @@
     <script src="~/js/Custom JS/TCLD/Brief/ManageBrief/DeletePopup.min.js"></script>
     <script src="~/js/Custom JS/Disable_input_material.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
     <script>
-        ////////////////////////////////////////////////////////////////////////
+
         $("#pre-load").show("slow", function () {
          });
         $("#pre-load").css("z-index", "99999");
-////////////////////////////////////////////////////////////////////////
+
         var Popup, dataTable;
+
         $(document).ready(function () {
-            dataTable = $('#equipmentTable')
+            dataTable = $('#re_paper_table')
                 .on('preXhr.dt', function (e, settings, data) {
 
-                                   ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
+
       				  $("#pre-load").show("slow", function () {
       				   });
       				  $("#pre-load").css("z-index", "99999");
-			          ////////////////////////////////////////////////////////////////////////
+
                 })
                 .DataTable({
                 "ajax": {
@@ -235,12 +278,11 @@
                     "type": "POST",
                     "datatype": "json",
                     "data": {
-                        "MaNV": function () { return $('#searchMaNV').val() },
-                        "TenNV": function () { return $('#searchTenNV').val() },
-                        "TenGT": function () { return $('#searchTenGT').val() },
-                        "KieuGT": function () { return $('#searchKieuGT').val() },
+                        "employee_id": function () { return $('#employee_id_search').val() },
+                        "employee_name": function () { return $('#employee_name_search').val() },
+                        "paper_name": function () { return $('#paper_name_search').val() },
+                        "type_name": function () { return $('#type_name_search').val() },
                         },
-
                     },
 
                      "drawCallback": function (settings) {
@@ -251,29 +293,29 @@
 
                  },
                 "columns": [
-                    { "data": "MaNV" , "name" : "MaNV",  },
-                    { "data": "Ten" , "name" : "Ten" },
-                    { "data": "TenGiayTo", "name": "TenGiayTo" },
-                    { "data": "KieuGiayTo" , "name" : "KieuGiayTo"},
+                    { "data": "employee_id" , "name" : "employee_id",  },
+                    { "data": "employee_name" , "name" : "employee_name" },
+                    { "data": "paper_name", "name": "paper_name" },
+                    { "data": "type_name" , "name" : "type_name"},
 
                       {
-                          "data": "MaGiayTo", "render": function (data, type, row) {
-                              return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myEdit' onclick=Edit('@Url.Action("suaGiayTo","Brief")/"+data+"')><span class='ti-pencil-alt'>Chỉnh&nbsp;sửa</span></a>";
+                          "data": "papers_id", "render": function (data, type, row) {
+                              return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myEdit'><span class='ti-pencil-alt'>Chỉnh&nbsp;sửa</span></a>";
                         },
                         "orderable": false,
                         "searchable":false,
                         "width":"150px"
                     },
                     {
-                        "data": "MaGiayTo", "render": function (data, type, row) {
-                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' onclick=DeleteDoc("+data+")><span class='fas fa-times-circle'>Xóa</span></a>";
+                        "data": "papers_id", "render": function (data, type, row) {
+                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px'><span class='fas fa-times-circle'>Xóa</span></a>";
                         },
                         "orderable": false,
                         "searchable":false,
                         "width":"150px"
                     }
                 ],
-                "serverSide": "true",
+                "serverSide": true,
                 "bLengthChange": false,
                 "bFilter": false,
                  "bInfo": false,
@@ -296,88 +338,88 @@
  ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
     		$("#pre-load").hide("slow", function () {
       		  });
- //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
                     },
 
             });
         });
 
-         $(document).ready(function () {
-            var dataTable = $('#equipmentTable').DataTable();
-             $("#searchButton_Doc").click(function () {
-                 dataTable.ajax.reload();
+         //$(document).ready(function () {
+         //   var dataTable = $('#equipmentTable').DataTable();
+         //    $("#searchButton_Doc").click(function () {
+         //        dataTable.ajax.reload();
 
-            });
-        });
+         //   });
+         //});
+
         //gọi popup khi ấn sửa
-         function PopupFormEdit(url) {
-            var formDiv = $('<div/>');
-            $.get(url)
-            .done(function (response) {
-                formDiv.html(response);
-                    Popup = formDiv.dialog({
-                    autoOpen: true,
-                    resizable: false,
-                    title: 'Sửa giấy tờ',
-                    height: 1000,
-                    width: 800,
-                    close: function () {
-                    Popup.dialog('destroy').remove();
-                    }
+    //     function PopupFormEdit(url) {
+    //        var formDiv = $('<div/>');
+    //        $.get(url)
+    //        .done(function (response) {
+    //            formDiv.html(response);
+    //                Popup = formDiv.dialog({
+    //                autoOpen: true,
+    //                resizable: false,
+    //                title: 'Sửa giấy tờ',
+    //                height: 1000,
+    //                width: 800,
+    //                close: function () {
+    //                Popup.dialog('destroy').remove();
+    //                }
 
-                    });
-            });
-    }
+    //                });
+    //        });
+    //}
         //dùng bên suaGiayTo.cshtml khi ấn sumbit
-        function UpdateEquipment(form) {
-            $.validator.unobtrusive.parse(form);
-            if ($(form).valid()) {
-                $.ajax({
-                    type : "POST",
-                    url : form.action,
-                    data : $(form).serialize(),
-                    success : function (data) {
-                            dataTable.ajax.reload();
-                            successAlert('Thành công','Sửa thành công');
+        //function UpdateEquipment(form) {
+        //    $.validator.unobtrusive.parse(form);
+        //    if ($(form).valid()) {
+        //        $.ajax({
+        //            type : "POST",
+        //            url : form.action,
+        //            data : $(form).serialize(),
+        //            success : function (data) {
+        //                    dataTable.ajax.reload();
+        //                    successAlert('Thành công','Sửa thành công');
 
-                    },
-                    error: function (data) {
-                            dataTable.ajax.reload();
-                            successAlert('Thành công','Sửa thành công');
+        //            },
+        //            error: function (data) {
+        //                    dataTable.ajax.reload();
+        //                    successAlert('Thành công','Sửa thành công');
 
-                        },
-                });
-            }
-            return false;
-        }
+        //                },
+        //        });
+        //    }
+        //    return false;
+        //}
         //dùng bên themGiayTo.cshtml khi ấn sumbit
-         function SubmitForm(form) {
-            $.validator.unobtrusive.parse(form);
-            if ($(form).valid()) {
-                $.ajax({
-                    type : "POST",
-                    url : form.action,
-                    data : $(form).serialize(),
-                    success: function (result) {
-                        if (result.message === "Failed") {
-                            dataTable.ajax.reload();
-                            $.notify("Mã nhân viên không tồn tại", {
-                                globalPosition: "top center",
-                                className: "failed"
-                            })
-                        } else {
-                            dataTable.ajax.reload();
-                            successAlert('Thành công','Thêm thành công');
-                        }
+        // function SubmitForm(form) {
+        //    $.validator.unobtrusive.parse(form);
+        //    if ($(form).valid()) {
+        //        $.ajax({
+        //            type : "POST",
+        //            url : form.action,
+        //            data : $(form).serialize(),
+        //            success: function (result) {
+        //                if (result.message === "Failed") {
+        //                    dataTable.ajax.reload();
+        //                    $.notify("Mã nhân viên không tồn tại", {
+        //                        globalPosition: "top center",
+        //                        className: "failed"
+        //                    })
+        //                } else {
+        //                    dataTable.ajax.reload();
+        //                    successAlert('Thành công','Thêm thành công');
+        //                }
 
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
-                        alert(textStatus);
-                     }
-                });
-            }
-            return false;
-        }
+        //            },
+        //            error: function (xhr, textStatus, errorThrown) {
+        //                alert(textStatus);
+        //             }
+        //        });
+        //    }
+        //    return false;
+        //}
            function Edit(url) {
              $.get(url)
                  .done(function (response) {
@@ -402,7 +444,8 @@
     </script>
     <!---------------------------------------------------------------------------------->
     <script>
-    var datatable_inside, stt;
+        var datatable_inside, stt;
+
     $(document).ready(function () {
         datatable_inside = $('#inside_table').on('preXhr.dt', function (e, settings, data) {
             $("#pre-load").show("slow", function () {
@@ -479,7 +522,7 @@
         }
     }
 
-    $("#searchButton").click(function () {
+    @*$("#searchButton").click(function () {
         $("#pre-load").show("slow", function () { });
 
             var manv = $("#manv").val();
@@ -497,7 +540,7 @@
             className: "success"
         })
             datatable_inside.ajax.url('@Url.Action("searchlistAllBrief", "Brief")?searchList=' + arr).load(() => { $("#pre-load").hide("slow", function () { }) }, true)
-    })
+    })*@
 
     function dateFormat(d) {
         if (d != null && d != "") {
@@ -563,3 +606,79 @@
     </script>
 }
 <!----------------------------------------------------Long----------------------------------->
+<!----------------------------------------------------Ctbom----------------------------------->
+<script>
+    $("#searchButton").click(function () {
+        dataTable = $('#re_paper_table').on('preXhr.dt', function (e, settings, data) {
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
+        }).DataTable({
+            "language": {
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                "paginate": {
+                    "first": "Đầu",
+                    "last": "Cuối",
+                    "next": "Sau",
+                    "previous": "Trước"
+                }
+            },
+            "ajax": {
+                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to",
+                "type": "POST",
+                "datatype": "json",
+                "data": {
+                        "employee_id": function () { return $('#employee_id_search').val() },
+                        "employee_name": function () { return $('#employee_name_search').val() },
+                        "paper_name": function () { return $('#paper_name_search').val() },
+                        "type_name": function () { return $('#type_name_search').val() },
+                },
+                "cache": "false"
+            },
+            "drawCallback": function (settings) {
+                ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                $("#pre-load").hide("slow", function () {
+                });
+                ////////////////////////////////////////////////
+            },
+            "columns": [
+                    { "data": "employee_id" , "name" : "employee_id",  },
+                    { "data": "employee_name" , "name" : "employee_name" },
+                    { "data": "paper_name", "name": "paper_name" },
+                    { "data": "type_name" , "name" : "type_name"},
+
+                      {
+                          "data": "papers_id", "render": function (data, type, row) {
+                              return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myEdit'><span class='ti-pencil-alt'>Chỉnh&nbsp;sửa</span></a>";
+                        },
+                        "orderable": false,
+                        "searchable":false,
+                        "width":"150px"
+                    },
+                    {
+                        "data": "papers_id", "render": function (data, type, row) {
+                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px'><span class='fas fa-times-circle'>Xóa</span></a>";
+                        },
+                        "orderable": false,
+                        "searchable":false,
+                        "width":"150px"
+                    }
+                ],
+            "bFilter": false,
+            "serverSide": true,
+            "rowId": "activityid",
+            "lengthChange": false,
+            "bAutoWidth": false,
+            "order": [0, "asc"],
+            "initComplete": function (settings, json) {
+                ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                $("#pre-load").hide("slow", function () {
+                });
+                //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+            }
+        });
+    })
+</script>
+
