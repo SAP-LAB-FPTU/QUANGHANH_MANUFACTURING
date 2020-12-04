@@ -1,6 +1,6 @@
 ﻿
 @{ ViewBag.Title = "Work";
-                Layout = "~/Views/Shared/_Layout_TCLD.cshtml"; }
+    Layout = "~/Views/Shared/_Layout_TCLD.cshtml"; }
 
 <div class="card">
     <div class="card-content">
@@ -42,9 +42,10 @@
             <label>Thang lương</label>
             <select class="form-control" id="add_work_pay_table_select">
                 <option value="" disabled selected>Chọn thang lương</option>
-                @foreach (var list_pay_tables in ViewBag.list_pay_tables)
+                @foreach (var payTables in ViewBag.payTables)
                 {
-    <option value="@list_pay_tables.pay_table_id">Năm @list_pay_tables.applied_year - @list_pay_tables.pay_table</option>}
+                    <option value="@payTables.pay_table_id">Năm @payTables.applied_year - @payTables.pay_table</option>
+}
             </select>
         </div>
     </div>
@@ -70,9 +71,10 @@
             <label>Thang lương</label>
             <select class="form-control" id="edit_work_pay_table_select">
                 <option value="" disabled selected>Chọn thang lương</option>
-                @foreach (var list_pay_tables in ViewBag.list_pay_tables)
+                @foreach (var payTables in ViewBag.payTables)
                 {
-    <option value="@list_pay_tables.pay_table_id">Năm @list_pay_tables.applied_year - @list_pay_tables.pay_table</option>}
+                    <option value="@payTables.pay_table_id">Năm @payTables.applied_year - @payTables.pay_table</option>
+}
             </select>
         </div>
     </div>
@@ -95,7 +97,7 @@
                 "datatype": "json",
                 "cache": "false",
                 "dataSrc": function (json) {
-                    return json["list_works"];
+                    return json["works"];
                 }
             },
             "columns": [
@@ -220,29 +222,29 @@
 <script>
     function getDataByWorkID(work_id) {
         $("#pre-load").show(),
-        $.ajax({
-            url: "/phong-tcld/quan-ly-cong-viec/lay-du-lieu-theo-macongviec",
-            type: "POST",
-            datatype: "json",
-            data: {
-                "work_id": work_id
-            },
-            success: function (response) {
-                if (response.success) {
-                    //fill data to input in modal suaCongViec
-                    $("#edit_work_name").val(response.list_works.name);
-                    $("#edit_work_allowance").val(response.list_works.allowance);
-                    $("#edit_work_pay_table_select option[value=\"" + response.list_works.pay_table_id + "\"]").prop("selected", true);
-                    //hide the pre-loader
-                    $("#pre-load").hide();
-                } else {
+            $.ajax({
+                url: "/phong-tcld/quan-ly-cong-viec/lay-du-lieu-theo-macongviec",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "work_id": work_id
+                },
+                success: function (response) {
+                    if (response.success) {
+                        //fill data to input in modal suaCongViec
+                        $("#edit_work_name").val(response.works.name);
+                        $("#edit_work_allowance").val(response.works.allowance);
+                        $("#edit_work_pay_table_select option[value=\"" + response.works.pay_table_id + "\"]").prop("selected", true);
+                        //hide the pre-loader
+                        $("#pre-load").hide();
+                    } else {
+                        errorAlert(response.title, response.message);
+                    }
+                },
+                error: function (response) {
                     errorAlert(response.title, response.message);
                 }
-            },
-            error: function (response) {
-                errorAlert(response.title, response.message);
-            }
-        });
+            });
     }
 </script>
 

@@ -1,4 +1,5 @@
-﻿using QUANGHANH2.Models;
+﻿using QUANGHANH2.EntityResult;
+using QUANGHANH2.Models;
 using QUANGHANH2.Models.HumanResources;
 using System;
 using System.Collections.Generic;
@@ -17,26 +18,24 @@ namespace QUANGHANH2.Controllers.TCLD
         public ActionResult Index()
         {
             //get data from PayTable table to fill to select > option
-            getDataFromPayTable();
+            getAllDataPayTable();
             return View("/Views/TCLD/Work/Work.cshtml");
         }
 
-        //////////////////////////////////////GET DATA FROM THANGLUONG///////////////////////////////////////
-        public void getDataFromPayTable()
+        //////////////////////////////////////GET ALL DATA FROM PayTable///////////////////////////////////////
+        public void getAllDataPayTable()
         {
             try
             {
-                List<PayTable> list_pay_tables = new List<PayTable>();
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
-                    var sqlGetData = @"select * from HumanResources.PayTable";
-                    list_pay_tables = db.Database.SqlQuery<PayTable>(sqlGetData).ToList();
-                    ViewBag.list_pay_tables = list_pay_tables;
+                    List<PayTable> payTables = db.PayTables.ToList();
+                    ViewBag.payTables = payTables;
                 }
             }
             catch (Exception e)
             {
-
+                throw e;
             }
         }
 
@@ -47,31 +46,35 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                db.Configuration.LazyLoadingEnabled = true;
-
                 //get data's table to paging
                 int start = Convert.ToInt32(Request["start"]);
                 int length = Convert.ToInt32(Request["length"]);
-                string searchValue = Request["search[value]"];
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
 
                 try
                 {
-                    List<Work_Extend> list_works = new List<Work_Extend>();
-                    var sqlList = @"select w.work_id, w.name, w.allowance, pt.pay_table 
-                                    from HumanResources.Work w 
-                                    left outer join HumanResources.PayTable pt on w.pay_table_id = pt.pay_table_id 
-                                    order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
-                    list_works = db.Database.SqlQuery<Work_Extend>(sqlList).ToList();
+                    //List<GetDataWork_Result> list_works = new List<GetDataWork_Result>();
+                    //var sqlList = @"select w.work_id, w.name, w.allowance, pt.pay_table 
+                    //                from HumanResources.Work w 
+                    //                left outer join HumanResources.PayTable pt on w.pay_table_id = pt.pay_table_id 
+                    //                order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
+                    List<GetDataWork_Result> works = db.Database.SqlQuery<GetDataWork_Result>("HumanResources.GetDataWork @name, @allowance, @pay_table_id, @sortColumnName, @sortDirection, @start, @length",
+                                                                                                new SqlParameter("@name", ""),
+                                                                                                new SqlParameter("@allowance", ""),
+                                                                                                new SqlParameter("@pay_table_id", ""),
+                                                                                                new SqlParameter("@sortColumnName", sortColumnName),
+                                                                                                new SqlParameter("@sortDirection", sortDirection),
+                                                                                                new SqlParameter("@start", start),
+                                                                                                new SqlParameter("@length", length)).ToList();
 
                     int totalrows = db.Works.Count();
                     int totalrowsafterfiltering = totalrows;
-                    return Json(new { list_works = list_works, recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                    return Json(new { works = works, recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 return null;
             }
@@ -135,10 +138,17 @@ namespace QUANGHANH2.Controllers.TCLD
                 int work_id = Convert.ToInt32(Request["work_id"]);
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
-                    var sqlGetData = @"select w.work_id, w.name, w.allowance, w.pay_table_id 
-                                        from HumanResources.Work w 
-                                        where w.work_id = @work_id";
-                    var list_works = db.Database.SqlQuery<Work_Extend>(sqlGetData, new SqlParameter("work_id", work_id)).FirstOrDefault();
+                    //var sqlGetData = @"select w.work_id, w.name, w.allowance, w.pay_table_id 
+                    //                    from HumanResources.Work w 
+                    //                    where w.work_id = @work_id";
+                    var list_works = db.Database.SqlQuery<GetDataWork_Result>("HumanResources.GetDataWork @name, @allowance, @pay_table_id, @sortColumnName, @sortDirection, @start, @length",
+                                                                                new SqlParameter("@name", ""),
+                                                                                new SqlParameter("@allowance", ""),
+                                                                                new SqlParameter("@pay_table_id", ""),
+                                                                                new SqlParameter("@sortColumnName", ""),
+                                                                                new SqlParameter("@sortDirection", ""),
+                                                                                new SqlParameter("@start", ""),
+                                                                                new SqlParameter("@length", "")).FirstOrDefault();
                     if (list_works != null)
                     {
                         return Json(new { success = true, list_works = list_works });
