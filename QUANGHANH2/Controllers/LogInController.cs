@@ -28,26 +28,26 @@ namespace QUANGHANHCORE.Controllers
                 string url = (string)Session["url"];
                 return Redirect(url);
             }
-            if (HttpContext.Request.Cookies["token"] != null)
-            {
-                HttpCookie remme = HttpContext.Request.Cookies.Get("token");
-                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-                {
-                    string token = remme.Values.Get("token");
-                    int uid = int.Parse(remme.Values.Get("uid"));
-                    var info = db.Accounts.Where(x => x.token.Equals(token) && x.ID == uid).FirstOrDefault();
-                    if(info != null)
-                    {
-                        login a = new login()
-                        {
-                            username = info.Username,
-                            password = Hash.Encrypt.DecryptString(token, "quanghanhcoals")
-                        };
-                        ViewBag.login = a;
-                    }
-                    return View();
-                }
-            }
+            //if (HttpContext.Request.Cookies["token"] != null)
+            //{
+            //    HttpCookie remme = HttpContext.Request.Cookies.Get("token");
+            //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+            //    {
+            //        string token = remme.Values.Get("token");
+            //        int uid = int.Parse(remme.Values.Get("uid"));
+            //        var info = db.Accounts.Where(x => x.token.Equals(token) && x.ID == uid).FirstOrDefault();
+            //        if(info != null)
+            //        {
+            //            login a = new login()
+            //            {
+            //                username = info.Username,
+            //                password = Hash.Encrypt.DecryptString(token, "quanghanhcoals")
+            //            };
+            //            ViewBag.login = a;
+            //        }
+            //        return View();
+            //    }
+            //}
             return View();
         }
         [HttpPost]
@@ -75,28 +75,28 @@ namespace QUANGHANHCORE.Controllers
                     Session["isAdmin"] = Name.ADMIN;
                     Session["Role"] = Name.Role;
                     GetPermission(id);
-                    //thư viện đang dùng cho hashpass không decrypt được nên phải dùng thư viện khác để set pass cookie
-                    string hashtoken = Hash.Encrypt.EncryptString(password,"quanghanhcoals");
-                    if (!String.IsNullOrEmpty(rm))
-                    {
-                        if (rm.Equals("on"))
-                        {
-                            HttpCookie remme = new HttpCookie("token");
-                            remme["token"] = hashtoken;
-                            remme["uid"] = Name.ID.ToString();
-                            remme.Expires = DateTime.Now.AddDays(365);
-                            remme.Secure = true;
-                            remme.HttpOnly = true;
-                            HttpContext.Response.Cookies.Add(remme);
-                            checkuser.token = hashtoken;
-                            try
-                            {
-                                db.Entry(checkuser).State = EntityState.Modified;
-                                db.SaveChanges();
-                            }
-                            catch (Exception e) { }
-                        }
-                    }
+
+                    //string hashtoken = Hash.Encrypt.EncryptString(password,"quanghanhcoals");
+                    //if (!String.IsNullOrEmpty(rm))
+                    //{
+                    //    if (rm.Equals("on"))
+                    //    {
+                    //        HttpCookie remme = new HttpCookie("token");
+                    //        remme["token"] = hashtoken;
+                    //        remme["uid"] = Name.ID.ToString();
+                    //        remme.Expires = DateTime.Now.AddDays(365);
+                    //        remme.Secure = true;
+                    //        remme.HttpOnly = true;
+                    //        HttpContext.Response.Cookies.Add(remme);
+                    //        checkuser.token = hashtoken;
+                    //        try
+                    //        {
+                    //            db.Entry(checkuser).State = EntityState.Modified;
+                    //            db.SaveChanges();
+                    //        }
+                    //        catch (Exception e) { }
+                    //    }
+                    //}
                     if (Name.ADMIN) return RedirectToAction("Index", "ManagementUser");
                     string url = (string)Session["url"];
                     if (url == null)

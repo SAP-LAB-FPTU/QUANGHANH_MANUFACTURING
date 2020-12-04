@@ -37,7 +37,7 @@ namespace QUANGHANH2.Models
         public string employee_id { get; set; }
         public string BASIC_INFO_full_name { get; set; }
         public string BASIC_INFO_other_name { get; set; }
-        public string BASIC_INFO_gender { get; set; }
+        public Nullable<bool> BASIC_INFO_gender { get; set; }
         public Nullable<System.DateTime> BASIC_INFO_date_of_birth { get; set; }
         public string BASIC_INFO_place_of_birth { get; set; }
         public string BASIC_INFO_nation { get; set; }

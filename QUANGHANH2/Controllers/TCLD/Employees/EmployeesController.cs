@@ -357,14 +357,17 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     salary_level.Add(new SelectListItem
                     {
-                        //Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary1,
+                        Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_number,
                         Value = i.salary_id.ToString()
                     });
                     if (db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>().current_salary_id == i.salary_id)
                     {
-                        //ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary1;
+
+                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_number;
+
                     }
                 }
+
                 ViewBag.level_salary = salary_level;
 
                 List<SelectListItem> Month = new List<SelectListItem>();
@@ -432,235 +435,221 @@ namespace QUANGHANH2.Controllers.TCLD
         }
 
 
-        //        [Auther(RightID = "53")]
-        //        [Route("phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")]
-        //        [HttpGet]
-        //        public ActionResult LoadEdit(string id)
-        //        {
-        //            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //            {
-        //                List<SelectListItem> salary_level = new List<SelectListItem>();
-        //                String query_salary_level = @"select a.*, b.MucBacLuong, c.MucThangLuong from BacLuong_ThangLuong_MucLuong 
-        //                a join BacLuong b on a.MaBacLuong = b.MaBacLuong join ThangLuong c on a.MaThangLuong = c.MaThangLuong";
-        //                List<BacLuong_ThangLuong_MucLuong_Extend> list_level_salary = new List<BacLuong_ThangLuong_MucLuong_Extend>();
-        //                list_level_salary = db.Database.SqlQuery<BacLuong_ThangLuong_MucLuong_Extend>(query_salary_level).ToList();
-        //                foreach (BacLuong_ThangLuong_MucLuong_Extend i in list_level_salary)
-        //                {
-        //                    salary_level.Add(new SelectListItem
-        //                    {
-        //                        Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.MucLuong,
-        //                        Value = i.MaBacLuong_ThangLuong_MucLuong.ToString()
-        //                    });
-        //                    if (db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>().MaBacLuong_ThangLuong_MucLuong == i.MaBacLuong_ThangLuong_MucLuong)
-        //                    {
-        //                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.MucLuong;
-        //                    }
-        //                }
-        //                ViewBag.level_salary = salary_level;
+        [Auther(RightID = "53")]
+        [Route("phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")]
+        [HttpGet]
+        public ActionResult LoadEdit(string id)
+        {
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+            {
+                List<SelectListItem> salary_level = new List<SelectListItem>();
+                String query_salary_level = @"select a.*, b.pay_rate, c.pay_table from HumanResources.Salary a 
+                                            join HumanResources.PayRate b on a.pay_rate_id = b.pay_rate_id 
+                                            join HumanResources.PayTable c on a.pay_table_id = c.pay_table_id";
+                List<BacLuong_ThangLuong_MucLuong_Extend> list_level_salary = new List<BacLuong_ThangLuong_MucLuong_Extend>();
+                list_level_salary = db.Database.SqlQuery<BacLuong_ThangLuong_MucLuong_Extend>(query_salary_level).ToList();
+                foreach (BacLuong_ThangLuong_MucLuong_Extend i in list_level_salary)
+                {
+                    salary_level.Add(new SelectListItem
+                    {
+                        Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_number,
+                        Value = i.salary_id.ToString()
+                    });
+                    if (db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>().current_salary_id == i.salary_id)
+                    {
+                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_number;
+                    }
+                }
+                ViewBag.level_salary = salary_level;
 
-        //                List<SelectListItem> Month = new List<SelectListItem>();
-        //                for (int i = 1; i <= 12; i++)
-        //                {
-        //                    Month.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-        //                }
+                List<SelectListItem> Month = new List<SelectListItem>();
+                for (int i = 1; i <= 12; i++)
+                {
+                    Month.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                }
 
 
-        //                ViewBag.months = Month;
-        //                List<SelectListItem> Genders = new List<SelectListItem>
-        //            {
-        //                new SelectListItem { Text = "Nam", Value = "true" },
-        //                new SelectListItem { Text = "Nữ", Value = "false" }
-        //            };
-        //                ViewBag.genders = Genders;
+                ViewBag.months = Month;
+                List<SelectListItem> Genders = new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Nam", Value = "true" },
+                        new SelectListItem { Text = "Nữ", Value = "false" }
+                    };
+                ViewBag.genders = Genders;
 
-        //                List<TrinhDo> Leveldb = db.TrinhDoes.ToList<TrinhDo>();
-        //                List<SelectListItem> Level = new List<SelectListItem>();
+                List<Qualification> Leveldb = db.Qualifications.ToList<Qualification>();
+                List<SelectListItem> Level = new List<SelectListItem>();
 
-        //                foreach (TrinhDo td in Leveldb)
-        //                {
-        //                    Level.Add(new SelectListItem { Text = td.TenTrinhDo.Trim(), Value = td.MaTrinhDo.ToString() });
-        //                }
+                foreach (Qualification td in Leveldb)
+                {
+                    Level.Add(new SelectListItem { Text = td.name.Trim(), Value = td.qualification_id.ToString() });
+                }
 
-        //                ViewBag.level = Level;
-        //                List<CongViec> Jobdb = db.CongViecs.ToList<CongViec>();
+                ViewBag.level = Level;
+                List<Work> Jobdb = db.Works.ToList<Work>();
 
-        //                List<SelectListItem> Job = new List<SelectListItem>();
+                List<SelectListItem> Job = new List<SelectListItem>();
 
-        //                foreach (CongViec cv in Jobdb)
-        //                {
-        //                    Job.Add(new SelectListItem { Text = cv.TenCongViec.Trim(), Value = cv.MaCongViec.ToString() });
-        //                    if (db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>().MaCongViec == cv.MaCongViec)
-        //                    {
-        //                        ViewBag.loadJob = cv.TenCongViec.Trim();
-        //                    }
-        //                }
-        //                ViewBag.job = Job;
-        //                List<SelectListItem> Heal = new List<SelectListItem>
-        //            {
-        //                new SelectListItem { Text = "Khỏe", Value = "khoe" },
-        //                new SelectListItem { Text = "Bình thường", Value = "binhthuong" },
-        //                new SelectListItem { Text = "Yếu", Value = "yeu" },
-        //                new SelectListItem { Text = "Bệnh mãn tính", Value = "benhmantinh" }
-        //            };
-        //                ViewBag.heal = Heal;
-        //                List<SelectListItem> ThuongBinh = new List<SelectListItem>
-        //            {
-        //                new SelectListItem { Text = "Không", Value = "0" },
-        //                new SelectListItem { Text = "1/4(Thương tật 81% trở lên)", Value = "1" },
-        //                new SelectListItem { Text = "2/4(Thương tật từ 61% trở lên)", Value = "2" },
-        //                new SelectListItem { Text = "3/4(Thương tật từ 41% trở lên)", Value = "3" },
-        //                new SelectListItem { Text = "4/4(Thương tật từ 21% trở lên)", Value = "4" }
-        //            };
-        //                ViewBag.thuongbinh = ThuongBinh;
+                foreach (Work cv in Jobdb)
+                {
+                    Job.Add(new SelectListItem { Text = cv.name.Trim(), Value = cv.work_id.ToString() });
+                    if (db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>().current_work_id == cv.work_id)
+                    {
+                        ViewBag.loadJob = cv.name.Trim();
+                    }
+                }
+                ViewBag.job = Job;
+                List<SelectListItem> Heal = new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Khỏe", Value = "khoe" },
+                        new SelectListItem { Text = "Bình thường", Value = "binhthuong" },
+                        new SelectListItem { Text = "Yếu", Value = "yeu" },
+                        new SelectListItem { Text = "Bệnh mãn tính", Value = "benhmantinh" }
+                    };
+                ViewBag.heal = Heal;
+                List<SelectListItem> ThuongBinh = new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Không", Value = "0" },
+                        new SelectListItem { Text = "1/4(Thương tật 81% trở lên)", Value = "1" },
+                        new SelectListItem { Text = "2/4(Thương tật từ 61% trở lên)", Value = "2" },
+                        new SelectListItem { Text = "3/4(Thương tật từ 41% trở lên)", Value = "3" },
+                        new SelectListItem { Text = "4/4(Thương tật từ 21% trở lên)", Value = "4" }
+                    };
+                ViewBag.thuongbinh = ThuongBinh;
 
-        //                QuanHeGiaDinh qh = new QuanHeGiaDinh();
-        //                List<QuanHeGiaDinh> qhList = db.QuanHeGiaDinhs.Where(x => x.MaNV == id).ToList();
-        //                ViewBag.qhList = qhList;
-        //                QuaTrinhCongTac qt = new QuaTrinhCongTac();
-        //                List<QuaTrinhCongTac> qtList = db.QuaTrinhCongTacs.Where(x => x.MaNV == id).ToList();
-        //                ViewBag.qtList = qtList;
-        //                return View("/Views/TCLD/Brief/Edit.cshtml", db.NhanViens.Where(x => x.MaNV == id).FirstOrDefault<NhanVien>());
-        //            }
-        //        }
-        //        [Auther(RightID = "53")]
-        //        [HttpPost]
-        //        public ActionResult SaveEdit(NhanVien emp, string test, string hiddenSalary, string[] giaDinh, string[] ngaySinhGiaDinh, string[] hoTen, string[] moiQuanHe, string[] lyLich, string[] donVi, string[] chucDanh, string[] chucVu, string[] tuNgayDenNgay)
-        //        {
-        //            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-        //            using (DbContextTransaction dbct = db.Database.BeginTransaction())
-        //            {
-        //                try
-        //                {
-        //                    List<CongViec> Jobdb = db.CongViecs.ToList<CongViec>();
-        //                    foreach (CongViec cv in Jobdb)
-        //                    {
-        //                        if (test.Trim().Equals(cv.TenCongViec.Trim()))
-        //                        {
-        //                            emp.MaCongViec = cv.MaCongViec;
-        //                            break;
-        //                        }
-        //                    }
+                Family qh = new Family();
+                List<Family> qhList = db.Families.Where(x => x.employee_id == id).ToList();
+                ViewBag.qhList = qhList;
+                List<FamilyType> familyTypes = db.FamilyTypes.ToList();
+                ViewBag.familyTypes = familyTypes;
+                List<FamilyRelationship> familyRelationships = db.FamilyRelationships.ToList();
+                ViewBag.familyRelationships = familyRelationships;
+                WorkingProcess qt = new WorkingProcess();
+                List<WorkingProcess> qtList = db.WorkingProcesses.Where(x => x.employee_id == id).ToList();
+                ViewBag.qtList = qtList;
+                return View("/Views/TCLD/Brief/Edit.cshtml", db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>());
+            }
+        }
+        [Auther(RightID = "53")]
+        [HttpPost]
+        public ActionResult SaveEdit(Employee emp, string test, string hiddenSalary, string[] giaDinh, string[] ngaySinhGiaDinh, string[] hoTen, string[] moiQuanHe, string[] lyLich, string[] donVi, string[] chucDanh, string[] chucVu, string[] tuNgayDenNgay)
+        {
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            using (DbContextTransaction dbct = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    List<Work> Jobdb = db.Works.ToList<Work>();
+                    foreach (Work cv in Jobdb)
+                    {
+                        if (test.Trim().Equals(cv.name.Trim()))
+                        {
+                            emp.current_work_id = cv.work_id;
+                            break;
+                        }
+                    }
 
-        //                    if (giaDinh != null)
-        //                    {
-        //                        List<QuanHeGiaDinh> qhList = db.QuanHeGiaDinhs.ToList();
-        //                        for (int i = 0; i < giaDinh.Length; i++)
-        //                        {
-        //                            if (!giaDinh[i].Equals(""))
-        //                            {
-        //                                string moiQuanHeX = moiQuanHe[i];
-        //                                string giaDinhX = giaDinh[i];
-        //                                List<QuanHeGiaDinh> Gd = db.QuanHeGiaDinhs.Where(nv => (nv.MaNV.Equals(emp.MaNV)) && (nv.MoiQuanHe.Equals(moiQuanHeX)) && (nv.LoaiGiaDinh.Equals(giaDinhX))).ToList();
-        //                                if (Gd.Count == 0)
-        //                                {
-        //                                    QuanHeGiaDinh gd = new QuanHeGiaDinh();
-        //                                    gd.MaNV = emp.MaNV;
-        //                                    gd.LoaiGiaDinh = giaDinh[i];
-        //                                    if (ngaySinhGiaDinh[i] != "")
-        //                                    {
-        //                                        string[] date = ngaySinhGiaDinh[i].Split('/');
-        //                                        gd.NgaySinh = Convert.ToDateTime(date[1] + "/" + date[0] + "/" + date[2]);
-        //                                    }
-        //                                    gd.HoTen = hoTen[i];
-        //                                    gd.MoiQuanHe = moiQuanHe[i];
-        //                                    gd.LyLich = lyLich[i];
-        //                                    db.QuanHeGiaDinhs.Add(gd);
-        //                                    db.SaveChanges();
+                    if (giaDinh != null)
+                    {
+                        for (int i = 0; i < giaDinh.Length; i++)
+                        {
+                            if (giaDinh[i].Equals("") || moiQuanHe[i].Equals(""))
+                            {
+                                continue;
+                            }
+                            Family family = new Family();
+                            family.full_name = hoTen[i];
+                            if (ngaySinhGiaDinh[i] != "")
+                            {
+                                family.date_of_birth = DateTime.ParseExact(ngaySinhGiaDinh[i], "dd/MM/yyyy", null);
 
-        //                                }
-        //                                else
-        //                                {
-        //                                    QuanHeGiaDinh gd = new QuanHeGiaDinh();
-        //                                    gd.MaNV = emp.MaNV;
-        //                                    gd.LoaiGiaDinh = giaDinh[i];
+                            }
+                            else
+                            {
+                                family.date_of_birth = null;
+                            }
+                            family.background = lyLich[i];
+                            family.family_relationship_id = Int32.Parse(moiQuanHe[i]);
+                            family.family_type_id = Int32.Parse(giaDinh[i]);
+                            family.employee_id = emp.employee_id;
+                            db.Families.Add(family);
 
-        //                                    var GD = db.QuanHeGiaDinhs.Where(nv => (nv.MaNV.Equals(emp.MaNV)) && (nv.MoiQuanHe.Equals(moiQuanHeX)) && (nv.LoaiGiaDinh.Equals(giaDinhX))).FirstOrDefault();
-        //                                    GD.HoTen = hoTen[i];
-        //                                    if (ngaySinhGiaDinh[i] != "")
-        //                                    {
-        //                                        string[] date = ngaySinhGiaDinh[i].Split('/');
-        //                                        GD.NgaySinh = Convert.ToDateTime(date[1] + "/" + date[0] + "/" + date[2]);
-        //                                    }
-        //                                    GD.MoiQuanHe = moiQuanHe[i];
-        //                                    GD.LyLich = lyLich[i];
-        //                                    db.Entry(GD).State = EntityState.Modified;
-        //                                    db.SaveChanges();
 
-        //                                }
-        //                            }
-        //                        }
-        //                    }
+                        }
+                        db.SaveChanges();
 
-        //                    if (donVi != null)
-        //                    {
-        //                        List<QuaTrinhCongTac> list = db.QuaTrinhCongTacs.ToList();
-        //                        for (int i = 0; i < donVi.Length; i++)
-        //                        {
-        //                            if (!donVi[i].Equals(""))
-        //                            {
-        //                                string[] ngay = tuNgayDenNgay[i].Split('-');
-        //                                string DonViCongTacX = donVi[i];
-        //                                string[] ngayFix = ngay[0].Trim().Split('/');
-        //                                List<QuaTrinhCongTac> ct = db.QuaTrinhCongTacs.Where(qtct => (qtct.MaNV.Equals(emp.MaNV)) && (qtct.DonViCongTac.Equals(DonViCongTacX))).ToList();
-        //                                if (ct.Count == 0)
-        //                                {
-        //                                    QuaTrinhCongTac qtct = new QuaTrinhCongTac();
-        //                                    qtct.MaNV = emp.MaNV;
-        //                                    qtct.DonViCongTac = donVi[i];
-        //                                    if (ngay[0] != "" && ngay[1] != "")
-        //                                    {
-        //                                        string[] dateStart = ngay[0].Split('/');
-        //                                        qtct.NgayBatDau = Convert.ToDateTime(dateStart[1] + "/" + dateStart[0] + "/" + dateStart[2]);
-        //                                        string[] dateEnd = ngay[1].Split('/');
-        //                                        qtct.NgayKetThuc = Convert.ToDateTime(dateEnd[1] + "/" + dateEnd[0] + "/" + dateEnd[2]);
-        //                                    }
-        //                                    qtct.ChucVu = chucVu[i];
-        //                                    qtct.ChucDanh = chucDanh[i];
-        //                                    db.QuaTrinhCongTacs.Add(qtct);
-        //                                    db.SaveChanges();
-        //                                }
-        //                                else
-        //                                {
-        //                                    QuaTrinhCongTac qtct = new QuaTrinhCongTac();
-        //                                    qtct.MaNV = emp.MaNV;
-        //                                    qtct.DonViCongTac = donVi[i];
+                    }
 
-        //                                    var quaTrinh = db.QuaTrinhCongTacs.Where(congTac => (congTac.MaNV.Equals(emp.MaNV)) && (congTac.DonViCongTac.Equals(DonViCongTacX))).FirstOrDefault();
-        //                                    if (ngay[0] != "" && ngay[1] != "")
-        //                                    {
-        //                                        string[] dateStart = ngay[0].Split('/');
-        //                                        quaTrinh.NgayBatDau = Convert.ToDateTime(dateStart[1] + "/" + dateStart[0] + "/" + dateStart[2]);
-        //                                        string[] dateEnd = ngay[1].Split('/');
-        //                                        quaTrinh.NgayKetThuc = Convert.ToDateTime(dateEnd[1] + "/" + dateEnd[0] + "/" + dateEnd[2]);
-        //                                    }
-        //                                    quaTrinh.ChucVu = chucVu[i];
-        //                                    quaTrinh.ChucDanh = chucDanh[i];
-        //                                    db.Entry(quaTrinh).State = EntityState.Modified;
-        //                                    db.SaveChanges();
-        //                                }
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //                catch (Exception e)
-        //                {
-        //                    dbct.Rollback();
-        //                }
-        //                if (hiddenSalary != "")
-        //                {
-        //                    emp.MaBacLuong_ThangLuong_MucLuong = Convert.ToInt32(hiddenSalary);
-        //                }
-        //                else
-        //                {
-        //                    emp.MaBacLuong_ThangLuong_MucLuong = null;
-        //                }
-        //                db.Entry(emp).State = EntityState.Modified;
-        //                db.SaveChanges();
-        //                dbct.Commit();
-        //            }
-        //            return RedirectToAction("Search");
+                    if (donVi != null)
+                    {
+                        List<WorkingProcess> list = db.WorkingProcesses.ToList();
+                        for (int i = 0; i < donVi.Length; i++)
+                        {
+                            if (!donVi[i].Equals(""))
+                            {
+                                string[] ngay = tuNgayDenNgay[i].Split('-');
+                                string DonViCongTacX = donVi[i];
+                                string[] ngayFix = ngay[0].Trim().Split('/');
+                                List<WorkingProcess> ct = db.WorkingProcesses.Where(qtct => (qtct.employee_id.Equals(emp.employee_id)) && (qtct.office.Equals(DonViCongTacX))).ToList();
+                                if (ct.Count == 0)
+                                {
+                                    WorkingProcess qtct = new WorkingProcess();
+                                    qtct.employee_id = emp.employee_id;
+                                    qtct.office = donVi[i];
+                                    if (ngay[0] != "" && ngay[1] != "")
+                                    {
+                                        string[] dateStart = ngay[0].Split('/');
+                                        qtct.date_start = Convert.ToDateTime(dateStart[1] + "/" + dateStart[0] + "/" + dateStart[2]);
+                                        string[] dateEnd = ngay[1].Split('/');
+                                        qtct.date_end = Convert.ToDateTime(dateEnd[1] + "/" + dateEnd[0] + "/" + dateEnd[2]);
+                                    }
+                                    qtct.position = chucVu[i];
+                                    qtct.title = chucDanh[i];
+                                    db.WorkingProcesses.Add(qtct);
+                                }
+                                else
+                                {
+                                    WorkingProcess qtct = new WorkingProcess();
+                                    qtct.employee_id = emp.employee_id;
+                                    qtct.office = donVi[i];
 
-        //        }
+                                    var quaTrinh = db.WorkingProcesses.Where(congTac => (congTac.employee_id.Equals(emp.employee_id)) && (congTac.office.Equals(DonViCongTacX))).FirstOrDefault();
+                                    if (ngay[0] != "" && ngay[1] != "")
+                                    {
+                                        string[] dateStart = ngay[0].Split('/');
+                                        quaTrinh.date_start = Convert.ToDateTime(dateStart[1] + "/" + dateStart[0] + "/" + dateStart[2]);
+                                        string[] dateEnd = ngay[1].Split('/');
+                                        quaTrinh.date_end = Convert.ToDateTime(dateEnd[1] + "/" + dateEnd[0] + "/" + dateEnd[2]);
+                                    }
+                                    quaTrinh.position = chucVu[i];
+                                    quaTrinh.title = chucDanh[i];
+                                    db.Entry(quaTrinh).State = EntityState.Modified;
+                                }
+                            }
+                        }
+                        db.SaveChanges();
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    dbct.Rollback();
+                }
+                if (hiddenSalary != "")
+                {
+                    emp.current_salary_id = Convert.ToInt32(hiddenSalary);
+                }
+                else
+                {
+                    emp.current_salary_id = null;
+                }
+                db.Entry(emp).State = EntityState.Modified;
+                db.SaveChanges();
+                dbct.Commit();
+            }
+            return RedirectToAction("Search");
+
+        }
         [Auther(RightID = "51")]
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
         [HttpGet]
@@ -679,7 +668,6 @@ namespace QUANGHANH2.Controllers.TCLD
             public string StatusName { get; set; }
             public string TenTrinhDo { get; set; }
             public string TenCongViec { get; set; }
-            //public string MaNV_MaTrangThai { get; set; }
         }
         [Auther(RightID = "51")]
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
@@ -693,43 +681,33 @@ namespace QUANGHANH2.Controllers.TCLD
                 string searchValue = Request["search[value]"];
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
-                string query = @"select n.*, t.name as 'StatusName' from HumanResources.Employee n inner join
-                 HumanResources.Status t on n.status_id = t.status_id 
-                where n.status_id in (1,2,3,4) AND ";
-                if (!MaNV.Equals("") || !TenNV.Equals("") || !Gender.Equals("") || !pb.Equals(""))
-                {
-                    if (!MaNV.Equals("")) query += "n.employee_id LIKE @MaNV AND ";
-                    if (!TenNV.Equals("")) query += "n.BASIC_INFO_full_name LIKE @Ten AND ";
-                    if (!Gender.Equals("")) query += "n.BASIC_INFO_gender LIKE @GioiTinh AND ";
-                    if (!pb.Equals("")) query += "n.current_department_id = @pb AND ";
-                }
-                query = query.Substring(0, query.Length - 5);
                 QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 db.Configuration.LazyLoadingEnabled = false;
-                string GioiTinh = "1";
-                if (Gender.Equals("true"))
-                {
-                    GioiTinh = "1";
-                }
-                else if (Gender.Equals("false"))
-                {
-                    GioiTinh = "0";
-                }
-                List<NhanVienLink> searchList = db.Database.SqlQuery<NhanVienLink>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
-                    new SqlParameter("MaNV", '%' + MaNV + '%'),
-                    new SqlParameter("Ten", '%' + TenNV + '%'),
-                    new SqlParameter("GioiTinh", GioiTinh),
-                    new SqlParameter("pb", pb)
+                string query_list = @"HumanResources.TCLD_get_list_employees @MaNV = @MaNV, @Ten = @Ten, @GioiTinh = @GioiTinh, @pb = @pb,
+                               @order_column = @order_column, @sort = @sort, @start = @start, @length = @length";
+                List<TCLD_get_list_employees_Result> employees = db.Database.SqlQuery<TCLD_get_list_employees_Result>(query_list,    
+                    new SqlParameter("MaNV", MaNV),
+                    new SqlParameter("Ten",  TenNV ),
+                    new SqlParameter("GioiTinh", Gender),
+                    new SqlParameter("pb", pb),
+                    new SqlParameter("order_column", sortColumnName),
+                    new SqlParameter("sort", sortDirection),
+                    new SqlParameter("start", start),
+                    new SqlParameter("length", length)
                     ).ToList();
-                int totalrows = db.Database.SqlQuery<int>(query.Replace("n.*, t.name", "count(t.name)"),
-                    new SqlParameter("MaNV", '%' + MaNV + '%'),
-                    new SqlParameter("Ten", '%' + TenNV + '%'),
-                    new SqlParameter("GioiTinh", GioiTinh),
-                    new SqlParameter("pb", pb)
-                    ).FirstOrDefault();
 
-                return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
-
+                string query_count = @"HumanResources.TCLD_get_count_employees @MaNV = @MaNV, @Ten = @Ten, @GioiTinh = @GioiTinh, @pb = @pb";
+                TCLD_get_count_employees_Result get_count_employees = db.Database.SqlQuery<TCLD_get_count_employees_Result>(query_count,
+                    new SqlParameter("MaNV", MaNV),
+                    new SqlParameter("Ten", TenNV),
+                    new SqlParameter("GioiTinh", Gender),
+                    new SqlParameter("pb", pb)).FirstOrDefault();
+                int? totalrows = 0;
+                if (get_count_employees != null)
+                {
+                    totalrows = get_count_employees.count;
+                }
+                return Json(new { data = employees, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
