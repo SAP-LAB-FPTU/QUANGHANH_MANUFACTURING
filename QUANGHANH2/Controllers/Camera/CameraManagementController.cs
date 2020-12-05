@@ -1,4 +1,5 @@
-﻿using QUANGHANH2.Models;
+﻿using QUANGHANH2.EntityResult;
+using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
 using System;
 using System.Data.Entity;
@@ -90,9 +91,8 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpPost]
         public ActionResult GetData()
         {
-            //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
-            int length = Request["length"] == "-1" ? int.MaxValue : Convert.ToInt32(Request["length"]);
+            int length = Convert.ToInt32(Request["length"]);
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             string room_name = Request["location"];
@@ -102,21 +102,10 @@ namespace QUANGHANH2.Controllers.Camera
 
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                var sql = "select r.*, d.department_name from Room r " +
-                    "inner join Department d on r.department_id = d.department_id " +
-                    "where r.room_name like @room_name and r.disk_status like @disk_status and r.department_id like @department_id and r.camera_quantity != 0";
-                if (reason != "")
-                    sql += " and r.signal_loss_reason like @signal_loss_reason";
-                var equipList = db.Database.SqlQuery<camDB>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
-                    new SqlParameter("room_name", '%' + room_name + '%'),
-                    new SqlParameter("disk_status", '%' + disk_status + '%'),
-                    new SqlParameter("department_id", '%' + department + '%'),
-                    new SqlParameter("signal_loss_reason", '%' + reason + '%')).ToList();
-                int totalrows = db.Database.SqlQuery<int>(sql.Replace("r.*, d.department_name", "count(*)"),
-                    new SqlParameter("room_name", '%' + room_name + '%'),
-                    new SqlParameter("disk_status", '%' + disk_status + '%'),
-                    new SqlParameter("department_id", '%' + department + '%'),
-                    new SqlParameter("signal_loss_reason", '%' + reason + '%')).FirstOrDefault();
+                var equipList = db.Database.SqlQuery<GetListCamera_Result>("Camera.CDVT_get_list_camera {0}, {1}, {2}, {3} ,{4}, {5}, {6}, {7}", 
+                    room_name, disk_status, reason, department, sortColumnName, sortDirection, start, length ).ToList();
+                int totalrows = db.Database.SqlQuery<int>("Camera.CDVT_get_count_camera {0}, {1}, {2}, {3}", 
+                    room_name, disk_status, department, reason).FirstOrDefault();
                 return Json(new { success = true, data = equipList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -222,11 +211,6 @@ namespace QUANGHANH2.Controllers.Camera
                     return Json(new { success = true, message = "Xóa thành công" });
                 }
             }
-        }
-
-        public class camDB : Room
-        {
-            public string department_name { get; set; }
         }
     }
 }
