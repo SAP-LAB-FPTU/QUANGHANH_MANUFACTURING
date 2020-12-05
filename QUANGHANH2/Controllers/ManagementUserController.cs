@@ -6,7 +6,6 @@
 //using System.Data.SqlClient;
 //using System.Linq;
 //using System.Linq.Dynamic;
-//using System.Web;
 //using System.Web.Mvc;
 //using XCrypt;
 
@@ -26,25 +25,25 @@
 //            string depart = Session["departID"].ToString();
 //            if (Session["Role"].ToString().Equals("1"))
 //            {
-//                var employ = (from nv in db.NhanViens
-//                              join pb in db.Departments on nv.MaPhongBan equals pb.department_id
+//                var employ = (from nv in db.Employees
+//                              join pb in db.Departments on nv.current_department_id equals pb.department_id
 //                              select new employ
 //                              {
-//                                  id = nv.MaNV,
-//                                  name = nv.Ten,
+//                                  id = nv.employee_id,
+//                                  name = nv.BASIC_INFO_full_name,
 //                                  pb = pb.department_name
 //                              }).ToList();
 //                ViewBag.employ = employ;
 //            }
 //            else
 //            {
-//                var employ = (from nv in db.NhanViens
-//                              join pb in db.Departments on nv.MaPhongBan equals pb.department_id
-//                              where nv.MaPhongBan == depart
+//                var employ = (from nv in db.Employees
+//                              join pb in db.Departments on nv.current_department_id equals pb.department_id
+//                              where nv.current_department_id == depart
 //                              select new employ
 //                              {
-//                                  id = nv.MaNV,
-//                                  name = nv.Ten,
+//                                  id = nv.employee_id,
+//                                  name = nv.BASIC_INFO_full_name,
 //                                  pb = pb.department_name
 //                              }).ToList();
 //                ViewBag.employ = employ;
@@ -74,13 +73,13 @@
 //            string ts = Session["departID"].ToString();
 //            if (Session["Role"].ToString().Equals("1"))
 //            {
-//                users = db.Database.SqlQuery<Accountdb>("select  a.ID,a.Username,a.Name,d.department_name,d.department_id from Account a inner join NhanVien nv on a.NVID = nv.MaNV inner join Department d on d.department_id = nv.MaPhongBan order by d.department_name").ToList();
+//                users = db.Database.SqlQuery<Accountdb>("select a.ID,a.Username,a.Name,d.department_name,d.department_id from Account.Account a inner join HumanResources.Employee nv on a.NVID = nv.employee_id inner join General.Department d on d.department_id = nv.current_department_id order by d.department_name").ToList();
 //            }
 //            else
 //            {
-//                users = db.Database.SqlQuery<Accountdb>("select  a.ID,a.Username,a.Name,d.department_name,d.department_id from Account a inner join NhanVien nv on a.NVID = nv.MaNV inner join Department d on d.department_id = nv.MaPhongBan where nv.MaPhongBan = @pb order by d.department_name",new SqlParameter("pb", Session["departID"].ToString())).ToList();
+//                users = db.Database.SqlQuery<Accountdb>("select a.ID,a.Username,a.Name,d.department_name,d.department_id from Account.Account a inner join HumanResources.Employee nv on a.NVID = nv.employee_id inner join General.Department d on d.department_id = nv.current_department_id where nv.current_department_id = @pb order by d.department_name", new SqlParameter("pb", Session["departID"].ToString())).ToList();
 //            }
-            
+
 //            var search = users.ToList();
 //            int CurrentUser = int.Parse(Session["UserID"].ToString());
 //            int role_user = int.Parse(Session["Role"].ToString());
@@ -151,9 +150,9 @@
 //        }
 //        public JsonResult getPB(string id)
 //        {
-//            var pb = db.Database.SqlQuery<rightBasic>(@"select d.department_id, d.department_name,nv.Ten,c.TenCongViec
-//                                                        from NhanVien nv , Department d , CongViec c
-//                                                        where nv.MaPhongBan = d.department_id and nv.MaCongViec = c.MaCongViec and nv.MaNV = @manv",new SqlParameter("manv",id)).FirstOrDefault();
+//            var pb = db.Database.SqlQuery<rightBasic>(@"select d.department_id, d.department_name,nv.BASIC_INFO_full_name,c.name
+//                                                        from HumanResources.Employee nv , General.Department d , HumanResources.Work c
+//                                                        where nv.current_department_id = d.department_id and nv.current_work_id = c.work_id and nv.employee_id = @manv", new SqlParameter("manv", id)).FirstOrDefault();
 //            return Json(pb, JsonRequestBehavior.AllowGet);
 //        }
 
@@ -168,7 +167,7 @@
 
 //                if (UserID == 1)
 //                {
-//                    var rightAccept = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ID=ar.RightID and a.ModuleID= @module and ar.AccountID= @userid order by a.GroupID asc",new SqlParameter("module",module),new SqlParameter("userid",UserID)).ToList<FunctionRight>();
+//                    var rightAccept = db.Database.SqlQuery<FunctionRight>("select a.ID,a.[Right],a.GroupID from Account_Right a,Account_Right_Detail ar where a.ID=ar.RightID and a.ModuleID= @module and ar.AccountID= @userid order by a.GroupID asc", new SqlParameter("module", module), new SqlParameter("userid", UserID)).ToList<FunctionRight>();
 //                    foreach (var r in rightAccept)
 //                    {
 //                        rights.Accept.Add(new FunctionRight()
@@ -263,7 +262,7 @@
 //        public JsonResult AddNewUser(string Name, string Username, string Position, string Password, string RepeatPassword, string NVID,
 //                int module1, int module2, int module3, int module4, int module5, int module6, int module7,
 //                int module8, int module9, int module11, int module12, int module13, int module14,
-//                int module15, int module17, int module18, int module19,int module20, string rights)
+//                int module15, int module17, int module18, int module19, int module20, string rights)
 //        {
 //            if (db.Accounts.Where(x => x.Username == Username).Count() > 0)
 //            {
@@ -314,7 +313,7 @@
 //                return Json(new Result()
 //                {
 //                    CodeError = 1,
-//                    Data = InvalidFields.Substring(0,InvalidFields.Length) + " không được để trống !!!"
+//                    Data = InvalidFields.Substring(0, InvalidFields.Length) + " không được để trống !!!"
 //                }, JsonRequestBehavior.AllowGet);
 //            }
 //            if (String.IsNullOrEmpty(Password) || String.IsNullOrEmpty(RepeatPassword))
@@ -498,8 +497,8 @@
 //        [HttpPost]
 //        public JsonResult UpdateUser(int ID, string Name, string Username, string Position, string Password, string RepeatPassword, string NVID,
 //                int module1, int module2, int module3, int module4, int module5, int module6, int module7,
-//                int module8, int module9,  int module11, int module12, int module13, int module14,
-//                int module15, int module17, int module18, int module19,int module20, string rights)
+//                int module8, int module9, int module11, int module12, int module13, int module14,
+//                int module15, int module17, int module18, int module19, int module20, string rights)
 //        {
 //            if (db.Accounts.Where(x => x.Username == Username).Where(y => y.ID != ID).Count() > 0)
 //            {
@@ -703,7 +702,7 @@
 //                var IDs = strUIDs.Split(',');
 //                foreach (var ID in IDs)
 //                {
-//                    db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account_Right_Detail] WHERE Account_Right_Detail.AccountID = @accountid", new SqlParameter("accountid",ID));
+//                    db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account_Right_Detail] WHERE Account_Right_Detail.AccountID = @accountid", new SqlParameter("accountid", ID));
 //                    db.Database.ExecuteSqlCommand("delete from User_Action_Log where AccountID = @accountid", new SqlParameter("accountid", ID));
 //                    db.Database.ExecuteSqlCommand("DELETE FROM [dbo].[Account] WHERE Account.ID = @accountid", new SqlParameter("accountid", ID));
 //                }
