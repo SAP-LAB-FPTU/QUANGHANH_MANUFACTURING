@@ -6,6 +6,29 @@
     <div class="card-content">
         <div class="row">
             <h3 class="center"><b>DANH SÁCH CÔNG VIỆC</b></h3>
+
+            <div class="row">
+                <div class="col l3 m12 s12 input-field">
+                    <input type="text" placeholder="Tên công việc" class='form-control input-field' id="search_work_name" multiple />
+                </div>
+
+                <div class="col l3 m12 s12 input-field">
+                    <input type="text" placeholder="Phụ cấp" class='form-control input-field' id="search_allowance" multiple />
+                </div>
+
+                <div class="col l3 m12 s12 input-field">
+                    <input type="text" placeholder="Thang lương" class='form-control input-field' id="search_pay_table" multiple />
+                </div>
+
+                <div class="col l2 m12 s12 input-field">
+                    <input type="text" placeholder="Năm áp dụng thang lương" class='form-control input-field' id="search_pay_table_applied_year" multiple />
+                </div>
+
+                <div class="col l1 m12 s12 input-field">
+                    <button class="waves-effect waves-light btn blue darken-2 btn-small" id="search_button">Tìm kiếm</button>
+                </div>
+            </div>
+
             <div>
                 <a class="waves-effects waves-light btn blue darken-2 btn-small input-field modal-trigger" href="#modal_add_work">Thêm</a>
             </div>
@@ -45,7 +68,7 @@
                 @foreach (var payTables in ViewBag.payTables)
                 {
                     <option value="@payTables.pay_table_id">Năm @payTables.applied_year - @payTables.pay_table</option>
-}
+                }
             </select>
         </div>
     </div>
@@ -74,7 +97,7 @@
                 @foreach (var payTables in ViewBag.payTables)
                 {
                     <option value="@payTables.pay_table_id">Năm @payTables.applied_year - @payTables.pay_table</option>
-}
+                }
             </select>
         </div>
     </div>
@@ -96,6 +119,13 @@
                 "type": "GET",
                 "datatype": "json",
                 "cache": "false",
+                "data": {
+                    //search data
+                    "search_work_name": () => { return $("#search_work_name").val() },
+                    "search_allowance": $("#search_allowance").val(),
+                    "search_pay_table": $("#search_pay_table").val(),
+                    "search_pay_table_applied_year": $("#search_pay_table_applied_year").val()
+                },
                 "dataSrc": function (json) {
                     return json["works"];
                 }
@@ -143,8 +173,18 @@
                 }
             },
             "initComplete": function (settings, json) {
+                $("#pre-load").show();
                 $("#pre-load").hide();
             }
+        });
+    });
+</script>
+
+<!----------------------------SEARCH-------------------------->
+<script>
+    $(document).ready(function () {
+        $("#search_button").click(function () {
+            table.ajax.reload();
         });
     });
 </script>

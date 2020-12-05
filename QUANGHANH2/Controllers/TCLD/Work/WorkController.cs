@@ -46,6 +46,12 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
+                //search data
+                string search_work_name = Request["search_work_name"];
+                string search_allowance = Request["search_allowance"];
+                string search_pay_table = Request["search_pay_table"];
+                string search_pay_table_applied_year = Request["search_pay_table_applied_year"];
+
                 //get data's table to paging
                 int start = Convert.ToInt32(Request["start"]);
                 int length = Convert.ToInt32(Request["length"]);
@@ -54,16 +60,8 @@ namespace QUANGHANH2.Controllers.TCLD
 
                 try
                 {
-                    List<GetDataWork_Result> works = db.Database.SqlQuery<GetDataWork_Result>("HumanResources.GetDataWork @work_id, @name, @allowance, @pay_table, @sortColumnName, @sortDirection, @start, @length, @return_type",
-                                                                                                new SqlParameter("@work_id", ""),
-                                                                                                new SqlParameter("@name", ""),
-                                                                                                new SqlParameter("@allowance", ""),
-                                                                                                new SqlParameter("@pay_table", ""),
-                                                                                                new SqlParameter("@sortColumnName", sortColumnName),
-                                                                                                new SqlParameter("@sortDirection", sortDirection),
-                                                                                                new SqlParameter("@start", start),
-                                                                                                new SqlParameter("@length", length),
-                                                                                                new SqlParameter("@return_type", "DataTable")).ToList();
+                    List<GetDataWork_Result> works = db.Database.SqlQuery<GetDataWork_Result>("HumanResources.GetDataWork {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}",
+                    "", search_work_name, search_allowance, search_pay_table, search_pay_table_applied_year, sortColumnName, sortDirection, start, length, "DataTable").ToList();
 
                     int totalrows = db.Works.Count();
                     int totalrowsafterfiltering = totalrows;
@@ -137,16 +135,8 @@ namespace QUANGHANH2.Controllers.TCLD
                     //var sqlGetData = @"select w.work_id, w.name, w.allowance, w.pay_table_id 
                     //                    from HumanResources.Work w 
                     //                    where w.work_id = @work_id";
-                    var works = db.Database.SqlQuery<GetDataWork_Result>("HumanResources.GetDataWork @work_id, @name, @allowance, @pay_table, @sortColumnName, @sortDirection, @start, @length, @return_type",
-                                                                                                new SqlParameter("@work_id", work_id),
-                                                                                                new SqlParameter("@name", ""),
-                                                                                                new SqlParameter("@allowance", ""),
-                                                                                                new SqlParameter("@pay_table", ""),
-                                                                                                new SqlParameter("@sortColumnName", ""),
-                                                                                                new SqlParameter("@sortDirection", ""),
-                                                                                                new SqlParameter("@start", ""),
-                                                                                                new SqlParameter("@length", ""),
-                                                                                                new SqlParameter("@return_type", "Not DataTable")).FirstOrDefault();
+                    var works = db.Database.SqlQuery<GetDataWork_Result>("HumanResources.GetDataWork {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}",
+                    work_id, "", "", "", "", "", "", "", "", "Not DataTable").FirstOrDefault();
                     if (works != null)
                     {
                         return Json(new { success = true, works = works });
