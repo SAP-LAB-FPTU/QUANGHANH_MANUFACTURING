@@ -19,8 +19,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
 {
     public class HoatdongController : Controller
     {
-        private static List<EquipWithName> exportList;
-
         [Auther(RightID = "3")]
         [Route("phong-cdvt/huy-dong/export")]
         public ActionResult export(string equipmentId, string equipmentName, string department, string quality, string dateStart, string dateEnd, string category, string sup, string att)

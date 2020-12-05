@@ -101,7 +101,6 @@ namespace QUANGHANH2.Controllers.DK.EquipmentIncident
         public void Export()
         {
             string path = HostingEnvironment.MapPath("/excel/DK/SuCoThietBi.xlsx");
-            string saveAsPath = ("/excel/DK/download/SuCoThietBi.xlsx");
             FileInfo file = new FileInfo(path);
             using (ExcelPackage excelPackage = new ExcelPackage(file))
             {
