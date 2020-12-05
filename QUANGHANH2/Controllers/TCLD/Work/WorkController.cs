@@ -54,19 +54,16 @@ namespace QUANGHANH2.Controllers.TCLD
 
                 try
                 {
-                    //List<GetDataWork_Result> list_works = new List<GetDataWork_Result>();
-                    //var sqlList = @"select w.work_id, w.name, w.allowance, pt.pay_table 
-                    //                from HumanResources.Work w 
-                    //                left outer join HumanResources.PayTable pt on w.pay_table_id = pt.pay_table_id 
-                    //                order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
-                    List<GetDataWork_Result> works = db.Database.SqlQuery<GetDataWork_Result>("HumanResources.GetDataWork @name, @allowance, @pay_table_id, @sortColumnName, @sortDirection, @start, @length",
+                    List<GetDataWork_Result> works = db.Database.SqlQuery<GetDataWork_Result>("HumanResources.GetDataWork @work_id, @name, @allowance, @pay_table, @sortColumnName, @sortDirection, @start, @length, @return_type",
+                                                                                                new SqlParameter("@work_id", ""),
                                                                                                 new SqlParameter("@name", ""),
                                                                                                 new SqlParameter("@allowance", ""),
-                                                                                                new SqlParameter("@pay_table_id", ""),
+                                                                                                new SqlParameter("@pay_table", ""),
                                                                                                 new SqlParameter("@sortColumnName", sortColumnName),
                                                                                                 new SqlParameter("@sortDirection", sortDirection),
                                                                                                 new SqlParameter("@start", start),
-                                                                                                new SqlParameter("@length", length)).ToList();
+                                                                                                new SqlParameter("@length", length),
+                                                                                                new SqlParameter("@return_type", "DataTable")).ToList();
 
                     int totalrows = db.Works.Count();
                     int totalrowsafterfiltering = totalrows;
@@ -76,7 +73,6 @@ namespace QUANGHANH2.Controllers.TCLD
                 {
                     throw e;
                 }
-                return null;
             }
         }
 
@@ -141,17 +137,19 @@ namespace QUANGHANH2.Controllers.TCLD
                     //var sqlGetData = @"select w.work_id, w.name, w.allowance, w.pay_table_id 
                     //                    from HumanResources.Work w 
                     //                    where w.work_id = @work_id";
-                    var list_works = db.Database.SqlQuery<GetDataWork_Result>("HumanResources.GetDataWork @name, @allowance, @pay_table_id, @sortColumnName, @sortDirection, @start, @length",
-                                                                                new SqlParameter("@name", ""),
-                                                                                new SqlParameter("@allowance", ""),
-                                                                                new SqlParameter("@pay_table_id", ""),
-                                                                                new SqlParameter("@sortColumnName", ""),
-                                                                                new SqlParameter("@sortDirection", ""),
-                                                                                new SqlParameter("@start", ""),
-                                                                                new SqlParameter("@length", "")).FirstOrDefault();
-                    if (list_works != null)
+                    var works = db.Database.SqlQuery<GetDataWork_Result>("HumanResources.GetDataWork @work_id, @name, @allowance, @pay_table, @sortColumnName, @sortDirection, @start, @length, @return_type",
+                                                                                                new SqlParameter("@work_id", work_id),
+                                                                                                new SqlParameter("@name", ""),
+                                                                                                new SqlParameter("@allowance", ""),
+                                                                                                new SqlParameter("@pay_table", ""),
+                                                                                                new SqlParameter("@sortColumnName", ""),
+                                                                                                new SqlParameter("@sortDirection", ""),
+                                                                                                new SqlParameter("@start", ""),
+                                                                                                new SqlParameter("@length", ""),
+                                                                                                new SqlParameter("@return_type", "Not DataTable")).FirstOrDefault();
+                    if (works != null)
                     {
-                        return Json(new { success = true, list_works = list_works });
+                        return Json(new { success = true, works = works });
                     }
                     else
                     {
@@ -224,8 +222,8 @@ namespace QUANGHANH2.Controllers.TCLD
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     //access delete by macongviec
-                    var sqlDelete = @"delete HumanResources.Work where work_id = @work_id";
-                    db.Database.ExecuteSqlCommand(sqlDelete, new SqlParameter("work_id", work_id));
+                    var found_work = db.Works.Find(work_id);
+                    db.Works.Remove(found_work);
                     db.SaveChanges();
                     return Json(new { success = true, title = "Thành công", message = "Xóa công việc thành công." });
                 }
