@@ -19,3 +19,7 @@
 * Mỗi ngày một người ít nhất <b>3 pull request</b>!
 * 2 bên TCLĐ và CĐVT mỗi bên có 2 người chịu trách nhiệm review & merge các pull request của các thành viên team mình. Không merge chéo giữa các bên
 * Tuyệt đối không đặt tên commit không có nội dung hoặc nội dung không rõ ràng. (Nội dung commit phải đủ 2 yếu tố: làm gì và tác động vào đâu)
+
+
+
+*Document: https://drive.google.com/drive/folders/1y2RtTfCMmYT6MWMC2g5-Wol94Ltf_-Kt?usp=sharing
