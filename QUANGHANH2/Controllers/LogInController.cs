@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
+using QUANGHANH2.EntityResult;
 using System.Web.Mvc;
 using System.Web.Routing;
 using XCrypt;
@@ -63,9 +63,7 @@ namespace QUANGHANHCORE.Controllers
                     Session["UserID"] = checkuser.ID;
                     Session["time"] = DateTime.Now;
                     int id = checkuser.ID;
-                    var Name = db.Database.SqlQuery<InfoAccount>(@"select a.ID, ep.BASIC_INFO_full_name, a.Username, a.Position, a.ADMIN, d.department_name, d.department_id, a.Role 
-                                                                    from Account.Account a, HumanResources.Employee ep , General.Department d
-                                                                    where a.NVID = ep.employee_id and d.department_id = ep.current_department_id and a.ID = @id", new SqlParameter("id", id)).FirstOrDefault();
+                    var Name = db.Database.SqlQuery<GetAccountInfo_Result>("Account.GetAccountInfo {0}", id).FirstOrDefault();
                     Session["departName"] = Name.department_name.Trim();
                     Session["departID"] = Name.department_id.Trim();
                     Session["account_id"] = Name.ID;
@@ -147,11 +145,7 @@ namespace QUANGHANHCORE.Controllers
 
             if (user.NVID != null)
             {
-                //var url = db.NhanViens.Where(x => x.MaNV == user.NVID).FirstOrDefault();
-
-                var mysql = @"select * from HumanResources.Employee ep 
-                            join General.Department dp on ep.current_department_id = dp.department_id where ep.employee_id = @nvid";
-                var url = db.Database.SqlQuery<nvs>(mysql, new SqlParameter("nvid", user.NVID)).FirstOrDefault();
+                var url = db.Database.SqlQuery<GetDepartmentByEmployeeID_Result>("Account.GetDepartmentByEmployeeID {0}", user.NVID).FirstOrDefault();
 
                 if (url.current_department_id.Equals("CV"))
                 {
@@ -260,21 +254,5 @@ namespace QUANGHANHCORE.Controllers
     {
         public int CodeError { get; set; }
         public string Data { get; set; }
-    }
-    public class InfoAccount
-    {
-        public int ID { get; set; }
-        public string Ten { get; set; }
-        public string Username { get; set; }
-        public string Position { get; set; }
-        public string TenCongViec { get; set; }
-        public bool ADMIN { get; set; }
-        public string department_name { get; set; }
-        public string department_id { get; set; }
-        public int Role { get; set; }
-    }
-    public class nvs : Employee
-    {
-        public string department_type { get; set; }
     }
 }

@@ -357,6 +357,8 @@
     <Compile Include="Controllers\TCLD\Transfer\TransferController.cs" />
     <Compile Include="Controllers\TCLD\Employees\WorkHistoryController.cs" />
     <Compile Include="Controllers\TCLD\Work\WorkGroupTypeController.cs" />
+    <Compile Include="EntityResult\GetAccountInfo_Result.cs" />
+    <Compile Include="EntityResult\GetDepartmentByEmployeeID_Result.cs" />
     <Compile Include="EntityResult\GetListCamera_Result.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
