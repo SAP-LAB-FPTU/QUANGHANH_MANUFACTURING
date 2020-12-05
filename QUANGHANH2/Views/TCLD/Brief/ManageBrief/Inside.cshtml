@@ -125,27 +125,27 @@
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="date">Mã nhân viên : </label>
-                            <input type="text" class="form-control" list="eID"/>
+                            <input type="text" class="form-control" list="eID" id="employee_id_add"/>
                         </div>
                         <div class="form-group">
                             <label for="date">Tên nhân viên : </label>
-                            <input type="text" class="form-control" readonly />
+                            <input type="text" class="form-control" readonly id="employee_name_add"/>
                         </div>
                     </div>
                     <div class="col s12 m6">
                         <div class="form-group">
                             <label for="date">Tên giấy tờ : </label>
-                            <input type="text" class="form-control" />
+                            <input type="text" class="form-control" id="paper_name_add"/>
                         </div>
                         <div class="form-group">
                             <label for="date">Kiểu giấy tờ : </label>
-                            <input type="text" class="form-control" />
+                            <input type="text" class="form-control" id="type_name_add"/>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn blue darken-2 modal-close save-category" onclick="addActi()">Lưu</button>
+                <button type="submit" class="btn blue darken-2 modal-close save-category" onclick="addRelevantPaper()">Lưu</button>
                 <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</button>
             </div>
         </div>
@@ -155,7 +155,7 @@
 <datalist id="eID">
     @foreach (var item in ViewBag.employee_list)
     {
-        <option value="@item.employee_id">@item.BASIC_INFO_full_name</option>
+        <option value="@item.employee_id">@item.employee_name</option>
     }
 </datalist>
 
@@ -680,5 +680,29 @@
             }
         });
     })
+
+    //add 
+        function addRelevantPaper() {
+            var data = {
+                employee_id: document.getElementById("employee_id_add").value,
+                employee_name: document.getElementById("employee_name_add").value,
+                paper_name: document.getElementById("paper_name_add").value,
+                type_name: document.getElementById("type_name_add").value
+            };
+            $.ajax({
+                url: "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to",
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function () {
+                    successAlert('Thành công', 'Thêm thành công');
+                    dataActiTable.ajax.reload();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi', 'Có lỗi xảy ra');
+                }
+            });
+        }
 </script>
 
