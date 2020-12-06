@@ -34,7 +34,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
-            List <Custom_Employee> employee_list = db.Database.SqlQuery<Custom_Employee>("select employee_id,BASIC_INFO_full_name as employee_name from HumanResources.Employee").ToList();
+            List <Custom_Employee> employee_list = db.Database.SqlQuery<Custom_Employee>("select employee_id,BASIC_INFO_full_name as employee_name from HumanResources.Employee where current_status_id != 2").ToList();
             
             List<SelectListItem> type_papers = new List<SelectListItem>
             {
@@ -44,7 +44,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 new SelectListItem { Text = "Photo", Value = "Photo" }
             };
 
+            List<string> paper_names = db.Database.SqlQuery<string>("select name from HumanResources.Papers").ToList();
 
+            ViewBag.paper_names = paper_names;
             ViewBag.type_papers = type_papers;
             ViewBag.nameDepartment = "quanlyhoso";
             ViewBag.employee_list = employee_list;
@@ -61,11 +63,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return db.Employees.ToList<Employee>();
             }
         }
-        
+
         //Sửa giấy tờ
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to/sua")]
         [Auther(RightID = "147")]
         [HttpPost]
-        public ActionResult suaGiayTo(Paper document)
+        public ActionResult suaGiayTo (Paper document)
         {
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
@@ -80,71 +83,50 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
                 }
-
-            }
-
-
-        }
-        [Auther(RightID = "147")]
-        [HttpGet]
-        public ActionResult suaGiayTo(string id)
-        {
-
-            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-            {
-                //tạo data bên popup của sửa giấy tờ
-                List<SelectListItem> KieuGT = new List<SelectListItem>
-                    {
-                        new SelectListItem { Text = "Gốc", Value = "Gốc" },
-                        new SelectListItem { Text = "Dấu đỏ", Value = "Dấu đỏ" },
-                        new SelectListItem { Text = "Sao,Công chứng", Value = "Sao,Công chứng" },
-                        new SelectListItem { Text = "Photo", Value = "Photo" }
-                    };
-                ViewBag.kindODoc = KieuGT;
-                Paper doc = new Paper();
-                var documents = db.Papers.ToList<Paper>();
-                doc = db.Papers.Where(x => x.papers_id.ToString() == id).FirstOrDefault<Paper>();
-                return View(doc);
             }
         }
-        //thêm giấy tờ
-        //[Auther(RightID = "157")]
-        //[HttpGet]
-        //public ActionResult themGiayTo()
-        //{
-        //    List<SelectListItem> type_papers = new List<SelectListItem>
-        //    {
-        //        new SelectListItem { Text = "Gốc", Value = "Gốc" },
-        //        new SelectListItem { Text = "Dấu đỏ", Value = "Dấu đỏ" },
-        //        new SelectListItem { Text = "Sao,Công chứng", Value = "Sao,Công chứng" },
-        //        new SelectListItem { Text = "Photo", Value = "Photo" }
-        //    };
-        //    ViewBag.type_papers = type_papers;
-        //    return View(new Paper());
-        //}
 
-        
-        [Auther(RightID = "157")]
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to/record-paper")]
         [HttpPost]
-        //public ActionResult themGiayTo(Paper g)
-        //{
+        public ActionResult getRecordPaper(int records_papers_id)
+        {
+            try
+            {
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+                string query = @"select rp.records_papers_id ,p.name as paper_name, pst.name as type_name
+                    inner join HumanResources.Records r on r.employee_id = e.employee_id
+                    inner join HumanResources.RecordsPapers rp on rp.records_id = r.records_id
+                    inner join HumanResources.Papers p on rp.papers_id = p.papers_id
+                    inner join HumanResources.PapersStorageType pst 
+                    on pst.papers_storage_type_id = rp.papers_storage_type_id where e.current_status_id != 2 
+                    and rp.records_papers_id = @records_papers_id";
+                Relevant_Paper rp = db.Database.SqlQuery<Relevant_Paper>(query, new SqlParameter("records_papers_id", records_papers_id)).First();
+                return Json(rp); 
+            }
+            catch (Exception)
+            {
+                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
+                return new HttpStatusCodeResult(400);
+            }
+        }
 
-        //    var a = getAllNhanVien();
-        //    ViewBag.nhanvien = a;
+        //public ActionResult suaGiayTo(Paper document)
+        //{
         //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
         //    {
         //        try
         //        {
-        //            db.Papers.Add(g);
+        //            db.Entry(document).State = EntityState.Modified;//
         //            db.SaveChanges();
-        //        }
-        //        catch (Exception)
-        //        {
 
-        //            return Json(new { message = "Failed" }, JsonRequestBehavior.AllowGet);
+        //            return RedirectToAction("GetAllDocuments");
         //        }
+        //        catch (Exception ex)
+        //        {
+        //            return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+        //        }
+
         //    }
-        //    return RedirectToAction("Inside");
         //}
 
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to/them")]
@@ -154,31 +136,58 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 try
                 {
-                    
-                    //db.SaveChanges();
+                    RecordsPaper rp = new RecordsPaper();
+                    rp.papers_id = getPaperID(paper_name);
+                    rp.papers_storage_type_id = getPaperStorageTypeID(type_name);
+                    rp.records_id = getRecordID(employee_id);
+                    db.RecordsPapers.Add(rp);
+                    db.SaveChanges();
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-
                     return Json(new { message = "Failed" }, JsonRequestBehavior.AllowGet);
                 }
             }
             return RedirectToAction("Inside");
         }
 
-        private string getPaperTypeID(string paper_name)
+        private int getPaperID(string paper_name)
         {
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-            string papers_type_id = db.Database.SqlQuery<string>("select papers_type_id from HumanResources.PapersType where name = N@paper_name", new SqlParameter("paper_name", paper_name)).First();
-            return papers_type_id;
+            int paper_id = db.Database.SqlQuery<int>("select papers_id from HumanResources.Papers where name = @paper_name", new SqlParameter("paper_name", paper_name)).First();
+            return paper_id;
 
         }
 
-        private string getPaperStorageTypeID(string type_name) 
+        private int getPaperStorageTypeID(string type_name) 
         {
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-            string papers_storage_type_id = db.Database.SqlQuery<string>("select papers_storage_type_id from HumanResources.PapersStorageType where name = N@type_name", new SqlParameter("type_name", type_name)).First();
-            return type_name;
+            int papers_storage_type_id = db.Database.SqlQuery<int>("select papers_storage_type_id from HumanResources.PapersStorageType where name = @type_name", new SqlParameter("type_name", type_name)).First();
+            return papers_storage_type_id;
+        }
+
+        private int getRecordID(string employee_id)
+        {
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            int record_id = db.Database.SqlQuery<int>("select records_id from HumanResources.Records where employee_id = @employee_id", new SqlParameter("employee_id", employee_id)).First();
+            return record_id;
+        }
+
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to/ten")]
+        [HttpPost]
+        public ActionResult getEmployeeName(int employee_id)
+        {
+            try
+            {
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+                Employee e = db.Database.SqlQuery<Employee>("select * from HumanResources.Employee where employee_id = @employee_id", new SqlParameter("employee_id", employee_id)).First();
+                return Json(e);
+            }
+            catch (Exception)
+            {
+                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
+                return new HttpStatusCodeResult(400);
+            }
         }
 
         //check id của nhân viên
@@ -237,21 +246,20 @@ namespace QUANGHANHCORE.Controllers.TCLD
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             
-            string query = @"select e.employee_id,e.BASIC_INFO_full_name as employee_name ,pt.name as paper_name, pst.name as type_name
-                    , p.papers_id from HumanResources.Employee e
+            string query = @"select e.employee_id,e.BASIC_INFO_full_name as employee_name ,p.name as paper_name, pst.name as type_name
+                    , p.papers_id, rp.records_papers_id from HumanResources.Employee e 
                     inner join HumanResources.Records r on r.employee_id = e.employee_id
                     inner join HumanResources.RecordsPapers rp on rp.records_id = r.records_id
                     inner join HumanResources.Papers p on rp.papers_id = p.papers_id
-					inner join HumanResources.PapersType pt on pt.papers_type_id = p.papers_type_id
                     inner join HumanResources.PapersStorageType pst 
-                    on pst.papers_storage_type_id = rp.papers_storage_type_id where e.current_status_id != 2  ";
+                    on pst.papers_storage_type_id = rp.papers_storage_type_id where e.current_status_id != 2 ";
 
 
             if (!employee_id.Equals("") || !employee_name.Equals("") || !paper_name.Equals("") || !type_name.Equals(""))
             {
                 if (!employee_id.Equals("")) query += " AND e.employee_id like @employee_id ";
                 if (!employee_name.Equals("")) query += "AND e.BASIC_INFO_full_name LIKE @employee_name ";
-                if (!paper_name.Equals("")) query += "AND pt.name LIKE @paper_name ";
+                if (!paper_name.Equals("")) query += "AND p.name LIKE @paper_name ";
                 if (!type_name.Equals("")) query += "AND pst.name LIKE @paper_storage_type_name ";
             }
 
@@ -1764,6 +1772,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             public string type_name { get; set; }
             public string papers_type_id { get; set; }
             public string papers_storage_type_id { get; set; }
+            public int records_papers_id { get; set; }
         }
 
         public class Custom_Employee
