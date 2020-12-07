@@ -198,5 +198,10 @@ namespace QUANGHANH2.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TCLD_get_list_employees_Result>("TCLD_get_list_employees", maNVParameter, tenParameter, gioiTinhParameter, pbParameter, order_columnParameter, sortParameter, startParameter, lengthParameter);
         }
+    
+        public virtual ObjectResult<get_salary_level_Result> get_salary_level()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<get_salary_level_Result>("get_salary_level");
+        }
     }
 }

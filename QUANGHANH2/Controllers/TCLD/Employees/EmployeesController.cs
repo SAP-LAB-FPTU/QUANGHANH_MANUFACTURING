@@ -345,77 +345,83 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpGet]
         public ActionResult ViewInfor(string id)
         {
-            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+            try
             {
-                List<SelectListItem> salary_level = new List<SelectListItem>();
-                String query_salary_level = @"select a.*, b.pay_rate, c.pay_table from HumanResources.Salary a 
-                                            join HumanResources.PayRate b on a.pay_rate_id = b.pay_rate_id 
-                                            join HumanResources.PayTable c on a.pay_table_id = c.pay_table_id";
-                List<BacLuong_ThangLuong_MucLuong_Extend> list_level_salary = new List<BacLuong_ThangLuong_MucLuong_Extend>();
-                list_level_salary = db.Database.SqlQuery<BacLuong_ThangLuong_MucLuong_Extend>(query_salary_level).ToList();
-                foreach (BacLuong_ThangLuong_MucLuong_Extend i in list_level_salary)
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
-                    salary_level.Add(new SelectListItem
+                    if (id == null)
                     {
-                        Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_number,
-                        Value = i.salary_id.ToString()
-                    });
-                    if (db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>().current_salary_id == i.salary_id)
-                    {
-
-                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_number;
-
+                        id = "";
                     }
-                }
+                    List<SelectListItem> salary_level = new List<SelectListItem>();
+                    string query_salary_level = @"[HumanResources].[get_salary_level]";
+                    string type = "view";
+                    List<get_salary_level_Result> list_level_salary =
+                        db.Database.SqlQuery<get_salary_level_Result>(query_salary_level).ToList();
+                    Array id_type = id.Split('_');
+                    if (id_type.Length == 2)
+                    {
+                        id = id_type.GetValue(0) + "";
+                        type = id_type.GetValue(1) + "";
+                    }
+                    Employee employee = db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>();
+                    foreach (get_salary_level_Result i in list_level_salary)
+                    {
+                        salary_level.Add(new SelectListItem
+                        {
+                            Text = i.pay_rate + " - " + i.pay_table + " - " + i.salary_number,
+                            Value = i.salary_id.ToString()
+                        });
+                        if (employee == null)
+                        {
+                            return List();
+                        }
+                    }
+                    ViewBag.level_salary = salary_level;
 
-                ViewBag.level_salary = salary_level;
-
-                List<SelectListItem> Month = new List<SelectListItem>();
-                for (int i = 1; i <= 12; i++)
-                {
-                    Month.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-                }
-
-                ViewBag.months = Month;
-
-                List<SelectListItem> Genders = new List<SelectListItem>
+                    List<SelectListItem> Month = new List<SelectListItem>();
+                    for (int i = 1; i <= 12; i++)
+                    {
+                        Month.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
+                    }
+                    ViewBag.months = Month;
+                    List<SelectListItem> Genders = new List<SelectListItem>
                     {
                         new SelectListItem { Text = "Nam", Value = "true" },
                         new SelectListItem { Text = "Nữ", Value = "false" }
                     };
-                ViewBag.genders = Genders;
+                    ViewBag.genders = Genders;
 
-                List<Qualification> Leveldb = db.Qualifications.ToList<Qualification>();
-                List<SelectListItem> Level = new List<SelectListItem>();
+                    List<Qualification> Leveldb = db.Qualifications.ToList<Qualification>();
+                    List<SelectListItem> Level = new List<SelectListItem>();
 
-                foreach (Qualification td in Leveldb)
-                {
-                    Level.Add(new SelectListItem { Text = td.name.Trim(), Value = td.name.ToString() });
-                }
-
-                ViewBag.level = Level;
-                List<Work> Jobdb = db.Works.ToList<Work>();
-
-                List<SelectListItem> Job = new List<SelectListItem>();
-
-                foreach (Work cv in Jobdb)
-                {
-                    Job.Add(new SelectListItem { Text = cv.name.Trim(), Value = cv.work_id.ToString() });
-                    if (db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>().current_work_id == cv.work_id)
+                    foreach (Qualification td in Leveldb)
                     {
-                        ViewBag.loadJob = cv.name.Trim();
+                        Level.Add(new SelectListItem { Text = td.name.Trim(), Value = td.name.ToString() });
                     }
-                }
-                ViewBag.job = Job;
-                List<SelectListItem> Heal = new List<SelectListItem>
+
+                    ViewBag.level = Level;
+                    List<Work> Jobdb = db.Works.ToList();
+                    List<SelectListItem> Job = new List<SelectListItem>();
+
+                    foreach (Work cv in Jobdb)
+                    {
+                        Job.Add(new SelectListItem { Text = cv.name.Trim(), Value = cv.work_id.ToString() });
+                        if (db.Employees.Where(x => x.employee_id == id).FirstOrDefault().current_work_id == cv.work_id)
+                        {
+                            ViewBag.loadJob = cv.name.Trim();
+                        }
+                    }
+                    ViewBag.job = Job;
+                    List<SelectListItem> Heal = new List<SelectListItem>
                     {
                         new SelectListItem { Text = "Khỏe", Value = "khoe" },
                         new SelectListItem { Text = "Bình thường", Value = "binhthuong" },
                         new SelectListItem { Text = "Yếu", Value = "yeu" },
                         new SelectListItem { Text = "Bệnh mãn tính", Value = "benhmantinh" }
                     };
-                ViewBag.heal = Heal;
-                List<SelectListItem> ThuongBinh = new List<SelectListItem>
+                    ViewBag.heal = Heal;
+                    List<SelectListItem> ThuongBinh = new List<SelectListItem>
                     {
                         new SelectListItem { Text = "Không", Value = "0" },
                         new SelectListItem { Text = "1/4(Thương tật 81% trở lên)", Value = "1" },
@@ -423,113 +429,41 @@ namespace QUANGHANH2.Controllers.TCLD
                         new SelectListItem { Text = "3/4(Thương tật từ 41% trở lên)", Value = "3" },
                         new SelectListItem { Text = "4/4(Thương tật từ 21% trở lên)", Value = "4" }
                     };
-                ViewBag.thuongbinh = ThuongBinh;
-                Family qh = new Family();
-                List<Family> qhList = db.Families.Where(x => x.employee_id == id).ToList();
-                ViewBag.qhList = qhList;
-                WorkingProcess qt = new WorkingProcess();
-                List<WorkingProcess> qtList = db.WorkingProcesses.Where(x => x.employee_id == id).ToList();
-                ViewBag.qtList = qtList;
-                return View("/Views/TCLD/Brief/View.cshtml", db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>());
+                    ViewBag.thuongbinh = ThuongBinh;
+
+                    Family qh = new Family();
+                    List<Family> qhList = db.Families.Where(x => x.employee_id == id).ToList();
+                    ViewBag.qhList = qhList;
+                    List<FamilyType> familyTypes = db.FamilyTypes.ToList();
+                    ViewBag.familyTypes = familyTypes;
+                    List<FamilyRelationship> familyRelationships = db.FamilyRelationships.ToList();
+                    ViewBag.familyRelationships = familyRelationships;
+                    WorkingProcess qt = new WorkingProcess();
+                    List<WorkingProcess> qtList = db.WorkingProcesses.Where(x => x.employee_id == id).ToList();
+                    ViewBag.qtList = qtList;
+                    if (type.Equals("edit"))
+                    {
+                        return View("/Views/TCLD/Brief/Edit.cshtml", db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>());
+                    }
+                    else if (type.Equals("view"))
+                    {
+                        return View("/Views/TCLD/Brief/View.cshtml", db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>());
+                    }
+                    else
+                    {
+                        return List();
+                    }
+                }
             }
-        }
-
-
-        [Auther(RightID = "53")]
-        [Route("phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien")]
-        [HttpGet]
-        public ActionResult LoadEdit(string id)
-        {
-            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+            catch (Exception e)
             {
-                List<SelectListItem> salary_level = new List<SelectListItem>();
-                String query_salary_level = @"select a.*, b.pay_rate, c.pay_table from HumanResources.Salary a 
-                                            join HumanResources.PayRate b on a.pay_rate_id = b.pay_rate_id 
-                                            join HumanResources.PayTable c on a.pay_table_id = c.pay_table_id";
-                List<BacLuong_ThangLuong_MucLuong_Extend> list_level_salary = new List<BacLuong_ThangLuong_MucLuong_Extend>();
-                list_level_salary = db.Database.SqlQuery<BacLuong_ThangLuong_MucLuong_Extend>(query_salary_level).ToList();
-                foreach (BacLuong_ThangLuong_MucLuong_Extend i in list_level_salary)
-                {
-                    salary_level.Add(new SelectListItem
-                    {
-                        Text = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_number,
-                        Value = i.salary_id.ToString()
-                    });
-                    if (db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>().current_salary_id == i.salary_id)
-                    {
-                        ViewBag.load_salary_level = i.MucBacLuong + " - " + i.MucThangLuong + " - " + i.salary_number;
-                    }
-                }
-                ViewBag.level_salary = salary_level;
-
-                List<SelectListItem> Month = new List<SelectListItem>();
-                for (int i = 1; i <= 12; i++)
-                {
-                    Month.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-                }
-
-
-                ViewBag.months = Month;
-                List<SelectListItem> Genders = new List<SelectListItem>
-                    {
-                        new SelectListItem { Text = "Nam", Value = "true" },
-                        new SelectListItem { Text = "Nữ", Value = "false" }
-                    };
-                ViewBag.genders = Genders;
-
-                List<Qualification> Leveldb = db.Qualifications.ToList<Qualification>();
-                List<SelectListItem> Level = new List<SelectListItem>();
-
-                foreach (Qualification td in Leveldb)
-                {
-                    Level.Add(new SelectListItem { Text = td.name.Trim(), Value = td.qualification_id.ToString() });
-                }
-
-                ViewBag.level = Level;
-                List<Work> Jobdb = db.Works.ToList<Work>();
-
-                List<SelectListItem> Job = new List<SelectListItem>();
-
-                foreach (Work cv in Jobdb)
-                {
-                    Job.Add(new SelectListItem { Text = cv.name.Trim(), Value = cv.work_id.ToString() });
-                    if (db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>().current_work_id == cv.work_id)
-                    {
-                        ViewBag.loadJob = cv.name.Trim();
-                    }
-                }
-                ViewBag.job = Job;
-                List<SelectListItem> Heal = new List<SelectListItem>
-                    {
-                        new SelectListItem { Text = "Khỏe", Value = "khoe" },
-                        new SelectListItem { Text = "Bình thường", Value = "binhthuong" },
-                        new SelectListItem { Text = "Yếu", Value = "yeu" },
-                        new SelectListItem { Text = "Bệnh mãn tính", Value = "benhmantinh" }
-                    };
-                ViewBag.heal = Heal;
-                List<SelectListItem> ThuongBinh = new List<SelectListItem>
-                    {
-                        new SelectListItem { Text = "Không", Value = "0" },
-                        new SelectListItem { Text = "1/4(Thương tật 81% trở lên)", Value = "1" },
-                        new SelectListItem { Text = "2/4(Thương tật từ 61% trở lên)", Value = "2" },
-                        new SelectListItem { Text = "3/4(Thương tật từ 41% trở lên)", Value = "3" },
-                        new SelectListItem { Text = "4/4(Thương tật từ 21% trở lên)", Value = "4" }
-                    };
-                ViewBag.thuongbinh = ThuongBinh;
-
-                Family qh = new Family();
-                List<Family> qhList = db.Families.Where(x => x.employee_id == id).ToList();
-                ViewBag.qhList = qhList;
-                List<FamilyType> familyTypes = db.FamilyTypes.ToList();
-                ViewBag.familyTypes = familyTypes;
-                List<FamilyRelationship> familyRelationships = db.FamilyRelationships.ToList();
-                ViewBag.familyRelationships = familyRelationships;
-                WorkingProcess qt = new WorkingProcess();
-                List<WorkingProcess> qtList = db.WorkingProcesses.Where(x => x.employee_id == id).ToList();
-                ViewBag.qtList = qtList;
-                return View("/Views/TCLD/Brief/Edit.cshtml", db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>());
+                return new HttpStatusCodeResult(404);
             }
+
         }
+
+
+
         [Auther(RightID = "53")]
         [HttpPost]
         public ActionResult SaveEdit(Employee emp, string test, string hiddenSalary, string[] giaDinh, string[] ngaySinhGiaDinh, string[] hoTen, string[] moiQuanHe, string[] lyLich, string[] donVi, string[] chucDanh, string[] chucVu, string[] tuNgayDenNgay)
@@ -685,9 +619,9 @@ namespace QUANGHANH2.Controllers.TCLD
                 db.Configuration.LazyLoadingEnabled = false;
                 string query_list = @"HumanResources.TCLD_get_list_employees @MaNV = @MaNV, @Ten = @Ten, @GioiTinh = @GioiTinh, @pb = @pb,
                                @order_column = @order_column, @sort = @sort, @start = @start, @length = @length";
-                List<TCLD_get_list_employees_Result> employees = db.Database.SqlQuery<TCLD_get_list_employees_Result>(query_list,    
+                List<TCLD_get_list_employees_Result> employees = db.Database.SqlQuery<TCLD_get_list_employees_Result>(query_list,
                     new SqlParameter("MaNV", MaNV),
-                    new SqlParameter("Ten",  TenNV ),
+                    new SqlParameter("Ten", TenNV),
                     new SqlParameter("GioiTinh", Gender),
                     new SqlParameter("pb", pb),
                     new SqlParameter("order_column", sortColumnName),

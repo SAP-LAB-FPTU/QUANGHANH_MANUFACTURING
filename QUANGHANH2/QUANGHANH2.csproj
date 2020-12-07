@@ -506,6 +506,9 @@
     <Compile Include="Models\FuelActivitiesConsumption.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\get_salary_level_Result.cs">
+      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\HeaderAttendanceAndProductivity.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>

@@ -3586,6 +3586,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="get_salary_level" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="HumanResources" />
         <Function Name="TCLD_get_count_employees" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="HumanResources">
           <Parameter Name="MaNV" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="Ten" Type="nvarchar(max)" Mode="In" />
@@ -9319,6 +9320,7 @@
             <Parameter Name="start" Mode="In" Type="Int32" />
             <Parameter Name="length" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="get_salary_level" ReturnType="Collection(QuangHanhManufacturingModel.get_salary_level_Result)" />
         </EntityContainer>
         <ComplexType Name="TCLD_get_count_employees_Result">
           <Property Type="Int32" Name="count" Nullable="true" />
@@ -9382,6 +9384,15 @@
           <Property Type="Int32" Name="current_salary_id" Nullable="true" />
           <Property Type="Int32" Name="current_work_id" Nullable="true" />
           <Property Type="String" Name="StatusName" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="get_salary_level_Result">
+          <Property Type="Int32" Name="salary_id" Nullable="false" />
+          <Property Type="String" Name="salary_number" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="applied_year" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="pay_rate_id" Nullable="true" />
+          <Property Type="Int32" Name="pay_table_id" Nullable="true" />
+          <Property Type="String" Name="pay_rate" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="pay_table" Nullable="true" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -10803,6 +10814,19 @@
                 <ScalarProperty Name="current_salary_id" ColumnName="current_salary_id" />
                 <ScalarProperty Name="current_work_id" ColumnName="current_work_id" />
                 <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="get_salary_level" FunctionName="QuangHanhManufacturingModel.Store.get_salary_level">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="QuangHanhManufacturingModel.get_salary_level_Result">
+                <ScalarProperty Name="salary_id" ColumnName="salary_id" />
+                <ScalarProperty Name="salary_number" ColumnName="salary_number" />
+                <ScalarProperty Name="applied_year" ColumnName="applied_year" />
+                <ScalarProperty Name="pay_rate_id" ColumnName="pay_rate_id" />
+                <ScalarProperty Name="pay_table_id" ColumnName="pay_table_id" />
+                <ScalarProperty Name="pay_rate" ColumnName="pay_rate" />
+                <ScalarProperty Name="pay_table" ColumnName="pay_table" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
