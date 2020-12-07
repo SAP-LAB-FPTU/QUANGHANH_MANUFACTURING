@@ -357,7 +357,8 @@
     <Compile Include="Controllers\TCLD\Transfer\TransferController.cs" />
     <Compile Include="Controllers\TCLD\Employees\WorkHistoryController.cs" />
     <Compile Include="Controllers\TCLD\Work\WorkGroupTypeController.cs" />
-    <Compile Include="EntityResult\GetFamiliesOfAnEmployee.cs" />
+    <Compile Include="EntityResult\GetCountEmployees_Result.cs" />
+    <Compile Include="EntityResult\GetFamiliesOfAnEmployee_Result.cs" />
     <Compile Include="EntityResult\GetListEmployees_Result.cs" />
     <Compile Include="EntityResult\GetSalaryLevel_Result.cs" />
     <Compile Include="EntityResult\GetAccountInfo_Result.cs" />
@@ -514,9 +515,6 @@
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FuelActivitiesConsumption.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\get_salary_level_Result.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HeaderAttendanceAndProductivity.cs">
@@ -7255,7 +7253,6 @@
     <Content Include="excel\DK\Thong-ke-tai-nan-download.xlsx" />
     <Content Include="doc\TCLD\chamdutdow\chamdut-ko-tro-cap-template.docx" />
     <Content Include="doc\TCLD\chamdutzip\chamdut-ko-tro-cap-template.docx" />
-    <Content Include=".editorconfig" />
     <Content Include="js\Custom JS\jquery-freeze-table-master\bower.json" />
     <Content Include="js\Custom JS\jquery-freeze-table-master\LICENSE" />
     <Content Include="js\Custom JS\jquery-freeze-table-master\package.json" />
