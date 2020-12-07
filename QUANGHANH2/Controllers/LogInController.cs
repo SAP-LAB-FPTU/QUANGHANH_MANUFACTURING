@@ -11,8 +11,6 @@ using XCrypt;
 using System.Linq.Dynamic;
 using System.Data.SqlClient;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace QUANGHANHCORE.Controllers
 {
 
@@ -63,11 +61,11 @@ namespace QUANGHANHCORE.Controllers
                     Session["UserID"] = checkuser.ID;
                     Session["time"] = DateTime.Now;
                     int id = checkuser.ID;
-                    var Name = db.Database.SqlQuery<GetAccountInfo_Result>("Account.GetAccountInfo {0}", id).FirstOrDefault();
+                    var Name = db.Database.SqlQuery<GetAccountInfo_Result>("Account.GetEmployeeInfoByAccountID {0}", id).FirstOrDefault();
                     Session["departName"] = Name.department_name.Trim();
                     Session["departID"] = Name.department_id.Trim();
                     Session["account_id"] = Name.ID;
-                    Session["Name"] = Name.Ten;
+                    Session["Name"] = Name.BASIC_INFO_full_name;
                     Session["username"] = Name.Username.Trim();
                     Session["Position"] = Name.Position.Trim();
                     Session["isAdmin"] = Name.ADMIN;

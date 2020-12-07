@@ -323,7 +323,7 @@
                     "columns": [
                         {
                             "data": "employee_id", "name": "employee_id", "render": function (data) {
-                                return "<a href='/phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien?id=" + data + "' >" + data + "</a>"
+                                return "<a href='/phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien?id=" + data + "_view' >" + data + "</a>"
                             },
                         },
                         { "data": "BASIC_INFO_full_name", "name": "BASIC_INFO_full_name" },
@@ -341,7 +341,7 @@
                         { "data": "StatusName", "name": "StatusName" },
                         {
                             "data": {}, "render": function (data) {
-                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/chinh-sua-nhan-vien?id=" + data.employee_id + "'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a> &nbsp;&nbsp;&nbsp;" +
+                                return "<a class='waves-effect waves-light btn blue darken-2 btn-small' href='/phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien?id=" + data.employee_id + "_edit'  data-target='dropdown1'><span class='ti-pencil-alt'>&nbsp;Sửa</span></a> &nbsp;&nbsp;&nbsp;" +
                                     "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='getHistoryID(" + data.employee_id + "); getTransferHistory(" + data.employee_id + ");' data-target='history'><span class='fas fa-history'>&nbsp;Xem</span></a>";
 
                             },
