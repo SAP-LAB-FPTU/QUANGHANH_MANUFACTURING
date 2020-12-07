@@ -102,9 +102,32 @@ namespace QUANGHANH2.Controllers.Camera
 
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                var equipList = db.Database.SqlQuery<GetListCamera_Result>("Camera.CDVT_get_list_camera {0}, {1}, {2}, {3} ,{4}, {5}, {6}, {7}", 
-                    room_name, disk_status, reason, department, sortColumnName, sortDirection, start, length ).ToList();
-                int totalrows = db.Database.SqlQuery<int>("Camera.CDVT_get_count_camera {0}, {1}, {2}, {3}", 
+                //var equipList = db.Database.SqlQuery<GetListCamera_Result>("Camera.Get_List_Camera {0}, {1}, {2}, {3} ,{4}, {5}, {6}, {7}", 
+                //    room_name, disk_status, reason, department, sortColumnName, sortDirection, start, length ).ToList();
+                var equipList = (from r in db.Rooms
+                                 join d in db.Departments on r.department_id equals d.department_id
+                                 where r.room_name.Contains(room_name)
+                                 && r.disk_status.Contains(disk_status)
+                                 && (string.IsNullOrEmpty(reason) ? true : r.signal_loss_reason.Contains(reason))
+                                 && r.department_id.Contains(department)
+                                 select new GetListCamera_Result
+                                 {
+                                     camera_available = r.camera_available,
+                                     camera_quantity = r.camera_quantity,
+                                     department_id = r.department_id,
+                                     capacity = r.capacity,
+                                     department_name = d.department_name,
+                                     disk_saveable = r.disk_saveable,
+                                     disk_status = r.disk_status,
+                                     image_link = r.image_link,
+                                     login_information = r.login_information,
+                                     note = r.note,
+                                     room_id = r.room_id,
+                                     room_name = r.room_name,
+                                     series = r.series,
+                                     signal_loss_reason = r.signal_loss_reason
+                                 }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
+                int totalrows = db.Database.SqlQuery<int>("Camera.Get_Count_Camera {0}, {1}, {2}, {3}",
                     room_name, disk_status, department, reason).FirstOrDefault();
                 return Json(new { success = true, data = equipList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
