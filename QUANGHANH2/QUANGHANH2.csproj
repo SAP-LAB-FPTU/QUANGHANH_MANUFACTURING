@@ -357,6 +357,9 @@
     <Compile Include="Controllers\TCLD\Transfer\TransferController.cs" />
     <Compile Include="Controllers\TCLD\Employees\WorkHistoryController.cs" />
     <Compile Include="Controllers\TCLD\Work\WorkGroupTypeController.cs" />
+    <Compile Include="EntityResult\GetFamiliesOfAnEmployee.cs" />
+    <Compile Include="EntityResult\GetListEmployees_Result.cs" />
+    <Compile Include="EntityResult\GetSalaryLevel_Result.cs" />
     <Compile Include="EntityResult\GetAccountInfo_Result.cs" />
     <Compile Include="EntityResult\GetAllAccountInfo_Result.cs" />
     <Compile Include="EntityResult\GetDepartmentByEmployeeID_Result.cs" />
