@@ -853,8 +853,8 @@
             success: function (result) {
                 document.getElementById('txtPB').value = result.department_name;
                 document.getElementById('MaPB').value = result.department_id;
-                document.getElementById('txtPosition').value = result.TenCongViec;
-                document.getElementById('txtName').value = result.Ten;
+                document.getElementById('txtPosition').value = result.name;
+                document.getElementById('txtName').value = result.BASIC_INFO_full_name;
                 RightDetail();
                 $('#pre-load').hide();
             },

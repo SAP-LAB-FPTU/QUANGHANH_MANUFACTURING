@@ -65,16 +65,16 @@
             <div class="col s12 m12 l12" style="margin-top:10px">
                 <div class="row center">
                     <div class="col l3 m12 s12 input-field">
-                        <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV' id="searchMaNV" multiple />
+                        <input type="text" placeholder="Mã nhân viên" class='form-control autocomplete_MNV' id="employee_id_search" multiple />
                     </div>
                     <div class="col l3 m12 s12 input-field">
-                        <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name' id="searchTenNV" multiple />
+                        <input type="text" placeholder="Tên nhân viên" class='form-control autocomplete_Name' id="employee_name_search" multiple />
                     </div>
                     <div class="col l3 m12 s12 input-field">
-                        <input type="text" placeholder="Tên giấy tờ" class='form-control autocomplete_Name' id="searchTenGT" multiple />
+                        <input type="text" placeholder="Tên giấy tờ" class='form-control autocomplete_Name' id="paper_name_search" multiple />
                     </div>
                     <div class="col l3 m12 s12 input-field">
-                        <select class="form-control" id="searchKieuGT">
+                        <select class="form-control" id="type_name_search">
                             <option value="" selected>Kiểu giấy tờ</option>
                             <option value="goc">Gốc</option>
                             <option value="daudo">Dấu đỏ</option>
@@ -90,9 +90,9 @@
                 </div>
             </div>
             <row>
-                <a class="waves-effect waves-light btn-small blue modal-trigger " data-target="myadd" style="margin-top:10px" onclick="PopupFormAdd('@Url.Action("themGiayTo","Brief")')"><i class="fa fa-plus"></i> Thêm</a>
+                <a class="waves-effect waves-light btn-small blue modal-trigger " style="margin-top:10px" href="#addRelevantPaper"><i class="fa fa-plus"></i> Thêm</a>
             </row>
-            <table class="table-bordered striped" id="equipmentTable" style="margin-top:10px">
+            <table class="table-bordered striped" id="re_paper_table" style="margin-top:10px">
                 <thead>
                     <tr>
                         <th>
@@ -114,9 +114,91 @@
             </table>
         </div>
     </div>
+
+    <div class="modal fade" id="addRelevantPaper">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Thêm giấy tờ liên quan</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Mã nhân viên : </label>
+                            <input type="text" class="form-control" list="eID" id="employee_id_add" onchange="getEmployeeName()" />
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Tên nhân viên : </label>
+                            <input type="text" class="form-control" readonly id="employee_name_add" />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Tên giấy tờ : </label>
+                            <input type="text" class="form-control" id="paper_name_add" list="paper_names_ID" />
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Kiểu giấy tờ : </label>
+                            <input type="text" class="form-control" id="type_name_add" list="type_papers_ID" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn blue darken-2 modal-close save-category" onclick="addRelevantPaper()">Lưu</button>
+                <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-add-button">Thoát</button>
+            </div>
+        </div>
+    </div>
+
+    <form action="" method="POST" id="myeditform" role="form">
+        <div class="modal fade" id="myacti">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Sửa giấy tờ</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Tên giấy tờ : </label>
+                            <input type="text" class="form-control" id="paper_name_edit" list="paper_names_ID" />
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Kiểu giấy tờ : </label>
+                            <input type="text" class="form-control" id="type_name_edit" list="type_papers_ID" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn blue darken-2 modal-close save-category " data-target="#updateBrief">Lưu</button>
+                    <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-edit-button">Thoát</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
 </div>
 
+<datalist id="eID">
+    @foreach (var item in ViewBag.employee_list)
+    {
+        <option value="@item.employee_id">@item.employee_name</option>
+    }
+</datalist>
 
+<datalist id="type_papers_ID">
+    @foreach (var item in ViewBag.type_papers)
+    {
+        <option value="@item.Value">@item.Value</option>
+    }
+</datalist>
+
+<datalist id="paper_names_ID">
+    @foreach (var item in ViewBag.paper_names)
+    {
+        <option value="@item">@item</option>
+    }
+</datalist>
 
 @{
     List<string> right = (List<string>)Session["RightIDs"];
@@ -212,72 +294,73 @@
     <script src="~/js/Custom JS/TCLD/Brief/ManageBrief/DeletePopup.min.js"></script>
     <script src="~/js/Custom JS/Disable_input_material.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
     <script>
-        ////////////////////////////////////////////////////////////////////////
+
         $("#pre-load").show("slow", function () {
-         });
+        });
         $("#pre-load").css("z-index", "99999");
-////////////////////////////////////////////////////////////////////////
+
         var Popup, dataTable;
+
         $(document).ready(function () {
-            dataTable = $('#equipmentTable')
+            dataTable = $('#re_paper_table')
                 .on('preXhr.dt', function (e, settings, data) {
 
-                                   ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
-      				  $("#pre-load").show("slow", function () {
-      				   });
-      				  $("#pre-load").css("z-index", "99999");
-			          ////////////////////////////////////////////////////////////////////////
+
+                    $("#pre-load").show("slow", function () {
+                    });
+                    $("#pre-load").css("z-index", "99999");
+
                 })
                 .DataTable({
-                "ajax": {
-                    "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to",
-                    "type": "POST",
-                    "datatype": "json",
-                    "data": {
-                        "MaNV": function () { return $('#searchMaNV').val() },
-                        "TenNV": function () { return $('#searchTenNV').val() },
-                        "TenGT": function () { return $('#searchTenGT').val() },
-                        "KieuGT": function () { return $('#searchKieuGT').val() },
+                    "ajax": {
+                        "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to",
+                        "type": "POST",
+                        "datatype": "json",
+                        "data": {
+                            "employee_id": function () { return $('#employee_id_search').val() },
+                            "employee_name": function () { return $('#employee_name_search').val() },
+                            "paper_name": function () { return $('#paper_name_search').val() },
+                            "type_name": function () { return $('#type_name_search').val() },
                         },
-
                     },
 
-                     "drawCallback": function (settings) {
-                 ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
-                                  $("#pre-load").hide("slow", function () {
-                       		  });
- 			     ////////////////////////////////////////////////
+                    "drawCallback": function (settings) {
+                        ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        ////////////////////////////////////////////////
 
-                 },
-                "columns": [
-                    { "data": "MaNV" , "name" : "MaNV",  },
-                    { "data": "Ten" , "name" : "Ten" },
-                    { "data": "TenGiayTo", "name": "TenGiayTo" },
-                    { "data": "KieuGiayTo" , "name" : "KieuGiayTo"},
-
-                      {
-                          "data": "MaGiayTo", "render": function (data, type, row) {
-                              return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myEdit' onclick=Edit('@Url.Action("suaGiayTo","Brief")/"+data+"')><span class='ti-pencil-alt'>Chỉnh&nbsp;sửa</span></a>";
-                        },
-                        "orderable": false,
-                        "searchable":false,
-                        "width":"150px"
                     },
-                    {
-                        "data": "MaGiayTo", "render": function (data, type, row) {
-                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' onclick=DeleteDoc("+data+")><span class='fas fa-times-circle'>Xóa</span></a>";
+                    "columns": [
+                        { "data": "employee_id", "name": "employee_id", },
+                        { "data": "employee_name", "name": "employee_name" },
+                        { "data": "paper_name", "name": "paper_name" },
+                        { "data": "type_name", "name": "type_name" },
+
+                        {
+                            "data": "records_papers_id", "render": function (data, type, row) {
+                                return "<a href=\"#myacti\" data-toggle=\"modal\" class='waves-effect waves-light btn-small blue modal-trigger' data-paper=\"" + data + "\"><span class='ti-pencil-alt'>Chỉnh&nbsp;sửa</span></a>";
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
                         },
-                        "orderable": false,
-                        "searchable":false,
-                        "width":"150px"
-                    }
-                ],
-                "serverSide": "true",
-                "bLengthChange": false,
-                "bFilter": false,
-                 "bInfo": false,
-                "language": {
+                        {
+                            "data": "records_papers_id", "render": function (data, type, row) {
+                                return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px'><span class='fas fa-times-circle' data-paper=\"" + data + "\">Xóa</span></a>";
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
+                        }
+                    ],
+                    "serverSide": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": false,
+                    "language": {
                         emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
                         paginate:
                         {
@@ -290,101 +373,101 @@
                         info: "Đang hiện START đến END của TOTAL bản ghi",
                         infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
                     },
-                "bAutoWidth": false,
-                "order": [0, "asc"],
-                "initComplete": function(settings, json) {
- ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
-    		$("#pre-load").hide("slow", function () {
-      		  });
- //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+                    "bAutoWidth": false,
+                    "order": [0, "asc"],
+                    "initComplete": function (settings, json) {
+                        ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
                     },
 
-            });
+                });
         });
 
-         $(document).ready(function () {
-            var dataTable = $('#equipmentTable').DataTable();
-             $("#searchButton_Doc").click(function () {
-                 dataTable.ajax.reload();
+        $(document).ready(function () {
+           var dataTable = $('#re_paper_table').DataTable();
+            $("#searchButton_Doc").click(function () {
+                dataTable.ajax.reload();
 
-            });
+           });
         });
+
         //gọi popup khi ấn sửa
-         function PopupFormEdit(url) {
-            var formDiv = $('<div/>');
-            $.get(url)
-            .done(function (response) {
-                formDiv.html(response);
-                    Popup = formDiv.dialog({
-                    autoOpen: true,
-                    resizable: false,
-                    title: 'Sửa giấy tờ',
-                    height: 1000,
-                    width: 800,
-                    close: function () {
-                    Popup.dialog('destroy').remove();
-                    }
+        //     function PopupFormEdit(url) {
+        //        var formDiv = $('<div/>');
+        //        $.get(url)
+        //        .done(function (response) {
+        //            formDiv.html(response);
+        //                Popup = formDiv.dialog({
+        //                autoOpen: true,
+        //                resizable: false,
+        //                title: 'Sửa giấy tờ',
+        //                height: 1000,
+        //                width: 800,
+        //                close: function () {
+        //                Popup.dialog('destroy').remove();
+        //                }
 
-                    });
-            });
-    }
+        //                });
+        //        });
+        //}
         //dùng bên suaGiayTo.cshtml khi ấn sumbit
-        function UpdateEquipment(form) {
-            $.validator.unobtrusive.parse(form);
-            if ($(form).valid()) {
-                $.ajax({
-                    type : "POST",
-                    url : form.action,
-                    data : $(form).serialize(),
-                    success : function (data) {
-                            dataTable.ajax.reload();
-                            successAlert('Thành công','Sửa thành công');
+        //function UpdateEquipment(form) {
+        //    $.validator.unobtrusive.parse(form);
+        //    if ($(form).valid()) {
+        //        $.ajax({
+        //            type : "POST",
+        //            url : form.action,
+        //            data : $(form).serialize(),
+        //            success : function (data) {
+        //                    dataTable.ajax.reload();
+        //                    successAlert('Thành công','Sửa thành công');
 
-                    },
-                    error: function (data) {
-                            dataTable.ajax.reload();
-                            successAlert('Thành công','Sửa thành công');
+        //            },
+        //            error: function (data) {
+        //                    dataTable.ajax.reload();
+        //                    successAlert('Thành công','Sửa thành công');
 
-                        },
-                });
-            }
-            return false;
-        }
+        //                },
+        //        });
+        //    }
+        //    return false;
+        //}
         //dùng bên themGiayTo.cshtml khi ấn sumbit
-         function SubmitForm(form) {
-            $.validator.unobtrusive.parse(form);
-            if ($(form).valid()) {
-                $.ajax({
-                    type : "POST",
-                    url : form.action,
-                    data : $(form).serialize(),
-                    success: function (result) {
-                        if (result.message === "Failed") {
-                            dataTable.ajax.reload();
-                            $.notify("Mã nhân viên không tồn tại", {
-                                globalPosition: "top center",
-                                className: "failed"
-                            })
-                        } else {
-                            dataTable.ajax.reload();
-                            successAlert('Thành công','Thêm thành công');
-                        }
+        // function SubmitForm(form) {
+        //    $.validator.unobtrusive.parse(form);
+        //    if ($(form).valid()) {
+        //        $.ajax({
+        //            type : "POST",
+        //            url : form.action,
+        //            data : $(form).serialize(),
+        //            success: function (result) {
+        //                if (result.message === "Failed") {
+        //                    dataTable.ajax.reload();
+        //                    $.notify("Mã nhân viên không tồn tại", {
+        //                        globalPosition: "top center",
+        //                        className: "failed"
+        //                    })
+        //                } else {
+        //                    dataTable.ajax.reload();
+        //                    successAlert('Thành công','Thêm thành công');
+        //                }
 
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
-                        alert(textStatus);
-                     }
+        //            },
+        //            error: function (xhr, textStatus, errorThrown) {
+        //                alert(textStatus);
+        //             }
+        //        });
+        //    }
+        //    return false;
+        //}
+        function Edit(url) {
+            $.get(url)
+                .done(function (response) {
+                    //id dùng bên sửa giấy tờ
+                    $("#edit-modal-body").html(response)
                 });
-            }
             return false;
-        }
-           function Edit(url) {
-             $.get(url)
-                 .done(function (response) {
-                     //id dùng bên sửa giấy tờ
-                     $("#edit-modal-body").html(response)
-            });
-                return false;
         }
 
 
@@ -402,7 +485,8 @@
     </script>
     <!---------------------------------------------------------------------------------->
     <script>
-    var datatable_inside, stt;
+        var datatable_inside, stt;
+
     $(document).ready(function () {
         datatable_inside = $('#inside_table').on('preXhr.dt', function (e, settings, data) {
             $("#pre-load").show("slow", function () {
@@ -479,7 +563,7 @@
         }
     }
 
-    $("#searchButton").click(function () {
+    @*$("#searchButton").click(function () {
         $("#pre-load").show("slow", function () { });
 
             var manv = $("#manv").val();
@@ -497,7 +581,7 @@
             className: "success"
         })
             datatable_inside.ajax.url('@Url.Action("searchlistAllBrief", "Brief")?searchList=' + arr).load(() => { $("#pre-load").hide("slow", function () { }) }, true)
-    })
+    })*@
 
     function dateFormat(d) {
         if (d != null && d != "") {
@@ -563,3 +647,175 @@
     </script>
 }
 <!----------------------------------------------------Long----------------------------------->
+<!----------------------------------------------------Ctbom----------------------------------->
+<script>
+    $("#searchButton").click(function () {
+        dataTable = $('#re_paper_table').on('preXhr.dt', function (e, settings, data) {
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
+        }).DataTable({
+            "language": {
+                "emptyTable": "Không tìm thấy dữ liệu",
+                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+                "paginate": {
+                    "first": "Đầu",
+                    "last": "Cuối",
+                    "next": "Sau",
+                    "previous": "Trước"
+                }
+            },
+            "ajax": {
+                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to",
+                "type": "POST",
+                "datatype": "json",
+                "data": {
+                    "employee_id": function () { return $('#employee_id_search').val() },
+                    "employee_name": function () { return $('#employee_name_search').val() },
+                    "paper_name": function () { return $('#paper_name_search').val() },
+                    "type_name": function () { return $('#type_name_search').val() },
+                },
+                "cache": "false"
+            },
+            "drawCallback": function (settings) {
+                ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                $("#pre-load").hide("slow", function () {
+                });
+                ////////////////////////////////////////////////
+            },
+            "columns": [
+                { "data": "employee_id", "name": "employee_id", },
+                { "data": "employee_name", "name": "employee_name" },
+                { "data": "paper_name", "name": "paper_name" },
+                { "data": "type_name", "name": "type_name" },
+
+                {
+                    "data": "records_papers_id", "render": function (data, type, row) {
+                        return "<a href=\"#myacti\" data-toggle=\"modal\" class='waves-effect waves-light btn-small blue modal-trigger' data-paper=\"" + data + "\"><span class='ti-pencil-alt'>Chỉnh&nbsp;sửa</span></a>";
+                    },
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "150px"
+                },
+                {
+                    "data": "records_papers_id", "render": function (data, type, row) {
+                        return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px'><span class='fas fa-times-circle' data-paper=\"" + data + "\">Xóasdadas</span></a>";
+                    },
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "150px"
+                }
+            ],
+            "bFilter": false,
+            "serverSide": true,
+            "rowId": "activityid",
+            "lengthChange": false,
+            "bAutoWidth": false,
+            "order": [0, "asc"],
+            "initComplete": function (settings, json) {
+                ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                $("#pre-load").hide("slow", function () {
+                });
+                //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+            }
+        });
+    })
+
+    //add
+    function addRelevantPaper() {
+        var data = {
+            employee_id: document.getElementById("employee_id_add").value,
+            employee_name: document.getElementById("employee_name_add").value,
+            paper_name: document.getElementById("paper_name_add").value,
+            type_name: document.getElementById("type_name_add").value
+        };
+        $.ajax({
+            url: "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to/them",
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function () {
+                successAlert('Thành công', 'Thêm thành công');
+                dataActiTable.ajax.reload();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                errorAlert('Lỗi', 'Có lỗi xảy ra');
+            }
+        });
+    }
+
+    function getEmployeeName() {
+        var id = document.getElementById("employee_id_add").value;
+        var input = {
+            employee_id: id
+        };
+        $.ajax({
+            url: "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to/ten",
+            type: "POST",
+            data: JSON.stringify(input),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                document.getElementById("employee_name_add").value = data.BASIC_INFO_full_name;
+            },
+            error: function () {
+                //alert("fail");
+            }
+        });
+    }
+
+    //open-EditModal activity.
+        $(document).on("click", ".open-EditModal", function () {
+            var paper_id = $(this).data('paper');
+            $.ajax({
+                type: "POST",
+                url: "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to/record-paper",
+                dataType: JSON.stringify(paper_id),
+                success: function (data) {
+                    $("#paper_name_edit").val(data.paper_name);
+                    $('#type_name_edit').val(data.type_name);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                },
+                data: {
+                    paperid: Number(paper)
+                },
+                cache: false
+            })
+        });
+
+        $("#myeditform").submit(function (e) {
+            $.ajax({
+                type: "POST",
+                url: "/phong-cdvt/cap-nhat-hoat-dong/edit-activity",
+                dataType: "text",
+                success: function () {
+                    successAlert('Thành công', 'Chỉnh sửa thành công ');
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi', 'Có lỗi xảy ra');
+                },
+                data: {
+                    date1: $("#date-edit").val(),
+                    equipmentId: $('#equipmentId-edit').val(),
+                    activity_name: $('#activityname-edit').val(),
+                    hours_per_day: $('#hours_per_day-edit').val(),
+                    quantity: $('#quantity-edit').val(),
+                    activityid: Number($('#activityid-edit').val())
+                },
+                cache: false
+            }).done(function () {
+                $('#exit-edit-button').click();
+                dataActiTable.ajax.reload();
+            })
+            return false;
+        });
+
+</script>
+

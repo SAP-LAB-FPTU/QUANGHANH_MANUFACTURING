@@ -35,7 +35,6 @@ namespace QUANGHANHCORE.Controllers.BGD
             List<NghiVLD> listNghiVLD = new List<NghiVLD>();
             List<NhanLuc> listNhanLuc = new List<NhanLuc>();
             SanLuong sanluong = new SanLuong();
-            int temp = 0;
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
@@ -59,8 +58,7 @@ namespace QUANGHANHCORE.Controllers.BGD
                       "Ngay = (SELECT CONVERT(VARCHAR(10), getdate() - 1, 101))) as tn";
                 try
                 {
-                    temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
-                    vuTaiNan = temp != null ? temp : 0;
+                    vuTaiNan = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
                 }
                 catch (Exception e)
                 {
@@ -73,8 +71,7 @@ namespace QUANGHANHCORE.Controllers.BGD
                           "from ChungChi_NhanVien cn join ChungChi cc on cn.MaChungChi = cc.MaChungChi) as th";
                 try
                 {
-                    temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
-                    hetHanChungChi = temp != null ? temp : 0;
+                    hetHanChungChi = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
                 }
                 catch (Exception e)
                 {
@@ -90,8 +87,7 @@ namespace QUANGHANHCORE.Controllers.BGD
 
                 try
                 {
-                    temp = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
-                    nghiVLD = temp != null ? temp : 0;
+                    nghiVLD = db.Database.SqlQuery<int>(sql).ToList<int>()[0];
                 }
                 catch (Exception e)
                 {

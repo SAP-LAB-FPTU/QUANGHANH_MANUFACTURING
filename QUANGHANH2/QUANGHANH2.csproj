@@ -357,6 +357,12 @@
     <Compile Include="Controllers\TCLD\Transfer\TransferController.cs" />
     <Compile Include="Controllers\TCLD\Employees\WorkHistoryController.cs" />
     <Compile Include="Controllers\TCLD\Work\WorkGroupTypeController.cs" />
+    <Compile Include="EntityResult\GetAccountInfo_Result.cs" />
+    <Compile Include="EntityResult\GetAllAccountInfo_Result.cs" />
+    <Compile Include="EntityResult\GetDepartmentByEmployeeID_Result.cs" />
+    <Compile Include="EntityResult\GetDepartmentJobDetailByEmployeeID_Result.cs" />
+    <Compile Include="EntityResult\GetListCamera_Result.cs" />
+    <Compile Include="EntityResult\GetUserFunction_Result.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -527,7 +533,7 @@
     <Compile Include="Models\HistoryWork.cs" />
     <Compile Include="Models\HoSoNhanVien.cs" />
     <Compile Include="Models\HumanResources\WorkGroup_Extend.cs" />
-    <Compile Include="Models\HumanResources\Work_Extend.cs" />
+    <Compile Include="EntityResult\GetDataWork_Result.cs" />
     <Compile Include="Models\Important_Documentary.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
