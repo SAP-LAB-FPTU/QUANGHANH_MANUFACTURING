@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using static QUANGHANHCORE.Controllers.CDVT.Thietbi.HoatdongController;
 using System.Data.SqlClient;
+using QUANGHANH2.EntityResult;
+
 namespace QUANGHANHCORE.Controllers.CDVT
 {
     public class Temp
@@ -23,9 +25,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
             List<string> rights = (List<string>)Session["RightIDs"];
-            List<DashEquip> listhd = new List<DashEquip>();
-            List<DashEquip> listkhd = new List<DashEquip>();
-            List<DashEquip> listcar = new List<DashEquip>();
+            List<GetDashEquip_Result> listhd = new List<GetDashEquip_Result>();
+            List<GetDashEquip_Result> listkhd = new List<GetDashEquip_Result>();
+            List<GetDashEquip_Result> listcar = new List<GetDashEquip_Result>();
 
             DateTime date = DateTime.Now.Date;
             int sess = 0;
@@ -34,106 +36,54 @@ namespace QUANGHANHCORE.Controllers.CDVT
             else if (hour >= 14 && hour < 22) sess = 2;
             else if (hour >= 22 || hour < 6) sess = 3;
             // GPS car unavailable
-            var gpsunavailble = db.Database.SqlQuery<GPSCarAvail>(@"select c.equipmentId
-                                                                    from Equipment.CarGPS c
-                                                                    where c.[date] = @date and c.[session] = @sess and c.available = 0",
-                                                                    new SqlParameter("date", date),
-                                                                    new SqlParameter("sess", sess)
-                                                                    ).ToList();
+            String date_string = date.ToString("yyyy/MM/dd");
+            var gpsunavailble = db.Database.SqlQuery<GetGPSCarAvailable_Result>(@"[Equipment].[Get_GPS_Car_Available] {0}, {1}",
+                date_string, sess).ToList();
             ViewBag.gpsavail = gpsunavailble.Count;
 
-            listcar = (from equip in db.Equipments
-                       join c in db.Cars on equip.equipmentId equals c.equipmentId
-                       select new DashEquip
-                       {
-                           equipment_name = equip.equipment_name,
-                           equipmentId = equip.equipmentId
-                       }).ToList();
+            listcar = db.Database.SqlQuery<GetDashEquip_Result>("Equipment.Get_List_Car").ToList();
             if (rights.Contains("10"))
             {
-                listhd = (from equip in db.Equipments.Where(x => x.current_Status == 2)
-                          join c in db.Cars on equip.equipmentId equals c.equipmentId
-                          select new DashEquip
-                          {
-                              equipment_name = equip.equipment_name,
-                              equipmentId = equip.equipmentId
-                          }).ToList();
-                listkhd = (from equip in db.Equipments.Where(x => x.current_Status != 2)
-                           join c in db.Cars on equip.equipmentId equals c.equipmentId
-                           select new DashEquip
-                           {
-                               equipment_name = equip.equipment_name,
-                               equipmentId = equip.equipmentId
-                           }).ToList();
-                string query = @"select ec.Equipment_category_id,ec.Equipment_category_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by ec.Equipment_category_name) as 'stt',
-                                SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
-                                SUM(case when e.current_Status != 2 then 1 else 0 end) as 'sum2'
-                                from Equipment.Equipment e join Equipment.Car c on e.equipmentId = c.equipmentId join Equipment.Category ec on e.Equipment_category_id = ec.Equipment_category_id
-                                group by ec.Equipment_category_id,ec.Equipment_category_name";
-                var tonghop = db.Database.SqlQuery<ExportByGroup>(query).ToList();
+                listhd = db.Database.SqlQuery<GetDashEquip_Result>("Equipment.Get_List_Car_Active").ToList();
+                listkhd = db.Database.SqlQuery<GetDashEquip_Result>("Equipment.Get_List_Car_Not_Active").ToList();
+                string query = @"Equipment.Get_Number_Of_Car_Active";
+                var tonghop = db.Database.SqlQuery<GetExportByGroup_Result>(query).ToList();
                 ViewBag.hd = tonghop;
                 //ViewBag.hd = listhd;
                 ViewBag.khd = listkhd;
             }
             else
             {
-                listhd = (from e in db.Equipments
-                          where e.current_Status == 2
-                          select new DashEquip
-                          {
-                              equipmentId = e.equipmentId,
-                              equipment_name = e.equipment_name
-                          }).ToList();
-                listkhd = (from e in db.Equipments
-                           where e.current_Status != 2
-                           select new DashEquip
-                           {
-                               equipmentId = e.equipmentId,
-                               equipment_name = e.equipment_name
-                           }).ToList();
-                string query = @"select ec.Equipment_category_id, ec.Equipment_category_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by ec.Equipment_category_name)  as 'stt',
-                                SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
-                                SUM(case when e.current_Status != 2 then 1 else 0 end) as 'sum2'
-                            from Equipment.Category ec left join Equipment.Equipment e on ec.Equipment_category_id = e.Equipment_category_id
-                            group by ec.Equipment_category_id,ec.Equipment_category_name
-                            except
-                            select ec.Equipment_category_id,ec.Equipment_category_name, COUNT(e.equipmentId) as 'num',ROW_NUMBER() over (order by ec.Equipment_category_name),
-                                SUM(case when e.current_Status = 2 then 1 else 0 end) as 'sum1',
-                                SUM(case when e.current_Status != 2 then 1 else 0 end) as 'sum2'
-                                from Equipment.Equipment e join Equipment.Car c on e.equipmentId = c.equipmentId join Equipment.Category ec on e.Equipment_category_id = ec.Equipment_category_id
-                                group by ec.Equipment_category_id,ec.Equipment_category_name";
-                var tonghop = db.Database.SqlQuery<ExportByGroup>(query).ToList();
+                listhd = db.Database.SqlQuery<GetDashEquip_Result>("Equipment.Get_List_Equipment_Active").ToList();
+                listkhd = db.Database.SqlQuery<GetDashEquip_Result>("Equipment.Get_List_Equipment_Not_Active").ToList();
+                string query = @"Equipment.Get_List_Export_By_Group_Equipment";
+                var tonghop = db.Database.SqlQuery<GetExportByGroup_Result>(query).ToList();
                 ViewBag.hd = tonghop;
                 //ViewBag.hd = listhd.Except(listcar);
                 ViewBag.khd = listkhd.Except(listcar);
             }
 
-            EquipThongKe etk = new EquipThongKe();
+            GetStatisEquipment_Result etk = new GetStatisEquipment_Result();
             var equipList = db.Equipments.ToList<Equipment>();
             etk.total = equipList.Where(x => x.isAttach == false).Count().ToString();
             int total_repair = 0; int total_maintain = 0; int total_TL = 0; int total_TH = 0;
-            var listKD = (from equip in db.Equipments.Where(equip => equip.current_Status == 10)
-                          select new DashEquip
-                          {
-                              equipmentId = equip.equipmentId,
-                              equipment_name = equip.equipment_name
-                          }).ToList();
+            var listKD = db.Database.SqlQuery<GetDashEquip_Result>("Equipment.Get_List_Equipment_Accreditation").ToList();
             ViewBag.listKD = listKD;
             ViewBag.totalKD = listKD.Count();
 
             etk.total_HD = db.Equipments.Where(x => x.current_Status == 2 && x.isAttach == false).Count();
             etk.total_KHD = int.Parse(etk.total) - etk.total_HD;
 
-            var listRepair = db.Equipments.Where(x => x.current_Status == 3).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
+            var listRepair = db.Equipments.Where(x => x.current_Status == 3).Select(x => new GetDashEquip_Result { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listRepair = listRepair;
 
-            var listMain = db.Equipments.Where(x => x.current_Status == 5).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
+            var listMain = db.Equipments.Where(x => x.current_Status == 5).Select(x => new GetDashEquip_Result { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listMain = listMain;
 
-            var listTL = db.Equipments.Where(x => x.current_Status == 8).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
+            var listTL = db.Equipments.Where(x => x.current_Status == 8).Select(x => new GetDashEquip_Result { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listTL = listTL;
 
-            var listTH = db.Equipments.Where(x => x.current_Status == 7).Select(x => new DashEquip { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
+            var listTH = db.Equipments.Where(x => x.current_Status == 7).Select(x => new GetDashEquip_Result { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
             total_repair = listRepair.Count();
             total_maintain = listMain.Count();
             total_TL = listTL.Count();
@@ -146,7 +96,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.Thongke = etk;
             var testTime = DateTime.Now.AddDays(10);
             var hanDangKiem = db.Equipments.Where(x => x.durationOfInspection <= testTime && x.durationOfInspection >= DateTime.Now && x.isAttach == false).OrderBy(x => x.durationOfInspection).
-                                    Select(x => new form1
+                                    Select(x => new GetListEquipNoAccreditation_Result
                                     {
                                         equipment_name = x.equipment_name,
                                         equipmentId = x.equipmentId,
@@ -157,7 +107,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.kiemdinhtag = hanDangKiem.Count();
             ViewBag.handangkiem = hanDangKiem;
             var hanBaoduong = db.Equipments.Where(x => x.durationOfMaintainance <= testTime && x.durationOfMaintainance >= DateTime.Now && x.isAttach == false).OrderBy(x => x.durationOfMaintainance).
-                                    Select(x => new form1
+                                    Select(x => new GetListEquipNoAccreditation_Result
                                     {
                                         equipment_name = x.equipment_name,
                                         equipmentId = x.equipmentId,
@@ -171,7 +121,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             var tongcogioi = (from equip in db.Equipments
                               join car in db.Cars
                               on equip.equipmentId equals car.equipmentId
-                              select new DashEquip
+                              select new GetDashEquip_Result
                               {
                                   equipment_name = equip.equipment_name,
                                   equipmentId = equip.equipmentId
@@ -181,7 +131,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             var cogioihd = (from equip in db.Equipments.Where(x => x.current_Status == 2)
                             join car in db.Cars
                               on equip.equipmentId equals car.equipmentId
-                            select new DashEquip
+                            select new GetDashEquip_Result
                             {
                                 equipment_name = equip.equipment_name,
                                 equipmentId = equip.equipmentId
@@ -191,7 +141,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             var cogioiSC = (from equip in db.Equipments.Where(x => x.current_Status == 3)
                             join car in db.Cars
                                 on equip.equipmentId equals car.equipmentId
-                            select new DashEquip
+                            select new GetDashEquip_Result
                             {
                                 equipment_name = equip.equipment_name,
                                 equipmentId = equip.equipmentId
@@ -202,7 +152,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             var cogioiBD = (from equip in db.Equipments.Where(x => x.current_Status == 5)
                             join car in db.Cars
                               on equip.equipmentId equals car.equipmentId
-                            select new DashEquip
+                            select new GetDashEquip_Result
                             {
                                 equipment_name = equip.equipment_name,
                                 equipmentId = equip.equipmentId
@@ -215,7 +165,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                               on equip.equipmentId equals car.equipmentId
                             join Equipment_category in db.Categories
                             on equip.Equipment_category_id equals Equipment_category.Equipment_category_id
-                            select new DashEquip
+                            select new GetDashEquip_Result
                             {
                                 equipment_name = equip.equipment_name,
                                 equipmentId = equip.equipmentId
@@ -226,7 +176,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             var cogioiTL = (from equip in db.Equipments.Where(x => x.current_Status == 8)
                             join car in db.Cars
                               on equip.equipmentId equals car.equipmentId
-                            select new DashEquip
+                            select new GetDashEquip_Result
                             {
                                 equipment_name = equip.equipment_name,
                                 equipmentId = equip.equipmentId
@@ -237,7 +187,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             var cogioiTH = (from equip in db.Equipments.Where(x => x.current_Status == 7)
                             join car in db.Cars
                               on equip.equipmentId equals car.equipmentId
-                            select new DashEquip
+                            select new GetDashEquip_Result
                             {
                                 equipment_name = equip.equipment_name,
                                 equipmentId = equip.equipmentId
@@ -248,7 +198,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             var hanDangKiemcogioi = (from equip in db.Equipments.Where(x => x.durationOfInspection <= testTime && x.durationOfInspection >= DateTime.Now)
                                      join car in db.Cars
                                         on equip.equipmentId equals car.equipmentId
-                                     select new SL
+                                     select new GetListEquipNoAccreditationWithDate_Result
                                      {
                                          equipment_name = equip.equipment_name,
                                          equipmentId = equip.equipmentId,
@@ -263,7 +213,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             var hanBaoduongcogioi = (from equip in db.Equipments.Where(x => x.durationOfMaintainance <= testTime && x.durationOfMaintainance >= DateTime.Now).OrderBy(x => x.durationOfMaintainance)
                                      join car in db.Cars
                                         on equip.equipmentId equals car.equipmentId
-                                     select new form1
+                                     select new GetListEquipNoAccreditation_Result
                                      {
                                          equipment_name = equip.equipment_name,
                                          equipmentId = equip.equipmentId,
@@ -281,20 +231,13 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 DateTime d = DateTime.Today;
                 ViewBag.today = month == null ? d.ToString("MM yyyy") : (month + " " + year);
-                string query = @"select COUNT(ci.incident_id) as 'sum', 
-                    case when SUM(case when ci.end_time is not null  then 1 else  0 end) is null then 0 else SUM(case when ci.end_time is not null  then 1 else  0 end) end as 'done', 
-                    case when SUM(case when ci.reason like N'%sét%' or ci.reason like '%set%' then 1 else 0 end) is null then 0 else SUM(case when ci.reason like N'%sét%' or ci.reason like '%set%' then 1 else 0 end) end as 'lightning'
-                    from Camera.Incident ci
-                    where MONTH(ci.start_time) = @month and YEAR(ci.start_time) = @year";
-                DashCam dc = db.Database.SqlQuery<DashCam>(query, new SqlParameter("month", month == null ? d.Month.ToString() : month), new SqlParameter("year", year == null ? d.Year.ToString() : year)).FirstOrDefault();
+                string query = @"Camera.Get_List_Cam_Incident {0}, {1}";
+                GetDashCam_Result dc = db.Database.SqlQuery<GetDashCam_Result>(query, month == null ? d.Month.ToString() : month, "year", year == null ? d.Year.ToString() : year).FirstOrDefault();
                 dc.notdone = dc.sum - dc.done;
                 ViewBag.dc = dc;
 
-                string query2 = @"select case when SUM(case when r.camera_available = r.camera_quantity then 1 else 0 end) is null then 0 else SUM(case when r.camera_available = r.camera_quantity then 1 else 0 end) end as 'daydu',
-                    case when SUM(case when r.camera_available < r.camera_quantity and r.camera_available > 0 then 1 else 0 end) is null then 0 else SUM(case when r.camera_available < r.camera_quantity and r.camera_available > 0 then 1 else 0 end) end as 'kodaydu',
-                    case when SUM(case when r.camera_available = 0 then 1 else 0 end) is null then 0 else SUM(case when r.camera_available = 0 then 1 else 0 end) end as 'ko'
-                    from Camera.Room r";
-                DashRoom dr = db.Database.SqlQuery<DashRoom>(query2).FirstOrDefault();
+                string query2 = @"Camera.Get_List_Cam_Room";
+                GetDashRoom_Result dr = db.Database.SqlQuery<GetDashRoom_Result>(query2).FirstOrDefault();
                 ViewBag.dr = dr;
             }
             return View("/Views/CDVT/Dashboard.cshtml");
@@ -312,139 +255,51 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 int monthnull = DateTime.Now.Date.Month;
                 int yearnull = DateTime.Now.Date.Year;
-                querySC = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary.Documentary do , Equipment.Acceptance a " +
-                             " where do.documentary_id = a.documentary_id and do.documentary_type = 1 " +
-                             " and MONTH(a.acceptance_date) = " + monthnull + " and YEAR(a.acceptance_date) = " + yearnull + " " +
-                             " group by DAY(a.acceptance_date)";
-                queryBD = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary.Documentary do , Equipment.Acceptance a " +
-                             " where do.documentary_id = a.documentary_id and do.documentary_type = 2 " +
-                             " and MONTH(a.acceptance_date) = " + monthnull + " and YEAR(a.acceptance_date) = " + yearnull + " " +
-                             " group by DAY(a.acceptance_date)";
-                queryTL = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary.Documentary do , Equipment.Acceptance a " +
-                             " where do.documentary_id = a.documentary_id and do.documentary_type = 5 " +
-                             " and MONTH(a.acceptance_date) = " + monthnull + " and YEAR(a.acceptance_date) = " + yearnull + " " +
-                             " group by DAY(a.acceptance_date)";
-                queryTDT = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary.Documentary do , Equipment.Acceptance a " +
-                             " where do.documentary_id = a.documentary_id and do.documentary_type = 6 " +
-                             " and MONTH(a.acceptance_date) = " + monthnull + " and YEAR(a.acceptance_date) = " + yearnull + " " +
-                             " group by DAY(a.acceptance_date)";
-                queryKD = "select DAY(e.inspect_date) as [date] ,COUNT(e.inspect_date) as soluong " +
-                            " from Equipment.Inspection e where MONTH(e.inspect_date) = " + monthnull + " and YEAR(e.inspect_date) = " + yearnull + " " +
-                            " group by DAY(e.inspect_date)";
-                queryCamera = @"select DAY(e.start_time) as [date] ,SUM(e.incident_camera_quantity) as soluong  
-                             from Camera.Incident e where MONTH(e.start_time) = " + monthnull + " and YEAR(e.start_time) = " + yearnull +
-                             " group by DAY(e.start_time)";
+                querySC = "Equipment.Get_Equipment_Chart_Repair_Dash_Type_Null " + monthnull + ", " + yearnull;
+                queryBD = "Equipment.Get_Equipment_Chart_Maintain_Dash_Type_Null " + monthnull + ", " + yearnull;
+                queryTL = "Equipment.Get_Equipment_Chart_Liquidation_Dash_Type_Null " + monthnull + ", " + yearnull;
+                queryTDT = "Equipment.Get_Equipment_Chart_Big_Maintain_Dash_Type_Null " + monthnull + ", " + yearnull;
+                queryKD = "Equipment.Get_Equipment_Chart_Accreditation_Dash_Type_Null " + monthnull + ", " + yearnull;
+                queryCamera = "Equipment.Get_Equipment_Chart_Camera_Incident_Dash_Type_Null " + monthnull + ", " + yearnull;
             }
             if (type == "month")
             {
                 int thang = Convert.ToInt32(month);
                 int nam = Convert.ToInt32(year);
-                querySC = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary.Documentary do , Equipment.Acceptance a " +
-                             " where do.documentary_id = a.documentary_id and do.documentary_type = 1 " +
-                             " and MONTH(a.acceptance_date) = " + thang + " and YEAR(a.acceptance_date) = " + nam + " " +
-                             " group by DAY(a.acceptance_date)";
-                queryBD = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary.Documentary do , Equipment.Acceptance a " +
-                             " where do.documentary_id = a.documentary_id and do.documentary_type = 2 " +
-                             " and MONTH(a.acceptance_date) = " + thang + " and YEAR(a.acceptance_date) = " + nam + " " +
-                             " group by DAY(a.acceptance_date)";
-                queryTL = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary.Documentary do , Equipment.Acceptance a " +
-                             " where do.documentary_id = a.documentary_id and do.documentary_type = 5 " +
-                             " and MONTH(a.acceptance_date) = " + thang + " and YEAR(a.acceptance_date) = " + nam + " " +
-                             " group by DAY(a.acceptance_date)";
-                queryTDT = "select DAY(a.acceptance_date) as [date],COUNT(a.acceptance_date) as soluong from Documentary.Documentary do , Equipment.Acceptance a " +
-                             " where do.documentary_id = a.documentary_id and do.documentary_type = 6 " +
-                             " and MONTH(a.acceptance_date) = " + thang + " and YEAR(a.acceptance_date) = " + nam + " " +
-                             " group by DAY(a.acceptance_date)";
-                queryKD = "select DAY(e.inspect_date) as [date] ,COUNT(e.inspect_date) as soluong " +
-                            " from Equipment.Inspection e where MONTH(e.inspect_date) = " + thang + " and YEAR(e.inspect_date) = " + nam + " " +
-                            " group by DAY(e.inspect_date)";
-                queryCamera = @"select DAY(e.start_time) as [date] ,SUM(e.incident_camera_quantity) as soluong  
-                             from Camera.Incident e where MONTH(e.start_time) = " + thang + " and YEAR(e.start_time) = " + nam +
-                             " group by DAY(e.start_time)";
+                querySC = "Equipment.Get_Equipment_Chart_Repair_Dash_Type_Month " + thang + ", " + nam;
+                queryBD = "Equipment.Get_Equipment_Chart_Maintain_Dash_Type_Month " + thang + ", " + nam;
+                queryTL = "Equipment.Get_Equipment_Chart_Liquidation_Dash_Type_Month " + thang + ", " + nam;
+                queryTDT = "Equipment.Get_Equipment_Chart_Big_Maintain_Dash_Type_Month " + thang + ", " + nam;
+                queryKD = "Equipment.Get_Equipment_Chart_Accreditation_Dash_Type_Month " + thang + ", " + nam;
+                queryCamera = "Equipment.Get_Equipment_Chart_Camera_Incident_Dash_Type_Month " + thang + ", " + nam;
             }
             if (type == "year")
             {
                 int nam = Convert.ToInt32(year);
-                querySC = "select CAST(t.[month] as int) as [date], count(g.equipmentId) as soluong from (select number as [month] " +
-                            " from(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
-                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join " +
-                            " (select a.acceptance_date, a.equipmentId from Equipment.Acceptance a left join Documentary.Documentary d " +
-                            " on d.documentary_id = a.documentary_id where d.documentary_type = 1) as g " +
-                            " on t.[month] = month(g.acceptance_date) and YEAR(g.acceptance_date) = " + nam + " group by t.[month] order by t.[month] asc";
-                queryBD = "select CAST(t.[month] as int) as [date], count(g.equipmentId) as soluong from (select number as [month] " +
-                            " from(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
-                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join " +
-                            " (select a.acceptance_date, a.equipmentId from Equipment.Acceptance a left join Documentary.Documentary d " +
-                            " on d.documentary_id = a.documentary_id where d.documentary_type = 2) as g " +
-                            " on t.[month] = month(g.acceptance_date) and YEAR(g.acceptance_date) = " + nam + " group by t.[month] order by t.[month] asc";
-                queryTL = "select CAST(t.[month] as int) as [date], count(g.equipmentId) as soluong from (select number as [month] " +
-                            " from(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
-                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join " +
-                            " (select a.acceptance_date, a.equipmentId from Equipment.Acceptance a left join Documentary.Documentary d " +
-                            " on d.documentary_id = a.documentary_id where d.documentary_type = 5) as g " +
-                            " on t.[month] = month(g.acceptance_date) and YEAR(g.acceptance_date) = " + nam + " group by t.[month] order by t.[month] asc";
-                queryTDT = "select CAST(t.[month] as int) as [date], count(g.equipmentId) as soluong from (select number as [month] " +
-                            " from(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
-                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join " +
-                            " (select a.acceptance_date, a.equipmentId from Equipment.Acceptance a left join Documentary.Documentary d " +
-                            " on d.documentary_id = a.documentary_id where d.documentary_type = 6) as g " +
-                            " on t.[month] = month(g.acceptance_date) and YEAR(g.acceptance_date) = " + nam + " group by t.[month] order by t.[month] asc";
-                queryKD = "select CAST(t.[month] as int) as [date], count(e.equipmentId) as soluong from (select number as [month] " +
-                             " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
-                             " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join Equipment.Inspection e " +
-                             " on t.[month] = month(e.inspect_date) and YEAR(e.inspect_date) = " + nam + " group by t.[month]";
-                queryCamera = @"select CAST(t.[month] as int) as [date], case when sum(e.incident_camera_quantity) is null then 0 else sum(e.incident_camera_quantity) end as soluong from (select number as [month]  
-                              FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n),  
-                              (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a where number <= 12 and number > 0) as t left join Camera.Incident e  
-                              on t.[month] = month(e.start_time) and YEAR(e.end_time) = " + nam + " group by t.[month]";
+                querySC = "Equipment.Get_Equipment_Chart_Repair_Dash_Type_Year " + nam;
+                queryBD = "Equipment.Get_Equipment_Chart_Maintain_Dash_Type_Year " + nam;
+                queryTL = "Equipment.Get_Equipment_Chart_Liquidation_Dash_Type_Year " + nam;
+                queryTDT = "Equipment.Get_Equipment_Chart_Big_Maintain_Dash_Type_Year " + nam;
+                queryKD = "Equipment.Get_Equipment_Chart_Accreditation_Dash_Type_Year " + nam;
+                queryCamera = "Equipment.Get_Equipment_Chart_Camera_Incident_Dash_Type_Year " + nam;
             }
             if (type == "yearss")
             {
-                querySC = "select t.[year] as [date], count(g.equipmentId) as soluong from  (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) " +
-                            " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
-                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a WHERE DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join " +
-                              " (select a.acceptance_date, a.equipmentId from Equipment.Acceptance a left join Documentary.Documentary d " +
-                              " on d.documentary_id = a.documentary_id where d.documentary_type = 1) as g on t.[year] = year(g.acceptance_date) " +
-                            " group by t.[year] order by t.[year] asc";
-                queryBD = "select t.[year] as [date], count(g.equipmentId) as soluong from  (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) " +
-                            " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
-                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a WHERE DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join " +
-                              " (select a.acceptance_date, a.equipmentId from Equipment.Acceptance a left join Documentary.Documentary d " +
-                              " on d.documentary_id = a.documentary_id where d.documentary_type = 2) as g on t.[year] = year(g.acceptance_date) " +
-                            " group by t.[year] order by t.[year] asc";
-                queryTL = "select t.[year] as [date], count(g.equipmentId) as soluong from  (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) " +
-                            " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
-                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a WHERE DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join " +
-                              " (select a.acceptance_date, a.equipmentId from Equipment.Acceptance a left join Documentary.Documentary d " +
-                              " on d.documentary_id = a.documentary_id where d.documentary_type = 5) as g on t.[year] = year(g.acceptance_date) " +
-                            " group by t.[year] order by t.[year] asc";
-                queryTDT = "select t.[year] as [date], count(g.equipmentId) as soluong from  (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) " +
-                            " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
-                            " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a WHERE DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join " +
-                              " (select a.acceptance_date, a.equipmentId from Equipment.Acceptance a left join Documentary.Documentary d " +
-                              " on d.documentary_id = a.documentary_id where d.documentary_type = 6) as g on t.[year] = year(g.acceptance_date) " +
-                            " group by t.[year] order by t.[year] asc";
-                queryKD = "select t.[year] as [date], count(e.equipmentId) as soluong from " +
-                             " (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date))) " +
-                             " FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n), " +
-                             " (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a " +
-                             " where DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join Equipment.Inspection e " +
-                             " on t.[year] = year(e.inspect_date) group by t.[year] order by t.[year] asc";
-                queryCamera = @"select t.[year] as [date], case when sum(e.incident_camera_quantity) is null then 0 else sum(e.incident_camera_quantity) end as soluong from  
-                              (SELECT[year] = year(DATEADD(year, Number, cast('01/01/2010' as date)))  
-                              FROM(SELECT ROW_NUMBER() OVER(ORDER BY(SELECT NULL)) as Number FROM(VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) a(n),  
-                              (VALUES(0), (0), (0), (0), (0), (0), (0), (0), (0), (0)) b(n)) as a  
-                              where DATEADD(year, Number, '01/01/2010') <= GETDATE()) as t left join Camera.Incident e  
-                              on t.[year] = year(e.start_time) group by t.[year] order by t.[year] asc";
+                querySC = "Equipment.Get_Equipment_Chart_Repair_Dash_Type_Yearss";
+                queryBD = "Equipment.Get_Equipment_Chart_Maintain_Dash_Type_Yearss";
+                queryTL = "Equipment.Get_Equipment_Chart_Liquidation_Dash_Type_Yearss";
+                queryTDT = "Equipment.Get_Equipment_Chart_Big_Maintain_Dash_Type_Yearss";
+                queryKD = "Equipment.Get_Equipment_Chart_Accreditation_Dash_Type_Yearss";
+                queryCamera = "Equipment.Get_Equipment_Chart_Camera_Incident_Dash_Type_Yearss";
             }
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                ViewBag.suachua = db.Database.SqlQuery<form>(querySC).ToList();
-                ViewBag.baoduong = db.Database.SqlQuery<form>(queryBD).ToList();
-                ViewBag.thanhli = db.Database.SqlQuery<form>(queryTL).ToList();
-                ViewBag.trungdaitu = db.Database.SqlQuery<form>(queryTDT).ToList();
-                ViewBag.kiemdinh = db.Database.SqlQuery<form>(queryKD).ToList();
-                ViewBag.camera = db.Database.SqlQuery<form>(queryCamera).ToList();
+                ViewBag.suachua = db.Database.SqlQuery<GetChart_Result>(querySC).ToList();
+                ViewBag.baoduong = db.Database.SqlQuery<GetChart_Result>(queryBD).ToList();
+                ViewBag.thanhli = db.Database.SqlQuery<GetChart_Result>(queryTL).ToList();
+                ViewBag.trungdaitu = db.Database.SqlQuery<GetChart_Result>(queryTDT).ToList();
+                ViewBag.kiemdinh = db.Database.SqlQuery<GetChart_Result>(queryKD).ToList();
+                ViewBag.camera = db.Database.SqlQuery<GetChart_Result>(queryCamera).ToList();
                 if (type == "month" || type == null)
                 {
                     ViewBag.type = "month";
@@ -466,12 +321,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
         public ActionResult ChangeDate(string date)
         {
             string[] d = date.Split(' ');
-            string query = @"select COUNT(ci.incident_id) as 'sum', case when SUM(case when ci.end_time is not null then 1 else 0 end) is null then 0 else SUM(case when ci.end_time is not null then 1 else 0 end) end  as 'done',
-                            case when SUM(case when ci.reason like N'%sét%' or ci.reason like '%set%' then 1 else 0 end) is null then 0 else SUM(case when ci.reason like N'%sét%' or ci.reason like '%set%' then 1 else 0 end) end as 'lightning'
-                            from Camera.Incident ci
-                            where MONTH(ci.start_time) = @month and YEAR(ci.start_time) = @year";
+            string query = @"Camera.Get_List_Cam_Incident {0}, {1}";
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-            DashCam dc = db.Database.SqlQuery<DashCam>(query, new SqlParameter("month", d[1]), new SqlParameter("year", d[2])).FirstOrDefault();
+            GetDashCam_Result dc = db.Database.SqlQuery<GetDashCam_Result>(query,  d[1], d[2]).FirstOrDefault();
             dc.notdone = dc.sum - dc.done;
             return Json(new { success = true, message = "", dc = dc }, JsonRequestBehavior.AllowGet);
         }
@@ -482,22 +334,9 @@ namespace QUANGHANHCORE.Controllers.CDVT
         {
             try
             {
-                string query = @"select r.room_name, d.department_name, r.camera_available, r.camera_quantity
-                                from Camera.Room r join General.Department d on r.department_id = d.department_id";
-                if (type.Equals("Hoạt động không đầy đủ"))
-                {
-                    query += " where r.camera_available < r.camera_quantity and r.camera_available > 0";
-                }
-                else if (type.Equals("Hoạt động đầy đủ"))
-                {
-                    query += " where r.camera_available = r.camera_quantity";
-                }
-                else if (type.Equals("Không hoạt động"))
-                {
-                    query += " where r.camera_available = 0";
-                }
+                string query = @"Camera.Get_Camera_Statistic_Room {0}";
                 QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-                List<RoomThongKe> list = db.Database.SqlQuery<RoomThongKe>(query).ToList();
+                List<GetCameraStatisticRoom_Result> list = db.Database.SqlQuery<GetCameraStatisticRoom_Result>(query, type).ToList();
                 return Json(new { success = true, listDB = list }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
@@ -505,60 +344,5 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 return Json(new { success = false });
             }
         }
-        public class DashCam
-        {
-            public int sum { get; set; }
-            public int done { get; set; }
-            public int notdone { get; set; }
-            public int lightning { get; set; }
-
-        }
-
-        public class DashRoom
-        {
-            public int daydu { get; set; }
-            public int kodaydu { get; set; }
-            public int ko { get; set; }
-        }
-
-        public class RoomThongKe
-        {
-            public string room_name { get; set; }
-            public string department_name { get; set; }
-            public int camera_available { get; set; }
-            public int camera_quantity { get; set; }
-        }
-    }
-
-    public class DashEquip
-    {
-        public string equipmentId { get; set; }
-        public string equipment_name { get; set; }
-    }
-    public class form
-    {
-        public int date { get; set; }
-        public int soluong { get; set; }
-    }
-    public class form1
-    {
-        public string equipment_name { get; set; }
-        public string equipmentId { get; set; }
-        public int ngay { get; set; }
-        public int thang { get; set; }
-        public int nam { get; set; }
-    }
-    public class SL
-    {
-        public string equipment_name { get; set; }
-        public string equipmentId { get; set; }
-        public DateTime day { get; set; }
-        public int ngay { get; set; }
-        public int thang { get; set; }
-        public int nam { get; set; }
-    }
-    public class GPSCarAvail
-    {
-        public string equipmentId { get; set; }
     }
 }
