@@ -363,6 +363,7 @@
     <Compile Include="EntityResult\GetDepartmentJobDetailByEmployeeID_Result.cs" />
     <Compile Include="EntityResult\GetListCamera_Result.cs" />
     <Compile Include="EntityResult\GetUserFunction_Result.cs" />
+    <Compile Include="EntityResult\GetWaterReport_Result.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

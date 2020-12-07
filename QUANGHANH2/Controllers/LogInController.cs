@@ -61,7 +61,7 @@ namespace QUANGHANHCORE.Controllers
                     Session["UserID"] = checkuser.ID;
                     Session["time"] = DateTime.Now;
                     int id = checkuser.ID;
-                    var Name = db.Database.SqlQuery<GetAccountInfo_Result>("Account.GetAccountInfo {0}", id).FirstOrDefault();
+                    var Name = db.Database.SqlQuery<GetAccountInfo_Result>("Account.GetEmployeeInfoByAccountID {0}", id).FirstOrDefault();
                     Session["departName"] = Name.department_name.Trim();
                     Session["departID"] = Name.department_id.Trim();
                     Session["account_id"] = Name.ID;
