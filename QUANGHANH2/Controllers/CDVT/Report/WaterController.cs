@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml;
 using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
+using QUANGHANH2.EntityResult;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,23 +17,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
     [Auther(RightID = "45")]
     public class WaterController : Controller
     {
-        /*aa*/
         [Route("phong-cdvt/bao-cao/thoat-nuoc")]
         public ActionResult Water(string type, string date, string month, string quarter, string year)
         {
-            string query;
-            if (type == null)
-            {
-                var ngay = DateTime.Now.Date.ToString("dd/MM/yyyy");
-                query = Wherecondition("day", ngay, null, null, null);
-            }
-            else
-            {
-                query = Wherecondition(type, date, month, quarter, year);
-            }
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                List<contentreportWater> listdata = db.Database.SqlQuery<contentreportWater>(query).ToList();
+                List<GetWaterReport_Result> listdata = db.Database.SqlQuery<GetWaterReport_Result>("Equipment.WaterReport {0}, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
                 if (listdata != null)
                 {
                     double totaltieuhao = 0; double totalsanluong = 0; double totalgio = 0;
@@ -48,26 +38,16 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                     ViewBag.GioHoatDong = totalgio;
                 }
             }
-
             return View("/Views/CDVT/Report/WaterReport.cshtml");
         }
+
         [Route("phong-cdvt/bao-cao/thoat-nuoc")]
         [HttpPost]
         public ActionResult List(string type, string date, string month, string quarter, string year)
         {
-            string query;
-            if (type == null)
-            {
-                var ngay = DateTime.Now.Date.ToString("dd/MM/yyyy");
-                query = Wherecondition("day", ngay, null, null, null);
-            }
-            else
-            {
-                query = Wherecondition(type, date, month, quarter, year);
-            }
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                List<contentreportWater> listdata = db.Database.SqlQuery<contentreportWater>(query).ToList();
+                List<GetWaterReport_Result> listdata = db.Database.SqlQuery<GetWaterReport_Result>("Equipment.WaterReport {0}, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
                 foreach (var item in listdata)
                 {
                     item.LuongTieuThu = Math.Round(item.LuongTieuThu, 1);
@@ -167,17 +147,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
-                    string query;
-                    if (type == null)
-                    {
-                        var ngay = DateTime.Now.Date.ToString("dd/MM/yyyy");
-                        query = Wherecondition("day", ngay, null, null, null);
-                    }
-                    else
-                    {
-                        query = Wherecondition(type, date, month, quarter, year);
-                    }
-                    List<contentreportWater> content = db.Database.SqlQuery<contentreportWater>(query).ToList();
+                    List<GetWaterReport_Result> content = db.Database.SqlQuery<GetWaterReport_Result>("Equipment.WaterReport {0}, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
                     double totaltieuhao = 0; double totalsanluong = 0; double totalgio = 0;
                     if (content != null)
                     {
@@ -215,17 +185,5 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             }
             return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
         }
-    }
-    public class contentreportWater
-    {
-        public int Thang { get; set; }
-        public int Nam { get; set; }
-        public string MaThietBi { get; set; }
-        public string MaTSCD { get; set; }
-        public string ViTriDat { get; set; }
-        public string TenThietBi { get; set; }
-        public double GioHoatDong { get; set; }
-        public double LuongTieuThu { get; set; }
-        public double SanLuong { get; set; }
     }
 }
