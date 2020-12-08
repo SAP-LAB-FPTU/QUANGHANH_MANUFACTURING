@@ -17,35 +17,56 @@
                     <table class="table-bordered">
                         <tr>
                             <th>Mã nhân viên:</th>
-                            <td>@ViewBag.MaNV</td>
+                            <td>@ViewBag.employee.employee_id</td>
                         </tr>
                         <tr>
                             <th>Họ và tên: </th>
-                            <td>@ViewBag.Ten</td>
+                            <td>@ViewBag.employee.BASIC_INFO_full_name</td>
                         </tr>
                         <tr>
                             <th>Giới tính: </th>
-                            <td>@ViewBag.GioiTinh</td>
+                            @if (ViewBag.employee.BASIC_INFO_gender)
+                            {
+                                <td>Nam</td>
+                            }
+                            else
+                            {
+                                <td>Nữ</td>
+                            }
                         </tr>
                         <tr>
                             <th>Ngày sinh: </th>
-                            <td>@ViewBag.NgaySinh</td>
+                            @if (ViewBag.employee.BASIC_INFO_date_of_birth == null)
+                            {
+                                <td></td>
+                            }
+                            else
+                            {
+                                <td>@Convert.ToDateTime(ViewBag.employee.BASIC_INFO_date_of_birth).ToString("dd/MM/yyyy")</td>
+                            }
                         </tr>
                         <tr>
                             <th>Địa chỉ: </th>
-                            <td>@ViewBag.NoiOHienTai</td>
+                            <td>@ViewBag.employee.BASIC_INFO_home_town</td>
                         </tr>
                         <tr>
                             <th>Chức vụ: </th>
-                            <td>@ViewBag.TenCongViec</td>
+                            <td>@ViewBag.employee.work_name</td>
                         </tr>
                         <tr>
                             <th>Bộ phận: </th>
-                            <td>@ViewBag.department_name</td>
+                            <td>@ViewBag.employee.department_name</td>
                         </tr>
                         <tr>
                             <th>Ngày gần nhất đi làm: </th>
-                            <td>@ViewBag.NgayDiLamGanNhat</td>
+                            @if (ViewBag.employee.nearest_working_date == null)
+                            {
+                                <td></td>
+                            }
+                            else
+                            {
+                                <td>@Convert.ToDateTime(ViewBag.employee.nearest_working_date).ToString("dd/MM/yyyy")</td>
+                            }
                         </tr>
                     </table>
                 </div>
