@@ -1,6 +1,5 @@
 ﻿using QUANGHANH2.EntityResult;
 using QUANGHANH2.Models;
-using QUANGHANH2.Models.HumanResources;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -132,10 +131,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 int work_id = Convert.ToInt32(Request["work_id"]);
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
-                    //var sqlGetData = @"select w.work_id, w.name, w.allowance, w.pay_table_id 
-                    //                    from HumanResources.Work w 
-                    //                    where w.work_id = @work_id";
-                    var works = db.Database.SqlQuery<GetDataWork_Result>("HumanResources.GetDataWork {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}",
+                    var works = db.Database.SqlQuery<GetDataWork_Result>(@"HumanResources.GetDataWork {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}",
                     work_id, "", "", "", "", "", "", "", "", "Not DataTable").FirstOrDefault();
                     if (works != null)
                     {
@@ -212,8 +208,8 @@ namespace QUANGHANH2.Controllers.TCLD
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     //access delete by macongviec
-                    var found_work = db.Works.Find(work_id);
-                    db.Works.Remove(found_work);
+                    Work work = db.Works.Find(work_id);
+                    db.Works.Remove(work);
                     db.SaveChanges();
                     return Json(new { success = true, title = "Thành công", message = "Xóa công việc thành công." });
                 }

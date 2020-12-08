@@ -150,7 +150,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
                         new SqlParameter("start", start),
                         new SqlParameter("length", length)).ToList();
                 }
-
+                //sql += sql.Contains("where") ? " AND A.MaTrangThai<>2" : " WHERE A.MaTrangThai<>2";
+                //listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
+                //    new SqlParameter("tenNV", "%" + searchTen + "%"),
+                //    new SqlParameter("maPhongBan", phongbanSearch),
+                //    new SqlParameter("maCongViec", chucVuSearch)
+                //    ).ToList();
+                //totalrows = db.Database.SqlQuery<Int32>(sql.Replace("A.*,B.department_name,C.TenCongViec,D.BASIC_INFO_full_nameTrangThai", "Count(*) as count"),
+                //    new SqlParameter("tenNV", "%" + searchTen + "%"),
+                //    new SqlParameter("maPhongBan", phongbanSearch),
+                //    new SqlParameter("maCongViec", chucVuSearch)).ToList<Int32>()[0];
                 totalrows = db.Database.SqlQuery<Int32>("HumanResources.Transfer_GetCountOfAvailableEmployee").ToList<Int32>()[0];
 
             }

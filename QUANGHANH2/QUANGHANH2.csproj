@@ -360,10 +360,12 @@
     <Compile Include="EntityResult\GetChart_Result.cs" />
     <Compile Include="EntityResult\GetDashCam_Result.cs" />
     <Compile Include="EntityResult\GetDashRoom_Result.cs" />
+    <Compile Include="EntityResult\GetDataWorkGroups_Result.cs" />
     <Compile Include="EntityResult\GetListEquipNoAccreditationWithDate_Result.cs" />
     <Compile Include="EntityResult\GetListEquipNoAccreditation_Result.cs" />
     <Compile Include="EntityResult\GetCameraStatisticRoom_Result.cs" />
     <Compile Include="EntityResult\GetShortEmployeeProfile_Result.cs" />
+    <Compile Include="EntityResult\GetListStatus_Result.cs" />
     <Compile Include="EntityResult\GetStatisEquipment_Result.cs" />
     <Compile Include="EntityResult\GetDashEquip_Result.cs" />
     <Compile Include="EntityResult\GetExportByGroup_Result.cs" />
@@ -552,7 +554,6 @@
     </Compile>
     <Compile Include="Models\HistoryWork.cs" />
     <Compile Include="Models\HoSoNhanVien.cs" />
-    <Compile Include="Models\HumanResources\WorkGroup_Extend.cs" />
     <Compile Include="EntityResult\GetDataWork_Result.cs" />
     <Compile Include="Models\Important_Documentary.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
