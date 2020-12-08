@@ -21,6 +21,8 @@ using System.Data.SqlClient;
 using System.Linq.Dynamic;
 using System.Data.Entity;
 using QUANGHANH2.SupportClass;
+using static QUANGHANH2.EntityResult.Transfer_SelectAllAvailableEmployee_Result;
+using QUANGHANH2.EntityResult;
 
 namespace QUANGHANHCORE.Controllers.TCLD
 {
@@ -43,14 +45,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                string sql = "select * from CongViec";
-                listCongViec = db.Works.SqlQuery(sql).ToList<Work>();
-
-                sql = "select * from Department";
-                listPhongBan = db.Departments.SqlQuery(sql).ToList<Department>();
-
-                sql = "select * from BacLuong";
-                listBacLuong = db.Database.SqlQuery<PayRate>(sql).ToList<PayRate>();
+                listCongViec = db.Works.Select(a => a).ToList();
+                listPhongBan = db.Departments.Select(a => a).ToList();
+                listBacLuong = db.PayRates.Select(a => a).ToList();
 
             }
             ViewBag.listCongViec = listCongViec;
@@ -116,20 +113,20 @@ namespace QUANGHANHCORE.Controllers.TCLD
             //
             ViewBag.selectedList = cookie.Value;
             //
-            List<NhanVienModel> listNhanVien = new List<NhanVienModel>();
+            List<Transfer_SelectAllAvailableEmployee_Result> listNhanVien = new List<Transfer_SelectAllAvailableEmployee_Result>();
 
             int totalrows;
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                string sql = "SELECT  A.*,B.department_name,C.TenCongViec,D.TenTrangThai\n" +
+                string sql = "SELECT  A.*,B.department_name,C.TenCongViec,D.BASIC_INFO_full_nameTrangThai\n" +
             "FROM\n" +
             "(\n" +
             "(SELECT * FROM NhanVien) A\n" +
             "left OUTER JOIN\n" +
-            "(SELECT department_id, department_name FROM Department) B on A.MaPhongBan = B.department_id\n" +
+            "(SELECT department_id, department_name FROM Department) B on A.current_department_id = B.department_id\n" +
             "left OUTER JOIN\n" +
-            "(SELECT MaCongViec, TenCongViec FROM CongViec) C on A.MaCongViec = C.MaCongViec\n" +
+            "(SELECT MaCongViec, TenCongViec FROM CongViec) C on A.work_id = C.work_id\n" +
             "left OUTER JOIN\n" +
             "(SELECT MaTrangThai, TenTrangThai FROM TrangThai) D on A.MaTrangThai = D.MaTrangThai\n" +
             ")";
@@ -138,22 +135,32 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     sql += " where ";
                     sql += searchMa == "" ? "" : " A.employee_id in (" + searchMa + ") AND";
-                    sql += searchTen == "" ? "" : " A.Ten like @tenNV AND";
-                    sql += phongbanSearch == "-1" ? "" : " A.MaPhongBan = @maPhongBan AND";
-                    sql += chucVuSearch == "-1" ? "" : " A.MaCongViec = @maCongViec AND";
+                    sql += searchTen == "" ? "" : " A.BASIC_INFO_full_name like @tenNV AND";
+                    sql += phongbanSearch == "-1" ? "" : " A.current_department_id = @maPhongBan AND";
+                    sql += chucVuSearch == "-1" ? "" : " A.work_id = @maCongViec AND";
                     sql = sql.Substring(0, sql.Length - 4).Trim();
+                    sql += " AND A.MaTrangThai<>2";
                 }
-                sql += sql.Contains("where") ? " AND A.MaTrangThai<>2" : " WHERE A.MaTrangThai<>2";
-                listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
-                    new SqlParameter("tenNV", "%" + searchTen + "%"),
-                    new SqlParameter("maPhongBan", phongbanSearch),
-                    new SqlParameter("maCongViec", chucVuSearch)
-                    ).ToList();
-                totalrows = db.Database.SqlQuery<Int32>(sql.Replace("A.*,B.department_name,C.TenCongViec,D.TenTrangThai", "Count(*) as count"),
-                    new SqlParameter("tenNV", "%" + searchTen + "%"),
-                    new SqlParameter("maPhongBan", phongbanSearch),
-                    new SqlParameter("maCongViec", chucVuSearch)).ToList<Int32>()[0];
-
+                else
+                {
+                    //sql += " WHERE A.MaTrangThai<>2";
+                    listNhanVien = db.Database.SqlQuery<Transfer_SelectAllAvailableEmployee_Result>("HumanResources.Transfer_SelectAllAvailableEmployee @sortColumnName ,@sortDirection ,@start , @length ",
+                        new SqlParameter("sortColumnName", sortColumnName),
+                        new SqlParameter("sortDirection", sortDirection),
+                        new SqlParameter("start", start),
+                        new SqlParameter("length", length)).ToList();
+                }
+                //sql += sql.Contains("where") ? " AND A.MaTrangThai<>2" : " WHERE A.MaTrangThai<>2";
+                //listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
+                //    new SqlParameter("tenNV", "%" + searchTen + "%"),
+                //    new SqlParameter("maPhongBan", phongbanSearch),
+                //    new SqlParameter("maCongViec", chucVuSearch)
+                //    ).ToList();
+                //totalrows = db.Database.SqlQuery<Int32>(sql.Replace("A.*,B.department_name,C.TenCongViec,D.BASIC_INFO_full_nameTrangThai", "Count(*) as count"),
+                //    new SqlParameter("tenNV", "%" + searchTen + "%"),
+                //    new SqlParameter("maPhongBan", phongbanSearch),
+                //    new SqlParameter("maCongViec", chucVuSearch)).ToList<Int32>()[0];
+                totalrows = db.Database.SqlQuery<Int32>("HumanResources.Transfer_GetCountOfAvailableEmployee").ToList<Int32>()[0];
 
             }
             return Json(new { success = true, totalrows = totalrows, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
@@ -185,13 +192,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 string sql =
-                @"SELECT A.employee_id,A.Ten,B.department_name,C.TenCongViec,C.PhuCap, D.MucBacLuong as BacLuong, D.MucThangLuong as ThangLuong, D.MucLuong as Luong, A.MaPhongBan, A.MaCongViec
+                @"SELECT A.employee_id,A.BASIC_INFO_full_name,B.department_name,C.TenCongViec,C.PhuCap, D.MucBacLuong as BacLuong, D.MucThangLuong as ThangLuong, D.MucLuong as Luong, A.current_department_id, A.work_id
                  FROM(
                 (SELECT * FROM NhanVien where employee_id in (" + selected + @" )) A
                  left OUTER JOIN
-                 (SELECT department_id, department_name FROM Department) B on A.MaPhongBan = B.department_id
+                 (SELECT department_id, department_name FROM Department) B on A.current_department_id = B.department_id
                  left OUTER JOIN
-                 (SELECT MaCongViec, TenCongViec,PhuCap,MaThangLuong FROM CongViec) C on A.MaCongViec = C.MaCongViec
+                 (SELECT MaCongViec, TenCongViec,PhuCap,MaThangLuong FROM CongViec) C on A.work_id = C.work_id
 				 left OUTER JOIN
 				 (SELECT tl.MaThangLuong,bl.MaBacLuong, mtm.MaBacLuong_ThangLuong_MucLuong ,tl.MucThangLuong,bl.MucBacLuong,mtm.MucLuong 
 				 FROM BacLuong_ThangLuong_MucLuong mtm , BacLuong bl, ThangLuong tl WHERE mtm.MaBacLuong=bl.MaBacLuong AND mtm.MaThangLuong=tl.MaThangLuong) D
@@ -243,10 +250,10 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 {
                     if (selectedDeptId != "-1")
                     {
-                        string sql = @"Select A.MaCongViec, CongViec.TenCongViec, CongViec.PhuCap , CongViec.MaThangLuong  from CongViec,
+                        string sql = @"Select A.work_id, CongViec.TenCongViec, CongViec.PhuCap , CongViec.MaThangLuong  from CongViec,
                                 (select  DISTINCT MaCongViec from NhanVien, Department
                                 where MaPhongBan = @MaPhongBan) A
-                                where A.MaCongViec = CongViec.MaCongViec";
+                                where A.work_id = CongViec.work_id";
                         congviec_phongban = db.Database.SqlQuery<Work>(sql,
                             new SqlParameter("@MaPhongBan", selectedDeptId)).ToList<Work>();
                     }
@@ -288,9 +295,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 "(" +
                 "(SELECT * FROM NhanVien where employee_id in (" + employee_id + ")) A" +
                 " left OUTER JOIN" +
-                " (SELECT department_id, department_name FROM Department) B on A.MaPhongBan = B.department_id" +
+                " (SELECT department_id, department_name FROM Department) B on A.current_department_id = B.department_id" +
                 " left OUTER JOIN" +
-                " (SELECT MaCongViec, TenCongViec FROM CongViec) C on A.MaCongViec = C.MaCongViec" +
+                " (SELECT MaCongViec, TenCongViec FROM CongViec) C on A.work_id = C.work_id" +
                 " )";
                 getInfo = db.Database.SqlQuery<NhanVienModel>(sql).ToList<NhanVienModel>();
 
@@ -348,7 +355,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                string sql = "select NhanVien.*,CongViec.TenCongViec from NhanVien,CongViec where employee_id in (" + employee_id + ") and CongViec.MaCongViec=NhanVien.MaCongViec";
+                string sql = "select NhanVien.*,CongViec.TenCongViec from NhanVien,CongViec where employee_id in (" + employee_id + ") and CongViec.work_id=NhanVien.work_id";
 
                 getInfo = db.Database.SqlQuery<NhanVienModel>(sql).ToList<NhanVienModel>();
 
@@ -569,7 +576,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                string sql = "select NhanVien.*,CongViec.TenCongViec from NhanVien,CongViec where employee_id in (" + employee_id + ") and CongViec.MaCongViec=NhanVien.MaCongViec";
+                string sql = "select NhanVien.*,CongViec.TenCongViec from NhanVien,CongViec where employee_id in (" + employee_id + ") and CongViec.work_id=NhanVien.work_id";
 
                 getInfo = db.Database.SqlQuery<NhanVienModel>(sql).ToList<NhanVienModel>();
 
@@ -812,13 +819,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
         public ActionResult DetailQD(string MaQD)
         {
             string sql = @"			select 
-           tb1.decision_id,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.employee_id,tb1.Ten,tb1.old_department_id,
+           tb1.decision_id,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.employee_id,tb1.BASIC_INFO_full_name,tb1.old_department_id,
            tb1.DonViCu,tb1.old_work_id,tb1.ChucVuCu,tb2.new_department_id,tb2.DonViMoi,
            tb2.new_work_id,tb2.ChucVuMoi,tb3.MucBacLuong as BacLuongMoi,
            tb2.PhuCap,tb3.MucThangLuong as ThangLuong,tb3.MucLuong as MucLuongMoi,tb1.transfer_reason
            from
-           (select qd.decision_id,qd.SoQuyetDinh, dd.employee_id, nv.Ten, dp.department_id as old_department_id,
-           dp.department_name as DonViCu,cv.MaCongViec as old_work_id, cv.TenCongViec as ChucVuCu,
+           (select qd.decision_id,qd.SoQuyetDinh, dd.employee_id, nv.BASIC_INFO_full_name, dp.department_id as old_department_id,
+           dp.department_name as DonViCu,cv.work_id as old_work_id, cv.TenCongViec as ChucVuCu,
            qd.NgayQuyetDinh, dd.transfer_reason,dd.old_salary_id
            from QuyetDinh qd, Transfer dd, NhanVien nv,
            CongViec cv, Department dp
@@ -826,14 +833,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
            nv.employee_id = dd.employee_id and
            qd.decision_id = dd.decision_id
            and qd.decision_id = @MaQD1
-           and cv.MaCongViec = dd.old_work_id
+           and cv.work_id = dd.old_work_id
            and dp.department_id = dd.old_department_id) tb1,
 
            (select dd.employee_id,dp.department_id as new_department_id,dp.department_name as DonViMoi,
-           cv.MaCongViec as new_work_id, cv.PhuCap, cv.TenCongViec as ChucVuMoi
+           cv.work_id as new_work_id, cv.PhuCap, cv.TenCongViec as ChucVuMoi
            from Department dp, Transfer dd, CongViec cv
            where dp.department_id = dd.new_department_id and
-           cv.MaCongViec = dd.new_work_id
+           cv.work_id = dd.new_work_id
            and dd.decision_id = @MaQD2) tb2,
 
 		   (select btm.MaBacLuong_ThangLuong_MucLuong,
@@ -1101,13 +1108,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
             try
             {
                 string sql = @"			select 
-           tb1.decision_id,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.employee_id,tb1.Ten,tb1.old_department_id,
+           tb1.decision_id,tb1.SoQuyetDinh,tb1.NgayQuyetDinh,tb1.employee_id,tb1.BASIC_INFO_full_name,tb1.old_department_id,
            tb1.DonViCu,tb1.old_work_id,tb1.ChucVuCu,tb2.new_department_id,tb2.DonViMoi,
            tb2.new_work_id,tb2.ChucVuMoi,tb3.MucBacLuong as BacLuongMoi,
            tb2.PhuCap,tb3.MucThangLuong as ThangLuong,tb3.MucLuong as MucLuongMoi,tb1.transfer_reason
            from
-           (select qd.decision_id,qd.SoQuyetDinh, dd.employee_id, nv.Ten, dp.department_id as old_department_id,
-           dp.department_name as DonViCu,cv.MaCongViec as old_work_id, cv.TenCongViec as ChucVuCu,
+           (select qd.decision_id,qd.SoQuyetDinh, dd.employee_id, nv.BASIC_INFO_full_name, dp.department_id as old_department_id,
+           dp.department_name as DonViCu,cv.work_id as old_work_id, cv.TenCongViec as ChucVuCu,
            qd.NgayQuyetDinh, dd.transfer_reason,dd.old_salary_id
            from QuyetDinh qd, Transfer dd, NhanVien nv,
            CongViec cv, Department dp
@@ -1115,14 +1122,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
            nv.employee_id = dd.employee_id and
            qd.decision_id = dd.decision_id
            and qd.decision_id = @MaQD1
-           and cv.MaCongViec = dd.old_work_id
+           and cv.work_id = dd.old_work_id
            and dp.department_id = dd.old_department_id) tb1,
 
            (select dd.employee_id,dp.department_id as new_department_id,dp.department_name as DonViMoi,
-           cv.MaCongViec as new_work_id, cv.PhuCap, cv.TenCongViec as ChucVuMoi
+           cv.work_id as new_work_id, cv.PhuCap, cv.TenCongViec as ChucVuMoi
            from Department dp, Transfer dd, CongViec cv
            where dp.department_id = dd.new_department_id and
-           cv.MaCongViec = dd.new_work_id
+           cv.work_id = dd.new_work_id
            and dd.decision_id = @MaQD2) tb2,
 
 		   (select btm.MaBacLuong_ThangLuong_MucLuong,
