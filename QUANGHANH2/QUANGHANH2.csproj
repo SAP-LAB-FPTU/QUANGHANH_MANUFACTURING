@@ -363,6 +363,7 @@
     <Compile Include="EntityResult\GetListEquipNoAccreditationWithDate_Result.cs" />
     <Compile Include="EntityResult\GetListEquipNoAccreditation_Result.cs" />
     <Compile Include="EntityResult\GetCameraStatisticRoom_Result.cs" />
+    <Compile Include="EntityResult\GetShortEmployeeProfile_Result.cs" />
     <Compile Include="EntityResult\GetStatisEquipment_Result.cs" />
     <Compile Include="EntityResult\GetDashEquip_Result.cs" />
     <Compile Include="EntityResult\GetExportByGroup_Result.cs" />
