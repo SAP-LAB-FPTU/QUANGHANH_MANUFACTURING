@@ -22,7 +22,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         {
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                List<GetWaterReport_Result> listdata = db.Database.SqlQuery<GetWaterReport_Result>("Equipment.WaterReport {0}, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
+                if(type == null) date = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                List<GetWaterReport_Result> listdata = db.Database.SqlQuery<GetWaterReport_Result>("Equipment.GetWaterReport {0}, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
                 if (listdata != null)
                 {
                     double totaltieuhao = 0; double totalsanluong = 0; double totalgio = 0;
@@ -47,7 +48,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         {
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                List<GetWaterReport_Result> listdata = db.Database.SqlQuery<GetWaterReport_Result>("Equipment.WaterReport {0}, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
+                if (type == null) date = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                List<GetWaterReport_Result> listdata = db.Database.SqlQuery<GetWaterReport_Result>("Equipment.GetWaterReport {0}, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
                 foreach (var item in listdata)
                 {
                     item.LuongTieuThu = Math.Round(item.LuongTieuThu, 1);
@@ -135,6 +137,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             }
             return query;
         }
+
         [Route("phong-cdvt/bao-cao/thoat-nuoc/excel")]
         public ActionResult Export(string type, string date, string month, string quarter, string year)
         {
@@ -147,7 +150,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
-                    List<GetWaterReport_Result> content = db.Database.SqlQuery<GetWaterReport_Result>("Equipment.WaterReport {0}, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
+                    if (type == null) date = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                    List<GetWaterReport_Result> content = db.Database.SqlQuery<GetWaterReport_Result>("Equipment.GetWaterReport {0}, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
                     double totaltieuhao = 0; double totalsanluong = 0; double totalgio = 0;
                     if (content != null)
                     {
