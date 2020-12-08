@@ -143,18 +143,20 @@ namespace QUANGHANH2.Controllers.Camera
 
             if (dateStart.Contains("-"))
             {
-                dtStart_0 = DateTime.ParseExact(dateStart.Split('-')[0], "dd/MM/yyyy", null);
-                dtStart_1 = DateTime.ParseExact(dateStart.Split('-')[1], "dd/MM/yyyy", null);
+                var temp = dateStart.Split('-');
+                dtStart_0 = DateTime.ParseExact(temp[0].Trim(), "dd/MM/yyyy", null);
+                dtStart_1 = DateTime.ParseExact(temp[1].Trim(), "dd/MM/yyyy", null);
             }
-            else
+            else if (!string.IsNullOrEmpty(dateStart))
                 dtStart_0 = DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
 
             if (dateEnd.Contains("-"))
             {
-                dtEnd_0 = DateTime.ParseExact(dateEnd.Split('-')[0], "dd/MM/yyyy", null);
-                dtEnd_1 = DateTime.ParseExact(dateEnd.Split('-')[1], "dd/MM/yyyy", null);
+                var temp = dateEnd.Split('-');
+                dtEnd_0 = DateTime.ParseExact(temp[0].Trim(), "dd/MM/yyyy", null);
+                dtEnd_1 = DateTime.ParseExact(temp[1].Trim(), "dd/MM/yyyy", null);
             }
-            else
+            else if (!string.IsNullOrEmpty(dateEnd))
                 dtEnd_0 = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
 
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
@@ -162,8 +164,8 @@ namespace QUANGHANH2.Controllers.Camera
             List<IncidentDB> incidents = (from r in db.Rooms
                                           join d in db.Departments on r.department_id equals d.department_id
                                           join ci in db.Incidents on r.room_id equals ci.room_id
-                                          where (dateStart.Contains("-") || (ci.start_time >= dtStart_0 && ci.start_time <= dtStart_1))
-                                          && (string.IsNullOrEmpty(dateEnd) || ())
+                                          where (dateStart.Contains("-") ? (ci.start_time >= dtStart_0 && ci.start_time <= dtStart_1) : (string.IsNullOrEmpty(dateStart) || ci.start_time == dtStart_0))
+                                          && (dateEnd.Contains("-") ? (ci.end_time >= dtEnd_0 && ci.end_time <= dtEnd_1) : (string.IsNullOrEmpty(dateEnd) || ci.end_time == dtEnd_0))
                                           && d.department_name.Contains(depart)
                                           && r.room_name.Contains(room)
                                           select new IncidentDB
@@ -183,7 +185,8 @@ namespace QUANGHANH2.Controllers.Camera
             int totalrows = (from r in db.Rooms
                              join d in db.Departments on r.department_id equals d.department_id
                              join ci in db.Incidents on r.room_id equals ci.room_id
-                             where ci.start_time >= dtStart_0 && ci.start_time <= dtEnd_1
+                             where (dateStart.Contains("-") ? (ci.start_time >= dtStart_0 && ci.start_time <= dtStart_1) : (string.IsNullOrEmpty(dateStart) || ci.start_time == dtStart_0))
+                             && (dateEnd.Contains("-") ? (ci.end_time >= dtEnd_0 && ci.end_time <= dtEnd_1) : (string.IsNullOrEmpty(dateEnd) || ci.end_time == dtEnd_0))
                              && d.department_name.Contains(depart)
                              && r.room_name.Contains(room)
                              select ci).Count();
