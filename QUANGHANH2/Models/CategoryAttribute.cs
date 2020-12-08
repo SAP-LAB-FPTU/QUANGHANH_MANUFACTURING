@@ -20,10 +20,10 @@ namespace QUANGHANH2.Models
             this.CategoryAttributeValues = new HashSet<CategoryAttributeValue>();
         }
     
-        public string Equipment_category_attribute_id { get; set; }
-        public string Equipment_category_attribute_name { get; set; }
+        public string equipment_category_attribute_id { get; set; }
+        public string equipment_category_attribute_name { get; set; }
         public string unit { get; set; }
-        public string Equipment_category_id { get; set; }
+        public string equipment_category_id { get; set; }
     
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

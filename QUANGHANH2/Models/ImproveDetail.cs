@@ -21,8 +21,8 @@ namespace QUANGHANH2.Models
         }
     
         public int documentary_improve_id { get; set; }
-        public int equipment_Improve_status { get; set; }
-        public string equipmentId { get; set; }
+        public int equipment_improve_status { get; set; }
+        public string equipment_id { get; set; }
         public int documentary_id { get; set; }
         public string department_id_from { get; set; }
     

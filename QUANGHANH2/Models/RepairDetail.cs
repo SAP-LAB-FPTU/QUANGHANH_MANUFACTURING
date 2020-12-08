@@ -26,11 +26,11 @@ namespace QUANGHANH2.Models
         public string repair_reason { get; set; }
         public System.DateTime finish_date_plan { get; set; }
         public int documentary_id { get; set; }
-        public string equipmentId { get; set; }
+        public string equipment_id { get; set; }
         public string attach_to { get; set; }
         public int quantity { get; set; }
         public string department_id_from { get; set; }
-        public bool isVisible { get; set; }
+        public bool is_visible { get; set; }
     
         public virtual Documentary Documentary { get; set; }
         public virtual Equipment Equipment { get; set; }

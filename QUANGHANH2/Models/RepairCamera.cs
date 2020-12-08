@@ -14,7 +14,7 @@ namespace QUANGHANH2.Models
     
     public partial class RepairCamera
     {
-        public int supplyDocumentaryCameraId { get; set; }
+        public int supply_documentary_camera_id { get; set; }
         public int documentary_id { get; set; }
         public string room_id { get; set; }
         public string supply_id { get; set; }
@@ -22,7 +22,7 @@ namespace QUANGHANH2.Models
         public int quantity_in { get; set; }
         public int quantity_used { get; set; }
         public int quantity_out { get; set; }
-        public string supplyStatus { get; set; }
+        public string supply_status { get; set; }
     
         public virtual Room Room { get; set; }
         public virtual Documentary Documentary { get; set; }

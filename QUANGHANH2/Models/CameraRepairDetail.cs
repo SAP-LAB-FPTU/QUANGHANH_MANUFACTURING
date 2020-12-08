@@ -19,7 +19,7 @@ namespace QUANGHANH2.Models
         public int broken_camera_quantity { get; set; }
         public string repair_requirement { get; set; }
         public string note { get; set; }
-        public int Documentary_camera_repair_status { get; set; }
+        public int documentary_camera_repair_status { get; set; }
         public string department_id { get; set; }
     
         public virtual Room Room { get; set; }

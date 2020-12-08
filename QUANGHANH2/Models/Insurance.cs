@@ -15,7 +15,7 @@ namespace QUANGHANH2.Models
     public partial class Insurance
     {
         public int insurance_id { get; set; }
-        public string equipmentId { get; set; }
+        public string equipment_id { get; set; }
         public System.DateTime insurance_start_date { get; set; }
         public System.DateTime insurance_end_date { get; set; }
     

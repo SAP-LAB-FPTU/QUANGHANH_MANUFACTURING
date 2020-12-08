@@ -21,7 +21,7 @@ namespace QUANGHANH2.Models
         }
     
         public int maintain_id { get; set; }
-        public string equipmentId { get; set; }
+        public string equipment_id { get; set; }
         public System.DateTime date { get; set; }
         public string department_id { get; set; }
         public string maintain_content { get; set; }

@@ -17,10 +17,6 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Equipment()
         {
-            this.Supply_DiKem = new HashSet<Supply_DiKem>();
-            this.Supply_DiKem1 = new HashSet<Supply_DiKem>();
-            this.Supply_Equipment_DiKem = new HashSet<Supply_Equipment_DiKem>();
-            this.Vattu_Dikem = new HashSet<Vattu_Dikem>();
             this.BigMaintainDetails = new HashSet<BigMaintainDetail>();
             this.BigMaintainDetails1 = new HashSet<BigMaintainDetail>();
             this.ImproveDetails = new HashSet<ImproveDetail>();
@@ -33,6 +29,9 @@ namespace QUANGHANH2.Models
             this.RevokeDetails = new HashSet<RevokeDetail>();
             this.Acceptance1 = new HashSet<Acceptance1>();
             this.Acceptance11 = new HashSet<Acceptance1>();
+            this.AccompaniedEquipments = new HashSet<AccompaniedEquipment>();
+            this.AccompaniedEquipments1 = new HashSet<AccompaniedEquipment>();
+            this.AccompaniedSupplies = new HashSet<AccompaniedSupply>();
             this.Activities = new HashSet<Activity>();
             this.Attributes = new HashSet<Attribute>();
             this.CarGPS = new HashSet<CarGP>();
@@ -47,42 +46,34 @@ namespace QUANGHANH2.Models
             this.MaintainEquipments = new HashSet<MaintainEquipment>();
             this.MonthlyPlans = new HashSet<MonthlyPlan>();
             this.RepairEquipments = new HashSet<RepairEquipment>();
-            this.RepairRegularlies = new HashSet<RepairRegularly>();
             this.RepairRegularly1 = new HashSet<RepairRegularly1>();
             this.RepairRegularly11 = new HashSet<RepairRegularly1>();
             this.RepairRegularly12 = new HashSet<RepairRegularly1>();
+            this.RepairRegularlies = new HashSet<RepairRegularly>();
         }
     
-        public string equipmentId { get; set; }
+        public string equipment_id { get; set; }
         public string equipment_name { get; set; }
         public string supplier { get; set; }
         public Nullable<System.DateTime> date_import { get; set; }
         public Nullable<double> depreciation_estimate { get; set; }
         public Nullable<double> depreciation_present { get; set; }
-        public Nullable<System.DateTime> durationOfInspection { get; set; }
-        public Nullable<System.DateTime> durationOfInsurance { get; set; }
+        public Nullable<System.DateTime> duration_of_inspection { get; set; }
+        public Nullable<System.DateTime> duration_of_insurance { get; set; }
         public Nullable<System.DateTime> inspect_date { get; set; }
         public Nullable<System.DateTime> insurance_date { get; set; }
-        public Nullable<System.DateTime> usedDay { get; set; }
-        public Nullable<System.DateTime> durationOfMaintainance { get; set; }
+        public Nullable<System.DateTime> used_day { get; set; }
+        public Nullable<System.DateTime> duration_of_maintainance { get; set; }
         public Nullable<int> total_operating_hours { get; set; }
-        public Nullable<int> current_Status { get; set; }
+        public Nullable<int> current_status { get; set; }
         public string fabrication_number { get; set; }
         public string mark_code { get; set; }
         public string quality_type { get; set; }
         public string input_channel { get; set; }
-        public string Equipment_category_id { get; set; }
+        public string equipment_category_id { get; set; }
         public string department_id { get; set; }
-        public bool isAttach { get; set; }
+        public bool is_attach { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_DiKem> Supply_DiKem { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_DiKem> Supply_DiKem1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_Equipment_DiKem> Supply_Equipment_DiKem { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Vattu_Dikem> Vattu_Dikem { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BigMaintainDetail> BigMaintainDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -107,6 +98,12 @@ namespace QUANGHANH2.Models
         public virtual ICollection<Acceptance1> Acceptance1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Acceptance1> Acceptance11 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccompaniedEquipment> AccompaniedEquipments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccompaniedEquipment> AccompaniedEquipments1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccompaniedSupply> AccompaniedSupplies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Activity> Activities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -140,12 +137,12 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RepairEquipment> RepairEquipments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RepairRegularly> RepairRegularlies { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RepairRegularly1> RepairRegularly1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RepairRegularly1> RepairRegularly11 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RepairRegularly1> RepairRegularly12 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RepairRegularly> RepairRegularlies { get; set; }
     }
 }

@@ -14,11 +14,11 @@ namespace QUANGHANH2.Models
     
     public partial class CarMaintenanceDetail
     {
-        public int maintaindetailid { get; set; }
-        public int maintainid { get; set; }
-        public string supplyid { get; set; }
+        public int maintain_detail_id { get; set; }
+        public int maintain_id { get; set; }
+        public string supply_id { get; set; }
         public int used { get; set; }
-        public int thuhoi { get; set; }
+        public int withdraw { get; set; }
     
         public virtual CarMaintenance CarMaintenance { get; set; }
         public virtual Supply Supply { get; set; }

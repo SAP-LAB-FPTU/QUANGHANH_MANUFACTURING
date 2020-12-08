@@ -14,11 +14,11 @@ namespace QUANGHANH2.Models
     
     public partial class Attribute
     {
-        public string Equipment_attribute_id { get; set; }
-        public string Equipment_attribute_name { get; set; }
+        public string equipment_attribute_id { get; set; }
+        public string equipment_attribute_name { get; set; }
         public string value { get; set; }
         public string unit { get; set; }
-        public string equipmentId { get; set; }
+        public string equipment_id { get; set; }
     
         public virtual Equipment Equipment { get; set; }
     }

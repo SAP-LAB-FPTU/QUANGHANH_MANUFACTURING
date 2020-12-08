@@ -14,14 +14,14 @@ namespace QUANGHANH2.Models
     
     public partial class RepairEquipment
     {
-        public int supplyDocumentaryEquipmentId { get; set; }
+        public int supply_documentary_equipment_id { get; set; }
         public int documentary_repair_id { get; set; }
         public string supply_id { get; set; }
         public int quantity_plan { get; set; }
         public int quantity_in { get; set; }
         public int quantity_used { get; set; }
         public int quantity_out { get; set; }
-        public string equipmentId { get; set; }
+        public string equipment_id { get; set; }
     
         public virtual RepairDetail RepairDetail { get; set; }
         public virtual Equipment Equipment { get; set; }
