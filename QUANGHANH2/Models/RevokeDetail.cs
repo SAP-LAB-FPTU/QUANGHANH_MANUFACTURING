@@ -17,7 +17,7 @@ namespace QUANGHANH2.Models
         public int documentary_revoke_id { get; set; }
         public int equipment_revoke_status { get; set; }
         public int documentary_id { get; set; }
-        public string equipmentId { get; set; }
+        public string equipment_id { get; set; }
         public string equipment_revoke_reason { get; set; }
         public string department_id_from { get; set; }
     

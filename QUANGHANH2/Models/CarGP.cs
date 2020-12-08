@@ -14,7 +14,7 @@ namespace QUANGHANH2.Models
     
     public partial class CarGP
     {
-        public string equipmentId { get; set; }
+        public string equipment_id { get; set; }
         public System.DateTime date { get; set; }
         public int session { get; set; }
         public bool available { get; set; }

@@ -15,7 +15,7 @@ namespace QUANGHANH2.Models
     public partial class Inspection
     {
         public int inspect_id { get; set; }
-        public string equipmentId { get; set; }
+        public string equipment_id { get; set; }
         public System.DateTime inspect_date { get; set; }
     
         public virtual Equipment Equipment { get; set; }
