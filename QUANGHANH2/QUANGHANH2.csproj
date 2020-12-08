@@ -357,7 +357,16 @@
     <Compile Include="Controllers\TCLD\Transfer\TransferController.cs" />
     <Compile Include="Controllers\TCLD\Employees\WorkHistoryController.cs" />
     <Compile Include="Controllers\TCLD\Work\WorkGroupTypeController.cs" />
-    <Compile Include="EntityResult\Transfer_SelectAllAvailableEmployee_Result.cs" />
+    <Compile Include="EntityResult\GetChart_Result.cs" />
+    <Compile Include="EntityResult\GetDashCam_Result.cs" />
+    <Compile Include="EntityResult\GetDashRoom_Result.cs" />
+    <Compile Include="EntityResult\GetListEquipNoAccreditationWithDate_Result.cs" />
+    <Compile Include="EntityResult\GetListEquipNoAccreditation_Result.cs" />
+    <Compile Include="EntityResult\GetCameraStatisticRoom_Result.cs" />
+    <Compile Include="EntityResult\GetStatisEquipment_Result.cs" />
+    <Compile Include="EntityResult\GetDashEquip_Result.cs" />
+    <Compile Include="EntityResult\GetExportByGroup_Result.cs" />
+    <Compile Include="EntityResult\GetGPSCarAvailable_Result.cs" />
     <Compile Include="EntityResult\GetCountEmployees_Result.cs" />
     <Compile Include="EntityResult\GetFamiliesOfAnEmployee_Result.cs" />
     <Compile Include="EntityResult\GetListEmployees_Result.cs" />
