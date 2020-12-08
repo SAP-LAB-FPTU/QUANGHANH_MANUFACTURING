@@ -602,12 +602,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return View("/Views/TCLD/Brief/List.cshtml");
         }
 
-        public class NhanVienLink : Employee
-        {
-            public string StatusName { get; set; }
-            public string TenTrinhDo { get; set; }
-            public string TenCongViec { get; set; }
-        }
+        
         [Auther(RightID = "51")]
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
         [HttpPost]
@@ -646,12 +641,7 @@ namespace QUANGHANH2.Controllers.TCLD
         }
 
 
-        //        //[Route("phong-tcld/quan-ly-nhan-vien/lich-su-lam-viec")]
-        //        //public ActionResult WorkHistory()
-        //        //{
-        //        //    ViewBag.nameDepartment = "baohiem";
-        //        //    return View("/Views/TCLD/Brief/WorkHistory.cshtml");
-        //        //}
+        
         //        public class ChamDutModel
         //        {
         //            public string MaNV { get; set; }

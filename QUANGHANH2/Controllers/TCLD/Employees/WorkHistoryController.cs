@@ -7,47 +7,30 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Linq.Dynamic;
 using System.Data.SqlClient;
+using QUANGHANH2.EntityResult;
 
 namespace QUANGHANH2.Controllers.TCLD
 {
     public class WorkHistoryController : Controller
     {
-        // GET: WorkHistory
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
-        //[Route("lich-su-lam-viec")]
-        //[HttpGet]
+     
+        //[Route("phong-tcld/quan-ly-nhan-vien/lich-su-lam-viec")]
         //public ActionResult WorkHistory()
         //{
-        //    var id = Request["id"];
         //    return View("/Views/TCLD/Brief/WorkHistory.cshtml");
         //}
 
         [Route("phong-tcld/quan-ly-nhan-vien/lich-su-lam-viec")]
-        //[HttpPost]
         public ActionResult workHistoryOfEmployee(string id)
         {
             try
             {
                 QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-                ProfileNhanVien nhanVien = db.Database.SqlQuery<ProfileNhanVien>(@"SELECT NhanVien.MaNV, NhanVien.Ten, NhanVien.GioiTinh, NhanVien.NgaySinh, NhanVien.NoiOHienTai, Department.department_name, CongViec.TenCongViec
-FROM     NhanVien INNER JOIN
-                  CongViec ON NhanVien.MaCongViec = CongViec.MaCongViec INNER JOIN
-                  Department ON NhanVien.MaPhongBan = Department.department_id
-WHERE NhanVien.MaNV = @id", new SqlParameter("id", id)).FirstOrDefault();
+                GetShortEmployeeProfile_Result employee = db.Database.SqlQuery<GetShortEmployeeProfile_Result>
+                    (@"[HumanResources].GetShortEmployeeProfile {0}", id).FirstOrDefault();
+                ViewBag.employee = employee;
                 ViewBag.error = 0;
-                ViewBag.MaNV = nhanVien.MaNV;
-                ViewBag.Ten = nhanVien.Ten;
-                ViewBag.GioiTinh = nhanVien.GioiTinh == true ? "Nam" : "Nữ";
-                ViewBag.NgaySinh = nhanVien.NgaySinh == null ? "" : nhanVien.NgaySinh.Value.ToString("dd/MM/yyyy");
-                ViewBag.NoiOHienTai = nhanVien.NoiOHienTai;
-                ViewBag.department_name = nhanVien.department_name;
-                ViewBag.TenCongViec = nhanVien.TenCongViec;
-                Nullable<DateTime> dateMax = db.Database.SqlQuery<Nullable<DateTime>>("select max(h.NgayDiemDanh) from DiemDanh_NangSuatLaoDong as d inner join Header_DiemDanh_NangSuat_LaoDong h on d.HeaderID = h.HeaderID where MaNV = @id", new SqlParameter("id", id)).FirstOrDefault();
-                ViewBag.NgayDiLamGanNhat = dateMax == null ? "Không có dữ liệu" : dateMax.Value.ToString("dd/MM/yyyy");
-            }
+               }
             catch (Exception e)
             {
                 ViewBag.error = 1;
@@ -86,15 +69,6 @@ WHERE NhanVien.MaNV = @id", new SqlParameter("id", id)).FirstOrDefault();
             public string GhiChu { get; set; }
         }
 
-        private class ProfileNhanVien
-        {
-            public string MaNV { get; set; }
-            public string Ten { get; set; }
-            public bool GioiTinh { get; set; }
-            public Nullable<DateTime> NgaySinh { get; set; }
-            public string NoiOHienTai { get; set; }
-            public string department_name { get; set; }
-            public string TenCongViec { get; set; }
-        }
+        
     }
 }
