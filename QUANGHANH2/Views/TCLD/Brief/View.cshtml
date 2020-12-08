@@ -2,7 +2,7 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
-@model QUANGHANH2.Models.Employee
+@model QUANGHANH2.EntityResult.GetListEmployees_Result
 
 @{
     ViewBag.Title = "Edit";
@@ -78,7 +78,7 @@
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.JOB_work, "Chức vụ", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            <input id="MaCongViecDis" list="listJob" class="form-control inputEdit" name="test" value="@ViewBag.loadJob" autocomplete="off" />
+                                            <input id="MaCongViecDis" list="listJob" class="form-control inputEdit" name="position" value="@ViewBag.loadJob" autocomplete="off" />
                                             <datalist id="listJob">
                                                 @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.job)
                                                 {
@@ -397,14 +397,28 @@
                                     <tbody id="work-table">
                                         @foreach (var item in ViewBag.qtList)
                                         {
-                                            <tr>
-                                                <td class="center">@item.office</td>
-                                                <td class="center">@item.title</td>
-                                                <td class="center">@item.position</td>
-                                                <td class="center">@item.date_start</td>
-                                                <td class="center">@item.date_end</td>
-                                                <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaCongTac(@item.working_process_id , @item.employee_id)">Xóa</a></td>
-                                            </tr>
+                                        <tr>
+                                            <td class="center">@item.office</td>
+                                            <td class="center">@item.title</td>
+                                            <td class="center">@item.position</td>
+                                            @if (item.date_start == null)
+                                            {
+                                                <td class="center"></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="center">@Convert.ToDateTime(item.date_start).ToString("dd/MM/yyyy")</td>
+                                            }
+                                            @if (item.date_end == null)
+                                            {
+                                                <td class="center"></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="center">@Convert.ToDateTime(item.date_end).ToString("dd/MM/yyyy")</td>
+                                            }
+                                            <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaCongTac(@item.working_process_id , @item.employee_id)">Xóa</a></td>
+                                        </tr>
                                         }
 
                                     </tbody>
@@ -429,16 +443,28 @@
                                             <td id="col11">
                                                 <select class="custom-select" name="giaDinh">
                                                     <option value="">Loại gia đình</option>
-                                                    <option value="Bản thân">Bản thân</option>
-                                                    <option value="Nhà vợ">Nhà vợ</option>
-                                                    <option value="Nhà chồng">Nhà chồng</option>
+                                                    <option value="1">Bản thân</option>
+                                                    <option value="2">Nhà vợ</option>
+                                                    <option value="3">Nhà chồng</option>
                                                 </select>
                                             </td>
                                             <td id="col12">
                                                 <input name="ngaySinhGiaDinh" id="input12" type="text" autocomplete="off" class="inputEdit datepicker-here datepicker-add center form-control resize-form" data-language="vi" placeholder="dd/mm/yyyy" />
                                             </td>
                                             <td id="col13" class="editable"><input id="input13" autocomplete="off" class="inputEdit" name="hoTen" style="border:none" /></td>
-                                            <td id="col14" class="editable"><input id="input14" autocomplete="off" class="inputEdit" name="moiQuanHe" style="border:none" /></td>
+                                            <td id="col14">
+                                                <select class="custom-select" name="moiQuanHe">
+                                                    <option value="">Loại quan hệ</option>
+                                                    <option value="1">Cha</option>
+                                                    <option value="2">Mẹ</option>
+                                                    <option value="3">Vợ</option>
+                                                    <option value="4">Con</option>
+                                                    <option value="5">Anh</option>
+                                                    <option value="6">Chị</option>
+                                                    <option value="7">Em</option>
+                                                    <option value="8">Khác</option>
+                                                </select>
+                                            </td>
                                             <td id="col15" class="editable"><input id="input15" autocomplete="off" class="inputEdit" name="lyLich" style="border:none" /></td>
                                         </tr>
                                     </tbody>
@@ -466,14 +492,21 @@
                                     <tbody id="family-table">
                                         @foreach (var item in ViewBag.qhList)
                                         {
-                                            <tr>
-                                                <td class="center">@item.family_type_id</td>
-                                                <td class="center">@item.date_of_birth</td>
-                                                <td class="center">@item.full_name</td>
-                                                <td class="center">@item.family_relationship_id</td>
-                                                <td class="center">@item.background</td>
-                                                <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaQuanHe(@item.family_type_id , @item.employee_id)">Xóa</a></td>
-                                            </tr>
+                                        <tr>
+                                            <td class="center">@item.type_name</td>
+                                            @if (item.date_of_birth == null)
+                                            {
+                                                <td class="center"></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="center">@Convert.ToDateTime(item.date_of_birth).ToString("dd/MM/yyyy")</td>
+                                            }
+                                            <td class="center">@item.full_name</td>
+                                            <td class="center">@item.relationship_name</td>
+                                            <td class="center">@item.background</td>
+                                            <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaQuanHe(@item.family_type_id , @item.employee_id , @item.family_relationship_id)">Xóa</a></td>
+                                        </tr>
                                         }
 
                                     </tbody>
@@ -553,7 +586,7 @@
     });
 </script>
 <script>
-    function xoaQuanHe(maQH, id) {
+    function xoaQuanHe(family_type, id, family_relation) {
         confirmAlert("Xác nhận xóa?", "",
             function () {
                 $("#pre-load").show("slow", function () {
@@ -563,18 +596,22 @@
                     type: 'post',
                     url: '/deleteFamily',
                     dataType: 'json',
-                    data: { 'maQH': JSON.stringify(maQH), 'id': JSON.stringify(id) },
+                    data: {
+                        'family_type': JSON.stringify(family_type),
+                        'id': JSON.stringify(id),
+                        'family_relation': JSON.stringify(family_relation)
+                    },
                     success: function (response) {
                         if (response.success) {
                             $("#family-table").empty();
                             for (i = 0; i < response.listQH.length; i++) {
                                 $("#family-table").append("<tr>");
-                                $("#family-table").append("<td class='center'>" + response.listQH[i].LoaiGiaDinh + "</td>");
-                                $("#family-table").append("<td class='center'>" + dateFormat(response.listQH[i].NgaySinh) + "</td>");
-                                $("#family-table").append("<td class='center'>" + response.listQH[i].HoTen + "</td>");
-                                $("#family-table").append("<td class='center'>" + response.listQH[i].MoiQuanHe + "</td>");
-                                $("#family-table").append("<td class='center'>" + response.listQH[i].LyLich + "</td>");
-                                $("#family-table").append("<td class='center'><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick='xoaQuanHe(" + response.listQH[i].MaQuanHeGiaDinh + "," + response.listQH[i].MaNv + ")'>Xóa</a></td>");
+                                $("#family-table").append("<td class='center'>" + response.listQH[i].family_type_id + "</td>");
+                                $("#family-table").append("<td class='center'>" + dateFormat(response.listQH[i].date_of_birth) + "</td>");
+                                $("#family-table").append("<td class='center'>" + response.listQH[i].full_name + "</td>");
+                                $("#family-table").append("<td class='center'>" + response.listQH[i].family_relationship_id + "</td>");
+                                $("#family-table").append("<td class='center'>" + response.listQH[i].background + "</td>");
+                                $("#family-table").append("<td class='center'><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='delFamily' onclick='xoaQuanHe(" + response.listQH[i].family_type_id + "," + response.listQH[i].employee_id + "," + response.listQH[i].family_relationship_id + ")'>Xóa</a></td>");
                                 $("#family-table").append("</tr>");
                             }
                             successAlert("Thành công", "Xóa thành công");
@@ -659,4 +696,14 @@
             }
         }
     })
+     option_family = ''
+            @foreach (var item in ViewBag.familyTypes)
+            {
+                @Html.Raw("+ '<option value=\"" + @item.family_type_id + "\">" + @item.name + "</option>'");
+            };
+        option_relationship = ''
+            @foreach (var item in ViewBag.familyRelationships)
+            {
+                @Html.Raw("+ '<option value=\"" + @item.family_relationship_id + "\">" + @item.name + "</option>'");
+            };
 </script>

@@ -434,7 +434,6 @@ namespace QUANGHANH2.Controllers.TCLD
                     };
                     ViewBag.thuongbinh = ThuongBinh;
 
-                    Family qh = new Family();
                     string family_query = "[HumanResources].GetFamiliesOfAnEmployee {0}";
                     List<GetFamiliesOfAnEmployee_Result> qhList = db.Database.SqlQuery<GetFamiliesOfAnEmployee_Result>(family_query, id).ToList();
                     ViewBag.qhList = qhList;
@@ -445,14 +444,13 @@ namespace QUANGHANH2.Controllers.TCLD
                     WorkingProcess qt = new WorkingProcess();
                     List<WorkingProcess> qtList = db.WorkingProcesses.Where(x => x.employee_id == id).ToList();
                     ViewBag.qtList = qtList;
-                    Employee test = db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>();
                     if (type.Equals("edit"))
                     {
-                        return View("/Views/TCLD/Brief/Edit.cshtml", db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>());
+                        return View("/Views/TCLD/Brief/Edit.cshtml", employee);
                     }
                     else if (type.Equals("view"))
                     {
-                        return View("/Views/TCLD/Brief/View.cshtml", db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>());
+                        return View("/Views/TCLD/Brief/View.cshtml", employee);
                     }
                     else
                     {
@@ -471,7 +469,9 @@ namespace QUANGHANH2.Controllers.TCLD
 
         [Auther(RightID = "53")]
         [HttpPost]
-        public ActionResult SaveEdit(Employee emp, string position, string hiddenSalary, string[] giaDinh, string[] ngaySinhGiaDinh, string[] hoTen, string[] moiQuanHe, string[] lyLich, string[] donVi, string[] chucDanh, string[] chucVu, string[] tuNgayDenNgay)
+        public ActionResult SaveEdit(Employee emp, string position, string hiddenSalary, string[] giaDinh, 
+            string[] ngaySinhGiaDinh, string[] hoTen, string[] moiQuanHe, string[] lyLich, string[] donVi, 
+            string[] chucDanh, string[] chucVu, string[] tuNgayDenNgay)
         {
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbct = db.Database.BeginTransaction())
@@ -728,61 +728,62 @@ namespace QUANGHANH2.Controllers.TCLD
         //        }
 
 
-        //        [Route("deleteFamily")]
-        //        [HttpPost]
-        //        public JsonResult DeleteFamily(string maQH, string id)
-        //        {
-        //            List<QuanHeGiaDinh> list = new List<QuanHeGiaDinh>();
-        //            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //            {
-        //                using (DbContextTransaction transaction = db.Database.BeginTransaction())
-        //                {
-        //                    try
-        //                    {
-        //                        string query = "delete from QuanHeGiaDinh where MaQuanHeGiaDinh = @maQH";
-        //                        db.Database.ExecuteSqlCommand(query, new SqlParameter("maQH", maQH));
-        //                        string query2 = "select * from QuanHeGiaDinh where MaNV = @id";
-        //                        list = db.Database.SqlQuery<QuanHeGiaDinh>(query2, new SqlParameter("id", id)).ToList();
-        //                        transaction.Commit();
-        //                    }
-        //                    catch (Exception e)
-        //                    {
-        //                        transaction.Rollback();
-        //                        return Json(new { success = false, message = "Lỗi!" + e.Message }, JsonRequestBehavior.AllowGet);
-        //                    }
-        //                }
+        [Route("deleteFamily")]
+        [HttpPost]
+        public JsonResult DeleteFamily(string family_type, string id, string family_relation)
+        {
+            List<GetFamiliesOfAnEmployee_Result> qhList = new List<GetFamiliesOfAnEmployee_Result>();
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+            {
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        string query = @"delete from [HumanResources].Family where 
+                                        employee_id = {0} and 
+                                        family_relationship_id = {1} and 
+                                        family_type_id = {2}
+                                        exec [HumanResources].GetFamiliesOfAnEmployee {3}";
+                        qhList = db.Database.SqlQuery<GetFamiliesOfAnEmployee_Result>
+                            (query, id, family_relation, family_type, id).ToList();
+                        transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        transaction.Rollback();
+                        return Json(new { success = false, message = "Lỗi!" + e.Message }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                return Json(new { success = true, listQH = qhList }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
-        //                return Json(new { success = true, listQH = list }, JsonRequestBehavior.AllowGet);
-        //            }
-        //        }
+        [Route("deleteWork")]
+        [HttpPost]
+        public JsonResult DeleteWork(string maCT, string id)
+        {
+            List<WorkingProcess> list = new List<WorkingProcess>();
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+            {
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        string query = @"delete from [HumanResources].WorkingProcess where working_process_id = {0}
+                                         select * from [HumanResources].WorkingProcess where employee_id = {1}";
+                        list = db.Database.SqlQuery<WorkingProcess>(query, maCT, id).ToList();
+                        transaction.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        transaction.Rollback();
+                        return Json(new { success = false, message = "Lỗi!" + e.Message }, JsonRequestBehavior.AllowGet);
+                    }
+                }
 
-        //        [Route("deleteWork")]
-        //        [HttpPost]
-        //        public JsonResult DeleteWork(string maCT, string id)
-        //        {
-        //            List<QuaTrinhCongTac> list = new List<QuaTrinhCongTac>();
-        //            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //            {
-        //                using (DbContextTransaction transaction = db.Database.BeginTransaction())
-        //                {
-        //                    try
-        //                    {
-        //                        string query = "delete from QuaTrinhCongTac where MaCongTac = @maCT";
-        //                        db.Database.ExecuteSqlCommand(query, new SqlParameter("maCT", maCT));
-        //                        string query2 = "select * from QuaTrinhCongTac where MaNV = @id";
-        //                        list = db.Database.SqlQuery<QuaTrinhCongTac>(query2, new SqlParameter("id", id)).ToList();
-        //                        transaction.Commit();
-        //                    }
-        //                    catch (Exception e)
-        //                    {
-        //                        transaction.Rollback();
-        //                        return Json(new { success = false, message = "Lỗi!" + e.Message }, JsonRequestBehavior.AllowGet);
-        //                    }
-        //                }
-
-        //                return Json(new { success = true, listCT = list }, JsonRequestBehavior.AllowGet);
-        //            }
-        //        }
+                return Json(new { success = true, listCT = list }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         //        public class NhanVienExcel : NhanVien
         //        {

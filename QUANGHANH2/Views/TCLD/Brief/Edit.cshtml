@@ -2,7 +2,7 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
-@model QUANGHANH2.Models.Employee
+@model QUANGHANH2.EntityResult.GetListEmployees_Result
 
 @{
     ViewBag.Title = "Edit";
@@ -397,14 +397,28 @@
                                     <tbody id="work-table">
                                         @foreach (var item in ViewBag.qtList)
                                         {
-                                            <tr>
-                                                <td class="center">@item.office</td>
-                                                <td class="center">@item.title</td>
-                                                <td class="center">@item.position</td>
-                                                <td class="center">@item.date_start</td>
-                                                <td class="center">@item.date_end</td>
-                                                <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaCongTac(@item.working_process_id , @item.employee_id)">Xóa</a></td>
-                                            </tr>
+                                        <tr>
+                                            <td class="center">@item.office</td>
+                                            <td class="center">@item.title</td>
+                                            <td class="center">@item.position</td>
+                                            @if (item.date_start == null)
+                                            {
+                                                <td class="center"></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="center">@Convert.ToDateTime(item.date_start).ToString("dd/MM/yyyy")</td>
+                                            }
+                                            @if (item.date_end == null)
+                                            {
+                                                <td class="center"></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="center">@Convert.ToDateTime(item.date_end).ToString("dd/MM/yyyy")</td>
+                                            }
+                                            <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaCongTac(@item.working_process_id , @item.employee_id)">Xóa</a></td>
+                                        </tr>
                                         }
 
                                     </tbody>
@@ -478,14 +492,21 @@
                                     <tbody id="family-table">
                                         @foreach (var item in ViewBag.qhList)
                                         {
-                                            <tr>
-                                                <td class="center">@item.type_name</td>
-                                                <td class="center">@item.date_of_birth</td>
-                                                <td class="center">@item.full_name</td>
-                                                <td class="center">@item.relationship_name</td>
-                                                <td class="center">@item.background</td>
-                                                <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaQuanHe(@item.family_type_id , @item.employee_id)">Xóa</a></td>
-                                            </tr>
+                                        <tr>
+                                            <td class="center">@item.type_name</td>
+                                            @if(item.date_of_birth == null)
+                                            {
+                                                <td class="center"></td>
+                                            }
+                                            else
+                                            {
+                                                <td class="center">@Convert.ToDateTime(item.date_of_birth).ToString("dd/MM/yyyy")</td>
+                                            }
+                                            <td class="center">@item.full_name</td>
+                                            <td class="center">@item.relationship_name</td>
+                                            <td class="center">@item.background</td>
+                                            <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaQuanHe(@item.family_type_id , @item.employee_id, @item.family_relationship_id)">Xóa</a></td>
+                                        </tr>
                                         }
 
                                     </tbody>
@@ -563,7 +584,7 @@
         }
     });
 
-    function xoaQuanHe(maQH, id) {
+    function xoaQuanHe(family_type, id, family_relation) {
         confirmAlert("Xác nhận xóa?", "",
             function () {
                 $("#pre-load").show("slow", function () {
@@ -573,7 +594,11 @@
                     type: 'post',
                     url: '/deleteFamily',
                     dataType: 'json',
-                    data: { 'maQH': JSON.stringify(maQH), 'id': JSON.stringify(id) },
+                    data: {
+                        'family_type': JSON.stringify(family_type),
+                        'id': JSON.stringify(id),
+                        'family_relation': JSON.stringify(family_relation)
+                    },
                     success: function (response) {
                         if (response.success) {
                             $("#family-table").empty();
@@ -584,7 +609,7 @@
                                 $("#family-table").append("<td class='center'>" + response.listQH[i].full_name + "</td>");
                                 $("#family-table").append("<td class='center'>" + response.listQH[i].family_relationship_id + "</td>");
                                 $("#family-table").append("<td class='center'>" + response.listQH[i].background + "</td>");
-                                $("#family-table").append("<td class='center'><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='delFamily' onclick='xoaQuanHe(" + response.listQH[i].family_type_id + "," + response.listQH[i].MaNV + ")'>Xóa</a></td>");
+                                $("#family-table").append("<td class='center'><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='delFamily' onclick='xoaQuanHe(" + response.listQH[i].family_type_id + "," + response.listQH[i].employee_id + "," + response.listQH[i].family_relationship_id + ")'>Xóa</a></td>");
                                 $("#family-table").append("</tr>");
                             }
                             successAlert("Thành công", "Xóa thành công");
@@ -623,7 +648,7 @@
                                 $("#work-table").append("<td class='center'>" + response.listCT[i].position + "</td>");
                                 $("#work-table").append("<td class='center'>" + dateFormat(response.listCT[i].date_start) + "</td>");
                                 $("#work-table").append("<td class='center'>" + dateFormat(response.listCT[i].date_end) + "</td>");
-                                $("#work-table").append("<td class='center'><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger'  onclick='xoaCongTac(" + response.listCT[i].working_process_id + "," + response.listCT[i].MaNV + ")'>Xóa</a></td>");
+                                $("#work-table").append("<td class='center'><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger'  onclick='xoaCongTac(" + response.listCT[i].working_process_id + "," + response.listCT[i].employee_id + ")'>Xóa</a></td>");
                                 $("#work-table").append("</tr>");
                             }
                             successAlert("Thành công", "Xóa thành công");
@@ -681,6 +706,7 @@
             return document.getElementById('td-' + key).innerHTML = currentTime;
         }
 
+
         $(document).ready(function () {
             $('#save').click(function () {
                 var value = $('#salaryLevelId').val();
@@ -715,5 +741,8 @@
             {
                 @Html.Raw("+ '<option value=\"" + @item.family_relationship_id + "\">" + @item.name + "</option>'");
             };
+
+        
+
     </script>
 }
