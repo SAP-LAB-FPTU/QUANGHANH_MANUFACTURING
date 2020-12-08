@@ -108,7 +108,7 @@ namespace QUANGHANH2.Controllers.Camera
                                  join d in db.Departments on r.department_id equals d.department_id
                                  where r.room_name.Contains(room_name)
                                  && r.disk_status.Contains(disk_status)
-                                 && (string.IsNullOrEmpty(reason) ? true : r.signal_loss_reason.Contains(reason))
+                                 && (string.IsNullOrEmpty(reason) || r.signal_loss_reason.Contains(reason))
                                  && r.department_id.Contains(department)
                                  select new GetListCamera_Result
                                  {
@@ -127,8 +127,13 @@ namespace QUANGHANH2.Controllers.Camera
                                      series = r.series,
                                      signal_loss_reason = r.signal_loss_reason
                                  }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
-                int totalrows = db.Database.SqlQuery<int>("Camera.Get_Count_Camera {0}, {1}, {2}, {3}",
-                    room_name, disk_status, department, reason).FirstOrDefault();
+                int totalrows = (from r in db.Rooms
+                                 join d in db.Departments on r.department_id equals d.department_id
+                                 where r.room_name.Contains(room_name)
+                                 && r.disk_status.Contains(disk_status)
+                                 && (string.IsNullOrEmpty(reason) || r.signal_loss_reason.Contains(reason))
+                                 && r.department_id.Contains(department)
+                                 select r).Count();
                 return Json(new { success = true, data = equipList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
         }
