@@ -1,5 +1,5 @@
-﻿using QUANGHANH2.Models;
-using QUANGHANH2.Models.HumanResources;
+﻿using QUANGHANH2.EntityResult;
+using QUANGHANH2.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -42,27 +42,32 @@ namespace QUANGHANH2.Controllers.TCLD
         public ActionResult list()
         {
 
-            List<WorkGroup_Extend> workGroups = new List<WorkGroup_Extend>();
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                //get data's table to paging
-                int start = Convert.ToInt32(Request["start"]);
-                int length = Convert.ToInt32(Request["length"]);
-                string searchValue = Request["search[value]"];
-                string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-                string sortDirection = Request["order[0][dir]"];
+                try
+                {
+                    //search data
+                    string search_work_group_name = Request["search_work_group_name"];
+                    string search_work_group_acronym = Request["search_work_group_acronym"];
+                    string search_work_group_type = Request["search_work_group_type"];
 
-                var sqlList = @"select wg.*, wgt.name 'work_group_type_name'
-                                from HumanResources.WorkGroup wg
-                                left outer join HumanResources.WorkGroupType wgt on wg.work_group_type_id = wgt.work_group_type_id 
-                                order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY";
-                workGroups = db.Database.SqlQuery<WorkGroup_Extend>(sqlList).ToList();
+                    //get data's table to paging
+                    int start = Convert.ToInt32(Request["start"]);
+                    int length = Convert.ToInt32(Request["length"]);
+                    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                    string sortDirection = Request["order[0][dir]"];
 
-                int totalrows = db.WorkGroups.Count();
-                int totalrowsafterfiltering = totalrows;
+                    List<GetDataWorkGroups_Result> workGroups = db.Database.SqlQuery<GetDataWorkGroups_Result>(@"HumanResources.GetDataWorkGroups {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}",
+                        "", search_work_group_name, search_work_group_acronym, search_work_group_type, sortColumnName, sortDirection, start, length, "DataTable").ToList();
 
+                    int totalrows = db.WorkGroups.Count();
+                    int totalrowsafterfiltering = totalrows;
 
-                return Json(new { workGroups = workGroups, recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                    return Json(new { workGroups = workGroups, recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                } catch (Exception e)
+                {
+                    throw e;
+                }
             }
         }
 
@@ -123,10 +128,9 @@ namespace QUANGHANH2.Controllers.TCLD
                 var work_group_id = Request["work_group_id"];
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
-                    var sqlGetData = @"select wg.*, wgt.name 'work_group_type_name'
-                                from HumanResources.WorkGroup wg
-                                left outer join HumanResources.WorkGroupType wgt on wg.work_group_type_id = wgt.work_group_type_id where wg.work_group_id = @work_group_id";
-                    var workGroup = db.Database.SqlQuery<WorkGroup_Extend>(sqlGetData, new SqlParameter("work_group_id", work_group_id)).FirstOrDefault();
+                    GetDataWorkGroups_Result workGroup = db.Database.SqlQuery<GetDataWorkGroups_Result>(@"HumanResources.GetDataWorkGroups {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}",
+                    work_group_id, "", "", "", "", "", "", "", "Not DataTable").FirstOrDefault();
+
                     return Json(new { success = true, workGroup = workGroup });
                 }
             }
@@ -189,8 +193,8 @@ namespace QUANGHANH2.Controllers.TCLD
                 int work_group_id = Convert.ToInt32(Request["work_group_id"]);
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
-                    var sqlDelete = @"delete HumanResources.WorkGroup where work_group_id = @work_group_id";
-                    db.Database.ExecuteSqlCommand(sqlDelete, new SqlParameter("work_group_id", work_group_id));
+                    WorkGroup workGroup = db.WorkGroups.Find(work_group_id);
+                    db.WorkGroups.Remove(workGroup);
                     db.SaveChanges();
                     return Json(new { success = true, title = "Thành công", message = "Xóa nhóm công việc thành công." });
                 }
