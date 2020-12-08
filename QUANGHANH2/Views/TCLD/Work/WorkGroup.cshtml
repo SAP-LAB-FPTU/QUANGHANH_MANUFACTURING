@@ -8,6 +8,25 @@
     <div class="card-content">
         <div class="row">
             <h3 class="center"><b>DANH SÁCH NHÓM CÔNG VIỆC</b></h3>
+
+            <div class="row input-field">
+                <div class="col l4 m12 s12">
+                    <input type="text" placeholder="Tên nhóm công việc" class='form-control' id="search_work_group_name" />
+                </div>
+
+                <div class="col l3 m12 s12">
+                    <input type="text" placeholder="Viết tắt" class='form-control' id="search_work_group_acronym" />
+                </div>
+
+                <div class="col l4 m12 s12">
+                    <input type="text" placeholder="Loại nhóm công việc" class='form-control' id="search_work_group_type" />
+                </div>
+
+                <div class="col l1 m12 s12">
+                    <button class="waves-effect waves-light btn blue darken-2 btn-small" id="search_button"><i class="fas fas fa-search"></i></button>
+                </div>
+            </div>
+
             <div>
                 <a class="btn blue darken-2 btn-small input-field modal-trigger" href="#modal_add_work_group">Thêm</a>
             </div>
@@ -88,8 +107,7 @@
         <button id="edit_work_group_close_modal_button" class="btn red darken-2 btn-small modal-close">Đóng</button>
     </div>
 </div>
-<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
 <script>
     var table;
     $(document).ready(function () {
@@ -99,6 +117,11 @@
                 "type": "GET",
                 "datatype": "json",
                 "cache": "false",
+                "data": {
+                    "search_work_group_name": () => { return $("#search_work_group_name").val() },
+                    "search_work_group_acronym": () => { return $("#search_work_group_acronym").val() },
+                    "search_work_group_type": () => { return $("#search_work_group_type").val() }
+                },
                 "dataSrc": function (json) {
                     return json["workGroups"];
                 }
@@ -146,6 +169,15 @@
     });
 </script>
 
+<!---------------------------------------------SEARCH--------------------------------------------->
+<script>
+    $(document).ready(function () {
+        $("#search_button").click(function () {
+            table.ajax.reload();
+        });
+    });
+</script>
+
 <!---------------------------------------------ADD------------------------------------------------>
 <script>
     $(document).ready(function () {
@@ -156,9 +188,9 @@
                     type: "POST",
                     datatype: "json",
                     data: {
-                        "work_group_name": $("#add_work_group_name").val(),
-                        "work_group_acronym": $("#add_work_group_acronym").val(),
-                        "work_group_type_id": $("#add_work_group_work_group_type_select").val()
+                        "work_group_name": () => { return $("#add_work_group_name").val() },
+                        "work_group_acronym": () => { return $("#add_work_group_acronym").val() },
+                        "work_group_type_id": () => { return $("#add_work_group_work_group_type_select").val() }
                     },
                     success: function (response) {
                         if (response.success) {
@@ -213,8 +245,6 @@
     });
 </script>
 
-
-
 <!----------Get data by maNhomCongViec--------->
 <script>
     function getDataFromWorkGroupToFill(work_group_id) {
@@ -239,7 +269,7 @@
                     }
                 },
                 error: function (response) {
-
+                    errorAlert(response.title, response.message);
                 }
             })
     }
@@ -276,7 +306,7 @@
                     }
                 },
                 error: function (response) {
-
+                    errorAlert(response.title, response.message);
                 }
             })
     }
