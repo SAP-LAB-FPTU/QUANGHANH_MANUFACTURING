@@ -14,10 +14,10 @@ namespace QUANGHANH2.Models
     
     public partial class ImproveEquipment
     {
-        public int supplyDocumentaryEquipmentId { get; set; }
+        public int supply_documentary_equipment_id { get; set; }
         public int documentary_improve_id { get; set; }
         public string supply_id { get; set; }
-        public string equipmentId { get; set; }
+        public string equipment_id { get; set; }
         public int quantity_before { get; set; }
         public int quantity_after { get; set; }
     

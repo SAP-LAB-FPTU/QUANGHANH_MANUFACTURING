@@ -27,7 +27,7 @@ namespace QUANGHANH2.Models
         public string next_remodel_type { get; set; }
         public double next_end_time { get; set; }
         public int documentary_id { get; set; }
-        public string equipmentId { get; set; }
+        public string equipment_id { get; set; }
         public string attach_to { get; set; }
         public int quantity { get; set; }
         public string equipment_big_maintain_reason { get; set; }

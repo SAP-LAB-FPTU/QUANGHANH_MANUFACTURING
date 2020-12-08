@@ -17,8 +17,7 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Supply()
         {
-            this.Supply_Equipment_DiKem = new HashSet<Supply_Equipment_DiKem>();
-            this.Vattu_Dikem = new HashSet<Vattu_Dikem>();
+            this.AccompaniedSupplies = new HashSet<AccompaniedSupply>();
             this.CarMaintenanceDetails = new HashSet<CarMaintenanceDetail>();
             this.FuelActivitiesConsumptions = new HashSet<FuelActivitiesConsumption>();
             this.RepairRegularlyDetails = new HashSet<RepairRegularlyDetail>();
@@ -39,9 +38,7 @@ namespace QUANGHANH2.Models
         public Nullable<double> price { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Supply_Equipment_DiKem> Supply_Equipment_DiKem { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Vattu_Dikem> Vattu_Dikem { get; set; }
+        public virtual ICollection<AccompaniedSupply> AccompaniedSupplies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CarMaintenanceDetail> CarMaintenanceDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

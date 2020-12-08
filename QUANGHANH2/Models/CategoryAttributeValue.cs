@@ -14,10 +14,10 @@ namespace QUANGHANH2.Models
     
     public partial class CategoryAttributeValue
     {
-        public int Value { get; set; }
-        public string equipmentId { get; set; }
-        public string Equipment_category_id { get; set; }
-        public string Equipment_category_attribute_id { get; set; }
+        public int value { get; set; }
+        public string equipment_id { get; set; }
+        public string equipment_category_id { get; set; }
+        public string equipment_category_attribute_id { get; set; }
     
         public virtual Category Category { get; set; }
         public virtual CategoryAttribute CategoryAttribute { get; set; }

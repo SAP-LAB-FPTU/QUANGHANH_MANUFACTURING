@@ -12,12 +12,13 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Inspection
+    public partial class AccompaniedSupply
     {
-        public int inspect_id { get; set; }
+        public string supply_id { get; set; }
         public string equipment_id { get; set; }
-        public System.DateTime inspect_date { get; set; }
+        public int quantity { get; set; }
     
         public virtual Equipment Equipment { get; set; }
+        public virtual Supply Supply { get; set; }
     }
 }
