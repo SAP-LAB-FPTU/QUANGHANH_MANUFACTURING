@@ -102,8 +102,6 @@ namespace QUANGHANH2.Controllers.Camera
 
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                //var equipList = db.Database.SqlQuery<GetListCamera_Result>("Camera.Get_List_Camera {0}, {1}, {2}, {3} ,{4}, {5}, {6}, {7}", 
-                //    room_name, disk_status, reason, department, sortColumnName, sortDirection, start, length ).ToList();
                 var equipList = (from r in db.Rooms
                                  join d in db.Departments on r.department_id equals d.department_id
                                  where r.room_name.Contains(room_name)
@@ -218,13 +216,15 @@ namespace QUANGHANH2.Controllers.Camera
         [Auther(RightID = "198")]
         [Route("camera/delete")]
         [HttpPost]
-        public ActionResult Delete()
+        public ActionResult Delete(string room_id)
         {
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
-                    db.Database.ExecuteSqlCommand("delete from Room where room_id = @room_id", new SqlParameter("room_id", Request["room_id"]));
+                    db.Configuration.LazyLoadingEnabled = false;
+                    db.Rooms.Remove(db.Rooms.Find(room_id));
+                    db.SaveChanges();
                     return Json(new { success = true, message = "Xóa thành công" });
                 }
                 catch (Exception)
