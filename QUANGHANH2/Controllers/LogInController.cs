@@ -51,8 +51,8 @@ namespace QUANGHANHCORE.Controllers
         [HttpPost]
         public ActionResult Index(string username, string password, string rm)
         {
-            //try
-            //{
+            try
+            {
                 if (password == null) return RedirectToAction("Index");
                 string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(password, "pl");
                 var checkuser = db.Accounts.Where(x => x.Username == username).Where(y => y.Password == passXc).SingleOrDefault();
@@ -116,11 +116,12 @@ namespace QUANGHANHCORE.Controllers
                     ViewData["Notification"] = "Tên đăng nhập/mật khẩu không đúng!";
                     return View();
                 }
-            //}
-            //catch (Exception e) {
-            //    ViewData["Notification"] = "Có lỗi xảy ra. Vui lòng thử lại!";
-            //    return View();
-            //}
+            }
+            catch (Exception e)
+            {
+                ViewData["Notification"] = "Có lỗi xảy ra. Vui lòng thử lại!";
+                return View();
+            }
         }
 
         [Route("Logout")]
