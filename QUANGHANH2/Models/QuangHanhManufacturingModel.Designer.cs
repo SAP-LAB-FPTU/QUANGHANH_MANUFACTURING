@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'E:\MajorTermIX\Capstone\Project\QUANGHANH_MANUFACTURING\QUANGHANH2\Models\QuangHanhManufacturingModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\SAPLAB-DESKTOP\Documents\GitHub\QUANGHANH_MANUFACTURING\QUANGHANH2\Models\QuangHanhManufacturingModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
