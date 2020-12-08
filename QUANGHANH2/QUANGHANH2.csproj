@@ -361,9 +361,11 @@
     <Compile Include="EntityResult\GetDashCam_Result.cs" />
     <Compile Include="EntityResult\GetDashRoom_Result.cs" />
     <Compile Include="EntityResult\GetDataWorkGroups_Result.cs" />
+    <Compile Include="EntityResult\GetFuelReport_Result.cs" />
     <Compile Include="EntityResult\GetListEquipNoAccreditationWithDate_Result.cs" />
     <Compile Include="EntityResult\GetListEquipNoAccreditation_Result.cs" />
     <Compile Include="EntityResult\GetCameraStatisticRoom_Result.cs" />
+    <Compile Include="EntityResult\GetPowerReport_Result.cs" />
     <Compile Include="EntityResult\GetShortEmployeeProfile_Result.cs" />
     <Compile Include="EntityResult\GetListStatus_Result.cs" />
     <Compile Include="EntityResult\GetStatisEquipment_Result.cs" />

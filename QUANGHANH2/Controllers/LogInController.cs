@@ -51,8 +51,8 @@ namespace QUANGHANHCORE.Controllers
         [HttpPost]
         public ActionResult Index(string username, string password, string rm)
         {
-            try
-            {
+            //try
+            //{
                 if (password == null) return RedirectToAction("Index");
                 string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(password, "pl");
                 var checkuser = db.Accounts.Where(x => x.Username == username).Where(y => y.Password == passXc).SingleOrDefault();
@@ -116,12 +116,12 @@ namespace QUANGHANHCORE.Controllers
                     ViewData["Notification"] = "Tên đăng nhập/mật khẩu không đúng!";
                     return View();
                 }
-            }
-            catch (Exception e)
-            {
-                ViewData["Notification"] = "Có lỗi xảy ra. Vui lòng thử lại!";
-                return View();
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    ViewData["Notification"] = "Có lỗi xảy ra. Vui lòng thử lại!";
+            //    return View();
+            //}
         }
 
         [Route("Logout")]
@@ -213,43 +213,55 @@ namespace QUANGHANHCORE.Controllers
         [Auther(RightID = "000")]
         public JsonResult ResetPassword(string oldPass, string newPass, string rePass)
         {
-            int id = Convert.ToInt32(Session["account_id"]);
-            string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(oldPass, "pl");
-            string rePasss = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(rePass, "pl");
-            var user = db.Accounts.Where(x => x.ID == id).FirstOrDefault();
-            if (string.IsNullOrEmpty(oldPass) || string.IsNullOrEmpty(newPass) || string.IsNullOrEmpty(rePass))
+            try
+            {
+                int id = Convert.ToInt32(Session["account_id"]);
+                string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(oldPass, "pl");
+                string rePasss = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt(rePass, "pl");
+                var user = db.Accounts.Where(x => x.ID == id).FirstOrDefault();
+                if (string.IsNullOrEmpty(oldPass) || string.IsNullOrEmpty(newPass) || string.IsNullOrEmpty(rePass))
+                {
+                    return Json(new Result()
+                    {
+                        CodeError = 1,
+                        Data = "Mật khẩu không được để trống"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                if (!newPass.Equals(rePass))
+                {
+                    return Json(new Result()
+                    {
+                        CodeError = 1,
+                        Data = "2 mật khẩu không trùng khớp"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                if (!user.Password.Equals(passXc))
+                {
+                    return Json(new Result()
+                    {
+                        CodeError = 1,
+                        Data = "Mật khẩu cũ không đúng"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                user.Password = rePasss;
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+                return Json(new Result()
+                {
+                    CodeError = 2,
+                    Data = "Thay đổi mật khẩu thành công"
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
             {
                 return Json(new Result()
                 {
                     CodeError = 1,
-                    Data = "Mật khẩu không được để trống"
+                    Data = "Có lỗi xảy ra. Vui lòng thử lại!"
                 }, JsonRequestBehavior.AllowGet);
             }
-            if (!newPass.Equals(rePass))
-            {
-                return Json(new Result()
-                {
-                    CodeError = 1,
-                    Data = "2 mật khẩu không trùng khớp"
-                }, JsonRequestBehavior.AllowGet);
-            }
-            if (!user.Password.Equals(passXc))
-            {
-                return Json(new Result()
-                {
-                    CodeError = 1,
-                    Data = "Mật khẩu cũ không đúng"
-                }, JsonRequestBehavior.AllowGet);
-            }
-            user.Password = rePasss;
-            db.Entry(user).State = EntityState.Modified;
-            db.SaveChanges();
-            return Json(new Result()
-            {
-                CodeError = 2,
-                Data = "Thay đổi mật khẩu thành công"
-            }, JsonRequestBehavior.AllowGet);
         }
+
     }
     public class login
     {
