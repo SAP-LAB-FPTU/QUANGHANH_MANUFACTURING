@@ -78,7 +78,7 @@
                                     <div class="col m4">
                                         @Html.LabelFor(model => model.JOB_work, "Chức vụ", htmlAttributes: new { @class = "custom-label" })
                                         <div class="col-md-10">
-                                            <input id="MaCongViecDis" list="listJob" class="form-control inputEdit" name="test" value="@ViewBag.loadJob" autocomplete="off" />
+                                            <input id="MaCongViecDis" list="listJob" class="form-control inputEdit" name="position" value="@ViewBag.loadJob" autocomplete="off" />
                                             <datalist id="listJob">
                                                 @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.job)
                                                 {
@@ -239,7 +239,7 @@
                                     </div>
                                     <div class="input-field col m12">
                                         <div class="col m6">
-                                            @Html.LabelFor(model => model.JOB_pay_rate, "Mã bậc lương - Thang lương - Mức lương", htmlAttributes: new { @class = "custom-label" })
+                                            @Html.LabelFor(model => model.current_salary_id, "Mã bậc lương - Thang lương - Mức lương", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
                                                 <input id="salaryLevelId" list="listSalaryLevel" class="form-control inputEdit" name="salaryLevelName" value="@ViewBag.load_salary_level" placeholder="Mã bậc lương - Thang lương - Mức lương" autocomplete="off" />
                                                 <input type="hidden" name="hiddenSalary" id="salaryLevelIdHidden" />
@@ -479,10 +479,10 @@
                                         @foreach (var item in ViewBag.qhList)
                                         {
                                             <tr>
-                                                <td class="center">@item.family_type_id</td>
+                                                <td class="center">@item.type_name</td>
                                                 <td class="center">@item.date_of_birth</td>
                                                 <td class="center">@item.full_name</td>
-                                                <td class="center">@item.family_relationship_id</td>
+                                                <td class="center">@item.relationship_name</td>
                                                 <td class="center">@item.background</td>
                                                 <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaQuanHe(@item.family_type_id , @item.employee_id)">Xóa</a></td>
                                             </tr>

@@ -357,9 +357,27 @@
     <Compile Include="Controllers\TCLD\Transfer\TransferController.cs" />
     <Compile Include="Controllers\TCLD\Employees\WorkHistoryController.cs" />
     <Compile Include="Controllers\TCLD\Work\WorkGroupTypeController.cs" />
+    <Compile Include="EntityResult\GetChart_Result.cs" />
+    <Compile Include="EntityResult\GetDashCam_Result.cs" />
+    <Compile Include="EntityResult\GetDashRoom_Result.cs" />
+    <Compile Include="EntityResult\GetListEquipNoAccreditationWithDate_Result.cs" />
+    <Compile Include="EntityResult\GetListEquipNoAccreditation_Result.cs" />
+    <Compile Include="EntityResult\GetCameraStatisticRoom_Result.cs" />
+    <Compile Include="EntityResult\GetStatisEquipment_Result.cs" />
+    <Compile Include="EntityResult\GetDashEquip_Result.cs" />
+    <Compile Include="EntityResult\GetExportByGroup_Result.cs" />
+    <Compile Include="EntityResult\GetGPSCarAvailable_Result.cs" />
+    <Compile Include="EntityResult\GetCountEmployees_Result.cs" />
+    <Compile Include="EntityResult\GetFamiliesOfAnEmployee_Result.cs" />
+    <Compile Include="EntityResult\GetListEmployees_Result.cs" />
+    <Compile Include="EntityResult\GetSalaryLevel_Result.cs" />
     <Compile Include="EntityResult\GetAccountInfo_Result.cs" />
+    <Compile Include="EntityResult\GetAllAccountInfo_Result.cs" />
     <Compile Include="EntityResult\GetDepartmentByEmployeeID_Result.cs" />
+    <Compile Include="EntityResult\GetDepartmentJobDetailByEmployeeID_Result.cs" />
     <Compile Include="EntityResult\GetListCamera_Result.cs" />
+    <Compile Include="EntityResult\GetUserFunction_Result.cs" />
+    <Compile Include="EntityResult\GetWaterReport_Result.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -7245,7 +7263,6 @@
     <Content Include="excel\DK\Thong-ke-tai-nan-download.xlsx" />
     <Content Include="doc\TCLD\chamdutdow\chamdut-ko-tro-cap-template.docx" />
     <Content Include="doc\TCLD\chamdutzip\chamdut-ko-tro-cap-template.docx" />
-    <Content Include=".editorconfig" />
     <Content Include="js\Custom JS\jquery-freeze-table-master\bower.json" />
     <Content Include="js\Custom JS\jquery-freeze-table-master\LICENSE" />
     <Content Include="js\Custom JS\jquery-freeze-table-master\package.json" />

@@ -389,7 +389,7 @@
                                             <th width="20%">Đơn vị</th>
                                             <th width="20%">Chức danh</th>
                                             <th width="20%">Chức vụ</th>
-                                            <th width="20%">Ngày bắt đàu</th>
+                                            <th width="20%">Ngày bắt đầu</th>
                                             <th width="20%">Ngày kết thúc</th>
                                             <th></th>
                                         </tr>
@@ -398,12 +398,12 @@
                                         @foreach (var item in ViewBag.qtList)
                                         {
                                             <tr>
-                                                <td class="center">@item.DonViCongTac</td>
-                                                <td class="center">@item.ChucDanh</td>
-                                                <td class="center">@item.ChucVu</td>
-                                                <td class="center">@item.NgayBatDau</td>
-                                                <td class="center">@item.NgayKetThuc</td>
-                                                <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaCongTac(@item.MaCongTac , @item.MaNV)">Xóa</a></td>
+                                                <td class="center">@item.office</td>
+                                                <td class="center">@item.title</td>
+                                                <td class="center">@item.position</td>
+                                                <td class="center">@item.date_start</td>
+                                                <td class="center">@item.date_end</td>
+                                                <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaCongTac(@item.working_process_id , @item.employee_id)">Xóa</a></td>
                                             </tr>
                                         }
 
@@ -467,12 +467,12 @@
                                         @foreach (var item in ViewBag.qhList)
                                         {
                                             <tr>
-                                                <td class="center">@item.LoaiGiaDinh</td>
-                                                <td class="center">@item.NgaySinh</td>
-                                                <td class="center">@item.HoTen</td>
-                                                <td class="center">@item.MoiQuanHe</td>
-                                                <td class="center">@item.LyLich</td>
-                                                <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaQuanHe(@item.MaQuanHeGiaDinh , @item.MaNV)">Xóa</a></td>
+                                                <td class="center">@item.family_type_id</td>
+                                                <td class="center">@item.date_of_birth</td>
+                                                <td class="center">@item.full_name</td>
+                                                <td class="center">@item.family_relationship_id</td>
+                                                <td class="center">@item.background</td>
+                                                <td class="center"><a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger delete-view' onclick="xoaQuanHe(@item.family_type_id , @item.employee_id)">Xóa</a></td>
                                             </tr>
                                         }
 

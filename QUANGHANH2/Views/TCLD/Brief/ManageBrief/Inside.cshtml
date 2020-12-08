@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
 <link href="~/assets/Custom css/TCLD/Brief/ManageBrief/DeletePopup.css" rel="stylesheet" />
+
 <div class="card">
     <div class="card-content">
         <div class="row">
@@ -23,16 +24,16 @@
             <div class="col s12 m12 l12">
                 <div class="row center">
                     <div class="col l2 m12 s12 input-field">
-                        <input type="text" placeholder="Mã nhân viên" class='form-control' id="manv" multiple />
+                        <input type="text" placeholder="Mã nhân viên" class='form-control' id="employee_id_record_search" multiple />
                     </div>
                     <div class="col l2 m12 s12 input-field">
-                        <input type="text" placeholder="Tên nhân viên" class='form-control' id="tennv" multiple />
+                        <input type="text" placeholder="Tên nhân viên" class='form-control' id="employee_name_record_search" multiple />
                     </div>
                     <div class="col l2 m12 s12 input-field">
-                        <input type="text" placeholder="Người giao hồ sơ" class='form-control' id="nguoigiaohoso" multiple />
+                        <input type="text" placeholder="Người giao hồ sơ" class='form-control' id="delivery_employee_name_search" multiple />
                     </div>
                     <div class="col l2 m12 s12 input-field">
-                        <input type="text" placeholder="Người giữ hồ sơ" class='form-control' id="nguoigiuhoso" multiple />
+                        <input type="text" placeholder="Người giữ hồ sơ" class='form-control' id="management_employee_name_search" multiple />
                     </div>
                     <div class="col l2 m12 s12 input-field">
                         <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
@@ -166,6 +167,7 @@
                         <div class="form-group">
                             <label for="date">Kiểu giấy tờ : </label>
                             <input type="text" class="form-control" id="type_name_edit" list="type_papers_ID" />
+                            <input type="hidden" class="form-control" id="records_papers_id" />
                         </div>
                     </div>
                 </div>
@@ -306,8 +308,6 @@
         $(document).ready(function () {
             dataTable = $('#re_paper_table')
                 .on('preXhr.dt', function (e, settings, data) {
-
-
                     $("#pre-load").show("slow", function () {
                     });
                     $("#pre-load").css("z-index", "99999");
@@ -341,7 +341,7 @@
 
                         {
                             "data": "records_papers_id", "render": function (data, type, row) {
-                                return "<a href=\"#myacti\" data-toggle=\"modal\" class='waves-effect waves-light btn-small blue modal-trigger' data-paper=\"" + data + "\"><span class='ti-pencil-alt'>Chỉnh&nbsp;sửa</span></a>";
+                                return "<a href=\"#myacti\" data-toggle=\"modal\" class='open-EditModal waves-effect waves-light btn-small blue modal-trigger' data-paper=\"" + data + "\"><span class='ti-pencil-alt'>Chỉnh&nbsp;sửa</span></a>";
                             },
                             "orderable": false,
                             "searchable": false,
@@ -349,7 +349,7 @@
                         },
                         {
                             "data": "records_papers_id", "render": function (data, type, row) {
-                                return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px'><span class='fas fa-times-circle' data-paper=\"" + data + "\">Xóa</span></a>";
+                                return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px'><span class='fas fa-times-circle' onclick='deletePaper(" + data + ")'>Xóa</span></a>";
                             },
                             "orderable": false,
                             "searchable": false,
@@ -385,11 +385,11 @@
         });
 
         $(document).ready(function () {
-           var dataTable = $('#re_paper_table').DataTable();
+            var dataTable = $('#re_paper_table').DataTable();
             $("#searchButton_Doc").click(function () {
                 dataTable.ajax.reload();
 
-           });
+            });
         });
 
         //gọi popup khi ấn sửa
@@ -487,67 +487,67 @@
     <script>
         var datatable_inside, stt;
 
-    $(document).ready(function () {
-        datatable_inside = $('#inside_table').on('preXhr.dt', function (e, settings, data) {
-            $("#pre-load").show("slow", function () {
-            });
-            $("#pre-load").css("z-index", "99999");
-        })
+    //$(document).ready(function () {
+    //    datatable_inside = $('#inside_table').on('preXhr.dt', function (e, settings, data) {
+    //        $("#pre-load").show("slow", function () {
+    //        });
+    //        $("#pre-load").css("z-index", "99999");
+    //    })
 
-            .DataTable({
-                "ajax": {
-                    "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty",
-                    "type": "POST",
-                    "datatype": "json",
-                },"drawCallback": function (settings) {
-                    $("#pre-load").hide("slow", function () {
-                    });
-                },
-            "columns": [
-                { "data": "MaNV", "name": "MaNV" },
-                { "data": "Ten", "name": "Ten"},
-                {
-                    "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
-                        return dateFormat(data);
-                    },},
-                { "data": "NguoiGiaoHoSo", "name": "NguoiGiaoHoSo" },
-                {
-                    "data": "NgayNhanHoSo", "name": "NgayNhanHoSo", "render": function (data) {
-                        return dateFormat(data);
-                    },
-                },
-                { "data": "NguoiGiuHoSo", "name": "NguoiGiuHoSo"},
-                {
-                    "data": "MaNV", "render": function (data) {
-                        return "<a class='waves-effect waves-light btn-small blue modal-trigger'  style='margin-left:5px' onclick=getEditIdEmp('" + data + "') >Sửa</a>";
-                    },
-                    "orderable": false,
-                    "searchable": false,
-                    "width": "150px"
-                }
-                ],
-                "language": {
-                    "zeroRecords": "Không có dữ liệu",
-                    paginate:
-                    {
-                        previous: "Trang trước",
-                        next: "Trang sau",
-                        first: "|<",
-                        last: ">|"
-                    }
-                },
-            "serverSide": "true",
-            "order": [0, "asc"],
-            "bLengthChange": false,
-            "bFilter": false,
-            "bInfo": false,
-            "bAutoWidth": false,
-            "initComplete": function () {
-                $("#pre-load").hide();
-            }
-        });
-        datatable_inside.ajax.reload();
-    });
+    //        .DataTable({
+    //            "ajax": {
+    //                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty",
+    //                "type": "POST",
+    //                "datatype": "json",
+    //            },"drawCallback": function (settings) {
+    //                $("#pre-load").hide("slow", function () {
+    //                });
+    //            },
+    //        "columns": [
+    //            { "data": "MaNV", "name": "MaNV" },
+    //            { "data": "Ten", "name": "Ten"},
+    //            {
+    //                "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
+    //                    return dateFormat(data);
+    //                },},
+    //            { "data": "NguoiGiaoHoSo", "name": "NguoiGiaoHoSo" },
+    //            {
+    //                "data": "NgayNhanHoSo", "name": "NgayNhanHoSo", "render": function (data) {
+    //                    return dateFormat(data);
+    //                },
+    //            },
+    //            { "data": "NguoiGiuHoSo", "name": "NguoiGiuHoSo"},
+    //            {
+    //                "data": "MaNV", "render": function (data) {
+    //                    return "<a class='waves-effect waves-light btn-small blue modal-trigger'  style='margin-left:5px' onclick=getEditIdEmp('" + data + "') >Sửa</a>";
+    //                },
+    //                "orderable": false,
+    //                "searchable": false,
+    //                "width": "150px"
+    //            }
+    //            ],
+    //            "language": {
+    //                "zeroRecords": "Không có dữ liệu",
+    //                paginate:
+    //                {
+    //                    previous: "Trang trước",
+    //                    next: "Trang sau",
+    //                    first: "|<",
+    //                    last: ">|"
+    //                }
+    //            },
+    //        "serverSide": "true",
+    //        "order": [0, "asc"],
+    //        "bLengthChange": false,
+    //        "bFilter": false,
+    //        "bInfo": false,
+    //        "bAutoWidth": false,
+    //        "initComplete": function () {
+    //            $("#pre-load").hide();
+    //        }
+    //    });
+    //    datatable_inside.ajax.reload();
+    //});
 
     function getEditCertificateData(url) {
         $.get(url)
@@ -692,7 +692,8 @@
 
                 {
                     "data": "records_papers_id", "render": function (data, type, row) {
-                        return "<a href=\"#myacti\" data-toggle=\"modal\" class='waves-effect waves-light btn-small blue modal-trigger' data-paper=\"" + data + "\"><span class='ti-pencil-alt'>Chỉnh&nbsp;sửa</span></a>";
+                        return "<a href=\"#myacti\" data-toggle=\"modal\" class='open-EditModal waves-effect waves-light btn-small blue modal-trigger' data-paper=\"" + data + "\"><span class='ti-pencil-alt'>Chỉnh&nbsp;sửa</span></a>";
+
                     },
                     "orderable": false,
                     "searchable": false,
@@ -700,7 +701,7 @@
                 },
                 {
                     "data": "records_papers_id", "render": function (data, type, row) {
-                        return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px'><span class='fas fa-times-circle' data-paper=\"" + data + "\">Xóasdadas</span></a>";
+                        return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' onclick='deletePaper(" + data + ")' ><span class='fas fa-times-circle'>Xóasdadas</span></a>";
                     },
                     "orderable": false,
                     "searchable": false,
@@ -738,7 +739,7 @@
             dataType: "json",
             success: function () {
                 successAlert('Thành công', 'Thêm thành công');
-                dataActiTable.ajax.reload();
+                dataTable.ajax.reload();
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 errorAlert('Lỗi', 'Có lỗi xảy ra');
@@ -767,55 +768,211 @@
     }
 
     //open-EditModal activity.
-        $(document).on("click", ".open-EditModal", function () {
-            var paper_id = $(this).data('paper');
-            $.ajax({
-                type: "POST",
-                url: "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to/record-paper",
-                dataType: JSON.stringify(paper_id),
-                success: function (data) {
-                    $("#paper_name_edit").val(data.paper_name);
-                    $('#type_name_edit').val(data.type_name);
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $.notify(XMLHttpRequest.responseText, {
-                        globalPosition: "top center",
-                        className: "error"
+    $(document).on("click", ".open-EditModal", function () {
+        var paper_id = $(this).data('paper');
+        $.ajax({
+            type: "POST",
+            url: "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to/record-paper",
+            data: {
+                records_papers_id: paper_id
+            },
+            dataType: "json",
+            success: function (data) {
+                $("#paper_name_edit").val(data.paper_name);
+                $('#type_name_edit').val(data.type_name);
+                $('#records_papers_id').val(data.records_papers_id);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.notify(XMLHttpRequest.responseText, {
+                    globalPosition: "top center",
+                    className: "error"
+                });
+            },
+            cache: false
+        })
+    });
+
+    $("#myeditform").submit(function (e) {
+        $.ajax({
+            type: "POST",
+            url: "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to/sua",
+            dataType: "text",
+            success: function () {
+                successAlert('Thành công', 'Chỉnh sửa thành công ');
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                errorAlert('Lỗi', 'Có lỗi xảy ra');
+            },
+            data: {
+                paper_name: $("#paper_name_edit").val(),
+                type_name: $('#type_name_edit').val(),
+                records_papers_id: $('#records_papers_id').val(),
+            },
+            cache: false
+        }).done(function () {
+            $('#exit-edit-button').click();
+            dataTable.ajax.reload();
+        })
+        return false;
+    });
+
+    function deletePaper(records_papers_id) {
+        confirmAlert("Xác nhận xóa?", "Bạn không thể khôi phục lại khi xóa",
+            function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to/xoa',
+                    dataType: 'json',
+                    data: {
+                        records_papers_id: records_papers_id
+                    },
+                    success: function () {
+                        dataTable.ajax.reload();
+                        successAlert('Thành công', 'Xóa thành công');
+                    },
+                    error: function (response) {
+                        errorAlert('Lỗi', 'Có lỗi xảy ra , không thể xóa được');
+                    }
+                });
+            });
+    }
+
+    $(document).ready(function () {
+        datatable_inside = $('#inside_table').on('preXhr.dt', function (e, settings, data) {
+            $("#pre-load").show("slow", function () {
+            });
+            $("#pre-load").css("z-index", "99999");
+        })
+
+            .DataTable({
+                "ajax": {
+                    "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty",
+                    "type": "POST",
+                    "datatype": "json",
+                },"drawCallback": function (settings) {
+                    $("#pre-load").hide("slow", function () {
                     });
                 },
-                data: {
-                    paperid: Number(paper)
+            "columns": [
+                { "data": "MaNV", "name": "MaNV" },
+                { "data": "Ten", "name": "Ten"},
+                {
+                    "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
+                        return dateFormat(data);
+                    },},
+                { "data": "NguoiGiaoHoSo", "name": "NguoiGiaoHoSo" },
+                {
+                    "data": "NgayNhanHoSo", "name": "NgayNhanHoSo", "render": function (data) {
+                        return dateFormat(data);
+                    },
                 },
-                cache: false
-            })
+                { "data": "NguoiGiuHoSo", "name": "NguoiGiuHoSo"},
+                {
+                    "data": "MaNV", "render": function (data) {
+                        return "<a class='waves-effect waves-light btn-small blue modal-trigger'  style='margin-left:5px' onclick=getEditIdEmp('" + data + "') >Sửa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "150px"
+                }
+                ],
+                "language": {
+                    "zeroRecords": "Không có dữ liệu",
+                    paginate:
+                    {
+                        previous: "Trang trước",
+                        next: "Trang sau",
+                        first: "|<",
+                        last: ">|"
+                    }
+                },
+            "serverSide": "true",
+            "order": [0, "asc"],
+            "bLengthChange": false,
+            "bFilter": false,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "initComplete": function () {
+                $("#pre-load").hide();
+            }
         });
+        datatable_inside.ajax.reload();
+    });
 
-        $("#myeditform").submit(function (e) {
-            $.ajax({
-                type: "POST",
-                url: "/phong-cdvt/cap-nhat-hoat-dong/edit-activity",
-                dataType: "text",
-                success: function () {
-                    successAlert('Thành công', 'Chỉnh sửa thành công ');
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    errorAlert('Lỗi', 'Có lỗi xảy ra');
-                },
-                data: {
-                    date1: $("#date-edit").val(),
-                    equipmentId: $('#equipmentId-edit').val(),
-                    activity_name: $('#activityname-edit').val(),
-                    hours_per_day: $('#hours_per_day-edit').val(),
-                    quantity: $('#quantity-edit').val(),
-                    activityid: Number($('#activityid-edit').val())
-                },
-                cache: false
-            }).done(function () {
-                $('#exit-edit-button').click();
-                dataActiTable.ajax.reload();
+    $(document).ready(function () {
+        datatable_inside = $('#inside_table')
+            .on('preXhr.dt', function (e, settings, data) {
+                $("#pre-load").show("slow", function () {
+                });
+                $("#pre-load").css("z-index", "99999");
+
             })
-            return false;
-        });
+            .DataTable({
+                "ajax": {
+                    "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": {
+                        "employee_id": function () { return $('#employee_id_record_search').val() },
+                        "employee_name": function () { return $('#employee_name_record_search').val() },
+                        "delivery_employee_name": function () { return $('#delivery_employee_name_search').val() },
+                        "management_employee_name": function () { return $('#management_employee_name_search').val() },
+                    },
+                },
 
+                "drawCallback": function (settings) {
+                    ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                    ////////////////////////////////////////////////
+
+                },
+                "columns": [
+                    { "data": "employee_id", "name": "employee_id", },
+                    { "data": "employee_name", "name": "employee_name" },
+                    { "data": "date_of_birth", "name": "date_of_birth" },
+                    { "data": "delivery_employee_name", "name": "delivery_employee_name" },
+                    { "data": "handover_employee_name", "name": "handover_employee_name" },
+                    { "data": "management_employee_name", "name": "management_employee_name" },
+                    {
+                        "data": {
+                            employee_id,
+                            records_id
+                        },
+                        "render": function (data, type, row) {
+                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px'><span class='fas fa-times-circle' onclick='deletePaper(" + data.employee_id +'|'+ data.records_id + ")'>Xóa</span></a>";
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                "serverSide": true,
+                "bLengthChange": false,
+                "bFilter": false,
+                "bInfo": false,
+                "language": {
+                    emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
+                    paginate:
+                    {
+                        previous: "Trang trước",
+                        next: "Trang sau",
+                        first: "|<",
+                        last: ">|",
+
+                    },
+                    info: "Đang hiện START đến END của TOTAL bản ghi",
+                    infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
+                },
+                "bAutoWidth": false,
+                "order": [0, "asc"],
+                "initComplete": function (settings, json) {
+                    ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                    $("#pre-load").hide("slow", function () {
+                    });
+                },
+
+            });
+    });
 </script>
 
