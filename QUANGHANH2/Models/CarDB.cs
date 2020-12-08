@@ -7,15 +7,15 @@ namespace QUANGHANH2.Models
 {
     public class CarDB : Equipment
     {
-        public string sokhung { get; set; }
-        public string somay { get; set; }
+        public string chassis_number { get; set; }
+        public string engine_number { get; set; }
         public Nullable<System.Boolean> GPS { get; set; }
         public string GPSstring { get; set; }
         public Nullable<System.DateTime> durationOfInspection_fix { get; set; }
-        public string statusname { get; set; }
-        public string Equipment_category_name { get; set; }
+        public string status_name { get; set; }
+        public string equipment_category_name { get; set; }
         public string department_name { get; set; }
-        public Nullable<System.Int32> namsanxuat { get; set; }
-        public Nullable<System.Boolean> nhienlieu { get; set; }
+        public Nullable<System.Int32> manufacture_year { get; set; }
+        public Nullable<System.Boolean> fuel { get; set; }
     }
 }

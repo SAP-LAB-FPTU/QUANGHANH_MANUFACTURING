@@ -26,26 +26,32 @@
                     <div class="col l4 m4 s12">
                         <div class="row">
                             <div class="col l10 m10 s12 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo đơn vị trực thuộc" list="department_name" class='form-control' id="depart-search" />
+                                <input type="text" placeholder="Tìm kiếm theo đơn vị trực thuộc" list="department_name" class='form-control center' id="depart-search" />
                             </div>
                         </div>
                     </div>
                     <div class="col l4 m4 s12">
                         <div class="row">
                             <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center' id="date-start-search" data-language='vi' placeholder="thời gian bắt đầu sự cố (từ)" style="height: 34px" />
+                                @*<input type='text' class='datepicker-here center' id="date-start-search" data-language='vi' placeholder="" style="height: 34px" />*@
+                                <input autocomplete="off"
+                                       name="tuNgayDenNgay" id="date-start-search" type="text" data-auto-close="true" data-range="true"
+                                       placeholder="khoảng thời gian bắt đầu sự cố" data-multiple-dates-separator=" - "
+                                       data-language="vi" class="datepicker-here form-control center" style="border:none" />
                             </div>
                             <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                                <i class="fas fa-calendar-alt icon"></i>
-                                <input type='text' class='datepicker-here center' id="date-end-search" data-language='vi' placeholder="thời gian bắt đầu sự cố (đến)" style="height: 34px" />
+                                @*<input type='text' class='datepicker-here center' id="date-end-search" data-language='vi' placeholder="thời gian bắt đầu sự cố (đến)" style="height: 34px" />*@
+                                <input autocomplete="off"
+                                       name="tuNgayDenNgay" id="date-end-search" type="text" data-auto-close="true" data-range="true"
+                                       placeholder="khoảng thời gian kết thúc sự cố" data-multiple-dates-separator=" - "
+                                       data-language="vi" class="datepicker-here form-control center" style="border:none" />
                             </div>
                         </div>
                     </div>
                     <div class="col l4 m4 s12">
                         <div class="row">
                             <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                                <input type="text" placeholder="Tìm kiếm theo tên hệ thống" list="room_name" class='form-control' id="room-search" />
+                                <input type="text" placeholder="Tìm kiếm theo tên hệ thống" list="room_name" class='form-control center' id="room-search" />
                             </div>
                         </div>
                     </div>

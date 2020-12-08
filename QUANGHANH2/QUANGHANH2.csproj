@@ -177,8 +177,8 @@
     <Compile Include="Controllers\BGD\ReportHuman\Summary\Human_Department_DailyController.cs" />
     <Compile Include="Controllers\Camera\CapNhatTheoCaController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ChiTietController.cs" />
-    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ThemQuyetDinhController.cs" />
-    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\XuLyQuyetDinhController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ThemController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\XuLyController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ChonThietBiController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\ChuaNghiemThuController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\DanhSachController.cs" />
@@ -362,6 +362,7 @@
     <Compile Include="EntityResult\GetDashRoom_Result.cs" />
     <Compile Include="EntityResult\GetDataWorkGroups_Result.cs" />
     <Compile Include="EntityResult\GetFuelReport_Result.cs" />
+    <Compile Include="EntityResult\GetExportList_Result.cs" />
     <Compile Include="EntityResult\GetListEquipNoAccreditationWithDate_Result.cs" />
     <Compile Include="EntityResult\GetListEquipNoAccreditation_Result.cs" />
     <Compile Include="EntityResult\GetCameraStatisticRoom_Result.cs" />
@@ -381,6 +382,7 @@
     <Compile Include="EntityResult\GetDepartmentByEmployeeID_Result.cs" />
     <Compile Include="EntityResult\GetDepartmentJobDetailByEmployeeID_Result.cs" />
     <Compile Include="EntityResult\GetListCamera_Result.cs" />
+    <Compile Include="EntityResult\GetSuggestSearch_Result.cs" />
     <Compile Include="EntityResult\GetUserFunction_Result.cs" />
     <Compile Include="EntityResult\GetWaterReport_Result.cs" />
     <Compile Include="EntityResult\Transfer_SelectAllAvailableEmployee_Result.cs" />

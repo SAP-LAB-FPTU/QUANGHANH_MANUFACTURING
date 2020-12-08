@@ -36,13 +36,13 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpPost]
         public ActionResult Add(string depart, string quan, string reason, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, string checkBox)
         {
-            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             Incident i = new Incident();
-            using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 try
                 {
-                    Room e = DBContext.Rooms.Where(x => x.room_name.Equals(depart)).FirstOrDefault();
+                    Room e = db.Rooms.Where(x => x.room_name.Equals(depart)).FirstOrDefault();
                     DateTime start = new DateTime(yearStart, monthStart, dayStart, hourStart, minuteStart, 0);
                     if (e.camera_available < Convert.ToInt32(quan))
                         return Json(new { success = false, message = "Số lượng camera không khả dụng" }, JsonRequestBehavior.AllowGet);
@@ -56,8 +56,8 @@ namespace QUANGHANH2.Controllers.Camera
                     e.disk_saveable = i.disk_saveable;
                     e.disk_status = i.disk_status;
                     e.signal_loss_reason = reason;
-                    DBContext.Incidents.Add(i);
-                    DBContext.SaveChanges();
+                    db.Incidents.Add(i);
+                    db.SaveChanges();
                     transaction.Commit();
                     return Json(new { success = true, message = "Thêm thành công" }, JsonRequestBehavior.AllowGet);
                 }
@@ -73,13 +73,13 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpPost]
         public ActionResult Edit(int incident_id, string department, string reason, int quan, int yearStart, int monthStart, int dayStart, int hourStart, int minuteStart, int yearEnd, int monthEnd, int dayEnd, int hourEnd, int minuteEnd)
         {
-            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
-            using (DbContextTransaction transaction = DBContext.Database.BeginTransaction())
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
                 try
                 {
-                    Incident i = DBContext.Incidents.Find(incident_id);
-                    Room d = DBContext.Rooms.Where(x => x.room_name.Equals(department)).FirstOrDefault();
+                    Incident i = db.Incidents.Find(incident_id);
+                    Room d = db.Rooms.Where(x => x.room_name.Equals(department)).FirstOrDefault();
                     DateTime start = new DateTime(yearStart, monthStart, dayStart, hourStart, minuteStart, 0);
                     DateTime end = new DateTime(yearEnd, monthEnd, dayEnd, hourEnd, minuteEnd, 0);
                     if (DateTime.Compare(start, end) >= 0)
@@ -91,7 +91,7 @@ namespace QUANGHANH2.Controllers.Camera
                     i.incident_camera_quantity = quan;
 
 
-                    DBContext.SaveChanges();
+                    db.SaveChanges();
                     transaction.Commit();
                     return Json(new { success = true, message = "Chỉnh sửa thành công" }, JsonRequestBehavior.AllowGet);
                 }
@@ -108,8 +108,8 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpPost]
         public ActionResult Update(int incident_id, string reason, int year, int month, int day, int hour, int minute)
         {
-            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
-            Incident i = DBContext.Incidents.Find(incident_id);
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            Incident i = db.Incidents.Find(incident_id);
             DateTime end = new DateTime(year, month, day, hour, minute, 0);
             if (DateTime.Compare(i.start_time, end) >= 0)
                 return Json(new { success = false, message = "Bạn đã nhập ngày kết thúc nhỏ hơn ngày bắt đầu" }, JsonRequestBehavior.AllowGet);
@@ -121,7 +121,7 @@ namespace QUANGHANH2.Controllers.Camera
             {
                 i.reason = reason;
                 i.end_time = new DateTime(year, month, day, hour, minute, 0);
-                DBContext.SaveChanges();
+                db.SaveChanges();
                 return Json(new { success = true, message = "Cập nhật thành công" }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -136,31 +136,60 @@ namespace QUANGHANH2.Controllers.Camera
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            DateTime dtStart = dateStart == "" ? DateTime.Parse("1800/1/1") : DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
-            DateTime dtEnd = dateEnd == "" ? DateTime.MaxValue : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null).AddHours(23).AddMinutes(59);
+            DateTime dtStart_0 = new DateTime();
+            DateTime dtStart_1 = new DateTime();
+            DateTime dtEnd_0 = new DateTime();
+            DateTime dtEnd_1 = new DateTime();
 
-            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
-            string query = @"select r.room_name, r.camera_available, ci.disk_status, r.disk_saveable, d.department_name, ci.reason, ci.incident_id, ci.start_time, ci.end_time, ci.incident_camera_quantity
-                    from Room r join Department d on r.department_id = d.department_id
-                    join Incident ci on r.room_id = ci.room_id where ci.start_time BETWEEN @dtStart AND @dtEnd AND ";
-
-            if (!depart.Equals("") || !room.Equals("") || !(dateStart.Equals("") || dateEnd.Equals("")))
+            if (dateStart.Contains("-"))
             {
-                if (!depart.Equals("")) query += " d.department_name LIKE @depart AND ";
-                if (!room.Equals("")) query += " r.room_name LIKE @room AND ";
+                var temp = dateStart.Split('-');
+                dtStart_0 = DateTime.ParseExact(temp[0].Trim(), "dd/MM/yyyy", null);
+                dtStart_1 = DateTime.ParseExact(temp[1].Trim(), "dd/MM/yyyy", null);
             }
-            query = query.Substring(0, query.Length - 5);
-            List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
-                new SqlParameter("depart", '%' + depart + '%'),
-                new SqlParameter("room", '%' + room + '%'),
-                new SqlParameter("dtStart", dtStart),
-                new SqlParameter("dtEnd", dtEnd)).ToList();
+            else if (!string.IsNullOrEmpty(dateStart))
+                dtStart_0 = DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
 
-            int totalrows = DBContext.Database.SqlQuery<int>(query.Replace("r.room_name, r.camera_available, ci.disk_status, r.disk_saveable, d.department_name, ci.reason, ci.incident_id, ci.start_time, ci.end_time, ci.incident_camera_quantity", "count(*)"),
-                new SqlParameter("depart", '%' + depart + '%'),
-                new SqlParameter("room", '%' + room + '%'),
-                new SqlParameter("dtStart", dtStart),
-                new SqlParameter("dtEnd", dtEnd)).FirstOrDefault();
+            if (dateEnd.Contains("-"))
+            {
+                var temp = dateEnd.Split('-');
+                dtEnd_0 = DateTime.ParseExact(temp[0].Trim(), "dd/MM/yyyy", null);
+                dtEnd_1 = DateTime.ParseExact(temp[1].Trim(), "dd/MM/yyyy", null);
+            }
+            else if (!string.IsNullOrEmpty(dateEnd))
+                dtEnd_0 = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
+
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+
+            List<IncidentDB> incidents = (from r in db.Rooms
+                                          join d in db.Departments on r.department_id equals d.department_id
+                                          join ci in db.Incidents on r.room_id equals ci.room_id
+                                          where (dateStart.Contains("-") ? (ci.start_time >= dtStart_0 && ci.start_time <= dtStart_1) : (string.IsNullOrEmpty(dateStart) || ci.start_time == dtStart_0))
+                                          && (dateEnd.Contains("-") ? (ci.end_time >= dtEnd_0 && ci.end_time <= dtEnd_1) : (string.IsNullOrEmpty(dateEnd) || ci.end_time == dtEnd_0))
+                                          && d.department_name.Contains(depart)
+                                          && r.room_name.Contains(room)
+                                          select new IncidentDB
+                                          {
+                                              room_name = r.room_name,
+                                              camera_available = r.camera_available,
+                                              disk_status = ci.disk_status,
+                                              disk_saveable = r.disk_saveable,
+                                              department_name = d.department_name,
+                                              reason = ci.reason,
+                                              incident_id = ci.incident_id,
+                                              start_time = ci.start_time,
+                                              end_time = ci.end_time,
+                                              incident_camera_quantity = ci.incident_camera_quantity
+                                          }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
+
+            int totalrows = (from r in db.Rooms
+                             join d in db.Departments on r.department_id equals d.department_id
+                             join ci in db.Incidents on r.room_id equals ci.room_id
+                             where (dateStart.Contains("-") ? (ci.start_time >= dtStart_0 && ci.start_time <= dtStart_1) : (string.IsNullOrEmpty(dateStart) || ci.start_time == dtStart_0))
+                             && (dateEnd.Contains("-") ? (ci.end_time >= dtEnd_0 && ci.end_time <= dtEnd_1) : (string.IsNullOrEmpty(dateEnd) || ci.end_time == dtEnd_0))
+                             && d.department_name.Contains(depart)
+                             && r.room_name.Contains(room)
+                             select ci).Count();
 
             foreach (IncidentDB item in incidents)
             {
@@ -183,9 +212,9 @@ namespace QUANGHANH2.Controllers.Camera
         //        ExcelWorkbook excelWorkbook = excelPackage.Workbook;
         //        ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
 
-        //        using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
+        //        using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
         //        {
-        //            var incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.Equipment_category_id, e.*, i.*, d.department_name FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d on d.department_id = i.department_id inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id").ToList();
+        //            var incidents = db.Database.SqlQuery<IncidentDB>("SELECT e.Equipment_category_id, e.*, i.*, d.department_name FROM Incident i inner join Equipment e on e.equipmentId = i.equipmentId inner join Department d on d.department_id = i.department_id inner join Equipment_category ec on e.Equipment_category_id = ec.Equipment_category_id").ToList();
         //            int k = 0;
         //            for (int i = 5; i < incidents.Count + 5; i++)
         //            {
@@ -214,12 +243,12 @@ namespace QUANGHANH2.Controllers.Camera
         {
             try
             {
-                QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 string sql = @"select d.department_name, ci.incident_camera_quantity, r.room_name, ci.start_time, ci.end_time, ci.reason, ci.incident_id, DATEDIFF(HOUR, ci.start_time, ci.end_time) as time_different
                             from Incident ci join Room r on ci.room_id = r.room_id
 	                            join Department d on r.department_id = d.department_id
                             where ci.incident_id = @incident_id";
-                IncidentDB incidents = DBContext.Database.SqlQuery<IncidentDB>(sql, new SqlParameter("incident_id", incident_id)).First();
+                IncidentDB incidents = db.Database.SqlQuery<IncidentDB>(sql, new SqlParameter("incident_id", incident_id)).First();
                 incidents.stringStartTime = incidents.start_time.ToString("HH:mm dd/MM/yyyy");
                 DateTime.TryParse(incidents.end_time.ToString(), out DateTime temp);
                 incidents.stringEndTime = temp.ToString("HH:mm dd/MM/yyyy");
