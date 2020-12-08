@@ -360,6 +360,7 @@
     <Compile Include="EntityResult\GetChart_Result.cs" />
     <Compile Include="EntityResult\GetDashCam_Result.cs" />
     <Compile Include="EntityResult\GetDashRoom_Result.cs" />
+    <Compile Include="EntityResult\GetDataWorkGroups_Result.cs" />
     <Compile Include="EntityResult\GetListEquipNoAccreditationWithDate_Result.cs" />
     <Compile Include="EntityResult\GetListEquipNoAccreditation_Result.cs" />
     <Compile Include="EntityResult\GetCameraStatisticRoom_Result.cs" />
@@ -383,127 +384,127 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AbsenceReason.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AbsenceReasonType.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Acceptance.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Acceptance1.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccompaniedEquipment.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccompaniedSupply.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Account.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Account_Right.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Account_Right_Detail.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Activity.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AdditionalHistoryResume.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Attribute.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BangCap_GiayChungNhan_detailsDB.cs" />
     <Compile Include="Models\BangCap_detailsDB.cs" />
     <Compile Include="Models\BaoCaoNgayDB.cs" />
     <Compile Include="Models\BigMaintainDetail.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BigMaintainEquipment.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CameraRepairDetail.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Car.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CarDB.cs" />
     <Compile Include="Models\Career.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CarGP.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CarMaintenance.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CarMaintenanceDetail.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoryAttribute.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoryAttributeValue.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ChiTiet_ThucHien_TieuChi_TheoNgay.cs" />
     <Compile Include="Models\ChungChi_detailsDB.cs" />
     <Compile Include="Models\ChungChi_NhanVien_Model.cs" />
     <Compile Include="Models\Chung_Chi_Nhan_Vien_Extend.cs" />
     <Compile Include="Models\Consumption.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CriteriaGroup.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Criterion.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DayHistoryWork.cs" />
     <Compile Include="Models\Decision.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Department.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DepartmentAttendanceAndProductivity.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Documentary.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DocumentaryType.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Documentary_cam_repair_detailsDB.cs" />
     <Compile Include="Models\Documentary_Export.cs" />
     <Compile Include="Models\Documentary_Improve_DetailDB.cs" />
     <Compile Include="Models\DurationType.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EducationLevel.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Employee.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EmployeeAttendanceAndProductivity.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EmployeeTask.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Equipment.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Equipment_InspectionDB.cs" />
     <Compile Include="Models\DocumentaryDB.cs" />
@@ -517,253 +518,252 @@
     <Compile Include="Models\equipmentExtend.cs" />
     <Compile Include="Models\Equipment_InsuranceDB.cs" />
     <Compile Include="Models\FakeAPI.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Family.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FamilyRelationship.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FamilyType.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\File.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FuelActivitiesConsumption.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HeaderAttendanceAndProductivity.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HeaderPlanManufacturingByMonth.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HeaderPlanManufacturingByShift.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HeaderPlanManufacturingByYear.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HeaderRealityManufacturing.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HistoryWork.cs" />
     <Compile Include="Models\HoSoNhanVien.cs" />
-    <Compile Include="Models\HumanResources\WorkGroup_Extend.cs" />
     <Compile Include="EntityResult\GetDataWork_Result.cs" />
     <Compile Include="Models\Important_Documentary.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ImproveDetail.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ImproveEquipment.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Incident.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Incident1.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\InsideExcel.cs" />
     <Compile Include="Models\Inspection.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Insurance.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LiquidationDetail.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MaintainDetail.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MaintainEquipment.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MealRegistration.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MeasureUnit.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Module.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MonthlyPlan.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MovelineDetail.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MyError.cs" />
     <Compile Include="Models\NhanVien_Extend.cs" />
     <Compile Include="Models\Notification.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Paper.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PapersStorageType.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PapersType.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PayRate.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PayTable.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PlanManufacturingByMonth.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PlanManufacturingByShift.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PlanManufacturingByYear.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PlanManufacturingMonthInformation.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Qualification.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\QuangHanhManufacturingEntities.Context.cs">
+    <Compile Include="Models\QuangHanhManufacturingEnities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>QuangHanhManufacturingEntities.Context.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\QuangHanhManufacturingEntities.cs">
+    <Compile Include="Models\QuangHanhManufacturingEnities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\QuangHanhManufacturingEntities.Designer.cs">
+    <Compile Include="Models\QuangHanhManufacturingEnities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>QuangHanhManufacturingEntities.edmx</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\RealityManufacturingDayInformation.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Record.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RecordsGettingAuthorize.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RecordsPaper.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RecordsStatu.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Recruitment.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RepairCamera.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RepairDetail.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RepairEquipment.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RepairRegularly.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RepairRegularly1.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RepairRegularlyDetail.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReportFile.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RevokeDetail.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Role.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Room.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SafetyWork.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SafetyWorkType.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Salary.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SalaryProcess.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\School.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Shift.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Specialization.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Status.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Status1.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Status2.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supply.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Supply_Documentary_EquipmentDB.cs" />
     <Compile Include="Models\Supply_Extend.cs" />
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Task.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaskType.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Termination.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TerminationType.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Transfer.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserActionLog.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Work.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WorkGroup.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WorkGroupType.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WorkingProcess.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+      <DependentUpon>QuangHanhManufacturingEnities.tt</DependentUpon>
     </Compile>
     <Compile Include="ModelViews\PxdsModelView.cs" />
     <Compile Include="ModelViews\TieuhaoModelView.cs" />
@@ -7177,15 +7177,15 @@
     <Content Include="bin\roslyn\vbc.exe.config" />
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
-    <Content Include="Models\QuangHanhManufacturingEntities.Context.tt">
+    <Content Include="Models\QuangHanhManufacturingEnities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>QuangHanhManufacturingEntities.edmx</DependentUpon>
-      <LastGenOutput>QuangHanhManufacturingEntities.Context.cs</LastGenOutput>
+      <DependentUpon>QuangHanhManufacturingEnities.edmx</DependentUpon>
+      <LastGenOutput>QuangHanhManufacturingEnities.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\QuangHanhManufacturingEntities.tt">
+    <Content Include="Models\QuangHanhManufacturingEnities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>QuangHanhManufacturingEntities.edmx</DependentUpon>
-      <LastGenOutput>QuangHanhManufacturingEntities.cs</LastGenOutput>
+      <DependentUpon>QuangHanhManufacturingEnities.edmx</DependentUpon>
+      <LastGenOutput>QuangHanhManufacturingEnities.cs</LastGenOutput>
     </Content>
     <Content Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
     <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
@@ -7259,12 +7259,12 @@
     <Content Include="js\Custom JS\jquery-freeze-table-master\RECOMMENDATIONS.md" />
     <Content Include="doc\CDVT\QD\quyetdinh-dieudong-template.docx" />
     <Content Include="excel\DK\SuCoThietBi.xlsx" />
-    <EntityDeploy Include="Models\QuangHanhManufacturingEntities.edmx">
+    <EntityDeploy Include="Models\QuangHanhManufacturingEnities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>QuangHanhManufacturingEntities.Designer.cs</LastGenOutput>
+      <LastGenOutput>QuangHanhManufacturingEnities.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\QuangHanhManufacturingEntities.edmx.diagram">
-      <DependentUpon>QuangHanhManufacturingEntities.edmx</DependentUpon>
+    <Content Include="Models\QuangHanhManufacturingEnities.edmx.diagram">
+      <DependentUpon>QuangHanhManufacturingEnities.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\quanghanh - Web Deploy1.pubxml" />
