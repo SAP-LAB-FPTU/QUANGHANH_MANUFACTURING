@@ -8370,7 +8370,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
           <End Role="Work" Type="Self.Work" Multiplicity="*" />
           <End Role="WorkGroup" Type="Self.WorkGroup" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="QuangHanhManufacturingEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Accounts" EntityType="Self.Account" />
           <EntitySet Name="Account_Right" EntityType="Self.Account_Right" />
           <EntitySet Name="Account_Right_Detail" EntityType="Self.Account_Right_Detail" />
@@ -9245,7 +9245,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="QuangHanhManufacturingModelStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="QuangHanhManufacturingModelStoreContainer" CdmEntityContainer="QuangHanhManufacturingEntities">
           <EntitySetMapping Name="Accounts">
             <EntityTypeMapping TypeName="QuangHanhManufacturingModel.Account">
               <MappingFragment StoreEntitySet="Account">
