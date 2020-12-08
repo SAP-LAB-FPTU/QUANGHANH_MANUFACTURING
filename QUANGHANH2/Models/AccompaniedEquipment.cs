@@ -12,13 +12,14 @@ namespace QUANGHANH2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Vattu_Dikem
+    public partial class AccompaniedEquipment
     {
-        public string supply_id { get; set; }
-        public string equipmentId { get; set; }
+        public string equipment_id { get; set; }
+        public string accompanied_equipment_id { get; set; }
         public int quantity { get; set; }
+        public Nullable<int> quantity_reserve { get; set; }
     
         public virtual Equipment Equipment { get; set; }
-        public virtual Supply Supply { get; set; }
+        public virtual Equipment Equipment1 { get; set; }
     }
 }

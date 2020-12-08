@@ -177,8 +177,8 @@
     <Compile Include="Controllers\BGD\ReportHuman\Summary\Human_Department_DailyController.cs" />
     <Compile Include="Controllers\Camera\CapNhatTheoCaController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ChiTietController.cs" />
-    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ThemQuyetDinhController.cs" />
-    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\XuLyQuyetDinhController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ThemController.cs" />
+    <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\XuLyController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\ChonThietBiController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\ChuaNghiemThuController.cs" />
     <Compile Include="Controllers\Camera\Quyetdinh\SuaChua\DanhSachController.cs" />
@@ -360,9 +360,15 @@
     <Compile Include="EntityResult\GetChart_Result.cs" />
     <Compile Include="EntityResult\GetDashCam_Result.cs" />
     <Compile Include="EntityResult\GetDashRoom_Result.cs" />
+    <Compile Include="EntityResult\GetDataWorkGroups_Result.cs" />
+    <Compile Include="EntityResult\GetFuelReport_Result.cs" />
+    <Compile Include="EntityResult\GetExportList_Result.cs" />
     <Compile Include="EntityResult\GetListEquipNoAccreditationWithDate_Result.cs" />
     <Compile Include="EntityResult\GetListEquipNoAccreditation_Result.cs" />
     <Compile Include="EntityResult\GetCameraStatisticRoom_Result.cs" />
+    <Compile Include="EntityResult\GetPowerReport_Result.cs" />
+    <Compile Include="EntityResult\GetShortEmployeeProfile_Result.cs" />
+    <Compile Include="EntityResult\GetListStatus_Result.cs" />
     <Compile Include="EntityResult\GetStatisEquipment_Result.cs" />
     <Compile Include="EntityResult\GetDashEquip_Result.cs" />
     <Compile Include="EntityResult\GetExportByGroup_Result.cs" />
@@ -376,8 +382,10 @@
     <Compile Include="EntityResult\GetDepartmentByEmployeeID_Result.cs" />
     <Compile Include="EntityResult\GetDepartmentJobDetailByEmployeeID_Result.cs" />
     <Compile Include="EntityResult\GetListCamera_Result.cs" />
+    <Compile Include="EntityResult\GetSuggestSearch_Result.cs" />
     <Compile Include="EntityResult\GetUserFunction_Result.cs" />
     <Compile Include="EntityResult\GetWaterReport_Result.cs" />
+    <Compile Include="EntityResult\Transfer_SelectAllAvailableEmployee_Result.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -391,6 +399,12 @@
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Acceptance1.cs">
+      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccompaniedEquipment.cs">
+      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccompaniedSupply.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Account.cs">
@@ -544,7 +558,6 @@
     </Compile>
     <Compile Include="Models\HistoryWork.cs" />
     <Compile Include="Models\HoSoNhanVien.cs" />
-    <Compile Include="Models\HumanResources\WorkGroup_Extend.cs" />
     <Compile Include="EntityResult\GetDataWork_Result.cs" />
     <Compile Include="Models\Important_Documentary.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
@@ -723,13 +736,7 @@
     <Compile Include="Models\Supply.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Supply_DiKem.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Supply_Documentary_EquipmentDB.cs" />
-    <Compile Include="Models\Supply_Equipment_DiKem.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Supply_Extend.cs" />
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
@@ -738,12 +745,6 @@
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaskType.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TCLD_get_count_employees_Result.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\TCLD_get_list_employees_Result.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Termination.cs">
@@ -756,9 +757,6 @@
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserActionLog.cs">
-      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Vattu_Dikem.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Work.cs">
@@ -779,9 +777,6 @@
     <Compile Include="ModelViews\XincapvattuDeparmentModelView.cs" />
     <Compile Include="ModelViews\XincapvattuModelView.cs" />
     <Compile Include="ModelViews\XincapvattuSummaryModelView.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="obj\Release\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Release\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Release\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />

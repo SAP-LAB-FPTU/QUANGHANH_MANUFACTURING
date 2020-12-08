@@ -57,17 +57,20 @@ $(document).ready(function () {
             ' <td id = "col' + rowcount + '1" > ' +
             ' <select class="custom-select" name="giaDinh"> ' +
             '    <option value="">Loại gia đình</option> ' +
-            '   <option value="Bản thân">Bản thân</option> ' +
-            '  <option value="Nhà vợ">Nhà vợ</option> ' +
-            '  <option value="Nhà chồng">Nhà chồng</option> ' +
+            option_family +
             ' </select> ' +
             ' </td> ' +
             ' <td id="col' + rowcount + '2"> ' +
             '    <input name="ngaySinhGiaDinh" data-auto-close="true" id="input' + rowcount + '2" type="text" autocomplete="off" class="datepicker-here datepicker-add center form-control resize-form" data-language="vi" placeholder="dd/mm/yyyy" /> ' +
             ' </td> ' +
             ' <td id="col13" class="editable"><input id="input' + rowcount + '3" autocomplete="off" name="hoTen" style="border:none" /></td> ' +
-            ' <td id="col14" class="editable"><input id="input' + rowcount + '4" autocomplete="off" name="moiQuanHe" style="border:none" /></td> ' +
-            ' <td id="col15" class="editable"><input id="input' + rowcount + '5" autocomplete="off" name="lyLich" style="border:none" /></td> ' +
+            ' <td id="col' + rowcount + '4">' +
+            ' <select class="custom-select" name="moiQuanHe"> ' +
+            '    <option value="">Loại quan hệ</option> ' +
+            option_relationship +
+            ' </select> ' +
+            '</td > ' +
+            '<td id="col15" class="editable"><input id="input' + rowcount + '5" autocomplete="off" name="lyLich" style="border:none" /></td> ' +
             ' </tr >');
     });
     $(document).on("click", ".datepicker-here", function () {

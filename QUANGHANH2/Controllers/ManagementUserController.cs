@@ -687,7 +687,6 @@ namespace QUANGHANH2.Controllers
         [HttpPost]
         public JsonResult ResetPassword(string UserID)
         {
-
             try
             {
                 string passXc = new XCryptEngine(XCryptEngine.AlgorithmType.MD5).Encrypt("123456", "pl");

@@ -22,9 +22,9 @@ namespace QUANGHANH2.Models
             this.Equipments = new HashSet<Equipment>();
         }
     
-        public string Equipment_category_id { get; set; }
-        public string Equipment_category_name { get; set; }
-        public string divce_type { get; set; }
+        public string equipment_category_id { get; set; }
+        public string equipment_category_name { get; set; }
+        public string device_type { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CategoryAttribute> CategoryAttributes { get; set; }

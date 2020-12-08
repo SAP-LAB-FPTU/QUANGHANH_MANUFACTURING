@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
-using static QUANGHANHCORE.Controllers.CDVT.Thietbi.HoatdongController;
+//using static QUANGHANHCORE.Controllers.CDVT.Thietbi.HoatdongController;
 using System.Data.SqlClient;
 using QUANGHANH2.EntityResult;
 
@@ -65,25 +65,25 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
             GetStatisEquipment_Result etk = new GetStatisEquipment_Result();
             var equipList = db.Equipments.ToList<Equipment>();
-            etk.total = equipList.Where(x => x.isAttach == false).Count().ToString();
+            etk.total = equipList.Where(x => x.is_attach == false).Count().ToString();
             int total_repair = 0; int total_maintain = 0; int total_TL = 0; int total_TH = 0;
             var listKD = db.Database.SqlQuery<GetDashEquip_Result>("Equipment.Get_List_Equipment_Accreditation").ToList();
             ViewBag.listKD = listKD;
             ViewBag.totalKD = listKD.Count();
 
-            etk.total_HD = db.Equipments.Where(x => x.current_Status == 2 && x.isAttach == false).Count();
+            etk.total_HD = db.Equipments.Where(x => x.current_status == 2 && x.is_attach == false).Count();
             etk.total_KHD = int.Parse(etk.total) - etk.total_HD;
 
-            var listRepair = db.Equipments.Where(x => x.current_Status == 3).Select(x => new GetDashEquip_Result { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
+            var listRepair = db.Equipments.Where(x => x.current_status == 3).Select(x => new GetDashEquip_Result { equipmentId = x.equipment_id, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listRepair = listRepair;
 
-            var listMain = db.Equipments.Where(x => x.current_Status == 5).Select(x => new GetDashEquip_Result { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
+            var listMain = db.Equipments.Where(x => x.current_status == 5).Select(x => new GetDashEquip_Result { equipmentId = x.equipment_id, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listMain = listMain;
 
-            var listTL = db.Equipments.Where(x => x.current_Status == 8).Select(x => new GetDashEquip_Result { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
+            var listTL = db.Equipments.Where(x => x.current_status == 8).Select(x => new GetDashEquip_Result { equipmentId = x.equipment_id, equipment_name = x.equipment_name }).ToList().Distinct();
             ViewBag.listTL = listTL;
 
-            var listTH = db.Equipments.Where(x => x.current_Status == 7).Select(x => new GetDashEquip_Result { equipmentId = x.equipmentId, equipment_name = x.equipment_name }).ToList().Distinct();
+            var listTH = db.Equipments.Where(x => x.current_status == 7).Select(x => new GetDashEquip_Result { equipmentId = x.equipment_id, equipment_name = x.equipment_name }).ToList().Distinct();
             total_repair = listRepair.Count();
             total_maintain = listMain.Count();
             total_TL = listTL.Count();
@@ -95,131 +95,131 @@ namespace QUANGHANHCORE.Controllers.CDVT
             etk.total_TH = total_TH + "";
             ViewBag.Thongke = etk;
             var testTime = DateTime.Now.AddDays(10);
-            var hanDangKiem = db.Equipments.Where(x => x.durationOfInspection <= testTime && x.durationOfInspection >= DateTime.Now && x.isAttach == false).OrderBy(x => x.durationOfInspection).
+            var hanDangKiem = db.Equipments.Where(x => x.duration_of_inspection <= testTime && x.duration_of_inspection >= DateTime.Now && x.is_attach == false).OrderBy(x => x.duration_of_inspection).
                                     Select(x => new GetListEquipNoAccreditation_Result
                                     {
                                         equipment_name = x.equipment_name,
-                                        equipmentId = x.equipmentId,
-                                        ngay = x.durationOfInspection.Value.Day,
-                                        thang = x.durationOfInspection.Value.Month,
-                                        nam = x.durationOfInspection.Value.Year
+                                        equipmentId = x.equipment_id,
+                                        ngay = x.duration_of_inspection.Value.Day,
+                                        thang = x.duration_of_inspection.Value.Month,
+                                        nam = x.duration_of_inspection.Value.Year
                                     }).Take(10).ToList().Distinct();
             ViewBag.kiemdinhtag = hanDangKiem.Count();
             ViewBag.handangkiem = hanDangKiem;
-            var hanBaoduong = db.Equipments.Where(x => x.durationOfMaintainance <= testTime && x.durationOfMaintainance >= DateTime.Now && x.isAttach == false).OrderBy(x => x.durationOfMaintainance).
+            var hanBaoduong = db.Equipments.Where(x => x.duration_of_maintainance <= testTime && x.duration_of_maintainance >= DateTime.Now && x.is_attach == false).OrderBy(x => x.duration_of_maintainance).
                                     Select(x => new GetListEquipNoAccreditation_Result
                                     {
                                         equipment_name = x.equipment_name,
-                                        equipmentId = x.equipmentId,
-                                        ngay = x.durationOfMaintainance.Value.Day,
-                                        thang = x.durationOfMaintainance.Value.Month,
-                                        nam = x.durationOfMaintainance.Value.Year
+                                        equipmentId = x.equipment_id,
+                                        ngay = x.duration_of_maintainance.Value.Day,
+                                        thang = x.duration_of_maintainance.Value.Month,
+                                        nam = x.duration_of_maintainance.Value.Year
                                     }).Take(10).ToList().Distinct();
             ViewBag.baoduongtag = hanBaoduong.Count();
             ViewBag.hanbaoduong = hanBaoduong;
 
             var tongcogioi = (from equip in db.Equipments
                               join car in db.Cars
-                              on equip.equipmentId equals car.equipmentId
+                              on equip.equipment_id equals car.equipment_id
                               select new GetDashEquip_Result
                               {
                                   equipment_name = equip.equipment_name,
-                                  equipmentId = equip.equipmentId
+                                  equipmentId = equip.equipment_id
                               }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
             ViewBag.tongcogioi = tongcogioi.Count();
 
-            var cogioihd = (from equip in db.Equipments.Where(x => x.current_Status == 2)
+            var cogioihd = (from equip in db.Equipments.Where(x => x.current_status == 2)
                             join car in db.Cars
-                              on equip.equipmentId equals car.equipmentId
+                              on equip.equipment_id equals car.equipment_id
                             select new GetDashEquip_Result
                             {
                                 equipment_name = equip.equipment_name,
-                                equipmentId = equip.equipmentId
+                                equipmentId = equip.equipment_id
                             }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
             ViewBag.cogioikhd = tongcogioi.Count() - cogioihd.Count();
             ViewBag.cogioihd = cogioihd.Count();
-            var cogioiSC = (from equip in db.Equipments.Where(x => x.current_Status == 3)
+            var cogioiSC = (from equip in db.Equipments.Where(x => x.current_status == 3)
                             join car in db.Cars
-                                on equip.equipmentId equals car.equipmentId
+                                on equip.equipment_id equals car.equipment_id
                             select new GetDashEquip_Result
                             {
                                 equipment_name = equip.equipment_name,
-                                equipmentId = equip.equipmentId
+                                equipmentId = equip.equipment_id
                             }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
             ViewBag.cogioiSC = cogioiSC;
             ViewBag.slSC = cogioiSC.Count();
 
-            var cogioiBD = (from equip in db.Equipments.Where(x => x.current_Status == 5)
+            var cogioiBD = (from equip in db.Equipments.Where(x => x.current_status == 5)
                             join car in db.Cars
-                              on equip.equipmentId equals car.equipmentId
+                              on equip.equipment_id equals car.equipment_id
                             select new GetDashEquip_Result
                             {
                                 equipment_name = equip.equipment_name,
-                                equipmentId = equip.equipmentId
+                                equipmentId = equip.equipment_id
                             }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
             ViewBag.cogioiBD = cogioiBD;
             ViewBag.slBD = cogioiBD.Count();
 
-            var cogioiKD = (from equip in db.Equipments.Where(x => x.current_Status == 10)
+            var cogioiKD = (from equip in db.Equipments.Where(x => x.current_status == 10)
                             join car in db.Cars
-                              on equip.equipmentId equals car.equipmentId
+                              on equip.equipment_id equals car.equipment_id
                             join Equipment_category in db.Categories
-                            on equip.Equipment_category_id equals Equipment_category.Equipment_category_id
+                            on equip.equipment_category_id equals Equipment_category.equipment_category_id
                             select new GetDashEquip_Result
                             {
                                 equipment_name = equip.equipment_name,
-                                equipmentId = equip.equipmentId
+                                equipmentId = equip.equipment_id
                             }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
             ViewBag.cogioiKD = cogioiKD;
             ViewBag.slKD = cogioiKD.Count();
 
-            var cogioiTL = (from equip in db.Equipments.Where(x => x.current_Status == 8)
+            var cogioiTL = (from equip in db.Equipments.Where(x => x.current_status == 8)
                             join car in db.Cars
-                              on equip.equipmentId equals car.equipmentId
+                              on equip.equipment_id equals car.equipment_id
                             select new GetDashEquip_Result
                             {
                                 equipment_name = equip.equipment_name,
-                                equipmentId = equip.equipmentId
+                                equipmentId = equip.equipment_id
                             }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
             ViewBag.cogioiTL = cogioiTL;
             ViewBag.slTL = cogioiTL.Count();
 
-            var cogioiTH = (from equip in db.Equipments.Where(x => x.current_Status == 7)
+            var cogioiTH = (from equip in db.Equipments.Where(x => x.current_status == 7)
                             join car in db.Cars
-                              on equip.equipmentId equals car.equipmentId
+                              on equip.equipment_id equals car.equipment_id
                             select new GetDashEquip_Result
                             {
                                 equipment_name = equip.equipment_name,
-                                equipmentId = equip.equipmentId
+                                equipmentId = equip.equipment_id
                             }).GroupBy(x => x.equipment_name + x.equipmentId).Select(x => x.FirstOrDefault());
             ViewBag.cogioiTH = cogioiTH;
             ViewBag.slTH = cogioiTH.Count();
 
-            var hanDangKiemcogioi = (from equip in db.Equipments.Where(x => x.durationOfInspection <= testTime && x.durationOfInspection >= DateTime.Now)
+            var hanDangKiemcogioi = (from equip in db.Equipments.Where(x => x.duration_of_inspection <= testTime && x.duration_of_inspection >= DateTime.Now)
                                      join car in db.Cars
-                                        on equip.equipmentId equals car.equipmentId
+                                        on equip.equipment_id equals car.equipment_id
                                      select new GetListEquipNoAccreditationWithDate_Result
                                      {
                                          equipment_name = equip.equipment_name,
-                                         equipmentId = equip.equipmentId,
-                                         day = equip.durationOfInspection.Value,
-                                         ngay = equip.durationOfInspection.Value.Day,
-                                         thang = equip.durationOfInspection.Value.Month,
-                                         nam = equip.durationOfInspection.Value.Year
+                                         equipmentId = equip.equipment_id,
+                                         day = equip.duration_of_inspection.Value,
+                                         ngay = equip.duration_of_inspection.Value.Day,
+                                         thang = equip.duration_of_inspection.Value.Month,
+                                         nam = equip.duration_of_inspection.Value.Year
                                      }).Take(10).GroupBy(x => x.equipment_name + x.equipmentId + x.ngay + x.thang + x.nam).Select(x => x.FirstOrDefault()).OrderBy(x => x.day);
             ViewBag.kiemdinhcogioitag = hanDangKiemcogioi.Count();
             ViewBag.hanDangKiemcogioi = hanDangKiemcogioi;
 
-            var hanBaoduongcogioi = (from equip in db.Equipments.Where(x => x.durationOfMaintainance <= testTime && x.durationOfMaintainance >= DateTime.Now).OrderBy(x => x.durationOfMaintainance)
+            var hanBaoduongcogioi = (from equip in db.Equipments.Where(x => x.duration_of_maintainance <= testTime && x.duration_of_maintainance >= DateTime.Now).OrderBy(x => x.duration_of_maintainance)
                                      join car in db.Cars
-                                        on equip.equipmentId equals car.equipmentId
+                                        on equip.equipment_id equals car.equipment_id
                                      select new GetListEquipNoAccreditation_Result
                                      {
                                          equipment_name = equip.equipment_name,
-                                         equipmentId = equip.equipmentId,
-                                         ngay = equip.durationOfMaintainance.Value.Day,
-                                         thang = equip.durationOfMaintainance.Value.Month,
-                                         nam = equip.durationOfMaintainance.Value.Year
+                                         equipmentId = equip.equipment_id,
+                                         ngay = equip.duration_of_maintainance.Value.Day,
+                                         thang = equip.duration_of_maintainance.Value.Month,
+                                         nam = equip.duration_of_maintainance.Value.Year
                                      }).Take(10).GroupBy(x => x.equipment_name + x.equipmentId + x.ngay + x.thang + x.nam).Select(x => x.FirstOrDefault());
             ViewBag.baoduongcogioitag = hanBaoduongcogioi.Count();
             ViewBag.hanBaoduongcogioi = hanBaoduongcogioi;
@@ -323,7 +323,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             string[] d = date.Split(' ');
             string query = @"Camera.Get_List_Cam_Incident {0}, {1}";
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-            GetDashCam_Result dc = db.Database.SqlQuery<GetDashCam_Result>(query,  d[1], d[2]).FirstOrDefault();
+            GetDashCam_Result dc = db.Database.SqlQuery<GetDashCam_Result>(query, d[1], d[2]).FirstOrDefault();
             dc.notdone = dc.sum - dc.done;
             return Json(new { success = true, message = "", dc = dc }, JsonRequestBehavior.AllowGet);
         }

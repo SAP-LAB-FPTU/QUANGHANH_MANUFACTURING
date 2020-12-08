@@ -1,12 +1,12 @@
 ﻿var rowcount = 1;
 
 $(document).ready(function () {
-    $('.btnSelect').click(function () {
+    $('.btnSelect1').click(function () {
         var data = document.getElementById("table-gd").rows.length;
         document.getElementById("table-gd").deleteRow(data - 1);
         rowcount--;
     });
-    $('.btnSelect1').click(function () {
+    $('.btnSelect').click(function () {
         var data = document.getElementById("table-htlv2").rows.length;
         document.getElementById("table-htlv2").deleteRow(data - 1);
         rowcount--;

@@ -24,16 +24,16 @@
                 <div class="form-group">
                     <label>Mã nhóm thiết bị</label>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Equipment_category_id, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Equipment_category_id, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.equipment_category_id, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.equipment_category_id, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Tên nhóm thiết bị</label>
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Equipment_category_name, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Equipment_category_name, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.equipment_category_name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.equipment_category_name, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -41,7 +41,7 @@
                     <label>Loại thiết bị</label>
                     <div class="col-md-10">
                         @Html.DropDownList("divce_type", new SelectList(ViewBag.listType, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.divce_type, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.device_type, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>

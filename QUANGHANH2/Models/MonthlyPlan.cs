@@ -14,12 +14,12 @@ namespace QUANGHANH2.Models
     
     public partial class MonthlyPlan
     {
-        public int id { get; set; }
-        public string supplyid { get; set; }
-        public string departmentid { get; set; }
-        public string equipmentid { get; set; }
+        public int monthly_plan_id { get; set; }
+        public string supply_id { get; set; }
+        public string department_id { get; set; }
+        public string equipment_id { get; set; }
         public System.DateTime date { get; set; }
-        public Nullable<double> dinh_muc { get; set; }
+        public Nullable<double> quota { get; set; }
         public int quantity_plan { get; set; }
         public int quantity { get; set; }
         public Nullable<int> status { get; set; }

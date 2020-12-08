@@ -7,44 +7,46 @@
         <div class="row">
             <h3 class="center"><b>DANH SÁCH CÔNG VIỆC</b></h3>
 
+            <div class="row input-field">
+                <div class="col l3 m12 s12">
+                    <input type="text" placeholder="Tên công việc" class='form-control' id="search_work_name" />
+                </div>
+
+                <div class="col l3 m12 s12">
+                    <input type="text" placeholder="Phụ cấp" class='form-control' id="search_allowance" />
+                </div>
+
+                <div class="col l2 m12 s12 ">
+                    <input type="text" placeholder="Thang lương" class='form-control' id="search_pay_table" />
+                </div>
+
+                <div class="col l3 m12 s12 ">
+                    <input type="text" placeholder="Năm áp dụng thang lương" class='form-control' id="search_pay_table_applied_year" />
+                </div>
+
+                <div class="col l1 m12 s12 ">
+                    <button class="waves-effect waves-light btn blue darken-2 btn-small" id="search_button"><i class="fas fas fa-search"></i></button>
+                </div>
+            </div>
+
             <div class="row">
-                <div class="col l3 m12 s12 input-field">
-                    <input type="text" placeholder="Tên công việc" class='form-control input-field' id="search_work_name" multiple />
+                <div>
+                    <a class="waves-effects waves-light btn blue darken-2 btn-small  modal-trigger" href="#modal_add_work">Thêm</a>
                 </div>
-
-                <div class="col l3 m12 s12 input-field">
-                    <input type="text" placeholder="Phụ cấp" class='form-control input-field' id="search_allowance" multiple />
+                <div>
+                    <table id="work_table" class="table table-bordered responsive-table center">
+                        <thead>
+                            <tr>
+                                <th>Tên công việc</th>
+                                <th>Phụ cấp</th>
+                                <th>Thang lương</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
-
-                <div class="col l3 m12 s12 input-field">
-                    <input type="text" placeholder="Thang lương" class='form-control input-field' id="search_pay_table" multiple />
-                </div>
-
-                <div class="col l2 m12 s12 input-field">
-                    <input type="text" placeholder="Năm áp dụng thang lương" class='form-control input-field' id="search_pay_table_applied_year" multiple />
-                </div>
-
-                <div class="col l1 m12 s12 input-field">
-                    <button class="waves-effect waves-light btn blue darken-2 btn-small" id="search_button">Tìm kiếm</button>
-                </div>
-            </div>
-
-            <div>
-                <a class="waves-effects waves-light btn blue darken-2 btn-small input-field modal-trigger" href="#modal_add_work">Thêm</a>
-            </div>
-            <div>
-                <table id="work_table" class="table table-bordered responsive-table center">
-                    <thead>
-                        <tr>
-                            <th>Tên công việc</th>
-                            <th>Phụ cấp</th>
-                            <th>Thang lương</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
             </div>
         </div>
     </div>
@@ -106,8 +108,8 @@
         <button id="edit_work_close_modal_button" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
     </div>
 </div>
-<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+@*<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>*@
 <!----------------------LIST----------------------->
 <script>
     var table;
@@ -122,9 +124,9 @@
                 "data": {
                     //search data
                     "search_work_name": () => { return $("#search_work_name").val() },
-                    "search_allowance": $("#search_allowance").val(),
-                    "search_pay_table": $("#search_pay_table").val(),
-                    "search_pay_table_applied_year": $("#search_pay_table_applied_year").val()
+                    "search_allowance": () => { return $("#search_allowance").val() },
+                    "search_pay_table": () => { return $("#search_pay_table").val() },
+                    "search_pay_table_applied_year": () => { return $("#search_pay_table_applied_year").val() }
                 },
                 "dataSrc": function (json) {
                     return json["works"];

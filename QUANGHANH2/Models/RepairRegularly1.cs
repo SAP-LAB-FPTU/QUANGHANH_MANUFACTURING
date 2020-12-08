@@ -14,11 +14,11 @@ namespace QUANGHANH2.Models
     
     public partial class RepairRegularly1
     {
-        public int supply_sctx_id { get; set; }
+        public int repair_regularly_id { get; set; }
         public string supply_id { get; set; }
-        public string equipmentId { get; set; }
+        public string equipment_id { get; set; }
         public int quantity { get; set; }
-        public string equipmentId_dikem { get; set; }
+        public string accompanied_equipment_id { get; set; }
     
         public virtual Equipment Equipment { get; set; }
         public virtual Equipment Equipment1 { get; set; }

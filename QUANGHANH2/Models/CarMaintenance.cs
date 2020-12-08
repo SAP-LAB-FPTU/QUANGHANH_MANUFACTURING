@@ -20,10 +20,10 @@ namespace QUANGHANH2.Models
             this.CarMaintenanceDetails = new HashSet<CarMaintenanceDetail>();
         }
     
-        public int maintainid { get; set; }
-        public string equipmentid { get; set; }
+        public int maintain_id { get; set; }
+        public string equipment_id { get; set; }
         public System.DateTime date { get; set; }
-        public string departmentid { get; set; }
+        public string department_id { get; set; }
         public string maintain_content { get; set; }
     
         public virtual Equipment Equipment { get; set; }

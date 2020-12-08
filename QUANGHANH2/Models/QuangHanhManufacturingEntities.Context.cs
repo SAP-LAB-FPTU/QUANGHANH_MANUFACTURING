@@ -12,8 +12,6 @@ namespace QUANGHANH2.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Core.Objects;
-    using System.Linq;
     
     public partial class QuangHanhManufacturingEntities : DbContext
     {
@@ -36,10 +34,7 @@ namespace QUANGHANH2.Models
         public virtual DbSet<Incident> Incidents { get; set; }
         public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<Status> Status { get; set; }
-        public virtual DbSet<Supply_DiKem> Supply_DiKem { get; set; }
-        public virtual DbSet<Supply_Equipment_DiKem> Supply_Equipment_DiKem { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<Vattu_Dikem> Vattu_Dikem { get; set; }
         public virtual DbSet<BigMaintainDetail> BigMaintainDetails { get; set; }
         public virtual DbSet<CameraRepairDetail> CameraRepairDetails { get; set; }
         public virtual DbSet<Documentary> Documentaries { get; set; }
@@ -52,6 +47,8 @@ namespace QUANGHANH2.Models
         public virtual DbSet<RepairDetail> RepairDetails { get; set; }
         public virtual DbSet<RevokeDetail> RevokeDetails { get; set; }
         public virtual DbSet<Acceptance1> Acceptance1 { get; set; }
+        public virtual DbSet<AccompaniedEquipment> AccompaniedEquipments { get; set; }
+        public virtual DbSet<AccompaniedSupply> AccompaniedSupplies { get; set; }
         public virtual DbSet<Activity> Activities { get; set; }
         public virtual DbSet<Attribute> Attributes { get; set; }
         public virtual DbSet<Car> Cars { get; set; }
@@ -140,63 +137,5 @@ namespace QUANGHANH2.Models
         public virtual DbSet<RepairEquipment> RepairEquipments { get; set; }
         public virtual DbSet<RepairRegularly1> RepairRegularly1 { get; set; }
         public virtual DbSet<Supply> Supplies { get; set; }
-    
-        public virtual ObjectResult<TCLD_get_count_employees_Result> TCLD_get_count_employees(string maNV, string ten, string gioiTinh, string pb)
-        {
-            var maNVParameter = maNV != null ?
-                new ObjectParameter("MaNV", maNV) :
-                new ObjectParameter("MaNV", typeof(string));
-    
-            var tenParameter = ten != null ?
-                new ObjectParameter("Ten", ten) :
-                new ObjectParameter("Ten", typeof(string));
-    
-            var gioiTinhParameter = gioiTinh != null ?
-                new ObjectParameter("GioiTinh", gioiTinh) :
-                new ObjectParameter("GioiTinh", typeof(string));
-    
-            var pbParameter = pb != null ?
-                new ObjectParameter("pb", pb) :
-                new ObjectParameter("pb", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TCLD_get_count_employees_Result>("TCLD_get_count_employees", maNVParameter, tenParameter, gioiTinhParameter, pbParameter);
-        }
-    
-        public virtual ObjectResult<TCLD_get_list_employees_Result> TCLD_get_list_employees(string maNV, string ten, string gioiTinh, string pb, string order_column, string sort, Nullable<int> start, Nullable<int> length)
-        {
-            var maNVParameter = maNV != null ?
-                new ObjectParameter("MaNV", maNV) :
-                new ObjectParameter("MaNV", typeof(string));
-    
-            var tenParameter = ten != null ?
-                new ObjectParameter("Ten", ten) :
-                new ObjectParameter("Ten", typeof(string));
-    
-            var gioiTinhParameter = gioiTinh != null ?
-                new ObjectParameter("GioiTinh", gioiTinh) :
-                new ObjectParameter("GioiTinh", typeof(string));
-    
-            var pbParameter = pb != null ?
-                new ObjectParameter("pb", pb) :
-                new ObjectParameter("pb", typeof(string));
-    
-            var order_columnParameter = order_column != null ?
-                new ObjectParameter("order_column", order_column) :
-                new ObjectParameter("order_column", typeof(string));
-    
-            var sortParameter = sort != null ?
-                new ObjectParameter("sort", sort) :
-                new ObjectParameter("sort", typeof(string));
-    
-            var startParameter = start.HasValue ?
-                new ObjectParameter("start", start) :
-                new ObjectParameter("start", typeof(int));
-    
-            var lengthParameter = length.HasValue ?
-                new ObjectParameter("length", length) :
-                new ObjectParameter("length", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TCLD_get_list_employees_Result>("TCLD_get_list_employees", maNVParameter, tenParameter, gioiTinhParameter, pbParameter, order_columnParameter, sortParameter, startParameter, lengthParameter);
-        }
     }
 }

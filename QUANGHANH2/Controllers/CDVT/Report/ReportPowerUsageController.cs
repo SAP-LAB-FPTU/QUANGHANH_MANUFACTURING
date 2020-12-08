@@ -1,12 +1,11 @@
 ﻿using OfficeOpenXml;
 using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
+using QUANGHANH2.EntityResult;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -21,19 +20,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         [Route("phong-cdvt/bao-cao/dien-nang")]
         public ActionResult Quarter(string type, string date, string month, string quarter, string year)
         {
-            string query;
-            if (type == null)
-            {
-                var ngay = DateTime.Now.Date.ToString("dd/MM/yyyy");
-                query = Wherecondition("day", ngay, null, null, null);
-            }
-            else
-            {
-                query = Wherecondition(type, date, month, quarter, year);
-            }
+            if (type == null) date = DateTime.Now.Date.ToString("dd/MM/yyyy");
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                List<contentreportPower> listdata = db.Database.SqlQuery<contentreportPower>(query).ToList();
+                List<GetPowerReport_Result> listdata = db.Database.SqlQuery<GetPowerReport_Result>("Equipment.GetPowerReport {0, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
                 double totaltieuthu = 0; double totalsanluong = 0;
                 if (listdata != null)
                 {
@@ -53,19 +43,10 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
         [HttpPost]
         public ActionResult List(string type, string date, string month, string quarter, string year)
         {
-            string query;
-            if (type == null)
-            {
-                var ngay = DateTime.Now.Date.ToString("dd/MM/yyyy");
-                query = Wherecondition("day", ngay, null, null, null);
-            }
-            else
-            {
-                query = Wherecondition(type, date, month, quarter, year);
-            }
+            if (type == null) date = DateTime.Now.Date.ToString("dd/MM/yyyy");
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                List<contentreportPower> listdata = db.Database.SqlQuery<contentreportPower>(query).ToList();
+                List<GetPowerReport_Result> listdata = db.Database.SqlQuery<GetPowerReport_Result>("Equipment.GetPowerReport {0, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
                 var js = Json(new { success = true, data = listdata }, JsonRequestBehavior.AllowGet);
                 var dataserialize = new JavaScriptSerializer().Serialize(js.Data);
                 return js;
@@ -85,9 +66,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                         " 'time',a.quantity as SanLuong, ca.unit as DonVi " +
                         " from Equipment e " +
                         " left Join Equipment_attribute ca on e.equipmentId = ca.equipmentId " +
-                        
                         " left join Activity a on a.equipmentid = e.equipmentId " +
-                        
                         " where ca.Equipment_attribute_name like N'%Công suất%' and ca.unit = 'kW'  and a.date = '" + ngay + "' " +
                         " group by a.[date], e.equipmentId, e.equipment_name, a.hours_per_day, a.quantity, ca.unit) as b";
             }
@@ -118,9 +97,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                         " 'time',a.quantity as SanLuong, ca.unit as DonVi " +
                         " from Equipment e " +
                         " left Join Equipment_attribute ca on e.equipmentId = ca.equipmentId " +
-                        
                         " left join Activity a on a.equipmentid = e.equipmentId " +
-                        
                         " where ca.Equipment_attribute_name like N'%Công suất%' and ca.unit = 'kW'  and YEAR(a.date) = " + nam + " and MONTH(a.date) = " + thang +
                         " group by a.[date], e.equipmentId, e.equipment_name, a.hours_per_day, a.quantity, ca.unit) as b";
             }
@@ -152,9 +129,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                         " 'time',a.quantity as SanLuong, ca.unit as DonVi " +
                         " from Equipment e " +
                         " left Join Equipment_attribute ca on e.equipmentId = ca.equipmentId " +
-                        
                         " left join Activity a on a.equipmentid = e.equipmentId " +
-                        
                         " where ca.Equipment_attribute_name like N'%Công suất%' and ca.unit = 'kW'  and YEAR(a.date) = " + nam + " and Month(a.date) in " + quy +
                         " group by a.[date], e.equipmentId, e.equipment_name, a.hours_per_day, a.quantity, ca.unit) as b";
             }
@@ -169,9 +144,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                         " 'time',a.quantity as SanLuong, ca.unit as DonVi " +
                         " from Equipment e " +
                         " left Join Equipment_attribute ca on e.equipmentId = ca.equipmentId " +
-                        
                         " left join Activity a on a.equipmentid = e.equipmentId " +
-                        
                         " where ca.Equipment_attribute_name like N'%Công suất%' and ca.unit = 'kW'  and YEAR(a.date) = " + nam +
                         " group by a.[date], e.equipmentId, e.equipment_name, a.hours_per_day, a.quantity, ca.unit) as b";
             }
@@ -189,17 +162,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
-                    string query;
-                    if (type == null)
-                    {
-                        var ngay = DateTime.Now.Date.ToString("dd/MM/yyyy");
-                        query = Wherecondition("day", ngay, null, null, null);
-                    }
-                    else
-                    {
-                        query = Wherecondition(type, date, month, quarter, year);
-                    }
-                    List<contentreportPower> content = db.Database.SqlQuery<contentreportPower>(query).ToList();
+                    if (type == null) date = DateTime.Now.Date.ToString("dd/MM/yyyy");
+                    List<GetPowerReport_Result> content = db.Database.SqlQuery<GetPowerReport_Result>("Equipment.GetPowerReport {0, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
                     double totaltieuthu = 0; double totalsanluong = 0;
                     if (content != null)
                     {
@@ -232,16 +196,5 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             }
             return Json(new { success = true, location = saveAsPath }, JsonRequestBehavior.AllowGet);
         }
-    }
-
-    public class contentreportPower
-    {
-        public int Thang { get; set; }
-        public int Nam { get; set; }
-        public string MaThietBi { get; set; }
-        public string TenThietBi { get; set; }
-        public double LuongTieuThu { get; set; }
-        public double SanLuong { get; set; }
-        public string DonVi { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace QUANGHANH2.Models
         public string department_detail { get; set; }
         public System.DateTime date_to { get; set; }
         public int documentary_id { get; set; }
-        public string equipmentId { get; set; }
+        public string equipment_id { get; set; }
         public string equipment_moveline_reason { get; set; }
         public string department_id_from { get; set; }
     
