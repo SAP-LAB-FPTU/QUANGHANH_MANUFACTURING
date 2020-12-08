@@ -261,7 +261,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="myadd">
+@*<div class="modal fade" id="myadd">
     <div class="card">
         <div class="card-content" id="add_content">
             <div class="modal-header center-align">
@@ -297,7 +297,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 <div id="kiemdinh" class="modal">
     <div class="card">
@@ -701,9 +701,9 @@
                         }
                 },
                 "columns": [
-                    { "data": "Equipment_category_name", "name" : "Equipment_category_name"},
+                    { "data": "Equipment_category_name", "name": "Equipment_category_name"},
                     {
-                        "data": "equipmentId", "name": "equipmentId", "render": function (data) {
+                        "data": "equipment_id", "name": "equipment_id", "render": function (data) {
                             return ("<form action=\"thiet-bi\" method=\"post\"><input type=\"hidden\" name=\"id\" value=\"" + data + "\" class=\"form-control\"/><button class='btn' onclick='submit'>" + data + "</button></form>");
                         }
                     },
@@ -711,13 +711,13 @@
                     { "data": "fabrication_number", "name": "fabrication_number" },
                     { "data": "mark_code", "name" : "mark_code"},
                     { "data": "department_name" , "name" : "department_name"},
-                    { "data": "statusname", "name" : "statusname"},
+                    { "data": "status_name", "name": "status_name"},
 
 
 
                     //
                     {
-                        "data": "equipmentId", "visible": bol, "render": function (data) {
+                        "data": "equipment_id", "visible": bol, "render": function (data) {
                             var temp = data.split(" ").join("^");
                             temp = temp.split(".").join("_");
                 return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit' onclick=Edit('@Url.Action("Edit","Hoatdong")/" + temp + "')><i class='fa fa-pencil'></i>Chỉnh&nbsp;sửa</a>";
@@ -727,7 +727,7 @@
                         "width":"150px"
                     },
                     {
-                        "data": "equipmentId", "visible":bol2, "render": function (data) {
+                        "data": "equipment_id", "visible":bol2, "render": function (data) {
                 return "<a class='waves-effect waves-light btn-small blue' style='margin-left:5px' onclick=Delete('@Url.Action("Delete","Hoatdong")/" + data + "')><i class='fa fa-trash'></i>Xóa</a>";
             },
                         "orderable": false,

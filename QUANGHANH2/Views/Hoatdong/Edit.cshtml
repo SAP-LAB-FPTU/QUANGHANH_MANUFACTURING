@@ -25,7 +25,7 @@
 {
     <div class="modal-body" id="edit-modal-body">
         @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.equipmentId)
+        @Html.HiddenFor(model => model.equipment_id)
         <div class="form-horizontal row">
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -35,8 +35,8 @@
                 <div class="form-group">
                     @*@Html.LabelFor(model => model.equipmentId, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.equipmentId, new { htmlAttributes = new { @style = "display: none !important" } })
-                        @Html.ValidationMessageFor(model => model.equipmentId, "", new { @style = "display: none !important" })
+                        @Html.EditorFor(model => model.equipment_id, new { htmlAttributes = new { @style = "display: none !important" } })
+                        @Html.ValidationMessageFor(model => model.equipment_id, "", new { @style = "display: none !important" })
                     </div>
                 </div>
 
@@ -92,8 +92,8 @@
                     @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
                         <input id="Inspec_fix" name="inspec" type="text" class="form-control datepicker-here" placeholder="Ngày hết hạn đăng kiểm" autocomplete="off" />
-                        @Html.EditorFor(model => model.durationOfInspection, new { htmlAttributes = new { @style = "display: none !important" } })
-                        @Html.ValidationMessageFor(model => model.durationOfInspection, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.duration_of_inspection, new { htmlAttributes = new { @style = "display: none !important" } })
+                        @Html.ValidationMessageFor(model => model.duration_of_inspection, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -102,8 +102,8 @@
                     @*@Html.LabelFor(model => model.durationOfInsurance, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
                         <input id="main_fix" name="main" type="text" class="form-control datepicker-here" placeholder="Thời hạn bảo dưỡng" autocomplete="off" />
-                        @Html.EditorFor(model => model.durationOfMaintainance, new { htmlAttributes = new { @style = "display: none !important" } })
-                        @Html.ValidationMessageFor(model => model.durationOfMaintainance, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.duration_of_maintainance, new { htmlAttributes = new { @style = "display: none !important" } })
+                        @Html.ValidationMessageFor(model => model.duration_of_maintainance, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
@@ -111,8 +111,8 @@
                     @*@Html.LabelFor(model => model.usedDay, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
                         <input id="used_fix" name="used" type="text" class="form-control datepicker-here" placeholder="Ngày đưa vào sử dụng" autocomplete="off" />
-                        @Html.EditorFor(model => model.usedDay, new { htmlAttributes = new { @style = "display: none !important" } })
-                        @Html.ValidationMessageFor(model => model.usedDay, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.used_day, new { htmlAttributes = new { @style = "display: none !important" } })
+                        @Html.ValidationMessageFor(model => model.used_day, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div id="pluse2">
@@ -138,7 +138,7 @@
                         <label class="control-label col-md-2">Nhiên liệu</label>
                         <div class="col-md-10">
                             @Html.DropDownList("nhienlieu", new SelectList(ViewBag.listNL, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.nhienlieu, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.fuel, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -161,7 +161,7 @@
                     @*@Html.LabelFor(model => model.current_Status, htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <div class="col-md-10">
                         @Html.DropDownList("current_Status", new SelectList(ViewBag.listStatus, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.current_Status, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.current_status, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -197,7 +197,7 @@
                     <label class="control-label col-md-2">Tên nhóm thiết bị</label>
                     <div class="col-md-10">
                         @Html.DropDownList("Equipment_category_id", new SelectList(ViewBag.listCategory, "Text", "Value"), htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Equipment_category_id, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.equipment_category_id, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -214,8 +214,8 @@
                         @*@Html.LabelFor(model => model.durationOfInspection, htmlAttributes: new { @class = "control-label col-md-2" })*@
                         <div class="col-md-10">
                             <input id="Insua_fix" name="Insua" type="text" class="form-control datepicker-here maxDate" autocomplete="off" />
-                            @Html.EditorFor(model => model.durationOfInsurance, new { htmlAttributes = new { @style = "display: none !important" } })
-                            @Html.ValidationMessageFor(model => model.durationOfInsurance, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.duration_of_insurance, new { htmlAttributes = new { @style = "display: none !important" } })
+                            @Html.ValidationMessageFor(model => model.duration_of_insurance, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -232,8 +232,8 @@
                         <label class="control-label col-md-2">Số khung</label>
                         <div class="col-md-10">
                             <input id="editsk" type="text" name="sk" class="form-control" />
-                            @Html.EditorFor(model => model.sokhung, new { htmlAttributes = new { @style = "display: none !important" } })
-                            @Html.ValidationMessageFor(model => model.sokhung, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.chassis_number, new { htmlAttributes = new { @style = "display: none !important" } })
+                            @Html.ValidationMessageFor(model => model.chassis_number, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -241,8 +241,8 @@
                         <label class="control-label col-md-2">Số máy</label>
                         <div class="col-md-10">
                             <input id="editsm" type="text" name="sm" class="form-control" />
-                            @Html.EditorFor(model => model.somay, new { htmlAttributes = new { @style = "display: none !important" } })
-                            @Html.ValidationMessageFor(model => model.somay, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.engine_number, new { htmlAttributes = new { @style = "display: none !important" } })
+                            @Html.ValidationMessageFor(model => model.engine_number, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -255,8 +255,8 @@
                                    data-min-view="years"
                                    data-view="years"
                                    data-date-format="yyyy" />
-                            @Html.EditorFor(model => model.namsanxuat, new { htmlAttributes = new { @style = "display: none !important" } })
-                            @Html.ValidationMessageFor(model => model.namsanxuat, "", new { @class = "text-danger" })
+                            @Html.EditorFor(model => model.manufacture_year, new { htmlAttributes = new { @style = "display: none !important" } })
+                            @Html.ValidationMessageFor(model => model.manufacture_year, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
