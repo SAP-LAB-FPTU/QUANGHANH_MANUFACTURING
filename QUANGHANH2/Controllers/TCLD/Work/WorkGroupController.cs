@@ -24,17 +24,15 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             try
             {
-                List<WorkGroupType> workGroupTypes = new List<WorkGroupType>();
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
-                    var sql_work_group_types = @"select * from HumanResources.WorkGroupType";
-                    workGroupTypes = db.Database.SqlQuery<WorkGroupType>(sql_work_group_types).ToList<WorkGroupType>();
+                    List<WorkGroupType> workGroupTypes = db.WorkGroupTypes.ToList();
                     ViewBag.workGroupTypes = workGroupTypes;
                 }
             }
             catch (Exception e)
             {
-                Console.Write(e.Message);
+                throw e;
             }
         }
 
