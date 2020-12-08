@@ -102,13 +102,11 @@ namespace QUANGHANH2.Controllers.Camera
 
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                //var equipList = db.Database.SqlQuery<GetListCamera_Result>("Camera.Get_List_Camera {0}, {1}, {2}, {3} ,{4}, {5}, {6}, {7}", 
-                //    room_name, disk_status, reason, department, sortColumnName, sortDirection, start, length ).ToList();
                 var equipList = (from r in db.Rooms
                                  join d in db.Departments on r.department_id equals d.department_id
                                  where r.room_name.Contains(room_name)
                                  && r.disk_status.Contains(disk_status)
-                                 && (string.IsNullOrEmpty(reason) ? true : r.signal_loss_reason.Contains(reason))
+                                 && (string.IsNullOrEmpty(reason) || r.signal_loss_reason.Contains(reason))
                                  && r.department_id.Contains(department)
                                  select new GetListCamera_Result
                                  {
@@ -127,8 +125,13 @@ namespace QUANGHANH2.Controllers.Camera
                                      series = r.series,
                                      signal_loss_reason = r.signal_loss_reason
                                  }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
-                int totalrows = db.Database.SqlQuery<int>("Camera.Get_Count_Camera {0}, {1}, {2}, {3}",
-                    room_name, disk_status, department, reason).FirstOrDefault();
+                int totalrows = (from r in db.Rooms
+                                 join d in db.Departments on r.department_id equals d.department_id
+                                 where r.room_name.Contains(room_name)
+                                 && r.disk_status.Contains(disk_status)
+                                 && (string.IsNullOrEmpty(reason) || r.signal_loss_reason.Contains(reason))
+                                 && r.department_id.Contains(department)
+                                 select r).Count();
                 return Json(new { success = true, data = equipList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -213,13 +216,15 @@ namespace QUANGHANH2.Controllers.Camera
         [Auther(RightID = "198")]
         [Route("camera/delete")]
         [HttpPost]
-        public ActionResult Delete()
+        public ActionResult Delete(string room_id)
         {
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 try
                 {
-                    db.Database.ExecuteSqlCommand("delete from Room where room_id = @room_id", new SqlParameter("room_id", Request["room_id"]));
+                    db.Configuration.LazyLoadingEnabled = false;
+                    db.Rooms.Remove(db.Rooms.Find(room_id));
+                    db.SaveChanges();
                     return Json(new { success = true, message = "Xóa thành công" });
                 }
                 catch (Exception)
