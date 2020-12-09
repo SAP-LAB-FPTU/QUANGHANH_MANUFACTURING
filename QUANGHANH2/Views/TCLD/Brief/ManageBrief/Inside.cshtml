@@ -557,12 +557,6 @@
         return false;
     }
 
-    function getEditIdEmp(id) {
-        if (id != null) {
-            window.location.href ='@Url.Action("InsideDetail", "Brief")?id=' + id;
-        }
-    }
-
     @*$("#searchButton").click(function () {
         $("#pre-load").show("slow", function () { });
 
@@ -582,21 +576,6 @@
         })
             datatable_inside.ajax.url('@Url.Action("searchlistAllBrief", "Brief")?searchList=' + arr).load(() => { $("#pre-load").hide("slow", function () { }) }, true)
     })*@
-
-    function dateFormat(d) {
-        if (d != null && d != "") {
-            var dateString = d.substr(6);
-            var currentTime = new Date(parseInt(dateString));
-            var month = currentTime.getMonth() + 1;
-            var day = currentTime.getDate();
-            var year = currentTime.getFullYear();
-            var date = day + "/" + month + "/" + year;
-            return (date);
-        }
-        else {
-            return (d);
-        }
-    }
 
     //$('#export_excel_brief').click(function () {
     //    $('#pre-load').show();
@@ -649,79 +628,79 @@
 <!----------------------------------------------------Long----------------------------------->
 <!----------------------------------------------------Ctbom----------------------------------->
 <script>
-    $("#searchButton").click(function () {
-        dataTable = $('#re_paper_table').on('preXhr.dt', function (e, settings, data) {
-            $("#pre-load").show("slow", function () {
-            });
-            $("#pre-load").css("z-index", "99999");
-        }).DataTable({
-            "language": {
-                "emptyTable": "Không tìm thấy dữ liệu",
-                "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-                "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
-                "paginate": {
-                    "first": "Đầu",
-                    "last": "Cuối",
-                    "next": "Sau",
-                    "previous": "Trước"
-                }
-            },
-            "ajax": {
-                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to",
-                "type": "POST",
-                "datatype": "json",
-                "data": {
-                    "employee_id": function () { return $('#employee_id_search').val() },
-                    "employee_name": function () { return $('#employee_name_search').val() },
-                    "paper_name": function () { return $('#paper_name_search').val() },
-                    "type_name": function () { return $('#type_name_search').val() },
-                },
-                "cache": "false"
-            },
-            "drawCallback": function (settings) {
-                ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
-                $("#pre-load").hide("slow", function () {
-                });
-                ////////////////////////////////////////////////
-            },
-            "columns": [
-                { "data": "employee_id", "name": "employee_id", },
-                { "data": "employee_name", "name": "employee_name" },
-                { "data": "paper_name", "name": "paper_name" },
-                { "data": "type_name", "name": "type_name" },
+    //$("#searchButton").click(function () {
+    //    dataTable = $('#re_paper_table').on('preXhr.dt', function (e, settings, data) {
+    //        $("#pre-load").show("slow", function () {
+    //        });
+    //        $("#pre-load").css("z-index", "99999");
+    //    }).DataTable({
+    //        "language": {
+    //            "emptyTable": "Không tìm thấy dữ liệu",
+    //            "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
+    //            "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
+    //            "paginate": {
+    //                "first": "Đầu",
+    //                "last": "Cuối",
+    //                "next": "Sau",
+    //                "previous": "Trước"
+    //            }
+    //        },
+    //        "ajax": {
+    //            "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to",
+    //            "type": "POST",
+    //            "datatype": "json",
+    //            "data": {
+    //                "employee_id": function () { return $('#employee_id_search').val() },
+    //                "employee_name": function () { return $('#employee_name_search').val() },
+    //                "paper_name": function () { return $('#paper_name_search').val() },
+    //                "type_name": function () { return $('#type_name_search').val() },
+    //            },
+    //            "cache": "false"
+    //        },
+    //        "drawCallback": function (settings) {
+    //            ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+    //            $("#pre-load").hide("slow", function () {
+    //            });
+    //            ////////////////////////////////////////////////
+    //        },
+    //        "columns": [
+    //            { "data": "employee_id", "name": "employee_id", },
+    //            { "data": "employee_name", "name": "employee_name" },
+    //            { "data": "paper_name", "name": "paper_name" },
+    //            { "data": "type_name", "name": "type_name" },
 
-                {
-                    "data": "records_papers_id", "render": function (data, type, row) {
-                        return "<a href=\"#myacti\" data-toggle=\"modal\" class='open-EditModal waves-effect waves-light btn-small blue modal-trigger' data-paper=\"" + data + "\"><span class='ti-pencil-alt'>Chỉnh&nbsp;sửa</span></a>";
+    //            {
+    //                "data": "records_papers_id", "render": function (data, type, row) {
+    //                    return "<a href=\"#myacti\" data-toggle=\"modal\" class='open-EditModal waves-effect waves-light btn-small blue modal-trigger' data-paper=\"" + data + "\"><span class='ti-pencil-alt'>Chỉnh&nbsp;sửa</span></a>";
 
-                    },
-                    "orderable": false,
-                    "searchable": false,
-                    "width": "150px"
-                },
-                {
-                    "data": "records_papers_id", "render": function (data, type, row) {
-                        return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' onclick='deletePaper(" + data + ")' ><span class='fas fa-times-circle'>Xóasdadas</span></a>";
-                    },
-                    "orderable": false,
-                    "searchable": false,
-                    "width": "150px"
-                }
-            ],
-            "bFilter": false,
-            "serverSide": true,
-            "rowId": "activityid",
-            "lengthChange": false,
-            "bAutoWidth": false,
-            "order": [0, "asc"],
-            "initComplete": function (settings, json) {
-                ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
-                $("#pre-load").hide("slow", function () {
-                });
-                //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
-            }
-        });
-    })
+    //                },
+    //                "orderable": false,
+    //                "searchable": false,
+    //                "width": "150px"
+    //            },
+    //            {
+    //                "data": "records_papers_id", "render": function (data, type, row) {
+    //                    return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' onclick='deletePaper(" + data + ")' ><span class='fas fa-times-circle'>Xóasdadas</span></a>";
+    //                },
+    //                "orderable": false,
+    //                "searchable": false,
+    //                "width": "150px"
+    //            }
+    //        ],
+    //        "bFilter": false,
+    //        "serverSide": true,
+    //        "rowId": "activityid",
+    //        "lengthChange": false,
+    //        "bAutoWidth": false,
+    //        "order": [0, "asc"],
+    //        "initComplete": function (settings, json) {
+    //            ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+    //            $("#pre-load").hide("slow", function () {
+    //            });
+    //            //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
+    //        }
+    //    });
+    //})
 
     //add
     function addRelevantPaper() {
@@ -838,74 +817,20 @@
     }
 
     $(document).ready(function () {
-        datatable_inside = $('#inside_table').on('preXhr.dt', function (e, settings, data) {
-            $("#pre-load").show("slow", function () {
-            });
-            $("#pre-load").css("z-index", "99999");
-        })
-
-            .DataTable({
-                "ajax": {
-                    "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty",
-                    "type": "POST",
-                    "datatype": "json",
-                },"drawCallback": function (settings) {
-                    $("#pre-load").hide("slow", function () {
-                    });
-                },
-            "columns": [
-                { "data": "MaNV", "name": "MaNV" },
-                { "data": "Ten", "name": "Ten"},
-                {
-                    "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
-                        return dateFormat(data);
-                    },},
-                { "data": "NguoiGiaoHoSo", "name": "NguoiGiaoHoSo" },
-                {
-                    "data": "NgayNhanHoSo", "name": "NgayNhanHoSo", "render": function (data) {
-                        return dateFormat(data);
-                    },
-                },
-                { "data": "NguoiGiuHoSo", "name": "NguoiGiuHoSo"},
-                {
-                    "data": "MaNV", "render": function (data) {
-                        return "<a class='waves-effect waves-light btn-small blue modal-trigger'  style='margin-left:5px' onclick=getEditIdEmp('" + data + "') >Sửa</a>";
-                    },
-                    "orderable": false,
-                    "searchable": false,
-                    "width": "150px"
-                }
-                ],
-                "language": {
-                    "zeroRecords": "Không có dữ liệu",
-                    paginate:
-                    {
-                        previous: "Trang trước",
-                        next: "Trang sau",
-                        first: "|<",
-                        last: ">|"
-                    }
-                },
-            "serverSide": "true",
-            "order": [0, "asc"],
-            "bLengthChange": false,
-            "bFilter": false,
-            "bInfo": false,
-            "bAutoWidth": false,
-            "initComplete": function () {
-                $("#pre-load").hide();
-            }
-        });
-        datatable_inside.ajax.reload();
+        listAllRecords();
     });
 
-    $(document).ready(function () {
+    $("#searchButton").click(function () {
+        datatable_inside.destroy();
+        listAllRecords();
+    });
+
+    function listAllRecords() {
         datatable_inside = $('#inside_table')
             .on('preXhr.dt', function (e, settings, data) {
                 $("#pre-load").show("slow", function () {
                 });
                 $("#pre-load").css("z-index", "99999");
-
             })
             .DataTable({
                 "ajax": {
@@ -930,17 +855,22 @@
                 "columns": [
                     { "data": "employee_id", "name": "employee_id", },
                     { "data": "employee_name", "name": "employee_name" },
-                    { "data": "date_of_birth", "name": "date_of_birth" },
+                    {
+                        "data": "date_of_birth", "name": "date_of_birth", "render": function (data) {
+                            return dateFormat(data);
+                        }
+                    },
                     { "data": "delivery_employee_name", "name": "delivery_employee_name" },
-                    { "data": "handover_employee_name", "name": "handover_employee_name" },
+                    {
+                        "data": "received_date", "name": "received_date", "render": function (data) {
+                            return dateFormat(data);
+                        }
+                    },
                     { "data": "management_employee_name", "name": "management_employee_name" },
                     {
-                        "data": {
-                            employee_id,
-                            records_id
-                        },
+                        "data": {},
                         "render": function (data, type, row) {
-                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px'><span class='fas fa-times-circle' onclick='deletePaper(" + data.employee_id +'|'+ data.records_id + ")'>Xóa</span></a>";
+                            return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' onclick='editRecord(" + data.employee_id +'|'+ data.records_id + ")'>Sửa</a>";
                         },
                         "orderable": false,
                         "searchable": false,
@@ -973,6 +903,29 @@
                 },
 
             });
-    });
+    }
+
+    function dateFormat(d) {
+        if (!d) {
+            return "";
+        } else {
+            var dateString = d.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            return (date);
+        }
+    }
+
+    function editRecord(item) {
+        item = item + '';
+        var token = item.split("|");
+        if (item != null) {
+            window.location.href ='@Url.Action("InsideDetail", "Brief")?employee_id=' + token[0];
+        }
+    }
+
 </script>
 

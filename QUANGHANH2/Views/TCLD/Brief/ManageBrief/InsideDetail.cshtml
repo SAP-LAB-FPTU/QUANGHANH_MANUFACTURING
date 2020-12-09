@@ -11,39 +11,39 @@
             <div class="row">
                 <div class="col m4">
                     <label class='custom-label'>Mã nhân viên</label>
-                    <input disabled type="text" id="cb_maNV" class="inputEdit form-control" />
+                    <input disabled type="text" id="cb_employee_id" class="inputEdit form-control" />
                 </div>
                 <div class="col m4">
                     <label class='custom-label'>Họ và tên</label>
-                    <input disabled type="text" id="cb_ten" class="inputEdit form-control" />
+                    <input disabled type="text" id="cb_full_name" class="inputEdit form-control" />
                 </div>
                 <div class="col m4">
                     <label class='custom-label'>Ngày sinh</label>
-                    <input disabled type="text" id="cb_ngaySinh" class="inputEdit form-control" />
+                    <input disabled type="text" id="cb_date_of_birth" class="inputEdit form-control" />
                 </div>
                 <div class="col m4">
                     <label class='custom-label'>Số chứng minh thư</label>
-                    <input disabled type="text" id="cb_cmt" class="inputEdit form-control" />
+                    <input disabled type="text" id="cb_identity_card" class="inputEdit form-control" />
                 </div>
                 <div class="col m4">
                     <label class='custom-label'>Số bảo hiểm xã hội</label>
-                    <input disabled type="text" id="cb_bhxh" class="inputEdit form-control" />
+                    <input disabled type="text" id="cb_social_insurance_number" class="inputEdit form-control" />
                 </div>
                 <div class="col m4">
                     <label class='custom-label'>Số điện thoại</label>
-                    <input disabled type="text" id="cb_sodienthoai" class="inputEdit form-control" />
+                    <input disabled type="text" id="cb_phone_number" class="inputEdit form-control" />
                 </div>
                 <div class="col m4">
                     <label class='custom-label'>Quê quán</label>
-                    <input disabled type="text" id="cb_quequan" class="inputEdit form-control" />
+                    <input disabled type="text" id="cb_home_town" class="inputEdit form-control" />
                 </div>
                 <div class="col m4">
                     <label class='custom-label'>Nơi ở hiện tại</label>
-                    <input disabled type="text" id="cb_noiohientai" class="inputEdit form-control" />
+                    <input disabled type="text" id="cb_current_residence" class="inputEdit form-control" />
                 </div>
                 <div class="col m4">
                     <label class='custom-label'>Trình độ học vấn</label>
-                    <input disabled type="text" id="cb_trinhdohocvan" class="inputEdit form-control" />
+                    <input disabled type="text" id="cb_academic_level" class="inputEdit form-control" />
                 </div>
             </div>
         </div>
@@ -59,23 +59,18 @@
                                 <th rowspan="2">Người giữ hồ sơ</th>
                                 <th rowspan="2">Ngày nhận hồ sơ</th>
                                 <th rowspan="2">Người giao hồ sơ</th>
-                                <th rowspan="2">Cam kết tuyển dụng</th>
                                 <th rowspan="2">Người bàn giao bằng nhập kho</th>
                                 <th colspan="4">Quyết định tiếp nhận đơn vị cũ</th>
                                 <th colspan="4">Quyết định chấm dứt đơn vị cũ</th>
                                 <th rowspan="2">Sửa</th>
                             </tr>
                             <tr>
-
-                                <th>Kiểu</th>
                                 <th>Ngày QD</th>
                                 <th>Ngày đi làm</th>
                                 <th>Đơn vị ký quyết định tiếp nhận</th>
                                 <th>Kiểu</th>
                                 <th>Ngày quyết định chấm dứt</th>
                                 <th>Ngày chấm dứt</th>
-                                <th>Đơn vị ký chấm dứt</th>
-
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -90,7 +85,7 @@
             <div id="hoso_giayto">
                 <div class="row table-responsive">
                     <br />
-                    <table id="giayto_detail" class="table table-bordered table-responsive centered highlight">
+                    <table id="paper_detail" class="table table-bordered table-responsive centered highlight">
                         <thead>
                             <tr>
 
@@ -140,7 +135,7 @@
             <div id="">
                 <div class="row table-responsive">
                     <br />
-                    <table id="chung_chi_chi_tiet" class="table table-bordered table-responsive centered highlight">
+                    <table id="certi_detail" class="table table-bordered table-responsive centered highlight">
                         <thead>
                             <tr>
                                 <th>Số hiệu</th>
@@ -163,7 +158,7 @@
             <div id="quan_he_gia_dinh">
                 <div class="row table-responsive">
                     <br />
-                    <table id="quanhe_detail" class="table table-bordered table-responsive centered highlight">
+                    <table id="relationship_detail" class="table table-bordered table-responsive centered highlight">
                         <thead>
                             <tr>
                                 <th>Loại gia đình</th>
@@ -209,50 +204,70 @@
 </div>
 
 
-<div id="myedit_suahoso" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Sửa hồ sơ</h3>
-        </div>
-        <div class="modal-body">
-            @Html.Action("EditHoSo", "Brief")
+<form action="" method="POST" id="submit_detail_record" role="form">
+    <div class="modal fade" id="edit_detail_record">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Sửa hồ sơ</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Người giữ hồ sơ </label>
+                            <div class="linedisplay">
+                                <input type="text" class="form-control" id="management_employee_name_edit" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Ngày nhận hồ sơ </label>
+                            <input type='text' class='datepicker-here form-control maxDate' data-language='vi' id="received_date_edit" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Ngày quyết định tuyển dụng : </label>
+                            <input type='text' class='datepicker-here form-control maxDate' data-language='vi' id="recruitment_decision_date_edit" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Người giao hồ sơ : </label>
+                            <input type="text" class="form-control" id="delivery_employee_name_edit" readonly />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Người bàn giao hồ sơ nhập kho : </label>
+                            <input type="text" class="form-control" id="handover_employee_name_edit" readonly />
+                        </div>
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="form-group">
+                            <label for="date">Đợn vị ký quyết định tiếp nhận : </label>
+                            <input type="text" class="form-control" id="department_name_edit" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Ngày đi làm : </label>
+                            <input type='text' class='datepicker-here form-control maxDate' data-language='vi' id="recruitment_date_edit" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Ngày chấm dứt : </label>
+                            <input type='text' class='datepicker-here form-control maxDate' data-language='vi' id="termination_date_edit" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Ngày quyết định chấm dứt : </label>
+                            <input type='text' class='datepicker-here form-control maxDate' data-language='vi' id="termination_decision_date_edit" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">Kiểu quyết định chấm dứt hợp đồng đơn vị cũ :</label>
+                            <input type="number" min="0" class="form-control number" id="termination_type_edit" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn blue darken-2 modal-close save-category">Lưu</button>
+                <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-edit-button">Thoát</button>
+            </div>
         </div>
     </div>
-</div>
-
-<div id="myedit_suabangcap" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Sửa bằng cấp</h3>
-        </div>
-        <div class="modal-body">
-            @Html.Action("EditHoSo", "Brief")
-        </div>
-    </div>
-</div>
-
-
-<div id="EditLichSuBoSung" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Sửa lịch sử bổ sung</h3>
-        </div>
-        <div class="modal-body">
-            @Html.Action("EditLichSuBoSung", "Brief")
-        </div>
-    </div>
-</div>
-
-<div id="EditQuanHeGiaDinh" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Sửa quan hệ gia đình</h3>
-        </div>
-        <div class="modal-body">
-            @Html.Action("EditQuanHeGiaDinh", "Brief")
-        </div>
-    </div>
-</div>
+</form>
 
 <div id="AddSyll" class="modal">
     <div class="modal-content">
@@ -260,7 +275,7 @@
             <h3 class="modal-title">Thêm sơ yếu lý lịch</h3>
         </div>
         <div class="modal-body">
-            @Html.Action("AddLichSuBoSung", "Brief")
+            @*@Html.Action("AddLichSuBoSung", "Brief")*@
         </div>
     </div>
 </div>
@@ -282,47 +297,41 @@
                     "datatype": "json"
                 },
                 "columns": [
-                    { "data": "nguoiGiuHoSo", "name": "nguoiGiuHoSo" },
+                    { "data": "management_employee_name", "name": "management_employee_name" },
                     {
-                        "data": "ngayNhanHoSo", "name": "ngayNhanHoSo", "render": function (data) {
+                        "data": "received_date", "name": "received_date", "render": function (data) {
                             return dateFormat(data);
                         },
                     },
-                    { "data": "nguoiGiaoHoSo", "name": "nguoiGiaoHoSo" },
-                    { "data": "camKetTuyenDung", "name": "camKetTuyenDung" },
-
-                    { "data": "nguoiBanGiaoBangNhapKho", "name": "nguoiBanGiaoBangNhapKho" },
-
-                    { "data": "quyetDinhTiepNhanDVC", "name": "quyetDinhTiepNhanDVC" },
-
+                    { "data": "delivery_employee_name", "name": "delivery_employee_name" },
+                    { "data": "handover_employee_name", "name": "handover_employee_name" },
                     {
-                        "data": "ngayQDTiepNhan", "name": "ngayQDTiepNhan", "render": function (data) {
+                        "data": "recruitment_decision_date", "name": "recruitment_decision_date", "render": function (data) {
                             return dateFormat(data);
                         },
                     },
                     {
-                        "data": "ngayDiLam", "name": "ngayDiLam", "render": function (data) {
+                        "data": "recruitment_date", "name": "recruitment_date", "render": function (data) {
                             return dateFormat(data);
                         },
                     },
-                    { "data": "donViKyQuyetDinhTiepNhan", "name": "donViKyQuyetDinhTiepNhan" },
-                    { "data": "quyetDinhChamDut", "name": "quyetDinhChamDut" },
+                    { "data": "department_name", "name": "department_name" },
+                    { "data": "termination_type", "name": "termination_type" },
 
                     {
-                        "data": "ngayQDChamDut", "name": "ngayQDChamDut", "render": function (data) {
+                        "data": "termination_decision_date", "name": "termination_decision_date", "render": function (data) {
                             return dateFormat(data);
                         },
                     },
 
                     {
-                        "data": "ngayChamDut", "name": "ngayChamDut", "render": function (data) {
+                        "data": "termination_date", "name": "termination_date", "render": function (data) {
                             return dateFormat(data);
                         },
                     },
-                    { "data": "donViKyChamDut", "name": "donViKyChamDut" },
-                                    {
-                    "data": "MaNV", "render": function (data) {
-                        return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='myedit_suahoso' style='margin-left:5px' onclick=getEditHs('"+data+"') ><i class=''></i> Sửa</a>";
+                    {
+                        "data": "employee_id", "render": function (data) {
+                            return "<a href=\"#edit_detail_record\" class='open-EditRecordDetail waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' data-employee=\"" + data + "\" ><i class=''></i> Sửa</a>";
                     },
                     "orderable": false,
                     "searchable": false,
@@ -347,19 +356,62 @@
             $("#pre-load").hide();
         });
 
-        function getEditHs(id) {
-
-            if (id != null) {
-                $.ajax({
-                    type: "GET",
-                    url: '@Url.Action("EditHoSo", "Brief")/' + id,
-                    success: function (data) {
-                        $("#hoso_edit_model").html(data)
-                    }
-
-                });
-            }
-    }
+        $(document).on("click", ".open-EditRecordDetail", function () {
+            $.ajax({
+                type: "POST",
+                url: "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-ho-so",
+                dataType: "json",
+                success: function (data) {
+                    $("#management_employee_name_edit").val(data.management_employee_name);
+                    $("#received_date_edit").val(data.received_date);
+                    $("#recruitment_decision_date_edit").val(data.recruitment_decision_date);
+                    $("#delivery_employee_name_edit").val(data.delivery_employee_name);
+                    $("#handover_employee_name_edit").val(data.handover_employee_name);
+                    $("#department_name_edit").val(data.department_name);
+                    $("#recruitment_date_edit").val(data.recruitment_date);
+                    $("#termination_date_edit").val(data.termination_date);
+                    $("#termination_decision_date_edit").val(data.termination_decision_date);
+                    $("#termination_type_edit").val(data.termination_type);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $.notify(XMLHttpRequest.responseText, {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                },
+                cache: false
+            })
+        });
+        $("#submit_detail_record").submit(function (e) {
+            $.ajax({
+                type: "POST",
+                url: "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-ho-so/edit",
+                dataType: "text",
+                success: function () {
+                    successAlert('Thành công', 'Chỉnh sửa thành công ');
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    errorAlert('Lỗi', 'Có lỗi xảy ra');
+                },
+                data: {
+                    management_employee_name: $("#management_employee_name_edit").val(),
+                    received_date: $("#received_date_edit").val(),
+                    recruitment_decision_date: $("#recruitment_decision_date_edit").val(),
+                    delivery_employee_name: $("#delivery_employee_name_edit").val(),
+                    handover_employee_name: $("#handover_employee_name_edit").val(),
+                    department_name: $("#department_name_edit").val(),
+                    recruitment_date: $("#recruitment_date_edit").val(),
+                    termination_date: $("#termination_date_edit").val(),
+                    termination_decision_date: $("#termination_decision_date_edit").val(),
+                    termination_type: $("#termination_type_edit").val(),
+                },
+                cache: false
+            }).done(function () {
+                $('#exit-edit-button').click();
+                datatable_hs.ajax.reload();
+            })
+            return false;
+        });
 
 </script>
 
@@ -367,19 +419,18 @@
 
     var datatable_chitiet, stt;
     $("#pre-load").show();
+
     $(document).ready(function () {
         getBasicInfo();
-        datatable_chitiet = $('#giayto_detail').DataTable({
+        datatable_paper_detail = $('#paper_detail').DataTable({
             "ajax": {
-                "url": '@Url.Action("listGiayTo", "Brief")',
+                "url": '/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-giay-to',
                 "type": "POST",
                 "datatype": "json"
             },
             "columns": [
-
-                { "data": "tenGiayTo", "name": "tenGiayTo" },
-                { "data": "kieuGiayTo", "name": "kieuGiayTo" },
-
+                { "data": "paper_name", "name": "paper_name" },
+                { "data": "type_name", "name": "type_name" },
             ],
             "language": {
                 "zeroRecords": "Không có dữ liệu",
@@ -396,51 +447,50 @@
             }, "bPaginate": false
         });
 
-        datatable_chitiet.ajax.reload();
+        //datatable_chitiet.ajax.reload();
         $("#pre-load").hide();
     });
+
     function getBasicInfo() {
         $.ajax({
             type: "POST",
             url: '@Url.Action("listNhanVien","Brief")',
             dataType: "json",
             success: function (data) {
-                $('#cb_maNV').val(data.data[0].maNV);
-                $('#cb_ten').val(data.data[0].ten);
-                $('#cb_ngaySinh').val(dateFormat(data.data[0].ngaySinh));
-                $('#cb_cmt').val(data.data[0].soCMND);
-                $('#cb_bhxh').val(data.data[0].soBHXH);
-                $('#cb_sodienthoai').val(data.data[0].soDT);
-                $('#cb_quequan').val(data.data[0].queQuan);
-                $('#cb_noiohientai').val(data.data[0].noiOHientai);
-                $('#cb_trinhdohocvan').val(data.data[0].trinhDoHocVan);
+                alert(data.full_name);
+                $('#cb_employee_id').val(data.employee_id);
+                $('#cb_full_name').val(data.full_name);
+                $('#cb_date_of_birth').val(dateFormat(data.date_of_birth));
+                $('#cb_identity_card').val(data.identity_card);
+                $('#cb_social_insurance_number').val(data.social_insurance_number);
+                $('#cb_phone_number').val(data.phone_number);
+                $('#cb_home_town').val(data.home_town);
+                $('#cb_current_residence').val(data.current_residence);
+                $('#cb_academic_level').val(data.academic_level);
             }
         });
     }
 
+
+
     var chungchichitiet, stt;
     $("#pre-load").show();
     $(document).ready(function () {
-
-        datatable_chitiet = $('#chung_chi_chi_tiet').DataTable({
+        datatable_certi_detail = $('#certi_detail').DataTable({
             "ajax": {
                 "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-chung-chi",
                 "type": "POST",
                 "datatype": "json"
             },
             "columns": [
-                { "data": "soHieu", "name": "soHieu" },
-                { "data": "tenChungChi", "name": "tenChungChi" },
-                { "data": "loai", "name": "loai" },
+                { "data": "papers_number", "name": "papers_number" },
+                { "data": "paper_name", "name": "paper_name" },
+                { "data": "type_name", "name": "type_name" },
                 {
-                    "data": "ngayCap", "name": "ngayCap", "render": function (data) {
+                    "data": "given_date", "name": "given_date", "render": function (data) {
                         return dateFormat(data);
                     },
                 }
-
-
-
-
             ],
             "serverSide": "true",
             "order": [0, "asc"],
@@ -456,10 +506,9 @@
             }, "bPaginate": false
         });
 
-        datatable_chitiet.ajax.reload();
+        datatable_certi_detail.ajax.reload();
         $("#pre-load").hide();
     });
-
 </script>
 
 
@@ -474,33 +523,19 @@
                 "datatype": "json"
             },
             "columns": [
-                { "data": "soHieu", "name": "soHieu" },
-                { "data": "loai", "name": "loai" },
-                { "data": "tenBangCap", "name": "tenBangCap" },
-                { "data": "kieu", "name": "kieu" },
-                { "data": "truong", "name": "truong" },
-                { "data": "chuyenNganh", "name": "chuyenNganh" },
-                { "data": "nganh", "name": "nganh" },
+                { "data": "papers_number", "name": "papers_number" },
+                { "data": "paper_storage_name", "name": "paper_storage_name" },
+                { "data": "papers_name", "name": "papers_name" },
+                { "data": "type_name", "name": "type_name" },
+                { "data": "school_name", "name": "school_name" },
+                { "data": "spe_name", "name": "spe_name" },
+                { "data": "career_name", "name": "career_name" },
                 {
-                    "data": "ngayCap", "name": "ngayCap", "render": function (data) {
+                    "data": "given_date", "name": "given_date", "render": function (data) {
                         return dateFormat(data);
                     },
                 },
-                { "data": "thoiHan", "name": "thoiHan" }
-
-
-
-
-
-                //{
-                //    "data": "MaNV", "render": function (data) {
-                //        return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='EditLichSuBoSung' style='margin-left:5px' onclick=getEditHs('" + data + "') ><i class=''></i> Sửa</a>";
-                //    },
-                //    "orderable": false,
-                //    "searchable": false,
-                //    "width": "150px"
-                //}
-
+                { "data": "duration", "name": "duration" }
             ],
             "serverSide": "true",
             "order": [0, "asc"],
@@ -519,43 +554,29 @@
         datatable.ajax.reload();
         $("#pre-load").hide();
     });
-            function editBangCap(id) {
-            alter(id);
-            if (id != null) {
-                $.ajax({
-                    type: "GET",
-                    url: '@Url.Action("EditChiTietbangCap", "Brief")/' + id,
-                    success: function (data) {
-                        $("#edit_chitietbangcap").html(data)
-                    }
-
-                });
-            }
-        }
 </script>
 
 <script>
     var datatable_quanhe, stt;
     $("#pre-load").show();
+
     $(document).ready(function () {
-        datatable_quanhe = $('#quanhe_detail').DataTable({
+        datatable_relationship = $('#relationship_detail').DataTable({
             "ajax": {
                 "url": '@Url.Action("quanHeGiadinh", "Brief")',
                 "type": "POST",
                 "datatype": "json"
             },
             "columns": [
-                { "data": "loaiGiaDinh", "name": "loaiGiaDinh" },
-                { "data": "moiQuanhe", "name": "moiQuanhe" },
-                { "data": "tenQH", "name": "tenQH" },
-
-
+                { "data": "type_family", "name": "type_family" },
+                { "data": "relationship", "name": "relationship" },
+                { "data": "full_name", "name": "full_name" },
                 {
-                    "data": "ngaySinh", "name": "ngaySinh", "render": function (data) {
+                    "data": "date_of_birth", "name": "date_of_birth", "render": function (data) {
                         return dateFormat(data);
                     },
                 },
-                { "data": "lyLich", "name": "lyLich" }
+                { "data": "background", "name": "background" }
 
 
             ],
@@ -575,22 +596,10 @@
             }, "bPaginate": false
         });
 
-        datatable_quanhe.ajax.reload();
+        datatable_relationship.ajax.reload();
         $("#pre-load").hide();
     });
-            function editBangCap(id) {
-            alter(id);
-            if (id != null) {
-                $.ajax({
-                    type: "GET",
-                    url: '@Url.Action("EditQuanHeGiaDinh", "Brief")/' + id,
-                    success: function (data) {
-                        $("#EditQuanHeGiaDinh").html(data)
-                    }
 
-                });
-            }
-        }
 </script>
 
 <script>
@@ -606,11 +615,11 @@
             },
             "columns": [
                 {
-                    "data": "namBoSung", "name": "namBoSung"
+                    "data": "additional_history_resume_year", "name": "additional_history_resume_year"
                 },
                 {
-                    "data": "maNV", "name": "maNV", "render": function (data) {
-                        return "<a class='waves-effect waves-light btn-small blue modal-trigger' data-target='EditLichSuBoSung' style='margin-left:5px' onclick=editSYLL('" + data + "') ><i class=''></i> Sửa</a>";
+                    "data": "employee_id", "name": "employee_id", "render": function (data) {
+                        return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' onclick=editSYLL('" + data + "') ><i class=''></i> Sửa</a>";
                     },
                     "orderable": false,
                     "searchable": false,
@@ -635,59 +644,53 @@
         datatable_syll.ajax.reload();
         $("#pre-load").hide();
     });
+
             function editSYLL(id) {
             if (id != null) {
                 $.ajax({
                     type: "GET",
-                    url: '@Url.Action("EditLichSuBoSung", "Brief")/' + id,
+                    url: '@Url.Action("EditLichSuBoSung", "Brief")',
                     success: function (data) {
-                        $("#myedit_syll").html(data)
+                        //$("#myedit_syll").html(data)
                     }
-
                 });
                 }
-                function SubmitForm(form) {
-                    $.validator.unobtrusive.parse(form);
-                    if ($(form).valid()) {
-                        $("#pre-load").show("slow", function () {
-                        });
-                        $("#pre-load").css("z-index", "99999");
-                        $.ajax({
-                            type: "POST",
-                            url: form.action,
-                            data: $(form).serialize(),
-                            success: function (data) {
-                                dataTable.ajax.reload();
-                                dataCertificateEmp.ajax.reload();
-                                $("#pre-load").hide("slow", function () {
-                                });
-                                successAlert('Thành công', '');
-                                $(".modal").modal();
-                            },
-                            error: function () {
-                                errorAlert('Lỗi', 'Thử lại');
-                            }
-                        })
-                    }
-                    return false;
-                }
+                //function SubmitForm(form) {
+                //    $.validator.unobtrusive.parse(form);
+                //    if ($(form).valid()) {
+                //        $("#pre-load").show("slow", function () {
+                //        });
+                //        $("#pre-load").css("z-index", "99999");
+                //        $.ajax({
+                //            type: "POST",
+                //            url: form.action,
+                //            data: $(form).serialize(),
+                //            success: function (data) {
+                //                dataTable.ajax.reload();
+                //                dataCertificateEmp.ajax.reload();
+                //                $("#pre-load").hide("slow", function () {
+                //                });
+                //                successAlert('Thành công', '');
+                //                $(".modal").modal();
+                //            },
+                //            error: function () {
+                //                errorAlert('Lỗi', 'Thử lại');
+                //            }
+                //        })
+                //    }
+                //    return false;
+                //}
     }
 
 
     function dateFormat(d) {
-        if (d != null && d != "") {
-            var dateString = d.substr(6);
-            var currentTime = new Date(parseInt(dateString));
-            var month = currentTime.getMonth() + 1;
-            var day = currentTime.getDate();
-            var year = currentTime.getFullYear();
-            var date = day + "/" + month + "/" + year;
-            return (date);
-        }
-        else {
-            return (d);
-        }
-
+        var dateString = d.substr(6);
+        var currentTime = new Date(parseInt(dateString));
+        var month = currentTime.getMonth() + 1;
+        var day = currentTime.getDate();
+        var year = currentTime.getFullYear();
+        var date = day + "/" + month + "/" + year;
+        return (date);
     }
 
 </script>
