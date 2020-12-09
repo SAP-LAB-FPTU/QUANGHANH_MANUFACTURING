@@ -23,7 +23,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             if (type == null) date = DateTime.Now.Date.ToString("dd/MM/yyyy");
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                List<GetPowerReport_Result> listdata = db.Database.SqlQuery<GetPowerReport_Result>("Equipment.GetPowerReport {0, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
+                List<GetPowerReport_Result> listdata = db.Database.SqlQuery<GetPowerReport_Result>("Equipment.GetPowerReport {0}, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
                 double totaltieuthu = 0; double totalsanluong = 0;
                 if (listdata != null)
                 {
@@ -46,7 +46,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
             if (type == null) date = DateTime.Now.Date.ToString("dd/MM/yyyy");
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                List<GetPowerReport_Result> listdata = db.Database.SqlQuery<GetPowerReport_Result>("Equipment.GetPowerReport {0, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
+                List<GetPowerReport_Result> listdata = db.Database.SqlQuery<GetPowerReport_Result>("Equipment.GetPowerReport {0}, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
                 var js = Json(new { success = true, data = listdata }, JsonRequestBehavior.AllowGet);
                 var dataserialize = new JavaScriptSerializer().Serialize(js.Data);
                 return js;
@@ -163,7 +163,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Report
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     if (type == null) date = DateTime.Now.Date.ToString("dd/MM/yyyy");
-                    List<GetPowerReport_Result> content = db.Database.SqlQuery<GetPowerReport_Result>("Equipment.GetPowerReport {0, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
+                    List<GetPowerReport_Result> content = db.Database.SqlQuery<GetPowerReport_Result>("Equipment.GetPowerReport {0}, {1}, {2}, {3}, {4}", type, date, month, quarter, year).ToList();
                     double totaltieuthu = 0; double totalsanluong = 0;
                     if (content != null)
                     {
