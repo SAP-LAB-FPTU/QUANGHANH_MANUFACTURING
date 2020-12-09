@@ -61,7 +61,7 @@
                             <th>Ngày gần nhất đi làm: </th>
                             @if (ViewBag.employee.nearest_working_date == null)
                             {
-                                <td></td>
+                                <td>Không có dữ liệu điểm danh</td>
                             }
                             else
                             {
@@ -106,19 +106,19 @@
                 "url": '@Url.Action("getDataHistoryWork", "WorkHistory")',
                 "type": "POST",
                 "datatype": "json",
-                "data": {"id": @ViewBag.MaNV},
+                "data": {"id": @ViewBag.employee.employee_id},
             },
             "columns": [
                 {
-                    "data": "NgayDiemDanh", "name": "NgayDiemDanh", "render": function (data) {
+                    "data": "attendance_date", "name": "attendance_date", "render": function (data) {
                         return dateFormat(data);
                     }
                 },
                 {
-                    "data": "Ca", "name": "Ca"
+                    "data": "shifts", "name": "shifts"
                 },
                 {
-                    "data": "GhiChu", "name": "GhiChu"
+                    "data": "note", "name": "note"
                 }
 
             ],
