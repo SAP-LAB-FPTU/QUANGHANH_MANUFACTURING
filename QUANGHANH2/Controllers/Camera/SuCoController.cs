@@ -145,27 +145,32 @@ namespace QUANGHANH2.Controllers.Camera
             {
                 var temp = dateStart.Split('-');
                 dtStart_0 = DateTime.ParseExact(temp[0].Trim(), "dd/MM/yyyy", null);
-                dtStart_1 = DateTime.ParseExact(temp[1].Trim(), "dd/MM/yyyy", null);
+                dtStart_1 = DateTime.ParseExact(temp[1].Trim(), "dd/MM/yyyy", null).AddDays(1);
             }
             else if (!string.IsNullOrEmpty(dateStart))
+            {
                 dtStart_0 = DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
+                dtStart_1 = dtStart_0.AddDays(1);
+            }
 
             if (dateEnd.Contains("-"))
             {
                 var temp = dateEnd.Split('-');
                 dtEnd_0 = DateTime.ParseExact(temp[0].Trim(), "dd/MM/yyyy", null);
-                dtEnd_1 = DateTime.ParseExact(temp[1].Trim(), "dd/MM/yyyy", null);
+                dtEnd_1 = DateTime.ParseExact(temp[1].Trim(), "dd/MM/yyyy", null).AddDays(1);
             }
-            else if (!string.IsNullOrEmpty(dateEnd))
+            else if (!string.IsNullOrEmpty(dateEnd)) {
                 dtEnd_0 = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
+                dtEnd_1 = dtEnd_0.AddDays(1);
+            }
 
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
             List<IncidentDB> incidents = (from r in db.Rooms
                                           join d in db.Departments on r.department_id equals d.department_id
                                           join ci in db.Incidents on r.room_id equals ci.room_id
-                                          where (dateStart.Contains("-") ? (ci.start_time >= dtStart_0 && ci.start_time <= dtStart_1) : (string.IsNullOrEmpty(dateStart) || ci.start_time == dtStart_0))
-                                          && (dateEnd.Contains("-") ? (ci.end_time >= dtEnd_0 && ci.end_time <= dtEnd_1) : (string.IsNullOrEmpty(dateEnd) || ci.end_time == dtEnd_0))
+                                          where (string.IsNullOrEmpty(dateStart) || (ci.start_time >= dtStart_0 && ci.start_time < dtStart_1))
+                                          && (string.IsNullOrEmpty(dateEnd) || (ci.end_time >= dtEnd_0 && ci.end_time < dtEnd_1))
                                           && d.department_name.Contains(depart)
                                           && r.room_name.Contains(room)
                                           select new IncidentDB
@@ -244,11 +249,7 @@ namespace QUANGHANH2.Controllers.Camera
             try
             {
                 QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-                string sql = @"select d.department_name, ci.incident_camera_quantity, r.room_name, ci.start_time, ci.end_time, ci.reason, ci.incident_id, DATEDIFF(HOUR, ci.start_time, ci.end_time) as time_different
-                            from Incident ci join Room r on ci.room_id = r.room_id
-	                            join Department d on r.department_id = d.department_id
-                            where ci.incident_id = @incident_id";
-                IncidentDB incidents = db.Database.SqlQuery<IncidentDB>(sql, new SqlParameter("incident_id", incident_id)).First();
+                IncidentDB incidents = db.Database.SqlQuery<IncidentDB>("[Camera].[Get_Incident_By_ID] {0}", incident_id).FirstOrDefault();
                 incidents.stringStartTime = incidents.start_time.ToString("HH:mm dd/MM/yyyy");
                 DateTime.TryParse(incidents.end_time.ToString(), out DateTime temp);
                 incidents.stringEndTime = temp.ToString("HH:mm dd/MM/yyyy");

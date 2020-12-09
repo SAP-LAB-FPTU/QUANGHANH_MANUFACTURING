@@ -357,6 +357,7 @@
     <Compile Include="Controllers\TCLD\Transfer\TransferController.cs" />
     <Compile Include="Controllers\TCLD\Employees\WorkHistoryController.cs" />
     <Compile Include="Controllers\TCLD\Work\WorkGroupTypeController.cs" />
+    <Compile Include="EntityResult\GetAccompaniedEquipmentWithName_Result.cs" />
     <Compile Include="EntityResult\GetChart_Result.cs" />
     <Compile Include="EntityResult\GetDashCam_Result.cs" />
     <Compile Include="EntityResult\GetDashRoom_Result.cs" />
@@ -385,6 +386,7 @@
     <Compile Include="EntityResult\GetSuggestSearch_Result.cs" />
     <Compile Include="EntityResult\GetUserFunction_Result.cs" />
     <Compile Include="EntityResult\GetWaterReport_Result.cs" />
+    <Compile Include="EntityResult\GetWorkHistory_Result.cs" />
     <Compile Include="EntityResult\Transfer_SelectAllAvailableEmployee_Result.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -7559,7 +7561,7 @@
     <Content Include="Views\Camera\Quyetdinh\SuaChua\ChiTiet.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\DanhSach.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\ChonThietBi.cshtml" />
-    <Content Include="Views\Camera\Quyetdinh\SuaChua\ThemQuyetDinh.cshtml" />
+    <Content Include="Views\Camera\Quyetdinh\SuaChua\Them.cshtml" />
     <Content Include="Views\Camera\SuCo.cshtml" />
     <Content Include="Views\TCLD\Work\WorkGroup.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\DSQDChuaxuly.cshtml" />

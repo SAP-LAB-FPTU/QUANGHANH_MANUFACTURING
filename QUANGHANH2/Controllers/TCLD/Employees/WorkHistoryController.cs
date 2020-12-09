@@ -13,13 +13,6 @@ namespace QUANGHANH2.Controllers.TCLD
 {
     public class WorkHistoryController : Controller
     {
-     
-        //[Route("phong-tcld/quan-ly-nhan-vien/lich-su-lam-viec")]
-        //public ActionResult WorkHistory()
-        //{
-        //    return View("/Views/TCLD/Brief/WorkHistory.cshtml");
-        //}
-
         [Route("phong-tcld/quan-ly-nhan-vien/lich-su-lam-viec")]
         public ActionResult workHistoryOfEmployee(string id)
         {
@@ -50,8 +43,11 @@ namespace QUANGHANH2.Controllers.TCLD
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     db.Configuration.LazyLoadingEnabled = false;
-                    List<DiemDanh> listDiemDanhById = db.Database.SqlQuery<DiemDanh>("select h.NgayDiemDanh, h.Ca, d.GhiChu from Header_DiemDanh_NangSuat_LaoDong h inner join DiemDanh_NangSuatLaoDong d on h.HeaderID = d.HeaderID where d.MaNV = @MaNV order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY", new SqlParameter("MaNV", id)).ToList();
-                    int totalrows = db.Database.SqlQuery<int>("select count(h.NgayDiemDanh) from Header_DiemDanh_NangSuat_LaoDong h inner join DiemDanh_NangSuatLaoDong d on h.HeaderID = d.HeaderID where d.MaNV = @MaNV", new SqlParameter("MaNV", id)).FirstOrDefault();
+                    List<GetWorkHistory_Result> listDiemDanhById = db.Database.SqlQuery<GetWorkHistory_Result>
+                        (@"[Manufacturing].GetWorkHistory {0}, {1}, {2}, {3}, {4}", 
+                        id, sortDirection, sortColumnName, start, length).ToList();
+                    int totalrows = db.Database.SqlQuery<int>
+                        (@"[Manufacturing].GetCountWorkHistory {0}", id).FirstOrDefault();
 
                     return Json(new { success = true, data = listDiemDanhById, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet); ;
                 }
@@ -61,14 +57,5 @@ namespace QUANGHANH2.Controllers.TCLD
                 return null;
             }
         }
-
-        private class DiemDanh
-        {
-            public DateTime NgayDiemDanh { get; set; }
-            public int Ca { get; set; }
-            public string GhiChu { get; set; }
-        }
-
-        
     }
 }
