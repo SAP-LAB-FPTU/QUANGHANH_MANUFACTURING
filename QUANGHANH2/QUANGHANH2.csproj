@@ -7559,7 +7559,7 @@
     <Content Include="Views\Camera\Quyetdinh\SuaChua\ChiTiet.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\DanhSach.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\SuaChua\ChonThietBi.cshtml" />
-    <Content Include="Views\Camera\Quyetdinh\SuaChua\ThemQuyetDinh.cshtml" />
+    <Content Include="Views\Camera\Quyetdinh\SuaChua\Them.cshtml" />
     <Content Include="Views\Camera\SuCo.cshtml" />
     <Content Include="Views\TCLD\Work\WorkGroup.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\DSQDChuaxuly.cshtml" />

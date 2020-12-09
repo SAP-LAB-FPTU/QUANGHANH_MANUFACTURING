@@ -37,16 +37,22 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh
 
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
-                string query = "select r.room_id, r.room_name, d.department_name, r.camera_available, r.camera_quantity " +
-                    "from Room r inner join Department d on r.department_id = d.department_id " +
-                    "where r.room_name like @room_name and d.department_name like @department_name and r.camera_quantity > 0 and r.camera_available < r.camera_quantity";
-                List<RoomList> rooms = db.Database.SqlQuery<RoomList>(query + " order by " + sortColumnName + " " + sortDirection + " offset " + start + " rows fetch next " + length + "rows only",
-                    new SqlParameter("room_name", '%' + room_name + '%'),
-                    new SqlParameter("department_name", '%' + department_name + '%')).ToList();
+                List<RoomList> rooms = (from r in db.Rooms
+                                        join d in db.Departments on r.department_id equals d.department_id
+                                        where r.room_name.Contains(room_name) && d.department_name.Contains(department_name) && r.camera_quantity > 0 && r.camera_available < r.camera_quantity
+                                        select new RoomList
+                                        {
+                                            room_id = r.room_id,
+                                            room_name = r.room_name,
+                                            department_name = d.department_name,
+                                            camera_available = r.camera_available,
+                                            camera_quantity = r.camera_quantity
+                                        }).ToList();
 
-                int totalrows = db.Database.SqlQuery<int>(query.Replace("r.room_id, r.room_name, d.department_name, r.camera_available, r.camera_quantity", "count(r.room_id)"),
-                    new SqlParameter("room_name", '%' + room_name + '%'),
-                    new SqlParameter("department_name", '%' + department_name + '%')).FirstOrDefault();
+                int totalrows = (from r in db.Rooms
+                                 join d in db.Departments on r.department_id equals d.department_id
+                                 where r.room_name.Contains(room_name) && d.department_name.Contains(department_name) && r.camera_quantity > 0 && r.camera_available < r.camera_quantity
+                                 select r).Count();
 
                 var listSelect = Request["room_id"];
                 if (listSelect != null)

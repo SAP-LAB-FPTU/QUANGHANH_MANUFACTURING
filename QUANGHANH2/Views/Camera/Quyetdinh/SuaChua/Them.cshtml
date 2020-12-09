@@ -18,7 +18,7 @@
                 {
                     <div class="col s3 m3">
                         <label>Sửa chữa tại :</label>
-                        <input id="department_id" class="form-control" required list="departmentName" />
+                        <input id="department_id_to" class="form-control" required list="departmentName" />
                     </div>
                     <div class="col s3 m3">
                         <label>Nguồn vốn :</label>
@@ -269,7 +269,7 @@
                 dataType: "json",
                 cache: false,
                 data: {
-                    department_id: $('#department_id').val(),
+                    department_id: $('#department_id_to').val(),
                     out_in_come: $('#out_in_come').val(),
                     data: JSON.stringify(output),
                     reason: $('#reason').val()
@@ -285,11 +285,28 @@
             })
         })
 
-        $("#export-button").click(function () {
-            window.location = '/phong-cdvt/quyet-dinh/export-word?data=' + JSON.stringify(output)
-                + '&title=' + $('#reason').val() + '&department_id='
-                + $('#department_id').val() + '&documentary_type=' + 8
-                + '&fileName=Quyết định sửa chữa.docx' + '&resource=' + $('#out_in_come').val()
-        });
+        $('#export-button').click(function () {
+            $('#pre-load').show();
+            $.ajax({
+                url: "/phong-cdvt/quyet-dinh/camera/them/export",
+                method: "get",
+                cache: false,
+                data: {
+                    data: JSON.stringify(output),
+                    out_in_come: $('#out_in_come').val(),
+                    reason: $('#reason').val(),
+                    department_id_to: $('#department_id_to').val(),
+                },
+                success: function (data) {
+                    window.location = '/phong-cdvt/quyet-dinh/bao-duong/them/export?data=' + JSON.stringify(output)
+                        + '&out_in_come=' + $('#out_in_come').val() + '&reason=' + $('#reason').val() + '&department_id_to=' + $('#department_id_to').val();
+                    $('#pre-load').hide();
+                },
+                error: function () {
+                    errorAlert("Có lỗi xảy ra");
+                    $('#pre-load').hide();
+                }
+            })
+        })
     </script>
 }
