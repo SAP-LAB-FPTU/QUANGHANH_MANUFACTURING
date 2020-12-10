@@ -21,7 +21,7 @@ namespace QUANGHANH2.Models
             this.Recruitments = new HashSet<Recruitment>();
             this.Transfers = new HashSet<Transfer>();
             this.Transfers1 = new HashSet<Transfer>();
-            this.WorkGroups = new HashSet<WorkGroup>();
+            this.WorkWorkGroups = new HashSet<WorkWorkGroup>();
         }
     
         public int work_id { get; set; }
@@ -39,6 +39,6 @@ namespace QUANGHANH2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transfer> Transfers1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WorkGroup> WorkGroups { get; set; }
+        public virtual ICollection<WorkWorkGroup> WorkWorkGroups { get; set; }
     }
 }

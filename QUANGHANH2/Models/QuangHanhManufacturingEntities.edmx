@@ -900,9 +900,9 @@
         </EntityType>
         <EntityType Name="WorkWorkGroup">
           <Key>
-            <PropertyRef Name="work_id" />
-            <PropertyRef Name="work_group_id" />
+            <PropertyRef Name="work_work_group_id" />
           </Key>
+          <Property Name="work_work_group_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="work_id" Type="int" Nullable="false" />
           <Property Name="work_group_id" Type="int" Nullable="false" />
         </EntityType>
@@ -3485,19 +3485,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__WorkWorkG__work___1699586C">
-          <End Role="Work" Type="Self.Work" Multiplicity="1" />
-          <End Role="WorkWorkGroup" Type="Self.WorkWorkGroup" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Work">
-              <PropertyRef Name="work_id" />
-            </Principal>
-            <Dependent Role="WorkWorkGroup">
-              <PropertyRef Name="work_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__WorkWorkG__work___27C3E46E">
+        <Association Name="FK__WorkWorkG__work___004002F9">
           <End Role="WorkGroup" Type="Self.WorkGroup" Multiplicity="1" />
           <End Role="WorkWorkGroup" Type="Self.WorkWorkGroup" Multiplicity="*" />
           <ReferentialConstraint>
@@ -3506,6 +3494,18 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
             </Principal>
             <Dependent Role="WorkWorkGroup">
               <PropertyRef Name="work_group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__WorkWorkG__work___7F4BDEC0">
+          <End Role="Work" Type="Self.Work" Multiplicity="1" />
+          <End Role="WorkWorkGroup" Type="Self.WorkWorkGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Work">
+              <PropertyRef Name="work_id" />
+            </Principal>
+            <Dependent Role="WorkWorkGroup">
+              <PropertyRef Name="work_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4431,12 +4431,12 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
             <End Role="Employee" EntitySet="Employee" />
             <End Role="WorkingProcess" EntitySet="WorkingProcess" />
           </AssociationSet>
-          <AssociationSet Name="FK__WorkWorkG__work___1699586C" Association="Self.FK__WorkWorkG__work___1699586C">
-            <End Role="Work" EntitySet="Work" />
+          <AssociationSet Name="FK__WorkWorkG__work___004002F9" Association="Self.FK__WorkWorkG__work___004002F9">
+            <End Role="WorkGroup" EntitySet="WorkGroup" />
             <End Role="WorkWorkGroup" EntitySet="WorkWorkGroup" />
           </AssociationSet>
-          <AssociationSet Name="FK__WorkWorkG__work___27C3E46E" Association="Self.FK__WorkWorkG__work___27C3E46E">
-            <End Role="WorkGroup" EntitySet="WorkGroup" />
+          <AssociationSet Name="FK__WorkWorkG__work___7F4BDEC0" Association="Self.FK__WorkWorkG__work___7F4BDEC0">
+            <End Role="Work" EntitySet="Work" />
             <End Role="WorkWorkGroup" EntitySet="WorkWorkGroup" />
           </AssociationSet>
           <AssociationSet Name="FK_Employee_Department" Association="Self.FK_Employee_Department">
@@ -5614,7 +5614,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
           <NavigationProperty Name="Recruitments" Relationship="Self.FK__Recruitme__work___038683F8" FromRole="Work" ToRole="Recruitment" />
           <NavigationProperty Name="Transfers" Relationship="Self.FK__Transfer__new_wo__10E07F16" FromRole="Work" ToRole="Transfer" />
           <NavigationProperty Name="Transfers1" Relationship="Self.FK__Transfer__old_wo__13BCEBC1" FromRole="Work" ToRole="Transfer" />
-          <NavigationProperty Name="WorkGroups" Relationship="Self.WorkWorkGroup" FromRole="Work" ToRole="WorkGroup" />
+          <NavigationProperty Name="WorkWorkGroups" Relationship="Self.FK__WorkWorkG__work___7F4BDEC0" FromRole="Work" ToRole="WorkWorkGroup" />
         </EntityType>
         <EntityType Name="WorkGroup">
           <Key>
@@ -5624,8 +5624,8 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
           <Property Name="acronym" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="work_group_type_id" Type="Int32" />
+          <NavigationProperty Name="WorkWorkGroups" Relationship="Self.FK__WorkWorkG__work___004002F9" FromRole="WorkGroup" ToRole="WorkWorkGroup" />
           <NavigationProperty Name="WorkGroupType" Relationship="Self.FK_WorkGroup_WorkGroupType" FromRole="WorkGroup" ToRole="WorkGroupType" />
-          <NavigationProperty Name="Works" Relationship="Self.WorkWorkGroup" FromRole="WorkGroup" ToRole="Work" />
         </EntityType>
         <EntityType Name="WorkGroupType">
           <Key>
@@ -5647,6 +5647,16 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
           <Property Name="date_end" Type="DateTime" Precision="0" />
           <Property Name="employee_id" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Employee" Relationship="Self.FK__WorkingPr__emplo__39AD8A7F" FromRole="WorkingProcess" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="WorkWorkGroup">
+          <Key>
+            <PropertyRef Name="work_work_group_id" />
+          </Key>
+          <Property Name="work_work_group_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="work_id" Type="Int32" Nullable="false" />
+          <Property Name="work_group_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Work" Relationship="Self.FK__WorkWorkG__work___7F4BDEC0" FromRole="WorkWorkGroup" ToRole="Work" />
+          <NavigationProperty Name="WorkGroup" Relationship="Self.FK__WorkWorkG__work___004002F9" FromRole="WorkWorkGroup" ToRole="WorkGroup" />
         </EntityType>
         <EntityType Name="AbsenceReason">
           <Key>
@@ -7970,6 +7980,30 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__WorkWorkG__work___7F4BDEC0">
+          <End Role="Work" Type="Self.Work" Multiplicity="1" />
+          <End Role="WorkWorkGroup" Type="Self.WorkWorkGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Work">
+              <PropertyRef Name="work_id" />
+            </Principal>
+            <Dependent Role="WorkWorkGroup">
+              <PropertyRef Name="work_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__WorkWorkG__work___004002F9">
+          <End Role="WorkGroup" Type="Self.WorkGroup" Multiplicity="1" />
+          <End Role="WorkWorkGroup" Type="Self.WorkWorkGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkGroup">
+              <PropertyRef Name="work_group_id" />
+            </Principal>
+            <Dependent Role="WorkWorkGroup">
+              <PropertyRef Name="work_group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WorkGroup_WorkGroupType">
           <End Role="WorkGroupType" Type="Self.WorkGroupType" Multiplicity="0..1" />
           <End Role="WorkGroup" Type="Self.WorkGroup" Multiplicity="*" />
@@ -8366,10 +8400,6 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="WorkWorkGroup">
-          <End Role="Work" Type="Self.Work" Multiplicity="*" />
-          <End Role="WorkGroup" Type="Self.WorkGroup" Multiplicity="*" />
-        </Association>
         <EntityContainer Name="QuangHanhManufacturingEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Accounts" EntityType="Self.Account" />
           <EntitySet Name="Account_Right" EntityType="Self.Account_Right" />
@@ -8450,6 +8480,7 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
           <EntitySet Name="WorkGroups" EntityType="Self.WorkGroup" />
           <EntitySet Name="WorkGroupTypes" EntityType="Self.WorkGroupType" />
           <EntitySet Name="WorkingProcesses" EntityType="Self.WorkingProcess" />
+          <EntitySet Name="WorkWorkGroups" EntityType="Self.WorkWorkGroup" />
           <EntitySet Name="AbsenceReasons" EntityType="Self.AbsenceReason" />
           <EntitySet Name="AbsenceReasonTypes" EntityType="Self.AbsenceReasonType" />
           <EntitySet Name="Criteria" EntityType="Self.Criterion" />
@@ -9103,6 +9134,14 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
             <End Role="Work" EntitySet="Works" />
             <End Role="Transfer" EntitySet="Transfers" />
           </AssociationSet>
+          <AssociationSet Name="FK__WorkWorkG__work___7F4BDEC0" Association="Self.FK__WorkWorkG__work___7F4BDEC0">
+            <End Role="Work" EntitySet="Works" />
+            <End Role="WorkWorkGroup" EntitySet="WorkWorkGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK__WorkWorkG__work___004002F9" Association="Self.FK__WorkWorkG__work___004002F9">
+            <End Role="WorkGroup" EntitySet="WorkGroups" />
+            <End Role="WorkWorkGroup" EntitySet="WorkWorkGroups" />
+          </AssociationSet>
           <AssociationSet Name="FK_WorkGroup_WorkGroupType" Association="Self.FK_WorkGroup_WorkGroupType">
             <End Role="WorkGroupType" EntitySet="WorkGroupTypes" />
             <End Role="WorkGroup" EntitySet="WorkGroups" />
@@ -9234,10 +9273,6 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
           <AssociationSet Name="FK__RepairReg__suppl__66B53B20" Association="Self.FK__RepairReg__suppl__66B53B20">
             <End Role="Supply" EntitySet="Supplies" />
             <End Role="RepairRegularly1" EntitySet="RepairRegularly1" />
-          </AssociationSet>
-          <AssociationSet Name="WorkWorkGroup" Association="Self.WorkWorkGroup">
-            <End Role="Work" EntitySet="Works" />
-            <End Role="WorkGroup" EntitySet="WorkGroups" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -10200,6 +10235,15 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="WorkWorkGroups">
+            <EntityTypeMapping TypeName="QuangHanhManufacturingModel.WorkWorkGroup">
+              <MappingFragment StoreEntitySet="WorkWorkGroup">
+                <ScalarProperty Name="work_work_group_id" ColumnName="work_work_group_id" />
+                <ScalarProperty Name="work_id" ColumnName="work_id" />
+                <ScalarProperty Name="work_group_id" ColumnName="work_group_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="AbsenceReasons">
             <EntityTypeMapping TypeName="QuangHanhManufacturingModel.AbsenceReason">
               <MappingFragment StoreEntitySet="AbsenceReason">
@@ -10574,14 +10618,6 @@ error 6004: The table 'QuangHanhManufacturing.Manufacturing.RealityManufacturing
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="WorkWorkGroup" TypeName="QuangHanhManufacturingModel.WorkWorkGroup" StoreEntitySet="WorkWorkGroup">
-            <EndProperty Name="Work">
-              <ScalarProperty Name="work_id" ColumnName="work_id" />
-            </EndProperty>
-            <EndProperty Name="WorkGroup">
-              <ScalarProperty Name="work_group_id" ColumnName="work_group_id" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
