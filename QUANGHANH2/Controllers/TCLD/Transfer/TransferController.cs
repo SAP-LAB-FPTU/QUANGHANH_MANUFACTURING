@@ -119,48 +119,36 @@ namespace QUANGHANHCORE.Controllers.TCLD
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                string sql = "SELECT  A.*,B.department_name,C.TenCongViec,D.BASIC_INFO_full_nameTrangThai\n" +
-            "FROM\n" +
-            "(\n" +
-            "(SELECT * FROM NhanVien) A\n" +
-            "left OUTER JOIN\n" +
-            "(SELECT department_id, department_name FROM Department) B on A.current_department_id = B.department_id\n" +
-            "left OUTER JOIN\n" +
-            "(SELECT MaCongViec, TenCongViec FROM CongViec) C on A.work_id = C.work_id\n" +
-            "left OUTER JOIN\n" +
-            "(SELECT MaTrangThai, TenTrangThai FROM TrangThai) D on A.MaTrangThai = D.MaTrangThai\n" +
-            ")";
-
                 if ((searchMa != "" || searchTen != "" || chucVuSearch != "-1" || phongbanSearch != "-1"))
                 {
-                    sql += " where ";
-                    sql += searchMa == "" ? "" : " A.employee_id in (" + searchMa + ") AND";
-                    sql += searchTen == "" ? "" : " A.BASIC_INFO_full_name like @tenNV AND";
-                    sql += phongbanSearch == "-1" ? "" : " A.current_department_id = @maPhongBan AND";
-                    sql += chucVuSearch == "-1" ? "" : " A.work_id = @maCongViec AND";
-                    sql = sql.Substring(0, sql.Length - 4).Trim();
-                    sql += " AND A.MaTrangThai<>2";
+                    listNhanVien = db.Database.SqlQuery<Transfer_SelectAllAvailableEmployee_Result>("HumanResources.Transfer_SelectAllAvailableEmployee @sortColumnName ,@sortDirection ,@start , @length,  @searchMa, @searchTen, @phongbanSearch, @chucVuSearch",
+                        new SqlParameter("sortColumnName", sortColumnName),
+                        new SqlParameter("sortDirection", sortDirection),
+                        new SqlParameter("start", start.ToString()),
+                        new SqlParameter("length", length.ToString()),
+                        new SqlParameter("searchMa", searchMa),
+                        new SqlParameter("searchTen", searchTen),
+                        new SqlParameter("phongbanSearch", phongbanSearch == "-1" ? "" : phongbanSearch),
+                        new SqlParameter("chucVuSearch", chucVuSearch == "-1" ? "" : chucVuSearch)).ToList();
                 }
                 else
                 {
-                    //sql += " WHERE A.MaTrangThai<>2";
-                    listNhanVien = db.Database.SqlQuery<Transfer_SelectAllAvailableEmployee_Result>("HumanResources.Transfer_SelectAllAvailableEmployee @sortColumnName ,@sortDirection ,@start , @length ",
+                    listNhanVien = db.Database.SqlQuery<Transfer_SelectAllAvailableEmployee_Result>("HumanResources.Transfer_SelectAllAvailableEmployee @sortColumnName ,@sortDirection ,@start , @length, @searchMa, @searchTen, @phongbanSearch, @chucVuSearch",
                         new SqlParameter("sortColumnName", sortColumnName),
                         new SqlParameter("sortDirection", sortDirection),
-                        new SqlParameter("start", start),
-                        new SqlParameter("length", length)).ToList();
+                        new SqlParameter("start", start.ToString()),
+                        new SqlParameter("length", length.ToString()),
+                        new SqlParameter("searchMa", searchMa),
+                        new SqlParameter("searchTen", searchTen),
+                        new SqlParameter("phongbanSearch", phongbanSearch=="-1"?"":phongbanSearch),
+                        new SqlParameter("chucVuSearch", chucVuSearch=="-1"?"":chucVuSearch)).ToList();
                 }
-                //sql += sql.Contains("where") ? " AND A.MaTrangThai<>2" : " WHERE A.MaTrangThai<>2";
-                //listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
-                //    new SqlParameter("tenNV", "%" + searchTen + "%"),
-                //    new SqlParameter("maPhongBan", phongbanSearch),
-                //    new SqlParameter("maCongViec", chucVuSearch)
-                //    ).ToList();
-                //totalrows = db.Database.SqlQuery<Int32>(sql.Replace("A.*,B.department_name,C.TenCongViec,D.BASIC_INFO_full_nameTrangThai", "Count(*) as count"),
-                //    new SqlParameter("tenNV", "%" + searchTen + "%"),
-                //    new SqlParameter("maPhongBan", phongbanSearch),
-                //    new SqlParameter("maCongViec", chucVuSearch)).ToList<Int32>()[0];
-                totalrows = db.Database.SqlQuery<Int32>("HumanResources.Transfer_GetCountOfAvailableEmployee").ToList<Int32>()[0];
+
+                totalrows = db.Database.SqlQuery<Int32>("HumanResources.Transfer_GetCountOfAvailableEmployee @searchMa, @searchTen, @phongbanSearch, @chucVuSearch",
+                        new SqlParameter("searchMa", searchMa),
+                        new SqlParameter("searchTen", searchTen),
+                        new SqlParameter("phongbanSearch", phongbanSearch == "-1" ? "" : phongbanSearch),
+                        new SqlParameter("chucVuSearch", chucVuSearch == "-1" ? "" : chucVuSearch)).ToList<Int32>()[0];
 
             }
             return Json(new { success = true, totalrows = totalrows, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
