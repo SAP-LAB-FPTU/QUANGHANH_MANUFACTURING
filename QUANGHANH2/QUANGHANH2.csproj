@@ -384,6 +384,7 @@
     <Compile Include="EntityResult\GetDepartmentJobDetailByEmployeeID_Result.cs" />
     <Compile Include="EntityResult\GetListCamera_Result.cs" />
     <Compile Include="EntityResult\GetSuggestSearch_Result.cs" />
+    <Compile Include="EntityResult\GetTranferHistory_Result.cs" />
     <Compile Include="EntityResult\GetUserFunction_Result.cs" />
     <Compile Include="EntityResult\GetWaterReport_Result.cs" />
     <Compile Include="EntityResult\GetWorkHistory_Result.cs" />
