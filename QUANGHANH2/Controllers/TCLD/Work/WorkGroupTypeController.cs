@@ -1,151 +1,180 @@
-﻿//using QUANGHANH2.Models;
-//using System;
-//using System.Collections.Generic;
-//using System.Data.SqlClient;
-//using System.Linq;
-//using System.Web;
-//using System.Web.Mvc;
+﻿using QUANGHANH2.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
-//namespace QUANGHANH2.Controllers.TCLD
-//{
-//    public class WorkGroupTypeController : Controller
-//    {
-//        [Route("phong-tcld/quan-ly-dien-cong-viec")]
-//        public ActionResult index()
-//        {
-//            return View("/Views/TCLD/Occupation/SideOccupation.cshtml");
-//        }
+namespace QUANGHANH2.Controllers.TCLD
+{
+    public class WorkGroupTypeController : Controller
+    {
+        [Route("phong-tcld/quan-ly-loai-cong-viec")]
+        public ActionResult index()
+        {
+            return View("/Views/TCLD/Work/WorkGroupType.cshtml");
+        }
 
-//        //////////////////////////////LIST///////////////////////////////
-//        [Route("phong-tcld/quan-ly-dien-cong-viec/danh-sach-dien-cong-viec")]
-//        [HttpGet]
-//        public ActionResult listSideOccupation()
-//        {
-//            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-//            {
-//                db.Configuration.LazyLoadingEnabled = true;
-//                try
-//                {
-//                    var sqlList = (from x in db.DienCongViecs
-//                                   select new { MaDienCongViec = x.MaDienCongViec, TenDienCongViec = x.TenDienCongViec }).ToList();
-//                    return Json(new { sqlList = sqlList, success = true }, JsonRequestBehavior.AllowGet);
-//                }
-//                catch (Exception e)
-//                {
+        //////////////////////////////LIST///////////////////////////////
+        [Route("phong-tcld/quan-ly-loai-cong-viec/danh-sach-loai-cong-viec")]
+        [HttpGet]
+        public ActionResult list()
+        {
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+            {
+                try
+                {
+                    //search
+                    string search_work_group_type_name = Request["search_work_group_type_name"];
 
-//                }
-//            }
-//            return null;
-//        }
+                    //get data's table to paging
+                    int start = Convert.ToInt32(Request["start"]);
+                    int length = Convert.ToInt32(Request["length"]);
+                    string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                    string sortDirection = Request["order[0][dir]"];
 
-//        //////////////////////////////ADD////////////////////////////////
-//        [Route("phong-tcld/quan-ly-dien-cong-viec/them-dien-cong-viec")]
-//        [HttpPost]
-//        public ActionResult add()
-//        {
-//            try
-//            {
-//                var TenDienCongViec = Request["TenDienCongViec"];
-//                if (TenDienCongViec == null || TenDienCongViec == "")
-//                {
-//                    return Json(new { error = true, message = "Tên diện công việc không thể để trống." });
-//                }
-//                else
-//                {
-//                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-//                    {
-//                        DienCongViec dcv = db.DienCongViecs.Where(x => x.TenDienCongViec.Equals(TenDienCongViec)).FirstOrDefault();
-//                        if (dcv == null)
-//                        {
-//                            dcv = new DienCongViec();
-//                            dcv.TenDienCongViec = TenDienCongViec;
-//                            db.DienCongViecs.Add(dcv);
-//                            db.SaveChanges();
-//                            return Json(new { success = true, message = "Thao tác thành công." });
-//                        }
-//                        else
-//                        {
-//                            return Json(new { error = true, message = "Đã có tên diện công việc." });
-//                        }
-//                    }
-//                }
-//            }
-//            catch (Exception e)
-//            {
-//                return Json(new { error = true, message = "Có lỗi xảy ra." });
-//            }
-//        }
+                    List<WorkGroupType> workGroupTypes = db.Database.SqlQuery<WorkGroupType>("HumanResources.GetDataWorkGroupTypes {0}, {1}, {2}, {3}, {4}, {5}, {6}",
+                        "", search_work_group_type_name, sortColumnName, sortDirection, start, length, "DataTable").ToList();
 
-//        ///////////////////////////////GET TenDienCongViec By MaDienCongViec/////////////////////////////////
-//        [Route("phong-tcld/quan-ly-dien-cong-viec/lay-tendiencongviec-theo-madiencongviec")]
-//        [HttpPost]
-//        public ActionResult getData()
-//        {
-//            try
-//            {
-//                var MaDienCongViec = Request["MaDienCongViec"];
-//                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-//                {
-//                    var sqlGet = @"select * from DienCongViec where MaDienCongViec = @madiencongviec";
-//                    var TenDienCongViec = db.Database.SqlQuery<DienCongViec>(sqlGet, new SqlParameter("madiencongviec", MaDienCongViec)).FirstOrDefault();
-//                    return Json(new { success = true, TenDienCongViec = TenDienCongViec.TenDienCongViec });
-//                };
-//            }
-//            catch (Exception e)
-//            {
-//                return Json(new { error = true, message = "Có lỗi xảy ra." });
-//            }
-//        }
+                    int totalrows = db.WorkGroupTypes.Count();
+                    int totalrowsafterfiltering = totalrows;
+                    return Json(new { workGroupTypes = workGroupTypes, recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
 
-//        /////////////////////////////////////////////UPDATE///////////////////////////////////////////////
-//        [Route("phong-tcld/quan-ly-dien-cong-viec/cap-nhat-tendiencongviec")]
-//        [HttpPost]
-//        public ActionResult update()
-//        {
-//            try
-//            {
-//                var MaDienCongViec = Request["MaDienCongViec"];
-//                var TenDienCongViec = Request["TenDienCongViec"];
-//                if (TenDienCongViec == null || TenDienCongViec == "")
-//                {
-//                    return Json(new { error = true, message = "Tên diện công việc không thể để trống." });
-//                }
-//                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-//                {
-//                    var sqlUpdate = @"update DienCongViec 
-//                                      set TenDienCongViec = @tendiencongviec 
-//                                      where MaDienCongViec = @madiencongviec";
-//                    db.Database.ExecuteSqlCommand(sqlUpdate, new SqlParameter("tendiencongviec", TenDienCongViec), new SqlParameter("madiencongviec", MaDienCongViec));
-//                    db.SaveChanges();
-//                    return Json(new { success = true, message = "Cập nhật thành công." });
-//                }
-//            }
-//            catch (Exception e)
-//            {
-//                return Json(new { error = true, message = "Có lỗi xảy ra." });
-//            }
-//        }
+        //////////////////////////////ADD////////////////////////////////
+        [Route("phong-tcld/quan-ly-loai-cong-viec/them-loai-cong-viec")]
+        [HttpPost]
+        public ActionResult add()
+        {
+            try
+            {
+                var add_work_group_type_name = Request["add_work_group_type_name"];
+                if (add_work_group_type_name == null || add_work_group_type_name == "")
+                {
+                    return Json(new { error = true, title = "Có lỗi", message = "Tên diện công việc không thể để trống." });
+                }
+                else
+                {
+                    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+                    {
+                        WorkGroupType workGroupType = db.WorkGroupTypes.Where(x => x.name.Equals(add_work_group_type_name)).FirstOrDefault();
+                        if (workGroupType == null)
+                        {
+                            workGroupType = new WorkGroupType();
+                            workGroupType.name = add_work_group_type_name;
+                            db.WorkGroupTypes.Add(workGroupType);
+                            db.SaveChanges();
+                            return Json(new { success = true, title = "Thành công", message = "Thêm loại công việc mới thành công." });
+                        }
+                        else
+                        {
+                            return Json(new { error = true, title = "Có lỗi", message = "Đã có tên diện công việc." });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { error = true, title = "Có lỗi", message = "Có lỗi xảy ra." });
+            }
+        }
 
-//        //////////////////////////////////DELETE/////////////////////////////////////////
-//        [Route("phong-tcld/quan-ly-dien-cong-viec/xoa-diencongviec")]
-//        [HttpPost]
-//        public ActionResult delete()
-//        {
-//            try
-//            {
-//                var MaDienCongViec = Request["MaDienCongViec"];
-//                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-//                {
-//                    var sqlDelete = @"delete DienCongViec where MaDienCongViec = @madiencongviec";
-//                    db.Database.ExecuteSqlCommand(sqlDelete, new SqlParameter("madiencongviec", MaDienCongViec));
-//                    db.SaveChanges();
-//                    return Json(new { success = true, message = "Xóa thành công." });
-//                }
-//            }
-//            catch (Exception e)
-//            {
-//                return Json(new { error = true, message = "Có lỗi xảy ra." });
-//            }
-//        }
-//    }
-//}
+        ///////////////////////////////GET WorkGroupType BY work_group_type_id/////////////////////////////////
+        [Route("phong-tcld/quan-ly-loai-cong-viec/lay-tenloaicongviec-theo-maloaicongviec")]
+        [HttpPost]
+        public ActionResult getData()
+        {
+            try
+            {
+                int work_group_type_id = Convert.ToInt32(Request["work_group_type_id"]);
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+                {
+                    WorkGroupType workGroupType = db.Database.SqlQuery<WorkGroupType>("HumanResources.GetDataWorkGroupTypes {0}, {1}, {2}, {3}, {4}, {5}, {6}",
+                        work_group_type_id, "", "", "", "", "", "Not DataTable").FirstOrDefault();
+                    return Json(new { success = true, workGroupType = workGroupType });
+                };
+            }
+            catch (Exception e)
+            {
+                return Json(new { error = true, title = "Có lỗi", message = "Có lỗi xảy ra." });
+            }
+        }
+
+        /////////////////////////////////////////////UPDATE///////////////////////////////////////////////
+        [Route("phong-tcld/quan-ly-loai-cong-viec/cap-nhat-tenloaicongviec")]
+        [HttpPost]
+        public ActionResult update()
+        {
+            try
+            {
+                int work_group_type_id = Convert.ToInt32(Request["work_group_type_id"]);
+                string work_group_type_name = Request["work_group_type_name"];
+                if (work_group_type_name == null || work_group_type_name == "")
+                {
+                    return Json(new { error = true, title = "Có lỗi", message = "Tên diện công việc không thể để trống." });
+                }
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+                {
+                    WorkGroupType workGroupType = db.WorkGroupTypes.Find(work_group_type_id);
+                    if (workGroupType == null)
+                    {
+                        return Json(new { error = true, title = "Có lỗi", message = "Có lỗi xảy ra." });
+                    }
+                    else
+                    {
+                        workGroupType.name = work_group_type_name;
+                        db.SaveChanges();
+                        return Json(new { success = true, title = "Thành công", message = "Cập nhật thành công." });
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { error = true, title = "Có lỗi",message = "Có lỗi xảy ra." });
+            }
+        }
+
+        //////////////////////////////////DELETE/////////////////////////////////////////
+        [Route("phong-tcld/quan-ly-loai-cong-viec/xoa-loaicongviec")]
+        [HttpPost]
+        public ActionResult delete()
+        {
+            try
+            {
+                int work_group_type_id = Convert.ToInt32(Request["work_group_type_id"]);
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+                {
+                    WorkGroupType workGroupType = db.WorkGroupTypes.Find(work_group_type_id);
+                    if (workGroupType == null)
+                    {
+                        return Json(new { error = true, title = "Có lỗi", message = "Không tìm thấy loại công việc tương ứng." });
+                    }
+                    else
+                    {
+                        try
+                        {
+                            db.WorkGroupTypes.Remove(workGroupType);
+                            db.SaveChanges();
+                            return Json(new { success = true, title = "Thành công", message = "Xóa thành công." });
+                        } catch (Exception e)
+                        {
+                            return Json(new { error = true, title = "Có lỗi", message = "Dữ liệu về loại công việc đã được sử dụng nên không thể xóa." });
+                        }
+                        
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { error = true, title = "Có lỗi",message = "Có lỗi xảy ra." });
+            }
+        }
+    }
+}
