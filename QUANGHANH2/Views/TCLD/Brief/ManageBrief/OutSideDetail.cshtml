@@ -12,9 +12,6 @@
     <link href="/dist/css/pages/easy-pie-chart.css" rel="stylesheet">*@
 
 
-
-
-
 <div class="col m12">
     <div class="card">
         <div class="card-content">
@@ -40,20 +37,20 @@
                                 if (isAcess)
                                 {
                                     <div class="col m4">
-                                        <a class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua1">Chỉnh Sửa</a>
+                                        <a class="btn btn-small blue darken-2 input-field chinhsua" id="btn_basicInfo_edit">Chỉnh Sửa</a>
                                     </div>
 
                                 }
                                 else
                                 {
                                     <div class="col m4">
-                                        <a disabled class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua1">Chỉnh Sửa</a>
+                                        <a disabled class="btn btn-small blue darken-2 input-field chinhsua" id="btn_basicInfo_edit">Chỉnh Sửa</a>
                                     </div>
                                 }
                             }
                             <div class="col m4" hidden>
-                                <a class="btn btn-small blue darken-2 input-field luu" id="btnLuu1">Lưu</a>
-                                <a class="btn btn-small red darken-2 input-field huybo" id="btnHuyBo1">Hủy bỏ</a>
+                                <a class="btn btn-small blue darken-2 input-field luu" id="btn_basicInfo_save">Lưu</a>
+                                <a class="btn btn-small red darken-2 input-field huybo" id="btn_basicInfo_remove">Hủy bỏ</a>
                             </div>
                         </div>
                         <div class="input-field col m12">
@@ -61,33 +58,33 @@
                                 <label class='custom-label'>
                                     Số thẻ
                                 </label>
-                                <input disabled type="text" id="sothe" class="inputEdit form-control" />
+                                <input disabled type="text" id="employee_id" class="inputEdit form-control" />
                             </div>
                             <div class="col m4">
                                 <label class='custom-label'>Họ và tên</label>
-                                <input disabled type="text" id="hoVaTen" class="inputEdit form-control" />
+                                <input disabled type="text" id="full_name" class="inputEdit form-control" />
                             </div>
                             <div class="col m4">
                                 <label class='custom-label'>Ngày tháng năm sinh</label>
-                                <input disabled="" type="text" id="ngaythangnamsinh" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="dd/mm/yyyy" />
+                                <input disabled="" type="text" id="date_of_birth" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="dd/mm/yyyy" />
                             </div>
                         </div>
                         <div class="input-field col m12">
                             <div class="col m3">
                                 <label class='custom-label'>ĐV khi CDHĐ</label>
-                                <input disabled type="text" id="donvicd" class="inputEdit form-control" />
+                                <input disabled type="text" id="department_name" class="inputEdit form-control" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label '>Số sổ BHXH</label>
-                                <input disabled type="text" id="soBH" class="inputEdit form-control number" />
+                                <input disabled type="text" id="social_insurance_number" class="inputEdit form-control number" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label'>Số điện thoại NLĐ</label>
-                                <input disabled type="text" id="sodt" class="inputEdit form-control number" />
+                                <input disabled type="text" id="phone_number" class="inputEdit form-control number" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label'>Địa chỉ thường trú NLĐ</label>
-                                <input disabled type="text" id="diachithuongtru" class="inputEdit form-control" />
+                                <input disabled type="text" id="current_residence" class="inputEdit form-control" />
                             </div>
                         </div>
                     </div>
@@ -112,49 +109,45 @@
                                 if (isAcess)
                                 {
                                     <div class="col m4">
-                                        <a class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua2">Chỉnh Sửa</a>
+                                        <a class="btn btn-small blue darken-2 input-field chinhsua" id="btn_termi_edit">Chỉnh Sửa</a>
                                     </div>
-
                                 }
                                 else
                                 {
                                     <div class="col m4">
-                                        <a disabled class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua2">Chỉnh Sửa</a>
+                                        <a disabled class="btn btn-small blue darken-2 input-field chinhsua" id="btn_termi_edit">Chỉnh Sửa</a>
                                     </div>
                                 }
                             }
                             <div class="col m4" hidden>
-                                <a class="btn btn-small blue darken-2 input-field luu" id="btnLuu2">Lưu</a>
-                                <a class="btn btn-small red darken-2 input-field huybo" id="btnHuyBo2">Hủy bỏ</a>
+                                <a class="btn btn-small blue darken-2 input-field luu" id="btn_termi_save">Lưu</a>
+                                <a class="btn btn-small red darken-2 input-field huybo" id="btn_termi_exit">Hủy bỏ</a>
                             </div>
                         </div>
                         <div class="input-field col m12">
                             <div class="col m3">
                                 <label class='custom-label'>Số QĐ</label>
-                                <input disabled type="text" id="soQD" class="inputEdit form-control" />
+                                <input disabled type="text" id="decision_number" class="inputEdit form-control" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label'>
                                     Tên loại chấm dứt
                                 </label>
-                                <input disabled list="list" type="text" id="tenLoaiChamDut" class="inputEdit form-control" />
+                                <input disabled list="list" type="text" id="termination_name" class="inputEdit form-control" />
                                 <datalist id="list">
                                     <option value="1234">1234</option>
                                     <option value="1111">1111</option>
                                     <option value="2222">2222</option>
                                     <option value="3333">3333</option>
                                 </datalist>
-
-
                             </div>
-
                             <div class="col m3">
                                 <label class='custom-label'>Ngày tháng năm QĐ</label>
-                                <input disabled type="text" id="ngayQD" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                                <input disabled type="text" id="decision_date" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label'>Ngày chấm dứt</label>
-                                <input disabled type="text" id="ngayCD" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                                <input disabled type="text" id="terminate_date" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
                             </div>
                         </div>
                     </div>
@@ -169,7 +162,6 @@
         <div class="card-content">
             <div class="row">
                 <h3 class="center">Ủy quyền lấy HS và sổ BH</h3>
-
                 <div class="col m12">
                     <div id="form3" class="row">
                         <div class="input-field col m12" id="btn-fix-save">
@@ -178,20 +170,20 @@
                                 if (isAcess)
                                 {
                                     <div class="col m4">
-                                        <a class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua3">Chỉnh Sửa</a>
+                                        <a class="btn btn-small blue darken-2 input-field chinhsua" id="btn_authorized_edit">Chỉnh Sửa</a>
                                     </div>
 
                                 }
                                 else
                                 {
                                     <div class="col m4">
-                                        <a disabled class="btn btn-small blue darken-2 input-field chinhsua" id="btnChinhSua3">Chỉnh Sửa</a>
+                                        <a disabled class="btn btn-small blue darken-2 input-field chinhsua" id="btn_authorized_edit">Chỉnh Sửa</a>
                                     </div>
                                 }
                             }
                             <div class="col m4" hidden>
-                                <a class="btn btn-small blue darken-2 input-field luu" id="btnLuu3">Lưu</a>
-                                <a class="btn btn-small red darken-2 input-field huybo" id="btnHuyBo3">Hủy bỏ</a>
+                                <a class="btn btn-small blue darken-2 input-field luu" id="btn_authorized_save">Lưu</a>
+                                <a class="btn btn-small red darken-2 input-field huybo" id="btn_authorized_exit">Hủy bỏ</a>
                             </div>
                         </div>
                         <div class="input-field col m12">
@@ -199,19 +191,19 @@
                                 <label class='custom-label'>
                                     Họ tên người được ủy quyền
                                 </label>
-                                <input disabled type="text" id="hoTenNguoiUyQuyen" class="inputEdit form-control" />
+                                <input disabled type="text" id="full_name" class="inputEdit form-control" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label'>Quan hệ với người ủy quyền</label>
-                                <input disabled type="text" id="quanHeNguoiUyQuyen" class="inputEdit form-control" />
+                                <input disabled type="text" id="family_relationship_name" class="inputEdit form-control" />
                             </div>
                             <div class="col m3 ">
                                 <label class='custom-label'>Số CMND</label>
-                                <input disabled type="text" id="soCMT" class="inputEdit form-control number" />
+                                <input disabled type="text" id="identity_card_number" class="inputEdit form-control number" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label number'>Số ĐT người được ủy quyền</label>
-                                <input disabled type="text" id="soDT" class="inputEdit form-control number" />
+                                <input disabled type="text" id="phone_number" class="inputEdit form-control number" />
                             </div>
                         </div>
                     </div>
@@ -231,14 +223,14 @@
                     if (isAcess)
                     {
                         <div class="col m4">
-                            <a onclick="themGiayTo()" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' href='#modal2' id="btnThemGiayTo">Thêm</a>
+                            <a onclick="themGiayTo()" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' href='#modal2' id="btn_paper_add">Thêm</a>
                         </div>
 
                     }
                     else
                     {
                         <div class="col m4">
-                            <a disabled class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' href='#modal2' id="btnThemGiayTo">Thêm</a>
+                            <a disabled class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' href='#modal2' id="btn_paper_add">Thêm</a>
                         </div>
                     }
                 }
@@ -270,10 +262,6 @@
                                 </tbody>
                             </table>
                         </div>
-
-
-
-
                     </div>
                 </div>
             </div>
@@ -288,34 +276,33 @@
         <div class="input-field col m12">
             <div class="col m4">
                 <label class='custom-label'>Số Hiệu giấy tờ</label>
-                <input disabled type="text" id="suasohieu" class="inputEdit form-control" />
+                <input disabled type="text" id="papers_number" class="inputEdit form-control" />
             </div>
             <div class="col m4">
                 <label class='custom-label'>Mã giấy tờ</label>
-                <input disabled type="text" id="suama" class="inputEdit form-control" />
+                <input disabled type="text" id="papers_id" class="inputEdit form-control" />
             </div>
             <div class="col m4">
                 <label class='custom-label'>Kiểu giấy tờ</label>
-                <input disabled type="text" id="suakieu" class="inputEdit form-control" />
+                <input disabled type="text" id="type_name" class="inputEdit form-control" />
             </div>
             <div class="col m4">
                 <label class='custom-label'>Tên giấy tờ</label>
-                <input disabled type="text" id="suaten" class="inputEdit form-control" />
+                <input disabled type="text" id="paper_name" class="inputEdit form-control" />
             </div>
             <div class="col m4">
                 <label class='custom-label'>Ngày cấp</label>
-                <input disabled type="text" id="suangaycap" class="inputEdit form-control" />
+                <input disabled type="text" id="given_date" class="inputEdit form-control" />
             </div>
             <div class="col m4">
                 <label class='custom-label'>Ngày trả</label>
-                <input type="text" id="suangaytra" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                <input type="text" id="received_date" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
             </div>
-
         </div>
     </div>
     <div class="modal-footer">
-        <a class="modal-action modal-close waves-effect waves-green btn blue" id="dongYChinhSua">Đồng ý</a>
-        <a class="modal-action modal-close waves-effect waves-green btn red" id="huyBoChinhSua">Hủy bỏ</a>
+        <a class="modal-action modal-close waves-effect waves-green btn blue" id="paper_edit_accept">Đồng ý</a>
+        <a class="modal-action modal-close waves-effect waves-green btn red" id="paper_edit_exit">Hủy bỏ</a>
     </div>
 </div>
 
@@ -326,18 +313,18 @@
         <div class="input-field col m12">
             <div class="col m4">
                 <label class='custom-label'>Kiểu giấy tờ</label>
-                <input type="text" id="suakieu2" class="inputEdit form-control" />
+                <input type="text" id="paperType_add" class="inputEdit form-control" />
             </div>
             <div class="col m4">
                 <label class='custom-label'>Tên giấy tờ</label>
-                <input type="text" id="suaten2" class="inputEdit form-control" />
+                <input type="text" id="paperName_add" class="inputEdit form-control" />
             </div>
 
         </div>
     </div>
     <div class="modal-footer">
-        <a class="modal-action modal-close waves-effect waves-green btn blue" id="dongYChinhSua2">Đồng ý</a>
-        <a class="modal-action modal-close waves-effect waves-green btn red" id="huyBoChinhSua2">Hủy bỏ</a>
+        <a class="modal-action modal-close waves-effect waves-green btn blue" id="paper_add_accept">Đồng ý</a>
+        <a class="modal-action modal-close waves-effect waves-green btn red" id="paper_add_exit">Hủy bỏ</a>
     </div>
 </div>
 
@@ -364,19 +351,26 @@
 
     <script>
     var table;
-        $(document).ready(function () {
+
+
+    $(document).ready(function () {
 
         customeClick();
 
-        $('input').prop('disabled', true);
-        $('#sothe').prop('disabled', true);
-        $('#soQD').prop('disabled', true);
+        //$('input').prop('disabled', true);
+        //$('#sothe').prop('disabled', true);
+        //$('#soQD').prop('disabled', true);
         loadThongTinCoBan();
         loadLoaiChamDut();
         loadUyQuyen();
         loadThongTinGiayTo();
 
     });
+
+    $(document).ready(function () {
+            $('.datepicker-inline').remove();
+    });
+
     function loadThongTinGiayTo() {
         $("#pre-load").show("slow", function () {
         });
@@ -451,7 +445,6 @@
             });
         }
 
-
     function loadThongTinCoBan() {
         // get data chung cua ho so ngoai
         $("#pre-load").show("slow", function () {
@@ -463,19 +456,20 @@
             url: "/Brief/taiThongTinCoBanHSNgoai",
             data: { manv:'@ViewBag.manv'
     },
+
     dataType: "json",
         success: function (data) {
             $("#pre-load").hide("slow", function () {
-            });
-            $('#hoVaTen').val(data.data[0].hoVaTen);
-            $('#sothe').val(data.data[0].sothe);
-            $('#ngaythangnamsinh').val(dateFormat(data.data[0].ngaythangnamsinh));
-            $('#donvicd').val(data.data[0].donvicd);
-            $('#soBH').val(data.data[0].soBH);
-            $('#sodt').val(data.data[0].sodt);
-            $('#diachithuongtru').val(data.data[0].diachithuongtru);
 
-            }
+            });
+            $('#full_name').val(data.data[0].hoVaTen);
+            $('#phone_number').val(data.data[0].sothe);
+            $('#date_of_birth').val(dateFormat(data.data[0].ngaythangnamsinh));
+            $('#department_name').val(data.data[0].donvicd);
+            $('#social_insurance_number').val(data.data[0].soBH);
+            $('#phone_number').val(data.data[0].sodt);
+            $('#current_residence').val(data.data[0].diachithuongtru);
+        }
         ,
          error: () => {
                             $("#pre-load").hide()
@@ -501,13 +495,11 @@
             data: { manv:'@ViewBag.manv'},
     dataType: "json",
         success: function (data) {
-            //alert('loadLoaiChamDut');
             $("#pre-load").hide("slow", function () {
             });
-            $('#tenLoaiChamDut').val(data.data[0].tenLoaiChamDut);
-            $('#soQD').val(data.data[0].soQD);
-            $('#ngayQD').val(dateFormat(data.data[0].ngayQD));
-            $('#ngayCD').val(dateFormat(data.data[0].ngayCD));
+            $('#termination_name').val(data.data[0].tenLoaiChamDut);
+            $('#decision_number').val(data.data[0].soQD);
+            $('#decision_date').val(dateFormat(data.data[0].ngayQD));
              $("#list").empty();
             for(var i=0;i<data.data[0].listChamDut.length;i++)
             {
@@ -530,8 +522,6 @@
 
         }
 
-
-
     function loadUyQuyen() {
         $("#pre-load").show("slow", function () {
         });
@@ -547,10 +537,10 @@
             });
 
             if (data.data.length == 0) return;
-            $('#hoTenNguoiUyQuyen').val(data.data[0].hoTenNguoiUyQuyen);
-            $('#quanHeNguoiUyQuyen').val(data.data[0].quanHeNguoiUyQuyen);
-            $('#soCMT').val(data.data[0].soCMT);
-            $('#soDT').val(data.data[0].soDT);
+            $('#full_name').val(data.data[0].hoTenNguoiUyQuyen);
+            $('#family_relationship_name').val(data.data[0].quanHeNguoiUyQuyen);
+            $('#identity_card_number').val(data.data[0].soCMT);
+            $('#phone_number').val(data.data[0].soDT);
             }
         ,
          error: () => {
@@ -561,17 +551,18 @@
 
             });
         }
+
     function customeClick() {
         // event controller button
-        $('#btnChinhSua1').click(function (e) {
+        $('#btn_basicInfo_edit').click(function (e) {
             e.preventDefault();
 
 
-            $('#btnChinhSua1').hide();
-            $('#btnChinhSua1').parent().hide();
-            $('#btnLuu1').show();
-            $('#btnHuyBo1').show();
-            $('#btnLuu1').parent().show();
+            $('#btn_basicInfo_edit').hide();
+            $('#btn_basicInfo_edit').parent().hide();
+            $('#btn_basicInfo_save').show();
+            $('#btn_basicInfo_remove').show();
+            $('#btn_basicInfo_save').parent().show();
             //console.log($('#form1').find('input')[0]);
 
             $.each($('#form1').find('input'), function (index, value) {
@@ -584,28 +575,28 @@
                 //$('#sothe').prop('disabled', true);
                 // your statements;
             });
-        $('#btnLuu1').click(function (e) {
+        $('#btn_basicInfo_save').click(function (e) {
             e.preventDefault();
 
-            $('#btnLuu1').hide();
-            $('#btnHuyBo1').hide();
-            $('#btnHuyBo1').parent();
-            $('#btnChinhSua1').show();
-            $('#btnChinhSua1').parent().show();
+            $('#btn_basicInfo_save').hide();
+            $('#btn_basicInfo_remove').hide();
+            $('#btn_basicInfo_remove').parent();
+            $('#btn_basicInfo_edit').show();
+            $('#btn_basicInfo_edit').parent().show();
             $.each($('#form1').find('input'), function (index, value) {
                 //  if(value.id !='sothe')
                 value.disabled = true;
             });
             // your statements;
         });
-        $('#btnHuyBo1').click(function (e) {
+        $('#btn_basicInfo_remove').click(function (e) {
             e.preventDefault();
 
-            $('#btnHuyBo1').hide();
-            $('#btnLuu1').hide();
-            $('#btnLuu1').parent();
-            $('#btnChinhSua1').show();
-            $('#btnChinhSua1').parent().show();
+            $('#btn_basicInfo_remove').hide();
+            $('#btn_basicInfo_save').hide();
+            $('#btn_basicInfo_save').parent();
+            $('#btn_basicInfo_edit').show();
+            $('#btn_basicInfo_edit').parent().show();
             $.each($('#form1').find('input'), function (index, value) {
                 //   if(value.id !='sothe')
                 value.disabled = true;
@@ -614,41 +605,41 @@
         });
 
 
-        $('#btnChinhSua2').click(function (e) {
+        $('#btn_termi_edit').click(function (e) {
             e.preventDefault();
-            $('#btnChinhSua2').hide();
-            $('#btnChinhSua2').parent().hide();
-            $('#btnLuu2').show();
-            $('#btnHuyBo2').show();
-            $('#btnLuu2').parent().show();
+            $('#btn_termi_edit').hide();
+            $('#btn_termi_edit').parent().hide();
+            $('#btn_termi_save').show();
+            $('#btn_termi_exit').show();
+            $('#btn_termi_save').parent().show();
             $.each($('#form2').find('input'), function (index, value) {
                 if (value.id != 'soQD')
                     value.disabled = false;
             });
             // your statements;
         });
-        $('#btnLuu2').click(function (e) {
+        $('#btn_termi_save').click(function (e) {
             e.preventDefault();
 
-            $('#btnLuu2').hide();
-            $('#btnHuyBo2').hide();
-            $('#btnHuyBo2').parent();
-            $('#btnChinhSua2').show();
-            $('#btnChinhSua2').parent().show();
+            $('#btn_termi_save').hide();
+            $('#btn_termi_exit').hide();
+            $('#btn_termi_exit').parent();
+            $('#btn_termi_edit').show();
+            $('#btn_termi_edit').parent().show();
             $.each($('#form2').find('input'), function (index, value) {
                 // if(value.id !='soQD')
                 value.disabled = true;
             });
             // your statements;
         });
-        $('#btnHuyBo2').click(function (e) {
+        $('#btn_termi_exit').click(function (e) {
             e.preventDefault();
 
-            $('#btnHuyBo2').hide();
-            $('#btnLuu2').hide();
-            $('#btnLuu2').parent();
-            $('#btnChinhSua2').show();
-            $('#btnChinhSua2').parent().show();
+            $('#btn_termi_exit').hide();
+            $('#btn_termi_save').hide();
+            $('#btn_termi_save').parent();
+            $('#btn_termi_edit').show();
+            $('#btn_termi_edit').parent().show();
             $.each($('#form2').find('input'), function (index, value) {
                 // if(value.id !='soQD')
                 value.disabled = true;
@@ -657,41 +648,41 @@
         });
 
 
-        $('#btnChinhSua3').click(function (e) {
+        $('#btn_authorized_edit').click(function (e) {
             e.preventDefault();
-            $('#btnChinhSua3').hide();
-            $('#btnChinhSua3').parent().hide();
-            $('#btnLuu3').show();
-            $('#btnHuyBo3').show();
-            $('#btnLuu3').parent().show();
+            $('#btn_authorized_edit').hide();
+            $('#btn_authorized_edit').parent().hide();
+            $('#btn_authorized_save').show();
+            $('#btn_authorized_exit').show();
+            $('#btn_authorized_save').parent().show();
             $.each($('#form3').find('input'), function (index, value) {
                 // if(value.id !='soQD')
                 value.disabled = false;
             });
             // your statements;
         });
-        $('#btnLuu3').click(function (e) {
+        $('#btn_authorized_save').click(function (e) {
             e.preventDefault();
 
-            $('#btnLuu3').hide();
-            $('#btnHuyBo3').hide();
-            $('#btnHuyBo3').parent();
-            $('#btnChinhSua3').show();
-            $('#btnChinhSua3').parent().show();
+            $('#btn_authorized_save').hide();
+            $('#btn_authorized_exit').hide();
+            $('#btn_authorized_exit').parent();
+            $('#btn_authorized_edit').show();
+            $('#btn_authorized_edit').parent().show();
             $.each($('#form3').find('input'), function (index, value) {
                 // if(value.id !='soQD')
                 value.disabled = true;
             });
             // your statements;
         });
-        $('#btnHuyBo3').click(function (e) {
+        $('#btn_authorized_exit').click(function (e) {
             e.preventDefault();
 
-            $('#btnHuyBo3').hide();
-            $('#btnLuu3').hide();
-            $('#btnLuu3').parent();
-            $('#btnChinhSua3').show();
-            $('#btnChinhSua3').parent().show();
+            $('#btn_authorized_exit').hide();
+            $('#btn_authorized_save').hide();
+            $('#btn_authorized_save').parent();
+            $('#btn_authorized_edit').show();
+            $('#btn_authorized_edit').parent().show();
             $.each($('#form3').find('input'), function (index, value) {
                 // if(value.id !='soQD')
                 value.disabled = true;
@@ -702,20 +693,9 @@
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
     // event controller button to sending data
-    $('#btnLuu1').click(function (e) {
+
+    $('#btn_basicInfo_save').click(function (e) {
 
         var x1 = $('#sothe').val();
         var x2 = $('#hoVaTen').val();
@@ -747,7 +727,7 @@
     });
 
     //cham dut
-    $('#btnLuu2').click(function (e) {
+    $('#btn_termi_save').click(function (e) {
 
         var x1 = $('#tenLoaiChamDut').val();
         var x2 = $('#soQD').val();
@@ -774,20 +754,20 @@
 
 
 
-    $('#btnLuu3').click(function (e) {
+    $('#btn_authorized_save').click(function (e) {
 
         // alert('save3')
-        var x1 = $('#hoTenNguoiUyQuyen').val();
-        var x2 = $('#quanHeNguoiUyQuyen').val();
-        var x3 = $('#soCMT').val();
-        var x4 = $('#soDT').val();
+        var x1 = $('#full_name').val();
+        var x2 = $('#family_relationship_name').val();
+        var x3 = $('#identity_card_number').val();
+        var x4 = $('#phone_number').val();
         var x5 = '@ViewBag.manv';
         var object = {
-            "hoTenNguoiUyQuyen": x1,
-            "quanHeNguoiUyQuyen": x2,
-            "soCMT": x3,
-            "soDT": x4,
-            "manv": x5
+            "full_name": x1,
+            "family_relationship_name": x2,
+            "identity_card_number": x3,
+            "phone_number": x4,
+            "employee_id": x5
 
         }
 
@@ -797,10 +777,6 @@
 
 
     });
-
-
-
-
 
     //end
 
@@ -830,7 +806,6 @@
         });
     }
 
-
     function updateChamDut(object) {
         $("#pre-load").show("slow", function () {
         });
@@ -856,7 +831,6 @@
         });
     }
 
-
     function updateUyQuyen(object) {
         $("#pre-load").show("slow", function () {
         });
@@ -881,27 +855,18 @@
         });
     }
 
-
-
-
-
-
-
-
-    $('#btnHuyBo1').click(function (e) {
+    $('#btn_basicInfo_remove').click(function (e) {
         e.preventDefault();
         loadThongTinCoBan();
     })
-    $('#btnHuyBo2').click(function (e) {
+    $('#btn_termi_exit').click(function (e) {
         e.preventDefault();
         loadLoaiChamDut();
     })
-    $('#btnHuyBo3').click(function (e) {
+    $('#btn_authorized_exit').click(function (e) {
         e.preventDefault();
         loadUyQuyen();
     })
-
-
 
     function dateFormat(d) {
         if (d == null) return "";
@@ -1001,17 +966,14 @@
 
         }
 
-
-
-
-         function dongYThemGiayTo() {
+    function dongYThemGiayTo() {
 
             var object = {
 
             "manv": '@ViewBag.manv',
             "kieu": $('#suakieu2').val(),
               "ten": $('#suaten2').val()
-            };
+    };
 
     $("#pre-load").show("slow", function () {
     });
@@ -1041,19 +1003,19 @@
 
         }
 
-    $('#dongYChinhSua').click(function (e) {
+    $('#paper_edit_accept').click(function (e) {
         dongYSuaGiayTo();
     });
-    $('#huyBoChinhSua').click(function (e) {
+    $('#paper_edit_exit').click(function (e) {
         e.preventDefault();
         huyBoSuaGiayTo();
 
     });
-    $('#dongYChinhSua2').click(function (e) {
+    $('#paper_add_accept').click(function (e) {
         console.log('22220');
         dongYThemGiayTo();
     });
-    $('#huyBoChinhSua2').click(function (e) {
+    $('#paper_add_exit').click(function (e) {
         e.preventDefault();
         console.log('111110');
     });
@@ -1067,37 +1029,34 @@
         //table.ajax.url('@Url.Action("thongTinGiayTo", "Brief")').load(() => { $("#pre-load").hide() }, false);
     }
 
+    $(".number").keydown(function (e) {
+            var text = $(this).val().toLowerCase();
+            var doubleReg = /[+-]?([0-9]*[,])?[0-9]+$/;
+            if (!doubleReg.test(text)) {
+                $(this).val("");
+            }
+            var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];// , 65, 86, 67, 90
+            for (var i = 48; i <= 57; i++) {
+                acceptList.push(i);
+            }
+            for (var i = 96; i <= 105; i++) {
+                acceptList.push(i);
+            }
+            if (e.ctrlKey) {
+                if (e.keyCode !== 65 && e.keyCode !== 86 && e.keyCode !== 67 && e.keyCode !== 90 && e.keyCode !== 88) {
+                    e.preventDefault();
+                } else {
+                    acceptList.push(e.keyCode);
+                }
+            }
+            if (acceptList.indexOf(e.keyCode) === -1) {
+                e.preventDefault();
+            }
+
+        });
 
 
-        ///////////////////////////////////////////NUMBER/////////////////////////////////////////////////
-$(".number").keydown(function (e) {
-    var text = $(this).val().toLowerCase();
-    var doubleReg = /[+-]?([0-9]*[,])?[0-9]+$/;
-    if (!doubleReg.test(text)) {
-         $(this).val("");
-    }
-    var acceptList = [45, 35, 40, 34, 37, 9, 12, 39, 36, 38, 33, 8];// , 65, 86, 67, 90
-    for (var i = 48; i <= 57; i++) {
-        acceptList.push(i);
-    }
-    for (var i = 96; i <= 105; i++) {
-        acceptList.push(i);
-    }
-    if (e.ctrlKey) {
-        if (e.keyCode !== 65 && e.keyCode !== 86 && e.keyCode !== 67 && e.keyCode !== 90&& e.keyCode !== 88) {
-            e.preventDefault();
-        } else {
-            acceptList.push(e.keyCode);
-        }
-    }
-    if (acceptList.indexOf(e.keyCode) === -1) {
-        e.preventDefault();
-    }
-
-});
-
-//////////////////////////////////////////number with comma///////////////////////////////////////
-$(".number-with-comma").keyup(function () {
+    $(".number-with-comma").keyup(function () {
     var text = $(this).val().toLowerCase();
     var doubleReg = /[+-]?([0-9]*[,])?[0-9]+$/;
     if (!doubleReg.test(text)) {
@@ -1108,8 +1067,7 @@ $(".number-with-comma").keyup(function () {
     text = $(this).val().toLowerCase();
 });
 
-/////////////////////////////////DATEPICKER-VALIDATE/////////////////////////////////////////////
-$(".datepicker-here").keydown(function (e) {
+    $(".datepicker-here").keydown(function (e) {
     if (e.keyCode === 8) {
         $(".datepicker-here").val("");
     } else {
@@ -1117,8 +1075,7 @@ $(".datepicker-here").keydown(function (e) {
     }
 });
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-function AddComma(Num) { //function to add commas to textboxes
+    function AddComma(Num) { //function to add commas to textboxes
      Num += '';
             Num = Num.replace('.', ''); Num = Num.replace('.', ''); Num = Num.replace('.', '');
             Num = Num.replace('.', ''); Num = Num.replace('.', ''); Num = Num.replace('.', '');
@@ -1131,7 +1088,7 @@ function AddComma(Num) { //function to add commas to textboxes
             return x1 + x2;
 }
 
-function revert(res) {
+    function revert(res) {
     var r = "";
     for (var i = 0; i < res.length; i++) {
         r += res[i];
@@ -1139,29 +1096,22 @@ function revert(res) {
     return r;
 }
 
-        /////////////////////////////////////SET TODAY DEFAULT///////////////////////////////////////////
- var date = new Date();
- $(".datepicker-here").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
-
-//////////////////////////////////////TURN OF TOGGLE SELECTED//////////////////////////////////
-$(function(){
-    $(".datepicker-here").datepicker({
-        toggleSelected: false
-    })
-})
+    var date = new Date();
+    $(".datepicker-here").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
 
 
-
-        $('.validatengay').datepicker({
-        language: 'vi',
-        maxDate: new Date() // Now can select only dates, which goes after today
-        })
-        $(document).ready(function () {
-            $('.datepicker-inline').remove();
+    $(function () {
+            $(".datepicker-here").datepicker({
+                toggleSelected: false
+            })
         });
 
 
 
+    $('.validatengay').datepicker({
+            language: 'vi',
+            maxDate: new Date()
+        });
 
     </script>
 

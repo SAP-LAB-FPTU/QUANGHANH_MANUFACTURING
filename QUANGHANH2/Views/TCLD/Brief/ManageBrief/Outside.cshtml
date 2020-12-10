@@ -12,16 +12,14 @@
                 <h3 class="center"><b>DANH SÁCH HỒ SƠ NGOÀI</b></h3>
                 <hr>
                 <div class="col l3 m12 s12 input-field">
-                    <input type="text" placeholder="Mã nhân viên" class='form-control' id="searchMa" multiple />
+                    <input type="text" placeholder="Mã nhân viên" class='form-control' id="employee_id_search" multiple />
                 </div>
                 <div class="col l3 m12 s12 input-field">
-                    <input type="text" placeholder="Tên nhân viên" class='form-control' id="searchTen" multiple />
+                    <input type="text" placeholder="Tên nhân viên" class='form-control' id="employee_name_search" multiple />
                 </div>
                 <div class="col l3 m12 s12 input-field">
-                    <input type="text" placeholder="Loại chấm dứt" class='form-control' id="searchLoaiChamDut" multiple />
+                    <input type="text" placeholder="Loại chấm dứt" class='form-control' id="termination_type_search" multiple />
                 </div>
-
-
 
                 <div class="col l3 m12 s12 input-field center">
                     <button class="btn blue darken-2 btn-small" id="searchButton">Tìm kiếm</button>
@@ -29,15 +27,8 @@
                 <div class="col s12 m12 l12 input-field">
                     <a class="btn btn-small blue darken-2" id="exportExcel"><i class="fas fa-file-excel"></i>&nbsp;Excel</a>
                 </div>
-                
-                @*<div class="col s12 m12 l12" id="btn-fix-save">
-            <a class="btn btn-small blue darken-2 input-field" id="btn-fix">Chỉnh sửa</a>
-            <a class="btn btn-small blue darken-2 modal-trigger input-field" id="btn-save" href="#modal1">Lưu</a>
-        </div>*@
-
-
                 <div class="col s12  table-responsive">
-                    <table class="striped table-bordered" id="example">
+                    <table class="striped table-bordered" id="outside_table">
                         <thead>
                             <tr>
                                 <th>STT</th>
@@ -62,61 +53,104 @@
         </div>
     </div>
 </div>
-    <div id="pre-load" hidden>
-        <div class="loading">
-            <div class="preloader-wrapper big active">
-                <div class="spinner-layer spinner-blue-only">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div><div class="gap-patch">
-                        <div class="circle"></div>
-                    </div><div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
+<div id="pre-load" hidden>
+    <div class="loading">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 
 
 
-    <!--Javascript-->
-    <script src="~/js/Custom JS/TCLD/Brief/Briefs_List.js"></script>
-    <script src="~/js/advancedsearch/advancedsearch.js"></script>
-    <script src="~/js/Custom JS/form-input-border.js"></script>
-    <link href="~/css/advancedsearch/advancedsearch.css" rel="stylesheet" />
-    <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
-    <!--Advance search js-->
-    @*<script src="~/js/advancedsearch/advancedsearchList.js"></script>
-
-        <script src="~/js/Custom JS/TCLD/Brief/ManageBrief/Brief_Outside.js"></script>*@
-
-    @*<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
-        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>*@
+<!--Javascript-->
+<script src="~/js/Custom JS/TCLD/Brief/Briefs_List.js"></script>
+<script src="~/js/advancedsearch/advancedsearch.js"></script>
+<script src="~/js/Custom JS/form-input-border.js"></script>
+<link href="~/css/advancedsearch/advancedsearch.css" rel="stylesheet" />
+<link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
+<!--Advance search js-->
 
 
 
-    @section scripts{
-        <script>
-                var table;
-                $(document).ready(function () {
-                    console.log('ready');
-                    table = $('#example')
-                        .on('preXhr.dt', function (e, settings, data) {
 
-                                   ////////////////////////////////////HIỆN LÊN MỖI KHI CHẠY AJAX//////////////////////////////////
-      				  $("#pre-load").show("slow", function () {
-      				   });
-      				  $("#pre-load").css("z-index", "99999");
-			          ////////////////////////////////////////////////////////////////////////
+@section scripts{
+    <script>
+        var datatable_outside;
 
-                           //     data.sessionId = "@ViewBag.id";
-                            //    data.selectList = JSON.stringify(arrCarSelected);
-                            })
-                        .DataTable({
-"language": {
+        $(document).ready(function () {
+            listAllRecords();
+        });
+
+        $("#searchButton").click(function () {
+            datatable_outside.destroy();
+            listAllRecords();
+        });
+
+        function listAllRecords() {
+            datatable_outside = $('#outside_table')
+                .on('preXhr.dt', function (e, settings, data) {
+                    $("#pre-load").show("slow", function () {
+                    });
+                    $("#pre-load").css("z-index", "99999");
+                })
+                .DataTable({
+                    "ajax": {
+                        "url": "@Url.Action("GetOutsideRecord", "Brief")",
+                        "type": "POST",
+                        "datatype": "json",
+                        "data": {
+                            "employee_id": function () { return $('#employee_id_search').val() },
+                            "employee_name": function () { return $('#employee_name_search').val() },
+                            "termination_name": function () { return $('#termination_type_search').val() }
+                        },
+                    },
+
+                    "drawCallback": function (settings) {
+                        ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                        ////////////////////////////////////////////////
+
+                    },
+                    "columns": [
+                        {
+                            "data": 'stt', "render": function (data, type, full, meta) {
+                                return meta.row + 1;
+                            }
+                        },
+                        { "data": "employee_id", "name": "employee_id", },
+                        { "data": "full_name", "name": "full_name" },
+                        { "data": "department_name", "name": "department_name" },
+                        { "data": "social_insurance_number", "name": "social_insurance_number" },
+                        { "data": "phone_number", "name": "phone_number" },
+                        { "data": "current_residence", "name": "current_residence" },
+                        { "data": "termination_name", "name": "termination_name" },
+                        {
+                            "data": "employee_id",
+                            "render": function (data, type, row) {
+                                return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' onclick='editRecord(" +data + ")'>Sửa</a>";
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
+                        }
+                    ],
+                    "serverSide": true,
+                    "bLengthChange": false,
+                    "bFilter": false,
+                    "bInfo": false,
+                    "language": {
                         emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
                         paginate:
                         {
@@ -124,108 +158,38 @@
                             next: "Trang sau",
                             first: "|<",
                             last: ">|",
-                                                  
+
                         },
                         info: "Đang hiện START đến END của TOTAL bản ghi",
                         infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
                     },
-                         "bAutoWidth": false,
-                        "serverSide": "true",
-                        "bFilter": false,
-                        "processing": false,
-                        "searching": false,
-                        "info": false,
-                        "bLengthChange": false,
-                        "ajax": {
-                            "url": "/Brief/Outside",
-                            "type": "POST",
-                            "datatype": "json"
-                        },
-                         "drawCallback": function( settings ) {
-                            $("#pre-load").hide("slow", function () {
-      		              });
-                                },
-                        "columns": [
-                            {
-                                data: 'stt', "render": function (data, type, full, meta) {
-                                    return meta.row + 1;
-                                }
-                            },
-                            { data: 'manv' },
-                            {
-                                data: 'ten', "render": function (data, type, row) {
-                                    return '<a href ="@Url.Action("OutSideDetail", "Brief")?manv='+row['manv']+'">'+data+'</a>';
-                                }
-                            },
-                            { data: 'dvcdhd' },
-                            { data: 'sobhxh' },
-                            { data: 'sdt' },
-                            { data: 'diachi' },
-                            { data:'loaichamdut'},
-                            {
-                                data: 'edit', "render": function (data, type, row) {
-                                    return '<a href ="@Url.Action("OutSideDetail", "Brief")?manv='+row['manv']+'" class="waves-effect waves-light btn blue darken-2 btn-small btn-small" ><span class="ti-pencil-alt">&nbsp;</span>  Sửa  </a>';
-
-                                }
-                            }
-
-                        ],
-                        "success": function (data) {
-                            console.log(data);
-                            },
-                        "initComplete": function (settings, json) {
-                            $("#pre-load").hide("slow", function () {
-      		  });
-                            }
-
-                    });
+                    "bAutoWidth": false,
+                    "order": [0, "asc"],
+                    "initComplete": function (settings, json) {
+                        ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
+                        $("#pre-load").hide("slow", function () {
+                        });
+                    },
 
                 });
+        }
 
-
-
-                function searchTable() {
-                    var object = {
-
-                    }
-                    $.ajax({
-
-
-
-                    });
-                }
-
-
-                // click search
-            function search() {
-
-                console.log('search');
-                var object = {
-                    "manv": $('#searchMa').val(),
-                    "ten": $('#searchTen').val(),
-                    "loaichamdut": $('#searchLoaiChamDut').val()
-                }
-                var x = JSON.stringify(object);
-                $("#pre-load").show("slow", function () {
-                });
-                $("#pre-load").css("z-index", "99999");
-                table.ajax.url('@Url.Action("searchOutSide", "Brief")?data=' + x).load(() => { $("#pre-load").hide() }, false);
-
-
-
-
+        function editRecord(item) {
+            if (item != null) {
+                window.location.href ='@Url.Action("OutSideDetail", "Brief")?employee_id=' + item;
             }
-                $('#searchButton').click(function (e) {
-                    console.log("Click search");
-                    e.preventDefault();
-                    search();
+        }
+
+    $('#exportExcel').click(function (e) {
+        $("#pre-load").show("slow", function () {
+      				   });
+      				  $("#pre-load").css("z-index", "99999");
+        e.preventDefault();
+        exportExcel();
+    });
+    function exportExcel() {
 
 
-                });
-
-             function exportExcel() {
-        
-       
         $.ajax({
             type: 'POST',
             url: '/Brief/ExportExcel',
@@ -245,17 +209,9 @@
 
     }
 
-    $('#exportExcel').click(function (e) {
-        $("#pre-load").show("slow", function () {
-      				   });
-      				  $("#pre-load").css("z-index", "99999");
-        e.preventDefault();
-        exportExcel();
-    });
 
+    </script>
 
-        </script>
-
-    }
+}
 
 

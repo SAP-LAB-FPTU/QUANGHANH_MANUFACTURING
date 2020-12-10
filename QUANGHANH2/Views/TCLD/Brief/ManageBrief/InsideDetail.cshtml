@@ -180,12 +180,11 @@
         <hr />
 
         <div class="row">
-
             <h3 class="center black-text">Sơ yếu lý lịch</h3>
             <div id="so_yeu_ly_lich">
                 <div class="row table-responsive">
                     <br />
-                    <a class='waves-effect waves-light btn-small blue modal-trigger' data-target="AddSyll" style='margin-left:5px' id="add_so_yeu_ly_lich"> Thêm</a>
+                    <a class='waves-effect waves-light btn-small blue modal-trigger' data-target="AddSyll" style='margin-left:5px' id="ahr_add"> Thêm</a>
                     <br />
                     <table id="syll_detail" class="table table-bordered table-responsive centered highlight">
                         <thead>
@@ -269,16 +268,27 @@
     </div>
 </form>
 
-<div id="AddSyll" class="modal">
+<div id="ahr_add" class="modal">
     <div class="modal-content">
         <div class="modal-header">
             <h3 class="modal-title">Thêm sơ yếu lý lịch</h3>
         </div>
         <div class="modal-body">
-            @*@Html.Action("AddLichSuBoSung", "Brief")*@
+            <div class="row">
+                <div class="col s12 m12">
+                    <div class="form-group">
+                        <label for="name">Năm bổ sung: </label>
+                        <input type="text" class="form-control" id="additional_year" readonly />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn blue darken-2 modal-close save-category" onclick="addYear()">Lưu</button>
         </div>
     </div>
 </div>
+
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 
@@ -471,7 +481,25 @@
         });
     }
 
-
+    function addYear() {
+        var data = {
+            year: document.getElementById("additional_year").value,
+        };
+        $.ajax({
+            url: '@Url.Action("addYear","Brief")',
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function () {
+                successAlert('Thành công', 'Thêm thành công');
+                datatable_syll.ajax.reload();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                errorAlert('Lỗi', 'Có lỗi xảy ra');
+            }
+        });
+    }
 
     var chungchichitiet, stt;
     $("#pre-load").show();
@@ -550,8 +578,6 @@
                 $("#pre-load").hide();
             }, "bPaginate": false
         });
-
-        datatable.ajax.reload();
         $("#pre-load").hide();
     });
 </script>
@@ -606,6 +632,7 @@
 
     var datatable_syll;
     $("#pre-load").show();
+
     $(document).ready(function () {
         datatable_syll = $('#syll_detail').DataTable({
             "ajax": {

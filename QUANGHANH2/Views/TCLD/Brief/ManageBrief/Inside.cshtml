@@ -392,75 +392,6 @@
             });
         });
 
-        //gọi popup khi ấn sửa
-        //     function PopupFormEdit(url) {
-        //        var formDiv = $('<div/>');
-        //        $.get(url)
-        //        .done(function (response) {
-        //            formDiv.html(response);
-        //                Popup = formDiv.dialog({
-        //                autoOpen: true,
-        //                resizable: false,
-        //                title: 'Sửa giấy tờ',
-        //                height: 1000,
-        //                width: 800,
-        //                close: function () {
-        //                Popup.dialog('destroy').remove();
-        //                }
-
-        //                });
-        //        });
-        //}
-        //dùng bên suaGiayTo.cshtml khi ấn sumbit
-        //function UpdateEquipment(form) {
-        //    $.validator.unobtrusive.parse(form);
-        //    if ($(form).valid()) {
-        //        $.ajax({
-        //            type : "POST",
-        //            url : form.action,
-        //            data : $(form).serialize(),
-        //            success : function (data) {
-        //                    dataTable.ajax.reload();
-        //                    successAlert('Thành công','Sửa thành công');
-
-        //            },
-        //            error: function (data) {
-        //                    dataTable.ajax.reload();
-        //                    successAlert('Thành công','Sửa thành công');
-
-        //                },
-        //        });
-        //    }
-        //    return false;
-        //}
-        //dùng bên themGiayTo.cshtml khi ấn sumbit
-        // function SubmitForm(form) {
-        //    $.validator.unobtrusive.parse(form);
-        //    if ($(form).valid()) {
-        //        $.ajax({
-        //            type : "POST",
-        //            url : form.action,
-        //            data : $(form).serialize(),
-        //            success: function (result) {
-        //                if (result.message === "Failed") {
-        //                    dataTable.ajax.reload();
-        //                    $.notify("Mã nhân viên không tồn tại", {
-        //                        globalPosition: "top center",
-        //                        className: "failed"
-        //                    })
-        //                } else {
-        //                    dataTable.ajax.reload();
-        //                    successAlert('Thành công','Thêm thành công');
-        //                }
-
-        //            },
-        //            error: function (xhr, textStatus, errorThrown) {
-        //                alert(textStatus);
-        //             }
-        //        });
-        //    }
-        //    return false;
-        //}
         function Edit(url) {
             $.get(url)
                 .done(function (response) {
@@ -487,67 +418,6 @@
     <script>
         var datatable_inside, stt;
 
-    //$(document).ready(function () {
-    //    datatable_inside = $('#inside_table').on('preXhr.dt', function (e, settings, data) {
-    //        $("#pre-load").show("slow", function () {
-    //        });
-    //        $("#pre-load").css("z-index", "99999");
-    //    })
-
-    //        .DataTable({
-    //            "ajax": {
-    //                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty",
-    //                "type": "POST",
-    //                "datatype": "json",
-    //            },"drawCallback": function (settings) {
-    //                $("#pre-load").hide("slow", function () {
-    //                });
-    //            },
-    //        "columns": [
-    //            { "data": "MaNV", "name": "MaNV" },
-    //            { "data": "Ten", "name": "Ten"},
-    //            {
-    //                "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
-    //                    return dateFormat(data);
-    //                },},
-    //            { "data": "NguoiGiaoHoSo", "name": "NguoiGiaoHoSo" },
-    //            {
-    //                "data": "NgayNhanHoSo", "name": "NgayNhanHoSo", "render": function (data) {
-    //                    return dateFormat(data);
-    //                },
-    //            },
-    //            { "data": "NguoiGiuHoSo", "name": "NguoiGiuHoSo"},
-    //            {
-    //                "data": "MaNV", "render": function (data) {
-    //                    return "<a class='waves-effect waves-light btn-small blue modal-trigger'  style='margin-left:5px' onclick=getEditIdEmp('" + data + "') >Sửa</a>";
-    //                },
-    //                "orderable": false,
-    //                "searchable": false,
-    //                "width": "150px"
-    //            }
-    //            ],
-    //            "language": {
-    //                "zeroRecords": "Không có dữ liệu",
-    //                paginate:
-    //                {
-    //                    previous: "Trang trước",
-    //                    next: "Trang sau",
-    //                    first: "|<",
-    //                    last: ">|"
-    //                }
-    //            },
-    //        "serverSide": "true",
-    //        "order": [0, "asc"],
-    //        "bLengthChange": false,
-    //        "bFilter": false,
-    //        "bInfo": false,
-    //        "bAutoWidth": false,
-    //        "initComplete": function () {
-    //            $("#pre-load").hide();
-    //        }
-    //    });
-    //    datatable_inside.ajax.reload();
-    //});
 
     function getEditCertificateData(url) {
         $.get(url)
@@ -556,26 +426,6 @@
             });
         return false;
     }
-
-    @*$("#searchButton").click(function () {
-        $("#pre-load").show("slow", function () { });
-
-            var manv = $("#manv").val();
-            var tennv = $("#tennv").val();
-            var nguoigiaohoso = $("#nguoigiaohoso").val();
-             var nguoigiuhoso = $("#nguoigiuhoso").val();
-
-            var arr = new Array();
-            arr[0] = manv;
-            arr[1] = tennv;
-            arr[2] = nguoigiaohoso;
-            arr[3] = nguoigiuhoso;
-        $.notify("Tìm kiếm thành công", {
-            globalPosition: "top center",
-            className: "success"
-        })
-            datatable_inside.ajax.url('@Url.Action("searchlistAllBrief", "Brief")?searchList=' + arr).load(() => { $("#pre-load").hide("slow", function () { }) }, true)
-    })*@
 
     //$('#export_excel_brief').click(function () {
     //    $('#pre-load').show();
@@ -834,7 +684,7 @@
             })
             .DataTable({
                 "ajax": {
-                    "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty",
+                    "url": "@Url.Action("listAllHoSo", "Brief")",
                     "type": "POST",
                     "datatype": "json",
                     "data": {
