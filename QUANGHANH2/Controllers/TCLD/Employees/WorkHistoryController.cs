@@ -54,7 +54,8 @@ namespace QUANGHANH2.Controllers.TCLD
             }
             catch (Exception e)
             {
-                return null;
+                return Json(new {data = "", draw = Request["draw"], recordsTotal = 0, recordsFiltered = 0 }, JsonRequestBehavior.AllowGet); ;
+
             }
         }
     }

@@ -314,11 +314,16 @@
                             "Gender": function () { return $('#searchGioiTinh').val() },
                             "pb": function () { return $('#searchPB').val() },
 
-                        }, "error": function () {
-                            errorAlert('Có lỗi', 'Có lỗi xảy ra.');
-                            $("#pre-load").hide("slow", function () {
-                            });
-                        }
+                        },
+                        "dataSrc": function (receivedData) {
+                            if (receivedData.data == "") {
+                                errorAlert("Có lỗi", "Có lỗi xảy ra");
+                                return receivedData.data;
+                            } else {
+                                return receivedData.data;
+                            }
+
+                        },
                     },
                     "columns": [
                         {

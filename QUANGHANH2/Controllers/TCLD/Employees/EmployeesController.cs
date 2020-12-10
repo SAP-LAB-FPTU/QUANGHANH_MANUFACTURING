@@ -617,8 +617,6 @@ namespace QUANGHANH2.Controllers.TCLD
                 string sortDirection = Request["order[0][dir]"];
                 QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 db.Configuration.LazyLoadingEnabled = false;
-                //string query_list = @"HumanResources.TCLD_get_list_employees @MaNV = @MaNV, @Ten = @Ten, @GioiTinh = @GioiTinh, @pb = @pb,
-                //               @order_column = @order_column, @sort = @sort, @start = @start, @length = @length";
                 string query_list = @"HumanResources.GetListEmployees {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}";
                 List<GetListEmployees_Result> employees = db.Database.SqlQuery<GetListEmployees_Result>(query_list,
                     MaNV, TenNV, Gender, pb, sortColumnName, sortDirection, start, length).ToList();
@@ -635,7 +633,7 @@ namespace QUANGHANH2.Controllers.TCLD
             }
             catch (Exception e)
             {
-                return new HttpStatusCodeResult(404);
+                return Json(new { data = "", draw = Request["draw"], recordsTotal = 0, recordsFiltered = 0 }, JsonRequestBehavior.AllowGet);
 
             }
         }
