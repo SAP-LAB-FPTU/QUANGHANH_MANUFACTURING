@@ -469,8 +469,8 @@ namespace QUANGHANH2.Controllers.TCLD
 
         [Auther(RightID = "53")]
         [HttpPost]
-        public ActionResult SaveEdit(Employee emp, string position, string hiddenSalary, string[] giaDinh, 
-            string[] ngaySinhGiaDinh, string[] hoTen, string[] moiQuanHe, string[] lyLich, string[] donVi, 
+        public ActionResult SaveEdit(Employee emp, string position, string hiddenSalary, string[] giaDinh,
+            string[] ngaySinhGiaDinh, string[] hoTen, string[] moiQuanHe, string[] lyLich, string[] donVi,
             string[] chucDanh, string[] chucVu, string[] tuNgayDenNgay)
         {
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
@@ -589,6 +589,7 @@ namespace QUANGHANH2.Controllers.TCLD
             return RedirectToAction("Search");
 
         }
+
         [Auther(RightID = "51")]
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
         [HttpGet]
@@ -602,7 +603,6 @@ namespace QUANGHANH2.Controllers.TCLD
             return View("/Views/TCLD/Brief/List.cshtml");
         }
 
-        
         [Auther(RightID = "51")]
         [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien")]
         [HttpPost]
@@ -617,12 +617,11 @@ namespace QUANGHANH2.Controllers.TCLD
                 string sortDirection = Request["order[0][dir]"];
                 QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 db.Configuration.LazyLoadingEnabled = false;
-                //string query_list = @"HumanResources.TCLD_get_list_employees @MaNV = @MaNV, @Ten = @Ten, @GioiTinh = @GioiTinh, @pb = @pb,
-                //               @order_column = @order_column, @sort = @sort, @start = @start, @length = @length";
                 string query_list = @"HumanResources.GetListEmployees {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}";
                 List<GetListEmployees_Result> employees = db.Database.SqlQuery<GetListEmployees_Result>(query_list,
                     MaNV, TenNV, Gender, pb, sortColumnName, sortDirection, start, length).ToList();
-
+                Session["excel"] = db.Database.SqlQuery<GetListEmployees_Result>(query_list,
+                    MaNV, TenNV, Gender, pb, sortColumnName, sortDirection, start, 2147483647).ToList();
                 string query_count = @"HumanResources.GetCountEmployees {0}, {1}, {2}, {3}";
                 GetCountEmployees_Result get_count_employees = db.Database.SqlQuery<GetCountEmployees_Result>(query_count,
                      MaNV, TenNV, Gender, pb).FirstOrDefault();
@@ -635,13 +634,13 @@ namespace QUANGHANH2.Controllers.TCLD
             }
             catch (Exception e)
             {
-                return new HttpStatusCodeResult(404);
+                return Json(new { data = "", draw = Request["draw"], recordsTotal = 0, recordsFiltered = 0 }, JsonRequestBehavior.AllowGet);
 
             }
         }
 
 
-        
+
         //        public class ChamDutModel
         //        {
         //            public string MaNV { get; set; }
@@ -775,110 +774,90 @@ namespace QUANGHANH2.Controllers.TCLD
             }
         }
 
-        //        public class NhanVienExcel : NhanVien
-        //        {
-        //            public string TenTrinhDo { get; set; }
-        //            public string TenChuyenNganh { get; set; }
-        //            public string TenCongViec { get; set; }
-        //            public string MucThangLuong { get; set; }
-        //            public string MucBacLuong { get; set; }
-        //            public string MucLuongNhanVien { get; set; }
-        //        }
-        //        [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/excel")]
-        //        [HttpPost]
-        //        public void ReturnExcel()
-        //        {
-        //            string path = HostingEnvironment.MapPath("/excel/TCLD/Brief/Danh-sách-nhân-viên.xlsx");
-        //            FileInfo file = new FileInfo(path);
-        //            using (ExcelPackage excelPackage = new ExcelPackage(file))
-        //            {
-        //                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
-        //                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
-        //                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //                {
-        //                    string searchMaNV = Request["MaNV"];
-        //                    string searchTenNV = Request["TenNV"];
-        //                    string searchGioiTinh = Request["GioiTinh"];
-        //                    string searchMaPhongBan = Request["MaPhongBan"];
+        public class NhanVienExcel : Employee
+        {
+            public string TenTrinhDo { get; set; }
+            public string TenChuyenNganh { get; set; }
+            public string TenCongViec { get; set; }
+            public string MucThangLuong { get; set; }
+            public string MucBacLuong { get; set; }
+            public string MucLuongNhanVien { get; set; }
+        }
+        [Route("phong-tcld/quan-ly-nhan-vien/danh-sach-nhan-vien/excel")]
+        [HttpPost]
+        public void ReturnExcel()
+        {
+            string path = HostingEnvironment.MapPath("/excel/TCLD/Brief/Danh-sách-nhân-viên.xlsx");
+            FileInfo file = new FileInfo(path);
+            using (ExcelPackage excelPackage = new ExcelPackage(file))
+            {
+                ExcelWorkbook excelWorkbook = excelPackage.Workbook;
+                ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+                {
+                    string searchMaNV = Request["MaNV"];
+                    string searchTenNV = Request["TenNV"];
+                    string searchGioiTinh = Request["GioiTinh"];
+                    string searchMaPhongBan = Request["MaPhongBan"];
+                    string query_list = @"HumanResources.GetListEmployees {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}";
+                    List<GetListEmployees_Result> list = (List<GetListEmployees_Result>) Session["excel"];
+                        //db.Database.SqlQuery<GetListEmployees_Result>(query_list,
+                        //searchMaNV, searchTenNV, searchGioiTinh, searchMaPhongBan, "BASIC_INFO_full_name"
+                        //, "ASC", 0, 2147483647).ToList();
+                    int k = 4;
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        excelWorksheet.Cells[k, 1].Value = i + 1;
+                        excelWorksheet.Cells[k, 2].Value = list.ElementAt(i).employee_id;
+                        excelWorksheet.Cells[k, 3].Value = list.ElementAt(i).BASIC_INFO_full_name;
+                        if ((bool)list.ElementAt(i).BASIC_INFO_gender)
+                        {
+                            excelWorksheet.Cells[k, 4].Value = "Nam";
+                        }
+                        else
+                        {
+                            excelWorksheet.Cells[k, 4].Value = "Nữ";
+                        }
+                        excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).BASIC_INFO_date_of_birth.HasValue ? list.ElementAt(i).BASIC_INFO_date_of_birth.Value.ToString("dd/MM/yyyy") : "";
+                        excelWorksheet.Cells[k, 6].Value = list.ElementAt(i).BASIC_INFO_identity_card;
+                        excelWorksheet.Cells[k, 7].Value = list.ElementAt(i).BASIC_INFO_date_of_issuance_of_identity_card;
+                        excelWorksheet.Cells[k, 13].Value = list.ElementAt(i).current_department_id;
+                        //
+                        excelWorksheet.Cells[k, 14].Value = list.ElementAt(i).current_department_id;
+                        excelWorksheet.Cells[k, 15].Value = list.ElementAt(i).current_department_id;
+                        excelWorksheet.Cells[k, 16].Value = list.ElementAt(i).current_department_id;
+                        excelWorksheet.Cells[k, 17].Value = list.ElementAt(i).current_department_id;
+                        //
+                        if (list.ElementAt(i).ACADEMIC_academic_level != null)
+                        {
+                            if (list.ElementAt(i).ACADEMIC_academic_level.Equals("1"))
+                            {
+                                excelWorksheet.Cells[k, 20].Value = "Tiểu học";
+                            }
+                            else if (list.ElementAt(i).ACADEMIC_academic_level.Equals("2"))
+                            {
+                                excelWorksheet.Cells[k, 20].Value = "THCS";
+                            }
+                            else if (list.ElementAt(i).ACADEMIC_academic_level.Equals("3"))
+                            {
+                                excelWorksheet.Cells[k, 20].Value = "THPT";
+                            }
+                            else if (list.ElementAt(i).ACADEMIC_academic_level.Equals("4"))
+                            {
+                                excelWorksheet.Cells[k, 20].Value = "Trung cấp";
+                            }
+                            else
+                            {
+                                excelWorksheet.Cells[k, 20].Value = "Đại học";
+                            }
+                        }
+                        excelWorksheet.Cells[k, 22].Value = list.ElementAt(i).BASIC_INFO_home_town;
+                        k++;
+                    }
+                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/TCLD/download/Danh-sách-nhân-viên.xlsx")));
+                }
+            }
 
-        //                    string query = @"select nv.*, cv.TenCongViec, 
-        //                                    tl.MucThangLuong as 'MucThangLuong',
-        //                                    bl.MucBacLuong as 'MucBacLuong',
-        //                                    bl_tl_ml.MucLuong as 'MucLuongNhanVien'
-        //                                    from NhanVien nv
-        //                                    left outer join CongViec cv on nv.MaCongViec = cv.MaCongViec
-        //                                    left outer join BacLuong_ThangLuong_MucLuong bl_tl_ml on nv.MaBacLuong_ThangLuong_MucLuong = bl_tl_ml.MaBacLuong_ThangLuong_MucLuong
-        //                                    left outer join BacLuong bl on bl.MaBacLuong = bl_tl_ml.MaBacLuong
-        //                                    left outer join ThangLuong tl on tl.MaThangLuong = bl_tl_ml.MaThangLuong";
-        //                    if (searchMaNV != "" || searchTenNV != "" || searchGioiTinh != "" || searchMaPhongBan != "")
-        //                    {
-        //                        query += " where";
-        //                        if (searchMaNV != "") query += " nv.MaNV like @searchMaNV and";
-        //                        if (searchTenNV != "") query += " nv.Ten like @searchTenNV and";
-        //                        if (searchGioiTinh != "")
-        //                        {
-        //                            searchGioiTinh = searchGioiTinh == "true" ? "1" : "0";
-        //                            query += " nv.GioiTinh = @searchGioiTinh and";
-        //                        }
-        //                        if (searchMaPhongBan != "") query += " nv.MaPhongBan = @searchMaPhongBan and";
-        //                        query = query.Substring(0, query.Length - 4);
-        //                    }
-        //                    List<NhanVienExcel> list = db.Database.SqlQuery<NhanVienExcel>(query, new SqlParameter("searchMaNV", searchMaNV),
-        //                                                                                            new SqlParameter("searchTenNV", searchTenNV),
-        //                                                                                            new SqlParameter("searchGioiTinh", searchGioiTinh),
-        //                                                                                            new SqlParameter("searchMaPhongBan", searchMaPhongBan)).ToList();
-        //                    int k = 4;
-        //                    for (int i = 0; i < list.Count; i++)
-        //                    {
-        //                        excelWorksheet.Cells[k, 1].Value = i + 1;
-        //                        excelWorksheet.Cells[k, 2].Value = list.ElementAt(i).MaNV;
-        //                        excelWorksheet.Cells[k, 3].Value = list.ElementAt(i).Ten;
-        //                        if (list.ElementAt(i).GioiTinh)
-        //                        {
-        //                            excelWorksheet.Cells[k, 4].Value = "Nam";
-        //                        }
-        //                        else
-        //                        {
-        //                            excelWorksheet.Cells[k, 4].Value = "Nữ";
-        //                        }
-        //                        excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).NgaySinh.HasValue ? list.ElementAt(i).NgaySinh.Value.ToString("dd/MM/yyyy") : "";
-        //                        excelWorksheet.Cells[k, 6].Value = list.ElementAt(i).SoCMND;
-        //                        excelWorksheet.Cells[k, 7].Value = list.ElementAt(i).SoBHXH;
-        //                        excelWorksheet.Cells[k, 13].Value = list.ElementAt(i).MaPhongBan;
-        //                        excelWorksheet.Cells[k, 14].Value = list.ElementAt(i).TenCongViec;
-        //                        excelWorksheet.Cells[k, 15].Value = list.ElementAt(i).MucLuongNhanVien;
-        //                        excelWorksheet.Cells[k, 16].Value = list.ElementAt(i).MucThangLuong;
-        //                        excelWorksheet.Cells[k, 17].Value = list.ElementAt(i).MucBacLuong;
-        //                        if (list.ElementAt(i).MaTrinhDo != null)
-        //                        {
-        //                            if (list.ElementAt(i).MaTrinhDo.Equals("1"))
-        //                            {
-        //                                excelWorksheet.Cells[k, 20].Value = "Tiểu học";
-        //                            }
-        //                            else if (list.ElementAt(i).MaTrinhDo.Equals("2"))
-        //                            {
-        //                                excelWorksheet.Cells[k, 20].Value = "THCS";
-        //                            }
-        //                            else if (list.ElementAt(i).MaTrinhDo.Equals("3"))
-        //                            {
-        //                                excelWorksheet.Cells[k, 20].Value = "THPT";
-        //                            }
-        //                            else if (list.ElementAt(i).MaTrinhDo.Equals("4"))
-        //                            {
-        //                                excelWorksheet.Cells[k, 20].Value = "Trung cấp";
-        //                            }
-        //                            else
-        //                            {
-        //                                excelWorksheet.Cells[k, 20].Value = "Đại học";
-        //                            }
-        //                        }
-        //                        excelWorksheet.Cells[k, 22].Value = list.ElementAt(i).QueQuan;
-        //                        k++;
-        //                    }
-        //                    excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/TCLD/download/Danh-sách-nhân-viên.xlsx")));
-        //                }
-        //            }
-
-        //        }
+        }
     }
 }

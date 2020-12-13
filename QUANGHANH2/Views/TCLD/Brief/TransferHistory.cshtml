@@ -5,39 +5,54 @@
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
 <link href="~/dist/css/pages/data-table.css" rel="stylesheet">
+
 <div class="card">
     <div class="card-content">
-        <div class="row">
-            <div class="col s12 center">
-                <h3>
-                    <b>CHI TIẾT ĐIỀU ĐỘNG CỦA NHÂN VIÊN <a href="javascript:void(0);" class="text-blue">@ViewBag.name</a></b>
-                    <br />
-                </h3>
-            </div>
-            <div class="col s12 m12 l12 table-responsive">
-                <table id="table-transfer" class="tcld table-bordered mytablr" style="width: 100%; margin-top: 20px; max-height: 600px !important">
-                    <thead>
-                        <tr>
-                            <th rowspan="2">Số QĐ</th>
-                            <th rowspan="2">Ngày QĐ</th>
+        @if (ViewBag.checker != 0)
+        {
+            <div class="row">
+                <div class="col s12 center">
+                    <h3>
+                        <b>CHI TIẾT ĐIỀU ĐỘNG CỦA NHÂN VIÊN <a href="javascript:void(0);" class="text-blue">@ViewBag.name</a></b>
+                        <br />
+                    </h3>
+                </div>
+                <div class="col s12 m12 l12 table-responsive">
+                    <table id="table-transfer" class="tcld table-bordered mytablr" style="width: 100%; margin-top: 20px; max-height: 600px !important">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Số QĐ</th>
+                                <th rowspan="2">Ngày QĐ</th>
 
-                            <th colspan="2">Trước</th>
-                            <th colspan="2">Sau</th>
-                        </tr>
-                        <tr>
-                            <th>Đơn vị</th>
-                            <th>Chức vụ</th>
-                            <th>Đơn vị</th>
-                            <th>Chức vụ</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                                <th colspan="2">Trước</th>
+                                <th colspan="2">Sau</th>
+                            </tr>
+                            <tr>
+                                <th>Đơn vị</th>
+                                <th>Chức vụ</th>
+                                <th>Đơn vị</th>
+                                <th>Chức vụ</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col s12 center">
+                    <h3>
+                        <b>MÃ NHÂN VIÊN KHÔNG TỒN TẠI</b>
+                        <br />
+                    </h3>
+                </div>
+            </div>
+        }
+
     </div>
 </div>
-
 <script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>
 <script src="~/Scripts/notify.min.js"></script>
 <script src="~/Scripts/Scripts.js"></script>
@@ -45,8 +60,11 @@
 <link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet" />
 <script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
 @section scripts{
-    <script>
+    @if (ViewBag.checker != 0)
+    {
+        <script>
         var dataTable;
+
         $(document).ready(function () {
             $("#pre-load").show("slow",
                 function () {
@@ -66,18 +84,28 @@
                         "url": "/phong-tcld/quan-ly-nhan-vien/chi-tiet-dieu-dong",
                         "type": "POST",
                         "datatype": "json",
+                        "dataSrc": function (receivedData) {
+                            if (receivedData.data == "") {
+                                errorAlert("Có lỗi", "Có lỗi xảy ra");
+                                return receivedData.data;
+                            } else {
+                                return receivedData.data;
+                            }
+
+                        },
+
                     },
                     "columns": [
-                        { "data": "SoQuyetDinh", "name": "SoQuyetDinh" },
+                        { "data": "number", "name": "number" },
                         {
-                            "data": "NgayQuyetDinh", "name": "NgayQuyetDinh", "render": function (data) {
+                            "data": "date", "name": "date", "render": function (data) {
                                  return dateFormat(data);
                             },
                         },
-                        { "data": "DonViCu", "name": "DonViCu" },
-                        { "data": "ChucVuCu", "name": "ChucVuCu" },
-                        { "data": "DonViMoi", "name": "DonViMoi" },
-                        { "data": "ChucVuMoi", "name": "ChucVuMoi" }
+                        { "data": "old_department", "name": "old_department" },
+                        { "data": "old_work", "name": "old_work" },
+                        { "data": "new_department", "name": "new_department" },
+                        { "data": "new_work", "name": "new_work" }
                     ],
                     "drawCallback": function (settings) {
                         ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
@@ -106,14 +134,15 @@
                     "bAutoWidth": false,
                     "initComplete": function (settings, json) {
                         ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
-                        $("#pre-load").hide("slow",
-                            function () {
-                            });
+                        $("#pre-load").hide("slow", function () {
+                        });
                         //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
                     }
 
                 });
         });
+
+
         function dateFormat(d) {
             if (d != null && d != "") {
                 var dateString = d.substr(6);
@@ -129,6 +158,7 @@
             }
 
         }
-    </script>
+        </script>
+    }
 }
 

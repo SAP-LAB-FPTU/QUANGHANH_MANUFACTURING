@@ -8,11 +8,26 @@
     <div class="card-content">
         <div class="row">
             <h3 class="center"><b>QUẢN LÝ CÔNG VIÊC - NHÓM CÔNG VIỆC</b></h3>
+
+            <div class=row>
+                <div class="col l3 m12 s12"></div>
+                <div class="col l3 m12 s12"></div>
+                <div class="col l3 m12 s12">
+                    <input type="text" placeholder="Tên công việc" class='form-control' id="search_work_name" />
+                </div>
+                <div class="col l2 m12 s12 ">
+                    <input type="text" placeholder="Tên nhóm công việc" class='form-control' id="search_work_group_name" />
+                </div>
+                <div class="col l1 m12 s12 ">
+                    <button class="waves-effect waves-light btn blue darken-2 btn-small" id="search_button"><i class="fas fas fa-search"></i></button>
+                </div>
+            </div>
+
             <div>
-                <a class="waves-effects waves-light btn blue darken-2 btn-small input-field modal-trigger" href="#modal_them_CongViec_NhomCongViec">Thêm</a>
+                <a class="waves-effects waves-light btn blue darken-2 btn-small input-field modal-trigger" href="#modal_add_work_work_group">Thêm</a>
             </div>
             <div>
-                <table id="congviec_nhomcongviec" class="table table-bordered responsive-table center">
+                <table id="work_work_group_table" class="table table-bordered responsive-table center">
                     <thead>
                         <tr>
                             <th>Tên công việc</th>
@@ -28,72 +43,69 @@
     </div>
 </div>
 
-<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-
-<!---------Modal them_CongViec_NhomCongViec--------->
-<div class="modal" id="modal_them_CongViec_NhomCongViec">
+<!---------Modal add WorkWorkGroup--------->
+<div class="modal" id="modal_add_work_work_group">
     <div class="modal-content">
         <h4 class="center"><b>Thêm công việc - nhóm công việc</b></h4>
         <div class="row">
             <div class="col s12 m6 l6">
                 <label>Tên công việc</label>
-                <select class="form-control" id="tenCongViec_them_select">
+                <select class="form-control" id="add_modal_work_name_select">
                     <option disabled selected value="">Chọn tên công việc</option>
-                    @foreach (var listCongViec in ViewBag.listCongViec)
+                    @foreach (var work in ViewBag.works)
                     {
-                        <option value="@listCongViec.MaCongViec">@listCongViec.TenCongViec</option>
+                        <option value="@work.work_id">@work.name</option>
                     }
                 </select>
             </div>
             <div class="col s12 m6 l6">
                 <label>Tên nhóm công việc</label>
-                <select class="form-control" id="tenNhomCongViec_them_select">
+                <select class="form-control" id="add_modal_work_group_name_select">
                     <option disabled selected value="">Chọn tên nhóm công việc</option>
-                    @foreach (var listNhomCongViec in ViewBag.listNhomCongViec)
+                    @foreach (var workGroup in ViewBag.workGroups)
                     {
-                        <option value="@listNhomCongViec.MaNhomCongViec">@listNhomCongViec.TenNhomCongViec</option>
+                        <option value="@workGroup.work_group_id">@workGroup.name</option>
                     }
                 </select>
             </div>
         </div>
     </div>
     <div class="modal-footer">
-        <button id="xacNhanThemCongViec_NhomCongViec" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
-        <button id="dongThemCongViec_NhomCongViec" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
+        <button id="add_modal_confirm_button" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="add_modal_close_modal_button" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
     </div>
 </div>
 
-<!---------Modal sua_CongViec_NhomCongViec----------->
-<div class="modal" id="modal_sua_CongViec_NhomCongViec">
+<!---------Modal edit WorkWorkGroup----------->
+<div class="modal" id="modal_edit_work_work_group">
     <div class="modal-content">
         <h4 class="center"><b>Sửa công việc - nhóm công việc</b></h4>
         <div class="row">
             <div class="col s12 m6 l6">
                 <label>Tên công việc</label>
-                <select class="form-control" id="tenCongViec_sua_select">
+                <select class="form-control" id="edit_modal_work_name_select">
                     <option disabled selected value="">Chọn tên công việc</option>
-                    @foreach (var listCongViec in ViewBag.listCongViec)
+                    @foreach (var work in ViewBag.works)
                     {
-                        <option value="@listCongViec.MaCongViec">@listCongViec.TenCongViec</option>
+                        <option value="@work.work_id">@work.name</option>
                     }
                 </select>
             </div>
             <div class="col s12 m6 l6">
                 <label>Tên nhóm công việc</label>
-                <select class="form-control" id="tenNhomCongViec_sua_select">
+                <select class="form-control" id="edit_modal_work_group_name_select">
                     <option disabled selected value="">Chọn tên nhóm công việc</option>
-                    @foreach (var listNhomCongViec in ViewBag.listNhomCongViec)
+                    @foreach (var workGroup in ViewBag.workGroups)
                     {
-                        <option value="@listNhomCongViec.MaNhomCongViec">@listNhomCongViec.TenNhomCongViec</option>
+                        <option value="@workGroup.work_group_id">@workGroup.name</option>
                     }
                 </select>
             </div>
         </div>
     </div>
     <div class="modal-footer">
-        <button id="xacNhanSuaongViec_NhomCongViec" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
-        <button id="dongSuaCongViec_NhomCongViec" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
+        <button id="edit_modal_confirm_button" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="edit_modal_close_modal_button" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
     </div>
 </div>
 
@@ -102,29 +114,33 @@
     var table;
     $(document).ready(function () {
         $("#pre-load").show();
-        table = $("#congviec_nhomcongviec").DataTable({
+        table = $("#work_work_group_table").DataTable({
             "ajax": {
                 "url": "/phong-tcld/cong-viec-nhom-cong-viec/danh-sach-cong-viec-nhom-cong-viec",
                 "type": "GET",
                 "datatype": "json",
                 "cache": "false",
+                "data": {
+                    "search_work_name": () => { return $("#search_work_name").val() },
+                    "search_work_group_name": () => { return $("#search_work_group_name").val() }
+                },
                 "dataSrc": function (json) {
-                    return json["listCongViec_NhomCongViec"]
+                    return json["workWorkGroups"]
                 }
             },
             "columns": [
-                { "data": "TenCongViec", "name": "TenCongViec" },
-                { "data": "TenNhomCongViec", "name": "TenNhomCongViec" },
+                { "data": "work_name", "name": "work_name" },
+                { "data": "work_group_name", "name": "work_group_name" },
                 {
                     "data": "", "render": function (data, type, row) {
-                        return "<a id=\"suaCongViec_NhomCongViec\" name=\"" + row["MaCongViec_NhomCongViec"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_sua_CongViec_NhomCongViec\">Sửa</a>"
+                        return "<a id=\"suaCongViec_NhomCongViec\" name=\"" + row["work_work_group_id"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_edit_work_work_group\">Sửa</a>"
                     },
                     "orderable": false,
                     "searchable": false
                 },
                 {
                     "data": "", "render": function (data, type, row) {
-                        return "<a id=\"xoaCongViec_NhomCongViec\" name=\"" + row["MaCongViec_NhomCongViec"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-close\">Xóa</a>"
+                        return "<a id=\"xoaCongViec_NhomCongViec\" name=\"" + row["work_work_group_id"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-close\">Xóa</a>"
                     },
                     "orderable": false,
                     "searchable": false
@@ -154,10 +170,19 @@
     });
 </script>
 
+<!---------------------------SEARCH--------------------------->
+<script>
+    $(document).ready(function () {
+        $("#search_button").click(function () {
+            table.ajax.reload();
+        });
+    })
+</script>
+
 <!--------------------------------ADD-------------------------------->
 <script>
     $(document).ready(function () {
-        $("#xacNhanThemCongViec_NhomCongViec").click(function () {
+        $("#add_modal_confirm_button").click(function () {
             $("#pre-load").show(),
                 $.ajax({
                     url: "/phong-tcld/cong-viec-nhom-cong-viec/them-cong-viec-nhom-cong-viec",
@@ -165,20 +190,20 @@
                     datatype: "json",
                     cache: false,
                     data: {
-                        "macongviec": $("#tenCongViec_them_select").val(),
-                        "manhomcongviec": $("#tenNhomCongViec_them_select").val()
+                        "work_id": $("#add_modal_work_name_select").val(),
+                        "work_group_id": $("#add_modal_work_group_name_select").val()
                     },
                     success: function (response) {
                         if (response.success) {
                             //close the modal themCongViec_NhomCongViec
-                            $("#dongThemCongViec_NhomCongViec").click();
+                            $("#add_modal_close_modal_button").click();
                             //alert successful adding
                             successAlert(response.title, response.message);
                             //clear selected option in modal
-                            $("#tenCongViec_them_select option").prop("selected", function () {
+                            $("#add_modal_work_name_select option").prop("selected", function () {
                                 return this.defaultSelected;
                             });
-                            $("#tenNhomCongViec_them_select option").prop("selected", function () {
+                            $("#add_modal_work_group_name_select option").prop("selected", function () {
                                 return this.defaultSelected;
                             });
                             //reload table
@@ -192,7 +217,7 @@
                         }
                     },
                     error: function (response) {
-
+                        errorAlert(response.title, response.message);
                     }
                 })
         });
@@ -201,21 +226,21 @@
 
 <!-----------------------------------------------EDIT------------------------------------------------->
 <script>
-    var macongviec_nhomcongviec;
-    var macongviec;
-    var manhomcongviec;
+    var work_work_group_id;
+    var work_id;
+    var work_group_id;
 
-    //select option by macongviec_nhomcongviec
-    $("#congviec_nhomcongviec").on("click", "#suaCongViec_NhomCongViec", function () {
-        macongviec_nhomcongviec = $(this).attr("name");
-        getDataBy_MaCongViec_NhomCongViec(macongviec_nhomcongviec);
+    //select option by work_work_group_id
+    $("#work_work_group_table").on("click", "#suaCongViec_NhomCongViec", function () {
+        work_work_group_id = $(this).attr("name");
+        getDataWorkWorkGroup(work_work_group_id);
     });
 
     //update
-    $("#xacNhanSuaongViec_NhomCongViec").click(function () {
-        macongviec = $("#tenCongViec_sua_select").val();
-        manhomcongviec = $("#tenNhomCongViec_sua_select").val();
-        update(macongviec_nhomcongviec, macongviec, manhomcongviec);
+    $("#edit_modal_confirm_button").click(function () {
+        work_id = $("#edit_modal_work_name_select").val();
+        work_group_id = $("#edit_modal_work_group_name_select").val();
+        update(work_work_group_id, work_id, work_group_id);
 
     });
 
@@ -223,24 +248,24 @@
 
 <!-----------------------GET DATA BY MACONGVIEC_NHOMCONGVIEC------------------------>
 <script>
-    function getDataBy_MaCongViec_NhomCongViec(macongviec_nhomcongviec) {
+    function getDataWorkWorkGroup(work_work_group_id) {
         $("#pre-load").show(),
             $.ajax({
                 url: "/phong-tcld/cong-viec-nhom-cong-viec/lay-du-lieu-theo-macongviec-nhomcongviec",
-                type: "GET",
+                type: "POST",
                 datatype: "json",
                 data: {
-                    "macongviec_nhomcongviec": macongviec_nhomcongviec
+                    "work_work_group_id": work_work_group_id
                 },
                 success: function (response) {
-                    //auto select option by macongviec_nhomcongviec
-                    $("#tenCongViec_sua_select option[value=\"" + response.listCongViec_NhomCongViec_by_MaCongViec_NhomCongViec.MaCongViec + "\"]").prop("selected", true);
-                    $("#tenNhomCongViec_sua_select option[value=\"" + response.listCongViec_NhomCongViec_by_MaCongViec_NhomCongViec.MaNhomCongViec + "\"]").prop("selected", true);
+                    //auto select option by work_work_group_id
+                    $("#edit_modal_work_name_select option[value=\"" + response.workWorkGroups.work_id + "\"]").prop("selected", true);
+                    $("#edit_modal_work_group_name_select option[value=\"" + response.workWorkGroups.work_group_id + "\"]").prop("selected", true);
                     //hide the pre-loader
                     $("#pre-load").hide();
                 },
                 error: function (response) {
-
+                    errorAlert(response.title, response.message);
                 }
             })
     }
@@ -248,21 +273,21 @@
 
 <!---------------------------------------UPDATE--------------------------------------->
 <script>
-    function update(macongviec_nhomcongviec, macongviec, manhomcongviec) {
+    function update(work_work_group_id, work_id, work_group_id) {
         $("#pre-load").show(),
             $.ajax({
                 url: "/phong-tcld/cong-viec-nhom-cong-viec/cap-nhat-cong-viec-nhom-cong-viec",
                 type: "POST",
                 datatype: "json",
                 data: {
-                    "macongviec_nhomcongviec": macongviec_nhomcongviec,
-                    "macongviec": macongviec,
-                    "manhomcongviec": manhomcongviec
+                    "work_work_group_id": work_work_group_id,
+                    "work_id": work_id,
+                    "work_group_id": work_group_id
                 },
                 success: function (response) {
                     if (response.success) {
                         //close the modal
-                        $("#dongSuaCongViec_NhomCongViec").click();
+                        $("#edit_modal_close_modal_button").click();
                         //alert successful updating
                         successAlert(response.title, response.message);
                         //reload table
@@ -276,7 +301,7 @@
                     }
                 },
                 error: function (response) {
-
+                    errorAlert(response.title, response.message);
                 }
             })
     }
@@ -285,24 +310,24 @@
 <!------------------------------------------------------DELETE-------------------------------------------------------->
 <script>
     $(document).ready(function () {
-        var macongviec_nhomcongviec;
-        $("#congviec_nhomcongviec").on("click", "#xoaCongViec_NhomCongViec", function () {
-            macongviec_nhomcongviec = $(this).attr("name");
+        var work_work_group_id;
+        $("#work_work_group_table").on("click", "#xoaCongViec_NhomCongViec", function () {
+            work_work_group_id = $(this).attr("name");
             //alert confirm popup
-            confirmAlert("Xác nhận xóa?", "Xác nhận xóa công việc - nhóm công việc", function () { delete_Congviec_Nhomcongviec(macongviec_nhomcongviec); });
+            confirmAlert("Xác nhận xóa?", "Xác nhận xóa công việc - nhóm công việc", function () { delete_Congviec_Nhomcongviec(work_work_group_id); });
         });
     });
 </script>
 
 <script>
-    function delete_Congviec_Nhomcongviec(macongviec_nhomcongviec) {
+    function delete_Congviec_Nhomcongviec(work_work_group_id) {
         $("#pre-load").show(),
             $.ajax({
                 url: "/phong-tcld/cong-viec-nhom-cong-viec/xoa-cong-viec-nhom-cong-viec",
                 type: "POST",
                 datatype: "json",
                 data: {
-                    "macongviec_nhomcongviec": macongviec_nhomcongviec
+                    "work_work_group_id": work_work_group_id
                 },
                 success: function (response) {
                     if (response.success) {
@@ -312,14 +337,14 @@
                         table.ajax.reload();
                         //hide the pre-loader
                         $("#pre-load").hide();
-                    } else if (response.error) {
+                    } else {
                         //alert fail updating
                         errorAlert(response.title, response.message);
                         $("#pre-load").hide();
                     }
                 },
                 error: function (response) {
-
+                    errorAlert(response.title, response.message);
                 }
             })
     }

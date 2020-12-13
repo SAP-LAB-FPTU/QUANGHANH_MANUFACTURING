@@ -106,7 +106,16 @@
                 "url": '@Url.Action("getDataHistoryWork", "WorkHistory")',
                 "type": "POST",
                 "datatype": "json",
-                "data": {"id": @ViewBag.employee.employee_id},
+                "data": { "id": @ViewBag.employee.employee_id},
+                "dataSrc": function (receivedData) {
+                    if (receivedData.data == "") {
+                        errorAlert("Có lỗi", "Có lỗi xảy ra");
+                        return receivedData.data;
+                    } else {
+                        return receivedData.data;
+                    }
+
+                },
             },
             "columns": [
                 {

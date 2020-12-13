@@ -362,6 +362,7 @@
     <Compile Include="EntityResult\GetDashCam_Result.cs" />
     <Compile Include="EntityResult\GetDashRoom_Result.cs" />
     <Compile Include="EntityResult\GetDataWorkGroups_Result.cs" />
+    <Compile Include="EntityResult\GetDataWorkWorkGroups_Result.cs" />
     <Compile Include="EntityResult\GetFuelReport_Result.cs" />
     <Compile Include="EntityResult\GetExportList_Result.cs" />
     <Compile Include="EntityResult\GetListEquipNoAccreditationWithDate_Result.cs" />
@@ -384,6 +385,7 @@
     <Compile Include="EntityResult\GetDepartmentJobDetailByEmployeeID_Result.cs" />
     <Compile Include="EntityResult\GetListCamera_Result.cs" />
     <Compile Include="EntityResult\GetSuggestSearch_Result.cs" />
+    <Compile Include="EntityResult\GetTranferHistory_Result.cs" />
     <Compile Include="EntityResult\GetUserFunction_Result.cs" />
     <Compile Include="EntityResult\GetWaterReport_Result.cs" />
     <Compile Include="EntityResult\GetWorkHistory_Result.cs" />
@@ -771,6 +773,9 @@
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WorkingProcess.cs">
+      <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WorkWorkGroup.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ModelViews\PxdsModelView.cs" />

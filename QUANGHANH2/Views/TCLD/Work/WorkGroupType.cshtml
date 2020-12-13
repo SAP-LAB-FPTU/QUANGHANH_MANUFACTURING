@@ -7,14 +7,27 @@
     <div class="card-content">
         <div class="row">
             <h3 class="center"><b>DANH SÁCH DIỆN CÔNG VIỆC</b></h3>
+
+            <div class=row>
+                <div class="col l3 m12 s12"></div>
+                <div class="col l3 m12 s12"></div>
+                <div class="col l3 m12 s12"></div>
+                <div class="col l2 m12 s12 ">
+                    <input type="text" placeholder="Loại công việc" class='form-control' id="search_work_group_type_name" />
+                </div>
+                <div class="col l1 m12 s12 ">
+                    <button class="waves-effect waves-light btn blue darken-2 btn-small" id="search_button"><i class="fas fas fa-search"></i></button>
+                </div>
+            </div>
+
             <div>
-                <a class="waves-effects waves-light btn blue darken-2 btn-small input-field modal-trigger" href="#modal_themDienCongViec">Thêm</a>
+                <a class="waves-effects waves-light btn blue darken-2 btn-small input-field modal-trigger" href="#modal_add_work_group_type">Thêm</a>
             </div>
             <div>
-                <table id="diencongviec" class="table table-bordered responsive-table center">
+                <table id="work_group_type_table" class="table table-bordered responsive-table center">
                     <thead>
                         <tr>
-                            <th>Diện công việc</th>
+                            <th>Loại công việc</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -25,223 +38,257 @@
         </div>
     </div>
 </div>
-<!--Modal themDienCongViec-->
-<div id="modal_themDienCongViec" class="modal">
+
+<!--Modal add WorkGroupType-->
+<div id="modal_add_work_group_type" class="modal">
     <div class="modal-content">
-        <h4 class="center"><b>Thêm Diện Công Việc</b></h4>
+        <h4 class="center"><b>Thêm loại công việc</b></h4>
         <div class="row">
             <div class="col s1 m1 l1"></div>
             <div class="col s12 m10 l10">
-                <label>Tên diện công việc</label>
-                <input type="text" class="form-control" id="tenDienCongViec_them" />
+                <label>Tên loại công việc</label>
+                <input type="text" class="form-control" id="add_work_group_type_name" />
             </div>
             <div class="col s1 m1 l1"></div>
         </div>
     </div>
     <div class="modal-footer">
-        <button id="xacNhanThemDienCongViec" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
-        <button id="dongThemDienCongViec" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
-    </div>
-</div>
-<!--Modal suaDienCongViec-->
-<div id="modal_suaDienCongViec" class="modal">
-    <div class="modal-content">
-        <h4 class="center"><b>Sửa Diện Công Việc</b></h4>
-        <div class="row">
-            <div class="col s1 m1 l1"></div>
-            <div class="col s12 m10 l10">
-                <label>Tên diện công việc</label>
-                <input type="text" class="form-control" id="tenDienCongViec_sua" />
-            </div>
-            <div class="col s1 m1 l1"></div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button class="waves-effects waves-light btn blue darken-2 btn-small" id="xacNhanSuaDienCongViec">Xác nhận</button>
-        <button class="waves-effects waves-light btn red darken-2 btn-small modal-close" id="dongSuaDienCongViec">Đóng</button>
+        <button id="add_work_group_type_confirm_button" class="waves-effects waves-light btn blue darken-2 btn-small">Xác nhận</button>
+        <button id="add_work_group_type_close_modal_button" class="waves-effects waves-light btn red darken-2 btn-small modal-close">Đóng</button>
     </div>
 </div>
 
-<link href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<!--Modal edit WorkGroupType-->
+<div id="modal_edit_work_group_type" class="modal">
+    <div class="modal-content">
+        <h4 class="center"><b>Sửa loại công việc</b></h4>
+        <div class="row">
+            <div class="col s1 m1 l1"></div>
+            <div class="col s12 m10 l10">
+                <label>Tên loại công việc</label>
+                <input type="text" class="form-control" id="edit_work_group_type_name" />
+            </div>
+            <div class="col s1 m1 l1"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="waves-effects waves-light btn blue darken-2 btn-small" id="edit_work_group_type_confirm_button">Xác nhận</button>
+        <button class="waves-effects waves-light btn red darken-2 btn-small modal-close" id="edit_work_group_type_close_modal_button">Đóng</button>
+    </div>
+</div>
+
 <!-------------------LIST------------------->
 <script>
     var table;
     $(document).ready(function () {
         $('#pre-load').show();
-        table = $('#diencongviec').DataTable({
+        table = $('#work_group_type_table').DataTable({
             "ajax": {
-                "url": "/phong-tcld/quan-ly-dien-cong-viec/danh-sach-dien-cong-viec",
+                "url": "/phong-tcld/quan-ly-loai-cong-viec/danh-sach-loai-cong-viec",
                 "type": "GET",
                 "datatype": "json",
                 "cache": "false",
+                "data": {
+                    //search data
+                    "search_work_group_type_name": () => { return $("#search_work_group_type_name").val()}  
+                },
                 "dataSrc": function (json) {
-                    return json["sqlList"];
+                    return json["workGroupTypes"];
                 }
             },
             "columns": [
-                { "data": "TenDienCongViec" },
                 {
-                    "data": "", "render": function (data, type, row) {
-                        return "<a id=\"suaDienCongViec\" name=\"" + row["MaDienCongViec"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_suaDienCongViec\">Sửa</a>";
-                    }
+                    "data": "name", "name": "name"
                 },
                 {
                     "data": "", "render": function (data, type, row) {
-                        return "<a id=\"xoaDienCongViec\" name=\"" + row["MaDienCongViec"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-trigger\">Xóa</a>";
-                    }
+                        return "<a id=\"edit_work_group_type_button\" name=\"" + row["work_group_type_id"] + "\" class=\"waves-effects waves-light btn blue darken-2 btn-small modal-trigger\" href=\"#modal_edit_work_group_type\">Sửa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false
+                },
+                {
+                    "data": "", "render": function (data, type, row) {
+                        return "<a id=\"delete_work_group_type_button\" name=\"" + row["work_group_type_id"] + "\" class=\"waves-effects waves-light btn red darken-2 btn-small modal-trigger\">Xóa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false
                 }
             ],
-            "language": {
-                "emptyTable": "Không tìm thấy dữ liệu"
-            },
-            "lengthChange": false,
-            "ordering": false,
-            "paging": false,
+            "serverSide": "true",
+            "order": [0, "desc"],
             "searching": false,
+            "lengthChange": false,
+            "autoWidth": false,
+            "filter": true,
             "info": false,
+            "language": {
+                emptyTable: "Không có dữ liệu",
+                paginate:
+                {
+                    previous: "Trang trước",
+                    next: "Trang sau",
+                    first: "|<",
+                    last: ">|"
+                }
+            },
             "initComplete": function (settings, json) {
-                $('#pre-load').hide();
+                $("#pre-load").hide();
             }
         });
     });
 </script>
-<!---------------------ADD-------------------->
+
+<!---------------SEARCH------------------>
 <script>
     $(document).ready(function () {
-        $("#xacNhanThemDienCongViec").click(function () {
-            $("pre-load").show(),
-                $.ajax({
-                    url: "/phong-tcld/quan-ly-dien-cong-viec/them-dien-cong-viec",
-                    type: "POST",
-                    datatype: "json",
-                    data: {
-                        "TenDienCongViec": $("#tenDienCongViec_them").val()
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            successAlert('Thành công', response.message);
-                            //close popup
-                            $("#dongThemDienCongViec").click();
-                            //clear input
-                            $("#tenDienCongViec_them").val("");
-                            //reload table after add successfully
-                            table.ajax.reload();
-                            $('#pre-load').hide();
-                        } else if (response.error) {
-                            errorAlert("Có lỗi", response.message);
-                            $('#pre-load').hide();
-                        }
-                    },
-                    error: function (response) {
-
-                    }
-                });
+        $("#search_button").click(function () {
+            table.ajax.reload();
         });
     });
 </script>
-<!---------------------EDIT------------------------>
+
+<!-------------------ADD------------------>
 <script>
     $(document).ready(function () {
-        var madiencongviec = "";
-        //get data
-        $("#diencongviec").on("click", "#suaDienCongViec", function () {
-            madiencongviec = $(this).attr("name");
-            //get data by MaDienCongViec and auto fill to popup input
-            getData(madiencongviec);
-        });
-
-        //update
-        $("#xacNhanSuaDienCongViec").click(function () {
-            var tendiencongviec = $("#tenDienCongViec_sua").val();
-            update(madiencongviec, tendiencongviec);
-        });
-
-    });
-</script>
-<!-----Get TenDienCongViec by MaDienCongViec----->
-<script>
-    function getData(MaDienCongViec) {
-        $('#pre-load').show(),
+        $("#add_work_group_type_confirm_button").click(function () {
+            $("pre-load").show();
             $.ajax({
-                url: "/phong-tcld/quan-ly-dien-cong-viec/lay-tendiencongviec-theo-madiencongviec",
+                url: "/phong-tcld/quan-ly-loai-cong-viec/them-loai-cong-viec",
                 type: "POST",
                 datatype: "json",
                 data: {
-                    "MaDienCongViec": MaDienCongViec
+                    "add_work_group_type_name": $("#add_work_group_type_name").val()
                 },
                 success: function (response) {
                     if (response.success) {
-                        //auto fill TenDienCongViec
+                        successAlert('Thành công', response.message);
+                        //close popup
+                        $("#add_work_group_type_close_modal_button").click();
+                        //clear input
+                        $("#add_work_group_type_name").val("");
+                        //reload table after add successfully
+                        table.ajax.reload();
+                        $('#pre-load').hide();
+                    } else if (response.error) {
+                        errorAlert(response.title, response.message);
+                        $('#pre-load').hide();
+                    }
+                },
+                error: function (response) {
+                    errorAlert(response.title, response.message);
+                }
+            });
+        });
+    });
+</script>
+
+<!-------------------EDIT---------------------->
+<script>
+    $(document).ready(function () {
+        var work_group_type_id = "";
+        //get data
+        $("#work_group_type_table").on("click", "#edit_work_group_type_button", function () {
+            work_group_type_id = $(this).attr("name");
+            //get data by work_group_type_id and auto fill to popup input
+            getData(work_group_type_id);
+        });
+
+        //update
+        $("#edit_work_group_type_confirm_button").click(function () {
+            var work_group_type_name = $("#edit_work_group_type_name").val();
+            update(work_group_type_id, work_group_type_name);
+        });
+
+    });
+</script>
+
+<!---Get work_group_type_name by work_group_type_id--->
+<script>
+    function getData(work_group_type_id) {
+        $('#pre-load').show(),
+            $.ajax({
+                url: "/phong-tcld/quan-ly-loai-cong-viec/lay-tenloaicongviec-theo-maloaicongviec",
+                type: "POST",
+                datatype: "json",
+                data: {
+                    "work_group_type_id": work_group_type_id
+                },
+                success: function (response) {
+                    if (response.success) {
+                        //auto fill work_group_type_name
                         $(document).ready(function () {
-                            $("#tenDienCongViec_sua").val(response.TenDienCongViec);
+                            $("#edit_work_group_type_name").val(response.workGroupType.name);
                             $('#pre-load').hide();
                         });
                     }
                 },
                 error: function (response) {
-
+                    errorAlert(response.title, response.message);
                 }
             });
     }
 </script>
-<!------------Update---------------->
+
+<!----------Update-------------->
 <script>
-    function update(MaDienCongViec, TenDienCongViec) {
+    function update(work_group_type_id, work_group_type_name) {
         $("#pre-load").show(),
             $.ajax({
-                url: "/phong-tcld/quan-ly-dien-cong-viec/cap-nhat-tendiencongviec",
+                url: "/phong-tcld/quan-ly-loai-cong-viec/cap-nhat-tenloaicongviec",
                 type: "POST",
                 datatype: "json",
                 data: {
-                    "MaDienCongViec": MaDienCongViec,
-                    "TenDienCongViec": TenDienCongViec
+                    "work_group_type_id": work_group_type_id,
+                    "work_group_type_name": work_group_type_name
                 },
                 success: function (response) {
                     if (response.success) {
                         successAlert("Thành công", response.message);
                         //clear input filed
-                        $("#tenDienCongViec_sua").val("");
+                        $("#edit_work_group_type_name").val("");
                         //close popup modal
-                        $("#dongSuaDienCongViec").click();
+                        $("#edit_work_group_type_close_modal_button").click();
                         //reload table after add successfully
                         table.ajax.reload();
                         $("#pre-load").hide();
                     } else if (response.error) {
-                        errorAlert("Có lỗi", response.message);
+                        errorAlert(response.title, response.message);
                         $("#pre-load").hide();
                     }
                 },
                 error: function (response) {
-
+                    errorAlert(response.title, response.message);
                 }
             });
     }
 </script>
-<!---------DELETE---------->
+
+<!-------DELETE-------->
 <script>
     $(document).ready(function () {
-        var madiencongviec = "";
-        $("#diencongviec").on("click", "#xoaDienCongViec", function () {
-            madiencongviec = $(this).attr("name");
+        var work_group_type_id = "";
+        $("#work_group_type_table").on("click", "#delete_work_group_type_button", function () {
+            work_group_type_id = $(this).attr("name");
             //popup confirm
-            confirmAlert("Xác nhận xóa?", "Xóa diện công việc",
+            confirmAlert("Xác nhận xóa?", "Xóa loại công việc",
                 function () {
-                    delete_DienCongViec(madiencongviec);
+                    delete_work_group_type(work_group_type_id);
                 }
             )
         });
     });
 </script>
+
 <script>
-    function delete_DienCongViec(MaDienCongViec) {
+    function delete_work_group_type(work_group_type_id) {
         $("#pre-load").show(),
             $.ajax({
-                url: "/phong-tcld/quan-ly-dien-cong-viec/xoa-diencongviec",
+                url: "/phong-tcld/quan-ly-loai-cong-viec/xoa-loaicongviec",
                 type: "POST",
                 datatype: "json",
                 data: {
-                    "MaDienCongViec": MaDienCongViec
+                    "work_group_type_id": work_group_type_id
                 },
                 success: function (response) {
                     if (response.success) {
@@ -250,12 +297,12 @@
                         table.ajax.reload();
                         $("#pre-load").hide();
                     } else if (response.error) {
-                        errorAlert("Có lỗi", response.message);
+                        errorAlert(response.title, response.message);
                         $("#pre-load").hide();
                     }
                 },
                 error: function (response) {
-
+                    errorAlert(response.title, response.message);
                 }
             });
     }
