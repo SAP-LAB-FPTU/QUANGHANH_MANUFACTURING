@@ -232,7 +232,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 DateTime d = DateTime.Today;
                 ViewBag.today = month == null ? d.ToString("MM yyyy") : (month + " " + year);
                 string query = @"Camera.Get_List_Cam_Incident {0}, {1}";
-                GetDashCam_Result dc = db.Database.SqlQuery<GetDashCam_Result>(query, month == null ? d.Month.ToString() : month, "year", year == null ? d.Year.ToString() : year).FirstOrDefault();
+                GetDashCam_Result dc = db.Database.SqlQuery<GetDashCam_Result>(query, month ?? d.Month.ToString(), year ?? d.Year.ToString()).FirstOrDefault();
                 dc.notdone = dc.sum - dc.done;
                 ViewBag.dc = dc;
 

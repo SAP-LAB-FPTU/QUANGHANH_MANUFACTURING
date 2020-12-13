@@ -88,6 +88,10 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
             {
                 try
                 {
+                    Department department = DBContext.Departments.Find(department_id);
+                    if (department == null)
+                        return Json(new { success = false, message = "Phòng ban không tồn tại" });
+
                     Documentary documentary = new Documentary
                     {
                         documentary_type = 8,
@@ -118,7 +122,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                             department_id = (string)item.Value["department_id"]
                         };
                         DBContext.CameraRepairDetails.Add(drd);
-                        DBContext.SaveChanges();
+
                         JArray vattu = (JArray)item.Value.SelectToken("vattu");
                         foreach (JObject jObject in vattu)
                         {
@@ -132,7 +136,6 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                                 quantity_plan = quantity
                             };
                             DBContext.RepairCameras.Add(sde);
-                            DBContext.SaveChanges();
                         }
                     }
                     DBContext.SaveChanges();
@@ -142,7 +145,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                 catch (Exception)
                 {
                     transaction.Rollback();
-                    return Json(new { success = false });
+                    return Json(new { success = false, message = "Có lỗi xảy ra" });
                 }
             }
         }
