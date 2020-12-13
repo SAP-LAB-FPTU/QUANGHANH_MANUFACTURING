@@ -278,7 +278,7 @@
                     if (data.success)
                         window.location.href = "/phong-cdvt/camera/quyet-dinh/sua-chua";
                     else {
-                        errorAlert("Có lỗi xảy ra");
+                        errorAlert(data.message);
                         $('#pre-load').hide();
                     }
                 }
