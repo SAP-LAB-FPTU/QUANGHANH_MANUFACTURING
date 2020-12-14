@@ -184,7 +184,7 @@
             <div id="so_yeu_ly_lich">
                 <div class="row table-responsive">
                     <br />
-                    <a class='waves-effect waves-light btn-small blue modal-trigger' data-target="AddSyll" style='margin-left:5px' id="ahr_add"> Thêm</a>
+                    <a href='#ahradd' data-toggle='modal' class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' id="ahr_add"> Thêm</a>
                     <br />
                     <table id="syll_detail" class="table table-bordered table-responsive centered highlight">
                         <thead>
@@ -268,7 +268,7 @@
     </div>
 </form>
 
-<div id="ahr_add" class="modal">
+<div id="ahradd" class="modal">
     <div class="modal-content">
         <div class="modal-header">
             <h3 class="modal-title">Thêm sơ yếu lý lịch</h3>
@@ -278,7 +278,7 @@
                 <div class="col s12 m12">
                     <div class="form-group">
                         <label for="name">Năm bổ sung: </label>
-                        <input type="text" class="form-control" id="additional_year" readonly />
+                        <input type="text" class="form-control" id="additional_year"/>
                     </div>
                 </div>
             </div>
@@ -288,6 +288,30 @@
         </div>
     </div>
 </div>
+
+<form action="" method="POST" id="submit_ahr" role="form">
+    <div class="modal fade" id="edit_ahr">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Sửa sơ yếu lý lịch</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label for="name">Năm bổ sung: </label>
+                            <input type="text" class="form-control" id="additional_year_edit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn blue darken-2 modal-close save-category ">Lưu</button>
+                <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-edit-button">Thoát</button>
+            </div>
+        </div>
+    </div>
+</form>
 
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
@@ -467,7 +491,6 @@
             url: '@Url.Action("listNhanVien","Brief")',
             dataType: "json",
             success: function (data) {
-                alert(data.full_name);
                 $('#cb_employee_id').val(data.employee_id);
                 $('#cb_full_name').val(data.full_name);
                 $('#cb_date_of_birth').val(dateFormat(data.date_of_birth));
@@ -646,7 +669,7 @@
                 },
                 {
                     "data": "employee_id", "name": "employee_id", "render": function (data) {
-                        return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' onclick=editSYLL('" + data + "') ><i class=''></i> Sửa</a>";
+                        return "<a href=\"#edit_ahr\" class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' onclick=editSYLL('" + data + "') ><i class=''></i> Sửa</a>";
                     },
                     "orderable": false,
                     "searchable": false,
@@ -672,16 +695,20 @@
         $("#pre-load").hide();
     });
 
-            function editSYLL(id) {
-            if (id != null) {
+    function editSYLL(id) {
+        var data {
+
+        }
                 $.ajax({
-                    type: "GET",
+                    type: "POST",
                     url: '@Url.Action("EditLichSuBoSung", "Brief")',
                     success: function (data) {
                         //$("#myedit_syll").html(data)
                     }
                 });
-                }
+            }
+
+
                 //function SubmitForm(form) {
                 //    $.validator.unobtrusive.parse(form);
                 //    if ($(form).valid()) {

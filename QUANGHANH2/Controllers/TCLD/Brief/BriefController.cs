@@ -586,9 +586,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
             int totalrows = aList.Count;
             int totalrowsafterfiltering = aList.Count;
             //sorting
-            aList = aList.OrderBy(sortColumnName + " " + sortDirection).ToList<AdditionalHistoryResume>();
+            //aList = aList.OrderBy(sortColumnName + " " + sortDirection).ToList<AdditionalHistoryResume>();
             //paging
-            aList = aList.Skip(start).Take(length).ToList<AdditionalHistoryResume>();
+            //aList = aList.Skip(start).Take(length).ToList<AdditionalHistoryResume>();
             if (id_.Trim() != "")
             {
                 if (checkEm(id_) == false)
@@ -837,17 +837,17 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
         }
 
-        //[Auther(RightID = "169")]
-        //[HttpGet]
-        //public ActionResult EditLichSuBoSung()
-        //{
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
+        [Auther(RightID = "169")]
+        [HttpPost]
+        public ActionResult EditLichSuBoSung(string year)
+        {
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+            {
 
-        //        AdditionalHistoryResume qh = db.AdditionalHistoryResumes.Where(x => x.MaNV == id_).FirstOrDefault<AdditionalHistoryResume>();
-        //        return View(qh);
-        //    }
-        //}
+                AdditionalHistoryResume qh = db.AdditionalHistoryResumes.Where(x => x.MaNV == id_).FirstOrDefault<AdditionalHistoryResume>();
+                return View(qh);
+            }
+        }
 
         //[Auther(RightID = "169")]
         //[HttpPost]
