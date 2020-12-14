@@ -42,10 +42,16 @@ namespace QUANGHANH2.Controllers.Camera
             {
                 try
                 {
-                    Room e = db.Rooms.Where(x => x.room_name.Equals(depart)).FirstOrDefault();
                     DateTime start = new DateTime(yearStart, monthStart, dayStart, hourStart, minuteStart, 0);
+                    if (start > DateTime.Now)
+                        return Json(new { success = false, message = "Thời gian bắt đầu sự cố không được lớn hơn hiện tại" });
+
+                    Room e = db.Rooms.Where(x => x.room_name.Equals(depart)).FirstOrDefault();
+                    if (e == null)
+                        return Json(new { success = false, message = "Hệ thống camera không tồn tại" });
                     if (e.camera_available < Convert.ToInt32(quan))
-                        return Json(new { success = false, message = "Số lượng camera không khả dụng" }, JsonRequestBehavior.AllowGet);
+                        return Json(new { success = false, message = "Số lượng camera không khả dụng" });
+
                     i.room_id = e.room_id;
                     i.incident_camera_quantity = Convert.ToInt32(quan);
                     i.reason = reason;
@@ -59,12 +65,12 @@ namespace QUANGHANH2.Controllers.Camera
                     db.Incidents.Add(i);
                     db.SaveChanges();
                     transaction.Commit();
-                    return Json(new { success = true, message = "Thêm thành công" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, message = "Thêm thành công" });
                 }
                 catch (Exception)
                 {
                     transaction.Rollback();
-                    return Json(new { success = false, message = "Có lỗi xảy ra, xin vui lòng thử lại" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = false, message = "Có lỗi xảy ra, xin vui lòng thử lại" });
                 }
             }
         }

@@ -137,7 +137,7 @@
 </datalist>
 
 <script>
-    var output = {};
+    var output = [];
     var nth_row = 0;
 
     $(document).ready(function () {
@@ -205,7 +205,7 @@
             thietbi.repair_requirement = "";
             thietbi.note = "";
             thietbi.vattu = arr;
-            output[i] = thietbi;
+            output.push(thietbi);
         }
     })
 </script>
@@ -278,7 +278,7 @@
                     if (data.success)
                         window.location.href = "/phong-cdvt/camera/quyet-dinh/sua-chua";
                     else {
-                        errorAlert("Có lỗi xảy ra");
+                        errorAlert(data.message);
                         $('#pre-load').hide();
                     }
                 }
@@ -298,7 +298,7 @@
                     department_id_to: $('#department_id_to').val(),
                 },
                 success: function (data) {
-                    window.location = '/phong-cdvt/quyet-dinh/bao-duong/them/export?data=' + JSON.stringify(output)
+                    window.location = '/phong-cdvt/quyet-dinh/camera/them/export?data=' + JSON.stringify(output)
                         + '&out_in_come=' + $('#out_in_come').val() + '&reason=' + $('#reason').val() + '&department_id_to=' + $('#department_id_to').val();
                     $('#pre-load').hide();
                 },

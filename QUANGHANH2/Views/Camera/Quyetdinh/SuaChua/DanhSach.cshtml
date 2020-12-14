@@ -14,38 +14,31 @@
                 <h3>
                     <b>DANH SÁCH QUYẾT ĐỊNH SỬA CHỮA</b>
                 </h3>
-                <div class="col l4 m4 s12">
-                    <div class="col l8 m8 s12 offset-l1 offset-m1 input-field">
+                <div class="col l6 m6 s12">
+                    <div class="col l10 m10 s12 input-field">
                         <input type="text" placeholder="Tên người lập quyết định" class='form-control' id="person_created-search"
                                multiple />
                     </div>
                 </div>
-                <div class="col l4 m4 s12">
-                    <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                        <i class="fas fa-calendar-alt icon"></i>
-                        <input type='text' class='datepicker-here center maxDate' id="date-start-search" data-language='vi' placeholder="Nhập ngày bắt đầu (từ)" style="height: 24px" />
-                    </div>
-                </div>
-                <div class="col l4 m4 s12">
-                    <div class="col l10 m10 s12 offset-l1 offset-m1 input-field">
-                        <i class="fas fa-calendar-alt icon"></i>
-                        <input type='text' class='datepicker-here center minDate' id="date-end-search" data-language='vi' placeholder="Nhập ngày kết thúc (đến)" style="height: 24px" />
+                <div class="col l6 m6 s12">
+                    <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
+                        <input autocomplete="off"
+                               id="date-search" type="text" data-auto-close="true" data-range="true"
+                               placeholder="khoảng thời gian tạo quyết định" data-multiple-dates-separator=" - "
+                               data-language="vi" class="datepicker-here form-control center" style="width: 100% !important" />
                     </div>
                 </div>
                 <div class="col s12">
                     <button class="btn blue darken-2 btn-small" id="searchButton1">Tìm kiếm</button>
                 </div>
                 <div class="col left">
-
                     <a href="/camera/sua-chua" class="waves-effect waves-light btn blue darken-1 blue">Thêm</a>
-
                 </div>
                 <div class="col s12 table_container">
                     <table class="striped centered table-responsive mytable table-bordered" id="DocumnetaryTable">
                         <thead>
                             <tr>
-                                <th class="center">Ngày</th>
-                                <th class="center">Số quyết định</th>
+                                <th class="center">Ngày tạo</th>
                                 <th class="center">Người lập quyết định</th>
                                 <th class="center">Số lượng camera</th>
                                 <th class="center">Nội dung quyết định</th>
@@ -109,41 +102,9 @@
     </div>
 </div>
 
-<script>
-    $("#documentary_code-search").keyup(function (e) {
-        if (e.which == 13) {
-            $("#searchButton1").click();
-            $("#documentary_code-search").blur();
-        }
-    });
-
-    $("#person_created-search").keyup(function (e) {
-        if (e.which == 13) {
-            $("#searchButton1").click();
-            $("#person_created-search").blur();
-        }
-    });
-    $("#date-start-search").keyup(function (e) {
-        if (e.which == 13) {
-            $("#searchButton1").click();
-            $("#date-start-search").blur()
-        }
-    });
-    $("#date-end-search").keyup(function (e) {
-        if (e.which == 13) {
-            $("#searchButton1").click();
-            $("#date-end-search").blur();
-        }
-    });
-
-</script>
-
-
 @section scripts{
     <script>
-     	//$("#pre-load").show();
-      //  $("#pre-load").css("z-index", "9999");
-            var Popup, dataTable;
+        var dataTable;
 
  //--------------Get Data--------------------
 
@@ -180,32 +141,22 @@
                      "data": {
                          "documentary_code": function() { return $('#documentary_code-search').val() },
                          "person_created": function() { return $('#person_created-search').val() },
-                         "dateStart": function() { return $('#date-start-search').val() },
-                         "dateEnd": function() { return $('#date-end-search').val() }
+                         "dateStart": function() { return $('#date-search').val() },
                         }
                     },
                     "drawCallback": function () {
                         $("#pre-load").hide();
                     },
                 "columns": [
-
                     {
                         "data": "date_created", "name": "date_created", "render": function (data) {
                             return dateFormat2(data);
                         },
                     },
-                    {
-                       "data": "documentary_id", "name": "documentary_id", "render": function (data) {
-                                return "";
-
-                     },
-                        "orderable": false,
-                        "searchable":false,
-                    },
                     { "data": "person_created", "name": "person_created" },
                     { "data": "count", "name": "count" },
                     { "data": "reason" , "name" : "reason"},
-                    { "data": "out_in_come" , "name" :"out_in_come" },
+                    { "data": "out_income", "name":"out_income" },
                     {
                         "data": "documentary_id", "render": function (data) {
                             return "<a href=\"#myupdate\" data-toggle=\"modal\" class=\"open-UpdateModal waves-effect waves-light btn blue darken-1 modal-trigger\" data-documentary-id=\"" + data + "\">Cập&nbsp;nhật</a>";
@@ -235,7 +186,8 @@
 
         });
 //-------------- format Date ------------------------------
-            function dateFormat2(d) {
+            
+        function dateFormat2(d) {
             var dateString = d.substr(6);
             var currentTime = new Date(parseInt(dateString));
             var month = currentTime.getMonth() + 1;
@@ -243,28 +195,76 @@
             var year = currentTime.getFullYear();
             var date = day + "/" + month + "/" + year;
             return (date);
-            }
-
+        }
 
 //---------------Search Data -----------------
         $("#searchButton1").click(function () {
             $("#pre-load").show();
             dataTable.ajax.reload();
         });
-//------------------------Export Excel------------------------
 
-            $("#ExportExcel").click(function () {
+        var id;
+        $(document).on("click", ".open-UpdateModal", function () {
+            id = $(this).data('documentary-id').toString();
+            $('#reason_edit').val($(this).closest('tr').children().eq(4).text());
+            $('#out_in_come_edit').val($(this).closest('tr').children().eq(5).text());
+        });
+
+        $("#myupdateform").submit(function (e) {
             $("#pre-load").show();
-            $("#pre-load").css("z-index", "9999");
             $.ajax({
-                url: '@Url.Action("ExportExcel","SuachuaQD")',
-                type: 'POST',
-
+                type: "POST",
+                url: "/phong-cdvt/quyet-dinh/update",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success == true) {
+                        dataTable.ajax.reload();
+                        successAlert('Cập nhật quyết định thành công', '');
+                    }
+                    else {
+                        errorAlert(data.message);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $('#pre-load').hide();
+                    errorAlert('Có lỗi xảy ra');
+                },
+                data: {
+                    documentary_id: id,
+                    documentary_code: $('#documentary_code_edit').val(),
+                    reason: $('#reason_edit').val(),
+                    out_in_come: $('#out_in_come_edit').val()
+                },
+                cache: false
             }).done(function () {
-                window.location.href = "/excel/CDVT/download/SuaChuaThietBi.xlsx";
-                 $("#pre-load").hide();
+                $('#pre-load').hide();
+                $('#exit-update-button').click();
             })
+            return false;
+        });
+
+        $("#Delete").click(function () {
+            $("#pre-load").show();
+            $.ajax({
+                type: "POST",
+                url: '/phong-cdvt/quyet-dinh/delete',
+                data: {
+                    documentary_id: id
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data.success == true) {
+                        dataTable.ajax.reload();
+                        successAlert(data.message);
+                        $('#exit-update-button').click();
+                    }
+                    else {
+                        errorAlert(data.message);
+                    }
+                    $("#pre-load").hide();
+                },
+                cache: false
+            });
         });
     </script>
-    <script src="~/js/Custom JS/CDVT/QuyetDinh/DanhSach.js"></script>
 }

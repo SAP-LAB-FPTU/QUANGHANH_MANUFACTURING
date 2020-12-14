@@ -88,6 +88,10 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
             {
                 try
                 {
+                    Department department = DBContext.Departments.Find(department_id);
+                    if (department == null)
+                        return Json(new { success = false, message = "Phòng ban không tồn tại" });
+
                     Documentary documentary = new Documentary
                     {
                         documentary_type = 8,
@@ -100,26 +104,25 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                     documentary.documentary_status = 1;
                     DBContext.Documentaries.Add(documentary);
                     DBContext.SaveChanges();
-                    JObject json = JObject.Parse(data);
-                    foreach (var item in json)
+                    JArray json = JArray.Parse(data);
+                    foreach (JObject item in json)
                     {
-                        string room_id = item.Value["id"].ToString();
-                        string repair_requirement = (string)item.Value["repair_requirement"];
-                        string datestring = (string)item.Value["finish_date_plan"];
+                        string room_id = item["id"].ToString();
+                        string repair_requirement = item["repair_requirement"].ToString();
 
                         CameraRepairDetail drd = new CameraRepairDetail
                         {
                             documentary_camera_repair_status = 0,
                             documentary_id = documentary.documentary_id,
                             room_id = room_id,
-                            broken_camera_quantity = (int)item.Value["broken_camera_quantity"],
+                            broken_camera_quantity = (int)item["broken_camera_quantity"],
                             repair_requirement = repair_requirement,
-                            note = (string)item.Value["note"],
-                            department_id = (string)item.Value["department_id"]
+                            note = (string)item["note"],
+                            department_id = (string)item["department_id"]
                         };
                         DBContext.CameraRepairDetails.Add(drd);
-                        DBContext.SaveChanges();
-                        JArray vattu = (JArray)item.Value.SelectToken("vattu");
+
+                        JArray vattu = (JArray)item.SelectToken("vattu");
                         foreach (JObject jObject in vattu)
                         {
                             string supply_id = (string)jObject["supply_id"];
@@ -132,7 +135,6 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                                 quantity_plan = quantity
                             };
                             DBContext.RepairCameras.Add(sde);
-                            DBContext.SaveChanges();
                         }
                     }
                     DBContext.SaveChanges();
@@ -142,7 +144,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                 catch (Exception)
                 {
                     transaction.Rollback();
-                    return Json(new { success = false });
+                    return Json(new { success = false, message = "Có lỗi xảy ra" });
                 }
             }
         }
@@ -208,15 +210,15 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                             doc.MainDocumentPart.Document.Body.Elements<Table>().ElementAt(1);
                             foreach (JObject item in json)
                             {
-                                string equipmentId = item["attachTo"].Type == JTokenType.Null ? item["equipmentId"].ToString() : item["equipmentId"].ToString() + $" ({item["attachTo"]})";
+                                var a = item.Value<JArray>("vattu");
+                                if (a.Count == 0)
+                                    continue;
 
-                                if (item["supply"] != null)
+                                string equipmentId = item["id"].ToString();
+
+                                foreach (JObject jo in a)
                                 {
-                                    AppendRow((JObject)item["supply"], equipmentId, table, true);
-                                }
-                                if (item["equipment"] != null)
-                                {
-                                    AppendRow((JObject)item["equipment"], equipmentId, table, false);
+                                    AppendRow(jo, equipmentId, table, true);
                                 }
                                 doc.MainDocumentPart.Document.Save();
                             }
@@ -227,7 +229,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                             if (TempData[handle] != null)
                             {
                                 byte[] output = TempData[handle] as byte[];
-                                return File(output, "application/vnd.ms-excel", "Quyết định sửa chữa.docx");
+                                return File(output, "application/vnd.ms-excel", "Quyết định sửa chữa camera.docx");
                             }
                             else
                             {
@@ -247,56 +249,53 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
         private void AppendRow(JObject vattu, string equipmentId, Table table, bool isSupply)
         {
             QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
-            foreach (var jObject in vattu)
+            string id = vattu["supply_id"].ToString();
+            int quantity = int.Parse(vattu["quantity"].ToString());
+            string name, unit;
+
+            if (isSupply)
             {
-                string id = jObject.Key;
-                int quantity = int.Parse(jObject.Value.ToString());
-                string name, unit;
-
-                if (isSupply)
-                {
-                    Supply s = DBContext.Supplies.Find(id);
-                    name = s.supply_name;
-                    unit = s.unit;
-                }
-                else
-                {
-                    Equipment e = DBContext.Equipments.Find(id);
-                    name = e.equipment_name;
-                    unit = "Cái";
-                }
-                TableRow tr = new TableRow();
-
-                TableCell tc1 = new TableCell();
-                tc1.Append(new Paragraph(new Run(new Text("1"))));
-                tr.Append(tc1);
-
-                TableCell tc2 = new TableCell();
-                tc2.Append(new Paragraph(new Run(new Text(equipmentId))));
-                tr.Append(tc2);
-
-                TableCell tc3 = new TableCell();
-                tc3.Append(new Paragraph(new Run(new Text(name))));
-                tr.Append(tc3);
-
-                TableCell tc4 = new TableCell();
-                tc4.Append(new Paragraph(new Run(new Text(unit))));
-                tr.Append(tc4);
-
-                TableCell tc5 = new TableCell();
-                tc5.Append(new Paragraph(new Run(new Text(quantity.ToString()))));
-                tr.Append(tc5);
-
-                TableCell tc6 = new TableCell();
-                tc6.Append(new Paragraph(new Run(new Text(""))));
-                tr.Append(tc6);
-
-                TableCell tc7 = new TableCell();
-                tc7.Append(new Paragraph(new Run(new Text(""))));
-                tr.Append(tc7);
-
-                table.Append(tr);
+                Supply s = DBContext.Supplies.Find(id);
+                name = s.supply_name;
+                unit = s.unit;
             }
+            else
+            {
+                Equipment e = DBContext.Equipments.Find(id);
+                name = e.equipment_name;
+                unit = "Cái";
+            }
+            TableRow tr = new TableRow();
+
+            TableCell tc1 = new TableCell();
+            tc1.Append(new Paragraph(new Run(new Text("1"))));
+            tr.Append(tc1);
+
+            TableCell tc2 = new TableCell();
+            tc2.Append(new Paragraph(new Run(new Text(equipmentId))));
+            tr.Append(tc2);
+
+            TableCell tc3 = new TableCell();
+            tc3.Append(new Paragraph(new Run(new Text(name))));
+            tr.Append(tc3);
+
+            TableCell tc4 = new TableCell();
+            tc4.Append(new Paragraph(new Run(new Text(unit))));
+            tr.Append(tc4);
+
+            TableCell tc5 = new TableCell();
+            tc5.Append(new Paragraph(new Run(new Text(quantity.ToString()))));
+            tr.Append(tc5);
+
+            TableCell tc6 = new TableCell();
+            tc6.Append(new Paragraph(new Run(new Text(""))));
+            tr.Append(tc6);
+
+            TableCell tc7 = new TableCell();
+            tc7.Append(new Paragraph(new Run(new Text(""))));
+            tr.Append(tc7);
+
+            table.Append(tr);
         }
     }
 }

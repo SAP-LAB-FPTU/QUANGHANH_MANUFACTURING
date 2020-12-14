@@ -32,7 +32,7 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
 
         [Route("camera/quyet-dinh-sua-chua")]
         [HttpPost]
-        public ActionResult Search(string person_created, string dateStart, string dateEnd)
+        public ActionResult Search(string person_created, string dateStart)
         {
             //Server Side Parameter
             int start = Convert.ToInt32(Request["start"]);
@@ -41,26 +41,29 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
             List<CamDocument> documentaryList = new List<CamDocument>();
-            DateTime dtEnd;
-            DateTime dtStart;
-            try
+
+            DateTime dtStart_0 = new DateTime();
+            DateTime dtStart_1 = new DateTime();
+
+            if (dateStart.Contains("-"))
             {
-                if (dateStart == "") dateStart = "01/01/1900";
-                dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                if (dateEnd == "") dtEnd = DateTime.Now;
-                else dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                dtEnd = dtEnd.AddHours(23);
-                dtEnd = dtEnd.AddMinutes(59);
+                var temp = dateStart.Split('-');
+                dtStart_0 = DateTime.ParseExact(temp[0].Trim(), "dd/MM/yyyy", null);
+                dtStart_1 = DateTime.ParseExact(temp[1].Trim(), "dd/MM/yyyy", null).AddDays(1);
             }
-            catch
+            else if (!string.IsNullOrEmpty(dateStart))
             {
-                Response.Write("Vui lòng nhập đúng ngày tháng năm");
-                return new HttpStatusCodeResult(400);
+                dtStart_0 = DateTime.ParseExact(dateStart, "dd/MM/yyyy", null);
+                dtStart_1 = dtStart_0.AddDays(1);
             }
+
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
             documentaryList = (from document in db.Documentaries
-                               where document.documentary_type == 8 && (document.documentary_code == null || document.documentary_code == "") && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
+                               where document.documentary_type == 8 
+                               && (document.documentary_code == null || document.documentary_code == "") 
+                               && document.person_created.Contains(person_created)
+                               && (string.IsNullOrEmpty(dateStart) || (document.date_created >= dtStart_0 && document.date_created < dtStart_1))
                                join cam in db.CameraRepairDetails on document.documentary_id equals cam.documentary_id
                                into temporary
                                select new CamDocument
@@ -75,13 +78,13 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
                                }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
 
             int totalrows = (from document in db.Documentaries
-                             where document.documentary_type == 8 && (document.documentary_code == null || document.documentary_code == "") && document.person_created.Contains(person_created) && (document.date_created >= dtStart && document.date_created <= dtEnd)
+                             where document.documentary_type == 8
+                             && (document.documentary_code == null || document.documentary_code == "")
+                             && document.person_created.Contains(person_created)
+                             && (string.IsNullOrEmpty(dateStart) || (document.date_created >= dtStart_0 && document.date_created < dtStart_1))
                              join cam in db.CameraRepairDetails on document.documentary_id equals cam.documentary_id
                              into temporary
-                             select new
-                             {
-                                 document.documentary_id
-                             }).Count();
+                             select document).Count();
             return Json(new { success = true, data = documentaryList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
 
