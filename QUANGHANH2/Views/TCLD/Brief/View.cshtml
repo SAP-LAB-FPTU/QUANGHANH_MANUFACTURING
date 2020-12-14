@@ -58,11 +58,18 @@
                                             </div>
                                         </div>
                                         <div class="input-field col m12">
-                                            <div class="col m12">
+                                            <div class="col m6">
                                                 @Html.LabelFor(model => model.BASIC_INFO_gender, "Giới tính", htmlAttributes: new { @class = "custom-label" })
                                                 <div class="col-md-10">
                                                     @Html.DropDownListFor(model => model.BASIC_INFO_gender, new SelectList(ViewBag.genders, "Value", "Text"), htmlAttributes: new { @class = "sl-edit form-control", @autocomplete = "off" })
                                                     @Html.ValidationMessageFor(model => model.BASIC_INFO_gender, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col m6">
+                                                @Html.LabelFor(model => model.BASIC_INFO_registered_place_of_permanent_residence, "Nơi đăng ký hộ khẩu thường trú", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.BASIC_INFO_registered_place_of_permanent_residence, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Nơi đăng ký hộ khẩu thường trú", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.BASIC_INFO_registered_place_of_permanent_residence, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
                                         </div>
@@ -150,202 +157,311 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="input-field col m12">
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.RECRUITMENT_profession, "Nghề trước khi tuyển dụng", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.RECRUITMENT_profession, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Nghề trước khi tuyển dụng", @type = "text", @autocomplete = "off" } })
+                                            @Html.ValidationMessageFor(model => model.RECRUITMENT_profession, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.RECRUITMENT_company, "Cơ quan tuyển dụng", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.RECRUITMENT_company, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Cơ quan tuyển dụng", @type = "text", @autocomplete = "off" } })
+                                            @Html.ValidationMessageFor(model => model.RECRUITMENT_company, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.RECRUITMENT_date, "Ngày tuyển dụng", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            <input id="NgayTuyenDungFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày tuyển dụng" type="datetime" value="" autocomplete="off" />
+                                            @Html.EditorFor(model => model.RECRUITMENT_date, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-field col m12">
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.JOB_instant_position, "Chức vụ hiện tại (Công việc cũ)", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.JOB_instant_position, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Chức vụ hiện tại", @type = "text", @autocomplete = "off" } })
+                                            @Html.ValidationMessageFor(model => model.JOB_instant_position, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.JOB_other_allowances, "Phụ cấp khác (Công việc cũ)", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.JOB_other_allowances, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Phụ cấp khác", @type = "text", @autocomplete = "off" } })
+                                            @Html.ValidationMessageFor(model => model.JOB_other_allowances, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.JOB_date, "Ngày hưởng (Công việc cũ)", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            <input id="NgayHuongFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày hưởng" type="datetime" value="" autocomplete="off" />
+                                            @Html.EditorFor(model => model.JOB_date, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-field col m12">
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.PERSONAL_HISTORY_detail, "Khai rõ", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.PERSONAL_HISTORY_detail, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Khai rõ", @type = "text", @autocomplete = "off" } })
+                                            @Html.ValidationMessageFor(model => model.PERSONAL_HISTORY_detail, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.PERSONAL_HISTORY_related_organization, "Quan hệ với các tổ chức CT, KT, XH liên quan", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.PERSONAL_HISTORY_related_organization, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Quan hệ với các tổ chức CT, KT, XH liên quan", @type = "text", @autocomplete = "off" } })
+                                            @Html.ValidationMessageFor(model => model.PERSONAL_HISTORY_related_organization, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col m4">
+                                        @Html.LabelFor(model => model.PERSONAL_HISTORY_relatives, "Thân nhân", htmlAttributes: new { @class = "custom-label" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.PERSONAL_HISTORY_relatives, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Thân nhân", @type = "text", @autocomplete = "off" } })
+                                            @Html.ValidationMessageFor(model => model.PERSONAL_HISTORY_relatives, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
 
                             </div>
-                            @* ly lich chinh tri *@
-                            <div id="lylichchinhtri" class="col m12">
-                                <div class="input-field col m12">
-                                    <div class="col m4">
-                                        @Html.LabelFor(model => model.PARTY_day_on_VCP, "Ngày vào Đảng CSVN", htmlAttributes: new { @class = "custom-label" })
-                                        <div class="col-md-10">
-                                            <input id="NgayVaoDangCSVNFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày vào Đảng CSVN" type="datetime" value="" autocomplete="off" />
-                                            @Html.EditorFor(model => model.PARTY_day_on_VCP, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                @* ly lich chinh tri *@
+                                <div id="lylichchinhtri" class="col m12">
+                                    <div class="input-field col m12">
+                                        <div class="col m4">
+                                            @Html.LabelFor(model => model.PARTY_day_on_VCP, "Ngày vào Đảng CSVN", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                <input id="NgayVaoDangCSVNFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày vào Đảng CSVN" type="datetime" value="" autocomplete="off" />
+                                                @Html.EditorFor(model => model.PARTY_day_on_VCP, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                            </div>
+                                        </div>
+                                        <div class="col m4">
+                                            @Html.LabelFor(model => model.PARTY_official_date, "Ngày chính thức", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                <input id="NgayChinhThucFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày chính thức" type="datetime" value="" autocomplete="off" />
+                                                @Html.EditorFor(model => model.PARTY_official_date, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                            </div>
+                                        </div>
+                                        <div class="col m4">
+                                            @Html.LabelFor(model => model.PARTY_date_of_joining_political_social_organization, "Ngày vào tổ chức CTXH", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                <input id="NgayVaoToChucCTXHFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày vào tổ chức CTXH" type="datetime" value="" autocomplete="off" />
+                                                @Html.EditorFor(model => model.PARTY_date_of_joining_political_social_organization, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col m4">
-                                        @Html.LabelFor(model => model.PARTY_official_date, "Ngày chính thức", htmlAttributes: new { @class = "custom-label" })
-                                        <div class="col-md-10">
-                                            <input id="NgayChinhThucFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày chính thức" type="datetime" value="" autocomplete="off" />
-                                            @Html.EditorFor(model => model.PARTY_official_date, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                    <div class="input-field col m12">
+                                        <div class="col m4">
+                                            @Html.LabelFor(model => model.PARTY_date_of_enlistment, "Ngày nhập ngũ", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                <input id="NgayNhapNguFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày nhập ngũ" type="datetime" value="" autocomplete="off" />
+                                                @Html.EditorFor(model => model.PARTY_date_of_enlistment, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                            </div>
+                                        </div>
+                                        <div class="col m4">
+                                            @Html.LabelFor(model => model.PARTY_date_of_discharge, "Ngày xuất ngũ", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                <input id="NgayXuatNguFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày xuất ngũ" type="datetime" value="" autocomplete="off" />
+                                                @Html.EditorFor(model => model.PARTY_date_of_discharge, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                            </div>
+                                        </div>
+                                        <div class="col m4">
+                                            @Html.LabelFor(model => model.PARTY_highest_rank, "Quân hàm chức vụ cao nhât", htmlAttributes: new { @class = "custom-label" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.PARTY_highest_rank, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Theo năm", @autocomplete = "off" } })
+                                                @Html.ValidationMessageFor(model => model.PARTY_highest_rank, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col m4">
-                                        @Html.LabelFor(model => model.PARTY_date_of_joining_political_social_organization, "Ngày vào tổ chức CTXH", htmlAttributes: new { @class = "custom-label" })
-                                        <div class="col-md-10">
-                                            <input id="NgayVaoToChucCTXHFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày vào tổ chức CTXH" type="datetime" value="" autocomplete="off" />
-                                            @Html.EditorFor(model => model.PARTY_date_of_joining_political_social_organization, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="input-field col m12">
-                                    <div class="col m4">
-                                        @Html.LabelFor(model => model.PARTY_date_of_enlistment, "Ngày nhập ngũ", htmlAttributes: new { @class = "custom-label" })
-                                        <div class="col-md-10">
-                                            <input id="NgayNhapNguFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày nhập ngũ" type="datetime" value="" autocomplete="off" />
-                                            @Html.EditorFor(model => model.PARTY_date_of_enlistment, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
-                                        </div>
-                                    </div>
-                                    <div class="col m4">
-                                        @Html.LabelFor(model => model.PARTY_date_of_discharge, "Ngày xuất ngũ", htmlAttributes: new { @class = "custom-label" })
-                                        <div class="col-md-10">
-                                            <input id="NgayXuatNguFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày xuất ngũ" type="datetime" value="" autocomplete="off" />
-                                            @Html.EditorFor(model => model.PARTY_date_of_discharge, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
-                                        </div>
-                                    </div>
-                                    <div class="col m4">
-                                        @Html.LabelFor(model => model.PARTY_highest_rank, "Quân hàm chức vụ cao nhât", htmlAttributes: new { @class = "custom-label" })
-                                        <div class="col-md-10">
-                                            @Html.EditorFor(model => model.PARTY_highest_rank, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Theo năm", @autocomplete = "off" } })
-                                            @Html.ValidationMessageFor(model => model.PARTY_highest_rank, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="input-field col m12">
-                                    <div class="col m6">
-                                        @Html.LabelFor(model => model.ACADEMIC_political_theory, "Lý luận chính trị", htmlAttributes: new { @class = "custom-label" })
-                                        <div class="col-md-10">
-                                            @Html.EditorFor(model => model.ACADEMIC_political_theory, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Lý luận chính trị", @autocomplete = "off" } })
-                                            @Html.ValidationMessageFor(model => model.ACADEMIC_political_theory, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col m6">
-                                        @Html.LabelFor(model => model.ACADEMIC_languages, "Ngoại ngữ", htmlAttributes: new { @class = "custom-label" })
-                                        <div class="col-md-10">
-                                            @Html.EditorFor(model => model.ACADEMIC_languages, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Ngoại ngữ", @autocomplete = "off" } })
-                                            @Html.ValidationMessageFor(model => model.ACADEMIC_languages, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--Thành tích cá nhân-->
-                            <div id="thanhtichcanhan" class="col m12">
-                                <div class="row">
                                     <div class="input-field col m12">
                                         <div class="col m6">
-                                            @Html.LabelFor(model => model.JOB_civil_servants, "Ngạnh công chức", htmlAttributes: new { @class = "custom-label" })
+                                            @Html.LabelFor(model => model.ACADEMIC_political_theory, "Lý luận chính trị", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.JOB_civil_servants, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Ngạch công chức", @autocomplete = "off" } })
-                                                @Html.ValidationMessageFor(model => model.JOB_civil_servants, "", new { @class = "text-danger" })
+                                                @Html.EditorFor(model => model.ACADEMIC_political_theory, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Lý luận chính trị", @autocomplete = "off" } })
+                                                @Html.ValidationMessageFor(model => model.ACADEMIC_political_theory, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                         <div class="col m6">
-                                            @Html.LabelFor(model => model.JOB_code_ranks, "Mã ngạch", htmlAttributes: new { @class = "custom-label" })
+                                            @Html.LabelFor(model => model.ACADEMIC_languages, "Ngoại ngữ", htmlAttributes: new { @class = "custom-label" })
                                             <div class="col-md-10">
-                                                @Html.EditorFor(model => model.JOB_code_ranks, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Mã ngạch", @type = "number", @min = "0", @autocomplete = "off" } })
-                                                @Html.ValidationMessageFor(model => model.JOB_code_ranks, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="input-field col m12">
-                                        <div class="col m6">
-                                            @Html.LabelFor(model => model.JOB_pay_rate, "Mã bậc lương - Thang lương - Mức lương", htmlAttributes: new { @class = "custom-label" })
-                                            <div class="col-md-10">
-                                                <input id="salaryLevelId" list="listSalaryLevel" class="form-control inputEdit" name="salaryLevelName" value="@ViewBag.load_salary_level" placeholder="Mã bậc lương - Thang lương - Mức lương" autocomplete="off" />
-                                                <input type="hidden" name="hiddenSalary" id="salaryLevelIdHidden" />
-                                                <datalist id="listSalaryLevel">
-                                                    @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.level_salary)
-                                                    {
-                                                        <option value="@item.Text" data-value="@item.Value" />
-                                                    }
-                                                </datalist>
-                                                @Html.ValidationMessageFor(model => model.current_salary_id, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="col m6">
-                                            @Html.LabelFor(model => model.JOB_forte_of_work, "Sở trường công tác", htmlAttributes: new { @class = "custom-label" })
-                                            <div class="col-md-10">
-                                                @Html.EditorFor(model => model.JOB_forte_of_work, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Sở trường", @autocomplete = "off" } })
-                                                @Html.ValidationMessageFor(model => model.JOB_forte_of_work, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="input-field col m12">
-                                        <div class="col m6">
-                                            @Html.LabelFor(model => model.EVALUATION_bonus, "Khen thưởng", htmlAttributes: new { @class = "custom-label" })
-                                            <div class="col-md-10">
-                                                @Html.EditorFor(model => model.EVALUATION_bonus, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Khen thưởng", @autocomplete = "off" } })
-                                                @Html.ValidationMessageFor(model => model.EVALUATION_bonus, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="col m6">
-                                            @Html.LabelFor(model => model.EVALUATION_discipline, "Kỷ luật", htmlAttributes: new { @class = "custom-label" })
-                                            <div class="col-md-10">
-                                                @Html.EditorFor(model => model.EVALUATION_discipline, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Kỷ luật", @autocomplete = "off" } })
-                                                @Html.ValidationMessageFor(model => model.EVALUATION_discipline, "", new { @class = "text-danger" })
+                                                @Html.EditorFor(model => model.ACADEMIC_languages, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Ngoại ngữ", @autocomplete = "off" } })
+                                                @Html.ValidationMessageFor(model => model.ACADEMIC_languages, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!--Sức khỏe-->
-                            <div id="suckhoe" class="col m12">
-                                <div class="row">
-                                    <div class="input-field col m12">
-                                        <div class="col m4">
-                                            @Html.LabelFor(model => model.HEALTH_health_condition, "Tình trạng sức khỏe", htmlAttributes: new { @class = "custom-label" })
-                                            <div class="col-md-10">
-                                                @Html.DropDownListFor(model => model.HEALTH_health_condition, new SelectList(ViewBag.heal, "Value", "Text"), htmlAttributes: new { @class = "sl-edit form-control", @autocomplete = "off" })
-                                                @Html.ValidationMessageFor(model => model.HEALTH_health_condition, "", new { @class = "text-danger" })
+                                <!--Thành tích cá nhân-->
+                                <div id="thanhtichcanhan" class="col m12">
+                                    <div class="row">
+                                        <div class="input-field col m12">
+                                            <div class="col m6">
+                                                @Html.LabelFor(model => model.JOB_civil_servants, "Ngạnh công chức", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.JOB_civil_servants, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Ngạch công chức", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.JOB_civil_servants, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col m6">
+                                                @Html.LabelFor(model => model.JOB_code_ranks, "Mã ngạch", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.JOB_code_ranks, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Mã ngạch", @type = "number", @min = "0", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.JOB_code_ranks, "", new { @class = "text-danger" })
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col m4">
-                                            @Html.LabelFor(model => model.HEALTH_height, "Chiều cao", htmlAttributes: new { @class = "custom-label" })
-                                            <div class="col-md-10">
-                                                @Html.EditorFor(model => model.HEALTH_height, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Chiều cao (cm)", @type = "number", @min = "0", @autocomplete = "off" } })
-                                                @Html.ValidationMessageFor(model => model.HEALTH_height, "", new { @class = "text-danger" })
+                                        <div class="input-field col m12">
+                                            <div class="col m6">
+                                                @Html.LabelFor(model => model.JOB_pay_rate, "Mã bậc lương - Thang lương - Mức lương", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    <input id="salaryLevelId" list="listSalaryLevel" class="form-control inputEdit" name="salaryLevelName" value="@ViewBag.load_salary_level" placeholder="Mã bậc lương - Thang lương - Mức lương" autocomplete="off" />
+                                                    <input type="hidden" name="hiddenSalary" id="salaryLevelIdHidden" />
+                                                    <datalist id="listSalaryLevel">
+                                                        @foreach (var item in (IEnumerable<SelectListItem>)ViewBag.level_salary)
+                                                        {
+                                                            <option value="@item.Text" data-value="@item.Value" />
+                                                        }
+                                                    </datalist>
+                                                    @Html.ValidationMessageFor(model => model.current_salary_id, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col m6">
+                                                @Html.LabelFor(model => model.JOB_forte_of_work, "Sở trường công tác", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.JOB_forte_of_work, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Sở trường", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.JOB_forte_of_work, "", new { @class = "text-danger" })
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col m4">
-                                            @Html.LabelFor(model => model.HEALTH_weight, "Cân nặng", htmlAttributes: new { @class = "custom-label" })
-                                            <div class="col-md-10">
-                                                @Html.EditorFor(model => model.HEALTH_weight, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Cân nặng (kg)", @type = "number", @min = "0", @autocomplete = "off" } })
-                                                @Html.ValidationMessageFor(model => model.HEALTH_weight, "", new { @class = "text-danger" })
+                                        <div class="input-field col m12">
+                                            <div class="col m6">
+                                                @Html.LabelFor(model => model.EVALUATION_bonus, "Khen thưởng", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.EVALUATION_bonus, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Khen thưởng", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.EVALUATION_bonus, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col m6">
+                                                @Html.LabelFor(model => model.EVALUATION_discipline, "Kỷ luật", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.EVALUATION_discipline, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Kỷ luật", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.EVALUATION_discipline, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="input-field col m12">
+                                            <div class="col m6">
+                                                @Html.LabelFor(model => model.ACADEMIC_academic_level, "Trình độ học vấn phổ thông", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.ACADEMIC_academic_level, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Trình độ học vấn phổ thông", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.ACADEMIC_academic_level, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col m6">
+                                                @Html.LabelFor(model => model.ACADEMIC_highest_qualification, "Trình độ chuyên môn cao nhất", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.ACADEMIC_highest_qualification, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Trình độ chuyên môn cao nhất", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.ACADEMIC_highest_qualification, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="input-field col m12">
+                                            <div class="col m4">
+                                                @Html.LabelFor(model => model.ACADEMIC_state_management, "Quản lý nhà nước", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.ACADEMIC_state_management, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Quản lý nhà nước", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.ACADEMIC_state_management, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col m4">
+                                                @Html.LabelFor(model => model.ACADEMIC_information_technology, "Tin học", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.ACADEMIC_information_technology, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Tin học", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.ACADEMIC_information_technology, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col m4">
+                                                @Html.LabelFor(model => model.PARTY_highest_achieved_title, "Danh hiệu được phong tặng cao nhất", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.PARTY_highest_achieved_title, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Danh hiệu được phong tặng cao nhất", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.PARTY_highest_achieved_title, "", new { @class = "text-danger" })
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="input-field col m12">
-                                        <div class="col m4">
-                                            @Html.LabelFor(model => model.HEALTH_blood_group, "Nhóm máu", htmlAttributes: new { @class = "custom-label" })
-                                            <div class="col-md-10">
-                                                @Html.EditorFor(model => model.HEALTH_blood_group, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Nhóm máu", @autocomplete = "off" } })
-                                                @Html.ValidationMessageFor(model => model.HEALTH_blood_group, "", new { @class = "text-danger" })
+                                </div>
+                                <!--Sức khỏe-->
+                                <div id="suckhoe" class="col m12">
+                                    <div class="row">
+                                        <div class="input-field col m12">
+                                            <div class="col m4">
+                                                @Html.LabelFor(model => model.HEALTH_health_condition, "Tình trạng sức khỏe", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.DropDownListFor(model => model.HEALTH_health_condition, new SelectList(ViewBag.heal, "Value", "Text"), htmlAttributes: new { @class = "sl-edit form-control", @autocomplete = "off" })
+                                                    @Html.ValidationMessageFor(model => model.HEALTH_health_condition, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col m4">
+                                                @Html.LabelFor(model => model.HEALTH_height, "Chiều cao", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.HEALTH_height, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Chiều cao (cm)", @type = "number", @min = "0", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.HEALTH_height, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col m4">
+                                                @Html.LabelFor(model => model.HEALTH_weight, "Cân nặng", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.HEALTH_weight, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Cân nặng (kg)", @type = "number", @min = "0", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.HEALTH_weight, "", new { @class = "text-danger" })
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col m4">
-                                            @Html.LabelFor(model => model.BASIC_INFO_identity_card, "Số CMND/CCCD", htmlAttributes: new { @class = "custom-label" })
-                                            <div class="col-md-10">
-                                                @Html.EditorFor(model => model.BASIC_INFO_identity_card, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "CMND", @autocomplete = "off" } })
-                                                @Html.ValidationMessageFor(model => model.BASIC_INFO_identity_card, "", new { @class = "text-danger" })
+                                        <div class="input-field col m12">
+                                            <div class="col m4">
+                                                @Html.LabelFor(model => model.HEALTH_blood_group, "Nhóm máu", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.HEALTH_blood_group, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Nhóm máu", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.HEALTH_blood_group, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col m4">
+                                                @Html.LabelFor(model => model.BASIC_INFO_identity_card, "Số CMND/CCCD", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.BASIC_INFO_identity_card, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "CMND", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.BASIC_INFO_identity_card, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col m4">
+                                                @Html.LabelFor(model => model.BASIC_INFO_date_of_issuance_of_identity_card, "Ngày cấp CMND", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    <input id="NgayCapCMNDFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày cấp CMND" type="datetime" value="" autocomplete="off" />
+                                                    @Html.EditorFor(model => model.BASIC_INFO_date_of_issuance_of_identity_card, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col m4">
-                                            @Html.LabelFor(model => model.BASIC_INFO_date_of_issuance_of_identity_card, "Ngày cấp CMND", htmlAttributes: new { @class = "custom-label" })
-                                            <div class="col-md-10">
-                                                <input id="NgayCapCMNDFix" , class="inputEdit form-control datepicker-here datepicker-add" placeholder="Ngày cấp CMND" type="datetime" value="" autocomplete="off" />
-                                                @Html.EditorFor(model => model.BASIC_INFO_date_of_issuance_of_identity_card, new { htmlAttributes = new { @style = "display: none !important", @type = "datetime" } })
+                                        <div class="input-field col m12">
+                                            <div class="col m6">
+                                                @Html.LabelFor(model => model.BASIC_INFO_wounded_class, "Hạng thương binh", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.DropDownListFor(model => model.BASIC_INFO_wounded_class, new SelectList(ViewBag.thuongbinh, "Value", "Text"), htmlAttributes: new { @class = "sl-edit form-control", @placeholder = "Thương binh", @autocomplete = "off" })
+                                                    @Html.ValidationMessageFor(model => model.BASIC_INFO_wounded_class, "", new { @class = "text-danger" })
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="input-field col m12">
-                                        <div class="col m6">
-                                            @Html.LabelFor(model => model.BASIC_INFO_wounded_class, "Hạng thương binh", htmlAttributes: new { @class = "custom-label" })
-                                            <div class="col-md-10">
-                                                @Html.DropDownListFor(model => model.BASIC_INFO_wounded_class, new SelectList(ViewBag.thuongbinh, "Value", "Text"), htmlAttributes: new { @class = "sl-edit form-control", @placeholder = "Thương binh", @autocomplete = "off" })
-                                                @Html.ValidationMessageFor(model => model.BASIC_INFO_wounded_class, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="col m6">
-                                            @Html.LabelFor(model => model.BASIC_INFO_policy_family_child, "Gia đình chính sách", htmlAttributes: new { @class = "custom-label" })
-                                            <div class="col-md-10">
-                                                @Html.EditorFor(model => model.BASIC_INFO_policy_family_child, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Gia đình chính sách", @autocomplete = "off" } })
-                                                @Html.ValidationMessageFor(model => model.BASIC_INFO_policy_family_child, "", new { @class = "text-danger" })
+                                            <div class="col m6">
+                                                @Html.LabelFor(model => model.BASIC_INFO_policy_family_child, "Gia đình chính sách", htmlAttributes: new { @class = "custom-label" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.BASIC_INFO_policy_family_child, new { htmlAttributes = new { @class = "inputEdit form-control", @placeholder = "Gia đình chính sách", @autocomplete = "off" } })
+                                                    @Html.ValidationMessageFor(model => model.BASIC_INFO_policy_family_child, "", new { @class = "text-danger" })
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @Html.HiddenFor(model => model.current_department_id)
                         @Html.HiddenFor(model => model.current_status_id)
                         <div id="hoctaplamviec" class="col l12">
