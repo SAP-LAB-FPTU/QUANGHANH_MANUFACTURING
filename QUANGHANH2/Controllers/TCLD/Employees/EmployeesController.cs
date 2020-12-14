@@ -795,15 +795,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
-                    string searchMaNV = Request["MaNV"];
-                    string searchTenNV = Request["TenNV"];
-                    string searchGioiTinh = Request["GioiTinh"];
-                    string searchMaPhongBan = Request["MaPhongBan"];
-                    string query_list = @"HumanResources.GetListEmployees {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}";
                     List<GetListEmployees_Result> list = (List<GetListEmployees_Result>) Session["excel"];
-                        //db.Database.SqlQuery<GetListEmployees_Result>(query_list,
-                        //searchMaNV, searchTenNV, searchGioiTinh, searchMaPhongBan, "BASIC_INFO_full_name"
-                        //, "ASC", 0, 2147483647).ToList();
                     int k = 4;
                     for (int i = 0; i < list.Count; i++)
                     {
@@ -820,7 +812,7 @@ namespace QUANGHANH2.Controllers.TCLD
                         }
                         excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).BASIC_INFO_date_of_birth.HasValue ? list.ElementAt(i).BASIC_INFO_date_of_birth.Value.ToString("dd/MM/yyyy") : "";
                         excelWorksheet.Cells[k, 6].Value = list.ElementAt(i).BASIC_INFO_identity_card;
-                        excelWorksheet.Cells[k, 7].Value = list.ElementAt(i).BASIC_INFO_date_of_issuance_of_identity_card;
+                        excelWorksheet.Cells[k, 7].Value = list.ElementAt(i).BASIC_INFO_social_insurance_number;
                         excelWorksheet.Cells[k, 13].Value = list.ElementAt(i).current_department_id;
                         //
                         excelWorksheet.Cells[k, 14].Value = list.ElementAt(i).current_department_id;

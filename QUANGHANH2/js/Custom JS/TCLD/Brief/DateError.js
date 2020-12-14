@@ -87,5 +87,35 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    var arr = $("#RECRUITMENT_date").val().split("/")
+    if ($("#RECRUITMENT_date").val() != null && $("#RECRUITMENT_date").val() != "") {
+
+        var arr1 = arr[2].split(" ")
+        $("#NgayTuyenDungFix").val(arr[1] + "/" + arr[0] + "/" + arr1[0])
+    }
+    $("#save").click(function () {
+        var temp = $("#NgayTuyenDungFix").val();
+        var arr = temp.split("/");
+        $('#RECRUITMENT_date').val(arr[1] + "/" + arr[0] + "/" + arr[2])
+    });
+});
+
+$(document).ready(function () {
+    var arr = $("#JOB_date").val().split("/")
+    if ($("#JOB_date").val() != null && $("#JOB_date").val() != "") {
+
+        var arr1 = arr[2].split(" ")
+        $("#NgayHuongFix").val(arr[1] + "/" + arr[0] + "/" + arr1[0])
+    }
+    $("#save").click(function () {
+        var temp = $("#NgayHuongFix").val();
+        var arr = temp.split("/");
+        $('#JOB_date').val(arr[1] + "/" + arr[0] + "/" + arr[2])
+    });
+});
+
+
+
 
 
