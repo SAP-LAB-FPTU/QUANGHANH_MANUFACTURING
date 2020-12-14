@@ -45,6 +45,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 string searchValue = Request["search[value]"];
                 string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
                 string sortDirection = Request["order[0][dir]"];
+
                 //List<Department> hs_nv = new List<Department>();
                 var hs_nv = db.Departments.Where(x => x.department_id.Contains(department_id) && x.department_name.Contains(department_name) && x.department_type.Contains(department_type))
                     .OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
