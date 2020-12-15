@@ -837,17 +837,17 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
         }
 
-        [Auther(RightID = "169")]
-        [HttpPost]
-        public ActionResult EditLichSuBoSung(string year)
-        {
-            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-            {
+        //[Auther(RightID = "169")]
+        //[HttpPost]
+        //public ActionResult EditLichSuBoSung(string year)
+        //{
+        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+        //    {
 
-                AdditionalHistoryResume qh = db.AdditionalHistoryResumes.Where(x => x.MaNV == id_).FirstOrDefault<AdditionalHistoryResume>();
-                return View(qh);
-            }
-        }
+        //        AdditionalHistoryResume qh = db.AdditionalHistoryResumes.Where(x => x.MaNV == id_).FirstOrDefault<AdditionalHistoryResume>();
+        //        return View(qh);
+        //    }
+        //}
 
         //[Auther(RightID = "169")]
         //[HttpPost]
