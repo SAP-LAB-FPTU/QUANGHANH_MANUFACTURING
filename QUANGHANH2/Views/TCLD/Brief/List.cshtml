@@ -54,17 +54,16 @@
                             <div class="row">
                                 <div class="col l3 m3 s12">
                                     <div class="row">
-                                        <div class="col s6 m6 l6 input-field">
-                                            @foreach (var item in right)
+                                        @foreach (var item in right)
+                                        {
+                                            if (item.Equals("52"))
                                             {
-                                                if (item.Equals("52"))
-                                                {
+                                                <div class="col s4 m4 l4 input-field">
                                                     <a class="waves-effect waves-light btn btn-small blue darken-2 modal-trigger input-field" href="/phong-tcld/quan-ly-nhan-vien/tuyen-dung-nhan-vien" data-target="tuyendung">Tuyển Dụng</a>
-                                                }
-
+                                                </div>
                                             }
-                                        </div>
-                                        <div class="col l6 m6 s6 input-field">
+                                        }
+                                        <div class="col l4 m4 s4 input-field">
                                             <button class="waves-effect waves-light btn btn-small blue darken-2 input-field" id="danhsachhosonhanvien"><i class="fas fa-file-excel"></i>&nbsp;Excel</button>
                                         </div>
                                     </div>

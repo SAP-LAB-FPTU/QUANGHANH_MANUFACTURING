@@ -813,37 +813,17 @@ namespace QUANGHANH2.Controllers.TCLD
                         excelWorksheet.Cells[k, 5].Value = list.ElementAt(i).BASIC_INFO_date_of_birth.HasValue ? list.ElementAt(i).BASIC_INFO_date_of_birth.Value.ToString("dd/MM/yyyy") : "";
                         excelWorksheet.Cells[k, 6].Value = list.ElementAt(i).BASIC_INFO_identity_card;
                         excelWorksheet.Cells[k, 7].Value = list.ElementAt(i).BASIC_INFO_social_insurance_number;
-                        excelWorksheet.Cells[k, 13].Value = list.ElementAt(i).current_department_id;
+                        excelWorksheet.Cells[k, 8].Value = list.ElementAt(i).RECRUITMENT_company;
+                        excelWorksheet.Cells[k, 9].Value = list.ElementAt(i).RECRUITMENT_profession;
+                        excelWorksheet.Cells[k, 10].Value = list.ElementAt(i).current_department_id;
                         //
-                        excelWorksheet.Cells[k, 14].Value = list.ElementAt(i).current_department_id;
-                        excelWorksheet.Cells[k, 15].Value = list.ElementAt(i).current_department_id;
-                        excelWorksheet.Cells[k, 16].Value = list.ElementAt(i).current_department_id;
-                        excelWorksheet.Cells[k, 17].Value = list.ElementAt(i).current_department_id;
-                        //
-                        if (list.ElementAt(i).ACADEMIC_academic_level != null)
-                        {
-                            if (list.ElementAt(i).ACADEMIC_academic_level.Equals("1"))
-                            {
-                                excelWorksheet.Cells[k, 20].Value = "Tiểu học";
-                            }
-                            else if (list.ElementAt(i).ACADEMIC_academic_level.Equals("2"))
-                            {
-                                excelWorksheet.Cells[k, 20].Value = "THCS";
-                            }
-                            else if (list.ElementAt(i).ACADEMIC_academic_level.Equals("3"))
-                            {
-                                excelWorksheet.Cells[k, 20].Value = "THPT";
-                            }
-                            else if (list.ElementAt(i).ACADEMIC_academic_level.Equals("4"))
-                            {
-                                excelWorksheet.Cells[k, 20].Value = "Trung cấp";
-                            }
-                            else
-                            {
-                                excelWorksheet.Cells[k, 20].Value = "Đại học";
-                            }
-                        }
-                        excelWorksheet.Cells[k, 22].Value = list.ElementAt(i).BASIC_INFO_home_town;
+                        excelWorksheet.Cells[k, 11].Value = list.ElementAt(i).work;
+                        excelWorksheet.Cells[k, 12].Value = list.ElementAt(i).salary_number;
+                        excelWorksheet.Cells[k, 13].Value = list.ElementAt(i).pay_table;
+                        excelWorksheet.Cells[k, 14].Value = list.ElementAt(i).pay_rate;
+                        excelWorksheet.Cells[k, 17].Value = list.ElementAt(i).ACADEMIC_academic_level;
+                        excelWorksheet.Cells[k, 18].Value = list.ElementAt(i).ACADEMIC_highest_qualification;
+                        excelWorksheet.Cells[k, 19].Value = list.ElementAt(i).BASIC_INFO_home_town;
                         k++;
                     }
                     excelPackage.SaveAs(new FileInfo(HostingEnvironment.MapPath("/excel/TCLD/download/Danh-sách-nhân-viên.xlsx")));

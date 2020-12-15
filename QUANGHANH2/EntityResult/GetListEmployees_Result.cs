@@ -65,5 +65,9 @@ namespace QUANGHANH2.EntityResult
         public Nullable<int> current_work_id { get; set; }
         public string StatusName { get; set; }
         public string rate_table_level { get; set; }
+        public string salary_number { get; set; }
+        public string pay_rate { get; set; }
+        public string pay_table { get; set; }
+        public string work { get; set; }
     }
 }
