@@ -61,6 +61,7 @@ namespace QUANGHANH2.EntityResult
         public string PERSONAL_HISTORY_relatives { get; set; }
         public Nullable<int> current_status_id { get; set; }
         public string current_department_id { get; set; }
+        public string department_name { get; set; }
         public Nullable<int> current_salary_id { get; set; }
         public Nullable<int> current_work_id { get; set; }
         public string StatusName { get; set; }

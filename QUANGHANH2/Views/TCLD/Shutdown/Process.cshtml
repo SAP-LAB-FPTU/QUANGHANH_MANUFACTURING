@@ -70,14 +70,14 @@
                         <div class="row" style="overflow-x:scroll  ;margin-bottom: 20px">
                             <div class="row center">
                                 <div class="col l12 m12 s12 input-field">
-                                    <input type="text" placeholder="Tìm kiếm theo mã nhân viên" class='form-control' id="searchMaNV" do-not-use-data-role="tagsinput" multiple />
+                                    <input type="text" placeholder="Tìm kiếm theo mã nhân viên" class='form-control' id="searchMaNV" do-not-use-data-role="tagsinput" multiple autocomplete="off"/>
                                 </div>
                                 <div class="col l12 m12 s12 input-field">
                                     <input type="text" placeholder="Tìm kiếm theo tên nhân viên" class='form-control' id="searchTenNV" multiple />
                                 </div>
                                 <div class="col l5 m12 s12 input-field">
                                     <select class="form-control" id="phongbanSearch">
-                                        <option value="-1" selected>Phòng ban - Tất cả</option>
+                                        <option value="" selected>Phòng ban - Tất cả</option>
                                         @foreach (var phongban in ViewBag.listPhongBan)
                                         {
                                             <option value="@phongban.department_id">@phongban.department_name</option>
@@ -86,10 +86,10 @@
                                 </div>
                                 <div class="col l5 m12 s12 input-field">
                                     <select class="form-control" id="chucVuSearch">
-                                        <option value="-1" selected>Chức vụ - Tất cả</option>
+                                        <option value="" selected>Chức vụ - Tất cả</option>
                                         @foreach (var cv in ViewBag.listCongViec)
                                         {
-                                            <option value="@cv.MaCongViec">@cv.TenCongViec</option>
+                                            <option value="@cv.work_id">@cv.name</option>
                                         }
                                     </select>
                                 </div>
@@ -307,11 +307,14 @@
                             "ChucVu": function () { return $('#chucVuSearch').val() },
                             "PhongBan": function () { return $('#phongbanSearch').val() },
                         },
-                        "dataSrc": function ( json ) {
-                            $("#totalrows").text(json.recordsFiltered);
-                            return json.data;
-                        }
-
+                        "dataSrc": function (receivedData) {
+                            if (receivedData.data == "-1") {
+                                errorAlert("Có lỗi", "Có lỗi xảy ra");
+                                return receivedData.data;
+                            } else {
+                                return receivedData.data;
+                            }
+                        },
                     },
                     "drawCallback": function (settings) {
                         $("#pre-load").hide("slow", function () {
@@ -320,30 +323,30 @@
                     },
                      "columns": [
                         {
-                            "data": "MaNV", "name": "MaNV", "render": function (data) {
+                             "data": "employee_id", "name": "employee_id", "render": function (data) {
                                 return "<a href='/phong-tcld/quan-ly-nhan-vien/xem-chi-tiet-nhan-vien?id=" + data + "' >" + data + "</a>"
                             },
                         },
-                        { "data": "Ten", "name": "Ten" },
+                         { "data": "BASIC_INFO_full_name", "name": "BASIC_INFO_full_name" },
                         {
-                            "data": "NgaySinh", "name": "NgaySinh", "render": function (data) {
+                            "data": "BASIC_INFO_date_of_birth", "name": "BASIC_INFO_date_of_birth", "render": function (data) {
                                 return dateFormat(data);
                             }
                         },
                         {
-                            "data": "GioiTinh", "name": "GioiTinh", "render": function (data) {
+                            "data": "BASIC_INFO_gender", "name": "BASIC_INFO_gender", "render": function (data) {
                                 return genderFormat(data);
                             }
                         },
-                        { "data": "MaPhongBan", "name": "MaPhongBan" },
-                        { "data": "TenCongViec", "name": "TenCongViec" },
+                         { "data": "department_name", "name": "department_name" },
+                         { "data": "work", "name": "work" },
                        {
-                            "data": "MaNV", "render": function (data, type, full) {
-                                if (full.MaTrangThai === null) {
+                           "data": "employee_id", "render": function (data, type, full) {
+                               if (full.current_status_id === null) {
                                     return "";
                                 } else {
-                                    if (full.MaTrangThai != 1) {
-                                    return "<i>"+ full.TenTrangThai +"</i>";
+                                   if (full.current_status_id != 1) {
+                                       return "<i>" + full.StatusName +"</i>";
                                 }
                                 if (arrCarSelected != null) {
                                     for (let i = 0; i < arrCarSelected.length; i++)
@@ -360,7 +363,7 @@
                         }
                     ],
                     "serverSide": "true",
-                    "order": [4, "desc"],
+                    "order": [0, "asc"],
                     "searching": false,
                     "bLengthChange": false,
                     "autoWidth": false,
@@ -562,7 +565,7 @@
         var phongbans=@Html.Raw(Json.Encode(ViewBag.listPhongBan));
         //var doichieuluong=Html.Raw(Json.Encode(ViewBag.doichieuluong));
         var tagCV = "";
-                        tagCV += "<option value='-1' disabled>Chọn chức vụ</option>\n";
+                        tagCV += "<option value='' disabled>Chọn chức vụ</option>\n";
                         for (var k = 0; k < cviecs.length; k++) {
                             tagCV += "<option value=\"" + cviecs[k].MaCongViec + "\">" + cviecs[k].TenCongViec + "</option>\n";
                         }
@@ -624,7 +627,7 @@
 
                         for (var i = 0; i < response.data.length; i++) {
                             var selectPhongBan = "";
-                            selectPhongBan += "<option value='-1' disabled>Chọn phòng ban</option>\n";
+                            selectPhongBan += "<option value='' disabled>Chọn phòng ban</option>\n";
                             $("#selected-container").append("<tr>\n");
                             $("#selected-container").append("<td>" + (i + 1) + "</td>\n");
                             $("#selected-container").append("<td>" + response.data[i].MaNV + "</td>\n");
@@ -649,13 +652,13 @@
                             $("#selected-container").append(" </tr>\n");
                             /////////////////////////set combobox cong viec value/////////////////////////////
                             if (response.data[i].MaCongViec == null) {
-                                $("#chucvu" + "-" + response.data[i].MaNV).val("-1");
+                                $("#chucvu" + "-" + response.data[i].MaNV).val("");
                             } else {
                                 $("#chucvu" + "-" + response.data[i].MaNV).val(response.data[i].MaCongViec);
                             }
                             /////////////////////////////////////
                             if (response.data[i].MaPhongBan == null) {
-                                $("#donvi" + "-" + response.data[i].MaNV).val("-1");
+                                $("#donvi" + "-" + response.data[i].MaNV).val("");
                             } else {
                                 $("#donvi" + "-" + response.data[i].MaNV).val(response.data[i].MaPhongBan);
                             }
