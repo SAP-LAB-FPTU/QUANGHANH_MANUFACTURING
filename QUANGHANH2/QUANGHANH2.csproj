@@ -340,6 +340,7 @@
     <Compile Include="Controllers\TCLD\Diploma\DiplomaController.cs" />
     <Compile Include="Controllers\TCLD\EatingController.cs" />
     <Compile Include="Controllers\TCLD\Employees\EmployeesController.cs" />
+    <Compile Include="Controllers\TCLD\Employees\ShutDownController.cs" />
     <Compile Include="Controllers\TCLD\Employees\TransferHistoryController.cs" />
     <Compile Include="Controllers\TCLD\MaterialProtectionController.cs" />
     <Compile Include="Controllers\TCLD\Work\WorkGroupController.cs" />
@@ -351,7 +352,6 @@
     <Compile Include="Controllers\TCLD\Salary\Grade_Scale_SalaryController.cs" />
     <Compile Include="Controllers\TCLD\Salary\SalaryGradeController.cs" />
     <Compile Include="Controllers\TCLD\Salary\SalaryScaleController.cs" />
-    <Compile Include="Controllers\TCLD\Employees\ShutDownController.cs" />
     <Compile Include="Controllers\TCLD\TaskController.cs" />
     <Compile Include="Controllers\TCLD\Dashboard\TCLDController.cs" />
     <Compile Include="Controllers\TCLD\Transfer\TransferController.cs" />
