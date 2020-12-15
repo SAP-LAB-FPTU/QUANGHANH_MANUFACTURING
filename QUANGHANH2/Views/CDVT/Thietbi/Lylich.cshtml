@@ -17,7 +17,7 @@
                 <div class="col s12">
                     <div class="center">
                         <h3 class="centered"><b>LÝ LỊCH THIẾT BỊ</b></h3>
-                        <h5>@ViewBag.equipment.equipment_name - @ViewBag.equipment.equipmentId</h5>
+                        <h5>@ViewBag.equipment.equipment_name - @ViewBag.equipment.equipment_id</h5>
                     </div>
 
                     <div class="row">
@@ -111,11 +111,11 @@
                                     </tr>
                                     <tr>
                                         <td>Ngày đưa vào sử dụng</td>
-                                        <td>@(ViewBag.equipment.usedDay == null ? "" : ViewBag.equipment.usedDay.ToString("dd/MM/yyyy"))</td>
+                                        <td>@(ViewBag.equipment.used_day == null ? "" : ViewBag.equipment.used_day.ToString("dd/MM/yyyy"))</td>
                                     </tr>
                                     <tr>
                                         <td>Ngày bảo dưỡng tiếp theo</td>
-                                        <td>@(ViewBag.equipment.durationOfMaintainance == null ? "" : ViewBag.equipment.durationOfMaintainance.ToString("dd/MM/yyyy"))</td>
+                                        <td>@(ViewBag.equipment.duration_of_maintainance == null ? "" : ViewBag.equipment.duration_of_maintainance.ToString("dd/MM/yyyy"))</td>
                                     </tr>
                                     <tr>
                                         @{
@@ -129,14 +129,14 @@
                                             }
                                         }
 
-                                        <td>@(ViewBag.equipment.durationOfInspection == null ? "" : ViewBag.equipment.durationOfInspection.ToString("dd/MM/yyyy"))</td>
+                                        <td>@(ViewBag.equipment.duration_of_inspection == null ? "" : ViewBag.equipment.duration_of_inspection.ToString("dd/MM/yyyy"))</td>
                                     </tr>
                                     @{
                                         if (ViewBag.plus != null)
                                         {
                                             <tr>
                                                 <td>Ngày hết hạn bảo hiểm</td>
-                                                <td>@(ViewBag.equipment.durationOfInsurance == null ? "" : ViewBag.equipment.durationOfInsurance.ToString("dd/MM/yyyy"))</td>
+                                                <td>@(ViewBag.equipment.duration_of_insurance == null ? "" : ViewBag.equipment.duration_of_insurance.ToString("dd/MM/yyyy"))</td>
                                             </tr>
                                             <tr>
                                                 <td>Ngày mua đăng kiểm</td>
@@ -158,7 +158,7 @@
                                     </tr>
                                     <tr>
                                         <td>Tình trạng hiện tại</td>
-                                        <td>@ViewBag.equipment.statusname</td>
+                                        <td>@ViewBag.equipment.status_name</td>
                                     </tr>
                                     <tr>
                                         <td>Loại chất lượng</td>
@@ -197,8 +197,8 @@
                                             foreach (var item in ViewBag.thuoctinh)
                                             {
                                                 <tr>
-                                                    <td>@item.Equipment_attribute_id</td>
-                                                    <td>@item.Equipment_attribute_name</td>
+                                                    <td>@item.equipment_attribute_id</td>
+                                                    <td>@item.equipment_attribute_name</td>
                                                     <td>@item.value</td>
                                                     <td>@item.unit</td>
                                                 </tr>
@@ -219,8 +219,8 @@
                                         foreach (var item in ViewBag.dactinh)
                                         {
                                             <tr>
-                                                <td>@item.Equipment_category_attribute_id</td>
-                                                <td>@item.Equipment_category_attribute_name</td>
+                                                <td>@item.equipment_category_attribute_id</td>
+                                                <td>@item.equipment_category_attribute_name</td>
                                                 <td>@item.Value</td>
                                                 <td>@item.unit</td>
                                             </tr>
@@ -228,7 +228,7 @@
                                     }
                                 </table>
                                 @{
-                                    if (ViewBag.equipment.isAttach == false)
+                                    if (ViewBag.equipment.is_attach == false)
                                     {
                                         <ul class="tabs" style="overflow-x:hidden;overflow-y:hidden">
                                             <li class="tab col s3"><a class="active" href="#VT_DK">Thiết bị đi kèm</a></li>
@@ -259,7 +259,7 @@
                                                 <th>Mã vật tư</th>
                                                 <th>Tên vật tư</th>
                                                 <th>Số lượng</th>
-                                                <th>Ghi chú</th>
+                                                
                                                 <th></th>
                                                 <th></th>
                                             </tr>
@@ -269,10 +269,9 @@
                                                 foreach (var item in ViewBag.sup)
                                                 {
                                                     <tr>
-                                                        <td>@item.equipmentId_dikem</td>
+                                                        <td>@item.accompanied_equipment_id</td>
                                                         <td>@item.equipment_name</td>
                                                         <td>@item.quantity</td>
-                                                        <td>@item.note</td>
                                                         <td><button type="button" class="btnSelect btn blue btn-small center"><i class="large material-icons">remove</i></button></td>
                                                         <td><a class="btnSelect2 btn blue btn-small left modal-trigger" data-target="updateDK">Chỉnh sửa</a></td>
                                                     </tr>
@@ -361,7 +360,7 @@
                                                 <th>Mã vật tư</th>
                                                 <th>Tên vật tư</th>
                                                 <th>Số lượng</th>
-                                                <th>Ghi chú</th>
+                                                
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -370,10 +369,9 @@
                                                 foreach (var item in ViewBag.sup)
                                                 {
                                                     <tr>
-                                                        <td>@item.equipmentId_dikem</td>
+                                                        <td>@item.accompanied_equipment_id</td>
                                                         <td>@item.equipment_name</td>
-                                                        <td>@item.quantity_duphong</td>
-                                                        <td>@item.note</td>
+                                                        <td>@item.quantity_reserve</td>
                                                         <td><a class="btnSelectDP btn blue btn-small left modal-trigger" data-target="updateDP">Chỉnh sửa</a></td>
                                                     </tr>
                                                 }
@@ -400,7 +398,7 @@
                                                 foreach (var item in ViewBag.dikemvattu)
                                                 {
                                                     <tr>
-                                                        <td>@item.equipmentId_dikem</td>
+                                                        <td>@item.accompanied_equipment_id</td>
                                                         <td>@item.equipment_name</td>
                                                         <td>@item.supply_id</td>
                                                         <td>@item.supply_name</td>
@@ -1045,10 +1043,6 @@
                             <label>Số lượng</label>
                             <input type="number" id="quan_update" name="quan" class="form-control" />
                         </div>
-                        <div class="col s6">
-                            <label>Ghi chú</label>
-                            <input type="text" id="note_update" name="note" class="form-control" />
-                        </div>
                     </div>
 
 
@@ -1089,10 +1083,6 @@
                             <label>Số lượng</label>
                             <input type="number" id="quanDP_update" name="quan" class="form-control" />
                         </div>
-                        <div class="col s6">
-                            <label>Ghi chú</label>
-                            <input type="text" id="noteDP_update" name="note" class="form-control" />
-                        </div>
                     </div>
 
 
@@ -1109,7 +1099,7 @@
     @{
         foreach (var item in ViewBag.listtbdk)
         {
-            <option value="@item.equipmentId_dikem">@item.equipment_name</option>
+            <option value="@item.accompanied_equipment_id">@item.equipment_name</option>
         }
 
     }
@@ -1156,7 +1146,7 @@
         </div>
         <div class="modal-body">
             <div class="row">
-                <input type="hidden" value="@ViewBag.equipment.equipmentId" name="eid" />
+                <input type="hidden" value="@ViewBag.equipment.equipment_id" name="eid" />
                 <div class="col s6">
                     <label>Tên thuộc tính</label>
                     <input name="nameTT" class="form-control" />
@@ -1212,10 +1202,6 @@
                     <label>Số lượng</label>
                     <input value="0" min="0" type="number" name="quan" class="form-control" />
                 </div>
-                <div class="col s6">
-                    <label>Ghi chú</label>
-                    <input type="text" name="note" class="form-control" />
-                </div>
             </div>
 
 
@@ -1256,8 +1242,6 @@
                     <input type="number" name="quan" class="form-control" />
                 </div>
             </div>
-
-
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn blue modal-close">Lưu</button>
@@ -1424,7 +1408,7 @@
                 <div class="col s4">
                     <label>Tên thiết bị đi kèm</label>
                     <input list="Dikemlist" id="idDP_add" name="id" class="form-control" />
-                    <input type="hidden" name="id_e" value="@ViewBag.equipment.equipmentId" class="form-control" />
+                    <input type="hidden" name="id_e" value="@ViewBag.equipment.equipment_id" class="form-control" />
                 </div>
                 <div class="col s12">
                     <table class="table-bordered" id="tabletbdk">
@@ -1477,7 +1461,7 @@
                 <div class="col s4">
                     <label>Số lượng</label>
                     <input type="number" id="quanTBDK_update" name="quan" class="form-control" />
-                    <input type="hidden" name="id_e" value="@ViewBag.equipment.equipmentId" class="form-control" />
+                    <input type="hidden" name="id_e" value="@ViewBag.equipment.equipment_id" class="form-control" />
                 </div>
             </div>
 
@@ -1501,7 +1485,7 @@
 {
     <input type="hidden" id="supTBDK_id" name="supid" />
     <input type="hidden" id="idTBDK" name="id" />
-    <input type="hidden" name="id_e" value="@ViewBag.equipment.equipmentId" class="form-control" />
+    <input type="hidden" name="id_e" value="@ViewBag.equipment.equipment_id" class="form-control" />
 }
 
 
@@ -1545,7 +1529,7 @@
             $(".btnDeleteLS").click(function () {
                 var data = $(this).attr('id');
                 document.getElementById("delete_iddoc").value = data;
-                document.getElementById("delete_id").value = '@ViewBag.equipment.equipmentId';
+                document.getElementById("delete_id").value = '@ViewBag.equipment.equipment_id';
             });
             $("#myborder").on('click', '.btnDeleteLS', function () {
                 //alert("abc");
@@ -1561,7 +1545,7 @@
                 var currentRow = $(this).closest("tr");
                 var data = currentRow.find("td:eq(0)").text();
                 document.getElementById("supDK_id").value = data;
-                document.getElementById("id").value = '@ViewBag.equipment.equipmentId';
+                document.getElementById("id").value = '@ViewBag.equipment.equipment_id';
                 $("#supDK_id").closest('form').submit();
             });
 
@@ -1571,7 +1555,7 @@
                 var currentRow = $(this).closest("tr");
                 var data = currentRow.find("td:eq(0)").text();
                 document.getElementById("supDK_id_update").value = data;
-                document.getElementById("id_update").value = '@ViewBag.equipment.equipmentId';
+                document.getElementById("id_update").value = '@ViewBag.equipment.equipment_id';
                 data = currentRow.find("td:eq(2)").text();
                 document.getElementById("quan_update").value = data;
                 data = currentRow.find("td:eq(3)").text();
@@ -1584,7 +1568,7 @@
                 var currentRow = $(this).closest("tr");
                 var data = currentRow.find("td:eq(0)").text();
                 document.getElementById("supDP_id_update").value = data;
-                document.getElementById("idDP_update").value = '@ViewBag.equipment.equipmentId';
+                document.getElementById("idDP_update").value = '@ViewBag.equipment.equipment_id';
                 data = currentRow.find("td:eq(2)").text();
                 document.getElementById("quanDP_update").value = data;
                 data = currentRow.find("td:eq(3)").text();
@@ -1592,15 +1576,15 @@
             });
 
             $("#add").click(function () {
-                document.getElementById("id_add").value = '@ViewBag.equipment.equipmentId';
+                document.getElementById("id_add").value = '@ViewBag.equipment.equipment_id';
             });
 
             $("#add2").click(function () {
-                document.getElementById("idDP_add").value = '@ViewBag.equipment.equipmentId';
+                document.getElementById("idDP_add").value = '@ViewBag.equipment.equipment_id';
             });
 
             $("#addVTDK").click(function () {
-                document.getElementById("idVTDK_add").value = '@ViewBag.equipment.equipmentId';
+                document.getElementById("idVTDK_add").value = '@ViewBag.equipment.equipment_id';
             });
 
             // code to read selected table row cell data (values).
@@ -1609,7 +1593,7 @@
                 var currentRow = $(this).closest("tr");
                 var data = currentRow.find("td:eq(0)").text();
                 document.getElementById("supVTDK_id").value = data;
-                document.getElementById("idVTDK").value = '@ViewBag.equipment.equipmentId';
+                document.getElementById("idVTDK").value = '@ViewBag.equipment.equipment_id';
                 $("#supVTDK_id").closest('form').submit();
             });
 
@@ -1620,7 +1604,7 @@
                 var currentRow = $(this).closest("tr");
                 var data = currentRow.find("td:eq(0)").text();
                 document.getElementById("supVTDK_id_update").value = data;
-                document.getElementById("idVTDK_update").value = '@ViewBag.equipment.equipmentId';
+                document.getElementById("idVTDK_update").value = '@ViewBag.equipment.equipment_id';
                 data = currentRow.find("td:eq(2)").text();
                 document.getElementById("quanVTDK_update").value = data;
             });
@@ -1631,7 +1615,7 @@
                 var currentRow = $(this).closest("tr");
                 var data = currentRow.find("td:eq(0)").text();
                 document.getElementById("supSCTX_id_update").value = data;
-                document.getElementById("idSCTX_update").value = '@ViewBag.equipment.equipmentId';
+                document.getElementById("idSCTX_update").value = '@ViewBag.equipment.equipment_id';
                 data = currentRow.find("td:eq(2)").text();
                 document.getElementById("quanSCTX_update").value = data;
             });
@@ -1642,7 +1626,7 @@
                 var currentRow = $(this).closest("tr");
                 var data = currentRow.find("td:eq(0)").text();
                 document.getElementById("supSCTX_id").value = data;
-                document.getElementById("idSCTX").value = '@ViewBag.equipment.equipmentId';
+                document.getElementById("idSCTX").value = '@ViewBag.equipment.equipment_id';
                 $("#supSCTX_id").closest('form').submit();
             });
 
@@ -1689,8 +1673,8 @@
                         $("#table_TT_body").empty();
                         for (i = 0; i < response.data.length; i++) {
                             $("#table_TT_body").append("<tr>"+
-                                "<td>" + response.data[i].Equipment_attribute_id + "</td>" +
-                                "<td>" + response.data[i].Equipment_attribute_name + "</td>" +
+                                "<td>" + response.data[i].equipment_attribute_id + "</td>" +
+                                "<td>" + response.data[i].equipment_attribute_name + "</td>" +
                                 "<td>" + response.data[i].value + "</td>" +
                                 "<td>" + response.data[i].unit + "</td>" +
                                 "</tr> ");
@@ -1724,18 +1708,16 @@
                         $("#DP_table_body").empty();
                         for (i = 0; i < response.data.length; i++) {
                             $("#DK_table_body").append("<tr>"+
-                                "<td>" + response.data[i].equipmentId_dikem + "</td>" +
+                                "<td>" + response.data[i].accompanied_equipment_id + "</td>" +
                                 "<td>" + response.data[i].equipment_name + "</td>" +
                                 "<td>" + response.data[i].quantity + "</td>" +
-                                "<td>" + response.data[i].note + "</td>" +
                                 "<td><button type='button' class='btnSelect btn blue btn-small center'><i class='large material-icons'>remove</i></button></td>" +
                                 "<td><a class='btnSelect2 btn blue btn-small center modal-trigger' data-target='updateDK'>Chỉnh sửa</a></td>" +
                                 "</tr> ");
                             $("#DP_table_body").append("<tr>"+
-                                "<td>" + response.data[i].equipmentId_dikem + "</td>" +
+                                "<td>" + response.data[i].accompanied_equipment_id + "</td>" +
                                 "<td>" + response.data[i].equipment_name + "</td>" +
-                                "<td>" + response.data[i].quantity_duphong + "</td>" +
-                                "<td>" + response.data[i].note + "</td>" +
+                                "<td>" + response.data[i].quantity_reserve + "</td>" +
                                 "<td><a class='btnSelectDP btn blue btn-small center modal-trigger' data-target='updateDP'>Chỉnh sửa</a></td>" +
                                 "</tr> ");
                         }
@@ -1837,7 +1819,7 @@
                         $("#TB_DK_table_body").empty();
                         for (i = 0; i < response.data.length; i++) {
                             $("#TB_DK_table_body").append("<tr>"+
-                                "<td>" + response.data[i].equipmentId_dikem + "</td>" +
+                                "<td>" + response.data[i].accompanied_equipment_id + "</td>" +
                                 "<td>" + response.data[i].equipment_name + "</td>" +
                                 "<td>" + response.data[i].supply_id + "</td>" +
                                 "<td>" + response.data[i].supply_name + "</td>" +
@@ -1909,7 +1891,7 @@
                     type: "POST",
                     url: '/phong-cdvt/thiet-bi/listDailyRepair',
                     data: {
-                        id: '@ViewBag.equipment.equipmentId'
+                        id: '@ViewBag.equipment.equipment_id'
                     },
                     success: function (response) {
                         tab3 = true
@@ -1918,7 +1900,7 @@
                             var $tr = $('<tr>');
                             $tr.append('<td>' + item.actdate + '</td>');
                             $tr.append('<td>' + item.equipment_name + '</td>');
-                            $tr.append('<td>' + item.equipmentId + '</td>');
+                            $tr.append('<td>' + item.equipment_id + '</td>');
                             $tr.append('<td>' + item.department_name + '</td>');
                             $tr.append('<td>' + item.maintain_content + '</td>');
                             $('#sctx').find('tbody').append($tr);
@@ -1939,7 +1921,7 @@
                     type: "POST",
                     url: '/phong-cdvt/thiet-bi/listActivities',
                     data: {
-                        id: '@ViewBag.equipment.equipmentId'
+                        id: '@ViewBag.equipment.equipment_id'
                     },
                     success: function (response) {
                         tab6 = true
@@ -1969,7 +1951,7 @@
                     type: "POST",
                     url: '/phong-cdvt/thiet-bi/listFuel',
                     data: {
-                        id: '@ViewBag.equipment.equipmentId'
+                        id: '@ViewBag.equipment.equipment_id'
                     },
                     success: function (response) {
                         tab7 = true
