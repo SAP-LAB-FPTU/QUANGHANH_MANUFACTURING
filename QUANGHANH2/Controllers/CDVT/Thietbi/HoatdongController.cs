@@ -526,7 +526,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                                     if (!nameVTDK[i].Equals(""))
                                     {
 
-                                        string sql_sup = "insert into dbo.Supply_Equipment_DiKem values (@supid, @eid, @quan)";
+                                        string sql_sup = "insert into Equipment.AccompaniedSupply values (@supid, @eid, @quan)";
                                         db.Database.ExecuteSqlCommand(sql_sup
                                             , new SqlParameter("@supid", nameVTDK[i])
                                             , new SqlParameter("@eid", emp.equipment_id)
@@ -767,9 +767,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                     new SelectListItem { Text = "Đường vật tư", Value = "Đường vật tư" }
                 };
                 ViewBag.listDN = listDN;
-                string query = "SELECT e.department_id,e.Equipment_category_id,e.[equipment_id],e.insurance_date,e.inspect_date,e.[equipment_name],[duration_of_maintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[duration_of_inspection],[duration_of_insurance],[used_day],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.status_name,d.department_name,ec.Equipment_category_name,a.chassis_number, a.engine_number, a.GPS, a.fuel, a.manufacture_year " +
-                "from Equipment.Equipment e left outer join Equipment.Car a on a.equipment_id = e.equipment_id, General.Department d, Equipment.Category ec,Equipment.Status s " +
-                " where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.status_id AND e.equipment_id LIKE @equipmentId";
+                string query = "Equipment.Get_Equipment_Edit 1, {0}";
 
                 List<SelectListItem> listGPS = new List<SelectListItem>();
                 bool t = true;
@@ -788,15 +786,13 @@ namespace QUANGHANHCORE.Controllers.CDVT.Thietbi
                 Car ca = db.Database.SqlQuery<Car>("select * from Equipment.Car where equipment_id = @id", new SqlParameter("id", id + "")).FirstOrDefault();
                 if (ca == null)
                 {
-                    query = "SELECT e.department_id,e.Equipment_category_id,e.[equipment_id],e.insurance_date,e.inspect_date,e.[equipment_name],[duration_of_maintainance],[supplier],[date_import],[depreciation_estimate],[depreciation_present],[duration_of_inspection],[duration_of_insurance],[used_day],[total_operating_hours],[current_Status],[fabrication_number],[mark_code],[quality_type],[input_channel],s.status_name,d.department_name,ec.Equipment_category_name " +
-                        "from Equipment.Equipment e, General.Department d, Equipment.Category ec,Equipment.Status s " +
-                        " where e.department_id = d.department_id and e.Equipment_category_id = ec.Equipment_category_id AND e.current_Status = s.status_id AND e.equipment_id LIKE @equipmentId";
-                    Equipment e = db.Database.SqlQuery<CarDB>(query, new SqlParameter("equipmentId", '%' + id + '%')).FirstOrDefault();
+                    query = "Equipment.Get_Equipment_Edit 1, {0}";
+                    Equipment e = db.Database.SqlQuery<CarDB>(query, id).FirstOrDefault();
                     return View(e);
                 }
                 else
                 {
-                    CarDB c = db.Database.SqlQuery<CarDB>(query, new SqlParameter("equipment_id", '%' + id + '%')).FirstOrDefault();
+                    CarDB c = db.Database.SqlQuery<CarDB>(query, id).FirstOrDefault();
                     return View(c);
                 }
                 //return Json(new { success = true, message = "Cập nhật thành công" , data= db.Equipments.Where(x => x.equipmentId == id).FirstOrDefault<Equipment>()}, JsonRequestBehavior.AllowGet);

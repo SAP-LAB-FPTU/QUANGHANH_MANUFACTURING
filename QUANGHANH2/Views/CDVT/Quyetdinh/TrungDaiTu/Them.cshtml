@@ -194,9 +194,9 @@
             equipmentId = $(this).data("equipmentid");
             attachTo = $(this).data("attachto");
             index = $(this).closest("tr").index();
-            let url = "@Url.Action("GetSupplyBigEquip", "MethodChung")";
+            let url = "@Url.Action("GetAccompaniedSupplies", "MethodChung")";
             if (attachTo)
-                url = "@Url.Action("GetSupplySmallEquip", "MethodChung")";
+                url = "@Url.Action("GetAccompaniedSupplies", "MethodChung")";
             $('#vattu tbody').empty();
             $('#pre-load').show();
             if (!output[index].supply)

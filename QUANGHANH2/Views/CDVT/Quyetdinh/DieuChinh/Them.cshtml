@@ -301,7 +301,7 @@
             if (output[equipId].getsupply == false) {
                 $.ajax({
                     type: "POST",
-                    url: "@Url.Action("GetSupplyBigEquip", "MethodChung")",
+                    url: "@Url.Action("GetAccompaniedSupplies", "MethodChung")",
                     dataType: "json",
                     success: function (response) {
                         output[equipId].getsupply = true;
