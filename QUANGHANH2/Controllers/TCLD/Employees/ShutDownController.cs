@@ -22,6 +22,8 @@ using System.IO.Compression;
 using System.Net;
 using OfficeOpenXml;
 using QUANGHANH2.EntityResult;
+using System.Collections;
+using System.Data;
 
 namespace QUANGHANH2.Controllers.TCLD
 {
@@ -106,7 +108,6 @@ namespace QUANGHANH2.Controllers.TCLD
                     MaNV, TenNV, "", PhongBan, ChucVu, sortColumnName, sortDirection, start, length).ToList();
                 int totalrows = db.Database.SqlQuery<GetListEmployees_Result>(query_list,
                     MaNV, TenNV, "", PhongBan, ChucVu, sortColumnName, sortDirection, start, border).ToList().Count;
-                ViewBag.totalrows = totalrows;
                 return Json(new { data = employees, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
 
             }
@@ -126,40 +127,51 @@ namespace QUANGHANH2.Controllers.TCLD
             // MessageBox.Show(Request["selectedList"]);
             string selected;
             HttpCookie cookie;
-            if (HttpContext.Request.Cookies["DanhSachNhanVien"] == null)
+            DataTable selected_list = new DataTable();
+            selected_list.Columns.Add("id");
+            try
             {
-                return null;
+                if (HttpContext.Request.Cookies["DanhSachNhanVien"] == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    selected = Request["selectedList"];
+                    selected = selected.Substring(1, selected.Length - 2);
+                    selected = selected.Replace("\"", "");
+                    foreach (var item in selected.Split(','))
+                    {
+                        selected_list.Rows.Add(item);
+                    }
+                }
+
+                List<GetListEmployees_Result> listNhanVien = new List<GetListEmployees_Result>();
+                int totalrows = listNhanVien.Count;
+                int totalrowsafterfiltering = listNhanVien.Count;
+                using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+                {
+                    db.Configuration.LazyLoadingEnabled = false;
+                    string sql =
+                    @"[HumanResources].GetShutdown_Step2_List @list_selected";
+                    SqlParameter p = new SqlParameter("@list_selected", SqlDbType.Structured)
+                    {
+                        Value = selected_list,
+                        TypeName = "selected_list"
+                    };
+                    listNhanVien = db.Database.SqlQuery<GetListEmployees_Result>(sql, p).ToList();
+                }
+                return Json(new { success = true, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
-            else
+            catch (Exception e)
             {
-                selected = Request["selectedList"];
-                selected = selected.Substring(1, selected.Length - 2);
-                selected = selected.Replace("\"", "\'");
+                return Json(new { data = "", draw = Request["draw"], recordsTotal = 0, recordsFiltered = 0 }, JsonRequestBehavior.AllowGet);
+
             }
 
-            List<NhanVienModel> listNhanVien = new List<NhanVienModel>();
-            int totalrows = listNhanVien.Count;
-            int totalrowsafterfiltering = listNhanVien.Count;
-            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-            {
-                db.Configuration.LazyLoadingEnabled = false;
-                string sql =
-                @"SELECT A.MaNV,A.Ten,B.department_name,C.TenCongViec,C.PhuCap, D.MucBacLuong as BacLuong, D.MucThangLuong as ThangLuong, D.MucLuong as Luong
-                 FROM(
-                (SELECT * FROM NhanVien where MaNV in (" + selected + @" )) A
-                 left OUTER JOIN
-                 (SELECT department_id, department_name FROM Department) B on A.MaPhongBan = B.department_id
-                 left OUTER JOIN
-                 (SELECT MaCongViec, TenCongViec,PhuCap,MaThangLuong FROM CongViec) C on A.MaCongViec = C.MaCongViec
-				 left OUTER JOIN
-				 (SELECT tl.MaThangLuong,bl.MaBacLuong, mtm.MaBacLuong_ThangLuong_MucLuong ,tl.MucThangLuong,bl.MucBacLuong,mtm.MucLuong 
-				 FROM BacLuong_ThangLuong_MucLuong mtm , BacLuong bl, ThangLuong tl WHERE mtm.MaBacLuong=bl.MaBacLuong AND mtm.MaThangLuong=tl.MaThangLuong) D
-				 on A.MaBacLuong_ThangLuong_MucLuong=D.MaBacLuong_ThangLuong_MucLuong
-				 ) ";
-                listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql).ToList<NhanVienModel>();
-            }
-            return Json(new { success = true, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
+
+
         [Auther(RightID = "127")]
         // GET: ShutDown
         [Route("phong-tcld/quan-ly-nhan-vien/da-xu-ly-cham-dut")]
