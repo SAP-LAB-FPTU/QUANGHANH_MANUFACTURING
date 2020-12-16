@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using QUANGHANH2.EntityResult;
 using QUANGHANH2.Models;
 using QUANGHANH2.SupportClass;
 using System;
@@ -15,47 +16,10 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
     public class LylichController : Controller
     {
-        public class VT_DK : AccompaniedSupply
-        {
-            public string supply_name { get; set; }
-        }
         public class ddplus
         {
             public string ten { get; set; }
             public string value { get; set; }
-        }
-        public class dactinh : CategoryAttribute
-        {
-            public int Value { get; set; }
-        }
-        public class EquipWithName : Equipment
-        {
-            public Nullable<System.DateTime> durationOfInspection_fix { get; set; }
-            public string status_name { get; set; }
-            public string Equipment_category_name { get; set; }
-            public string department_name { get; set; }
-        }
-        public class Dikem_Vattu : Equipment
-        {
-            public string supply_id { get; set; }
-            public string supply_name { get; set; }
-            public int quantity { get; set; }
-            public string accompanied_equipment_id { get; set; }
-        }
-        public class Supply_DK : AccompaniedEquipment
-        {
-            public string equipment_name { get; set; }
-
-        }
-
-        public class Supply_DP : RepairRegularly1
-        {
-            public string supply_name { get; set; }
-        }
-
-        public class vtdk : Equipment
-        {
-            public string accompanied_equipment_id { get; set; }
         }
 
         [HttpPost]
@@ -63,8 +27,8 @@ namespace QUANGHANHCORE.Controllers.CDVT
         {
             ViewBag.listID = null;
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-            string sql = "update Documentary.RepairDetails set is_visible = 0 where documentary_id = @iddoc and equipment_id = @id";
-            db.Database.ExecuteSqlCommand(sql, new SqlParameter("id", id), new SqlParameter("iddoc", iddoc));
+            string sql = "Equipment.Profile_Delete_History {0}, {1}";
+            db.Database.ExecuteSqlCommand(sql, iddoc, id);
 
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
@@ -85,32 +49,27 @@ namespace QUANGHANHCORE.Controllers.CDVT
             List<Supply> listSup = DBContext.Supplies.ToList<Supply>();
             ViewBag.listSup = listSup;
             //list vat tu di kem
-            List<Supply_DK> listsupdk = DBContext.Database.SqlQuery<Supply_DK>("select equipment_name from Equipment.Equipment where is_attach = 1").ToList();
+            List<ProfileGetListDK_Result> listsupdk = DBContext.Database.SqlQuery<ProfileGetListDK_Result>("Equipment.Get_List_Name_Accompanied_Equip").ToList();
             ViewBag.listsupdk = listsupdk;
             //list vat tu di kem cua thiet bi
-            List<vtdk> listsupdktb = DBContext.Database.SqlQuery<vtdk>("select s.accompanied_equipment_id, e.equipment_name from Equipment.Equipment e join Equipment.AccompaniedEquipment s on e.equipment_id = s.accompanied_equipment_id where s.equipment_id = @id", new SqlParameter("id", id)).ToList();
+            List<ProfileGetListTBDKoTB_Result> listsupdktb = DBContext.Database.SqlQuery<ProfileGetListTBDKoTB_Result>("Equipment.Profile_Get_List 'TBDKoTB', {0}", id).ToList();
             ViewBag.listtbdk = listsupdktb;
-            List<Dikem_Vattu> listdkvt = DBContext.Database.SqlQuery<Dikem_Vattu>("select s.accompanied_equipment_id, e.equipment_name, su.supply_id, su.supply_name, ss.quantity from Equipment.Equipment e join Equipment.AccompaniedEquipment s on e.equipment_id = s.accompanied_equipment_id join Equipment.AccompaniedSupply ss on s.accompanied_equipment_id = ss.equipment_id join Supply.Supply su on ss.supply_id = su.supply_id where s.equipment_id = @id", new SqlParameter("id", id)).ToList();
+            List<ProfileGetListTBDK_Result> listdkvt = DBContext.Database.SqlQuery<ProfileGetListTBDK_Result>("Equipment.Profile_Get_List 'TBDK', {0}", id).ToList();
             ViewBag.dikemvattu = listdkvt;
             //NK su co
-            var years = DBContext.Database.SqlQuery<int>("SELECT distinct year(i.start_time) as years FROM Equipment.Incident i inner join Equipment.Equipment e on e.equipment_id = i.equipment_id inner join General.Department d on d.department_id = i.department_id where i.end_time is not null and e.equipment_id = @id order by years desc", new SqlParameter("id", id)).ToList();
+            var years = DBContext.Database.SqlQuery<int>("Equipment.Profile_Get_List 'yearSC', {0}", id).ToList();
             List<IncidentByYear> listbyyear = new List<IncidentByYear>();
             foreach (int year in years)
             {
                 int count = 0;
                 IncidentByYear tempyear = new IncidentByYear();
                 List<IncidentByDate> listbydate = new List<IncidentByDate>();
-                var dates = DBContext.Database.SqlQuery<DateTime>("SELECT distinct i.start_time as dates FROM Equipment.Incident i inner join Equipment.Equipment e on e.equipment_id = i.equipment_id inner join General.Department d on d.department_id = i.department_id where i.end_time is not null and e.equipment_id = @id and year(start_time) = @year order by dates desc", new SqlParameter("id", id), new SqlParameter("year", year)).ToList();
+                var dates = DBContext.Database.SqlQuery<DateTime>("Equipment.Profile_Get_List_Date_SC {0}, {1}", id, year).ToList();
                 foreach (DateTime date in dates)
                 {
                     IncidentByDate tempdate = new IncidentByDate();
                     tempdate.date = date;
-                    tempdate.incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT d.department_name, " +
-                        "i.* FROM Equipment.Incident i inner join Equipment.Equipment e on e.equipment_id = i.equipment_id inner join General.Department d " +
-                        "on d.department_id = i.department_id where i.end_time is not null and e.equipment_id = @id and start_time = @date and year(start_time) = @year order by start_time desc"
-                        , new SqlParameter("id", id)
-                        , new SqlParameter("date", date)
-                        , new SqlParameter("year", year)).ToList();
+                    tempdate.incidents = DBContext.Database.SqlQuery<IncidentDB>("Equipment.Profile_Get_List_Incident_By_Date {0}, {1}, {2}", id, date, year).ToList();
                     count += tempdate.incidents.Count;
                     listbydate.Add(tempdate);
                 }
@@ -121,10 +80,10 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
             ViewBag.incidents = listbyyear;
             //DD thiet bi
-            var equipment = DBContext.Database.SqlQuery<EquipWithName>("SELECT e.*,d.department_name,s.status_name FROM Equipment.Equipment e LEFT JOIN Equipment.Status s on e.current_Status = s.status_id LEFT JOIN General.Department d ON d.department_id = e.department_id WHERE e.equipment_id = @id", new SqlParameter("id", id)).FirstOrDefault();
+            var equipment = DBContext.Database.SqlQuery<GetExportList_Result>("Equipment.Profile_Get_List 'DD', {0}", id).FirstOrDefault();
             ViewBag.equipment = equipment;
             List<ddplus> listddplus = new List<ddplus>();
-            var car = DBContext.Database.SqlQuery<Car>("select * from Equipment.Car where equipment_id = @id", new SqlParameter("id", id)).FirstOrDefault();
+            var car = DBContext.Database.SqlQuery<Car>("Equipment.Profile_Get_List 'car', {0}", id).FirstOrDefault();
             if (car != null)
             {
                 ddplus dd = new ddplus();
@@ -141,33 +100,27 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 listddplus.Add(dd);
             }
             ViewBag.plus = listddplus;
-            string mysql = @"select ec.Equipment_category_attribute_id, ec.Equipment_category_attribute_name, c.Value, ec.unit
-                        from Equipment.CategoryAttribute ec join Equipment.CategoryAttributeValue c on ec.Equipment_category_attribute_id = c.Equipment_category_attribute_id
-                        where c.equipment_id = @id";
-            var dactinh = DBContext.Database.SqlQuery<dactinh>(mysql, new SqlParameter("id", id)).ToList();
+            string mysql = @"Equipment.Profile_Get_List 'DT', {0}";
+            var dactinh = DBContext.Database.SqlQuery<ProfileGetListDT_Result>(mysql, id).ToList();
             ViewBag.dactinh = dactinh;
-            mysql = @"select e.*
-                        from Equipment.Attribute e
-                        where e.equipment_id = @id";
-            var thuoctinh = DBContext.Database.SqlQuery<QUANGHANH2.Models.Attribute>(mysql, new SqlParameter("id", id)).ToList();
+            mysql = @"Equipment.Profile_Get_List 'TT', {0}";
+            var thuoctinh = DBContext.Database.SqlQuery<QUANGHANH2.Models.Attribute>(mysql, id).ToList();
             ViewBag.thuoctinh = thuoctinh;
             //thiet bi di kem
-            var sup = DBContext.Database.SqlQuery<Supply_DK>("select s.*,e.equipment_name from Equipment.Equipment e join Equipment.AccompaniedEquipment s on e.equipment_id = s.accompanied_equipment_id where s.equipment_id = @id", new SqlParameter("id", equipment.equipment_id)).ToList();
+            var sup = DBContext.Database.SqlQuery<ProfileGetListDK_Result>("Equipment.Profile_Get_List 'DK', {0}", equipment.equipment_id).ToList();
             ViewBag.sup = sup;
             //vat tu di kem
-            var supVTDK = DBContext.Database.SqlQuery<VT_DK>("select s.*,e.equipment_name,sp.supply_name from Equipment.Equipment e join Equipment.AccompaniedSupply s on e.equipment_id = s.equipment_id join Supply.Supply sp on sp.supply_id = s.supply_id where s.equipment_id = @id", new SqlParameter("id", equipment.equipment_id)).ToList();
+            var supVTDK = DBContext.Database.SqlQuery<ProfileGetListVTDK_Result>("Equipment.Profile_Get_List 'VTDK', {0}", equipment.equipment_id).ToList();
             ViewBag.supVTDK = supVTDK;
             //Vat tu SCTX
-            var supSCTX = DBContext.Database.SqlQuery<Supply_DP>("select s.*,e.supply_name from Supply.Supply e join Supply.RepairRegularly s on e.supply_id = s.supply_id where s.equipment_id = @id", new SqlParameter("id", equipment.equipment_id)).ToList();
+            var supSCTX = DBContext.Database.SqlQuery<ProfileGetListSCTX_Result>("Equipment.Profile_Get_List 'supSCTX', {0}", equipment.equipment_id).ToList();
             ViewBag.supSCTX = supSCTX;
             //Vat tu DP
-            var supDP = DBContext.Database.SqlQuery<Supply_DK>("select s.*,e.equipment_name from Equipment.AccompaniedEquipment s join Equipment.Equipment e on s.accompanied_equipment_id = e.equipment_id where s.equipment_id = @id", new SqlParameter("id", equipment.equipment_id)).ToList();
-            ViewBag.supDP = supDP;
+            //var supDP = DBContext.Database.SqlQuery<Supply_DK>("select s.*,e.equipment_name from Equipment.AccompaniedEquipment s join Equipment.Equipment e on s.accompanied_equipment_id = e.equipment_id where s.equipment_id = @id", new SqlParameter("id", equipment.equipment_id)).ToList();
+            //ViewBag.supDP = supDP;
             //NK kiem dinh
-            years = DBContext.Database.SqlQuery<int>("SELECT distinct year(ei.inspect_date) as years FROM Equipment.Inspection ei inner join Equipment.Equipment e on e.equipment_id = ei.equipment_id where ei.inspect_date is not null and e.equipment_id = @equipment_id order by years desc",
-                new SqlParameter("equipment_id", id)).ToList();
-            List<Inspection> EI = DBContext.Database.SqlQuery<Inspection>("SELECT * FROM Equipment.Inspection WHERE inspect_date IS NOT NULL AND equipment_id = @equipment_id",
-                new SqlParameter("equipment_id", id)).ToList();
+            years = DBContext.Database.SqlQuery<int>("Equipment.Profile_Get_List 'yearKD', {0}", id).ToList();
+            List<Inspection> EI = DBContext.Database.SqlQuery<Inspection>("Equipment.Profile_Get_List 'EI', {0}", id).ToList();
             List<Equipment_InspectionByYear> listKD = new List<Equipment_InspectionByYear>();
             for (int i = 0; i < years.Count; i++)
             {
@@ -196,10 +149,8 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
             ViewBag.listKD = listKD;
             //NK bao hiem
-            years = DBContext.Database.SqlQuery<int>("SELECT distinct year(ei.insurance_start_date) as years FROM Equipment.Insurance ei inner join Equipment.Equipment e on e.equipment_id = ei.equipment_id where  e.equipment_id = @equipment_id order by years desc",
-                new SqlParameter("equipment_id", id)).ToList();
-            List<Equipment_InsDB> EIs = DBContext.Database.SqlQuery<Equipment_InsDB>("SELECT * FROM Equipment.Insurance WHERE equipment_id = @equipment_id order by insurance_start_date desc",
-                new SqlParameter("equipment_id", id)).ToList();
+            years = DBContext.Database.SqlQuery<int>("Equipment.Profile_Get_List 'yearBH', {0}", id).ToList();
+            List<Equipment_InsDB> EIs = DBContext.Database.SqlQuery<Equipment_InsDB>("Equipment.Profile_Get_List 'EIs', {0}", id).ToList();
             List<Equipment_InsByYear> listBH = new List<Equipment_InsByYear>();
             for (int i = 0; i < years.Count; i++)
             {
@@ -229,11 +180,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
             listBH.OrderBy(x => x.equipment_Ins.OrderByDescending(y => y.insurance_end_date));
             ViewBag.listBH = listBH;
             //NK dieu dong
-            var yearDD = DBContext.Database.SqlQuery<int>("SELECT distinct year(d.date_created) as years FROM Documentary.Documentary d, Documentary.MovelineDetails dm, Equipment.Equipment e where e.equipment_id = @id and e.equipment_id = dm.equipment_id and dm.documentary_id = d.documentary_id order by years desc", new SqlParameter("id", id)).ToList<int>();
+            var yearDD = DBContext.Database.SqlQuery<int>("Equipment.Profile_Get_List 'yearDD', {0}", id).ToList<int>();
             List<moveLineByYear> listDD = new List<moveLineByYear>();
             foreach (int year in yearDD)
             {
-                List<myMoveline> listMML = DBContext.Database.SqlQuery<myMoveline>("select d.documentary_code,dm.equipment_id, dm.date_to,dm.department_detail,d.department_id_to,d.person_created,dm.documentary_id,d.reason,d.date_created from Equipment.Equipment e, Documentary.MovelineDetails dm, Documentary.Documentary d where e.equipment_id = dm.equipment_id and d.documentary_id = dm.documentary_id and dm.equipment_id = @id and YEAR(d.date_created) = @year ", new SqlParameter("id", id), new SqlParameter("year", year)).ToList();
+                List<myMoveline> listMML = DBContext.Database.SqlQuery<myMoveline>("Equipment.Profile_Get_List_Moveline_By_Year {0}, {1}", id, year).ToList();
                 moveLineByYear MLY = new moveLineByYear();
                 foreach (var x in listMML)
                 {
@@ -247,44 +198,17 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
             ViewBag.listDD = listDD;
             //NK sua chua
-            var yearSC = DBContext.Database.SqlQuery<int>(@"select distinct YEAR(d.date_created) as years 
-                                                            from Documentary.Documentary d, Documentary.RepairDetails dr, Supply.Supply s, Supply.RepairEquipment sd 
-                                                            where d.documentary_id = dr.documentary_id
-	                                                            and dr.documentary_repair_id = sd.documentary_repair_id
-	                                                            and sd.supply_id = s.supply_id
-	                                                            and dr.equipment_id = @id
-	                                                            and dr.is_visible = 1
-                                                            order by years desc", new SqlParameter("id", id)).ToList<int>();
+            var yearSC = DBContext.Database.SqlQuery<int>(@"Equipment.Profile_Get_List 'yearRepair', {0}", id).ToList<int>();
             List<repairByYear> listSC = new List<repairByYear>();
             foreach (int year in yearSC)
             {
                 repairByYear rby = new repairByYear();
                 List<myRepair> listrp = new List<myRepair>();
-                var docID = DBContext.Database.SqlQuery<int>(@"select distinct d.documentary_id
-                                                                from Documentary.Documentary d, Documentary.RepairDetails dr, Supply.Supply s, Supply.RepairEquipment sd 
-                                                                where dr.documentary_id = d.documentary_id 
-	                                                                and sd.supply_id = s.supply_id 
-	                                                                and sd.documentary_repair_id = dr.documentary_repair_id 
-	                                                                and dr.equipment_id = @id 
-	                                                                and dr.is_visible = 1  
-	                                                                and YEAR(d.date_created) = @year", new SqlParameter("id", id), new SqlParameter("year", year)).ToList<int>();
+                var docID = DBContext.Database.SqlQuery<int>(@"Equipment.Profile_Get_DocID_Repair {0}, {1}", id, year).ToList<int>();
                 foreach (int doc in docID)
                 {
-                    myRepair rp = DBContext.Database.SqlQuery<myRepair>(@"select dr.*,d.date_created,dr.documentary_id,d.documentary_code 
-                                                                        from Documentary.Documentary d, Documentary.RepairDetails dr, Supply.Supply s, Supply.RepairEquipment sd 
-                                                                        where dr.documentary_id = d.documentary_id 
-	                                                                        and sd.supply_id = s.supply_id 
-	                                                                        and sd.documentary_repair_id = dr.documentary_repair_id 
-	                                                                        and dr.equipment_id = @id and dr.is_visible = 1  and dr.documentary_id = @doc", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).FirstOrDefault();
-                    List<mySup_Doc> listTT = DBContext.Database.SqlQuery<mySup_Doc>(@"select sd.*,s.unit,s.supply_name 
-                                                                                    from Documentary.Documentary d, Documentary.RepairDetails dr, Supply.Supply s, Supply.RepairEquipment sd 
-                                                                                    where dr.documentary_id = d.documentary_id 
-	                                                                                    and sd.supply_id = s.supply_id 
-	                                                                                    and sd.documentary_repair_id = dr.documentary_repair_id 
-	                                                                                    and dr.equipment_id = @id  
-	                                                                                    and dr.is_visible = 1 
-	                                                                                    and dr.documentary_id = @doc 
-	                                                                                    and YEAR(d.date_created) = @year", new SqlParameter("id", id), new SqlParameter("year", year), new SqlParameter("doc", doc)).ToList();
+                    myRepair rp = DBContext.Database.SqlQuery<myRepair>(@"Equipment.Profile_Get_Repair {0}, {1}, {2}", id, year, doc).FirstOrDefault();
+                    List<mySup_Doc> listTT = DBContext.Database.SqlQuery<mySup_Doc>(@"Equipment.Profile_Get_ListTT {0}, {1}, {2}", id, year, doc).ToList();
                     rp.rowCount = listTT.Count();
                     List<mySupply> listsp = new List<mySupply>();
                     for (int i = 0; i < rp.rowCount; i++)
@@ -368,7 +292,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
             {
                 DBContext.Configuration.LazyLoadingEnabled = false;
-                List<myFuel> listFuel = DBContext.Database.SqlQuery<myFuel>("select f.*, d.department_name from Equipment.FuelActivitiesConsumption f, Equipment.Equipment e, General.Department d where e.equipment_id = f.equipment_id and e.department_id =  d.department_id and e.equipment_id = @id order by f.date desc", new SqlParameter("id", id)).ToList();
+                List<ProfileGetListListFuel_Result> listFuel = DBContext.Database.SqlQuery<ProfileGetListListFuel_Result>("Equipment.Profile_Get_List 'listFuel', {0}", id).ToList();
                 //var temp = from e in DBContext.Equipments join f in DBContext.Fuel_activities_consumption on e.equipment_id equals f.equipment_id
                 //           join d in DBContext.Departments on f.
                 foreach (var item in listFuel)
@@ -379,12 +303,6 @@ namespace QUANGHANHCORE.Controllers.CDVT
             }
         }
 
-        private class myFuel : FuelActivitiesConsumption
-        {
-            public string department_name { get; set; }
-            public string actdate { get; set; }
-        }
-
         //NK hoat dong
         [Route("phong-cdvt/thiet-bi/listActivities")]
         [HttpPost]
@@ -393,7 +311,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
             using (QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities())
             {
                 DBContext.Configuration.LazyLoadingEnabled = false;
-                List<myAct> listHD = DBContext.Database.SqlQuery<myAct>("select a.*,d.department_name from Equipment.Activity a, Equipment.Equipment e, General.Department d where a.equipment_id = e.equipment_id and e.department_id = d.department_id and a.equipment_id = @id", new SqlParameter("id", id)).ToList();
+                List<ProfileGetListListHD_Result> listHD = DBContext.Database.SqlQuery<ProfileGetListListHD_Result>("Equipment.Profile_Get_List 'listHD', {0}", id).ToList();
                 foreach (var item in listHD)
                 {
                     item.actdate = item.date.ToString("dd/MM/yyyy");
@@ -401,78 +319,21 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 return Json(listHD);
             }
         }
+        
 
-        private class myAct : Activity
-        {
-            public string department_name { get; set; }
-            public string actdate { get; set; }
-        }
-        [Auther(RightID = "10,6")]
         [HttpPost]
-        public ActionResult deleteDK(string id, string supid)
+        public ActionResult updateDP(string id, string supid, int quan)
         {
             QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
             using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
             {
                 try
                 {
-                    string sql = "delete from Equipment.AccompaniedEquipment where accompanied_equipment_id = @supid and equipment_id = @eid";
-                    DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("supid", supid), new SqlParameter("eid", id));
+                    string sql = "Equipment.Profile_Update_DP {0}, {1}, {2}";
+                    DBContext.Database.ExecuteSqlCommand(sql, quan, supid, id);
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Supply_DK>("select s.*,e.equipment_name from Equipment.Equipment e join Equipment.AccompaniedEquipment s on e.equipment_id = s.accompanied_equipment_id where s.equipment_id = @id", new SqlParameter("id", id)).ToList();
-                    return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
-                }
-                catch (Exception e)
-                {
-                    e.Message.ToString();
-                    dbc.Rollback();
-                    return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
-                }
-
-            }
-
-        }
-
-        [HttpPost]
-        public ActionResult updateDK(string id, string supid, int quan, string dvt)
-        {
-            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
-            using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
-            {
-                try
-                {
-                    string sql = "update Equipment.AccompaniedEquipment set quantity = @quan where accompanied_equipment_id = @supid and equipment_id = @eid";
-                    DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("quan", quan), new SqlParameter("supid", supid), new SqlParameter("eid", id));
-                    DBContext.SaveChanges();
-                    dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Supply_DK>("select s.*,e.equipment_name from Equipment.Equipment e join Equipment.AccompaniedEquipment s on e.equipment_id = s.accompanied_equipment_id where s.equipment_id = @id", new SqlParameter("id", id)).ToList();
-                    return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
-                }
-                catch (Exception e)
-                {
-                    e.Message.ToString();
-                    dbc.Rollback();
-                    return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
-                }
-
-            }
-
-        }
-
-        [HttpPost]
-        public ActionResult updateDP(string id, string supid, int quan, string dvt)
-        {
-            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
-            using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
-            {
-                try
-                {
-                    string sql = "update Equipment.AccompaniedEquipment set quantity_reserve = @quan where accompanied_equipment_id = @supid and equipment_id = @eid";
-                    DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("quan", quan), new SqlParameter("supid", supid), new SqlParameter("eid", id));
-                    DBContext.SaveChanges();
-                    dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Supply_DK>("select s.*,e.equipment_name from Equipment.Equipment e join Equipment.AccompaniedEquipment s on e.equipment_id = s.accompanied_equipment_id where s.equipment_id = @id", new SqlParameter("id", id)).ToList();
+                    var sup = DBContext.Database.SqlQuery<ProfileGetListDK_Result>("Equipment.Profile_Get_List 'DP', {0}", id).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -499,20 +360,15 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
 
 
-                        string sql_sup = "insert into Equipment.Attribute values (@id, @name, @value, @unit, @eid)";
-                        DBContext.Database.ExecuteSqlCommand(sql_sup
-                            , new SqlParameter("@id", idTT)
-                            , new SqlParameter("@name", nameTT)
-                            , new SqlParameter("@value", quan)
-                            , new SqlParameter("@unit", dvt)
-                            , new SqlParameter("@eid", eid));
+                        string sql_sup = "Equipment.Profile_Add_TT {0}, {1}, {2}, {3}, {4}";
+                        DBContext.Database.ExecuteSqlCommand(sql_sup, idTT, nameTT, quan, dvt, eid);
 
 
 
                     }
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<QUANGHANH2.Models.Attribute>("select * from Equipment.Attribute e where e.equipment_id = @id", new SqlParameter("id", eid)).ToList();
+                    var sup = DBContext.Database.SqlQuery<QUANGHANH2.Models.Attribute>("Equipment.Profile_Get_List 'TT', {0}", eid).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -541,18 +397,68 @@ namespace QUANGHANHCORE.Controllers.CDVT
 
                         Equipment s = DBContext.Equipments.Where(x => x.equipment_name == nameSup).FirstOrDefault();
 
-                        string sql_sup = "insert into Equipment.AccompaniedEquipment values (@eid, @supid, @quan, 0)";
-                        DBContext.Database.ExecuteSqlCommand(sql_sup
-                            , new SqlParameter("@supid", s.equipment_id)
-                            , new SqlParameter("@eid", id)
-                            , new SqlParameter("@quan", quan));
+                        string sql_sup = "Equipment.Profile_Add_Update_DK 'add', {0}, {1}, {2}";
+                        DBContext.Database.ExecuteSqlCommand(sql_sup, s.equipment_id, id, quan);
 
 
 
                     }
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Supply_DK>("select s.*,e.equipment_name from Equipment.Equipment e join Equipment.AccompaniedEquipment s on e.equipment_id = s.accompanied_equipment_id where s.equipment_id = @id", new SqlParameter("id", id)).ToList();
+                    var sup = DBContext.Database.SqlQuery<ProfileGetListDK_Result>("Equipment.Profile_Get_List 'DK', {0}", id).ToList();
+                    return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    e.Message.ToString();
+                    dbc.Rollback();
+                    return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult updateDK(string id, string supid, int quan)
+        {
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
+            using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    string sql = "Equipment.Profile_Add_Update_DK 'update', {0}, {1}, {2}";
+                    DBContext.Database.ExecuteSqlCommand(sql, supid, id, quan);
+                    DBContext.SaveChanges();
+                    dbc.Commit();
+                    var sup = DBContext.Database.SqlQuery<ProfileGetListDK_Result>("Equipment.Profile_Get_List 'DK', {0}", id).ToList();
+                    return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    e.Message.ToString();
+                    dbc.Rollback();
+                    return Json(new { success = false, message = e.Message }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+
+        }
+
+        [Auther(RightID = "10,6")]
+        [HttpPost]
+        public ActionResult deleteDK(string id, string supid)
+        {
+            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
+            using (DbContextTransaction dbc = DBContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    string sql = "Equipment.Profile_Delete 'DK', {0}, {1}";
+                    DBContext.Database.ExecuteSqlCommand(sql, supid, id);
+                    DBContext.SaveChanges();
+                    dbc.Commit();
+                    var sup = DBContext.Database.SqlQuery<ProfileGetListDK_Result>("Equipment.Profile_Get_List 'DK', {0}", id).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -588,7 +494,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                 if (listSup.ElementAt(j).supply_name.Equals(nameSup[i]))
                                 {
                                     s.supply_id = listSup.ElementAt(j).supply_id;
-                                    sql_sup += "insert into Equipment.AccompaniedSupply values ('" + s.supply_id + "', @eid, " + quan[i] + ") ";
+                                    sql_sup += "Equipment.Profile_Add_Update_TBDK 'add', '" + s.supply_id + "', @eid, " + quan[i];
                                     break;
                                 }
                             }
@@ -600,7 +506,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                     }
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Dikem_Vattu>("select s.accompanied_equipment_id, e.equipment_name, su.supply_id, su.supply_name, ss.quantity from Equipment.Equipment e join Equipment.AccompaniedEquipment s on e.equipment_id = s.accompanied_equipment_id join Equipment.AccompaniedSupply ss on s.accompanied_equipment_id = ss.equipment_id join Supply.Supply su on ss.supply_id = su.supply_id where s.equipment_id = @id", new SqlParameter("id", id_e)).ToList();
+                    var sup = DBContext.Database.SqlQuery<ProfileGetListTBDK_Result>("Equipment.Profile_Get_List 'TBDK', {0}", id_e).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -622,11 +528,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 try
                 {
-                    string sql = "update Equipment.AccompaniedSupply set quantity = @quan where supply_id = @supid and equipment_id = @eid";
-                    DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("quan", quan), new SqlParameter("supid", supid), new SqlParameter("eid", id));
+                    string sql = "Equipment.Profile_Add_Update_TBDK 'update', {0}, {1}, {2}";
+                    DBContext.Database.ExecuteSqlCommand(sql, supid, id, quan);
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Dikem_Vattu>("select s.accompanied_equipment_id, e.equipment_name, su.supply_id, su.supply_name, ss.quantity from Equipment.Equipment e join Equipment.AccompaniedEquipment s on e.equipment_id = s.equipment_id join Equipment.AccompaniedSupply ss on s.accompanied_equipment_id = ss.equipment_id join Supply.Supply su on ss.supply_id = su.supply_id where e.equipment_id = @id", new SqlParameter("id", id_e)).ToList();
+                    var sup = DBContext.Database.SqlQuery<ProfileGetListTBDK_Result>("Equipment.Profile_Get_List 'TBDK', {0}", id_e).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -648,11 +554,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 try
                 {
-                    string sql = "delete from Equipment.AccompaniedSupply where supply_id = @supid and equipment_id = @eid";
-                    DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("supid", supid), new SqlParameter("eid", id));
+                    string sql = "Equipment.Profile_Delete 'TBDK', {0}, {1}";
+                    DBContext.Database.ExecuteSqlCommand(sql, supid, id);
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Dikem_Vattu>("select s.accompanied_equipment_id, e.equipment_name, su.supply_id, su.supply_name, ss.quantity from Equipment.Equipment e join Equipment.AccompaniedEquipment s on e.equipment_id = s.accompanied_equipment_id join Equipment.AccompaniedSupply ss on s.accompanied_equipment_id = ss.equipment_id join Supply.Supply su on ss.supply_id = su.supply_id where s.equipment_id = @id", new SqlParameter("id", id_e)).ToList();
+                    var sup = DBContext.Database.SqlQuery<ProfileGetListTBDK_Result>("Equipment.Profile_Get_List 'TBDK', {0}", id_e).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -688,15 +594,12 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                 break;
                             }
                         }
-                        string sql_sup = "insert into Equipment.AccompaniedSupply values (@supid, @eid, @quan)";
-                        DBContext.Database.ExecuteSqlCommand(sql_sup
-                            , new SqlParameter("@supid", s.supply_id)
-                            , new SqlParameter("@eid", id)
-                            , new SqlParameter("@quan", quan));
+                        string sql_sup = "Equipment.Profile_Add_Update_VTDK 'add', {0}, {1}, {2}";
+                        DBContext.Database.ExecuteSqlCommand(sql_sup, s.supply_id, id, quan);
                     }
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var supVTDK = DBContext.Database.SqlQuery<VT_DK>("select s.*,e.equipment_name,sp.supply_name from Equipment.Equipment e join Equipment.AccompaniedSupply s on e.equipment_id = s.equipment_id join Supply.Supply sp on sp.supply_id = s.supply_id where s.equipment_id = @id", new SqlParameter("id", id)).ToList();
+                    var supVTDK = DBContext.Database.SqlQuery<ProfileGetListVTDK_Result>("Equipment.Profile_Get_List 'VTDK', {0}", id).ToList();
                     return Json(new { success = true, data = supVTDK }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -718,11 +621,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 try
                 {
-                    string sql = "update Equipment.AccompaniedSupply set quantity = @quan where supply_id = @supid and equipment_id = @eid";
-                    DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("quan", quan), new SqlParameter("supid", supid), new SqlParameter("eid", id));
+                    string sql = "Equipment.Profile_Add_Update_VTDK 'update', {0}, {1}, {2}";
+                    DBContext.Database.ExecuteSqlCommand(sql, supid, id, quan);
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var supVTDK = DBContext.Database.SqlQuery<VT_DK>("select s.*,e.equipment_name,sp.supply_name from Equipment.Equipment e join Equipment.AccompaniedSupply s on e.equipment_id = s.equipment_id join Supply.Supply sp on sp.supply_id = s.supply_id where s.equipment_id = @id", new SqlParameter("id", id)).ToList();
+                    var supVTDK = DBContext.Database.SqlQuery<ProfileGetListVTDK_Result>("Equipment.Profile_Get_List 'VTDK', {0}", id).ToList();
                     return Json(new { success = true, data = supVTDK }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -744,11 +647,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 try
                 {
-                    string sql = "delete from Equipment.AccompaniedSupply where supply_id = @supid and equipment_id = @eid";
-                    DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("supid", supid), new SqlParameter("eid", id));
+                    string sql = "Equipment.Profile_Delete 'VTDK', {0}, {1}";
+                    DBContext.Database.ExecuteSqlCommand(sql, supid, id);
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var supVTDK = DBContext.Database.SqlQuery<VT_DK>("select s.*,e.equipment_name,sp.supply_name from Equipment.Equipment e join Equipment.AccompaniedSupply s on e.equipment_id = s.equipment_id join Supply.Supply sp on sp.supply_id = s.supply_id where s.equipment_id = @id", new SqlParameter("id", id)).ToList();
+                    var supVTDK = DBContext.Database.SqlQuery<ProfileGetListVTDK_Result>("Equipment.Profile_Get_List 'VTDK', {0}", id).ToList();
                     return Json(new { success = true, data = supVTDK }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -786,15 +689,12 @@ namespace QUANGHANHCORE.Controllers.CDVT
                                 break;
                             }
                         }
-                        string sql_sup = "insert into Supply.RepairRegularly(supply_id, equipment_id, quantity) values (@supid, @eid, @quan)";
-                        DBContext.Database.ExecuteSqlCommand(sql_sup
-                            , new SqlParameter("@supid", s.supply_id)
-                            , new SqlParameter("@eid", id)
-                            , new SqlParameter("@quan", quan));
+                        string sql_sup = "Equipment.Profile_Add_Update_SCTX 'add', {0}, {1}, {2}";
+                        DBContext.Database.ExecuteSqlCommand(sql_sup, s.supply_id, id, quan);
                     }
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Supply_DP>("select e.*,s.supply_name from Supply.RepairRegularly e join Supply.Supply s on e.supply_id = s.supply_id where e.equipment_id = @id", new SqlParameter("id", id)).ToList();
+                    var sup = DBContext.Database.SqlQuery<ProfileGetListSCTX_Result>("Equipment.Profile_Get_List 'SCTX', {0}",id).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -816,11 +716,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 try
                 {
-                    string sql = "update Supply.RepairRegularly set quantity = @quan where supply_id = @supid and equipment_id = @eid";
-                    DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("quan", quan), new SqlParameter("supid", supid), new SqlParameter("eid", id));
+                    string sql = "Equipment.Profile_Add_Update_SCTX 'update', {0}, {1}, {2}";
+                    DBContext.Database.ExecuteSqlCommand(sql, supid, id, quan);
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Supply_DP>("select e.*,s.supply_name from Supply.RepairRegularly e join Supply.Supply s on e.supply_id = s.supply_id where e.equipment_id = @id", new SqlParameter("id", id)).ToList();
+                    var sup = DBContext.Database.SqlQuery<ProfileGetListSCTX_Result>("Equipment.Profile_Get_List 'SCTX', {0}", id).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)
@@ -842,11 +742,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
             {
                 try
                 {
-                    string sql = "delete from Supply.RepairRegularly where supply_id = @supid and equipment_id = @eid";
-                    DBContext.Database.ExecuteSqlCommand(sql, new SqlParameter("supid", supid), new SqlParameter("eid", id));
+                    string sql = "Equipment.Profile_Delete 'SCTX', {0}, {1}";
+                    DBContext.Database.ExecuteSqlCommand(sql, supid, id);
                     DBContext.SaveChanges();
                     dbc.Commit();
-                    var sup = DBContext.Database.SqlQuery<Supply_DP>("select e.*,s.supply_name from Supply.RepairRegularly e join Supply.Supply s on e.supply_id = s.supply_id where e.equipment_id = @id", new SqlParameter("id", id)).ToList();
+                    var sup = DBContext.Database.SqlQuery<ProfileGetListSCTX_Result>("Equipment.Profile_Get_List 'SCTX', {0}", id).ToList();
                     return Json(new { success = true, data = sup }, JsonRequestBehavior.AllowGet);
                 }
                 catch (Exception e)

@@ -389,6 +389,14 @@
     <Compile Include="EntityResult\GetUserFunction_Result.cs" />
     <Compile Include="EntityResult\GetWaterReport_Result.cs" />
     <Compile Include="EntityResult\GetWorkHistory_Result.cs" />
+    <Compile Include="EntityResult\ProfileGetListDK_Result.cs" />
+    <Compile Include="EntityResult\ProfileGetListDT_Result.cs" />
+    <Compile Include="EntityResult\ProfileGetListListFuel_Result.cs" />
+    <Compile Include="EntityResult\ProfileGetListListHD_Result.cs" />
+    <Compile Include="EntityResult\ProfileGetListSCTX_Result.cs" />
+    <Compile Include="EntityResult\ProfileGetListTBDKoTB_Result.cs" />
+    <Compile Include="EntityResult\ProfileGetListTBDK_Result.cs" />
+    <Compile Include="EntityResult\ProfileGetListVTDK_Result.cs" />
     <Compile Include="EntityResult\Transfer_SelectAllAvailableEmployee_Result.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
