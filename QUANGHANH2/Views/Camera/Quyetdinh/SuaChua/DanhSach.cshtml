@@ -207,7 +207,7 @@
         $(document).on("click", ".open-UpdateModal", function () {
             id = $(this).data('documentary-id').toString();
             $('#reason_edit').val($(this).closest('tr').children().eq(4).text());
-            $('#out_in_come_edit').val($(this).closest('tr').children().eq(5).text());
+            $('#out_in_come_edit').val($(this).closest('tr').children().eq(3).text());
         });
 
         $("#myupdateform").submit(function (e) {
