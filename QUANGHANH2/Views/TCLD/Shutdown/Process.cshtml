@@ -133,7 +133,7 @@
 
                             </div>
                             <div class="col s12 m2 l2">
-                                <input class="form-control" id="so-quyet-dinh" type="text" placeholder="Số quyết định" required />
+                                <input class="form-control" id="so-quyet-dinh" type="text" placeholder="Số quyết định" required autocomplete="off"/>
                             </div>
                             <div class="col s12 m5 l5">
                                 <input id="ngay-quyet-dinh" class="thoigian center form-control" />
@@ -156,18 +156,11 @@
                                                             <span>Chọn cho tất cả</span>
                                                         </label>
                                                         <select id="select-dept-for-all" class="form-control" onchange="onSelectTypeOfEndContract2()" disabled>
-                                                            <option value='Đi học'>Đi học</option>
-                                                            <option value='Hưu trí'>Hưu trí</option>
-                                                            <option value='Xin chấm dứt HĐLĐ, thôi việc'>Xin chấm dứt HĐLĐ, thôi việc</option>
-                                                            <option value='Sa thải'>Sa thải</option>
-                                                            <option value='Đơn phương chấm dứt HĐLĐ, bỏ việc'>Đơn phương chấm dứt HĐLĐ, bỏ việc</option>
-                                                            <option value='Đi nghĩa vụ quân sự'>Đi nghĩa vụ quân sự</option>
-                                                            <option value='Đơn vị ngoài TKV' id='dvn'>Đi đơn vị ngoài TKV</option>
-                                                            <option value='Đơn vị trong TKV'>Đi đơn vị trong TKV</option>
-                                                            <option value='Ốm chết rủi ro'>Ốm chết rủi ro</option>
-                                                            <option value='Chết do tai nạn lao động'>Chết do tai nạn lao động</option>
-                                                            <option value='TLHĐ'>Thanh lý hợp đồng</option>
-                                                            <option value='khac' id='khac'>Các trường hợp khác</option>
+                                                            @foreach (var item in ViewBag.terminate_type_html)
+                                                            {
+                                                                <option value='@item.termination_type_id'>@item.name</option>
+                                                            }
+
                                                         </select>
                                                     </div>
                                                 </th>
@@ -212,7 +205,7 @@
                                             <th style="width: 200px">Phụ cấp</th>
                                             <th style="width: 200px">Bậc</th>
                                             <th style="width: 200px">Mức lương</th>*@
-                                        <th style="width: 300px">Lý do điều động</th>
+                                        <th style="width: 300px">Lý do chấm dứt</th>
                                     </tr>
                                 </thead>
                                 <tbody id="preview-table">
@@ -628,7 +621,11 @@
                         $("#selected-container").empty();
                         var date = new Date();
                         $("#ngay-quyet-dinh").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
-
+                        var item_in_list = "";
+                        for (i = 0; i < response.reason_list.length; i++) {
+                            item_in_list += "<option value='" + response.reason_list[i].termination_type_id
+                                + "'>" + response.reason_list[i].name + "</option> "
+                        };
                         for (var i = 0; i < response.data.length; i++) {
                             var selectPhongBan = "";
                             selectPhongBan += "<option value='' disabled>Chọn phòng ban</option>\n";
@@ -639,19 +636,8 @@
                             $("#selected-container").append("<td id=\"dvht-" + response.data[i].employee_id + "\">" + response.data[i].department_name + "</td>\n");
                             $("#selected-container").append("<td id=\"cvht-" + response.data[i].employee_id + "\">" + response.data[i].work + "</td>\n");
                             $("#selected-container").append("<td id=\"lydo-" + response.data[i].employee_id + "\">" +
-                                "<select name='lydo' class='form-control lydo' id='tlhd-" + response.data[i].employee_id + "' onchange='onSelectTypeOfEndContract1(" + response.data[i].employee_id + ")'> " +
-                                "<option value='Đi học'>Đi học</option> " +
-                                "<option value='Hưu trí'>Hưu trí</option> " +
-                                "<option value='Xin chấm dứt HĐLĐ, thôi việc'>Xin chấm dứt HĐLĐ, thôi việc</option> " +
-                                "<option value='Sa thải'>Sa thải</option> " +
-                                "<option value='Đơn phương chấm dứt HĐLĐ, bỏ việc'>Đơn phương chấm dứt HĐLĐ, bỏ việc</option> " +
-                                "<option value='Đi nghĩa vụ quân sự'>Đi nghĩa vụ quân sự</option> " +
-                                "<option value='Đơn vị ngoài TKV' id='dvn'>Đi đơn vị ngoài TKV</option> " +
-                                "<option value='Đơn vị trong TKV'>Đi đơn vị trong TKV</option> " +
-                                "<option value='Ốm chết rủi ro'>Ốm chết rủi ro</option> " +
-                                "<option value='Chết do tai nạn lao động'>Chết do tai nạn lao động</option> " +
-                                "<option value='TLHĐ'>Thanh lý hợp đồng</option> " +
-                                "<option value='khac' id='khac'>Các trường hợp khác</option> " +
+                                "<select name='lydo' class='form-control lydo' id='tlhd-" + response.data[i].employee_id + "' onchange='onSelectTypeOfEndContract1(" + response.data[i].employee_id + ")'> "
+                                + item_in_list +
                                 "</select></td>\n ");
                             $("#selected-container").append(" </tr>\n");
                             /////////////////////////set combobox cong viec value/////////////////////////////
@@ -711,7 +697,9 @@
                         //    }
                         //});
                     } else {
-
+                        errorAlert("Có lỗi", "Có lỗi xảy ra");
+                        $("#pre-load").hide("slow", function () {
+                        });
                     }
                 },
             })
@@ -849,41 +837,47 @@
                 if ($("#check-select-all-bac").prop("checked") == false) {
                     if ($("#tlhd-" + arrCarSelected[i]).val().trim() == 'khac') {
                         var obj = {
-                            'MaNV': arrCarSelected[i],
-                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
-                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
-                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
-                            'NgayQD': $("#ngay-quyet-dinh").val(),
-                            'LyDo': $("#khac" + arrCarSelected[i]).val().trim()
+                            'employee_id': arrCarSelected[i],
+                            'BASIC_INFO_full_name': $("#hoten-" + arrCarSelected[i]).text(),
+                            'department_name': $("#dvht-" + arrCarSelected[i]).text(),
+                            'work': $("#cvht-" + arrCarSelected[i]).text(),
+                            'decision_date': $("#ngay-quyet-dinh").val(),
+                            'termination_type_id': $("#khac" + arrCarSelected[i]).val(),
+                            'termination_name': $("#khac" + arrCarSelected[i] + " option:selected").text()
                         }
                     } else {
                         var obj = {
-                            'MaNV': arrCarSelected[i],
-                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
-                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
-                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
-                            'NgayQD': $("#ngay-quyet-dinh").val(),
-                            'LyDo': $("#tlhd-" + arrCarSelected[i]).val().trim()
+                            'employee_id': arrCarSelected[i],
+                            'BASIC_INFO_full_name': $("#hoten-" + arrCarSelected[i]).text(),
+                            'department_name': $("#dvht-" + arrCarSelected[i]).text(),
+                            'work': $("#cvht-" + arrCarSelected[i]).text(),
+                            'decision_date': $("#ngay-quyet-dinh").val(),
+                            'termination_type_id': $("#tlhd-" + arrCarSelected[i]).val(),
+                            'termination_name': $("#tlhd-" + arrCarSelected[i]+" option:selected").text()
+
                         }
                     }
                 } else {
                     if ($("#select-dept-for-all").val().trim() == 'khac') {
                         var obj = {
-                            'MaNV': arrCarSelected[i],
-                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
-                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
-                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
-                            'NgayQD': $("#ngay-quyet-dinh").val(),
-                            'LyDo': $("#khac-header").val().trim()
+                            'employee_id': arrCarSelected[i],
+                            'BASIC_INFO_full_name': $("#hoten-" + arrCarSelected[i]).text(),
+                            'department_name': $("#dvht-" + arrCarSelected[i]).text(),
+                            'work': $("#cvht-" + arrCarSelected[i]).text(),
+                            'decision_date': $("#ngay-quyet-dinh").val(),
+                            'termination_type_id': $("#khac-header").val(),
+                            'termination_name': $("#khac-header option:selected").text()
+
                         }
                     } else {
                         var obj = {
-                            'MaNV': arrCarSelected[i],
-                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
-                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
-                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
-                            'NgayQD': $("#ngay-quyet-dinh").val(),
-                            'LyDo': $("#select-dept-for-all").val().trim()
+                            'employee_id': arrCarSelected[i],
+                            'BASIC_INFO_full_name': $("#hoten-" + arrCarSelected[i]).text(),
+                            'department_name': $("#dvht-" + arrCarSelected[i]).text(),
+                            'work': $("#cvht-" + arrCarSelected[i]).text(),
+                            'decision_date': $("#ngay-quyet-dinh").val(),
+                            'termination_type_id': $("#select-dept-for-all").val(),
+                            'termination_name': $("#select-dept-for-all option:selected").text()
                         }
                     }
                 }
@@ -893,11 +887,11 @@
             for (var i = 0; i < selectedList.length; i++) {
                 $("#preview-table").append("<tr>\n");
                 $("#preview-table").append("<td>" + (i + 1) + "</td>\n");
-                $("#preview-table").append("<td>" + selectedList[i].MaNV + "</td>\n");
-                $("#preview-table").append("<td width=\"500px\">" + selectedList[i].HoTen + "</td>\n");
-                $("#preview-table").append("<td>" + selectedList[i].DonViHienTai + "</td>\n");
-                $("#preview-table").append("<td>" + selectedList[i].ChucVuHienTai + "</td>\n");
-                $("#preview-table").append("<td>" + selectedList[i].LyDo.trim() + "</td>\n");
+                $("#preview-table").append("<td>" + selectedList[i].employee_id + "</td>\n");
+                $("#preview-table").append("<td width=\"500px\">" + selectedList[i].BASIC_INFO_full_name + "</td>\n");
+                $("#preview-table").append("<td>" + selectedList[i].department_name + "</td>\n");
+                $("#preview-table").append("<td>" + selectedList[i].work + "</td>\n");
+                $("#preview-table").append("<td>" + selectedList[i].termination_name.trim() + "</td>\n");
                 $("#preview-table").append(" </tr>\n");
             }
         }
@@ -920,49 +914,49 @@
                 if ($("#check-select-all-bac").prop("checked") == false) {
                     if ($("#tlhd-" + arrCarSelected[i]).val().trim() == 'khac') {
                         var obj = {
-                            'SoQD': $("#so-quyet-dinh").val().trim(),
-                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
-                            'MaNV': arrCarSelected[i],
-                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
-                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
-                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
-                            'NgayQD': $("#ngay-quyet-dinh").val(),
-                            'LyDo': $("#khac" + arrCarSelected[i]).val().trim()
+                            'decision_number': $("#so-quyet-dinh").val().trim(),
+                            'terminate_date': $("#ngay-quyet-dinh").val(),
+                            'employee_id': arrCarSelected[i],
+                            'BASIC_INFO_full_name': $("#hoten-" + arrCarSelected[i]).text(),
+                            'department_name': $("#dvht-" + arrCarSelected[i]).text(),
+                            'work': $("#cvht-" + arrCarSelected[i]).text(),
+                            'decision_date': $("#ngay-quyet-dinh").val(),
+                            'reason': $("#khac" + arrCarSelected[i]).val().trim()
                         }
                     } else {
                         var obj = {
-                            'SoQD': $("#so-quyet-dinh").val().trim(),
-                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
-                            'MaNV': arrCarSelected[i],
-                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
-                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
-                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
-                            'NgayQD': $("#ngay-quyet-dinh").val(),
-                            'LoaiChamDut': $("#tlhd-" + arrCarSelected[i]).val().trim()
+                            'decision_number': $("#so-quyet-dinh").val().trim(),
+                            'terminate_date': $("#ngay-quyet-dinh").val(),
+                            'employee_id': arrCarSelected[i],
+                            'BASIC_INFO_full_name': $("#hoten-" + arrCarSelected[i]).text(),
+                            'department_name': $("#dvht-" + arrCarSelected[i]).text(),
+                            'work': $("#cvht-" + arrCarSelected[i]).text(),
+                            'decision_date': $("#ngay-quyet-dinh").val(),
+                            'termination_type_id': $("#tlhd-" + arrCarSelected[i]).val().trim()
                         }
                     }
                 } else {
                     if ($("#select-dept-for-all").val().trim() == 'khac') {
                         var obj = {
-                            'SoQD': $("#so-quyet-dinh").val().trim(),
-                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
-                            'MaNV': arrCarSelected[i],
-                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
-                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
-                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
-                            'NgayQD': $("#ngay-quyet-dinh").val(),
-                            'LoaiChamDut': $("#khac-header").val().trim()
+                            'decision_number': $("#so-quyet-dinh").val().trim(),
+                            'terminate_date': $("#ngay-quyet-dinh").val(),
+                            'employee_id': arrCarSelected[i],
+                            'BASIC_INFO_full_name': $("#hoten-" + arrCarSelected[i]).text(),
+                            'department_name': $("#dvht-" + arrCarSelected[i]).text(),
+                            'work': $("#cvht-" + arrCarSelected[i]).text(),
+                            'decision_date': $("#ngay-quyet-dinh").val(),
+                            'termination_type_id': $("#khac-header").val().trim()
                         }
                     } else {
                         var obj = {
-                            'SoQD': $("#so-quyet-dinh").val().trim(),
-                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
-                            'MaNV': arrCarSelected[i],
-                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
-                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
-                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
-                            'NgayQD': $("#ngay-quyet-dinh").val(),
-                            'LoaiChamDut': $("#select-dept-for-all").val().trim()
+                            'decision_number': $("#so-quyet-dinh").val().trim(),
+                            'terminate_date': $("#ngay-quyet-dinh").val(),
+                            'employee_id': arrCarSelected[i],
+                            'BASIC_INFO_full_name': $("#hoten-" + arrCarSelected[i]).text(),
+                            'department_name': $("#dvht-" + arrCarSelected[i]).text(),
+                            'work': $("#cvht-" + arrCarSelected[i]).text(),
+                            'decision_date': $("#ngay-quyet-dinh").val(),
+                            'termination_type_id': $("#select-dept-for-all").val().trim()
                         }
                     }
                 }
@@ -1013,49 +1007,49 @@
                 if ($("#check-select-all-bac").prop("checked") == false) {
                     if ($("#tlhd-" + arrCarSelected[i]).val().trim() == 'khac') {
                         var obj = {
-                            'SoQD': $("#so-quyet-dinh").val().trim(),
-                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
-                            'MaNV': arrCarSelected[i],
-                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
-                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
-                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
-                            'NgayQD': $("#ngay-quyet-dinh").val(),
-                            'LyDo': $("#khac" + arrCarSelected[i]).val().trim()
+                            'decision_number': $("#so-quyet-dinh").val().trim(),
+                            'terminate_date': $("#ngay-quyet-dinh").val(),
+                            'employee_id': arrCarSelected[i],
+                            'BASIC_INFO_full_name': $("#hoten-" + arrCarSelected[i]).text(),
+                            'department_name': $("#dvht-" + arrCarSelected[i]).text(),
+                            'work': $("#cvht-" + arrCarSelected[i]).text(),
+                            'decision_date': $("#ngay-quyet-dinh").val(),
+                            'reason': $("#khac" + arrCarSelected[i]).val().trim()
                         }
                     } else {
                         var obj = {
-                            'SoQD': $("#so-quyet-dinh").val().trim(),
-                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
-                            'MaNV': arrCarSelected[i],
-                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
-                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
-                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
-                            'NgayQD': $("#ngay-quyet-dinh").val(),
-                            'LoaiChamDut': $("#tlhd-" + arrCarSelected[i]).val().trim()
+                            'decision_number': $("#so-quyet-dinh").val().trim(),
+                            'terminate_date': $("#ngay-quyet-dinh").val(),
+                            'employee_id': arrCarSelected[i],
+                            'BASIC_INFO_full_name': $("#hoten-" + arrCarSelected[i]).text(),
+                            'department_name': $("#dvht-" + arrCarSelected[i]).text(),
+                            'work': $("#cvht-" + arrCarSelected[i]).text(),
+                            'decision_date': $("#ngay-quyet-dinh").val(),
+                            'termination_type_id': $("#tlhd-" + arrCarSelected[i]).val().trim()
                         }
                     }
                 } else {
                     if ($("#select-dept-for-all").val().trim() == 'khac') {
                         var obj = {
-                            'SoQD': $("#so-quyet-dinh").val().trim(),
-                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
-                            'MaNV': arrCarSelected[i],
-                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
-                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
-                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
-                            'NgayQD': $("#ngay-quyet-dinh").val(),
-                            'LoaiChamDut': $("#khac-header").val().trim()
+                            'decision_number': $("#so-quyet-dinh").val().trim(),
+                            'terminate_date': $("#ngay-quyet-dinh").val(),
+                            'employee_id': arrCarSelected[i],
+                            'BASIC_INFO_full_name': $("#hoten-" + arrCarSelected[i]).text(),
+                            'department_name': $("#dvht-" + arrCarSelected[i]).text(),
+                            'work': $("#cvht-" + arrCarSelected[i]).text(),
+                            'decision_date': $("#ngay-quyet-dinh").val(),
+                            'termination_type_id': $("#khac-header").val().trim()
                         }
                     } else {
                         var obj = {
-                            'SoQD': $("#so-quyet-dinh").val().trim(),
-                            'NgayChamDut': $("#ngay-quyet-dinh").val(),
-                            'MaNV': arrCarSelected[i],
-                            'HoTen': $("#hoten-" + arrCarSelected[i]).text(),
-                            'DonViHienTai': $("#dvht-" + arrCarSelected[i]).text(),
-                            'ChucVuHienTai': $("#cvht-" + arrCarSelected[i]).text(),
-                            'NgayQD': $("#ngay-quyet-dinh").val(),
-                            'LoaiChamDut': $("#select-dept-for-all").val().trim()
+                            'decision_number': $("#so-quyet-dinh").val().trim(),
+                            'terminate_date': $("#ngay-quyet-dinh").val(),
+                            'employee_id': arrCarSelected[i],
+                            'BASIC_INFO_full_name': $("#hoten-" + arrCarSelected[i]).text(),
+                            'department_name': $("#dvht-" + arrCarSelected[i]).text(),
+                            'work': $("#cvht-" + arrCarSelected[i]).text(),
+                            'decision_date': $("#ngay-quyet-dinh").val(),
+                            'termination_type_id': $("#select-dept-for-all").val().trim()
                         }
                     }
                 }

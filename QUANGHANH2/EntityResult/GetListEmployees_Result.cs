@@ -70,5 +70,14 @@ namespace QUANGHANH2.EntityResult
         public string pay_rate { get; set; }
         public string pay_table { get; set; }
         public string work { get; set; }
+        public string decision_number { get; set; }
+        public Nullable<int> decision_id { get; set; }
+        public string reason { get; set; }
+        public string decision_date { get; set; }
+        public string terminate_date { get; set; }
+        public string termination_name { get; set; }
+        public Nullable<int> termination_type_id { get; set; }
+
+
     }
 }
