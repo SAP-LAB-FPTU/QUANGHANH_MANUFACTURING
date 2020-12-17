@@ -11,6 +11,4 @@ namespace QUANGHANH2.EntityResult
         public string department_name { get; set; }
         public string actdate { get; set; }
     }
-    {
-    }
 }

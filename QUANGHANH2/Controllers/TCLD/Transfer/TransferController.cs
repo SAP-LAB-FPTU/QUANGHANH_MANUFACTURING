@@ -22,6 +22,7 @@ using System.Linq.Dynamic;
 using System.Data.Entity;
 using QUANGHANH2.SupportClass;
 using static QUANGHANH2.EntityResult.Transfer_SelectAllAvailableEmployee_Result;
+using static QUANGHANH2.EntityResult.Transfer_GetCurrentEmployeeInformation_Result;
 using QUANGHANH2.EntityResult;
 
 namespace QUANGHANHCORE.Controllers.TCLD
@@ -173,26 +174,28 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 selected = selected.Replace("\"", "\'");
             }
 
-            List<NhanVienModel> listNhanVien = new List<NhanVienModel>();
+            List<Transfer_GetCurrentEmployeeInformation_Result> listNhanVien = new List<Transfer_GetCurrentEmployeeInformation_Result>();
             int totalrows = listNhanVien.Count;
             int totalrowsafterfiltering = listNhanVien.Count;
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
-                string sql =
-                @"SELECT A.employee_id,A.BASIC_INFO_full_name,B.department_name,C.TenCongViec,C.PhuCap, D.MucBacLuong as BacLuong, D.MucThangLuong as ThangLuong, D.MucLuong as Luong, A.current_department_id, A.work_id
-                 FROM(
-                (SELECT * FROM NhanVien where employee_id in (" + selected + @" )) A
-                 left OUTER JOIN
-                 (SELECT department_id, department_name FROM Department) B on A.current_department_id = B.department_id
-                 left OUTER JOIN
-                 (SELECT MaCongViec, TenCongViec,PhuCap,MaThangLuong FROM CongViec) C on A.work_id = C.work_id
-				 left OUTER JOIN
-				 (SELECT tl.MaThangLuong,bl.MaBacLuong, mtm.MaBacLuong_ThangLuong_MucLuong ,tl.MucThangLuong,bl.MucBacLuong,mtm.MucLuong 
-				 FROM BacLuong_ThangLuong_MucLuong mtm , BacLuong bl, ThangLuong tl WHERE mtm.MaBacLuong=bl.MaBacLuong AND mtm.MaThangLuong=tl.MaThangLuong) D
-				 on A.MaBacLuong_ThangLuong_MucLuong=D.MaBacLuong_ThangLuong_MucLuong
-				 ) ";
-                listNhanVien = db.Database.SqlQuery<NhanVienModel>(sql).ToList<NhanVienModel>();
+     //           string sql =
+     //           @"SELECT A.employee_id,A.BASIC_INFO_full_name,B.department_name,C.TenCongViec,C.PhuCap, D.MucBacLuong as BacLuong, D.MucThangLuong as ThangLuong, D.MucLuong as Luong, A.current_department_id, A.work_id
+     //            FROM(
+     //           (SELECT * FROM NhanVien where employee_id in (" + selected + @" )) A
+     //            left OUTER JOIN
+     //            (SELECT department_id, department_name FROM Department) B on A.current_department_id = B.department_id
+     //            left OUTER JOIN
+     //            (SELECT MaCongViec, TenCongViec,PhuCap,MaThangLuong FROM CongViec) C on A.work_id = C.work_id
+				 //left OUTER JOIN
+				 //(SELECT tl.MaThangLuong,bl.MaBacLuong, mtm.MaBacLuong_ThangLuong_MucLuong ,tl.MucThangLuong,bl.MucBacLuong,mtm.MucLuong 
+				 //FROM BacLuong_ThangLuong_MucLuong mtm , BacLuong bl, ThangLuong tl WHERE mtm.MaBacLuong=bl.MaBacLuong AND mtm.MaThangLuong=tl.MaThangLuong) D
+				 //on A.MaBacLuong_ThangLuong_MucLuong=D.MaBacLuong_ThangLuong_MucLuong
+				 //) ";
+                listNhanVien = db.Database.SqlQuery<Transfer_GetCurrentEmployeeInformation_Result>("HumanResources.Transfer_GetCurrentEmployeeInformation @list_id"
+                    , new SqlParameter("@list_id",selected))
+                    .ToList<Transfer_GetCurrentEmployeeInformation_Result>();
             }
             return Json(new { success = true, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
@@ -684,8 +687,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             public string TenTrangThai { get; set; }
             public double? PhuCap { get; set; }
             public string ThangLuong { get; set; }
-
             public string Luong { get; set; }
+            public string BacLuong { get; set; }
         }
 
         public class DieuDongModel
