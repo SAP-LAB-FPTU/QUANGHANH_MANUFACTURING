@@ -357,6 +357,7 @@
     <Compile Include="Controllers\TCLD\Transfer\TransferController.cs" />
     <Compile Include="Controllers\TCLD\Employees\WorkHistoryController.cs" />
     <Compile Include="Controllers\TCLD\Work\WorkGroupTypeController.cs" />
+    <Compile Include="EntityResult\Transfer_GetCurrentEmployeeInformation_Result.cs" />
     <Compile Include="EntityResult\GetAccompaniedEquipmentWithName_Result.cs" />
     <Compile Include="EntityResult\GetChart_Result.cs" />
     <Compile Include="EntityResult\GetDashCam_Result.cs" />

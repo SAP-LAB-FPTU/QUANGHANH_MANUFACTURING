@@ -629,13 +629,10 @@
         var cviecs = @Html.Raw(Json.Encode(ViewBag.listCongViec));
         var phongbans=@Html.Raw(Json.Encode(ViewBag.listPhongBan));
         var listBacLuong=@Html.Raw(Json.Encode(ViewBag.listBacLuong));
-        var tagCV = "";
-                        tagCV += "<option value='-1' disabled>Chọn chức vụ</option>\n";
-                        for (var k = 0; k < cviecs.length; k++) {
-                            tagCV += "<option value=\"" + cviecs[k].MaCongViec + "\">" + cviecs[k].TenCongViec + "</option>\n";
-                        }
-    </script>
-    <script>
+        var tagCV = "<option value='-1' disabled>Chọn chức vụ</option>\n";
+        for (var k = 0; k < cviecs.length; k++) {
+            tagCV += "<option value=\"" + cviecs[k].work_id + "\">" + cviecs[k].name + "</option>\n";
+        }
         function getThangLuongAndPhuCap(code, mcv) {
             var c = code;
             var m = mcv;
@@ -715,10 +712,6 @@
             });
         }
 
-
-
-    </script>
-    <script>
         //check selected index:
         function step2() {
             $("#pre-load").show("slow", function () {
@@ -745,38 +738,38 @@
                             var selectBacLuong = "";
                             selectBacLuong += "<option value='-1' disabled>Chọn bậc lương</option>\n";
                             for (let j = 0; j < listBacLuong.length; j++) {
-                                selectBacLuong += "<option value=\"" + listBacLuong[j].MaBacLuong + "\" " + (listBacLuong[j].MucBacLuong == bac ? "selected" : "") + ">" + listBacLuong[j].MucBacLuong + "</option>\n";
+                                selectBacLuong += "<option value=\"" + listBacLuong[j].pay_rate_id + "\" " + (listBacLuong[j].pay_rate == bac ? "selected" : "") + ">" + listBacLuong[j].pay_rate + "</option>\n";
                             }
                             $("#selected-container").append("<tr>\n");
                             $("#selected-container").append("<td>" + (i + 1) + "</td>\n");
-                            $("#selected-container").append("<td>" + response.data[i].MaNV + "</td>\n");
-                            $("#selected-container").append("<td id=\"hoten-" + response.data[i].MaNV + "\">" + response.data[i].Ten + "</td>\n");
-                            $("#selected-container").append("<td id=\"dvht-" + response.data[i].MaNV + "\">" + response.data[i].department_name + "</td>\n");
-                            $("#selected-container").append("<td id=\"cvht-" + response.data[i].MaNV + "\">" + response.data[i].TenCongViec + "</td>\n");
-                            $("#selected-container").append("<td><select id=\"" + "donvi" + "-" + response.data[i].MaNV + "\" class=\"donvi form-control\">" + selectPhongBan + "</select></td>\n");
-                            $("#selected-container").append(" <td><select id=\"" + "chucvu" + "-" + response.data[i].MaNV + "\" class=\"chucvu form-control\">" + tagCV + "</select></td>\n");
+                            $("#selected-container").append("<td>" + response.data[i].employee_id + "</td>\n");
+                            $("#selected-container").append("<td id=\"hoten-" + response.data[i].employee_id + "\">" + response.data[i].BASIC_INFO_full_name + "</td>\n");
+                            $("#selected-container").append("<td id=\"dvht-" + response.data[i].employee_id + "\">" + response.data[i].department_name + "</td>\n");
+                            $("#selected-container").append("<td id=\"cvht-" + response.data[i].employee_id + "\">" + response.data[i].TenCongViec + "</td>\n");
+                            $("#selected-container").append("<td><select id=\"" + "donvi" + "-" + response.data[i].employee_id + "\" class=\"donvi form-control\">" + selectPhongBan + "</select></td>\n");
+                            $("#selected-container").append(" <td><select id=\"" + "chucvu" + "-" + response.data[i].employee_id + "\" class=\"chucvu form-control\">" + tagCV + "</select></td>\n");
                             var thang = response.data[i].ThangLuong === null ? "Chưa cập nhật" : response.data[i].ThangLuong;
-                            $("#selected-container").append("<td><input data-mathangluong=\"\" id=\"" + "thang" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"thang  form-control\" placeholder=\"Thang\" value=\"" + thang + "\" readonly /></td>\n");
+                            $("#selected-container").append("<td><input data-mathangluong=\"\" id=\"" + "thang" + "-" + response.data[i].employee_id + "\" type=\"text\" class=\"thang  form-control\" placeholder=\"Thang\" value=\"" + thang + "\" readonly /></td>\n");
                             var phucap = response.data[i].PhuCap === null ? "0" : response.data[i].PhuCap;
-                            $("#selected-container").append("<td><input id=\"" + "phucap" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"phucap numberInput form-control\" placeholder=\"Phụ cấp\" value=\"" + AddComma(phucap) + "\" readonly /></td>\n");
+                            $("#selected-container").append("<td><input id=\"" + "phucap" + "-" + response.data[i].employee_id + "\" type=\"text\" class=\"phucap numberInput form-control\" placeholder=\"Phụ cấp\" value=\"" + AddComma(phucap) + "\" readonly /></td>\n");
 
-                            $("#selected-container").append("<td><select id=\"" + "bac" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"bac form-control\" placeholder=\"Bậc\">" + selectBacLuong + "</select></td>\n");
+                            $("#selected-container").append("<td><select id=\"" + "bac" + "-" + response.data[i].employee_id + "\" type=\"text\" class=\"bac form-control\" placeholder=\"Bậc\">" + selectBacLuong + "</select></td>\n");
                             var luong = response.data[i].Luong === null ? "Chưa cập nhật" : response.data[i].Luong;
-                            $("#selected-container").append("<td><input id=\"" + "luong" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"luong numberInput form-control\" placeholder=\"Lương\" value=\"" + AddComma(luong) + "\" readonly /></td>\n");
+                            $("#selected-container").append("<td><input id=\"" + "luong" + "-" + response.data[i].employee_id + "\" type=\"text\" class=\"luong numberInput form-control\" placeholder=\"Lương\" value=\"" + AddComma(luong) + "\" readonly /></td>\n");
 
-                            $("#selected-container").append("<td><input id=\"" + "lydo" + "-" + response.data[i].MaNV + "\" type=\"text\" class=\"lydo form-control\" placeholder=\"Lý do điều động\" /></td>\n");
+                            $("#selected-container").append("<td><input id=\"" + "lydo" + "-" + response.data[i].employee_id + "\" type=\"text\" class=\"lydo form-control\" placeholder=\"Lý do điều động\" /></td>\n");
                             $("#selected-container").append(" </tr>\n");
                             /////////////////////////set combobox cong viec value/////////////////////////////
                             if (response.data[i].MaCongViec == null) {
-                                $("#chucvu" + "-" + response.data[i].MaNV).val("-1");
+                                $("#chucvu" + "-" + response.data[i].employee_id).val("-1");
                             } else {
-                                $("#chucvu" + "-" + response.data[i].MaNV).val(response.data[i].MaCongViec);
+                                $("#chucvu" + "-" + response.data[i].employee_id).val(response.data[i].MaCongViec);
                             }
                             /////////////////////////////////////
                             if (response.data[i].MaPhongBan == null) {
-                                $("#donvi" + "-" + response.data[i].MaNV).val("-1");
+                                $("#donvi" + "-" + response.data[i].employee_id).val("-1");
                             } else {
-                                $("#donvi" + "-" + response.data[i].MaNV).val(response.data[i].MaPhongBan);
+                                $("#donvi" + "-" + response.data[i].employee_id).val(response.data[i].MaPhongBan);
                             }
                         }
                         //$(".date-chooser").removeClass("datepicker-here");
@@ -784,11 +777,7 @@
                             $(this).attr('oninvalid', 'this.setCustomValidity(\"Please Enter valid email\")');
                             $(this).attr('oninput', 'setCustomValidity(\"\")');
                         });
-                        //$(".date-chooser").datepicker({
-                        //    language: 'vi',
-                        //    range: true,
-                        //    multipleDatesSeparator: '-'
-                        //});
+   
                         $(".date-chooser").data('datepicker');
                         ////////////////////////////////////////THANG LUONG///////////////
 
@@ -830,7 +819,6 @@
             if ($("#check-select-all-dept").prop("checked") == true) {
                 $("#check-select-all-dept").click();
             }
-
         }
         //get list:
     </script>
@@ -1091,7 +1079,7 @@
             //            for (var i = 0; i < response.data.length; i++) {
             //                $("#preview-table").append("<tr>\n");
             //                $("#preview-table").append("<td>" + (i + 1) + "</td>\n");
-            //                $("#preview-table").append("<td>" + response.data[i].MaNV + "</td>\n");
+            //                $("#preview-table").append("<td>" + response.data[i].employee_id + "</td>\n");
             //                $("#preview-table").append("<td width=\"500px\">" + response.data[i].HoTen + "</td>\n");
             //                $("#preview-table").append("<td>" + response.data[i].DonViHienTai + "</td>\n");
             //                $("#preview-table").append("<td>" + response.data[i].ChucVuHienTai.tenChucVu + "</td>\n"); $("#preview-table").append("<td>" + response.data[i].DonViMoi + "</td>\n");
