@@ -19,7 +19,7 @@
                 <h3 class="center">Thông tin cơ bản hồ sơ ngoài</h3>
 
                 <div class="col m12">
-                    <div id="form1" class="row">
+                    <div id="basicInfo-form" class="row">
                         <div class="input-field col m12" id="btn-fix-save">
 
                             @{
@@ -100,9 +100,8 @@
         <div class="card-content">
             <div class="row">
                 <h3 class="center">Loại chấm dứt</h3>
-
                 <div class="col m12">
-                    <div id="form2" class="row">
+                    <div id="termination-form" class="row">
                         <div class="input-field col m12" id="btn-fix-save">
                             @{
 
@@ -128,6 +127,7 @@
                             <div class="col m3">
                                 <label class='custom-label'>Số QĐ</label>
                                 <input disabled type="text" id="decision_number" class="inputEdit form-control" />
+                                <input hidden type="text" id="decision_id" class="inputEdit form-control" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label'>
@@ -135,19 +135,22 @@
                                 </label>
                                 <input disabled list="list" type="text" id="termination_name" class="inputEdit form-control" />
                                 <datalist id="list">
-                                    <option value="1234">1234</option>
-                                    <option value="1111">1111</option>
-                                    <option value="2222">2222</option>
-                                    <option value="3333">3333</option>
+                                    <option >Chấm dứt có đơn</option>
+                                    <option >Đơn phương chấm dứt</option>
+                                    <option >Sa thải</option>
+                                    <option >Chết TNLĐ</option>
+                                    <option >Chết ốm, TNRR, TNGT</option>
+                                    <option >Chấm dứt do không đủ tiêu chuẩn sức khỏe</option>
+                                    <option >Chấm dứt khác</option>
                                 </datalist>
                             </div>
                             <div class="col m3">
                                 <label class='custom-label'>Ngày tháng năm QĐ</label>
-                                <input disabled type="text" id="decision_date" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                                <input disabled="" type="text" id="decision_date" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label'>Ngày chấm dứt</label>
-                                <input disabled type="text" id="terminate_date" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
+                                <input disabled="" type="text" id="terminate_date" data-language="vi" data-min-view="days" data-date-format="dd/mm/yyyy" class="validatengay datepicker-here datepicker-add center inputEdit form-control" placeholder="mm/dd/yyyy" />
                             </div>
                         </div>
                     </div>
@@ -163,7 +166,7 @@
             <div class="row">
                 <h3 class="center">Ủy quyền lấy HS và sổ BH</h3>
                 <div class="col m12">
-                    <div id="form3" class="row">
+                    <div id="au-form" class="row">
                         <div class="input-field col m12" id="btn-fix-save">
                             @{
 
@@ -191,19 +194,19 @@
                                 <label class='custom-label'>
                                     Họ tên người được ủy quyền
                                 </label>
-                                <input disabled type="text" id="full_name" class="inputEdit form-control" />
+                                <input disabled type="text" id="au_full_name" class="inputEdit form-control" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label'>Quan hệ với người ủy quyền</label>
-                                <input disabled type="text" id="family_relationship_name" class="inputEdit form-control" />
+                                <input disabled type="text" id="au_family_relationship_name" class="inputEdit form-control" />
                             </div>
                             <div class="col m3 ">
                                 <label class='custom-label'>Số CMND</label>
-                                <input disabled type="text" id="identity_card_number" class="inputEdit form-control number" />
+                                <input disabled type="text" id="au_identity_card_number" class="inputEdit form-control number" />
                             </div>
                             <div class="col m3">
                                 <label class='custom-label number'>Số ĐT người được ủy quyền</label>
-                                <input disabled type="text" id="phone_number" class="inputEdit form-control number" />
+                                <input disabled type="text" id="au_phone_number" class="inputEdit form-control number" />
                             </div>
                         </div>
                     </div>
@@ -237,7 +240,6 @@
 
                 <div class="col m12">
                     <div id="form3" class="row">
-
                         <div class="col s12  table-responsive">
                             <table class="striped table-bordered" id="example">
                                 <thead>
@@ -252,14 +254,6 @@
 
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>$320,800</td>
-                                        <td><a href="#modal1" data-target="#modal1" class="btn waves-effect waves-light blue" id="btn-fix">Chỉnh sửa</a></td>
-                                    </tr>
-                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -323,12 +317,65 @@
         </div>
     </div>
     <div class="modal-footer">
-        <a class="modal-action modal-close waves-effect waves-green btn blue" id="paper_add_accept">Đồng ý</a>
+        <a class="modal-action modal-close waves-effect waves-green btn blue" id="paper_add_accept" onclick="addPaper()">Đồng ý</a>
         <a class="modal-action modal-close waves-effect waves-green btn red" id="paper_add_exit">Hủy bỏ</a>
     </div>
 </div>
 
-
+<form action="" method="POST" id="submit_out_paper" role="form">
+    <div class="modal fade" id="edit_paper">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Sửa giấy tờ</h3>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label for="name">Số hiệu giấy tờ </label>
+                            <input type="text" class="form-control" id="papers_number_edit" />
+                            <input type="hidden" class="form-control" id="records_papers_id_edit" />
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label for="name">Mã giấy tờ: </label>
+                            <input type="text" class="form-control" id="papers_id_edit" />
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label for="name">Kiểu giấy tờ: </label>
+                            <input type="text" class="form-control" id="type_name_edit" />
+                        </div>
+                    </div>
+                    <div class="col s12 m12">
+                        <div class="form-group">
+                            <label for="name">Tên giấy tờ: </label>
+                            <input type="text" class="form-control" id="paper_name_edit" />
+                        </div>
+                    </div>
+                    <div class="col s6 m6">
+                        <div class="form-group">
+                            <label for="name">Ngày cấp </label>
+                            <input type='text' class='datepicker-here form-control maxDate' data-language='vi' id="received_date_edit" />
+                        </div>
+                    </div>
+                    <div class="col s6 m6">
+                        <div class="form-group">
+                            <label for="name">Ngày trả </label>
+                            <input type='text' class='datepicker-here form-control maxDate' data-language='vi' id="given_date_edit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn blue darken-2 modal-close save-category ">Lưu</button>
+                <button type="button" class="btn light-blue lighten-1 modal-close" id="exit-edit-button">Thoát</button>
+            </div>
+        </div>
+    </div>
+</form>
 
 <div id="pre-load" hidden>
     <div class="loading">
@@ -360,10 +407,11 @@
         //$('input').prop('disabled', true);
         //$('#sothe').prop('disabled', true);
         //$('#soQD').prop('disabled', true);
-        loadThongTinCoBan();
-        loadLoaiChamDut();
-        loadUyQuyen();
-        loadThongTinGiayTo();
+
+        loadBasicInfo();
+        loadTerminationType();
+        loadAuthorization();
+        loadPaperInfo();
 
     });
 
@@ -371,210 +419,119 @@
             $('.datepicker-inline').remove();
     });
 
-    function loadThongTinGiayTo() {
-        $("#pre-load").show("slow", function () {
-        });
-        $("#pre-load").css("z-index", "99999");
-
-        table = $('#example').DataTable({
-
-            "language": {
-                        emptyTable: "<li class='text-danger' align='center'>Không có dữ liệu</li>",
-                        paginate:
-                        {
-                            previous: "Trang trước",
-                            next: "Trang sau",
-                            first: "|<",
-                            last: ">|",
-
-                        },
-                        info: "Đang hiện START đến END của TOTAL bản ghi",
-                        infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
-                    },
-
-
+    function loadPaperInfo() {
+        datatable = $('#example').DataTable({
             "ajax": {
-                "url": "/Brief/thongTinGiayTo",
-                "type": "GET",
-                "data": {
-                    manv: '@ViewBag.manv'
-    },
-    "datatype": "json"
+                "url": '@Url.Action("getOutsidePaperInfo", "Brief")',
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "papers_number", "name": "papers_number" },
+                { "data": "papers_id", "name": "papers_id" },
+                { "data": "paper_name", "name": "paper_name" },
+                { "data": "type_name", "name": "type_name" },
+                {
+                    "data": "received_date", "name": "received_date", "render": function (data) {
+                        return dateFormat(data);
+                    },
                 },
-    "drawCallback": function(settings) {
-        $("#pre-load").hide("slow", function () {
-        });
-
-    },
-    "columns": [
-        { data: 'sohieu' },
-        {data:'ma'},
-        { data: 'ten'},
-        { data: 'kieu' },
-        { data: 'ngaycap',"render": function (data) {
-                return dateFormat(data);
-            }},
-        {
-            data: 'ngaytra', "render": function (data) {
-                return dateFormat(data);
-            }
-        },
-        {
-            data: 'manv', "render": function (data, type, row) {
-
-                return "@{if (isAcess){<a onclick=\"getChinhSuaGiayTo('" + row['sohieu'] + "','" + row['kieu'] + "','" + row['ma'] + "','"+ row['ten'] + "','"+ row['ngaycap'] + "','" + row['ngaytra'] + "')\" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' id='btn-fix'  href='#modal1'>Chỉnh sửa</a>}
-                    else {<a disabled onclick=\"getChinhSuaGiayTo('" + row['sohieu'] + "','" + row['kieu']+ "','" + row['ma'] + "','" + "','"+ row['ten'] + "','"+ row['ngaycap'] + "','" + row['ngaytra'] + "')\" class='btn btn-small blue darken-2 modal-trigger input-field waves-effect' id='btn-fix'  href='#modal1'>Chỉnh sửa</a>}
-                }";
-            }
-        }
-            ],
-
-            "processing": false,
-            "searching": false,
-                "info": false,
-                    "bAutoWidth": false,
-                        "serverSide": "true",
-                        "bFilter": false,
-                        "bLengthChange": false,
-                            "initComplete": function(settings, json) {
-                                $("#pre-load").hide("slow", function () {
-                                });
-                            }
-
-
-            });
-        }
-
-    function loadThongTinCoBan() {
-        // get data chung cua ho so ngoai
-        $("#pre-load").show("slow", function () {
-        });
-        $("#pre-load").css("z-index", "99999");
-
-        $.ajax({
-            type: "GET",
-            url: "/Brief/taiThongTinCoBanHSNgoai",
-            data: { manv:'@ViewBag.manv'
-    },
-
-    dataType: "json",
-        success: function (data) {
-            $("#pre-load").hide("slow", function () {
-
-            });
-            $('#full_name').val(data.data[0].hoVaTen);
-            $('#phone_number').val(data.data[0].sothe);
-            $('#date_of_birth').val(dateFormat(data.data[0].ngaythangnamsinh));
-            $('#department_name').val(data.data[0].donvicd);
-            $('#social_insurance_number').val(data.data[0].soBH);
-            $('#phone_number').val(data.data[0].sodt);
-            $('#current_residence').val(data.data[0].diachithuongtru);
-        }
-        ,
-         error: () => {
-                            $("#pre-load").hide()
-
-                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
-                        }
-
-
-
-            });
-
-        }
-
-    function loadLoaiChamDut() {
-
-        $("#pre-load").show("slow", function () {
-        });
-        $("#pre-load").css("z-index", "99999");
-
-        $.ajax({
-            type: "GET",
-            url: "/Brief/thongtinLoaiChamdut",
-            data: { manv:'@ViewBag.manv'},
-    dataType: "json",
-        success: function (data) {
-            $("#pre-load").hide("slow", function () {
-            });
-            $('#termination_name').val(data.data[0].tenLoaiChamDut);
-            $('#decision_number').val(data.data[0].soQD);
-            $('#decision_date').val(dateFormat(data.data[0].ngayQD));
-             $("#list").empty();
-            for(var i=0;i<data.data[0].listChamDut.length;i++)
-            {
-                if (data.data[0].listChamDut[i] != null) {
-                    $("#list").append("<option value='" +
-                data.data[0].listChamDut[i] + "'>"+data.data[0].listChamDut[i]+"</option>");
+                {
+                    "data": "given_date", "name": "given_date", "render": function (data) {
+                        return dateFormat(data);
+                    },
+                },
+                {
+                    "data": "records_papers_id", "name": "records_papers_id", "render": function (data) {
+                        return "<a href=\"#edit_paper\" class='open-EditPaper waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' data-paper=\"" + data + "\" ><i class=''></i> Sửa</a>";
+                    },
+                    "orderable": false,
+                    "searchable": false,
+                    "width": "150px"
                 }
 
-            }
-            console.log(data.data[0].listChamDut);
-            }
-        ,
-         error: () => {
-                            $("#pre-load").hide()
-
-                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
-                        }
-
-            });
-
-        }
-
-    function loadUyQuyen() {
-        $("#pre-load").show("slow", function () {
+            ],
+            "serverSide": "true",
+            "order": [0, "asc"],
+            "bLengthChange": false,
+            "bFilter": false,
+            "bInfo": false,
+            "bAutoWidth": false,
+            "language": {
+                "zeroRecords": "Không có dữ liệu",
+            },
+            "initComplete": function () {
+                $("#pre-load").hide();
+            }, "bPaginate": false
         });
-        $("#pre-load").css("z-index", "99999");
+
+        datatable.ajax.reload();
+        $("#pre-load").hide();
+    }
+
+    function loadBasicInfo(){
         $.ajax({
-            type: "GET",
-            url: "/Brief/thongTinUyQuyen",
-            data: { manv:'@ViewBag.manv'
-    },
-    dataType: "json",
-        success: function (data) {
-            $("#pre-load").hide("slow", function () {
-            });
-
-            if (data.data.length == 0) return;
-            $('#full_name').val(data.data[0].hoTenNguoiUyQuyen);
-            $('#family_relationship_name').val(data.data[0].quanHeNguoiUyQuyen);
-            $('#identity_card_number').val(data.data[0].soCMT);
-            $('#phone_number').val(data.data[0].soDT);
+            type: "POST",
+            url: '@Url.Action("getOutsideBasicInfo","Brief")',
+            dataType: "json",
+            success: function (data) {
+                $('#employee_id').val(data.employee_id);
+                $('#full_name').val(data.full_name);
+                $('#date_of_birth').val(dateFormat(data.date_of_birth));
+                $('#department_name').val(data.department_name);
+                $('#social_insurance_number').val(data.social_insurance_number);
+                $('#phone_number').val(data.phone_number);
+                $('#current_residence').val(data.current_residence);
             }
-        ,
-         error: () => {
-                            $("#pre-load").hide()
+        });
+    }
 
-                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
-                        }
+    function loadTerminationType(){
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("getOutsideTerminationType","Brief")',
+            dataType: "json",
+            success: function (data) {
+                $('#decision_id').val(data.decision_id);
+                $('#decision_number').val(data.decision_number);
+                $('#termination_name').val(data.termination_name);
+                $('#decision_date').val(dateFormat(data.decision_date));
+                $('#terminate_date').val(dateFormat(data.terminate_date));
+            }
+        });
+    }
 
-            });
-        }
+    function loadAuthorization() {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("getOutsideTerminationType","Brief")',
+            dataType: "json",
+            success: function (data) {
+                $('#au_full_name').val(data.full_name);
+                $('#au_family_relationship_name').val(data.family_relationship_name);
+                $('#au_identity_card_number').val(data.identity_card_number);
+                $('#au_phone_number').val(data.phone_number);
+            }
+        });
+    }
 
     function customeClick() {
         // event controller button
         $('#btn_basicInfo_edit').click(function (e) {
             e.preventDefault();
 
-
             $('#btn_basicInfo_edit').hide();
             $('#btn_basicInfo_edit').parent().hide();
             $('#btn_basicInfo_save').show();
             $('#btn_basicInfo_remove').show();
             $('#btn_basicInfo_save').parent().show();
-            //console.log($('#form1').find('input')[0]);
 
-            $.each($('#form1').find('input'), function (index, value) {
-                    if (value.id != 'sothe' && value.id != 'hoVaTen' && value.id != 'donvicd')
+            $.each($('#basicInfo-form').find('input'), function (index, value) {
+                    if (value.id != 'employee_id' && value.id != 'full_name' && value.id != 'department_name')
                         value.disabled = false;
                 });
-
-
-                //$('#form1').find().prop('disabled', false);
-                //$('#sothe').prop('disabled', true);
-                // your statements;
             });
+
         $('#btn_basicInfo_save').click(function (e) {
             e.preventDefault();
 
@@ -583,27 +540,25 @@
             $('#btn_basicInfo_remove').parent();
             $('#btn_basicInfo_edit').show();
             $('#btn_basicInfo_edit').parent().show();
-            $.each($('#form1').find('input'), function (index, value) {
-                //  if(value.id !='sothe')
+            $.each($('#basicInfo-form').find('input'), function (index, value) {
                 value.disabled = true;
             });
             // your statements;
         });
+
         $('#btn_basicInfo_remove').click(function (e) {
             e.preventDefault();
-
             $('#btn_basicInfo_remove').hide();
             $('#btn_basicInfo_save').hide();
             $('#btn_basicInfo_save').parent();
             $('#btn_basicInfo_edit').show();
             $('#btn_basicInfo_edit').parent().show();
-            $.each($('#form1').find('input'), function (index, value) {
-                //   if(value.id !='sothe')
+            loadBasicInfo();
+            $.each($('#basicInfo-form').find('input'), function (index, value) {
                 value.disabled = true;
             });
-            // your statements;
+            
         });
-
 
         $('#btn_termi_edit').click(function (e) {
             e.preventDefault();
@@ -612,12 +567,13 @@
             $('#btn_termi_save').show();
             $('#btn_termi_exit').show();
             $('#btn_termi_save').parent().show();
-            $.each($('#form2').find('input'), function (index, value) {
-                if (value.id != 'soQD')
+            $.each($('#termination-form').find('input'), function (index, value) {
+                if (value.id != 'decision_number')
                     value.disabled = false;
             });
             // your statements;
         });
+
         $('#btn_termi_save').click(function (e) {
             e.preventDefault();
 
@@ -626,12 +582,12 @@
             $('#btn_termi_exit').parent();
             $('#btn_termi_edit').show();
             $('#btn_termi_edit').parent().show();
-            $.each($('#form2').find('input'), function (index, value) {
-                // if(value.id !='soQD')
+            $.each($('#termination-form').find('input'), function (index, value) {
                 value.disabled = true;
             });
             // your statements;
         });
+
         $('#btn_termi_exit').click(function (e) {
             e.preventDefault();
 
@@ -640,13 +596,12 @@
             $('#btn_termi_save').parent();
             $('#btn_termi_edit').show();
             $('#btn_termi_edit').parent().show();
-            $.each($('#form2').find('input'), function (index, value) {
-                // if(value.id !='soQD')
+            loadTerminationType();
+            $.each($('#termination-form').find('input'), function (index, value) {
                 value.disabled = true;
             });
             // your statements;
         });
-
 
         $('#btn_authorized_edit').click(function (e) {
             e.preventDefault();
@@ -655,12 +610,12 @@
             $('#btn_authorized_save').show();
             $('#btn_authorized_exit').show();
             $('#btn_authorized_save').parent().show();
-            $.each($('#form3').find('input'), function (index, value) {
-                // if(value.id !='soQD')
+            $.each($('#au-form').find('input'), function (index, value) {
                 value.disabled = false;
             });
             // your statements;
         });
+
         $('#btn_authorized_save').click(function (e) {
             e.preventDefault();
 
@@ -669,12 +624,12 @@
             $('#btn_authorized_exit').parent();
             $('#btn_authorized_edit').show();
             $('#btn_authorized_edit').parent().show();
-            $.each($('#form3').find('input'), function (index, value) {
-                // if(value.id !='soQD')
+            $.each($('#au-form').find('input'), function (index, value) {
                 value.disabled = true;
             });
             // your statements;
         });
+
         $('#btn_authorized_exit').click(function (e) {
             e.preventDefault();
 
@@ -683,204 +638,241 @@
             $('#btn_authorized_save').parent();
             $('#btn_authorized_edit').show();
             $('#btn_authorized_edit').parent().show();
-            $.each($('#form3').find('input'), function (index, value) {
-                // if(value.id !='soQD')
+            loadAuthorization();
+            $.each($('#au-form').find('input'), function (index, value) {
                 value.disabled = true;
             });
             // your statements;
         });
-
-
     }
 
     // event controller button to sending data
 
     $('#btn_basicInfo_save').click(function (e) {
 
-        var x1 = $('#sothe').val();
-        var x2 = $('#hoVaTen').val();
-        var zz = $('#ngaythangnamsinh').val();
-        var dateParts = $('#ngaythangnamsinh').val().split("/");
-        var x3 = dateParts[1]+'/'+ dateParts[0]+'/' +dateParts[2];
-
-        var x4 = $('#donvicd').val();
-        var x5 = $('#soBH').val();
-        var x6 = $('#sodt').val();
-        var x7 = $('#diachithuongtru').val();
+        var employee_id = $('#employee_id').val();
+        var full_name = $('#full_name').val();
+        var date_of_birth = $('#date_of_birth').val();
+        var department_name = $('#department_name').val();
+        var social_insurance_number = $('#social_insurance_number').val();
+        var phone_number = $('#phone_number').val();
+        var current_residence = $('#current_residence').val();
+        
 
         var object = {
-            "sothe": x1,
-            "hoVaTen": x2,
-            "ngaythangnamsinh": x3,
-            "donvicd": x4,
-            "soBH": x5,
-            "sodt": x6,
-            "diachithuongtru": x7
-
+            "employee_id": employee_id,
+            "full_name": full_name,
+            "date_of_birth": date_of_birth,
+            "department_name": department_name,
+            "social_insurance_number": social_insurance_number,
+            "phone_number": phone_number,
+            "current_residence": current_residence
         }
-
         e.preventDefault();
-        updateCoBan(object);
-
-
-
+        updateBasicInfo(object);
     });
 
     //cham dut
     $('#btn_termi_save').click(function (e) {
-
-        var x1 = $('#tenLoaiChamDut').val();
-        var x2 = $('#soQD').val();
-        var dateParts = $('#ngayQD').val().split("/");
-        var x3 = dateParts[1] + '/' + dateParts[0] + '/' + dateParts[2];
-        var dateParts = $('#ngayCD').val().split("/");
-        var x4 = dateParts[1] + '/' + dateParts[0] + '/' + dateParts[2];
+        var decision_id = $('#decision_id').val();
+        var termination_name = $('#termination_name').val();
+        var decision_number = $('#decision_number').val();
+        var decision_date = $('#decision_date').val();
+        var terminate_date = $('#terminate_date').val();
 
         var object = {
-            "tenLoaiChamDut": x1,
-            "soQD": x2,
-            "ngayQD": x3,
-            "ngayCD": x4
-
-
+            "decision_id": decision_id,
+            "termination_name": termination_name,
+            "decision_number": decision_number,
+            "decision_date": decision_date,
+            "terminate_date": terminate_date
         }
 
         e.preventDefault();
-        updateChamDut(object);
-
-
-
+        updateTermination(object);
     });
 
-
-
     $('#btn_authorized_save').click(function (e) {
-
-        // alert('save3')
-        var x1 = $('#full_name').val();
-        var x2 = $('#family_relationship_name').val();
-        var x3 = $('#identity_card_number').val();
-        var x4 = $('#phone_number').val();
-        var x5 = '@ViewBag.manv';
+        var full_name = $('#au_full_name').val();
+        var family_relationship_name = $('#au_family_relationship_name').val();
+        var identity_card_number = $('#au_identity_card_number').val();
+        var phone_number = $('#au_phone_number').val();
+        
         var object = {
-            "full_name": x1,
-            "family_relationship_name": x2,
-            "identity_card_number": x3,
-            "phone_number": x4,
-            "employee_id": x5
-
+            "full_name": full_name,
+            "family_relationship_name": family_relationship_name,
+            "identity_card_number": identity_card_number,
+            "phone_number": phone_number,
         }
 
         e.preventDefault();
-        updateUyQuyen(object);
-
-
-
+        updateAuthorization(object);
     });
 
     //end
-
-    function updateCoBan(object) {
-        $("#pre-load").show("slow", function () {
-        });
-        $("#pre-load").css("z-index", "99999");
+    function updateBasicInfo(object) {
+        var data = {
+            json: JSON.stringify(object),
+        };
         $.ajax({
+            url: '@Url.Action("updateOutsideBasicInfo","Brief")',
             type: "POST",
-            url: "/Brief/updateThongTinCoBan",
-            data: { json: JSON.stringify(object) },
+            data: JSON.stringify(data),
+            contentType: "application/json;charset=utf-8",
             dataType: "json",
-            success: function (data) {
-
-                //  alert('ddd');
-                loadThongTinCoBan();
-
-                successAlert('Thành công', 'Cập nhật thông tin cơ bản');
+            success: function () {
+                successAlert('Thành công', 'Thêm thành công');
+            },
+            error: function (xhr, XMLHttpRequest, textStatus, errorThrown) {
+                errorAlert('Lỗi', 'Có lỗi xảy ra');
             }
-            ,
-         error: () => {
-                            $("#pre-load").hide()
-
-                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
-                        }
-
         });
     }
 
-    function updateChamDut(object) {
-        $("#pre-load").show("slow", function () {
-        });
-        $("#pre-load").css("z-index", "99999");
+    function updateTermination(object) {
+        var data = {
+            json: JSON.stringify(object),
+        };
         $.ajax({
+            url: '@Url.Action("updateOutsideTermination","Brief")',
             type: "POST",
-            url: "/Brief/updateLoaiChamDut",
-            data: { json: JSON.stringify(object) },
+            data: JSON.stringify(data),
+            contentType: "application/json;charset=utf-8",
             dataType: "json",
-            success: function (data) {
-                //  alert('updateChamDut');
-
-                loadLoaiChamDut();
-                successAlert('Thành công', 'Cập nhật thông tin chấm dứt');
+            success: function () {
+                successAlert('Thành công', 'Thêm thành công');
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                errorAlert('Lỗi', 'Có lỗi xảy ra');
             }
-            ,
-         error: () => {
-                            $("#pre-load").hide()
-
-                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
-                        }
-
         });
     }
 
-    function updateUyQuyen(object) {
-        $("#pre-load").show("slow", function () {
-        });
-        $("#pre-load").css("z-index", "99999");
+    function updateAuthorization(object) {
+        var data = {
+            json: JSON.stringify(object),
+        };
         $.ajax({
+            url: '@Url.Action("updateOutsideAuthorization","Brief")',
             type: "POST",
-            url: "/Brief/updateUyQuyen",
-            data: { json: JSON.stringify(object) },
+            data: JSON.stringify(data),
+            contentType: "application/json;charset=utf-8",
             dataType: "json",
-            success: function (data) {
-                // alert('updateChamDut');
-                loadUyQuyen();
-                 successAlert('Thành công', 'Cập nhật thông tin ủy quyền');
+            success: function () {
+                successAlert('Thành công', 'Thêm thành công');
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                errorAlert('Lỗi', 'Có lỗi xảy ra');
             }
-            ,
-         error: () => {
-                            $("#pre-load").hide()
-
-                            errorAlert('Thất bại', 'Đã xảy ra lỗi');
-                        }
-
         });
     }
-
-    $('#btn_basicInfo_remove').click(function (e) {
-        e.preventDefault();
-        loadThongTinCoBan();
-    })
-    $('#btn_termi_exit').click(function (e) {
-        e.preventDefault();
-        loadLoaiChamDut();
-    })
-    $('#btn_authorized_exit').click(function (e) {
-        e.preventDefault();
-        loadUyQuyen();
-    })
 
     function dateFormat(d) {
-        if (d == null) return "";
-
-        var dateString = d.substr(6);
-        var currentTime = new Date(parseInt(dateString));
-        var month = currentTime.getMonth() + 1;
-        if (month<10) month = '0' + month;
-        var day = currentTime.getDate();
-        if (day<10) day = '0' + day;
-        var year = currentTime.getFullYear();
-        var date = day + "/" + month + "/" + year;
-        return (date);
+        if (!d) {
+            return '';
+        } else {
+            var dateString = d.substr(6);
+            var currentTime = new Date(parseInt(dateString));
+            var month = currentTime.getMonth() + 1;
+            var day = currentTime.getDate();
+            var year = currentTime.getFullYear();
+            var date = day + "/" + month + "/" + year;
+            return (date);
         }
+    }
+
+    function addPaper() {
+        var data = {
+            papers_type: document.getElementById("paperType_add").value,
+            papers_name: document.getElementById("paperName_add").value
+        };
+        $.ajax({
+            url: '@Url.Action("addOutsidePaper","Brief")',
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function () {
+                successAlert('Thành công', 'Thêm thành công');
+                datatable_syll.ajax.reload();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                errorAlert('Lỗi', 'Có lỗi xảy ra');
+            }
+        });
+    };
+
+    $(document).on("click", ".open-EditPaper", function (){
+        var records_papers_id = $(this).data('paper');
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("getOutsidePaperEdit", "Brief")',
+            data: {
+                records_papers_id: records_papers_id
+            },
+            dataType: "json",
+            success: function (data) {
+                $("#papers_number_edit").val(data.papers_number);
+                $("#records_papers_id_edit").val(data.records_papers_id);
+                $("#papers_id_edit").val(data.papers_id);
+                $("#type_name_edit").val(data.type_name);
+                $("#paper_name_edit").val(data.paper_name);
+                $("#received_date_edit").val(data.received_date);
+                $("#given_date_edit").val(data.given_date);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.notify(XMLHttpRequest.responseText, {
+                    globalPosition: "top center",
+                    className: "error"
+                });
+            },
+            cache: false
+        })
+    });
+
+    $("#submit_out_paper").submit(function (e) {
+        var object = {
+            "papers_number": $('#papers_number_edit').val(),
+            "records_papers_id": $('#records_papers_id_edit').val(),
+            "papers_id": $('#papers_id_edit').val(),
+            "type_name": $('#type_name_edit').val(),
+            "paper_name": $('#paper_name_edit').val(),
+            "received_date": $('#received_date_edit').val(),
+            "given_date": $('#given_date_edit').val()
+        };
+        var data = {
+            json: JSON.stringify(object),
+        };
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("updateOutsidePaper", "Brief")',
+            dataType: "text",
+            data: JSON.stringify(data),
+            success: function () {
+                successAlert('Thành công', 'Chỉnh sửa thành công ');
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                errorAlert('Lỗi', 'Có lỗi xảy ra');
+            },
+            cache: false
+        }).done(function () {
+            $('#exit-edit-button').click();
+            datatable_syll.ajax.reload();
+        })
+        return false;
+    });
+
+
+
+
+
+
+
+
+
+
+
+
 
     function themGiayTo() {
         console.log('ThemGiayTo');

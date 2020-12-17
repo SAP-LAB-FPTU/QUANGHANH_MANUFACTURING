@@ -301,6 +301,7 @@
                         <div class="form-group">
                             <label for="name">Năm bổ sung: </label>
                             <input type="text" class="form-control" id="additional_year_edit" />
+                            <input type="hidden" class="form-control" id="ahr_id_edit" />
                         </div>
                     </div>
                 </div>
@@ -502,7 +503,7 @@
                 $('#cb_academic_level').val(data.academic_level);
             }
         });
-    }
+    };
 
     function addYear() {
         var data = {
@@ -522,7 +523,7 @@
                 errorAlert('Lỗi', 'Có lỗi xảy ra');
             }
         });
-    }
+    };
 
     var chungchichitiet, stt;
     $("#pre-load").show();
@@ -668,8 +669,8 @@
                     "data": "additional_history_resume_year", "name": "additional_history_resume_year"
                 },
                 {
-                    "data": "employee_id", "name": "employee_id", "render": function (data) {
-                        return "<a href=\"#edit_ahr\" class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' onclick=editSYLL('" + data + "') ><i class=''></i> Sửa</a>";
+                    "data": "additional_history_resume_id", "name": "additional_history_resume_id", "render": function (data) {
+                        return "<a href=\"#edit_ahr\" class='open-EditYear waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' data-ahr=\"" + data + "\" ><i class=''></i> Sửa</a>";
                     },
                     "orderable": false,
                     "searchable": false,
@@ -695,47 +696,51 @@
         $("#pre-load").hide();
     });
 
-    function editSYLL(id) {
-        var data {
-
-        }
-                $.ajax({
-                    type: "POST",
-                    url: '@Url.Action("EditLichSuBoSung", "Brief")',
-                    success: function (data) {
-                        //$("#myedit_syll").html(data)
-                    }
+    $(document).on("click", ".open-EditYear", function (){
+        var ahr_id = $(this).data('ahr');
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("getYear", "Brief")',
+            data: {
+                ahr_id: ahr_id
+            },
+            dataType: "json",
+            success: function (data) {
+                $("#additional_year_edit").val(data.additional_history_resume_year);
+                $("#ahr_id_edit").val(data.records_id);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $.notify(XMLHttpRequest.responseText, {
+                    globalPosition: "top center",
+                    className: "error"
                 });
-            }
+            },
+            cache: false
+        })
+    });
 
-
-                //function SubmitForm(form) {
-                //    $.validator.unobtrusive.parse(form);
-                //    if ($(form).valid()) {
-                //        $("#pre-load").show("slow", function () {
-                //        });
-                //        $("#pre-load").css("z-index", "99999");
-                //        $.ajax({
-                //            type: "POST",
-                //            url: form.action,
-                //            data: $(form).serialize(),
-                //            success: function (data) {
-                //                dataTable.ajax.reload();
-                //                dataCertificateEmp.ajax.reload();
-                //                $("#pre-load").hide("slow", function () {
-                //                });
-                //                successAlert('Thành công', '');
-                //                $(".modal").modal();
-                //            },
-                //            error: function () {
-                //                errorAlert('Lỗi', 'Thử lại');
-                //            }
-                //        })
-                //    }
-                //    return false;
-                //}
-    }
-
+    $("#submit_ahr").submit(function (e) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("EditAHR", "Brief")',
+            dataType: "text",
+            success: function () {
+                successAlert('Thành công', 'Chỉnh sửa thành công ');
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                errorAlert('Lỗi', 'Có lỗi xảy ra');
+            },
+            data: {
+                year: $("#additional_year_edit").val(),
+                ahr_id: $("#ahr_id_edit").val()
+            },
+            cache: false
+        }).done(function () {
+            $('#exit-edit-button').click();
+            datatable_syll.ajax.reload();
+        })
+        return false;
+    });
 
     function dateFormat(d) {
         var dateString = d.substr(6);
