@@ -194,49 +194,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
         }
 
-        //check id của nhân viên
-        //[HttpPost]
-        //public ActionResult validateID(string id)
-        //{
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-        //        Employee nv = db.Employees.Where(x => x.employee_id == id).FirstOrDefault<Employee>();
-        //        if (nv == null || nv.current_status_id == 2)
-        //        {
-        //            return Json(new { success = true, responseText = "id has been exist" }, JsonRequestBehavior.AllowGet);
-        //        }
-        //        else
-        //        {
-        //            return Json(new { success = false, responseText = nv.BASIC_INFO_full_name }, JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
-        //}
-
-        //[Auther(RightID = "148")]
-        //[HttpPost, ActionName("Delete")]
-        //public ActionResult DeleteDoc(int id)
-        //{
-        //    //id = id.Substring(1, id.Length - 2);
-        //    //nameOfDoc = nameOfDoc.Substring(1, nameOfDoc.Length - 2);
-        //    try
-        //    {
-        //        using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //        {
-        //            Paper emp = db.Papers.Where(x => x.papers_id == id).FirstOrDefault<Paper>();
-        //            db.Papers.Remove(emp);
-        //            db.SaveChanges();
-        //            List<Paper> list = new List<Paper>();
-        //            //List<Paper> list = db.Database.SqlQuery<TenNV>("select n.Ten,g.* from GiayTo g, NhanVien n where g.MaNV = n.MaNV").ToList<Paper>();
-        //            return Json(new { success = true, responseText = "Your message successfuly sent!", list }, JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return Json(new { success = false, responseText = "The attached file is not supported." }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
-        //*cancel
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]
         [HttpPost]
         public ActionResult Search(string employee_id, string employee_name, string paper_name, string type_name)
@@ -292,9 +249,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
-
-
-
         public Boolean checkEm(string manv)
         {
             Employee em = null;
@@ -312,7 +266,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
             return false;
         }
-
 
         public ActionResult listAllHoSo(string delivery_employee_name, string management_employee_name, string date_of_birth,
             string received_date, string employee_name, string employee_id)
@@ -482,7 +435,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-ho-so/edit")]
         [HttpPost]
-        public ActionResult edit_record_detail(string management_employee_name,string received_date, string recruitment_decision_date,
+        public ActionResult edit_record_detail(string management_employee_name, string received_date, string recruitment_decision_date,
             string delivery_employee_name, string handover_employee_name, string department_name, string recruitment_date,
             string termination_date, string termination_decision_date, string termination_type)
         {
@@ -523,6 +476,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     record_edit.management_employee_id = management.employee_id;
                     record_edit.delivery_employee_id = delivery.employee_id;
                     record_edit.received_date = DateTime.ParseExact(received_date, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+
+                    db.Entry(ter_edit).State = EntityState.Modified;
+                    db.Entry(re_edit).State = EntityState.Modified;
+                    db.Entry(record_edit).State = EntityState.Modified;
+                    db.Entry(de_ter_edit).State = EntityState.Modified;
+                    db.Entry(de_re_edit).State = EntityState.Modified;
 
                     db.SaveChanges();
                     transaction.Commit();
@@ -576,7 +535,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            
+
             List<AdditionalHistoryResume> aList = db.Database.SqlQuery<AdditionalHistoryResume>(@"select a.*
                 from HumanResources.AdditionalHistoryResume a
                 inner join HumanResources.Records r on r.records_id = a.records_id 
@@ -641,7 +600,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
             }
             return Json(new { data = recordList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-        
+
         }
 
         [Auther(RightID = "130")]
@@ -740,79 +699,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
             }
             return Json(new { data = familyList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-        
+
         }
 
-
-
-        //editByThuong
-        //[Auther(RightID = "131")]
-        //[HttpGet]
-        //public ActionResult EditHoSo()
-        //{
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-        //        Dictionary<int, string> listTypesBrief = new Dictionary<int, string>();
-        //        listTypesBrief.Add(1, "Photo");
-        //        listTypesBrief.Add(2, "Sao, Công chứng");
-        //        listTypesBrief.Add(3, "Bản gốc");
-        //        listTypesBrief.Add(4, "Dấu đỏ");
-
-        //        Dictionary<int, string> listDepartmet = new Dictionary<int, string>();
-        //        List<Department> department = db.Departments.ToList();
-        //        int i = 1;
-        //        foreach (var d in department)
-        //        {
-        //            listDepartmet.Add(i, d.department_name);
-        //            i++;
-        //        }
-        //        SelectList listD = new SelectList(listDepartmet, "Value", "Value");
-        //        SelectList listOptionBrief = new SelectList(listTypesBrief, "Value", "Value");
-        //        ViewBag.listOptionBrief = listOptionBrief;
-        //        ViewBag.listDepartmet = listD;
-        //        Record hoSo = db.Records.Where(x => x.employee_id == id_).FirstOrDefault<Record>();
-        //        return View(hoSo);
-        //    }
-        //}
-        //[Auther(RightID = "131")]
-        //[HttpPost]
-        //public ActionResult EditHoSo(Record hoSo)
-        //{
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-        //        if (hoSo != null)
-        //        {
-        //            db.Entry(hoSo).State = EntityState.Modified;
-        //            db.SaveChanges();
-        //        }
-        //        return RedirectToAction("listAllHoSo");
-        //    }
-        //}
-
-        //[HttpGet]
-        //public ActionResult EditChiTietbangCap(string id)
-        //{
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-
-        //        RecordsPaper chiTiet = db.RecordsPapers.Where(x => x. == id).FirstOrDefault<ChiTiet_BangCap_GiayChungNhan>();
-        //        return View(chiTiet);
-        //    }
-        //}
-
-        [HttpPost]
-        public ActionResult EditChiTietbangCap(RecordsPaper chiTiet_BangCap)
-        {
-            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-            {
-                if (chiTiet_BangCap != null)
-                {
-                    db.Entry(chiTiet_BangCap).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-                return RedirectToAction("listAllHoSo");
-            }
-        }
         [HttpGet]
         public ActionResult EditQuanHeGiaDinh()
         {
@@ -823,225 +712,54 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 return View(qh);
             }
         }
+
+        [Route("phong-tcld/quan-ly-ho-so/detail")]
+        [Auther(RightID = "169")]
         [HttpPost]
-        public ActionResult EditQuanHeGiaDinh(Family quanHeGiaDinh)
+        public ActionResult EditAHR(string year, string ahr_id)
         {
-            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
             {
-                if (quanHeGiaDinh != null)
+                try
                 {
-                    db.Entry(quanHeGiaDinh).State = EntityState.Modified;
+                    int ahr_id_num = Int32.Parse(ahr_id);
+                    AdditionalHistoryResume ahr = db.AdditionalHistoryResumes.Where(x => x.additional_history_resume_id == ahr_id_num).First();
+                    ahr.additional_history_resume_year = year;
+                    db.Entry(ahr).State = EntityState.Modified;
                     db.SaveChanges();
+                    transaction.Commit();
+                    return Json("", JsonRequestBehavior.AllowGet);
                 }
-                return RedirectToAction("listAllHoSo");
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return new HttpStatusCodeResult(400);
+                }
             }
         }
 
-        //[Auther(RightID = "169")]
-        //[HttpPost]
-        //public ActionResult EditLichSuBoSung(string year)
-        //{
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-
-        //        AdditionalHistoryResume qh = db.AdditionalHistoryResumes.Where(x => x.MaNV == id_).FirstOrDefault<AdditionalHistoryResume>();
-        //        return View(qh);
-        //    }
-        //}
-
-        //[Auther(RightID = "169")]
-        //[HttpPost]
-        //public ActionResult EditLichSuBoSung(AdditionalHistoryResume lichSuBoSungSYLL)
-        //{
-        //    lichSuBoSungSYLL.Ma = id_;
-
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-
-        //        List<LichSuBoSungSYLL> list = new List<LichSuBoSungSYLL>();
-
-        //        list = (from lsbs in db.LichSuBoSungSYLLs
-        //                where lsbs.MaNV == id_
-        //                select new
-        //                {
-        //                    id = lsbs.ID,
-        //                    maNV = lsbs.MaNV,
-        //                    namBoSung = lsbs.NamBoSung
-
-        //                }).ToList().Select(p => new LichSuBoSungSYLL
-        //                {
-        //                    ID = p.id,
-        //                    MaNV = p.maNV,
-        //                    NamBoSung = p.namBoSung
-        //                }).ToList();
-        //        bool check = false;
-        //        foreach (var i in list)
-        //        {
-        //            if (i.NamBoSung.Equals(lichSuBoSungSYLL.NamBoSung))
-        //            {
-        //                check = true;
-        //            }
-        //        }
-        //        if (lichSuBoSungSYLL != null && check == false)
-        //        {
-        //            db.Entry(lichSuBoSungSYLL).State = EntityState.Modified;
-        //            db.SaveChanges();
-        //        }
-        //        return RedirectToAction("listAllHoSo");
-        //    }
-        //}
-
-        //[Auther(RightID = "168")]
-        //[HttpGet]
-        //public ActionResult AddLichSuBoSung()
-        //{
-        //    Dictionary<int, string> listYear = new Dictionary<int, string>();
-        //    for (int i = 1990; i < 2100; i++)
-        //    {
-        //        listYear.Add(i, i + "");
-        //    }
-        //    SelectList listOptionYear = new SelectList(listYear, "Value", "Value");
-        //    ViewBag.listOptionYear = listOptionYear;
-        //    return View();
-        //}
-
-        //[Auther(RightID = "168")]
-        //[HttpPost]
-        //public ActionResult AddLichSuBoSung(LichSuBoSungSYLL lichSuBoSungSYLL)
-        //{
-
-        //    lichSuBoSungSYLL.MaNV = id_;
-
-        //    List<LichSuBoSungSYLL> lsbs = new List<LichSuBoSungSYLL>();
-
-
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-        //        List<LichSuBoSungSYLL> list = new List<LichSuBoSungSYLL>();
-
-        //        list = (from lsbs1 in db.LichSuBoSungSYLLs
-        //                where lsbs1.MaNV == id_
-        //                select new
-        //                {
-        //                    id = lsbs1.ID,
-        //                    maNV = lsbs1.MaNV,
-        //                    namBoSung = lsbs1.NamBoSung
-
-        //                }).ToList().Select(p => new LichSuBoSungSYLL
-        //                {
-        //                    ID = p.id,
-        //                    MaNV = p.maNV,
-        //                    NamBoSung = p.namBoSung
-        //                }).ToList();
-        //        bool check = false;
-        //        foreach (var i in list)
-        //        {
-        //            if (i.NamBoSung.Equals(lichSuBoSungSYLL.NamBoSung))
-        //            {
-        //                check = true;
-        //            }
-        //        }
-
-
-        //        if (lichSuBoSungSYLL != null && check == false)
-        //        {
-        //            //db.Entry(lichSuBoSungSYLL).State = EntityState.Modified;
-        //            db.LichSuBoSungSYLLs.Add(lichSuBoSungSYLL);
-        //            db.SaveChanges();
-        //        }
-        //        return RedirectToAction("listAllHoSo");
-        //    }
-        //}
-
-        [Auther(RightID = "129")]
         [HttpPost]
-        public ActionResult searchlistAllBrief(string searchList)
+        public ActionResult getYear(int ahr_id)
         {
-
-            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+            try
             {
-                db.Configuration.LazyLoadingEnabled = false;
-
-                int start = Convert.ToInt32(Request["start"]);
-                int length = Convert.ToInt32(Request["length"]);
-                string searchValue = Request["search[value]"];
-                string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-                string sortDirection = Request["order[0][dir]"];
-                List<HoSoNhanVien> hs_nv = new List<HoSoNhanVien>();
-                string[] idsArray = searchList.Split(',').ToArray();
-                var manv = idsArray[0];
-                var tennv = idsArray[1];
-                var nguoigiaohoso = idsArray[2];
-                var nguoigiuhoso = idsArray[3];
-                if (manv != null || tennv != null && nguoigiaohoso != null && nguoigiuhoso != null)
-                {
-                    //hs_nv = (from nv in db.Employees
-                    //         join hs in db.Records
-                    //         on nv.employee_id equals hs.employee_id
-                    //         where (nv.current_status_id != 2)
-                    //         && ((nv.employee_id + " ").Contains(manv))
-                    //         && ((nv.BASIC_INFO_full_name + " ").Contains(tennv))
-                    //         && ((hs.delivery_employee_id + " ").Contains(nguoigiaohoso))
-                    //         && ((hs.management_employee_id + " ").Contains(nguoigiuhoso))
-                    //         select new
-                    //         {
-                    //             maNV = hs.employee_id,
-                    //             ten = nv.BASIC_INFO_full_name,
-                    //             ngaysinh = nv.BASIC_INFO_date_of_birth,
-                    //             nguoiGiaoHoSo = hs.delivery_employee_id,
-                    //             ngayNhanHoSo = hs.received_date,
-                    //             nguoiGiuHoSo = hs.management_employee_id
-                    //             //camKetTuyenDung = hs.CamKetTuyenDung,
-
-                    //             //quyetDinhTiepNhanDVC = hs.QuyetDinhTiepNhanDVC,
-                    //             //ngayQDTiepNhan = hs.NgayQuyetDinhTuyenDung,
-                    //             //ngayDiLam = nv.NgayDiLam,
-                    //             //donViKyQuyetDinhTiepNhan = hs.DonViKyQuyetDinhTiepNhan,
-
-                    //             //quyetDinhChamDut = hs.QDChamDutHopDongDVC,
-                    //             //ngayQDChamDut = hs.NgayQuyetDinhChamDut,
-                    //             //ngayChamDut = hs.NgayChamDut,
-                    //             //donViKyChamDut = hs.DonViKyQuyetDinhChamDut
-                    //         }).ToList().Select(p => new HoSoNhanVien
-                    //         {
-                    //             MaNV = p.maNV,
-                    //             Ten = p.ten,
-                    //             NgaySinh = p.ngaysinh,
-                    //             NguoiGiaoHoSo = p.nguoiGiaoHoSo,
-                    //             NgayNhanHoSo = p.ngayNhanHoSo,
-                    //             NguoiGiuHoSo = p.nguoiGiuHoSo
-
-                    //             //CamKetTuyenDung = p.camKetTuyenDung,
-                    //             //QuyetDinhTiepNhanDVC = p.quyetDinhTiepNhanDVC,
-                    //             //NgayQDTiepNhan = p.ngayQDTiepNhan,
-                    //             //NgayDiLam = p.ngayDiLam,
-                    //             //DonViKyQuyetDinhTiepNhan = p.donViKyQuyetDinhTiepNhan,
-                    //             //QuyetDinhChamDut = p.quyetDinhChamDut,
-                    //             //NgayQDChamDut = p.ngayQDChamDut,
-                    //             //NgayChamDut = p.ngayChamDut,
-                    //             //DonViKyChamDut = p.donViKyChamDut
-
-
-                    //         }).ToList();
-
-
-                    int totalrows = hs_nv.Count;
-                    int totalrowsafterfiltering = hs_nv.Count;
-                    hs_nv = hs_nv.OrderBy(sortColumnName + " " + sortDirection).ToList<HoSoNhanVien>();
-                    //paging
-                    hs_nv = hs_nv.Skip(start).Take(length).ToList<HoSoNhanVien>();
-                    var dataJson = Json(new { success = true, data = hs_nv, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-
-                    string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
-
-                    return dataJson;
-                }
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+                AdditionalHistoryResume ahr = new AdditionalHistoryResume();
+                ahr = db.Database.SqlQuery<AdditionalHistoryResume>("select * from HumanResources.AdditionalHistoryResume where additional_history_resume_id = @ahr_id", new SqlParameter("ahr_id", ahr_id)).First();
+                return Json(ahr);
             }
-            return RedirectToAction("listAllHoSo");
+            catch (Exception)
+            {
+                Response.Write("Có lỗi xảy ra, xin vui lòng nhập lại");
+                return new HttpStatusCodeResult(400);
+            }
         }
 
         [Auther(RightID = "132")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty")]
+
+
         public ActionResult Outside()
         {
 
@@ -1124,6 +842,375 @@ namespace QUANGHANHCORE.Controllers.TCLD
             return View("/Views/TCLD/Brief/ManageBrief/OutSideDetail.cshtml");
         }
 
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty/basic-info")]
+        [HttpPost]
+        public ActionResult getOutsideBasicInfo()
+        {
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            db.Configuration.LazyLoadingEnabled = false;
+
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+
+            string query = @"select e.employee_id,
+                BASIC_INFO_full_name as full_name
+                ,BASIC_INFO_date_of_birth as date_of_birth,
+                gd.department_name,
+                BASIC_INFO_phone_number as phone_number
+                , BASIC_INFO_current_residence as current_residence, 
+                BASIC_INFO_social_insurance_number as social_insurance_number
+                from HumanResources.Employee e
+                inner join General.Department gd on gd.department_id = e.current_department_id
+                inner join HumanResources.Records r on r.employee_id = e.employee_id
+                where e.employee_id = @employee_id ";
+
+            Basic_Info_Employee obj = db.Database.SqlQuery<Basic_Info_Employee>(query,
+                    new SqlParameter("employee_id", id_)).First();
+            return Json(obj);
+
+        }
+
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty/termination")]
+        [HttpPost]
+        public ActionResult getOutsideTerminationType()
+        {
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            db.Configuration.LazyLoadingEnabled = false;
+
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+
+            string query = @"select top 1 d.number as decision_number, tt.name as termination_name , 
+                d.date as decision_date , t.terminate_date , d.decision_id
+                from HumanResources.Decision d
+                inner join HumanResources.Termination t on t.decision_id = d.decision_id
+                inner join HumanResources.TerminationType tt on
+                t.termination_type_id = tt.termination_type_id
+                inner join HumanResources.Records r on r.employee_id = t.employee_id 
+                where t.employee_id = @employee_id
+                order by d.date desc ";
+
+            Outside_Termination obj = db.Database.SqlQuery<Outside_Termination>(query,
+                    new SqlParameter("employee_id", id_)).First();
+            return Json(obj);
+        }
+
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty/authorization")]
+        [HttpPost]
+        public ActionResult getOutsideAuthorization()
+        {
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            db.Configuration.LazyLoadingEnabled = false;
+
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+
+            string query = @"select r.full_name,r.identity_card_number,r.phone_number,
+                fr.name as family_relationship_name
+                from HumanResources.RecordsGettingAuthorize r
+                inner join HumanResources.FamilyRelationship fr
+                on fr.family_relationship_id = r.family_relationship_id
+                inner join HumanResources.Records rs on rs.records_id = r.records_id
+                where rs.employee_id = @employee_id ";
+
+            Outside_Authorization obj = db.Database.SqlQuery<Outside_Authorization>(query,
+                    new SqlParameter("employee_id", id_)).First();
+            return Json(obj);
+        }
+
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty/paper")]
+        [HttpPost]
+        public ActionResult getOutsidePaperInfo()
+        {
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            db.Configuration.LazyLoadingEnabled = false;
+
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+
+            string query = @"select rp.papers_number,rp.papers_id,p.name as paper_name ,pst.name as type_name,
+                rp.received_date , rp.given_date , rp.records_papers_id
+                from HumanResources.RecordsPapers rp
+                inner join HumanResources.Papers p on
+                p.papers_id = rp.papers_id
+                inner join HumanResources.PapersStorageType pst on 
+                pst.papers_storage_type_id = rp.papers_storage_type_id
+                inner join HumanResources.Records r on
+                r.records_id = rp.records_id
+                where r.employee_id = @employee_id ";
+
+            List<Outside_Paper> list = db.Database.SqlQuery<Outside_Paper>(query,
+                new SqlParameter("employee_id", id_)
+                ).ToList();
+
+            int totalrows = list.Count;
+            int totalrowsafterfiltering = list.Count;
+            //sorting
+            //list = list.OrderBy(sortColumnName + " " + sortDirection).ToList<Outside_Paper>();
+            //paging
+            //list = list.Skip(start).Take(length).ToList<Outside_Paper>();
+            if (id_.Trim() != "")
+            {
+                if (checkEm(id_) == false)
+                {
+                    return Json(new { data = list, message = "Failed_Search", draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+            return Json(new { data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty/edit-basic-info")]
+        [HttpPost]
+        public ActionResult updateOutsideBasicInfo(string json)
+        {
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    dynamic js = JObject.Parse(json);
+                    string employee_id = js.employee_id;
+                    DateTime? date_of_birth = js.date_of_birth;
+                    string full_name = js.full_name;
+                    string department_name = js.department_name;
+                    string social_insurance_number = js.social_insurance_number;
+                    string phone_number = js.phone_number;
+                    string current_residence = js.current_residence;
+
+                    Department d = db.Departments.Where(x => x.department_name == department_name).First();
+
+                    Employee e = db.Employees.Where(x => x.employee_id == employee_id).First();
+                    e.BASIC_INFO_date_of_birth = date_of_birth;
+                    e.current_department_id = d.department_id;
+                    e.BASIC_INFO_phone_number = phone_number;
+                    e.BASIC_INFO_current_residence = current_residence;
+                    e.BASIC_INFO_social_insurance_number = social_insurance_number;
+
+                    db.Entry(e).State = EntityState.Modified;
+
+                    db.SaveChanges();
+                    transaction.Commit();
+
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    return new HttpStatusCodeResult(400);
+                }
+            }
+
+        }
+
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty/edit-termination")]
+        [HttpPost]
+        public ActionResult updateOutsideTermination(string json)
+        {
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    dynamic js = JObject.Parse(json);
+                    int decision_id = js.decision_id;
+                    string termination_name = js.termination_name;
+                    string decision_number = js.decision_number;
+                    DateTime? decision_date = js.decision_date;
+                    DateTime? terminate_date = js.terminate_date;
+
+
+                    TerminationType tt = db.TerminationTypes.Where(x => x.name == termination_name).First();
+
+                    //Edit
+                    Termination t_edit = db.Terminations.Where(x => (x.decision_id == decision_id && x.employee_id == id_)).First();
+                    Decision de_edit = db.Decisions.Where(x => x.decision_id == decision_id).First();
+
+                    t_edit.terminate_date = terminate_date;
+                    t_edit.termination_type_id = tt.termination_type_id;
+                    de_edit.date = decision_date;
+
+                    db.Entry(t_edit).State = EntityState.Modified;
+                    db.Entry(de_edit).State = EntityState.Modified;
+
+                    db.SaveChanges();
+                    transaction.Commit();
+
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    return new HttpStatusCodeResult(400);
+                }
+            }
+        }
+
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty/edit-authorization")]
+        [HttpPost]
+        public ActionResult updateOutsideAuthorization(string json)
+        {
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    dynamic js = JObject.Parse(json);
+                    string full_name = js.full_name;
+                    string family_relationship_name = js.family_relationship_name;
+                    string identity_card_number = js.identity_card_number;
+                    string phone_number = js.phone_number;
+
+                    Record r = db.Records.Where(x => x.employee_id == id_).First();
+                    FamilyRelationship f = db.FamilyRelationships.Where(x => x.name == family_relationship_name).First();
+
+                    //edit
+                    RecordsGettingAuthorize rga_edit = db.RecordsGettingAuthorizes.Where(x => x.records_id == r.records_id).FirstOrDefault();
+                    rga_edit.full_name = full_name;
+                    rga_edit.identity_card_number = identity_card_number;
+                    rga_edit.phone_number = phone_number;
+                    rga_edit.family_relationship_id = f.family_relationship_id;
+
+                    if (rga_edit == null)
+                    {
+                        db.RecordsGettingAuthorizes.Add(rga_edit);
+                    }
+                    else
+                    {
+                        db.Entry(rga_edit).State = EntityState.Modified;
+                    }
+
+                    db.SaveChanges();
+                    transaction.Commit();
+
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    return new HttpStatusCodeResult(400);
+                }
+            }
+
+        }
+
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty/add-paper")]
+        [HttpPost]
+        public ActionResult addOutsidePaper(string papers_type, string papers_name)
+        {
+            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
+            {
+                try
+                {
+                    Record r = db.Records.Where(x => x.employee_id == id_).First();
+                    Paper p = db.Papers.Where(x => x.name == papers_name).First();
+                    PapersStorageType pst = db.PapersStorageTypes.Where(x => x.name == papers_type).First();
+
+                    //add
+                    RecordsPaper rp_add = new RecordsPaper();
+                    rp_add.papers_id = p.papers_id;
+                    rp_add.papers_storage_type_id = pst.papers_storage_type_id;
+                    rp_add.records_id = r.records_id;
+
+                    db.RecordsPapers.Add(rp_add);
+
+                    db.SaveChanges();
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    return new HttpStatusCodeResult(400);
+                }
+            }
+        }
+
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty/add-paper")]
+        [HttpPost]
+        public ActionResult getOutsidePaperEdit(string records_papers_id)
+        {
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            db.Configuration.LazyLoadingEnabled = false;
+
+            int start = Convert.ToInt32(Request["start"]);
+            int length = Convert.ToInt32(Request["length"]);
+            string searchValue = Request["search[value]"];
+            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+            string sortDirection = Request["order[0][dir]"];
+
+            string query = @"select rp.papers_number,rp.papers_id,p.name as paper_name ,pst.name as type_name,
+                rp.received_date , rp.given_date , rp.records_papers_id
+                from HumanResources.RecordsPapers rp
+                inner join HumanResources.Papers p on
+                p.papers_id = rp.papers_id
+                inner join HumanResources.PapersStorageType pst on 
+                pst.papers_storage_type_id = rp.papers_storage_type_id
+                inner join HumanResources.Records r on
+                r.records_id = rp.records_id
+                where rp.records_papers_id = @records_papers_id ";
+
+            Outside_Paper p = db.Database.SqlQuery<Outside_Paper>(query, new SqlParameter("records_papers_id", records_papers_id)).First();
+            return Json(p);
+        }
+
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty/edit-paper")]
+        [HttpPost]
+        public ActionResult updateOutsidePaper(string json)
+        {
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            using (DbContextTransaction transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    dynamic js = JObject.Parse(json);
+                    string papers_number = js.papers_number;
+                    int records_papers_id = js.records_papers_id;
+                    DateTime? received_date = js.received_date;
+                    int papers_id = js.papers_id;
+                    string type_name = js.type_name;
+                    string paper_name = js.paper_name;
+                    DateTime? given_date = js.given_date;
+
+                    //get id
+                    Record r = db.Records.Where(x => x.employee_id == id_).First();
+                    Paper p = db.Papers.Where(x => x.name == paper_name).First();
+                    PapersStorageType pst = db.PapersStorageTypes.Where(x => x.name == type_name).First();
+
+                    //edit
+                    RecordsPaper rp_edit = db.RecordsPapers.Where(x => x.records_papers_id == records_papers_id).FirstOrDefault();
+                    rp_edit.papers_id = p.papers_id;
+                    rp_edit.papers_storage_type_id = pst.papers_storage_type_id;
+                    rp_edit.records_id = r.records_id;
+                    rp_edit.given_date = given_date;
+                    rp_edit.received_date = received_date;
+                    rp_edit.papers_number = papers_number;
+
+                    db.Entry(rp_edit).State = EntityState.Modified;
+                    db.SaveChanges();
+                    transaction.Commit();
+
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    return new HttpStatusCodeResult(400);
+                }
+            }
+
+        }
 
 
         //public ActionResult thongTinUyQuyen()
@@ -1942,7 +2029,35 @@ namespace QUANGHANHCORE.Controllers.TCLD
             public string home_town { get; set; }
             public string current_residence { get; set; }
             public string academic_level { get; set; }
+            public string department_name { get; set; }
+        }
 
+        public class Outside_Termination
+        {
+            public int decision_id { get; set; }
+            public string decision_number { get; set; }
+            public string termination_name { get; set; }
+            public DateTime? decision_date { get; set; }
+            public DateTime? terminate_date { get; set; }
+        }
+
+        public class Outside_Authorization
+        {
+            public string full_name { get; set; }
+            public string identity_card_number { get; set; }
+            public string phone_number { get; set; }
+            public string family_relationship_name { get; set; }
+        }
+
+        public class Outside_Paper
+        {
+            public int records_papers_id { get; set; }
+            public int papers_id { get; set; }
+            public string papers_number { get; set; }
+            public string paper_name { get; set; }
+            public string type_name { get; set; }
+            public DateTime? received_date { get; set; }
+            public DateTime? given_date { get; set; }
         }
 
         public class Record_Employee
