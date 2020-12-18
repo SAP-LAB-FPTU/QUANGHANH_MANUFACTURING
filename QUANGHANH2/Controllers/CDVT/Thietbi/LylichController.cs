@@ -58,18 +58,18 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.dikemvattu = listdkvt;
             //NK su co
             var years = DBContext.Database.SqlQuery<int>("Equipment.Profile_Get_List 'yearSC', {0}", id).ToList();
-            List<IncidentByYear> listbyyear = new List<IncidentByYear>();
+            List<GetIncident_IncidentByYear_Result> listbyyear = new List<GetIncident_IncidentByYear_Result>();
             foreach (int year in years)
             {
                 int count = 0;
-                IncidentByYear tempyear = new IncidentByYear();
-                List<IncidentByDate> listbydate = new List<IncidentByDate>();
+                GetIncident_IncidentByYear_Result tempyear = new GetIncident_IncidentByYear_Result();
+                List<GetIncident_IncidentByDate_Result> listbydate = new List<GetIncident_IncidentByDate_Result>();
                 var dates = DBContext.Database.SqlQuery<DateTime>("Equipment.Profile_Get_List_Date_SC {0}, {1}", id, year).ToList();
                 foreach (DateTime date in dates)
                 {
-                    IncidentByDate tempdate = new IncidentByDate();
+                    GetIncident_IncidentByDate_Result tempdate = new GetIncident_IncidentByDate_Result();
                     tempdate.date = date;
-                    tempdate.incidents = DBContext.Database.SqlQuery<IncidentDB>("Equipment.Profile_Get_List_Incident_By_Date {0}, {1}, {2}", id, date, year).ToList();
+                    tempdate.incidents = DBContext.Database.SqlQuery<GetIncident_IncidentDB_Result>("Equipment.Profile_Get_List_Incident_By_Date {0}, {1}, {2}", id, date, year).ToList();
                     count += tempdate.incidents.Count;
                     listbydate.Add(tempdate);
                 }
@@ -121,10 +121,10 @@ namespace QUANGHANHCORE.Controllers.CDVT
             //NK kiem dinh
             years = DBContext.Database.SqlQuery<int>("Equipment.Profile_Get_List 'yearKD', {0}", id).ToList();
             List<Inspection> EI = DBContext.Database.SqlQuery<Inspection>("Equipment.Profile_Get_List 'EI', {0}", id).ToList();
-            List<Equipment_InspectionByYear> listKD = new List<Equipment_InspectionByYear>();
+            List<GetInspection_Equipment_InspectionByYear_Result> listKD = new List<GetInspection_Equipment_InspectionByYear_Result>();
             for (int i = 0; i < years.Count; i++)
             {
-                Equipment_InspectionByYear item = new Equipment_InspectionByYear();
+                GetInspection_Equipment_InspectionByYear_Result item = new GetInspection_Equipment_InspectionByYear_Result();
                 item.year = years[i];
                 item.count = 0;
                 item.equipment_Inspections = new List<Inspection>();
@@ -135,7 +135,7 @@ namespace QUANGHANHCORE.Controllers.CDVT
                 Inspection temp = EI[i];
                 DateTime dateTime;
                 DateTime.TryParse(temp.inspect_date.ToString(), out dateTime);
-                foreach (Equipment_InspectionByYear item in listKD)
+                foreach (GetInspection_Equipment_InspectionByYear_Result item in listKD)
                 {
                     var stringdate = dateTime.ToString("yyyy");
                     if (stringdate.Equals(item.year + ""))
@@ -150,22 +150,22 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.listKD = listKD;
             //NK bao hiem
             years = DBContext.Database.SqlQuery<int>("Equipment.Profile_Get_List 'yearBH', {0}", id).ToList();
-            List<Equipment_InsDB> EIs = DBContext.Database.SqlQuery<Equipment_InsDB>("Equipment.Profile_Get_List 'EIs', {0}", id).ToList();
-            List<Equipment_InsByYear> listBH = new List<Equipment_InsByYear>();
+            List<GetInsuarance_Equipment_InsDB_Result> EIs = DBContext.Database.SqlQuery<GetInsuarance_Equipment_InsDB_Result>("Equipment.Profile_Get_List 'EIs', {0}", id).ToList();
+            List<GetInsuarance_Equipment_InsByYear_Result> listBH = new List<GetInsuarance_Equipment_InsByYear_Result>();
             for (int i = 0; i < years.Count; i++)
             {
-                Equipment_InsByYear item = new Equipment_InsByYear();
+                GetInsuarance_Equipment_InsByYear_Result item = new GetInsuarance_Equipment_InsByYear_Result();
                 item.year = years[i];
                 item.count = 0;
-                item.equipment_Ins = new List<Equipment_InsDB>();
+                item.equipment_Ins = new List<GetInsuarance_Equipment_InsDB_Result>();
                 listBH.Add(item);
             }
             for (int i = 0; i < EIs.Count; i++)
             {
-                Equipment_InsDB temp = EIs[i];
+                GetInsuarance_Equipment_InsDB_Result temp = EIs[i];
                 DateTime dateTime;
                 DateTime.TryParse(temp.insurance_end_date.ToString(), out dateTime);
-                foreach (Equipment_InsByYear item in listBH)
+                foreach (GetInsuarance_Equipment_InsByYear_Result item in listBH)
                 {
                     var stringdate = dateTime.ToString("yyyy");
                     if (stringdate.Equals(item.year + ""))
@@ -181,11 +181,11 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.listBH = listBH;
             //NK dieu dong
             var yearDD = DBContext.Database.SqlQuery<int>("Equipment.Profile_Get_List 'yearDD', {0}", id).ToList<int>();
-            List<moveLineByYear> listDD = new List<moveLineByYear>();
+            List<GetMoveline_moveLineByYear_Result> listDD = new List<GetMoveline_moveLineByYear_Result>();
             foreach (int year in yearDD)
             {
-                List<myMoveline> listMML = DBContext.Database.SqlQuery<myMoveline>("Equipment.Profile_Get_List_Moveline_By_Year {0}, {1}", id, year).ToList();
-                moveLineByYear MLY = new moveLineByYear();
+                List<GetMoveline_myMoveline_Result> listMML = DBContext.Database.SqlQuery<GetMoveline_myMoveline_Result>("Equipment.Profile_Get_List_Moveline_By_Year {0}, {1}", id, year).ToList();
+                GetMoveline_moveLineByYear_Result MLY = new GetMoveline_moveLineByYear_Result();
                 foreach (var x in listMML)
                 {
                     string s = toStringDate(x.date_created);
@@ -199,28 +199,28 @@ namespace QUANGHANHCORE.Controllers.CDVT
             ViewBag.listDD = listDD;
             //NK sua chua
             var yearSC = DBContext.Database.SqlQuery<int>(@"Equipment.Profile_Get_List 'yearRepair', {0}", id).ToList<int>();
-            List<repairByYear> listSC = new List<repairByYear>();
+            List<GetRepair_repairByYear_Result> listSC = new List<GetRepair_repairByYear_Result>();
             foreach (int year in yearSC)
             {
-                repairByYear rby = new repairByYear();
-                List<myRepair> listrp = new List<myRepair>();
+                GetRepair_repairByYear_Result rby = new GetRepair_repairByYear_Result();
+                List<GetRepair_myRepair_Result> listrp = new List<GetRepair_myRepair_Result>();
                 var docID = DBContext.Database.SqlQuery<int>(@"Equipment.Profile_Get_DocID_Repair {0}, {1}", id, year).ToList<int>();
                 foreach (int doc in docID)
                 {
-                    myRepair rp = DBContext.Database.SqlQuery<myRepair>(@"Equipment.Profile_Get_Repair {0}, {1}, {2}", id, year, doc).FirstOrDefault();
-                    List<mySup_Doc> listTT = DBContext.Database.SqlQuery<mySup_Doc>(@"Equipment.Profile_Get_ListTT {0}, {1}, {2}", id, year, doc).ToList();
+                    GetRepair_myRepair_Result rp = DBContext.Database.SqlQuery<GetRepair_myRepair_Result>(@"Equipment.Profile_Get_Repair {0}, {1}, {2}", id, year, doc).FirstOrDefault();
+                    List<GetReapir_mySup_Doc_Result> listTT = DBContext.Database.SqlQuery<GetReapir_mySup_Doc_Result>(@"Equipment.Profile_Get_ListTT {0}, {1}, {2}", id, year, doc).ToList();
                     rp.rowCount = listTT.Count();
-                    List<mySupply> listsp = new List<mySupply>();
+                    List<GetRepair_mySupply_Result> listsp = new List<GetRepair_mySupply_Result>();
                     for (int i = 0; i < rp.rowCount; i++)
                     {
-                        mySupply mp = new mySupply();
+                        GetRepair_mySupply_Result mp = new GetRepair_mySupply_Result();
                         try
                         {
                             mp.VTTT = listTT.ElementAt(i);
                         }
                         catch (Exception e)
                         {
-                            mp.VTTT = new mySup_Doc();
+                            mp.VTTT = new GetReapir_mySup_Doc_Result();
                         }
                         if (i == 0)
                         {
@@ -780,123 +780,5 @@ namespace QUANGHANHCORE.Controllers.CDVT
         }
 
 
-    }
-
-    public class mySup_Doc : RepairEquipment
-    {
-        public string supply_name { get; set; }
-        public string unit { get; set; }
-    }
-
-    public class mySupply
-    {
-        public int flag { get; set; }
-        public mySup_Doc VTTT { get; set; }
-        public mySup_Doc VTTH { get; set; }
-    }
-
-    public class repairByYear
-    {
-        public List<myRepair> list { get; set; }
-        public int year { get; set; }
-        public int count { get; set; }
-    }
-
-    public class myRepair : RepairDetail
-    {
-        public string documentary_code { get; set; }
-        public string afterStatus { get; set; }
-        public int rowCount { get; set; }
-        public System.DateTime date_created { get; set; }
-        public List<mySupply> listSup { get; set; }
-    }
-
-
-    public class moveLineByYear
-    {
-        public List<myMoveline> listmoveline { get; set; }
-        public int year { get; set; }
-        public int count { get; set; }
-    }
-    public class myMoveline : MovelineDetail
-    {
-        public string documentary_code { get; set; }
-        public string person_created { get; set; }
-        public System.DateTime date_created { get; set; }
-        public string reason { get; set; }
-        public string department_id_to { get; set; }
-        public string date { get; set; }
-    }
-
-
-
-    public class IncidentByDate
-    {
-        public List<IncidentDB> incidents { get; set; }
-        public DateTime date { get; set; }
-    }
-
-    public class IncidentByYear
-    {
-        public int year { get; set; }
-        public List<IncidentByDate> IncidentByDates { get; set; }
-        public int count { get; set; }
-    }
-
-    public class IncidentDB
-    {
-        public string equipment_name { get; set; }
-        public string equipment_id { get; set; }
-        public string department_name { get; set; }
-        public DateTime start_time { get; set; }
-        public Nullable<DateTime> end_time { get; set; }
-        public string reason { get; set; }
-        public string incident_type { get; set; }
-        public int incident_id { get; set; }
-    }
-
-    public class Equipment_InspectionByYear
-    {
-        public int year { get; set; }
-        public List<Inspection> equipment_Inspections { get; set; }
-        public int count { get; set; }
-    }
-    public class Equipment_InsByYear
-    {
-        public int year { get; set; }
-        public List<Equipment_InsDB> equipment_Ins { get; set; }
-        public int count { get; set; }
-    }
-
-    public class Equipment_InsDB : Insurance
-    {
-        public string equipment_name { get; set; }
-        public string status_name { get; set; }
-        public string stringExpectedTime { get; set; }
-        public string stringStartTime { get; set; }
-        public string stringEndTime { get; set; }
-        public string updateAble { get; set; }
-
-        public string getStringtime(Nullable<DateTime> dateTime)
-        {
-            if (dateTime == null) return "";
-            else
-            {
-                DateTime temp;
-                DateTime.TryParse(dateTime.ToString(), out temp);
-                return temp.ToString("dd/MM/yyyy");
-            }
-        }
-
-        public string getDateString(Nullable<DateTime> dateTime)
-        {
-            if (dateTime == null) return "";
-            else
-            {
-                DateTime temp;
-                DateTime.TryParse(dateTime.ToString(), out temp);
-                return "Thứ " + ((int)temp.DayOfWeek + 1) + ", ngày " + temp.Day + " tháng " + temp.Month;
-            }
-        }
     }
 }
