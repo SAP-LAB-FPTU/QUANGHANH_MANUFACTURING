@@ -47,17 +47,19 @@ namespace QUANGHANH2.Controllers.TCLD
         {
             List<Work> listCongViec = new List<Work>();
             List<Department> listPhongBan = new List<Department>();
-            //List<DoiChieu_Luong> listBacAndLuong = new List<DoiChieu_Luong>();
+            List<TerminationType> terminationTypes = new List<TerminationType>();
 
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 listCongViec = db.Works.ToList();
                 listPhongBan = db.Departments.ToList();
+                terminationTypes = db.TerminationTypes.ToList();
 
             }
             ViewBag.listCongViec = listCongViec;
             ViewBag.listPhongBan = listPhongBan;
+            ViewBag.terminate_type_html = terminationTypes;
             ViewBag.nameDepartment = "baohiem";
             return View("/Views/TCLD/Shutdown/Process.cshtml");
         }
@@ -149,6 +151,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 List<GetListEmployees_Result> listNhanVien = new List<GetListEmployees_Result>();
                 int totalrows = listNhanVien.Count;
                 int totalrowsafterfiltering = listNhanVien.Count;
+                List<TerminationType> terminationTypes = new List<TerminationType>();
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
                     db.Configuration.LazyLoadingEnabled = false;
@@ -159,9 +162,11 @@ namespace QUANGHANH2.Controllers.TCLD
                         Value = selected_list,
                         TypeName = "selected_list"
                     };
+                    terminationTypes = db.TerminationTypes.ToList();
                     listNhanVien = db.Database.SqlQuery<GetListEmployees_Result>(sql, p).ToList();
                 }
-                return Json(new { success = true, data = listNhanVien, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+                ViewBag.terminate_type = terminationTypes;
+                return Json(new { success = true, data = listNhanVien, reason_list = terminationTypes, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

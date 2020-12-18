@@ -16,6 +16,7 @@ using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
+using static QUANGHANH2.Controllers.TCLD.ShutDownController;
 
 namespace QUANGHANH2.Controllers.TCLD
 {
@@ -649,72 +650,72 @@ namespace QUANGHANH2.Controllers.TCLD
         //            public string SoQD { get; set; }
         //        }
 
-        //        [Auther(RightID = "55")]
-        //        [Route("delete")]
-        //        [HttpPost]
-        //        public ActionResult TLHD(string selectedList)
-        //        {
-        //            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-        //            using (DbContextTransaction dbct = db.Database.BeginTransaction())
-        //            {
-        //                try
-        //                {
-        //                    QuyetDinh qd = new QuyetDinh();
-        //                    var js = new JavaScriptSerializer();
-        //                    var result = JsonConvert.DeserializeObject<List<ChamDutModel>>(selectedList);
-        //                    string[] date = result[0].NgayChamDut.Split('/');
-        //                    var emp = new NhanVien();
-        //                    if (result[0].SoQD.Equals(""))
-        //                    {
-        //                        qd.SoQuyetDinh = "";
-        //                        foreach (var item in result)
-        //                        {
-        //                            emp = db.NhanViens.Where(x => x.MaNV == item.MaNV).FirstOrDefault();
-        //                            emp.MaTrangThai = 4;
-        //                        }
-        //                    }
-        //                    else
-        //                    {
-        //                        qd.SoQuyetDinh = result[0].SoQD;
-        //                        foreach (var item in result)
-        //                        {
-        //                            emp = db.NhanViens.Where(x => x.MaNV == item.MaNV).FirstOrDefault();
-        //                            emp.MaTrangThai = 2;
-        //                        }
-        //                    }
-        //                    qd.NgayQuyetDinh = DateTime.Parse(date[2] + "/" + date[1] + "/" + date[0]);
-        //                    db.Entry(emp).State = EntityState.Modified;
-        //                    db.QuyetDinhs.Add(qd);
-        //                    db.SaveChanges();
+        [Auther(RightID = "55")]
+        [Route("delete")]
+        [HttpPost]
+        public ActionResult TLHD(string selectedList)
+        {
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            using (DbContextTransaction dbct = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    Decision qd = new Decision();
+                    var js = new JavaScriptSerializer();
+                    var result = JsonConvert.DeserializeObject<List<GetListEmployees_Result>>(selectedList);
+                    //string[] date = result[0].terminate_date.Split('/');
+                    var emp = new Employee();
+                    if (result[0].decision_number.Equals(""))
+                    {
+                        qd.decision_id = 0;
+                        foreach (var item in result)
+                        {
+                            emp = db.Employees.Where(x => x.employee_id == item.employee_id).FirstOrDefault();
+                            emp.current_status_id = 4;
+                        }
+                    }
+                    else
+                    {
+                        qd.decision_id = Convert.ToInt32(result[0].decision_number);
+                        foreach (var item in result)
+                        {
+                            emp = db.Employees.Where(x => x.employee_id == item.employee_id).FirstOrDefault();
+                            emp.current_status_id = 2;
+                        }
+                    }
+                    qd.date = DateTime.ParseExact(result[0].terminate_date + "","dd/MM/yyyy", null);
+                    db.Entry(emp).State = EntityState.Modified;
+                    db.Decisions.Add(qd);
+                    db.SaveChanges();
 
-        //                    int maqd = db.QuyetDinhs.Select(n => n.MaQuyetDinh).DefaultIfEmpty(0).Max();
-        //                    foreach (var item in result)
-        //                    {
-        //                        ChamDut_NhanVien tlhd = new ChamDut_NhanVien();
-        //                        tlhd.MaNV = item.MaNV;
-        //                        tlhd.MaQuyetDinh = maqd;
-        //                        tlhd.NgayChamDut = DateTime.Parse(date[2] + "/" + date[1] + "/" + date[0]);
-        //                        tlhd.LoaiChamDut = item.LoaiChamDut;
-        //                        db.ChamDut_NhanVien.Add(tlhd);
+                    int maqd = db.Decisions.Select(n => n.decision_id).DefaultIfEmpty(0).Max();
+                    foreach (var item in result)
+                    {
+                        Termination tlhd = new Termination();
+                        tlhd.employee_id = item.employee_id;
+                        tlhd.decision_id = maqd;
+                        tlhd.terminate_date = DateTime.ParseExact(result[0].terminate_date + "", "dd/MM/yyyy", null);
+                        tlhd.termination_type_id = item.termination_type_id;
+                        db.Terminations.Add(tlhd);
 
-        //                    }
-        //                    db.SaveChanges();
-        //                    dbct.Commit();
-        //                    return Json(new { success = true, message = "Tạo quyết định thành công" }, JsonRequestBehavior.AllowGet);
+                    }
+                    db.SaveChanges();
+                    dbct.Commit();
+                    return Json(new { success = true, message = "Tạo quyết định thành công" }, JsonRequestBehavior.AllowGet);
 
-        //                }
-        //                catch (Exception e)
-        //                {
-        //                    dbct.Rollback();
-        //                    return Json(new { success = false, message = "Lỗi" }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    dbct.Rollback();
+                    return Json(new { success = false, message = "Lỗi" }, JsonRequestBehavior.AllowGet);
 
-        //                }
+                }
 
 
 
-        //            }
+            }
 
-        //        }
+        }
 
 
         [Route("deleteFamily")]
