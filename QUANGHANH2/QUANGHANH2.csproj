@@ -516,7 +516,6 @@
     <Compile Include="Models\DocumentaryType.cs">
       <DependentUpon>QuangHanhManufacturingEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Documentary_cam_repair_detailsDB.cs" />
     <Compile Include="Models\Documentary_Export.cs" />
     <Compile Include="Models\Documentary_Improve_DetailDB.cs" />
     <Compile Include="Models\DurationType.cs">
