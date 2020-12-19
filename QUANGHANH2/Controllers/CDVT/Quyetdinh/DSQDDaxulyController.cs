@@ -90,8 +90,8 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
                         item.linkIdCode.link = "trung-dai-tu";
                         break;
                 }
-                if (item.documentary_status == 2) item.stringstatus = "Xử lý xong chưa nghiệm thu";
-                else item.stringstatus = "Đã nghiệm thu";
+                //if (item.documentary_status == 2) item.stringstatus = "Đã xử lý chưa nghiệm thu";
+                //else item.stringstatus = "Đã nghiệm thu";
                 item.stringdate = item.date_created.ToString("dd/MM/yyyy");
                 item.linkIdCode.code = item.documentary_code;
                 item.linkIdCode.id = item.documentary_id;

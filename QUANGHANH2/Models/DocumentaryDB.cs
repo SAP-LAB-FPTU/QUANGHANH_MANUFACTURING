@@ -8,7 +8,6 @@ namespace QUANGHANH2.Models
     public class DocumentaryDB: Documentary
     {
         public string stringtype { get; set; }
-        public string stringstatus { get; set; }
         public string stringdate { get; set; }
         public string department_name { get; set; }
         public LinkIdCode linkIdCode { get; set; }

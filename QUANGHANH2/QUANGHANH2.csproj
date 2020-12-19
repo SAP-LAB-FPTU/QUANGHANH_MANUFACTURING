@@ -7592,7 +7592,7 @@
     <Content Include="Views\TCLD\Work\WorkGroup.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\DSQDChuaxuly.cshtml" />
     <Content Include="Views\LogIn\Account_Information.cshtml" />
-    <Content Include="Views\Camera\Quyetdinh\SuaChua\XuLyQuyetDinh.cshtml" />
+    <Content Include="Views\Camera\Quyetdinh\SuaChua\XuLy.cshtml" />
     <Content Include="Views\CDVT\Vattu\Xincapvattulan1.cshtml" />
     <Content Include="Views\Camera\Quyetdinh\ChuaNghiemThu.cshtml" />
     <Content Include="Views\ManagementUser\Roles.cshtml" />
