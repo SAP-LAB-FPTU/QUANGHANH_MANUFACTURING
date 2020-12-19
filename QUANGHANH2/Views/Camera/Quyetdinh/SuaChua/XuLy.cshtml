@@ -181,7 +181,7 @@
         })
     </script>
     <script>
-        var Popup, dataTable;
+        var dataTable;
         $('#pre-load').show();
         dataTable = $('#complex_header').DataTable({
             "language": {
@@ -215,7 +215,7 @@
                 },
                 {
                     "data": {}, "render": function (data) {
-                        if (data.Documentary_camera_repair_status == 0) return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.room_id + "\">Chưa xử lý</button>";
+                        if (data.documentary_camera_repair_status == 0) return "<button id=\"buttonChon\" class='btn blue darken-2 buttonChon' value=\"" + data.room_id + "\">Chưa xử lý</button>";
                         else return "<button disabled class=\"btn blue darken-2\">Đã xử lý</button>"
                     }
                 }
