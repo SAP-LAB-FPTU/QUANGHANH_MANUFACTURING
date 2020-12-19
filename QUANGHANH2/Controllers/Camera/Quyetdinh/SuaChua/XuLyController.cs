@@ -45,7 +45,7 @@
 //                else ViewBag.AddAble = false;
 //                ViewBag.id = documentary.documentary_id;
 //                ViewBag.code = documentary.documentary_code as string;
-//                return View("/Views/Camera/Quyetdinh/SuaChua/XuLyQuyetDinh.cshtml");
+//                return View("/Views/Camera/Quyetdinh/SuaChua/XuLy.cshtml");
 //            }
 //            catch (Exception e)
 //            {

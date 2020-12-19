@@ -109,18 +109,15 @@ namespace QUANGHANHCORE.Controllers.CDVT.Cap_nhat
                         item.linkIdCode.link = "cai-tien";
                         break;
                 }
-                switch (item.documentary_status)
-                {
-                    case 1:
-                        item.stringstatus = "Đang xử lý";
-                        break;
-                    case 2:
-                        item.stringstatus = "Đã xử lý chưa nghiệm thu";
-                        break;
-                    case 3:
-                        item.stringstatus = "Đã nghiệm thu";
-                        break;
-                }
+                //switch (item.documentary_status)
+                //{
+                //    case 1:
+                //        item.stringstatus = "Đang xử lý";
+                //        break;
+                //    case 2:
+                //        item.stringstatus = "Đã xử lý chưa nghiệm thu";
+                //        break;
+                //}
                 item.stringdate = item.date_created.ToString("dd/MM/yyyy");
                 item.linkIdCode.code = item.documentary_code;
                 item.linkIdCode.id = item.documentary_id;

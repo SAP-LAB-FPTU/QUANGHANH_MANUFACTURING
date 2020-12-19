@@ -24,7 +24,7 @@
                         </div>
                         <div class="col l10 m10 s12 input-field">
                             <select class="form-control" id="status-search">
-                                <option value="0">Chưa xử lý và chưa nghiệm thu</option>
+                                <option value="0">Đang xử lý hoặc chưa nghiệm thu</option>
                                 <option value="1">Đang xử lý</option>
                                 <option value="2">Đã xử lý chưa nghiệm thu</option>
                             </select>
@@ -33,13 +33,11 @@
                 </div>
                 <div class="col l4 m4 s12">
                     <div class="row">
-                        <div class="col l10 m10 s10 offset-l2 offset-m2 input-field">
-                            <i class="fas fa-calendar-alt icon"></i>
-                            <input type='text' class='datepicker-here center' id="date-start-search" data-language='vi' placeholder="thời gian tạo (từ)" style="height: 34px" />
-                        </div>
-                        <div class="col l10 m10 s12 offset-l2 offset-m2 input-field">
-                            <i class="fas fa-calendar-alt icon"></i>
-                            <input type='text' class='datepicker-here center' id="date-end-search" data-language='vi' placeholder="thời gian tạo (đến)" style="height: 34px" />
+                        <div class="col l12 m12 s12 input-field">
+                            <input autocomplete="off"
+                                   id="date-search" type="text" data-auto-close="true" data-range="true"
+                                   placeholder="khoảng thời gian tạo quyết định" data-multiple-dates-separator=" - "
+                                   data-language="vi" class="datepicker-here form-control center" style="width: 100% !important" />
                         </div>
                     </div>
                 </div>
@@ -77,58 +75,14 @@
     </div>
 </div>
 
-
 <link href="~/assets/Custom css/form-input-border.css" rel="stylesheet" />
 
-<script>
-    $('.maxDate').datepicker({
-        language: 'vi',
-        maxDate: new Date(),
-        minDate: new Date("1/1/1900")
-    })
-    $('.minDate').datepicker({
-        language: 'vi',
-        maxDate: new Date() // Now can select only dates, which goes after today
-    })
-    $(document).ready(function () {
-        $('.datepicker-inline').remove();
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        var today = dd + '/' + mm + '/' + yyyy;
-        $(".minDate").each(function () {
-            $(this).val(today);
-        });
-        today = new Date("1/1/1900");
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        var today = dd + '/' + mm + '/' + yyyy;
-        $(".maxDate").val(today)
-    });
-</script>
 @section scripts{
-    <script src="/js/Custom JS/CDVT/Work/suachuachon.js"></script>
-    <script src="~/js/advancedsearch/advancedsearch.js"></script>
-    <script src="~/js/Custom JS/CDVT/Capnhat/update.js"></script>
     <script>
-        var Popup, dataTable;
+        var dataTable;
 
         $(document).ready(function () {
-            dataTable = $('#DSQD_id').dataTable({
+            dataTable = $('#DSQD_id').DataTable({
                 "language": {
                     "emptyTable": "Không tìm thấy dữ liệu",
                     "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
@@ -147,8 +101,7 @@
                         "documentary_id": function () { return $('#id-search').val() },
                         "department": function () { return $('#department-search').val() },
                         "reason": function () { return $('#reason-search').val() },
-                        "dateStart": function () { return $('#date-start-search').val() },
-                        "dateEnd": function () { return $('#date-end-search').val() },
+                        "dateStart": function () { return $('#date-search').val() },
                         "status": function () { return $('#status-search').val() }
                     },
                     "datatype": "json",
@@ -156,8 +109,7 @@
                 },
                 "columns": [
                     {
-                        "data": {}, "name": "documentary_id",
-                        "render": function (data) {
+                        "data": {}, "name": "documentary_id", "render": function (data) {
                             return "<a href=\"/phong-cdvt/camera/xu-ly/sua-chua?id=" + data.documentary_id + "\"> " + data.documentary_code + "</a>";
                         },
                     },
@@ -166,12 +118,16 @@
                     { "data": "stringdate", "name": "date_created" },
                     { "data": "person_created", "name": "person_created" },
                     { "data": "reason", "name": "reason" },
-                    { "data": "out_in_come", "name": "out_in_come" },
-                    { "data": "stringstatus", "name": "documentary_status" },
+                    { "data": "out_income", "name": "out_income" },
+                    {
+                        "data": "documentary_status", "name": "documentary_status", render: function (data) {
+                            return (data == 1) ? "Đang xử lý" : "Đã xử lý chưa nghiệm thu"
+                        }
+                    },
                 ],
                 "serverSide": "true",
                 "order": [3, "desc"],
-                "rowId": "incident_id",
+                "rowId": "documentary_id",
                 "lengthChange": false,
                 "searching": false,
                 "initComplete": function (settings, json) {
@@ -184,7 +140,7 @@
                     $('#pre-load').hide();
                 }
             });
-            
+
             $("#searchButton1").click(function () {
                 $("#pre-load").show();
                 dataTable.ajax.reload();
