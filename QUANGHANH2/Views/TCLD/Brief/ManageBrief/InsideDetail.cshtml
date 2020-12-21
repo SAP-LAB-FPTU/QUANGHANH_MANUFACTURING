@@ -3,9 +3,8 @@
     Layout = "~/Views/Shared/_Layout_TCLD.cshtml";
 }
 
-<div class="card">
+ <div class="card">
     <div class="card-content">
-
         <div class="row">
             <h3 class="center black-text">Thông tin cơ bản của hồ sơ</h3>
             <div class="row">
@@ -53,7 +52,7 @@
             <div id="hosotrongcty">
                 <div class="row table-responsive">
                     <br />
-                    <table id="hoso_detail" class="table table-bordered table-responsive centered highlight">
+                    <table id="record_detail" class="table table-bordered table-responsive centered highlight">
                         <thead>
                             <tr>
                                 <th rowspan="2">Người giữ hồ sơ</th>
@@ -118,7 +117,6 @@
                                 <th>Ngành</th>
                                 <th>Ngày cấp</th>
                                 <th>Thời hạn</th>
-
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -127,8 +125,6 @@
                 </div>
             </div>
         </div>
-
-
 
         <div class="row">
             <h3 class="center black-text">Chi tiết chứng chỉ</h3>
@@ -201,7 +197,6 @@
         </div>
     </div>
 </div>
-
 
 <form action="" method="POST" id="submit_detail_record" role="form">
     <div class="modal fade" id="edit_detail_record">
@@ -319,15 +314,12 @@
 
 <script>
     $("#pre-load").show();
-
-
-
-    var datatable_hs, stt;
+    var datatable_rd;
 
         $(document).ready(function () {
-            datatable_hs = $('#hoso_detail').DataTable({
+            datatable_rd = $('#record_detail').DataTable({
                 "ajax": {
-                    "url": '@Url.Action("listHoSo","Brief")',
+                    "url": '@Url.Action("listRecordDetail","Brief")',
                     "type": "POST",
                     "datatype": "json"
                 },
@@ -451,8 +443,7 @@
 </script>
 
 <script>
-
-    var datatable_chitiet, stt;
+    var datatable_paper_detail;
     $("#pre-load").show();
 
     $(document).ready(function () {
@@ -489,7 +480,7 @@
     function getBasicInfo() {
         $.ajax({
             type: "POST",
-            url: '@Url.Action("listNhanVien","Brief")',
+            url: '@Url.Action("getInsideBasicInfo","Brief")',
             dataType: "json",
             success: function (data) {
                 $('#cb_employee_id').val(data.employee_id);
@@ -525,12 +516,14 @@
         });
     };
 
-    var chungchichitiet, stt;
+    var datatable_certi_detail;
+
     $("#pre-load").show();
+
     $(document).ready(function () {
         datatable_certi_detail = $('#certi_detail').DataTable({
             "ajax": {
-                "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-chung-chi",
+                "url": '@Url.Action("listCertiDetail", "Brief")',
                 "type": "POST",
                 "datatype": "json"
             },
@@ -563,14 +556,13 @@
     });
 </script>
 
-
 <script>
-    var datatable_bangcap, stt;
+    var datatable_pd;
     $("#pre-load").show();
     $(document).ready(function () {
-        datatable_bangcap = $('#bangcap_detail').DataTable({
+        datatable_pd = $('#bangcap_detail').DataTable({
             "ajax": {
-                "url": '@Url.Action("chiTietbangCap", "Brief")',
+                "url": '@Url.Action("getPaperDetail", "Brief")',
                 "type": "POST",
                 "datatype": "json"
             },
@@ -607,7 +599,7 @@
 </script>
 
 <script>
-    var datatable_quanhe, stt;
+    var datatable_quanhe;
     $("#pre-load").show();
 
     $(document).ready(function () {
