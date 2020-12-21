@@ -37,7 +37,7 @@
                 <div class="col l4 m4 s12">
                     <div class="row">
                         <div class="col l10 m10 s12 input-field">
-                            <input list="equipmentId" type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipmentId-search" />
+                            <input list="equipment_id" type="text" placeholder="Tìm kiếm theo mã thiết bị" class='form-control' id="equipment_id-search" />
                         </div>
                         <div class="col l10 m10 s12 input-field">
                             <input list="equipment_name" type="text" placeholder="Tìm kiếm theo tên thiết bị" class='form-control' id="equipmentName-search" />
@@ -112,7 +112,7 @@
                                                 <div class="col s12 m12">
                                                     <div class="form-group">
                                                         <label for="date">Mã thiết bị : </label>
-                                                        <input required type="text" list="equipmentId" class="form-control" value="" id="equipment-add" />
+                                                        <input required type="text" list="equipment_id" class="form-control" value="" id="equipment-add" />
                                                     </div>
                                                 </div>
                                                 <div class="col s12 m12">
@@ -216,7 +216,7 @@
                                                 <div class="col s12 m12">
                                                     <div class="form-group">
                                                         <label for="date">Mã thiết bị : </label>
-                                                        <input required type="text" list="equipmentId" class="form-control" value="" id="equipment-edit" />
+                                                        <input required type="text" list="equipment_id" class="form-control" value="" id="equipment-edit" />
                                                     </div>
                                                 </div>
                                                 <div class="col s12 m12">
@@ -343,10 +343,10 @@
     </div>
 </div>
 
-<datalist id="equipmentId">
+<datalist id="equipment_id">
     @foreach (var item in ViewBag.equipments)
     {
-        <option data-depart="@item.department_name">@item.equipmentId</option>
+        <option data-depart="@item.department_name">@item.equipment_id</option>
     }
 </datalist>
 
@@ -459,7 +459,7 @@
                     "type": "POST",
                     "datatype": "json",
                     "data": {
-                        "equipmentId": function () { return $('#equipmentId-search').val() },
+                        "equipment_id": function () { return $('#equipment_id-search').val() },
                         "equipmentName": function () { return $('#equipmentName-search').val() },
                         "department": function () { return $('#department-search').val() },
                         "detail": function () { return $('#detail-search').val() },
@@ -470,7 +470,7 @@
                     "cache": false
                 },
                 "columns": [
-                    { data: "equipmentId", name: "equipmentId" },
+                    { data: "equipment_id", name: "equipment_id" },
                     { data: "equipment_name", name: "equipment_name" },
                     { data: "department_name", name: "department_name" },
                     { data: "detail_location", name: "detail_location" },
@@ -515,7 +515,7 @@
                 url: "/phong-cdvt/su-co/export",
                 cache: false,
                 data: {
-                    equipmentId: function () { return $('#equipmentId-search').val() },
+                    equipment_id: function () { return $('#equipment_id-search').val() },
                     equipmentName: function () { return $('#equipmentName-search').val() },
                     department: function () { return $('#department-search').val() },
                     detail: function () { return $('#detail-search').val() },
@@ -524,7 +524,7 @@
                     dateEnd: function () { return $('#date-end-search').val() }
                 },
                 success: function () {
-                    window.location.href = "/phong-cdvt/su-co/export?equipmentId=" + $('#equipmentId-search').val() + "&equipmentName=" + $('#equipmentName-search').val()
+                    window.location.href = "/phong-cdvt/su-co/export?equipment_id=" + $('#equipment_id-search').val() + "&equipmentName=" + $('#equipmentName-search').val()
                         + "&department=" + $('#department-search').val() + "&detail=" + $('#detail-search').val() + "&reason=" + $('#reason-search').val()
                         + "&dateStart=" + $('#date-start-search').val() + "&dateEnd=" + $('#date-end-search').val();
                     $("#pre-load").hide();
@@ -675,10 +675,10 @@
             });
 
             //search
-            $("#equipmentId-search").keyup(function (e) {
+            $("#equipment_id-search").keyup(function (e) {
                 if (e.which == 13) {
                     $("#searchButton1").click();
-                    $("#equipmentId-search").blur();
+                    $("#equipment_id-search").blur();
                 }
             });
             $("#equipmentName-search").keyup(function (e) {
@@ -745,7 +745,7 @@
                 dataType: "json",
                 success: function (data) {
                     $("#incident-edit").val(data.incident_id);
-                    $('#equipment-edit').val(data.equipmentId);
+                    $('#equipment-edit').val(data.equipment_id);
                     $('#department-edit').val(data.department_name);
                     $('#detail-edit').val(data.detail_location);
                     $('#reason-edit').val(data.reason);
@@ -767,9 +767,9 @@
         });
 
         $("#equipment-add").focusout(function () {
-            let equipmentId = $(this).val();
-            let department_name = $('#equipmentId option').filter(function () {
-                return $(this).html() == equipmentId;
+            let equipment_id = $(this).val();
+            let department_name = $('#equipment_id option').filter(function () {
+                return $(this).html() == equipment_id;
             }).data("depart");
             $("#department-add").val(department_name)
         });
