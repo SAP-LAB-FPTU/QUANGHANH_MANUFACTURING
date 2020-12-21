@@ -321,10 +321,10 @@
                         $("#detail-table").empty();
                     for (i = 0; i < data.length; i++) {
                         $("#detail-table").append("<tr>");
-                        $("#detail-table").append("<td>" + data[i].MaNV + "</td>");
-                        $("#detail-table").append("<td>" + data[i].Ten + "</td>");
-                        $("#detail-table").append("<td>" + data[i].LoaiChamDut + "</td>");
-                        $("#detail-table").append("<td>" + dateFormat(data[i].NgayChamDut) + "</td>");
+                        $("#detail-table").append("<td>" + data[i].employee_id + "</td>");
+                        $("#detail-table").append("<td>" + data[i].BASIC_INFO_full_name + "</td>");
+                        $("#detail-table").append("<td>" + data[i].terminate_type + "</td>");
+                        $("#detail-table").append("<td>" + dateFormat(data[i].terminate_date) + "</td>");
                         $("#detail-table").append("</tr>");
                     }
                 })
