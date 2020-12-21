@@ -14,7 +14,7 @@ namespace QUANGHANH2.Controllers.Camera
 {
     public class XuLyQuyetDinhController : Controller
     {
-        private QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+        private readonly QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
         [Auther(RightID = "193")]
         [Route("phong-cdvt/camera/xu-ly/sua-chua")]
@@ -148,9 +148,6 @@ namespace QUANGHANH2.Controllers.Camera
         [HttpPost]
         public ActionResult GetSupply(int documentary_id, string room_id)
         {
-            //var supplies = db.Database.SqlQuery<Supply_Documentary_CameraDB>("SELECT s1.*, s2.supply_name FROM Supply_Documentary_Camera s1 inner join Supply s2 on s1.supply_id = s2.supply_id WHERE room_id = @room_id AND documentary_id = @documentary_id",
-            //    new SqlParameter("room_id", room_id),
-            //    new SqlParameter("documentary_id", documentary_id)).ToList();
             var supplies = (from s1 in db.RepairCameras
                             join s2 in db.Supplies on s1.supply_id equals s2.supply_id
                             where s1.room_id == room_id && s1.documentary_id == documentary_id
@@ -227,11 +224,6 @@ namespace QUANGHANH2.Controllers.Camera
                     return Json(new { success = false, message = "Có lỗi xảy ra" });
                 }
             }
-        }
-
-        public class Supply_Documentary_CameraDB : RepairCamera
-        {
-            public string supply_name { get; set; }
         }
     }
 }
