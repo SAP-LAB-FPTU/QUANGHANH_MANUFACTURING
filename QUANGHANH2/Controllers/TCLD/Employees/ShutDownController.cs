@@ -382,48 +382,28 @@ namespace QUANGHANH2.Controllers.TCLD
         [HttpPost]
         public ActionResult NotYetList(string MaQuyetDinh, string NgayChamDut)
         {
-            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-
-            db.Configuration.LazyLoadingEnabled = false;
-            string dateFix = "";
-            int start = Convert.ToInt32(Request["start"]);
-            int length = Convert.ToInt32(Request["length"]);
-            string searchValue = Request["search[value]"];
-            string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-            string sortDirection = Request["order[0][dir]"];
-            string query = "select q.*,cd.NgayChamDut from QuyetDinh q,ChamDut_NhanVien cd " +
-                "where q.MaQuyetDinh = cd.MaQuyetDinh and cd.LoaiChamDut is not null and q.SoQuyetDinh = '' and ";
-            if (!MaQuyetDinh.Equals(""))
+            try
             {
+                QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+                db.Configuration.LazyLoadingEnabled = false;
+                //int start = Convert.ToInt32(Request["start"]);
+                //int length = Convert.ToInt32(Request["length"]);
+                //string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
+                //string sortDirection = Request["order[0][dir]"];
+                string query = @"HumanResources.GetShutDown_Notyet_List {0}, {1}";
+                List<GetShutDown_Notyet_List_Result> searchList =
+                    db.Database.SqlQuery<GetShutDown_Notyet_List_Result>(query, 
+                    MaQuyetDinh, NgayChamDut.Equals("")? "":DateTime.ParseExact(NgayChamDut, "MM/dd/yyyy", null) + "" ).ToList();
 
-                if (!MaQuyetDinh.Equals("")) query += "q.MaQuyetDinh = @MaQD AND ";
+                int totalrows = searchList.Count;
+                int totalrowsafterfiltering = searchList.Count;
 
+                return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
             }
-            if (!NgayChamDut.Equals(""))
+            catch (Exception e)
             {
-                string[] fix = NgayChamDut.Split('/');
-                dateFix = fix[1] + "/" + fix[0] + "/" + fix[2];
-                if (!NgayChamDut.Equals("")) query += "cd.NgayChamDut = @NgayCD AND ";
+                return Json(new { data = -1, draw = Request["draw"], recordsTotal = 0, recordsFiltered = 0 }, JsonRequestBehavior.AllowGet);
             }
-            query = query.Substring(0, query.Length - 5);
-            query += @" group by q.MaQuyetDinh, q.SoQuyetDinh, q.NgayQuyetDinh, cd.NgayChamDut";
-            List<QuyetDinhLink> searchList = db.Database.SqlQuery<QuyetDinhLink>(query,
-                new SqlParameter("MaQD", MaQuyetDinh),
-                new SqlParameter("NgayCD", dateFix)
-                ).ToList();
-
-            //List<QuyetDinhLink> searchList = db.Database.SqlQuery<QuyetDinhLink>("select q.MaQuyetDinh, q.SoQuyetDinh, q.NgayQuyetDinh, cd.LoaiChamDut, cd.NgayChamDut from QuyetDinh q,ChamDut_NhanVien cd where q.MaQuyetDinh = cd.MaQuyetDinh and cd.LoaiChamDut is not null").ToList();
-            Console.WriteLine();
-
-            int totalrows = searchList.Count;
-            int totalrowsafterfiltering = searchList.Count;
-            //sorting
-            searchList = searchList.OrderBy(sortColumnName + " " + sortDirection).ToList<QuyetDinhLink>();
-            //paging
-            searchList = searchList.Skip(start).Take(length).ToList<QuyetDinhLink>();
-
-            return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-
         }
 
 
