@@ -207,21 +207,23 @@
                     },
                     "columns": [
                         {
-                            "data": "MaQuyetDinh", "name": "MaQuyetDinh"
-
+                            "data": "decision_id", "name": "decision_id",
+                            "orderable": false,
                         },
                         {
-                            "data": "NgayQuyetDinh", "name": "NgayQuyetDinh", "render": function (data) {
+                            "data": "date", "name": "date", "render": function (data) {
                                 return dateFormat(data);
-                            }
+                            },
+                            "orderable": false,
                         },
                         {
-                            "data": "NgayChamDut", "name": "NgayChamDut", "render": function (data) {
+                            "data": "terminate_date", "name": "terminate_date", "render": function (data) {
                                 return dateFormat(data);
-                            }
+                            },
+                            "orderable": false,
                         },
                         {
-                            "data": "MaQuyetDinh", "render": function (data) {
+                            "data": "decision_id", "render": function (data) {
                                 return "<a name='detail' class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='detail(" + data + ")' data-target='detail' ><span class='ti-pencil-alt'>&nbsp;Chi tiết</span></a>&nbsp;" +
                                     "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='addId(" + data + ")'  data-target='confirm' ><span class='ti-pencil-alt'>&nbsp;Xóa</span></a>";
 
@@ -252,7 +254,7 @@
                         info: "Đang hiện START đến END của TOTAL bản ghi",
                         infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
                     },
-                    "order": [0, "asc"],
+                    "order": false,
                     "bLengthChange": false,
                     "bFilter": false,
                     "bInfo": false,
