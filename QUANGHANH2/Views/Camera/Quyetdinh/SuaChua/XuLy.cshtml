@@ -23,7 +23,6 @@
                     </thead>
                 </table>
             </div>
-            <input name="id" hidden value="@ViewBag.id" id="id" />
             @if (ViewBag.AddAble == true)
             {
                 <a class="btn blue darken-2 modal-trigger" href="#alert">Lưu</a>
@@ -118,7 +117,7 @@
                 success: function (data) {
                     $(function () {
                         $.each(data, function (i, item) {
-                            var temp = item.supplyStatus == null ? "" : item.supplyStatus;
+                            var temp = item.supply_status == null ? "" : item.supply_status;
                             var $tr = $('<tr>').append(
                                 $('<td>').html('<input type="text" value="' + item.supply_id + '" readonly class="form-control" />'),
                                 $('<td>').text(item.supply_name),
@@ -241,41 +240,41 @@
         });
 
         $(document).on("click", "#submit", function myfunction() {
-            var equipments = "";
+            var equipments = [];
             for (var i = 0; i < $('#complex_header tbody tr').length; i++) {
                 if ($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').text() == "Đã xử lý")
-                    equipments += $('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val() + "^"
+                    equipments.push($('#complex_header tbody tr:nth-child(' + (i + 1) + ') button').val())
             }
-            if (equipments == "")
-                return false;
-            $("#pre-load").show();
-            $.ajax({
-                type: "POST",
-                url: "/cap-nhat/camera/quyet-dinh/sua-chua/edit",
-                dataType: "json",
-                success: function (data) {
-                    if (data.success == true) {
-                        dataTable.ajax.reload(function () {
+            if (equipments != "") {
+                $("#pre-load").show();
+                $.ajax({
+                    type: "POST",
+                    url: "/cap-nhat/camera/quyet-dinh/sua-chua/edit",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success == true) {
+                            dataTable.ajax.reload(function () {
+                                $('#pre-load').hide();
+                                successAlert(data.message);
+                                location.replace("/phong-cdvt/camera/xu-ly")
+                            });
+                        }
+                        else {
                             $('#pre-load').hide();
-                            successAlert(data.message);
-                            location.replace("/phong-cdvt/camera/xu-ly")
-                        });
-                    }
-                    else {
+                            errorAlert(data.message);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
                         $('#pre-load').hide();
-                        errorAlert(data.message);
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $('#pre-load').hide();
-                    errorAlert('Lỗi');
-                },
-                data: {
-                    id: @ViewBag.id,
-                    edit: equipments
-                },
-                cache: false
-            })
+                        errorAlert('Lỗi');
+                    },
+                    data: {
+                        id: @ViewBag.id,
+                        edit: JSON.stringify(equipments)
+                    },
+                    cache: false
+                });
+            }
         })
 
         $(document).on("click", "#submitvattu", function () {

@@ -65,19 +65,19 @@ namespace QUANGHANH2.Controllers.Camera
             string sortDirection = Request["order[0][dir]"];
 
             var equips = (from docu in db.Documentaries
-                      join details in db.CameraRepairDetails on docu.documentary_id equals details.documentary_id
-                      join depa in db.Departments on details.department_id equals depa.department_id
-                      join r in db.Rooms on details.room_id equals r.room_id
-                      where docu.documentary_type == 8 && details.documentary_id == id
-                      select new
-                      {
-                          r.room_id, 
-                          r.room_name, 
-                          depa.department_name, 
-                          details.broken_camera_quantity,
-                          docu.documentary_id,
-                          details.documentary_camera_repair_status
-                      }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
+                          join details in db.CameraRepairDetails on docu.documentary_id equals details.documentary_id
+                          join depa in db.Departments on details.department_id equals depa.department_id
+                          join r in db.Rooms on details.room_id equals r.room_id
+                          where docu.documentary_type == 8 && details.documentary_id == id
+                          select new
+                          {
+                              r.room_id,
+                              r.room_name,
+                              depa.department_name,
+                              details.broken_camera_quantity,
+                              docu.documentary_id,
+                              details.documentary_camera_repair_status
+                          }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
 
             int totalrows = (from docu in db.Documentaries
                              join details in db.CameraRepairDetails on docu.documentary_id equals details.documentary_id
@@ -100,29 +100,30 @@ namespace QUANGHANH2.Controllers.Camera
                 {
                     try
                     {
-                        edit = edit.Substring(0, edit.Length - 1);
-                        char[] spearator = { '^' };
-                        String[] list = edit.Split(spearator,
-                           StringSplitOptions.RemoveEmptyEntries);
-                        foreach (var item in list)
+                        JArray list = JArray.Parse(edit);
+                        foreach (JValue item in list)
                         {
-                            CameraRepairDetail temp = db.CameraRepairDetails.Where(x => x.documentary_id == id && x.room_id == item).FirstOrDefault();
-                            temp.documentary_camera_repair_status = 1;
-                            Acceptance a = new Acceptance
+                            if (item.Value.ToString() == "")
+                                continue;
+
+                            CameraRepairDetail temp = db.CameraRepairDetails.Where(x => x.documentary_id == id && x.room_id == item.Value.ToString()).FirstOrDefault();
+                            if (temp.documentary_camera_repair_status == 0)
                             {
-                                acceptance_date = DateTime.Now,
-                                documentary_id = id,
-                                room_id = item,
-                                is_acceptance = false
-                            };
-                            db.Acceptances.Add(a);
-                            db.SaveChanges();
+                                temp.documentary_camera_repair_status = 1;
+                                Acceptance a = new Acceptance
+                                {
+                                    acceptance_date = DateTime.Now,
+                                    documentary_id = id,
+                                    room_id = item.Value.ToString(),
+                                    is_acceptance = false
+                                };
+                                db.Acceptances.Add(a);
+                            }
                         }
-                        if (db.Database.SqlQuery<int>(@"select count(details.Documentary_camera_repair_status) 
-                            from Documentary docu
-                            inner join Documentary_camera_repair_details details on details.documentary_id = docu.documentary_id
-                            where docu.documentary_type = 8 and details.documentary_id = @documentary_id and Documentary_camera_repair_status = '0'",
-                            new SqlParameter("documentary_id", id)).FirstOrDefault() == 0)
+                        if ((from docu in db.Documentaries
+                             join details in db.CameraRepairDetails on docu.documentary_id equals details.documentary_id
+                             where docu.documentary_type == 8 && details.documentary_id == id && details.documentary_camera_repair_status == 0
+                             select details).Count() == 0)
                         {
                             Documentary docu = db.Documentaries.Find(id);
                             docu.documentary_status = 2;
@@ -145,11 +146,24 @@ namespace QUANGHANH2.Controllers.Camera
 
         [Route("cap-nhat/camera/quyet-dinh/GetSupply")]
         [HttpPost]
-        public ActionResult GetSupply(string documentary_id, string room_id)
+        public ActionResult GetSupply(int documentary_id, string room_id)
         {
-            List<Supply_Documentary_CameraDB> supplies = db.Database.SqlQuery<Supply_Documentary_CameraDB>("SELECT s1.*, s2.supply_name FROM Supply_Documentary_Camera s1 inner join Supply s2 on s1.supply_id = s2.supply_id WHERE room_id = @room_id AND documentary_id = @documentary_id",
-                new SqlParameter("room_id", room_id),
-                new SqlParameter("documentary_id", documentary_id)).ToList();
+            //var supplies = db.Database.SqlQuery<Supply_Documentary_CameraDB>("SELECT s1.*, s2.supply_name FROM Supply_Documentary_Camera s1 inner join Supply s2 on s1.supply_id = s2.supply_id WHERE room_id = @room_id AND documentary_id = @documentary_id",
+            //    new SqlParameter("room_id", room_id),
+            //    new SqlParameter("documentary_id", documentary_id)).ToList();
+            var supplies = (from s1 in db.RepairCameras
+                            join s2 in db.Supplies on s1.supply_id equals s2.supply_id
+                            where s1.room_id == room_id && s1.documentary_id == documentary_id
+                            select new
+                            {
+                                s1.supply_status,
+                                s1.supply_id,
+                                s2.supply_name,
+                                s1.quantity_plan,
+                                s1.quantity_in,
+                                s1.quantity_used,
+                                s1.quantity_out
+                            }).ToList();
             return Json(supplies);
         }
         [Auther(RightID = "193")]
