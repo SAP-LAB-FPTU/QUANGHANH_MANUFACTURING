@@ -419,7 +419,8 @@
             $('.datepicker-inline').remove();
     });
 
-    function loadPaperInfo() {
+        function loadPaperInfo() {
+        dataTable.clear();
         datatable = $('#example').DataTable({
             "ajax": {
                 "url": '@Url.Action("getOutsidePaperInfo", "Brief")',
