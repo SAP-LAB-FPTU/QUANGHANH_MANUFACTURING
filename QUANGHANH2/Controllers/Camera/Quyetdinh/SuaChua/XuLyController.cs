@@ -112,10 +112,10 @@ namespace QUANGHANH2.Controllers.Camera
                                 temp.documentary_camera_repair_status = 1;
                                 Acceptance a = new Acceptance
                                 {
-                                    acceptance_date = DateTime.Now,
+                                    acceptance_date = null,
                                     documentary_id = id,
                                     room_id = item.Value.ToString(),
-                                    is_acceptance = false
+                                    acceptance_camera_quantity = temp.broken_camera_quantity
                                 };
                                 db.Acceptances.Add(a);
                             }
