@@ -13,6 +13,7 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Globalization;
 using QUANGHANH2.SupportClass;
+using QUANGHANH2.EntityResult;
 
 namespace QUANGHANHCORE.Controllers.CDVT.Suco
 {
@@ -26,18 +27,18 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             string departID = Session["departID"].ToString();
             string departName = Session["departName"].ToString();
-            List<EquipWithDepart> equipments = new List<EquipWithDepart>();
+            List<EquipWithDepart_Result> equipments = new List<EquipWithDepart_Result>();
             if (departID == "ĐK" || departID == "CV")
                 equipments = (from x in db.Equipments
                               join d in db.Departments on x.department_id equals d.department_id
-                              select new EquipWithDepart
+                              select new EquipWithDepart_Result
                               {
                                   equipment_id = x.equipment_id,
                                   equipment_name = x.equipment_name,
                                   department_name = d.department_name
                               }).ToList();
             else
-                equipments = db.Equipments.Where(x => x.department_id.Equals(departID)).Select(x => new EquipWithDepart
+                equipments = db.Equipments.Where(x => x.department_id.Equals(departID)).Select(x => new EquipWithDepart_Result
                 {
                     equipment_id = x.equipment_id,
                     equipment_name = x.equipment_name,
@@ -47,13 +48,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             ViewBag.equipments = equipments;
             ViewBag.departments = departments;
             return View("/Views/CDVT/Suco/SucoThietbi.cshtml");
-        }
-
-        public class EquipWithDepart
-        {
-            public string equipment_id { get; set; }
-            public string equipment_name { get; set; }
-            public string department_name { get; set; }
         }
 
         [Auther(RightID = "20,79")]
@@ -208,32 +202,20 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             DateTime dtEnd = (dateEnd == null || dateEnd.Equals("")) ? DateTime.Now : DateTime.ParseExact(dateEnd, "dd/MM/yyyy", null);
 
             QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
-            string base_select = "SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different ";
-            string query = "FROM Equipment.Incident i inner join Equipment.Equipment e on e.equipment_id = i.equipment_id " +
-                "inner join General.Department d on d.department_id = i.department_id " +
-                "where i.start_time BETWEEN @dtStart AND @dtEnd AND i.equipment_id LIKE @equipment_id AND e.equipment_name LIKE @equipment_name " +
-                "AND d.department_name LIKE @department_name AND i.detail_location LIKE @detail_location AND i.reason LIKE @reason";
             string department_id = Session["departID"].ToString();
-            if (Session["departName"].ToString().Contains("Phân xưởng")) query += " AND d.department_id = @depart";
-            List<IncidentDB> incidents = DBContext.Database.SqlQuery<IncidentDB>(base_select + query + " order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
-                new SqlParameter("equipment_id", '%' + equipment_id + '%'),
-                new SqlParameter("equipment_name", '%' + equipmentName + '%'),
-                new SqlParameter("department_name", '%' + department + '%'),
-                new SqlParameter("detail_location", '%' + detail + '%'),
-                new SqlParameter("reason", '%' + reason + '%'),
-                new SqlParameter("dtStart", dtStart),
-                new SqlParameter("dtEnd", dtEnd),
-                new SqlParameter("depart", department_id)).ToList();
-            int totalrows = DBContext.Database.SqlQuery<int>("select count(e.equipment_name) " + query,
-                new SqlParameter("equipment_id", '%' + equipment_id + '%'),
-                new SqlParameter("equipment_name", '%' + equipmentName + '%'),
-                new SqlParameter("department_name", '%' + department + '%'),
-                new SqlParameter("detail_location", '%' + detail + '%'),
-                new SqlParameter("reason", '%' + reason + '%'),
-                new SqlParameter("dtStart", dtStart),
-                new SqlParameter("dtEnd", dtEnd),
-                new SqlParameter("depart", department_id)).FirstOrDefault();
-            foreach (IncidentDB item in incidents)
+            List<GetEquipmetIncident_Result> incidents = DBContext.Database.SqlQuery<GetEquipmetIncident_Result>("Equipment.Get_List_Equipment_Incident {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13} ",
+                equipment_id, equipmentName, department, detail, reason, dtStart, dtEnd, department_id,sortColumnName, sortDirection, start, length, 0, 0).ToList();
+            int totalrows = DBContext.Database.SqlQuery<int>("Equipment.Get_List_Equipment_Incident {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13} ",
+                equipment_id, equipmentName, department, detail, reason, dtStart, dtEnd, department_id, sortColumnName, sortDirection, start, length, 0, 1).FirstOrDefault();
+            if (Session["departName"].ToString().Contains("Phân xưởng"))
+            {
+                incidents = DBContext.Database.SqlQuery<GetEquipmetIncident_Result>("Equipment.Get_List_Equipment_Incident {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13} ",
+                    equipment_id, equipmentName, department, detail, reason, dtStart, dtEnd, department_id, sortColumnName, sortDirection, start, length, 1, 0).ToList();
+                totalrows = DBContext.Database.SqlQuery<int>("Equipment.Get_List_Equipment_Incident {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13} ",
+                    equipment_id, equipmentName, department, detail, reason, dtStart, dtEnd, department_id, sortColumnName, sortDirection, start, length, 1, 1).FirstOrDefault();
+            }
+            
+            foreach (GetEquipmetIncident_Result item in incidents)
             {
                 item.stringStartTime = item.start_time.ToString("HH:mm dd/MM/yyyy");
                 item.stringEndTime = item.getEndtime();
@@ -268,7 +250,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
                                          join e in DBContext.Equipments on i.equipment_id equals e.equipment_id
                                          join d in DBContext.Departments on i.department_id equals d.department_id
                                          where e.equipment_id.Contains(equipment_id) && e.equipment_name.Contains(equipmentName) && d.department_name.Contains(department) && i.detail_location.Contains(detail) && i.reason.Contains(reason) && i.start_time >= dtStart && i.start_time <= dtEnd
-                                         select new IncidentDB
+                                         select new GetEquipmetIncident_Result
                                          {
                                              Equipment_category_id = e.equipment_category_id,
                                              equipment_name = e.equipment_name,
@@ -325,10 +307,7 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             try
             {
                 QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
-                IncidentDB incidents = DBContext.Database.SqlQuery<IncidentDB>("SELECT e.equipment_name, d.department_name, i.*, DATEDIFF(HOUR, i.start_time, i.end_time) as time_different " +
-                    "FROM Equipment.Incident i inner join Equipment.Equipment e on e.equipment_id = i.equipment_id " +
-                    "inner join General.Department d on d.department_id = i.department_id " +
-                    "where i.incident_id = @incident_id", new SqlParameter("incident_id", incident_id)).FirstOrDefault();
+                GetEquipmetIncident_Result incidents = DBContext.Database.SqlQuery<GetEquipmetIncident_Result>("Equipment.Get_Equipment_Incident_By_ID {0}",incident_id).FirstOrDefault();
 
                 incidents.stringStartTime = incidents.start_time.ToString("HH:mm dd/MM/yyyy");
                 DateTime.TryParse(incidents.end_time.ToString(), out DateTime temp);
@@ -338,45 +317,6 @@ namespace QUANGHANHCORE.Controllers.CDVT.Suco
             catch (Exception)
             {
                 return Json(new { success = false, message = "Có lỗi xảy ra\nxin vui lòng thử lại" }, JsonRequestBehavior.AllowGet);
-            }
-        }
-    }
-
-    public class IncidentDB : Incident1
-    {
-        public int? time_different { get; set; }
-        public string equipment_name { get; set; }
-        public string department_name { get; set; }
-        public string Equipment_category_id { get; set; }
-        public string mark_code { get; set; }
-        public string fabrication_number { get; set; }
-        public string stringStartTime { get; set; }
-        public string stringEndTime { get; set; }
-        public string stringDiffTime { get; set; }
-        public string editAble { get; set; }
-
-        public string getEndtime()
-        {
-            if (end_time == null) return "";
-            else
-            {
-                DateTime.TryParse(end_time.ToString(), out DateTime temp);
-                return temp.ToString("HH:mm dd/MM/yyyy");
-            }
-        }
-
-        public string getDiffTime()
-        {
-            if (end_time == null) return "";
-            else
-            {
-                DateTime.TryParse(end_time.ToString(), out DateTime temp);
-                TimeSpan timespan = temp.Subtract(start_time);
-                string output = "";
-                if (timespan.Days != 0) output += timespan.Days + " ngày ";
-                if (timespan.Hours != 0) output += timespan.Hours + " giờ ";
-                if (timespan.Minutes != 0) output += timespan.Minutes + " phút ";
-                return output;
             }
         }
     }
