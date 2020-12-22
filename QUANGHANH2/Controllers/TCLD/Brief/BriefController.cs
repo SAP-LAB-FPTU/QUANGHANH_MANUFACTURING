@@ -238,33 +238,8 @@ namespace QUANGHANHCORE.Controllers.TCLD
             searchList = searchList.OrderBy(sortColumnName + " " + sortDirection).ToList<Relevant_Paper>();
             //paging
             searchList = searchList.Skip(start).Take(length).ToList<Relevant_Paper>();
-            if (employee_id.Trim() != "")
-            {
-                if (checkEm(employee_id) == false)
-                {
-                    return Json(new { data = searchList, message = "Failed_Search", draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-                }
 
-            }
             return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-        }
-
-        public Boolean checkEm(string manv)
-        {
-            Employee em = null;
-            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-            {
-                em = db.Employees.Where(x => x.employee_id.Trim().Equals(manv.Trim())).FirstOrDefault<Employee>();
-            }
-            if (em != null)
-            {
-                if (em.current_status_id != 2)
-                {
-                    return true;
-                }
-                else return false;
-            }
-            return false;
         }
 
         public ActionResult listAllHoSo(string delivery_employee_name, string management_employee_name, string date_of_birth,
@@ -338,7 +313,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [Auther(RightID = "129")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-ho-so")]
         [HttpPost]
-        public ActionResult listHoSo()
+        public ActionResult listRecordDetail()
         {
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             db.Configuration.LazyLoadingEnabled = false;
@@ -395,20 +370,13 @@ namespace QUANGHANHCORE.Controllers.TCLD
             recordList = recordList.OrderBy(sortColumnName + " " + sortDirection).ToList<Record_Detail>();
             //paging
             recordList = recordList.Skip(start).Take(length).ToList<Record_Detail>();
-            if (id_.Trim() != "")
-            {
-                if (checkEm(id_) == false)
-                {
-                    return Json(new { data = recordList, message = "Failed_Search", draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-                }
 
-            }
             return Json(new { data = recordList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
         [Auther(RightID = "130")]
         [HttpPost]
-        public ActionResult listNhanVien()
+        public ActionResult getInsideBasicInfo()
         {
             using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
             {
@@ -548,13 +516,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             //aList = aList.OrderBy(sortColumnName + " " + sortDirection).ToList<AdditionalHistoryResume>();
             //paging
             //aList = aList.Skip(start).Take(length).ToList<AdditionalHistoryResume>();
-            if (id_.Trim() != "")
-            {
-                if (checkEm(id_) == false)
-                {
-                    return Json(new { data = aList, message = "Failed_Search", draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-                }
-            }
             return Json(new { data = aList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
@@ -591,14 +552,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             recordList = recordList.OrderBy(sortColumnName + " " + sortDirection).ToList<Relevant_Paper>();
             //paging
             recordList = recordList.Skip(start).Take(length).ToList<Relevant_Paper>();
-            if (id_.Trim() != "")
-            {
-                if (checkEm(id_) == false)
-                {
-                    return Json(new { data = recordList, message = "Failed_Search", draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-                }
-
-            }
             return Json(new { data = recordList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
         }
@@ -644,14 +597,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             paperList = paperList.OrderBy(sortColumnName + " " + sortDirection).ToList<Paper_Detail>();
             //paging
             paperList = paperList.Skip(start).Take(length).ToList<Paper_Detail>();
-            if (id_.Trim() != "")
-            {
-                if (checkEm(id_) == false)
-                {
-                    return Json(new { data = paperList, message = "Failed_Search", draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-                }
-
-            }
             return Json(new { data = paperList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
@@ -690,14 +635,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             familyList = familyList.OrderBy(sortColumnName + " " + sortDirection).ToList<Family_Detail>();
             //paging
             familyList = familyList.Skip(start).Take(length).ToList<Family_Detail>();
-            if (id_.Trim() != "")
-            {
-                if (checkEm(id_) == false)
-                {
-                    return Json(new { data = familyList, message = "Failed_Search", draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-                }
-
-            }
             return Json(new { data = familyList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
         }
@@ -961,14 +898,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             //list = list.OrderBy(sortColumnName + " " + sortDirection).ToList<Outside_Paper>();
             //paging
             //list = list.Skip(start).Take(length).ToList<Outside_Paper>();
-            if (id_.Trim() != "")
-            {
-                if (checkEm(id_) == false)
-                {
-                    return Json(new { data = list, message = "Failed_Search", draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-                }
 
-            }
             return Json(new { data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
         }
@@ -1213,409 +1143,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
         }
 
 
-        //public ActionResult thongTinUyQuyen()
-        //{
-        //    String mnv = Request.QueryString["manv"];
-
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-        //        var mydata = (from p in db.Employees
-        //                      join p1 in db.RecordsGettingAuthorizes on p. equals p1.MaUyQuyen
-        //                      where p.MaNV == mnv
-        //                      select new
-        //                      {
-        //                          hoTenNguoiUyQuyen = p1.HoTen,
-        //                          quanHeNguoiUyQuyen = p1.QuanHe,
-        //                          soCMT = p1.SoCMND,
-        //                          soDT = p1.SoDienThoai
-        //                      }).ToList();
-        //        Debug.WriteLine(mydata.Count(), "TAG");
-        //        return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
-        //public ActionResult taiThongTinCoBanHSNgoai()
-        //{
-        //    String mnv = Request.QueryString["manv"];
-
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-        //        var mydata = (from p in db.Employees
-        //                      join p1 in db.Records on p.employee_id equals p1.employee_id
-        //                      join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV into cd_nv
-        //                      join p3 in db.Departments on p.MaPhongBan equals p3.department_id into pb
-        //                      where p.MaNV == mnv
-        //                      from p2 in cd_nv.DefaultIfEmpty()
-        //                      from p3 in pb.DefaultIfEmpty()
-        //                      select new
-        //                      {
-        //                          stt = "",
-        //                          sothe = p.MaNV,
-        //                          hoVaTen = p.Ten,
-        //                          ngaythangnamsinh = p.NgaySinh,
-        //                          donvicd = p3.department_name,
-        //                          soBH = p.SoBHXH,
-        //                          sodt = p.SoDienThoai,
-        //                          diachithuongtru = p.NoiOHienTai,
-        //                          edit = true
-        //                      }).ToList();
-
-        //        return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
-
-        //public ActionResult thongtinLoaiChamdut()
-        //{
-        //    String mnv = Request.QueryString["manv"];
-
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-
-        //        var listTenChamdut = (from p in db.ChamDut_NhanVien
-        //                              select p.LoaiChamDut).Distinct().ToList();
-        //        var mydata = (from p in db.ChamDut_NhanVien
-        //                      join p1 in db.QuyetDinhs on p.MaQuyetDinh equals p1.MaQuyetDinh
-        //                      where p.MaNV == mnv
-        //                      select new
-        //                      {
-        //                          tenLoaiChamDut = p.LoaiChamDut,
-        //                          soQD = p.MaQuyetDinh,
-        //                          ngayQD = p1.NgayQuyetDinh,
-        //                          ngayCD = p.NgayChamDut,
-        //                          listChamDut = listTenChamdut
-        //                      }).ToList();
-        //        Debug.WriteLine(mydata.Count(), "TAG");
-        //        return Json(new { success = true, data = mydata, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
-        //[HttpPost]
-        //public ActionResult updateThongTinCoBan(String json)
-        //{
-
-        //    dynamic js = JObject.Parse(json);
-        //    String hoVaTen = js.hoVaTen;
-        //    String sothe = js.sothe;
-        //    String ngaythangnamsinh = js.ngaythangnamsinh;
-        //    String donvicd = js.donvicd;
-        //    String soBH = js.soBH;
-        //    String sodt = js.sodt;
-        //    String diachithuongtru = js.diachithuongtru;
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-        //        Employee nv = (from p in db.Employees where p.employee_id == sothe select p).SingleOrDefault();
-        //        nv.BASIC_INFO_full_name = hoVaTen;
-        //        nv.BASIC_INFO_social_insurance_number = soBH;
-        //        nv.BASIC_INFO_phone_number = sodt;
-        //        nv.BASIC_INFO_current_residence = diachithuongtru;
-        //        if (isValidateDateTime(ngaythangnamsinh))
-        //        {
-        //            nv.BASIC_INFO_date_of_birth = Convert.ToDateTime(ngaythangnamsinh);
-        //        }
-
-        //        ChamDut_NhanVien cd = (from p in db.ChamDut_NhanVien where p.MaNV == sothe select p).SingleOrDefault();
-        //        //     cd.DonViKhiChamDut = donvicd;
-
-        //        db.SaveChanges();
-
-        //        ViewBag.nameDepartment = "quanlyhoso";
-        //        return Json(new { success = true, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
-
-        //    }
-
-
-        //}
-
-
-
-        //[HttpPost]
-        //public ActionResult updateLoaiChamDut(String json)
-        //{
-
-        //    dynamic js = JObject.Parse(json);
-        //    String tenLoaiChamDut = js.tenLoaiChamDut;
-        //    String soQD = js.soQD;
-        //    String ngayQD = js.ngayQD;
-        //    String ngayCD = js.ngayCD;
-        //    int soQD1 = Int32.Parse(soQD.Trim());
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-        //        ChamDut_NhanVien nv = (from p in db.ChamDut_NhanVien where p.MaQuyetDinh == soQD1 select p).SingleOrDefault();
-        //        nv.LoaiChamDut = tenLoaiChamDut;
-        //        if (isValidateDateTime(ngayCD))
-        //        {
-        //            nv.NgayChamDut = Convert.ToDateTime(ngayCD);
-        //        }
-
-        //        QuyetDinh cd = (from p in db.QuyetDinhs where p.MaQuyetDinh == soQD1 select p).SingleOrDefault();
-        //        if (isValidateDateTime(ngayQD))
-        //        {
-        //            cd.NgayQuyetDinh = Convert.ToDateTime(ngayQD);
-        //        }
-
-
-        //        db.SaveChanges();
-
-        //        ViewBag.nameDepartment = "quanlyhoso";
-        //        return Json(new { success = true, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
-
-        //    }
-
-
-        //}
-        //public Boolean isValidateDateTime(String dateTime)
-        //{
-        //    try
-        //    {
-        //        DateTime dt = Convert.ToDateTime(dateTime);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return false;
-        //    }
-        //    return true;
-        //}
-
-
-
-        //public ActionResult updateUyQuyen(String json)
-        //{
-        //    dynamic js = JObject.Parse(json);
-        //    String hoTenNguoiUyQuyen = js.hoTenNguoiUyQuyen;
-        //    String quanHeNguoiUyQuyen = js.quanHeNguoiUyQuyen;
-        //    String soCMT = js.soCMT;
-        //    String soDT = js.soDT;
-        //    String mnv = js.manv;
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-
-        //        var count = (from p in db.NhanViens
-        //                     join p1 in db.NguoiUyQuyenLayHoSo_BaoHiem on p.MaUyQuyen equals p1.MaUyQuyen
-        //                     where p.MaNV == mnv
-        //                     select p1).Count();
-
-        //        NguoiUyQuyenLayHoSo_BaoHiem n = (from p in db.NguoiUyQuyenLayHoSo_BaoHiem
-        //                                         join p1 in db.NhanViens on p.MaUyQuyen equals p1.MaUyQuyen
-        //                                         where p1.MaNV == mnv
-        //                                         select p
-
-        //                                        ).SingleOrDefault();
-        //        if (count == 1)
-        //        {
-        //            n.HoTen = hoTenNguoiUyQuyen;
-        //            n.QuanHe = quanHeNguoiUyQuyen;
-        //            n.SoCMND = soCMT;
-        //            n.SoDienThoai = soDT;
-        //        }
-        //        else
-        //        {
-        //            int id = (from p in db.NguoiUyQuyenLayHoSo_BaoHiem select p).Count() + 1;
-        //            NhanVien nv = (from p in db.NhanViens where p.MaNV == mnv select p).SingleOrDefault();
-        //            n = new NguoiUyQuyenLayHoSo_BaoHiem();
-        //            nv.MaUyQuyen = id;
-        //            n.MaUyQuyen = id;
-        //            n.HoTen = hoTenNguoiUyQuyen;
-        //            n.QuanHe = quanHeNguoiUyQuyen;
-        //            n.SoCMND = soCMT;
-        //            n.SoDienThoai = soDT;
-        //            db.NguoiUyQuyenLayHoSo_BaoHiem.Add(n);
-        //        }
-
-
-
-
-        //        db.SaveChanges();
-
-
-        //        return Json(new { success = true, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
-
-        //    }
-
-
-        //}
-
-        //public ActionResult thongTinGiayTo()
-        //{
-        //    int start = Convert.ToInt32(Request["start"]);
-        //    int length = Convert.ToInt32(Request["length"]);
-        //    String mnv = Request.QueryString["manv"];
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-        //        var x = (from a in db.GiayToes
-
-        //                 where a.MaNV == mnv
-        //                 select
-        //        new
-        //        {
-        //            ma = a.MaGiayTo,
-        //            kieu = a.KieuGiayTo,
-        //            ngaytra = a.NgayTra,
-        //            sohieu = "",
-        //            ngaycap = (DateTime?)null,
-        //            ten = a.TenGiayTo,
-        //            manv = a.MaNV
-
-        //        }).ToList();
-        //        var y = (from a in db.ChungChi_NhanVien
-        //                 join b in db.ChungChis on a.MaChungChi equals b.MaChungChi
-        //                 where a.MaNV == mnv
-        //                 select
-        //                 new
-        //                 {
-        //                     ma = a.MaChungChi,
-        //                     kieu = b.KieuChungChi,
-        //                     ngaytra = a.NgayTra,
-        //                     sohieu = a.SoHieu,
-        //                     ngaycap = a.NgayCap,
-        //                     ten = b.TenChungChi,
-        //                     manv = a.MaNV
-        //                 }
-        //                ).ToList();
-        //        var z = (from a in db.ChiTiet_BangCap_GiayChungNhan
-        //                 join b in db.BangCap_GiayChungNhan on a.MaBangCap_GiayChungNhan equals b.MaBangCap_GiayChungNhan
-        //                 where a.MaNV == mnv
-        //                 select
-        //                 new
-        //                 {
-        //                     ma = a.MaBangCap_GiayChungNhan,
-        //                     kieu = b.KieuBangCap,
-        //                     ngaytra = a.NgayTra,
-        //                     sohieu = a.SoHieu,
-        //                     ngaycap = a.NgayCap,
-        //                     ten = b.TenBangCap,
-        //                     manv = a.MaNV
-        //                 }
-        //                ).ToList();
-        //        var m = y.Union(z.Union(x)).ToList();
-        //        int totalrows = m.Count;
-        //        int totalrowsafterfiltering = m.Count;
-        //        m = m.Skip(start).Take(length).ToList();
-        //        return Json(new { success = true, data = m, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-        //    }
-
-
-        //}
-
-        //public ActionResult updateGiayTo(String json)
-        //{
-        //    dynamic js = JObject.Parse(json);
-        //    String manv = js.manv;
-        //    int ma = js.ma;
-        //    String sohieu = js.sohieu;
-        //    String kieu = js.kieu;
-        //    String ngaytra = js.ngaytra;
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-        //        //  GiayChungNhan_NhanVien x = (from a in db.GiayChungNhan_NhanVien where a.MaNV == manv & a.SoHieu==sohieu  select a).SingleOrDefault() ;
-        //        ChungChi_NhanVien x = (from a in db.ChungChi_NhanVien where a.MaNV == manv & a.SoHieu == sohieu & a.MaChungChi == ma select a).SingleOrDefault();
-        //        ChiTiet_BangCap_GiayChungNhan y = (from a in db.ChiTiet_BangCap_GiayChungNhan where a.MaNV == manv & a.SoHieu == sohieu & a.MaBangCap_GiayChungNhan == ma select a).SingleOrDefault();
-        //        GiayTo z = (from a in db.GiayToes where a.MaNV == manv & a.MaGiayTo == ma select a).SingleOrDefault();
-        //        if (x != null)
-        //        {
-        //            if (isValidateDateTime(ngaytra))
-        //                x.NgayTra = Convert.ToDateTime(ngaytra);
-        //        }
-        //        if (y != null)
-        //        {
-        //            if (isValidateDateTime(ngaytra))
-        //                y.NgayTra = Convert.ToDateTime(ngaytra);
-
-        //        }
-        //        if (z != null & sohieu.Equals(""))
-        //        {
-        //            if (isValidateDateTime(ngaytra))
-        //                z.NgayTra = Convert.ToDateTime(ngaytra);
-
-        //        }
-        //        //if (z != null)
-        //        //{
-        //        //    if (isValidateDateTime(ngaytra))
-        //        //        z.NgayTra = Convert.ToDateTime(ngaytra);
-
-        //        //}
-        //        db.SaveChanges();
-        //        return Json(new { success = true, draw = Request["draw"] }, JsonRequestBehavior.AllowGet); ;
-        //    }
-
-        //}
-
-
-        //public ActionResult insertGiayTo(String json)
-        //{
-        //    dynamic js = JObject.Parse(json);
-        //    String manv = js.manv;
-
-        //    String kieu = js.kieu;
-        //    String ten = js.ten;
-        //    if (kieu.Equals("") & ten.Equals(""))
-        //        return Json(new { success = false, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-        //        GiayTo giayTo;
-
-        //        giayTo = new GiayTo();
-        //        giayTo.TenGiayTo = ten;
-        //        giayTo.MaNV = manv;
-        //        giayTo.KieuGiayTo = kieu;
-        //        giayTo.NgayTra = null;
-        //        db.GiayToes.Add(giayTo);
-        //        db.SaveChanges();
-        //        return Json(new { success = true, draw = Request["draw"] }, JsonRequestBehavior.AllowGet);
-
-
-
-
-        //    }
-
-        //}
-
-        //public ActionResult searchOutSide(String data)
-        //{
-        //    dynamic js = JObject.Parse(data);
-        //    String manv = js.manv;
-        //    String ten = js.ten;
-        //    String loaichamdut = js.loaichamdut;
-        //    int start = Convert.ToInt32(Request["start"]);
-        //    int length = Convert.ToInt32(Request["length"]);
-
-        //    // String 
-        //    using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-        //    {
-
-        //        // search ma nhan vien
-
-        //        var mydata = (from p in db.NhanViens
-        //                      join p1 in db.HoSoes on p.MaNV equals p1.MaNV
-        //                      join p2 in db.ChamDut_NhanVien on p1.MaNV equals p2.MaNV
-        //                      join p3 in db.Departments on p.MaPhongBan equals p3.department_id
-        //                      where p.MaTrangThai == 2 &
-        //                      p.MaNV.Contains(manv)
-        //                      & (p.Ten.Contains(ten) | p.Ten == null)
-        //                      & (p2.LoaiChamDut.Contains(loaichamdut) | loaichamdut == "")
-        //                      select new
-        //                      {
-        //                          stt = "1",
-        //                          manv = p.MaNV,
-        //                          ten = p.Ten,
-        //                          dvcdhd = p3.department_name,
-        //                          sobhxh = p.SoBHXH,
-        //                          sdt = p.SoDienThoai,
-        //                          diachi = p.NoiOHienTai,
-        //                          loaichamdut = p2.LoaiChamDut,
-        //                          edit = true
-        //                      }).ToList();
-        //        int totalrows = mydata.Count;
-        //        int totalrowsafterfiltering = mydata.Count;
-        //        mydata = mydata.Skip(start).Take(length).ToList();
-        //        return Json(new { success = true, data = mydata, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-
-
-        //    }
-
-
-        //}
-
         //[HttpPost]
         //public ActionResult ExportExcel()
         //{
@@ -1812,7 +1339,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         [Auther(RightID = "130")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/chi-tiet-chung-chi")]
         [HttpPost]
-        public ActionResult listChungChi()
+        public ActionResult listCertiDetail()
         {
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             db.Configuration.LazyLoadingEnabled = false;
@@ -1840,14 +1367,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             CertiList = CertiList.OrderBy(sortColumnName + " " + sortDirection).ToList<Certi_Detail>();
             //paging
             CertiList = CertiList.Skip(start).Take(length).ToList<Certi_Detail>();
-            if (id_.Trim() != "")
-            {
-                if (checkEm(id_) == false)
-                {
-                    return Json(new { data = CertiList, message = "Failed_Search", draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
-                }
-
-            }
             return Json(new { data = CertiList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
@@ -1957,25 +1476,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
         //    catch (Exception e)
         //    {
         //        return null;
-        //    }
-
-        //}
-
-        //public string convertDate(string d)
-        //{
-        //    try
-        //    {
-        //        if (d != null)
-        //        {
-        //            DateTime oDate = DateTime.Parse(d);
-        //            //DateTime oDate = DateTime.ParseExact(d, "MM/dd/yyyy HH:mm:ss tt", null);
-        //            return oDate.ToString("dd/MM/yyyy");
-        //        }
-        //        return "";
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return "";
         //    }
 
         //}

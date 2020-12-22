@@ -206,29 +206,6 @@
     List<string> right = (List<string>)Session["RightIDs"];
 }
 <!---------------------------------------------------------------------------------->
-@foreach (var item in right)
-{
-    if (item.Equals("157"))
-    {
-        <div class="modal fade" id="myadd">
-            <div class="modal-header center-align" style="margin-top:10px">
-                <h3>Thêm Giấy Tờ</h3>
-            </div>
-            @*@Html.Action("themGiayTo", "Brief")*@
-        </div>
-    }
-    if (item.Equals("147"))
-    {
-        <div class="modal fade" id="myEdit">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Sửa Giấy Tờ</h3>
-                </div>
-                @*@Html.Action("suaGiayTo", "Brief")*@
-            </div>
-        </div>
-    }
-}
 
 <script>
     //Gọi popup khi ấn nút Thêm
@@ -306,6 +283,10 @@
         var Popup, dataTable;
 
         $(document).ready(function () {
+            getRelatedPaper();
+        });
+
+        function getRelatedPaper() {
             dataTable = $('#re_paper_table')
                 .on('preXhr.dt', function (e, settings, data) {
                     $("#pre-load").show("slow", function () {
@@ -315,14 +296,14 @@
                 })
                 .DataTable({
                     "ajax": {
-                        "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to",
+                        "url": '@Url.Action("Search", "Brief")',
                         "type": "POST",
                         "datatype": "json",
                         "data": {
                             "employee_id": function () { return $('#employee_id_search').val() },
                             "employee_name": function () { return $('#employee_name_search').val() },
                             "paper_name": function () { return $('#paper_name_search').val() },
-                            "type_name": function () { return $('#type_name_search').val() },
+                            "type_name": function () { return documentFormat($('#type_name_search').val()) },
                         },
                     },
 
@@ -341,7 +322,7 @@
 
                         {
                             "data": "records_papers_id", "render": function (data, type, row) {
-                                return "<a href=\"#myacti\" data-toggle=\"modal\" class='open-EditModal waves-effect waves-light btn-small blue modal-trigger' data-paper=\"" + data + "\"><span class='ti-pencil-alt'>Chỉnh&nbsp;sửa</span></a>";
+                                return "<a href=\"#myacti\" data-toggle=\"modal\" class='open-EditModal waves-effect waves-light btn-small blue modal-trigger' data-paper=\"" + data + "\">Chỉnh&nbsp;sửa</a>";
                             },
                             "orderable": false,
                             "searchable": false,
@@ -349,7 +330,7 @@
                         },
                         {
                             "data": "records_papers_id", "render": function (data, type, row) {
-                                return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px'><span class='fas fa-times-circle' onclick='deletePaper(" + data + ")'>Xóa</span></a>";
+                                return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' onclick='deletePaper(" + data + ")'>Xóa</a>";
                             },
                             "orderable": false,
                             "searchable": false,
@@ -382,13 +363,13 @@
                     },
 
                 });
-        });
+        }
 
         $(document).ready(function () {
-            var dataTable = $('#re_paper_table').DataTable();
             $("#searchButton_Doc").click(function () {
+                dataTable.destroy();
+                getRelatedPaper();
                 dataTable.ajax.reload();
-
             });
         });
 
@@ -407,10 +388,12 @@
                 return "Gốc";
             } else if (d == "daudo") {
                 return "Dấu đỏ";
+            } else if (d == "photo") {
+                return "Phô tô";
             } else if (d == "sao") {
                 return "Sao,Công chứng";
             } else {
-                return "Photo";
+                return "";
             }
         }
     </script>
@@ -478,80 +461,6 @@
 <!----------------------------------------------------Long----------------------------------->
 <!----------------------------------------------------Ctbom----------------------------------->
 <script>
-    //$("#searchButton").click(function () {
-    //    dataTable = $('#re_paper_table').on('preXhr.dt', function (e, settings, data) {
-    //        $("#pre-load").show("slow", function () {
-    //        });
-    //        $("#pre-load").css("z-index", "99999");
-    //    }).DataTable({
-    //        "language": {
-    //            "emptyTable": "Không tìm thấy dữ liệu",
-    //            "info": "Đang hiện _START_ đến _END_ của _TOTAL_ bản ghi",
-    //            "infoEmpty": "Đang hiện 0 đến 0 của 0 bản ghi",
-    //            "paginate": {
-    //                "first": "Đầu",
-    //                "last": "Cuối",
-    //                "next": "Sau",
-    //                "previous": "Trước"
-    //            }
-    //        },
-    //        "ajax": {
-    //            "url": "/phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to",
-    //            "type": "POST",
-    //            "datatype": "json",
-    //            "data": {
-    //                "employee_id": function () { return $('#employee_id_search').val() },
-    //                "employee_name": function () { return $('#employee_name_search').val() },
-    //                "paper_name": function () { return $('#paper_name_search').val() },
-    //                "type_name": function () { return $('#type_name_search').val() },
-    //            },
-    //            "cache": "false"
-    //        },
-    //        "drawCallback": function (settings) {
-    //            ///////////////////////ẨN SAU MỖI AJAX CALL////////////////////////
-    //            $("#pre-load").hide("slow", function () {
-    //            });
-    //            ////////////////////////////////////////////////
-    //        },
-    //        "columns": [
-    //            { "data": "employee_id", "name": "employee_id", },
-    //            { "data": "employee_name", "name": "employee_name" },
-    //            { "data": "paper_name", "name": "paper_name" },
-    //            { "data": "type_name", "name": "type_name" },
-
-    //            {
-    //                "data": "records_papers_id", "render": function (data, type, row) {
-    //                    return "<a href=\"#myacti\" data-toggle=\"modal\" class='open-EditModal waves-effect waves-light btn-small blue modal-trigger' data-paper=\"" + data + "\"><span class='ti-pencil-alt'>Chỉnh&nbsp;sửa</span></a>";
-
-    //                },
-    //                "orderable": false,
-    //                "searchable": false,
-    //                "width": "150px"
-    //            },
-    //            {
-    //                "data": "records_papers_id", "render": function (data, type, row) {
-    //                    return "<a class='waves-effect waves-light btn-small blue modal-trigger' style='margin-left:5px' onclick='deletePaper(" + data + ")' ><span class='fas fa-times-circle'>Xóasdadas</span></a>";
-    //                },
-    //                "orderable": false,
-    //                "searchable": false,
-    //                "width": "150px" 
-    //            }
-    //        ],
-    //        "bFilter": false,
-    //        "serverSide": true,
-    //        "rowId": "activityid",
-    //        "lengthChange": false,
-    //        "bAutoWidth": false,
-    //        "order": [0, "asc"],
-    //        "initComplete": function (settings, json) {
-    //            ////////////////////////////////////////////////ẨN KHI KHỞI TẠO TABLE XONG  ////////////////////////////////////////////////
-    //            $("#pre-load").hide("slow", function () {
-    //            });
-    //            //////////////////////////////////////////////// //////////////////////////////////////////////// ////////////////////////////////////////////////
-    //        }
-    //    });
-    //})
-
     //add
     function addRelevantPaper() {
         var data = {
