@@ -329,45 +329,42 @@ namespace QUANGHANH2.Controllers.TCLD
 
         //    }
         //}
-        //[Auther(RightID = "126")]
-        //[Route("deleteNotYet")]
-        //[HttpPost]
-        //public JsonResult NotYetDelete(string id)
-        //{
-        //    QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-        //    db.Configuration.LazyLoadingEnabled = false;
-        //    using (DbContextTransaction dbct = db.Database.BeginTransaction())
-        //    {
-        //        try
-        //        {
-        //            string query3 = "select cd.* from ChamDut_NhanVien cd inner join NhanVien nv on cd.MaNV = nv.MaNV inner join QuyetDinh q on q.MaQuyetDinh = cd.MaQuyetDinh where cd.MaQuyetDinh = @id";
-        //            List<ChamDut_NhanVien> list = db.Database.SqlQuery<ChamDut_NhanVien>(query3, new SqlParameter("id", id)).ToList();
-        //            string listMaNV = "";
-        //            foreach (var MaNV in list)
-        //            {
-        //                listMaNV += "'" + MaNV.MaNV + "'" + ",";
-        //            }
-        //            listMaNV = listMaNV.Substring(0, listMaNV.Length - 1);
-        //            string query4 = "update NhanVien set MaTrangThai = 1 where MaNV in(" + listMaNV + ")";
-        //            db.Database.ExecuteSqlCommand(query4);
+        [Auther(RightID = "126")]
+        [Route("deleteNotYet")]
+        [HttpPost]
+        public JsonResult NotYetDelete(string id)
+        {
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            db.Configuration.LazyLoadingEnabled = false;
+            using (DbContextTransaction dbct = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    List<Termination> list = db.Terminations.Where(x => x.decision_id + "" == id).ToList();
+                    string listMaNV = "";
+                    foreach (var MaNV in list)
+                    {
+                        listMaNV += "'" + MaNV.employee_id + "'" + ",";
+                    }
+                    listMaNV = listMaNV.Substring(0, listMaNV.Length - 1);
+                    string query = @"update HumanResources.Employee set 
+                        current_status_id = 1 where employee_id in(" + listMaNV + ") " +
+                        "delete from HumanResources.Termination where decision_id = @id " +
+                        "delete from HumanResources.Decision where decision_id = @id";
+                    db.Database.ExecuteSqlCommand(query, new SqlParameter("id", id));
+                    db.SaveChanges();
+                    dbct.Commit();
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
 
-        //            string query1 = "delete from ChamDut_NhanVien where MaQuyetDinh = @id";
-        //            db.Database.ExecuteSqlCommand(query1, new SqlParameter("id", id));
-        //            string query2 = "delete from QuyetDinh where MaQuyetDinh = @id";
-        //            db.Database.ExecuteSqlCommand(query2, new SqlParameter("id", id));
-        //            db.SaveChanges();
-        //            dbct.Commit();
-        //            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
+                {
+                    dbct.Rollback();
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
 
-        //        }
-        //        catch (Exception)
-        //        {
-        //            dbct.Rollback();
-        //            return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-        //        }
-
-        //    }
-        //}
+            }
+        }
 
         [Auther(RightID = "124")]
         [Route("phong-tcld/quan-ly-nhan-vien/chua-xu-ly-cham-dut")]
@@ -414,9 +411,8 @@ namespace QUANGHANH2.Controllers.TCLD
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
             db.Configuration.LazyLoadingEnabled = false;
 
-            string query = "select  nv.MaNV, nv.Ten, cd.LoaiChamDut, cd.NgayChamDut " +
-                "from QuyetDinh q inner join ChamDut_NhanVien cd on q.MaQuyetDinh = cd.MaQuyetDinh inner join NhanVien nv on cd.MaNV = nv.MaNV where q.SoQuyetDinh = '' and q.MaQuyetDinh = @id";
-            List<QuyetDinhLink> list = db.Database.SqlQuery<QuyetDinhLink>(query, new SqlParameter("id", id)).ToList();
+            string query = "HumanResources.GetShutDown_Notyet_Detail {0}";
+            List<GetShutDown_Notyet_List_Result> list = db.Database.SqlQuery<GetShutDown_Notyet_List_Result>(query, id).ToList();
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
