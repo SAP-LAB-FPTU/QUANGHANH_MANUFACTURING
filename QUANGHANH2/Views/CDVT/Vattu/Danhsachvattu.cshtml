@@ -189,7 +189,7 @@
                 waittime = 0;
                 ck = false;
             }
-            if (waittime > 100) {
+            if (waittime > 50) {
                 ck = true;
             }
         }, 100); 
@@ -206,10 +206,11 @@
                     $("#listid-s").empty();
                     var option = "";
                     for (var i = 0; i < data.id.length; i++) {
-                        var s = data.id[i].equipmentId;
+                        var s = data.id[i].name;
                         var a = "<option value='" + s + "'>" + s + "</option>";
                         option += a;
                     }
+                    console.log(option);
                     $("#listid-s").append(option);
                 },
                 error: function () {
