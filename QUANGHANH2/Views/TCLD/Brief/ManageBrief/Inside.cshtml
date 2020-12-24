@@ -410,42 +410,41 @@
         return false;
     }
 
-    //$('#export_excel_brief').click(function () {
-    //    $('#pre-load').show();
-    //    $.ajax({
-    //        type: 'POST',
-    //        url: '/Brief/ExporToExcel',
-    //        dataType: 'json',
-    //        success: function (response) {
-    //            if (response.success) {
-    //                window.location.href = response.location;
-    //                $("#pre-load").hide("slow", function () { });
-
-    //            } else {
-    //                alert("Lỗi khi tải file");
-    //            }
-    //        }
-    //    });
-    //});
-
-    function exportExcel() {
+    $('#export_excel_brief').click(function () {
+        $('#pre-load').show();
         $.ajax({
             type: 'POST',
-            url: '/phong-tcld/chung-chi/danh-sach-ho-so-trong/xuat-file-excel',
+            url: '@Url.Action("InsideExportToExcel", "Brief")',
             dataType: 'json',
             success: function (response) {
-               if (response.success) {
-        //Tải file excel về theo như location được gửi về từ controller
-        window.location.href = response.location;
-        $("#pre-load").hide("slow", function () {
-            });
-            } else {
-            alert("error");
-            }
-
+                if (response.success) {
+                    window.location.href = response.location;
+                    $("#pre-load").hide("slow", function () { });
+                } else {
+                    alert("Lỗi khi tải file");
+                }
             }
         });
-    }
+    });
+
+    //function exportExcel() {
+    //    $.ajax({
+    //        type: 'POST',
+    //        url: '/phong-tcld/chung-chi/danh-sach-ho-so-trong/xuat-file-excel',
+    //        dataType: 'json',
+    //        success: function (response) {
+    //           if (response.success) {
+    //    Tải file excel về theo như location được gửi về từ controller
+    //    window.location.href = response.location;
+    //    $("#pre-load").hide("slow", function () {
+    //        });
+    //        } else {
+    //        alert("error");
+    //        }
+
+    //        }
+    //    });
+    //}
 
     $('#export_excel_brief').click(function (e) {
         $("#pre-load").show("slow", function () {

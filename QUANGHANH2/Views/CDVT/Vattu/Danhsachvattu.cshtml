@@ -164,100 +164,12 @@
         </div>
     </div>
 </form>
-@using (Html.BeginForm("ChangeID", "Danhsachvattu", FormMethod.Post, new
-{
-    id = "ChangeIDForm",
-    enctype = "multipart/form-data",
-    onSubmit = "return ChangeID(this);",
-    data_restUrl = Url.Action("ChangeID", "Danhsachvattu", new { id = "" })
-}))
-{
-    <input type="hidden" id="id-s" name="id" value=" " />
-    <input type="hidden" id="time" name="id" value=" " />
-    <input type="hidden" id="ck" name="ck" value="0" />
-}
 
-<script>
-    var ck = true;
-    var waittime = 0;
-    $(document).ready(function () {
-        setInterval(function () {
-            waittime++;
-            $("#time").val(waittime);
-            if (waittime > 20 && ck == true) {
-                $("#ChangeIDForm").submit();
-                waittime = 0;
-                ck = false;
-            }
-            if (waittime > 100) {
-                ck = true;
-            }
-        }, 100); 
-    });
-
-    function ChangeID(form) {
-        $.validator.unobtrusive.parse(form);
-        if ($(form).valid()) {
-            $.ajax({
-                type: "POST",
-                url: form.action,
-                data: $(form).serialize(),
-                success: function (data) {
-                    $("#listid-s").empty();
-                    var option = "";
-                    for (var i = 0; i < data.id.length; i++) {
-                        var s = data.id[i].equipmentId;
-                        var a = "<option value='" + s + "'>" + s + "</option>";
-                        option += a;
-                    }
-                    $("#listid-s").append(option);
-                },
-                error: function () {
-                    alert(response.data.message);
-
-                }
-            });
-        }
-        return false;
-    }
-
-
-    $("#supply_id_search").keyup(function (e) {
-        if (e.which == 13) {
-            $("#searchButton1").click();
-            $("#supply_id_search").blur();
-        } else {
-            var text = $("#supply_id_search").val();
-            $("#id-s").val(text);
-            $("#ck").val("0");
-            if (waittime > 15) {
-                $("#ChangeIDForm").submit();
-                waittime = 0;
-            }
-        }
-
-    });
-
-    $("#supply_name_search").keyup(function (e) {
-        if (e.which == 13) {
-            $("#searchButton1").click();
-            $("#supply_name_search").blur();
-        } else {
-            var text = $("#supply_name_search").val();
-            $("#id-s").val(text);
-            $("#ck").val("1");
-            if (waittime > 15) {
-                $("#ChangeIDForm").submit();
-                waittime = 0;
-            } 
-        }
-    });
-</script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 @section scripts{
     <script>
-        var Popup, dataTable;
+        var dataTable;
         $("#pre-load").show();
 
         $(document).ready(function () {
@@ -298,7 +210,7 @@
                 ],
                 "serverSide": "true",
                 "order": [0, "desc"],
-                "rowId": "incident_id",
+                "rowId": "supply_id",
                 "lengthChange": false,
                 "searching": false,
                 "initComplete": function (settings, json) {
