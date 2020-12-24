@@ -12,17 +12,34 @@ using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Routing;
 using System.Globalization;
-using QUANGHANH2.EntityResult;
 
 namespace QUANGHANH2.Controllers.CDVT.Vattu
 {
     public class DanhsachvattuController : Controller
     {
+        public class EquipTempSearch
+        {
+            public string equipmentId { get; set; }
+        }
+
         [HttpPost]
         public ActionResult ChangeID(string id, string ck)
         {
+            string sql = "";
+            if (ck.Equals("0"))
+            {
+                sql = @"select s.supply_id as 'equipmentId'
+                        from Supply s
+                        where s.supply_id like @id";
+            }
+            else if (ck.Equals("1"))
+            {
+                sql = @"select s.supply_name as 'equipmentId'
+                        from Supply s
+                        where s.supply_name like @id";
+            }
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-            List<GetSuggestSearchSupply_Result> list = db.Database.SqlQuery<GetSuggestSearchSupply_Result>("Supply.Get_Suggest_Search_Supply {0}, {1}", id, ck).Take(10).ToList();
+            List<EquipTempSearch> list = db.Database.SqlQuery<EquipTempSearch>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
             return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
         }
 
@@ -47,8 +64,9 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
 
             QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
 
-            List<Supply> supplies = DBContext.Database.SqlQuery<Supply>("Supply.Get_list_Supply {0}, {1}, {2}, {3}, {4}, {5}" ,
-                    supply_id, supply_name, sortColumnName, sortDirection, start, length).ToList();
+            List<Supply> supplies = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id like @supply_id and supply_name like @supply_name order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
+                    new SqlParameter("supply_id", "%" + supply_id + "%"),
+                    new SqlParameter("supply_name", "%" + supply_name + "%")).ToList();
 
             int totalrows = DBContext.Supplies.Where(x => x.supply_id.Contains(supply_id) && x.supply_name.Contains(supply_name)).Count();
 
