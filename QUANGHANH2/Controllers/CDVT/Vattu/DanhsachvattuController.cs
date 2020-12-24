@@ -1,47 +1,17 @@
 ﻿using QUANGHANH2.Models;
+using QUANGHANH2.SupportClass;
 using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Web.Mvc;
-using QUANGHANH2.SupportClass;
-using System.Data.Entity;
-using OfficeOpenXml;
-using System.Threading.Tasks;
-using System.Web.Hosting;
 using System.Web.Routing;
-using System.Globalization;
 
 namespace QUANGHANH2.Controllers.CDVT.Vattu
 {
     public class DanhsachvattuController : Controller
     {
-        public class EquipTempSearch
-        {
-            public string equipmentId { get; set; }
-        }
-
-        [HttpPost]
-        public ActionResult ChangeID(string id, string ck)
-        {
-            string sql = "";
-            if (ck.Equals("0"))
-            {
-                sql = @"select s.supply_id as 'equipmentId'
-                        from Supply s
-                        where s.supply_id like @id";
-            }
-            else if (ck.Equals("1"))
-            {
-                sql = @"select s.supply_name as 'equipmentId'
-                        from Supply s
-                        where s.supply_name like @id";
-            }
-            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-            List<EquipTempSearch> list = db.Database.SqlQuery<EquipTempSearch>(sql, new SqlParameter("id", "%" + id + "%")).Take(10).ToList();
-            return Json(new { success = true, id = list }, JsonRequestBehavior.AllowGet);
-        }
+        readonly QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
         [Auther(RightID = "172")]
         [Route("phong-cdvt/danh-sach-vat-tu")]
@@ -62,17 +32,13 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
 
-            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
+            db.Configuration.LazyLoadingEnabled = false;
 
-            List<Supply> supplies = DBContext.Database.SqlQuery<Supply>("select * from Supply where supply_id like @supply_id and supply_name like @supply_name order by " + sortColumnName + " " + sortDirection + " OFFSET " + start + " ROWS FETCH NEXT " + length + " ROWS ONLY",
-                    new SqlParameter("supply_id", "%" + supply_id + "%"),
-                    new SqlParameter("supply_name", "%" + supply_name + "%")).ToList();
+            var supplies = db.Supplies.Where(x => x.supply_id.Contains(supply_id) && x.supply_name.Contains(supply_name)).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
 
-            int totalrows = DBContext.Supplies.Where(x => x.supply_id.Contains(supply_id) && x.supply_name.Contains(supply_name)).Count();
+            int totalrows = db.Supplies.Where(x => x.supply_id.Contains(supply_id) && x.supply_name.Contains(supply_name)).Count();
 
-            int totalrowsafterfiltering = totalrows;
-
-            return Json(new { success = true, data = supplies, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, data = supplies, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows });
         }
 
         [Auther(RightID = "173")]
@@ -80,33 +46,31 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
         [HttpPost]
         public ActionResult Add(string supply_id, string supply_name, string unit)
         {
-            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
-            Supply s = DBContext.Supplies.Find(supply_id);
-            if (supply_id.Trim()=="")
+            Supply s = db.Supplies.Find(supply_id);
+            if (supply_id.Trim() == "")
             {
                 return Json(new { success = false, message = "Không được để trống trường Mã vật tư" }, JsonRequestBehavior.AllowGet);
             }
-            else
-             if (supply_name.Trim() == "")
+            else if (supply_name.Trim() == "")
             {
                 return Json(new { success = false, message = "Không được để trống trường Tên vật tư" }, JsonRequestBehavior.AllowGet);
             }
-            else
-              if (unit.Trim() == "")
+            else if (unit.Trim() == "")
             {
                 return Json(new { success = false, message = "Không được để trống trường Đơn vị" }, JsonRequestBehavior.AllowGet);
             }
-            else
-            if (s != null)
-                return Json(new { success = false, message = "Vật tư đã tồn tại"}, JsonRequestBehavior.AllowGet);
+            else if (s != null)
+                return Json(new { success = false, message = "Vật tư đã tồn tại" }, JsonRequestBehavior.AllowGet);
             else
             {
-                s = new Supply();
-                s.supply_id = supply_id;
-                s.supply_name = supply_name;
-                s.unit = unit;
-                DBContext.Supplies.Add(s);
-                DBContext.SaveChanges();
+                s = new Supply
+                {
+                    supply_id = supply_id,
+                    supply_name = supply_name,
+                    unit = unit
+                };
+                db.Supplies.Add(s);
+                db.SaveChanges();
                 return Json(new { success = true, message = "Tạo loại vật tư thành công" }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -116,12 +80,13 @@ namespace QUANGHANH2.Controllers.CDVT.Vattu
         [HttpPost]
         public ActionResult Delete(string supply_id)
         {
-            QuangHanhManufacturingEntities DBContext = new QuangHanhManufacturingEntities();
-            Supply s = DBContext.Supplies.Find(supply_id);
+            Supply s = db.Supplies.Find(supply_id);
+            if (s == null)
+                return Json(new { success = false, message = "Vật tư không tồn tại" });
             try
             {
-                DBContext.Supplies.Remove(DBContext.Supplies.Find(supply_id));
-                DBContext.SaveChanges();
+                db.Supplies.Remove(s);
+                db.SaveChanges();
                 return Json(new { success = true, message = "Xóa vật tư thành công" });
             }
             catch (Exception)

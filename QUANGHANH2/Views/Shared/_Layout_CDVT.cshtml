@@ -357,12 +357,6 @@
                                                     <a href="/phong-cdvt/camera/cap-nhat"><i class="material-icons">adjust</i><span class="hide-menu">Cập nhật theo ca</span></a>
                                                 </li>
                                             }
-                                            @if (rights.Contains("205"))
-                                            {
-                                                <li>
-                                                    <a href="/phong-cdvt/camera/quyet-dinh/sua-chua"><i class="material-icons">adjust</i><span class="hide-menu">Quyết định sửa chữa</span></a>
-                                                </li>
-                                            }
                                             @if (rights.Contains("207"))
                                             {
                                                 <li>
@@ -391,24 +385,20 @@
                                     <a href="/phong-cdvt/su-co" class="collapsible-header"><i class="small material-icons">build</i><span class="hide-menu">Sự cố</span></a>
                                 </li>
                             }
-                            if (rights.Contains("23"))
-                            {
-                                <li>
-                                    <a href="/phong-cdvt/cap-nhat/quyet-dinh" class="collapsible-header"><i class="material-icons">autorenew</i><span class="hide-menu">Xử lý quyết định</span></a>
-                                </li>
-                            }
                             if (rights.Contains("24"))
                             {
                                 <li>
                                     <a href="/phong-cdvt/kiem-dinh" class="collapsible-header"><i class="material-icons">assignment_turned_in</i><span class="hide-menu">Kiểm định</span></a>
                                 </li>
                             }
-                            if (rights.Contains("25") && rights.Contains("26"))
+                            if (rights.Contains("30") || rights.Contains("23") || rights.Contains("25") || rights.Contains("26") || rights.Contains("205"))
                             {
                                 <li>
-                                    <a href="javascript: void(0);" class="collapsible-header has-arrow"><i class="material-icons">event_available</i><span class="hide-menu">Nghiệm thu</span></a>
+                                    <a href="javascript: void(0);" class="collapsible-header has-arrow"><i class="small material-icons">format_list_bulleted</i><span class="hide-menu">Quyết định</span></a>
                                     <div class="collapsible-body">
                                         <ul>
+                                            <li><a href="/phong-cdvt/quyet-dinh"><i class=" material-icons">adjust</i><span class="hide-menu">Lập quyết định</span></a></li>
+                                            <li><a href="/phong-cdvt/cap-nhat/quyet-dinh"><i class=" material-icons">adjust</i><span class="hide-menu">Xử lý quyết định</span></a></li>
                                             <li><a href="/phong-cdvt/nghiem-thu"><i class="material-icons">adjust</i><span class="hide-menu">Chưa nghiệm thu</span></a></li>
                                             <li><a href="/phong-cdvt/da-nghiem-thu"><i class="material-icons">adjust</i><span class="hide-menu">Đã nghiệm thu</span></a></li>
                                         </ul>
@@ -437,23 +427,6 @@
                                     </div>
                                 </li>
                             }
-                            if (rights.Contains("30"))
-                            {
-                                <li>
-                                    <a href="javascript: void(0);" class="collapsible-header has-arrow"><i class="small material-icons">format_list_bulleted</i><span class="hide-menu">Quyết định</span></a>
-                                    <div class="collapsible-body">
-                                        <ul>
-                                            <li><a href="/phong-cdvt/quyet-dinh/sua-chua"><i class=" material-icons">adjust</i><span class="hide-menu">Sửa chữa</span></a></li>
-                                            <li><a href="/phong-cdvt/quyet-dinh/bao-duong"><i class=" material-icons">adjust</i><span class="hide-menu">Bảo dưỡng</span></a></li>
-                                            <li><a href="/phong-cdvt/quyet-dinh/dieu-dong"><i class=" material-icons">adjust</i><span class="hide-menu">Điều động</span></a></li>
-                                            <li><a href="/phong-cdvt/quyet-dinh/thu-hoi"><i class=" material-icons">adjust</i><span class="hide-menu">Thu hồi</span></a></li>
-                                            <li><a href="/phong-cdvt/quyet-dinh/thanh-ly"><i class=" material-icons">adjust</i><span class="hide-menu">Thanh lý</span></a></li>
-                                            <li><a href="/phong-cdvt/quyet-dinh/trung-dai-tu"><i class=" material-icons">adjust</i><span class="hide-menu">Trung đại tu</span></a></li>
-                                            <li><a href="/phong-cdvt/quyet-dinh/dieu-chinh"><i class=" material-icons">adjust</i><span class="hide-menu">Điều chỉnh</span></a></li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            }
                             if (rights.Contains("43"))
                             {
                                 <li>
@@ -468,15 +441,15 @@
                                 </li>
                             }
                             @*if (rights.Contains("192"))
-                            {
-                                <li>
-                                    <a href="/phong-dieu-khien" class="collapsible-header">
-                                        <i class="material-icons">home</i><span class="hide-menu">
-                                            Báo cáo sản xuất hàng ngày của Công ty
-                                        </span>
-                                    </a>
-                                </li>
-                            }*@
+            {
+                <li>
+                    <a href="/phong-dieu-khien" class="collapsible-header">
+                        <i class="material-icons">home</i><span class="hide-menu">
+                            Báo cáo sản xuất hàng ngày của Công ty
+                        </span>
+                    </a>
+                </li>
+            }*@
                             if (Session["Position"].ToString().Equals("Trưởng phòng"))
                             {
                                 //set cứng báo cáo bên giám đốc cho các trường phòng

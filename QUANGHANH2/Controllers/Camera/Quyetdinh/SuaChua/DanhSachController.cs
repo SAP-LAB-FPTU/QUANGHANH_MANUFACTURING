@@ -18,16 +18,11 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
     {
 
         [Auther(RightID = "193")]
-        [Route("phong-cdvt/camera/quyet-dinh/sua-chua")]
+        [Route("phong-cdvt/quyet-dinh")]
         public ActionResult Index()
         {
             ViewBag.count = 1;
             return View("/Views/Camera/Quyetdinh/SuaChua/DanhSach.cshtml");
-        }
-
-        public class CamDocument : Documentary
-        {
-            public int count { get; set; }
         }
 
         [Route("camera/quyet-dinh-sua-chua")]
@@ -40,7 +35,6 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
             string searchValue = Request["search[value]"];
             string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
             string sortDirection = Request["order[0][dir]"];
-            List<CamDocument> documentaryList = new List<CamDocument>();
 
             DateTime dtStart_0 = new DateTime();
             DateTime dtStart_1 = new DateTime();
@@ -59,31 +53,26 @@ namespace QUANGHANH2.Controllers.Camera.Quyetdinh.SuaChua
 
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
-            documentaryList = (from document in db.Documentaries
-                               where document.documentary_type == 8 
-                               && (document.documentary_code == null || document.documentary_code == "") 
+            var documentaryList = (from document in db.Documentaries join type in db.DocumentaryTypes on document.documentary_type equals type.documentary_type
+                               where (document.documentary_code == null || document.documentary_code == "") 
                                && document.person_created.Contains(person_created)
                                && (string.IsNullOrEmpty(dateStart) || (document.date_created >= dtStart_0 && document.date_created < dtStart_1))
-                               join cam in db.CameraRepairDetails on document.documentary_id equals cam.documentary_id
-                               into temporary
-                               select new CamDocument
+                               select new
                                {
-                                   documentary_id = document.documentary_id,
-                                   documentary_code = document.documentary_code,
-                                   date_created = document.date_created,
-                                   person_created = document.person_created,
-                                   reason = document.reason,
-                                   out_income = document.out_income,
-                                   count = temporary.Select(x => x.broken_camera_quantity).Sum()
+                                   document.documentary_id,
+                                   document.documentary_code,
+                                   document.date_created,
+                                   document.person_created,
+                                   document.reason,
+                                   document.out_income,
+                                   document.documentary_type,
+                                   type.documentary_name
                                }).OrderBy(sortColumnName + " " + sortDirection).Skip(start).Take(length).ToList();
 
             int totalrows = (from document in db.Documentaries
-                             where document.documentary_type == 8
-                             && (document.documentary_code == null || document.documentary_code == "")
+                             where (document.documentary_code == null || document.documentary_code == "")
                              && document.person_created.Contains(person_created)
                              && (string.IsNullOrEmpty(dateStart) || (document.date_created >= dtStart_0 && document.date_created < dtStart_1))
-                             join cam in db.CameraRepairDetails on document.documentary_id equals cam.documentary_id
-                             into temporary
                              select document).Count();
             return Json(new { success = true, data = documentaryList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrows }, JsonRequestBehavior.AllowGet);
         }
