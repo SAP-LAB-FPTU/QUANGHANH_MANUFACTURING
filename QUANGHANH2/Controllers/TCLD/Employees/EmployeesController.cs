@@ -667,7 +667,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     var emp = new Employee();
                     if (result[0].decision_number.Equals(""))
                     {
-                        qd.decision_id = 0;
+                        qd.number = "";
                         foreach (var item in result)
                         {
                             emp = db.Employees.Where(x => x.employee_id == item.employee_id).FirstOrDefault();
@@ -676,7 +676,7 @@ namespace QUANGHANH2.Controllers.TCLD
                     }
                     else
                     {
-                        qd.decision_id = Convert.ToInt32(result[0].decision_number);
+                        qd.number = result[0].decision_number + "";
                         foreach (var item in result)
                         {
                             emp = db.Employees.Where(x => x.employee_id == item.employee_id).FirstOrDefault();
