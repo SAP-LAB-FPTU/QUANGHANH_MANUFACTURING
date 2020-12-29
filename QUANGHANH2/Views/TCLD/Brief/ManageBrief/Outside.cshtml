@@ -181,7 +181,7 @@
         }
 
     $('#exportExcel').click(function () {
-        $('#pre-load').show();
+        $('#pre-load').show(); 
         $.ajax({
             type: 'POST',
             url: '@Url.Action("OutsideExportToExcel", "Brief")',
@@ -196,37 +196,6 @@
             }
         });
     });
-
-    //$('#exportExcel').click(function (e) {
-    //    $("#pre-load").show("slow", function () {
-    //  				   });
-    //  				  $("#pre-load").css("z-index", "99999");
-    //    e.preventDefault();
-    //    exportExcel();
-    //});
-    //function exportExcel() {
-
-
-    //    $.ajax({
-    //        type: 'POST',
-    //        url: '/Brief/ExportExcel',
-    //        dataType: 'json',
-    //        success: function (response) {
-    //           if (response.success) {
-    //    //Tải file excel về theo như location được gửi về từ controller
-    //    window.location.href = response.location;
-    //    $("#pre-load").hide("slow", function () {
-    //        });
-    //        } else {
-    //        alert("error");
-    //        }
-
-    //        }
-    //    });
-
-    //}
-
-
     </script>
 
 }
