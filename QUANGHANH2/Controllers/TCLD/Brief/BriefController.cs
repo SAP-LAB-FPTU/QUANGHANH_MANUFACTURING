@@ -17,6 +17,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Script.Serialization;
 using System.Data.SqlClient;
+using QUANGHANH2.EntityResult;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,6 +28,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         // GET: /<controller>/
 
         public static string id_ = "";
+
         [Auther(RightID = "129")]
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty")]
         [HttpGet]
@@ -34,7 +36,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
         {
             QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
 
-            List<Custom_Employee> employee_list = db.Database.SqlQuery<Custom_Employee>("select employee_id,BASIC_INFO_full_name as employee_name from HumanResources.Employee where current_status_id != 2").ToList();
+            List<GetCustom_Employee_Result> employee_list = db.Database.SqlQuery<GetCustom_Employee_Result>("select employee_id,BASIC_INFO_full_name as employee_name from HumanResources.Employee where current_status_id != 2").ToList();
 
             List<SelectListItem> type_papers = new List<SelectListItem>
             {
@@ -53,18 +55,14 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
             return View("/Views/TCLD/Brief/ManageBrief/Inside.cshtml");
         }
-        /// /////////////////////////Long/////////////////////////////////////////////
 
-        [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to")]
-        IEnumerable<Employee> getAllNhanVien()
+        [Auther(RightID = "132")]
+        [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty")]
+        public ActionResult Outside()
         {
-            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-            {
-                return db.Employees.ToList<Employee>();
-            }
+            return View("/Views/TCLD/Brief/ManageBrief/Outside.cshtml");
         }
 
-        //Sửa giấy tờ
         [Route("phong-tcld/quan-ly-ho-so/ho-so-trong-cong-ty/giay-to/sua")]
         [Auther(RightID = "147")]
         [HttpPost]
@@ -103,7 +101,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     inner join HumanResources.PapersStorageType pst 
                     on pst.papers_storage_type_id = rp.papers_storage_type_id where e.current_status_id != 2 
                     and rp.records_papers_id = @records_papers_id";
-                Relevant_Paper rp = db.Database.SqlQuery<Relevant_Paper>(query, new SqlParameter("records_papers_id", records_papers_id)).First();
+                GetRelevant_Paper_Result rp = db.Database.SqlQuery<GetRelevant_Paper_Result>(query, new SqlParameter("records_papers_id", records_papers_id)).First();
                 return Json(rp);
             }
             catch (Exception e)
@@ -225,7 +223,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
 
 
-            List<Relevant_Paper> searchList = db.Database.SqlQuery<Relevant_Paper>(query,
+            List<GetRelevant_Paper_Result> searchList = db.Database.SqlQuery<GetRelevant_Paper_Result>(query,
                 new SqlParameter("employee_id", '%' + employee_id + '%'),
                 new SqlParameter("employee_name", '%' + employee_name + '%'),
                 new SqlParameter("paper_name", '%' + paper_name + '%'),
@@ -235,9 +233,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
             int totalrows = searchList.Count;
             int totalrowsafterfiltering = searchList.Count;
             //sorting
-            searchList = searchList.OrderBy(sortColumnName + " " + sortDirection).ToList<Relevant_Paper>();
+            searchList = searchList.OrderBy(sortColumnName + " " + sortDirection).ToList<GetRelevant_Paper_Result>();
             //paging
-            searchList = searchList.Skip(start).Take(length).ToList<Relevant_Paper>();
+            searchList = searchList.Skip(start).Take(length).ToList<GetRelevant_Paper_Result>();
 
             return Json(new { data = searchList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
@@ -278,7 +276,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 }
 
                 query += "order by e.employee_id ";
-                List<Record_Employee> listRecords = db.Database.SqlQuery<Record_Employee>(query,
+                List<GetRecord_Employee_Result> listRecords = db.Database.SqlQuery<GetRecord_Employee_Result>(query,
                     new SqlParameter("employee_id", '%' + employee_id + '%'),
                     new SqlParameter("employee_name", '%' + employee_name + '%'),
                     new SqlParameter("delivery_employee_name", '%' + delivery_employee_name + '%'),
@@ -288,9 +286,9 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 int totalrows = listRecords.Count;
                 int totalrowsafterfiltering = listRecords.Count;
-                listRecords = listRecords.OrderBy(sortColumnName + " " + sortDirection).ToList<Record_Employee>();
+                listRecords = listRecords.OrderBy(sortColumnName + " " + sortDirection).ToList<GetRecord_Employee_Result>();
                 //paging
-                listRecords = listRecords.Skip(start).Take(length).ToList<Record_Employee>();
+                listRecords = listRecords.Skip(start).Take(length).ToList<GetRecord_Employee_Result>();
                 var dataJson = Json(new { success = true, data = listRecords, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
                 //string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
@@ -360,16 +358,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     inner join HumanResources.Decision d2 on d2.decision_id = tb2.decision_id
                     where e.employee_id = @employee_id ";
 
-            List<Record_Detail> recordList = db.Database.SqlQuery<Record_Detail>(query,
+            List<GetRecord_Detail_Result> recordList = db.Database.SqlQuery<GetRecord_Detail_Result>(query,
                 new SqlParameter("employee_id", id_)
                 ).ToList();
 
             int totalrows = recordList.Count;
             int totalrowsafterfiltering = recordList.Count;
             //sorting
-            recordList = recordList.OrderBy(sortColumnName + " " + sortDirection).ToList<Record_Detail>();
+            recordList = recordList.OrderBy(sortColumnName + " " + sortDirection).ToList<GetRecord_Detail_Result>();
             //paging
-            recordList = recordList.Skip(start).Take(length).ToList<Record_Detail>();
+            recordList = recordList.Skip(start).Take(length).ToList<GetRecord_Detail_Result>();
 
             return Json(new { data = recordList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
@@ -392,7 +390,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                     from HumanResources.Employee e
                     where e.employee_id = @employee_id ";
 
-                Basic_Info_Employee em = db.Database.SqlQuery<Basic_Info_Employee>(query,
+                GetBasic_Info_Employee_Result em = db.Database.SqlQuery<GetBasic_Info_Employee_Result>(query,
                     new SqlParameter("employee_id", id_)).First();
 
                 //Basic_Info_Employee em = db.Database.SqlQuery<Basic_Info_Employee>(query).FirstOrDefault();
@@ -542,16 +540,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 pst.papers_storage_type_id = rp.papers_storage_type_id
                 where r.employee_id = @employee_id ";
 
-            List<Relevant_Paper> recordList = db.Database.SqlQuery<Relevant_Paper>(query,
+            List<GetRelevant_Paper_Result> recordList = db.Database.SqlQuery<GetRelevant_Paper_Result>(query,
                 new SqlParameter("employee_id", id_)
                 ).ToList();
 
             int totalrows = recordList.Count;
             int totalrowsafterfiltering = recordList.Count;
             //sorting
-            recordList = recordList.OrderBy(sortColumnName + " " + sortDirection).ToList<Relevant_Paper>();
+            recordList = recordList.OrderBy(sortColumnName + " " + sortDirection).ToList<GetRelevant_Paper_Result>();
             //paging
-            recordList = recordList.Skip(start).Take(length).ToList<Relevant_Paper>();
+            recordList = recordList.Skip(start).Take(length).ToList<GetRelevant_Paper_Result>();
             return Json(new { data = recordList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
         }
@@ -587,16 +585,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 left join HumanResources.PapersType pt on pt.papers_type_id = p.papers_type_id
                 where r.employee_id = @employee_id";
 
-            List<Paper_Detail> paperList = db.Database.SqlQuery<Paper_Detail>(query,
+            List<GetPaper_Detail_Result> paperList = db.Database.SqlQuery<GetPaper_Detail_Result>(query,
                 new SqlParameter("employee_id", id_)
                 ).ToList();
 
             int totalrows = paperList.Count;
             int totalrowsafterfiltering = paperList.Count;
             //sorting
-            paperList = paperList.OrderBy(sortColumnName + " " + sortDirection).ToList<Paper_Detail>();
+            paperList = paperList.OrderBy(sortColumnName + " " + sortDirection).ToList<GetPaper_Detail_Result>();
             //paging
-            paperList = paperList.Skip(start).Take(length).ToList<Paper_Detail>();
+            paperList = paperList.Skip(start).Take(length).ToList<GetPaper_Detail_Result>();
             return Json(new { data = paperList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
@@ -625,29 +623,18 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 fr.family_relationship_id = f.family_relationship_id
                 where f.employee_id = @employee_id ";
 
-            List<Family_Detail> familyList = db.Database.SqlQuery<Family_Detail>(query,
+            List<GetFamily_Detail_Result> familyList = db.Database.SqlQuery<GetFamily_Detail_Result>(query,
                 new SqlParameter("employee_id", id_)
                 ).ToList();
 
             int totalrows = familyList.Count;
             int totalrowsafterfiltering = familyList.Count;
             //sorting
-            familyList = familyList.OrderBy(sortColumnName + " " + sortDirection).ToList<Family_Detail>();
+            familyList = familyList.OrderBy(sortColumnName + " " + sortDirection).ToList<GetFamily_Detail_Result>();
             //paging
-            familyList = familyList.Skip(start).Take(length).ToList<Family_Detail>();
+            familyList = familyList.Skip(start).Take(length).ToList<GetFamily_Detail_Result>();
             return Json(new { data = familyList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
-        }
-
-        [HttpGet]
-        public ActionResult EditQuanHeGiaDinh()
-        {
-            using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
-            {
-
-                Family qh = db.Families.Where(x => x.employee_id == id_).FirstOrDefault<Family>();
-                return View(qh);
-            }
         }
 
         [Route("phong-tcld/quan-ly-ho-so/detail")]
@@ -693,16 +680,6 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
         }
 
-        [Auther(RightID = "132")]
-        [Route("phong-tcld/quan-ly-ho-so/ho-so-ngoai-cong-ty")]
-
-
-        public ActionResult Outside()
-        {
-
-            return View("/Views/TCLD/Brief/ManageBrief/Outside.cshtml");
-
-        }
         [HttpPost]
         public ActionResult GetOutsideRecord(string employee_id, string employee_name, string termination_name)
         {
@@ -751,7 +728,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
 
                 query += "order by e.employee_id ";
 
-                List<Outside_Record> outside_Records = db.Database.SqlQuery<Outside_Record>(query,
+                List<GetOutside_Record_Result> outside_Records = db.Database.SqlQuery<GetOutside_Record_Result>(query,
                     new SqlParameter("employee_id", employee_id),
                     new SqlParameter("employee_name", '%' + employee_name + '%'),
                     new SqlParameter("termination_name", '%' + termination_name + '%')).ToList();
@@ -761,7 +738,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 int totalrowsafterfiltering = outside_Records.Count;
                 //outside_Records = outside_Records.OrderBy(sortColumnName + " " + sortDirection).ToList<Outside_Record>();
                 //paging
-                outside_Records = outside_Records.Skip(start).Take(length).ToList<Outside_Record>();
+                outside_Records = outside_Records.Skip(start).Take(length).ToList<GetOutside_Record_Result>();
                 var dataJson = Json(new { success = true, data = outside_Records, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
                 //string dataSerialize = new JavaScriptSerializer().Serialize(dataJson.Data);
@@ -804,7 +781,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 inner join HumanResources.Records r on r.employee_id = e.employee_id
                 where e.employee_id = @employee_id ";
 
-            Basic_Info_Employee obj = db.Database.SqlQuery<Basic_Info_Employee>(query,
+            GetBasic_Info_Employee_Result obj = db.Database.SqlQuery<GetBasic_Info_Employee_Result>(query,
                     new SqlParameter("employee_id", id_)).First();
             return Json(obj);
 
@@ -833,7 +810,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 where t.employee_id = @employee_id
                 order by d.date desc ";
 
-            Outside_Termination obj = db.Database.SqlQuery<Outside_Termination>(query,
+            GetOutside_Termination_Result obj = db.Database.SqlQuery<GetOutside_Termination_Result>(query,
                     new SqlParameter("employee_id", id_)).First();
             return Json(obj);
         }
@@ -859,7 +836,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 inner join HumanResources.Records rs on rs.records_id = r.records_id
                 where rs.employee_id = @employee_id ";
 
-            Outside_Authorization obj = db.Database.SqlQuery<Outside_Authorization>(query,
+            GetOutside_Authorization_Result obj = db.Database.SqlQuery<GetOutside_Authorization_Result>(query,
                     new SqlParameter("employee_id", id_)).First();
             return Json(obj);
         }
@@ -888,17 +865,12 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 r.records_id = rp.records_id
                 where r.employee_id = @employee_id ";
 
-            List<Outside_Paper> list = db.Database.SqlQuery<Outside_Paper>(query,
+            List<GetOutside_Paper_Result> list = db.Database.SqlQuery<GetOutside_Paper_Result>(query,
                 new SqlParameter("employee_id", id_)
                 ).ToList();
 
             int totalrows = list.Count;
             int totalrowsafterfiltering = list.Count;
-            //sorting
-            //list = list.OrderBy(sortColumnName + " " + sortDirection).ToList<Outside_Paper>();
-            //paging
-            //list = list.Skip(start).Take(length).ToList<Outside_Paper>();
-
             return Json(new { data = list, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
 
         }
@@ -1091,7 +1063,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 r.records_id = rp.records_id
                 where rp.records_papers_id = @records_papers_id ";
 
-            Outside_Paper p = db.Database.SqlQuery<Outside_Paper>(query, new SqlParameter("records_papers_id", records_papers_id)).First();
+            GetOutside_Paper_Result p = db.Database.SqlQuery<GetOutside_Paper_Result>(query, new SqlParameter("records_papers_id", records_papers_id)).First();
             return Json(p);
         }
 
@@ -1163,16 +1135,16 @@ namespace QUANGHANHCORE.Controllers.TCLD
                 inner join HumanResources.Records r on r.records_id = rp.records_id
                 where r.employee_id = @employee_id ";
 
-            List<Certi_Detail> CertiList = db.Database.SqlQuery<Certi_Detail>(query,
+            List<GetCerti_Detail_Result> CertiList = db.Database.SqlQuery<GetCerti_Detail_Result>(query,
                 new SqlParameter("employee_id", id_)
                 ).ToList();
 
             int totalrows = CertiList.Count;
             int totalrowsafterfiltering = CertiList.Count;
             //sorting
-            CertiList = CertiList.OrderBy(sortColumnName + " " + sortDirection).ToList<Certi_Detail>();
+            CertiList = CertiList.OrderBy(sortColumnName + " " + sortDirection).ToList<GetCerti_Detail_Result>();
             //paging
-            CertiList = CertiList.Skip(start).Take(length).ToList<Certi_Detail>();
+            CertiList = CertiList.Skip(start).Take(length).ToList<GetCerti_Detail_Result>();
             return Json(new { data = CertiList, draw = Request["draw"], recordsTotal = totalrows, recordsFiltered = totalrowsafterfiltering }, JsonRequestBehavior.AllowGet);
         }
 
@@ -1286,7 +1258,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             on p1.employee_id = p6.employee_id
                             ";
 
-                        List<Inside_Excel> dic = db.Database.SqlQuery<Inside_Excel>(query).ToList();
+                        List<GetInside_Excel_Result> dic = db.Database.SqlQuery<GetInside_Excel_Result>(query).ToList();
 
                         int rowStart = 3;
                         foreach (var l in dic)
@@ -1427,7 +1399,7 @@ namespace QUANGHANHCORE.Controllers.TCLD
                             on p1.employee_id = p5.employee_id
                             ";
 
-                        List<Outside_Excel> dic = db.Database.SqlQuery<Outside_Excel>(query).ToList();
+                        List<GetOutside_Excel_Result> dic = db.Database.SqlQuery<GetOutside_Excel_Result>(query).ToList();
 
                         int rowStart = 3;
                         foreach (var l in dic)
@@ -1467,202 +1439,5 @@ namespace QUANGHANHCORE.Controllers.TCLD
             }
 
         }
-
-        public class Relevant_Paper
-        {
-            public string employee_id { get; set; }
-
-            public string employee_name { get; set; }
-
-            public string paper_name { get; set; }
-            public string paper_id { get; set; }
-            public string type_name { get; set; }
-            public string papers_type_id { get; set; }
-            public string papers_storage_type_id { get; set; }
-            public int records_papers_id { get; set; }
-        }
-
-        public class Certi_Detail
-        {
-            public DateTime? given_date { get; set; }
-            public string type_name { get; set; }
-            public string paper_name { get; set; }
-            public string papers_number { get; set; }
-        }
-
-        public class Custom_Employee
-        {
-            public string employee_id { get; set; }
-
-            public string employee_name { get; set; }
-        }
-
-        public class Family_Detail
-        {
-            public string full_name { get; set; }
-            public string background { get; set; }
-            public string type_family { get; set; }
-            public DateTime? date_of_birth { get; set; }
-            public string relationship { get; set; }
-        }
-
-        public class Basic_Info_Employee
-        {
-            public string employee_id { get; set; }
-            public string full_name { get; set; }
-            public DateTime? date_of_birth { get; set; }
-            public string identity_card { get; set; }
-            public string social_insurance_number { get; set; }
-            public string phone_number { get; set; }
-            public string home_town { get; set; }
-            public string current_residence { get; set; }
-            public string academic_level { get; set; }
-            public string department_name { get; set; }
-        }
-
-        public class Outside_Termination
-        {
-            public int decision_id { get; set; }
-            public string decision_number { get; set; }
-            public string termination_name { get; set; }
-            public DateTime? decision_date { get; set; }
-            public DateTime? terminate_date { get; set; }
-        }
-
-        public class Outside_Authorization
-        {
-            public string full_name { get; set; }
-            public string identity_card_number { get; set; }
-            public string phone_number { get; set; }
-            public string family_relationship_name { get; set; }
-        }
-
-        public class Outside_Paper
-        {
-            public int records_papers_id { get; set; }
-            public int papers_id { get; set; }
-            public string papers_number { get; set; }
-            public string paper_name { get; set; }
-            public string type_name { get; set; }
-            public DateTime? received_date { get; set; }
-            public DateTime? given_date { get; set; }
-        }
-
-        public class Record_Employee
-        {
-            public string employee_id { get; set; }
-            public string employee_name { get; set; }
-            public int records_id { get; set; }
-            public DateTime? date_of_birth { get; set; }
-            public DateTime? received_date { get; set; }
-            public string delivery_employee_name { get; set; }
-            public string handover_employee_name { get; set; }
-            public string management_employee_name { get; set; }
-        }
-
-        public class Record_Detail
-        {
-            public int records_id { get; set; }
-            public string employee_id { get; set; }
-            public DateTime? received_date { get; set; }
-            public string delivery_employee_name { get; set; }
-            public string handover_employee_name { get; set; }
-            public string management_employee_name { get; set; }
-            public DateTime? recruitment_date { get; set; }
-            public DateTime? recruitment_decision_date { get; set; }
-            public string department_name { get; set; }
-            public string termination_type { get; set; }
-            public string recruitment_type { get; set; }
-            public DateTime? termination_date { get; set; }
-            public DateTime? termination_decision_date { get; set; }
-        }
-
-        public class Paper_Detail
-        {
-            public int records_papers_id { get; set; }
-            public string school_name { get; set; }
-            public string spe_name { get; set; }
-            public string career_name { get; set; }
-            public string papers_number { get; set; }
-            public string papers_name { get; set; }
-            public string duration { get; set; }
-            public DateTime? given_date { get; set; }
-            public string paper_storage_name { get; set; }
-            public string type_name { get; set; }
-        }
-
-        public class Outside_Record
-        {
-            public string employee_id { get; set; }
-            public string full_name { get; set; }
-            public string department_name { get; set; }
-            public string phone_number { get; set; }
-            public string current_residence { get; set; }
-            public string social_insurance_number { get; set; }
-            public string termination_name { get; set; }
-        }
-
-        public class Inside_Excel 
-        {
-            public string employee_id { get; set; }
-            public string full_name { get; set; }
-            public Nullable<System.DateTime> date_of_birth { get; set; }
-            public string social_insurance_number { get; set; }
-            public string identity_card { get; set; }
-            public string phone_number { get; set; }
-            public string home_town { get; set; }
-            public string current_residence { get; set; }
-            public string academic_level { get; set; }
-            public Nullable<System.DateTime>  received_date { get; set; }
-            public string delivery_employee_name { get; set; }
-            public string management_employee_name { get; set; }
-            public string handover_employee_name { get; set; }
-            public Nullable<System.DateTime> recruitment_date { get; set; }
-            public Nullable<System.DateTime> recruitment_decision_date { get; set; }
-            public string department_name { get; set; }
-            public Nullable<System.DateTime> terminate_date { get; set; }
-            public string termination_type { get; set; }
-            public Nullable<System.DateTime> termination_decision_date { get; set; }
-            public string paper_name { get; set; }
-            public string type_name { get; set; }
-            public string school_name { get; set; }
-            public string spe_name { get; set; }
-            public string career_name { get; set; }
-            public string papers_number { get; set; }
-            public string duration { get; set; }
-            public Nullable<System.DateTime> given_date { get; set; }
-            public string fa_full_name { get; set; }
-            public Nullable<System.DateTime> fa_date_of_birth { get; set; }
-            public string background { get; set; }
-            public string type_family { get; set; }
-            public string relationship { get; set; }
-        }
-
-        public class Outside_Excel
-        {
-            public string employee_id { get; set; }
-            public string BASIC_INFO_full_name { get; set; }
-            public Nullable<System.DateTime> date_of_birth { get; set; }
-            public string department_name { get; set; }
-            public string BASIC_INFO_phone_number { get; set; }
-            public string BASIC_INFO_current_residence { get; set; }
-            public string BASIC_INFO_social_insurance_number { get; set; }
-            public string termination_name { get; set; }
-            public string decision_number { get; set; }
-            public Nullable<System.DateTime> decision_date { get; set; }
-            public Nullable<System.DateTime> terminate_date { get; set; }
-            public string au_full_name { get; set; }
-            public string au_identity_card_number { get; set; }
-            public string au_phone_number { get; set; }
-            public string family_relationship_name { get; set; }
-            public string papers_number { get; set; }
-            public string paper_name { get; set; }
-            public string type_name { get; set; }
-            public Nullable<System.DateTime> given_date { get; set; }
-            public Nullable<System.DateTime> received_date { get; set; }
-
-        }
     }
-
-
 }
