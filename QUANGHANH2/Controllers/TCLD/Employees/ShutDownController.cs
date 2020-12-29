@@ -383,14 +383,10 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
                 db.Configuration.LazyLoadingEnabled = false;
-                //int start = Convert.ToInt32(Request["start"]);
-                //int length = Convert.ToInt32(Request["length"]);
-                //string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][name]"];
-                //string sortDirection = Request["order[0][dir]"];
                 string query = @"HumanResources.GetShutDown_Notyet_List {0}, {1}";
                 List<GetShutDown_Notyet_List_Result> searchList =
                     db.Database.SqlQuery<GetShutDown_Notyet_List_Result>(query, 
-                    MaQuyetDinh, NgayChamDut.Equals("")? "":DateTime.ParseExact(NgayChamDut, "MM/dd/yyyy", null) + "" ).ToList();
+                    MaQuyetDinh, NgayChamDut.Equals("")? "":DateTime.ParseExact(NgayChamDut, "dd/MM/yyyy", null) + "" ).ToList();
 
                 int totalrows = searchList.Count;
                 int totalrowsafterfiltering = searchList.Count;
@@ -416,62 +412,62 @@ namespace QUANGHANH2.Controllers.TCLD
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        //[Auther(RightID = "125")]
-        //[Route("UpdateSoQD")]
-        //[HttpPost]
-        //public JsonResult UpdateSoQD(string id, string SoQD)
-        //{
-        //    QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
-        //    using (DbContextTransaction dbct = db.Database.BeginTransaction())
-        //    {
-        //        try
-        //        {
-        //            if (!SoQD.Equals(""))
-        //            {
-        //                string query = @"select * from QuyetDinh where SoQuyetDinh = @SoQD";
-        //                List<QuyetDinh> qdList = db.Database.SqlQuery<QuyetDinh>(query, new SqlParameter("SoQD", SoQD)).ToList();
+        [Auther(RightID = "125")]
+        [Route("UpdateSoQD")]
+        [HttpPost]
+        public JsonResult UpdateSoQD(string id, string SoQD)
+        {
+            QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities();
+            using (DbContextTransaction dbct = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (!SoQD.Equals(""))
+                    {
+                        string query = @"select * from QuyetDinh where SoQuyetDinh = @SoQD";
+                        List<Decision> qdList = db.Database.SqlQuery<Decision>(query, new SqlParameter("SoQD", SoQD)).ToList();
 
-        //                if (qdList.Count > 0)
-        //                {
-        //                    return Json(new { success = false, message = "Số quyết định trùng" }, JsonRequestBehavior.AllowGet);
-        //                }
-        //                else
-        //                {
-        //                    int MaQD = Convert.ToInt32(id);
-        //                    QuyetDinh qd = db.QuyetDinhs.Where(x => x.MaQuyetDinh == MaQD).FirstOrDefault();
-        //                    qd.SoQuyetDinh = SoQD;
-        //                    qd.NgayQuyetDinh = System.DateTime.Now.AddDays(2);
-        //                    db.Entry(qd).State = EntityState.Modified;
+                        if (qdList.Count > 0)
+                        {
+                            return Json(new { success = false, message = "Số quyết định trùng" }, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            int MaQD = Convert.ToInt32(id);
+                            Decision qd = db.Decisions.Where(x => x.decision_id == MaQD).FirstOrDefault();
+                            qd.number = SoQD;
+                            qd.date = System.DateTime.Now.AddDays(2);
+                            db.Entry(qd).State = EntityState.Modified;
 
-        //                    List<string> maNV = db.ChamDut_NhanVien.Where(x => x.MaQuyetDinh == qd.MaQuyetDinh).Select(x => x.MaNV).ToList();
-        //                    foreach (var item in maNV)
-        //                    {
-        //                        var Nv = db.NhanViens.Where(nv => nv.MaNV == item).FirstOrDefault();
-        //                        Nv.MaTrangThai = 2;
-        //                        db.Entry(Nv).State = EntityState.Modified;
-        //                    }
+                            List<string> maNV = db.Terminations.Where(x => x.decision_id == qd.decision_id).Select(x => x.MaNV).ToList();
+                            foreach (var item in maNV)
+                            {
+                                var Nv = db.Employees.Where(nv => nv.employee_id == item).FirstOrDefault();
+                                Nv.MaTrangThai = 2;
+                                db.Entry(Nv).State = EntityState.Modified;
+                            }
 
-        //                    db.SaveChanges();
-        //                    dbct.Commit();
-        //                }
-        //            }
-        //            else
-        //            {
-        //                return Json(new { success = false, message = "Chưa nhập số quyết định" }, JsonRequestBehavior.AllowGet);
-        //            }
-
-
-        //            return Json(new { success = true, message = "Thêm thành công" }, JsonRequestBehavior.AllowGet);
+                            db.SaveChanges();
+                            dbct.Commit();
+                        }
+                    }
+                    else
+                    {
+                        return Json(new { success = false, message = "Chưa nhập số quyết định" }, JsonRequestBehavior.AllowGet);
+                    }
 
 
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            dbct.Rollback();
-        //            return Json(new { success = false, message = "Có lỗi khi thêm" }, JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
-        //}
+                    return Json(new { success = true, message = "Thêm thành công" }, JsonRequestBehavior.AllowGet);
+
+
+                }
+                catch (Exception e)
+                {
+                    dbct.Rollback();
+                    return Json(new { success = false, message = "Có lỗi khi thêm" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
 
         //[HttpPost]
         //public ActionResult validateID(string id)
