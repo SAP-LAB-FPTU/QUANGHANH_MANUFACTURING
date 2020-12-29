@@ -28,12 +28,12 @@ namespace QUANGHANHCORE.Controllers.CDVT.History
             List<fuelDB> listEQ; List<Supply> listSupply;
             if (Session["departName"].ToString().Contains("Phân xưởng"))
             {
-                listEQ = db.Database.SqlQuery<fuelDB>("select equipmentId , equipment_name from Equipment where department_id = @department_id", new SqlParameter("department_id", department_id)).ToList();
+                listEQ = db.Database.SqlQuery<fuelDB>("select equipment_id , equipment_name from Equipment.Equipment where department_id = @department_id", new SqlParameter("department_id", department_id)).ToList();
                 listSupply = db.Supplies.ToList();
             }
             else
             {
-                listEQ = db.Database.SqlQuery<fuelDB>("select equipmentId , equipment_name from Equipment").ToList();
+                listEQ = db.Database.SqlQuery<fuelDB>("select equipment_id , equipment_name from Equipment.Equipment").ToList();
                 listSupply = db.Supplies.ToList();
             }
             ViewBag.listSupply = listSupply;
