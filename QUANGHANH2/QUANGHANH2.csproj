@@ -371,6 +371,7 @@
     <Compile Include="EntityResult\GetRepair_myRepair_Result.cs" />
     <Compile Include="EntityResult\GetRepair_mySupply_Result.cs" />
     <Compile Include="EntityResult\GetRepair_repairByYear_Result.cs" />
+    <Compile Include="EntityResult\GetShutDown_Did_List_Result.cs" />
     <Compile Include="EntityResult\GetShutDown_Notyet_List_Result.cs" />
     <Compile Include="EntityResult\Transfer_GetCurrentEmployeeInformation_Result.cs" />
     <Compile Include="EntityResult\GetAccompaniedEquipmentWithName_Result.cs" />

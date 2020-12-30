@@ -187,21 +187,24 @@
                     },
                     "columns": [
                         {
-                            "data": "SoQuyetDinh", "name": "SoQuyetDinh"
+                            "data": "number", "name": "number",
+                            "orderable": false
 
                         },
                         {
-                            "data": "NgayQuyetDinh", "name": "NgayQuyetDinh", "render": function (data) {
+                            "data": "date", "name": "date", "render": function (data) {
                                 return dateFormat(data);
-                            }
+                            },
+                            "orderable": false
                         },
                         {
-                            "data": "NgayChamDut", "name": "NgayChamDut", "render": function (data) {
+                            "data": "terminate_date", "name": "terminate_date", "render": function (data) {
                                 return dateFormat(data);
-                            }
+                            },
+                            "orderable": false
                         },
                         {
-                            "data": "MaQuyetDinh", "render": function (data) {
+                            "data": "decision_id", "render": function (data) {
                                 return "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' data-target='detail' onclick='detail(" + data + ")'><span class='ti-pencil-alt'>&nbsp;Chi tiết</span></a>&nbsp;" +
                                     "<a class='waves-effect waves-light btn blue darken-2 btn-small modal-trigger' onclick='addId(" + data + ")'  data-target='confirm' ><span class='ti-pencil-alt'>&nbsp;Xóa</span></a>";
 
@@ -232,7 +235,7 @@
                         info: "Đang hiện START đến END của TOTAL bản ghi",
                         infoEmpty: "Đang hiện 0 đến 0 của 0 bản ghi",
                     },
-                    "order": [0, "asc"],
+                    "order": false,
                     "bLengthChange": false,
                     "bFilter": false,
                     "bInfo": false,
@@ -265,11 +268,11 @@
                     $("#detail-table").empty();
                     for (i = 0; i < data.length; i++) {
                         $("#detail-table").append("<tr>");
-                        $("#detail-table").append("<td>" + data[i].SoQuyetDinh + "</td>");
-                        $("#detail-table").append("<td>" + data[i].MaNV + "</td>");
-                        $("#detail-table").append("<td>" + data[i].Ten + "</td>");
-                        $("#detail-table").append("<td>" + data[i].LoaiChamDut + "</td>");
-                        $("#detail-table").append("<td>" + dateFormat(data[i].NgayChamDut) + "</td>");
+                        $("#detail-table").append("<td>" + data[i].number + "</td>");
+                        $("#detail-table").append("<td>" + data[i].employee_id + "</td>");
+                        $("#detail-table").append("<td>" + data[i].BASIC_INFO_full_name + "</td>");
+                        $("#detail-table").append("<td>" + data[i].terminate_type + "</td>");
+                        $("#detail-table").append("<td>" + dateFormat(data[i].terminate_date) + "</td>");
                         $("#detail-table").append("</tr>");
                     }
                 })
