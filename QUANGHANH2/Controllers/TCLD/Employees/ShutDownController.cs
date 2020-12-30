@@ -222,8 +222,8 @@ namespace QUANGHANH2.Controllers.TCLD
                 int result;
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
-                    string sql = "select count(SoQuyetDinh) as sqd from QuyetDinh\n" +
-                    "where SoQuyetDinh = @SoQD ";
+                    string sql = @"select count(number) as sqd from HumanResources.Decision
+                                where number = @SoQD ";
                     result = db.Database.SqlQuery<int>(sql, new SqlParameter("SoQD", sqd)).ToList<int>()[0];
                 }
                 if (result != 0)
@@ -271,25 +271,20 @@ namespace QUANGHANH2.Controllers.TCLD
             {
                 try
                 {
-                    string query3 = "select cd.* from ChamDut_NhanVien cd inner join NhanVien nv on cd.MaNV = nv.MaNV inner join QuyetDinh q on q.MaQuyetDinh = cd.MaQuyetDinh where cd.MaQuyetDinh = @id";
-                    List<ChamDut_NhanVien> list = db.Database.SqlQuery<ChamDut_NhanVien>(query3, new SqlParameter("id", id)).ToList();
+                    List<Termination> list = db.Terminations.Where(x => x.decision_id + "" == id).ToList();
                     string listMaNV = "";
                     foreach (var MaNV in list)
                     {
-                        listMaNV += "'" + MaNV.MaNV + "'" + ",";
+                        listMaNV += "'" + MaNV.employee_id + "'" + ",";
                     }
                     listMaNV = listMaNV.Substring(0, listMaNV.Length - 1);
-                    string query4 = "update NhanVien set MaTrangThai = 1 where MaNV in(" + listMaNV + ")";
-                    db.Database.ExecuteSqlCommand(query4);
-
-                    string query1 = "delete from ChamDut_NhanVien where MaQuyetDinh = @id";
-                    db.Database.ExecuteSqlCommand(query1, new SqlParameter("id", id));
-                    string query2 = "delete from QuyetDinh where MaQuyetDinh = @id";
-                    db.Database.ExecuteSqlCommand(query2, new SqlParameter("id", id));
+                    string query = "update HumanResources.Employee set current_status_id = 1 where employee_id in(" + listMaNV + ") " +
+                        "delete from HumanResources.Termination where decision_id = @id " +
+                        "delete from HumanResources.Decision where decision_id = @id";
+                    db.Database.ExecuteSqlCommand(query, new SqlParameter("id", id));
                     db.SaveChanges();
                     dbct.Commit();
                     return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-
                 }
                 catch (Exception e)
                 {

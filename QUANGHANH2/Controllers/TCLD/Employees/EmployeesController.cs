@@ -675,15 +675,23 @@ namespace QUANGHANH2.Controllers.TCLD
                         }
                     }
                     else
-                    {
-                        qd.number = result[0].decision_number + "";
-                        foreach (var item in result)
+                    { string decision_number = result[0].decision_number + "";
+                        List<Decision> check_list = db.Decisions.Where(x => x.number.Equals(decision_number)).ToList();
+                        if (check_list.Count > 0)
                         {
-                            emp = db.Employees.Where(x => x.employee_id == item.employee_id).FirstOrDefault();
-                            emp.current_status_id = 2;
+                            return Json(new { success = false, message = "Số quyết định trùng" }, JsonRequestBehavior.AllowGet);
+                        }
+                        else
+                        {
+                            qd.number = decision_number;
+                            foreach (var item in result)
+                            {
+                                emp = db.Employees.Where(x => x.employee_id == item.employee_id).FirstOrDefault();
+                                emp.current_status_id = 2;
+                            }
                         }
                     }
-                    qd.date = DateTime.ParseExact(result[0].terminate_date + "","dd/MM/yyyy", null);
+                    qd.date = DateTime.ParseExact(result[0].terminate_date + "", "dd/MM/yyyy", null);
                     db.Entry(emp).State = EntityState.Modified;
                     db.Decisions.Add(qd);
                     db.SaveChanges();
@@ -796,7 +804,7 @@ namespace QUANGHANH2.Controllers.TCLD
                 ExcelWorksheet excelWorksheet = excelWorkbook.Worksheets.First();
                 using (QuangHanhManufacturingEntities db = new QuangHanhManufacturingEntities())
                 {
-                    List<GetListEmployees_Result> list = (List<GetListEmployees_Result>) Session["excel"];
+                    List<GetListEmployees_Result> list = (List<GetListEmployees_Result>)Session["excel"];
                     int k = 4;
                     for (int i = 0; i < list.Count; i++)
                     {

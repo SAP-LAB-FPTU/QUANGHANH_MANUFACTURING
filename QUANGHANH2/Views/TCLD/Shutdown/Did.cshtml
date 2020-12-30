@@ -303,11 +303,15 @@
                     url: form.action,
                     data: $(form).serialize(),
                     success: function (data) {
-                        dataTable.ajax.reload();
-                        successAlert('Thành công', 'Xóa thành công');
+                        if (data.success) {
+                            dataTable.ajax.reload();
+                            successAlert('Thành công', 'Xóa thành công');
+                        } else {
+                            dataTable.ajax.reload();
+                            errorAlert('Có lỗi', 'Có lỗi xảy ra');
+                        }
                     }
                 });
-
             }
             return false;
         }
